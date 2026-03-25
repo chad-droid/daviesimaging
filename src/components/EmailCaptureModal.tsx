@@ -22,7 +22,7 @@ export function EmailCaptureModal() {
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative mx-4 w-full max-w-md rounded-xl bg-white p-8 shadow-2xl">
+      <div className="relative mx-4 w-full max-w-md rounded-lg bg-white p-8 shadow-2xl">
         <button
           type="button"
           onClick={dismiss}
@@ -54,14 +54,14 @@ export function EmailCaptureModal() {
             type="text"
             name="FNAME"
             placeholder="First name"
-            className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+            className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
           />
           <input
             type="email"
             name="EMAIL"
             placeholder="Email address"
             required
-            className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+            className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
           />
           <button
             type="submit"

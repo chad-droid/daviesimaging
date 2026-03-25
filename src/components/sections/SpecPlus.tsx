@@ -8,7 +8,7 @@ export function SpecPlus() {
       <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
         {/* Image-dominant side */}
         <RevealOnScroll>
-          <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-zinc-300 to-zinc-400" />
+          <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-zinc-300 to-zinc-400" />
         </RevealOnScroll>
 
         {/* Copy side — no competing imagery */}

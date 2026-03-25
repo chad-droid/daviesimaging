@@ -66,7 +66,7 @@ export default function ContactPage() {
                   key={opt.id}
                   type="button"
                   onClick={() => setSelected(opt.id)}
-                  className="w-full rounded-xl border border-zinc-200 p-6 text-left transition-colors hover:border-zinc-400"
+                  className="w-full rounded-lg border border-zinc-200 p-6 text-left transition-colors hover:border-zinc-400"
                 >
                   <h3>{opt.title}</h3>
                   <p className="mt-1 text-sm text-zinc-500">
@@ -117,7 +117,7 @@ export default function ContactPage() {
                     name="firstName"
                     type="text"
                     required
-                    className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                    className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
                   />
                 </div>
                 <div>
@@ -129,7 +129,7 @@ export default function ContactPage() {
                     name="lastName"
                     type="text"
                     required
-                    className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                    className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
                   />
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                   name="email"
                   type="email"
                   required
-                  className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
                 />
               </div>
 
@@ -155,7 +155,7 @@ export default function ContactPage() {
                   id="company"
                   name="company"
                   type="text"
-                  className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
                 />
               </div>
 
@@ -167,7 +167,7 @@ export default function ContactPage() {
                   id="message"
                   name="message"
                   rows={4}
-                  className="w-full rounded-xl border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
                 />
               </div>
 

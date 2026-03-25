@@ -30,7 +30,7 @@ export default function SpecPlusPage() {
       <section className="min-h-[70vh] bg-white py-24">
         <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
           <RevealOnScroll>
-            <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-zinc-200 to-zinc-300" />
+            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300" />
           </RevealOnScroll>
 
           <RevealOnScroll>

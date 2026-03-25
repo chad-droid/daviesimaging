@@ -31,7 +31,7 @@ export function PainPoints({
           {points.map((point) => (
             <div
               key={point.title}
-              className="mt-6 first:mt-14 rounded-xl border border-zinc-200 p-6"
+              className="mt-6 first:mt-14 rounded-lg border border-zinc-200 p-6"
             >
               <h4 className="text-zinc-900">{point.title}</h4>
               <p className="mt-2 text-sm text-zinc-600">{point.description}</p>

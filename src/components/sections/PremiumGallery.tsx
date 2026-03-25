@@ -25,7 +25,7 @@ export function PremiumGallery() {
               key={region}
               className="mt-4 first:mt-8"
             >
-              <div className="group relative aspect-[16/7] overflow-hidden rounded-xl bg-gradient-to-b from-zinc-300 to-zinc-400">
+              <div className="group relative aspect-[16/7] overflow-hidden rounded-lg bg-gradient-to-b from-zinc-300 to-zinc-400">
                 <div className="absolute inset-0 flex items-end p-8">
                   <span className="text-lg font-semibold uppercase tracking-widest text-white">
                     {region}

@@ -32,17 +32,17 @@ const dropdowns: DropdownMenu[] = [
   {
     label: "Offerings",
     items: [
-      { label: "FrameFlow", href: "/services/frameflow" },
-      { label: "Spec+", href: "/services/spec" },
+      { label: "FrameFlow", href: "/offerings/frameflow" },
+      { label: "Spec+", href: "/offerings/spec-plus" },
       { label: "Regional Partnerships", href: "/offerings/regional-partnerships" },
     ],
   },
   {
     label: "Markets",
     items: [
-      { label: "By Type", href: "/markets/by-type" },
-      { label: "By Role", href: "/markets/by-role" },
-      { label: "By Region", href: "/markets/by-region" },
+      { label: "By Type", href: "/markets/type" },
+      { label: "By Role", href: "/markets/role" },
+      { label: "By Region", href: "/markets/region" },
     ],
   },
 ];
@@ -78,7 +78,7 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
         </svg>
       </button>
       {open && (
-        <div className="absolute left-0 top-full w-52 rounded-xl border border-zinc-200 bg-white py-2 pt-4 shadow-lg before:absolute before:-top-4 before:left-0 before:h-4 before:w-full">
+        <div className="absolute left-0 top-full w-52 rounded-lg border border-zinc-200 bg-white py-2 pt-4 shadow-lg before:absolute before:-top-4 before:left-0 before:h-4 before:w-full">
           {menu.items.map((item) => (
             <Link
               key={item.href}

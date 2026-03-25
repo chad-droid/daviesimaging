@@ -56,7 +56,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
         {filtered.map((item) => (
           <div
             key={item.id}
-            className="group relative aspect-[4/3] overflow-hidden rounded-xl bg-gradient-to-br from-zinc-200 to-zinc-300"
+            className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300"
           >
             {/* Replace with <Image> when real assets are ready */}
             <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-black/50 to-transparent p-6 opacity-0 transition-opacity group-hover:opacity-100">

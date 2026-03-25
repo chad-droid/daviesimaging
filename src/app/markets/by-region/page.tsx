@@ -51,7 +51,7 @@ export default function ByRegionPage() {
               href={`/work?region=${region.name}`}
               className="mt-4 block first:mt-14"
             >
-              <div className="group relative aspect-[16/7] overflow-hidden rounded-xl bg-gradient-to-b from-zinc-300 to-zinc-400 transition-transform hover:scale-[1.01]">
+              <div className="group relative aspect-[16/7] overflow-hidden rounded-lg bg-gradient-to-b from-zinc-300 to-zinc-400 transition-transform hover:scale-[1.01]">
                 <div className="absolute inset-0 flex flex-col items-start justify-end p-8">
                   <span className="text-lg font-semibold uppercase tracking-widest text-white">
                     {region.name}

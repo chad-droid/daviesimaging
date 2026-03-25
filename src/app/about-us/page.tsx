@@ -86,7 +86,7 @@ export default function AboutPage() {
           </RevealOnScroll>
 
           <RevealOnScroll>
-            <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-zinc-200 to-zinc-300" />
+            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300" />
           </RevealOnScroll>
         </div>
       </section>
