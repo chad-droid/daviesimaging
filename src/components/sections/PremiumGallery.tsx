@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 
-const regions = ["Texas", "California", "Florida", "Southeast"];
+const regions = ["West", "Mountain", "Central", "East"];
 
 export function PremiumGallery() {
   return (

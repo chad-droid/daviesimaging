@@ -17,7 +17,7 @@ export function SpecPlus() {
         <RevealOnScroll>
           <h4>Spec+</h4>
           <h2 className="mt-3">
-            Your spec homes need to move. Spec+ delivers everything.
+            Your inventory needs to move. Spec+ delivers everything.
           </h2>
           <p className="mt-4 text-zinc-600">
             Virtual staging. Virtual video. Photography. All in one package,

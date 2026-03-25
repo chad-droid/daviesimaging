@@ -32,7 +32,7 @@ export function HeroVideo() {
       {/* Hero content overlay */}
       <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 py-32 text-center sm:py-44">
         <h1 className="text-white">
-          We help homebuilder marketing teams sell faster.
+          Builder assets that win hearts and earn clicks.
         </h1>
         <p className="lead-text mt-6 max-w-2xl text-zinc-300" style={{ fontStyle: "italic" }}>
           DIG builds revenue-driving marketing assets designed for website
