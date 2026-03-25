@@ -1,36 +1,32 @@
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { Eyebrow } from "@/components/Eyebrow";
 
 export function SpecPlus() {
   return (
-    <section className="bg-zinc-50 py-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2">
+    <section className="min-h-[70vh] bg-zinc-50 py-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
+        {/* Image-dominant side */}
         <RevealOnScroll>
-          {/* Visual placeholder */}
-          <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-zinc-200 to-zinc-300 flex items-center justify-center">
-            <span className="text-sm uppercase tracking-widest text-zinc-400">
-              Spec+ Visual
-            </span>
-          </div>
+          <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-zinc-300 to-zinc-400" />
         </RevealOnScroll>
 
+        {/* Copy side — no competing imagery */}
         <RevealOnScroll>
-          <h4>Spec+</h4>
-          <h2 className="mt-3">
-            Your inventory needs to move. Spec+ delivers everything.
+          <Eyebrow>Spec+</Eyebrow>
+          <h2>
+            Your inventory needs to move. Spec+ delivers{" "}
+            <strong>everything</strong>.
           </h2>
-          <p className="mt-4 text-zinc-600">
-            Virtual staging. Virtual video. Photography. All in one package,
-            built for standing inventory.
-          </p>
-          <p className="mt-4 text-zinc-600">
-            Stop managing multiple vendors. Start moving homes faster.
+          <p className="mt-5 text-zinc-600">
+            Virtual staging, virtual video, and photography in one package built
+            for standing inventory. Stop managing multiple vendors.
           </p>
           <Link
             href="/services/spec"
-            className="cta-button mt-8 inline-block rounded-full bg-zinc-900 px-6 py-3 text-white transition-colors hover:bg-zinc-700"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
           >
-            Order via FrameFlow
+            Order via FrameFlow <span aria-hidden="true">&rarr;</span>
           </Link>
         </RevealOnScroll>
       </div>

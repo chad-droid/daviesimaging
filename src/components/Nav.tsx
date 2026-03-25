@@ -78,7 +78,7 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
         </svg>
       </button>
       {open && (
-        <div className="absolute left-0 top-full mt-2 w-52 rounded-lg border border-zinc-200 bg-white py-2 shadow-lg">
+        <div className="absolute left-0 top-full w-52 rounded-xl border border-zinc-200 bg-white py-2 pt-4 shadow-lg before:absolute before:-top-4 before:left-0 before:h-4 before:w-full">
           {menu.items.map((item) => (
             <Link
               key={item.href}

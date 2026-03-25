@@ -68,20 +68,48 @@ export function Footer() {
           ))}
         </div>
 
+        {/* Newsletter signup */}
+        <div className="mt-12 border-t border-zinc-200 pt-10">
+          <div className="mx-auto max-w-md text-center">
+            <h6 className="mb-2">Stay in the Loop</h6>
+            <p className="text-sm text-zinc-500">
+              Builder marketing insights delivered to your inbox.
+            </p>
+            <form
+              action="https://mailchi.mp/daviesimaging/sign-up-for-updates"
+              method="post"
+              target="_blank"
+              className="mt-4 flex gap-2"
+            >
+              <input
+                type="email"
+                name="EMAIL"
+                placeholder="Email address"
+                required
+                className="flex-1 rounded-full border border-zinc-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-zinc-900"
+              />
+              <button
+                type="submit"
+                className="cta-button rounded-full bg-zinc-900 px-6 py-2.5 text-white transition-colors hover:bg-zinc-700"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-zinc-200 pt-8 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-zinc-200 pt-8 sm:flex-row">
           <p className="meta-text">
             &copy; {new Date().getFullYear()} Davies Imaging Group. All rights
             reserved.
           </p>
-          <div className="flex gap-6">
-            <Link
-              href="/contact-page"
-              className="cta-button rounded-full bg-zinc-900 px-5 py-2.5 text-white transition-colors hover:bg-zinc-700"
-            >
-              Book a Strategy Call
-            </Link>
-          </div>
+          <Link
+            href="/contact-page"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+          >
+            Book a Strategy Call <span aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
       </div>
     </footer>

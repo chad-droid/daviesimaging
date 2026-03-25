@@ -1,33 +1,27 @@
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-
-const benefits = [
-  "Website conversion",
-  "Paid ad performance",
-  "Sales center storytelling",
-  "Email engagement",
-  "Listing refresh velocity",
-];
+import { Eyebrow } from "@/components/Eyebrow";
+import Link from "next/link";
 
 export function AssetVsContent() {
   return (
-    <section className="bg-white py-24">
+    <section className="flex min-h-[70vh] items-center bg-white py-24">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
-          <h2>Stop Creating Content. Start Building Assets.</h2>
-          <p className="mt-6 text-zinc-600">
+          <Eyebrow>The DIG Difference</Eyebrow>
+          <h2>
+            Stop creating content. Start building <strong>assets</strong>.
+          </h2>
+          <p className="mt-5 text-zinc-600">
             Most builder marketing teams invest in photography that lives in one
-            place. DIG builds assets designed for:
+            place. DIG builds assets designed for website conversion, paid media,
+            sales centers, email, and listing refreshes.
           </p>
-          <ul className="mt-8 flex flex-wrap justify-center gap-3">
-            {benefits.map((b) => (
-              <li
-                key={b}
-                className="rounded-full border border-zinc-200 px-5 py-2 text-sm font-medium text-zinc-700"
-              >
-                {b}
-              </li>
-            ))}
-          </ul>
+          <Link
+            href="/services/frameflow"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+          >
+            See how it works <span aria-hidden="true">&rarr;</span>
+          </Link>
         </RevealOnScroll>
       </div>
     </section>

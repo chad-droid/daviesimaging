@@ -60,7 +60,10 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 
 export function StatsStrip() {
   return (
-    <section className="border-y border-zinc-200 bg-white">
+    <section className="border-y border-zinc-200 bg-white py-16">
+      <p className="mb-8 text-center text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">
+        By the Numbers
+      </p>
       <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-zinc-200 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {stats.map((stat) => (
           <div key={stat.label} className="px-8 py-10 text-center">

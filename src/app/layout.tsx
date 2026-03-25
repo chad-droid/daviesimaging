@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Noto_Sans } from "next/font/google";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { EmailCaptureModal } from "@/components/EmailCaptureModal";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -37,6 +38,7 @@ export default function RootLayout({
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />
+        <EmailCaptureModal />
       </body>
     </html>
   );

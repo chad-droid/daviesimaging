@@ -3,26 +3,28 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 
 export function FinalCta() {
   return (
-    <section className="bg-white py-24">
+    <section className="flex min-h-[60vh] items-center bg-white py-24">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
-          <h2>Let&rsquo;s Build Assets That Move Homes.</h2>
-          <p className="mt-6 text-zinc-600">
+          <h2>
+            Let&rsquo;s build assets that move <strong>homes</strong>.
+          </h2>
+          <p className="mt-5 text-zinc-600">
             If your content isn&rsquo;t driving momentum, it&rsquo;s time to
             rethink the strategy.
           </p>
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+          <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row">
             <Link
               href="/contact-page"
-              className="cta-button rounded-full bg-zinc-900 px-8 py-3.5 text-white transition-colors hover:bg-zinc-700"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
             >
-              Book a Strategy Call
+              Book a Strategy Call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
               href="/services/frameflow"
-              className="cta-button rounded-full border border-zinc-900 px-8 py-3.5 text-zinc-900 transition-colors hover:bg-zinc-900 hover:text-white"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
             >
-              Explore FrameFlow
+              Explore FrameFlow <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </RevealOnScroll>

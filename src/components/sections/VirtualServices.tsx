@@ -1,38 +1,33 @@
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { Eyebrow } from "@/components/Eyebrow";
 
 export function VirtualServices() {
   return (
-    <section className="bg-white py-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-2">
+    <section className="min-h-[70vh] bg-white py-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
+        {/* Copy side */}
         <RevealOnScroll>
-          <h4>Virtual Staging + Virtual Video</h4>
-          <h2 className="mt-3">
-            Already have photos? We can work with that.
+          <Eyebrow>Virtual Staging + Virtual Video</Eyebrow>
+          <h2>
+            Already have photos? We can work with <strong>that</strong>.
           </h2>
-          <p className="mt-4 text-zinc-600">
+          <p className="mt-5 text-zinc-600">
             DIG&rsquo;s virtual staging and virtual video services are available
-            without photography. Order staging, video, or both through the
-            FrameFlow app.
-          </p>
-          <p className="mt-4 text-zinc-600">
-            No shoot required. Fast turnaround. Assets ready to deploy.
+            without photography. No shoot required, fast turnaround, assets
+            ready to deploy.
           </p>
           <Link
             href="/services/frameflow"
-            className="cta-button mt-8 inline-block rounded-full bg-zinc-900 px-6 py-3 text-white transition-colors hover:bg-zinc-700"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
           >
-            Get Started in FrameFlow
+            Get started in FrameFlow <span aria-hidden="true">&rarr;</span>
           </Link>
         </RevealOnScroll>
 
+        {/* Image-dominant side */}
         <RevealOnScroll>
-          {/* Visual placeholder */}
-          <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-zinc-200 to-zinc-300 flex items-center justify-center">
-            <span className="text-sm uppercase tracking-widest text-zinc-400">
-              Virtual Staging Visual
-            </span>
-          </div>
+          <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-zinc-300 to-zinc-400" />
         </RevealOnScroll>
       </div>
     </section>
