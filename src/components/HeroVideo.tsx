@@ -61,9 +61,10 @@ export function HeroVideo() {
         style={{ y: contentY, opacity: contentOpacity }}
       >
         <div className="mx-auto max-w-3xl">
-          <h1 className="text-text-light">
-            Builder assets that win <strong>hearts</strong> and earn{" "}
-            <strong>clicks</strong>.
+          <h1 className="text-text-light lg:text-[4rem] lg:leading-[1.05]">
+            Builder media assets that
+            <br />
+            win <strong>hearts</strong> and earn <strong>clicks</strong>.
           </h1>
           <p
             className="lead-text mx-auto mt-6 max-w-2xl text-text-muted"

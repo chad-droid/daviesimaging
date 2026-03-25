@@ -1,0 +1,212 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "description": "Short summary shown on the blog index page.",
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "coverImage",
+        "type": "image"
+      },
+      {
+        "name": "author",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Strategy",
+              "value": "strategy"
+            },
+            {
+              "title": "Case Study",
+              "value": "case-study"
+            },
+            {
+              "title": "Trends",
+              "value": "trends"
+            },
+            {
+              "title": "Product Updates",
+              "value": "product-updates"
+            },
+            {
+              "title": "Behind the Scenes",
+              "value": "behind-the-scenes"
+            }
+          ]
+        },
+        "name": "category",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "publishedAt",
+        "type": "datetime"
+      },
+      {
+        "of": [
+          {
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "marks": {
+              "annotations": [
+                {
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "level": "error",
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "name": "href",
+                      "type": "url",
+                      "title": "URL"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Bold"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                }
+              ]
+            },
+            "of": [],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h2",
+                "title": "H2"
+              },
+              {
+                "value": "h3",
+                "title": "H3"
+              },
+              {
+                "value": "h4",
+                "title": "H4"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "type": "block"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "fields": [
+              {
+                "name": "alt",
+                "type": "string",
+                "title": "Alt Text"
+              },
+              {
+                "name": "caption",
+                "type": "string"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "body",
+        "type": "array"
+      }
+    ],
+    "name": "post",
+    "type": "document",
+    "title": "Blog Post"
+  }
+]
