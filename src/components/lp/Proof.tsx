@@ -45,7 +45,7 @@ export function Proof({
 
         {testimonial && (
           <RevealOnScroll>
-            <blockquote className="mx-auto mt-16 max-w-2xl border-l-2 border-white/20 pl-6">
+            <blockquote className="mx-auto mt-16 max-w-2xl border-l-2 border-text-light/20 pl-6">
               <p
                 className="lead-text text-zinc-300"
                 style={{ fontStyle: "italic" }}

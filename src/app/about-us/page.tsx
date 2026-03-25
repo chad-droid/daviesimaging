@@ -79,14 +79,14 @@ export default function AboutPage() {
             </p>
             <Link
               href="/offerings/frameflow"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
             >
               Discover FrameFlow <span aria-hidden="true">&rarr;</span>
             </Link>
           </RevealOnScroll>
 
           <RevealOnScroll>
-            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300" />
+            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-bg-light to-border-light" />
           </RevealOnScroll>
         </div>
       </section>
@@ -105,13 +105,13 @@ export default function AboutPage() {
             <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row">
               <Link
                 href="/contact-page"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-zinc-300"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-accent-dark-hover"
               >
                 Book a Strategy Call <span aria-hidden="true">&rarr;</span>
               </Link>
               <Link
                 href="/offerings/frameflow"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-zinc-300"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-accent-dark-hover"
               >
                 Explore FrameFlow <span aria-hidden="true">&rarr;</span>
               </Link>

@@ -18,7 +18,7 @@ export function TryFrameFlow() {
           </p>
           <Link
             href="/frameflow-sell-faster-challenge-0210"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-zinc-300"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-accent-dark-hover"
           >
             Start the challenge <span aria-hidden="true">&rarr;</span>
           </Link>

@@ -25,7 +25,7 @@ export function PremiumGallery() {
               key={region}
               className="mt-4 first:mt-8"
             >
-              <div className="group relative aspect-[16/7] overflow-hidden rounded-lg bg-gradient-to-b from-zinc-300 to-zinc-400">
+              <div className="group relative aspect-[16/7] overflow-hidden rounded-lg bg-gradient-to-b from-border-light to-accent-secondary/40">
                 <div className="absolute inset-0 flex items-end p-8">
                   <span className="text-lg font-semibold uppercase tracking-widest text-white">
                     {region}
@@ -40,7 +40,7 @@ export function PremiumGallery() {
           <div className="mt-10 text-center">
             <Link
               href="/services/premium"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
             >
               Explore Premium <span aria-hidden="true">&rarr;</span>
             </Link>

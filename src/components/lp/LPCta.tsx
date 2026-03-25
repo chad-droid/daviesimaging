@@ -25,14 +25,14 @@ export function LPCta({
           <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row">
             <Link
               href={primaryCta.href}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
             >
               {primaryCta.label} <span aria-hidden="true">&rarr;</span>
             </Link>
             {secondaryCta && (
               <Link
                 href={secondaryCta.href}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
               >
                 {secondaryCta.label} <span aria-hidden="true">&rarr;</span>
               </Link>

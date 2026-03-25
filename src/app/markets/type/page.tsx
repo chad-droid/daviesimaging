@@ -58,7 +58,7 @@ export default function ByTypePage() {
             <Link
               key={type.title}
               href={type.href}
-              className="mt-6 block first:mt-14 rounded-lg border border-zinc-200 p-8 transition-colors hover:border-zinc-400"
+              className="mt-6 block first:mt-14 rounded-lg border border-zinc-200 p-8 transition-colors hover:border-accent-secondary"
             >
               <h3>{type.title}</h3>
               <p className="mt-2 text-zinc-600">{type.description}</p>

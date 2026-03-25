@@ -5,12 +5,12 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const placeholderTiles = [
-  { label: "Lifestyle", gradient: "from-zinc-800 to-zinc-600" },
-  { label: "FrameFlow", gradient: "from-zinc-700 to-zinc-500" },
-  { label: "Model Home", gradient: "from-zinc-900 to-zinc-700" },
-  { label: "Community", gradient: "from-zinc-600 to-zinc-400" },
-  { label: "Aerial", gradient: "from-zinc-800 to-zinc-500" },
-  { label: "Staging", gradient: "from-zinc-700 to-zinc-600" },
+  { label: "Lifestyle", gradient: "from-bg-dark to-bg-dark-surface" },
+  { label: "FrameFlow", gradient: "from-bg-dark-surface to-accent-secondary/30" },
+  { label: "Model Home", gradient: "from-bg-dark to-bg-dark-surface" },
+  { label: "Community", gradient: "from-bg-dark-surface to-accent-secondary/40" },
+  { label: "Aerial", gradient: "from-bg-dark to-accent-secondary/30" },
+  { label: "Staging", gradient: "from-bg-dark-surface to-bg-dark" },
 ];
 
 export function HeroVideo() {
@@ -42,7 +42,7 @@ export function HeroVideo() {
             className={`bg-gradient-to-br ${tile.gradient} flex items-center justify-center`}
           >
             {/* Replace with <video> elements when footage is ready */}
-            <span className="text-xs font-medium uppercase tracking-widest text-white/20">
+            <span className="text-xs font-medium uppercase tracking-widest text-accent-secondary/30">
               {tile.label}
             </span>
           </div>
@@ -81,7 +81,7 @@ export function HeroVideo() {
             </Link>
             <Link
               href="/contact-page"
-              className="cta-button rounded-full border border-white/30 px-8 py-3.5 text-white transition-colors hover:border-white/60"
+              className="cta-button rounded-full border border-text-light/30 px-8 py-3.5 text-white transition-colors hover:border-text-light/60"
             >
               Book a Strategy Call
             </Link>

@@ -64,7 +64,7 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
     >
       <button
         type="button"
-        className="flex items-center gap-1 text-sm font-medium uppercase tracking-widest text-zinc-600 transition-colors hover:text-zinc-900"
+        className="flex items-center gap-1 text-sm font-medium uppercase tracking-widest text-zinc-600 transition-colors hover:text-accent"
       >
         {menu.label}
         <svg
@@ -83,7 +83,7 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
             <Link
               key={item.href}
               href={item.href}
-              className="block px-4 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-zinc-900"
+              className="block px-4 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-accent"
             >
               {item.label}
             </Link>
@@ -128,7 +128,7 @@ function MobileDropdown({
               key={item.href}
               href={item.href}
               onClick={onNavigate}
-              className="py-1.5 text-sm text-zinc-500 transition-colors hover:text-zinc-900"
+              className="py-1.5 text-sm text-zinc-500 transition-colors hover:text-accent"
             >
               {item.label}
             </Link>
@@ -143,7 +143,7 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-bg-surface/95 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="text-xl font-semibold tracking-tight">
@@ -160,7 +160,7 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium uppercase tracking-widest text-zinc-600 transition-colors hover:text-zinc-900"
+              className="text-sm font-medium uppercase tracking-widest text-zinc-600 transition-colors hover:text-accent"
             >
               {link.label}
             </Link>
@@ -169,7 +169,7 @@ export function Nav() {
           {/* Primary CTA */}
           <Link
             href="/frameflow-sell-faster-challenge-0210"
-            className="cta-button rounded-full bg-zinc-900 px-5 py-2.5 text-white transition-colors hover:bg-zinc-700"
+            className="cta-button rounded-full bg-accent px-5 py-2.5 text-white transition-colors hover:bg-accent-hover"
           >
             Start FrameFlow
           </Link>
@@ -224,7 +224,7 @@ export function Nav() {
             <Link
               href="/frameflow-sell-faster-challenge-0210"
               onClick={() => setMobileOpen(false)}
-              className="cta-button mt-2 rounded-full bg-zinc-900 px-5 py-2.5 text-center text-white"
+              className="cta-button mt-2 rounded-full bg-accent px-5 py-2.5 text-center text-white"
             >
               Start FrameFlow
             </Link>

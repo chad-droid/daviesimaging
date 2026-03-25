@@ -19,7 +19,7 @@ export function BuiltForBuilders() {
           </p>
           <Link
             href="/markets/role/directors"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-zinc-300"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-accent-dark-hover"
           >
             See who we serve <span aria-hidden="true">&rarr;</span>
           </Link>

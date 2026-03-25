@@ -37,7 +37,7 @@ export function LPHero({
           {secondaryCta && (
             <Link
               href={secondaryCta.href}
-              className="cta-button rounded-full border border-white/30 px-8 py-3.5 text-white transition-colors hover:border-white/60"
+              className="cta-button rounded-full border border-text-light/30 px-8 py-3.5 text-white transition-colors hover:border-text-light/60"
             >
               {secondaryCta.label}
             </Link>

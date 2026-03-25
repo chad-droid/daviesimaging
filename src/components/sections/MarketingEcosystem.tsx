@@ -18,7 +18,7 @@ export function MarketingEcosystem() {
           </p>
           <Link
             href="/work"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
           >
             Explore our work <span aria-hidden="true">&rarr;</span>
           </Link>

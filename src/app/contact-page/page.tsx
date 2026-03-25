@@ -66,7 +66,7 @@ export default function ContactPage() {
                   key={opt.id}
                   type="button"
                   onClick={() => setSelected(opt.id)}
-                  className="w-full rounded-lg border border-zinc-200 p-6 text-left transition-colors hover:border-zinc-400"
+                  className="w-full rounded-lg border border-zinc-200 p-6 text-left transition-colors hover:border-accent-secondary"
                 >
                   <h3>{opt.title}</h3>
                   <p className="mt-1 text-sm text-zinc-500">
@@ -84,7 +84,7 @@ export default function ContactPage() {
             <button
               type="button"
               onClick={() => setSelected(null)}
-              className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900"
+              className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-accent"
             >
               <span aria-hidden="true">&larr;</span> Back
             </button>
@@ -117,7 +117,7 @@ export default function ContactPage() {
                     name="firstName"
                     type="text"
                     required
-                    className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                    className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                   />
                 </div>
                 <div>
@@ -129,7 +129,7 @@ export default function ContactPage() {
                     name="lastName"
                     type="text"
                     required
-                    className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                    className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                   />
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                   name="email"
                   type="email"
                   required
-                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                 />
               </div>
 
@@ -155,7 +155,7 @@ export default function ContactPage() {
                   id="company"
                   name="company"
                   type="text"
-                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                 />
               </div>
 
@@ -167,13 +167,13 @@ export default function ContactPage() {
                   id="message"
                   name="message"
                   rows={4}
-                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-zinc-900"
+                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                 />
               </div>
 
               <button
                 type="submit"
-                className="cta-button rounded-full bg-zinc-900 px-8 py-3.5 text-white transition-colors hover:bg-zinc-700"
+                className="cta-button rounded-full bg-accent px-8 py-3.5 text-white transition-colors hover:bg-accent-hover"
               >
                 Send Message
               </button>

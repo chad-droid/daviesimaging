@@ -57,7 +57,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-zinc-500 transition-colors hover:text-zinc-900"
+                      className="text-sm text-zinc-500 transition-colors hover:text-accent"
                     >
                       {link.label}
                     </Link>
@@ -86,11 +86,11 @@ export function Footer() {
                 name="EMAIL"
                 placeholder="Email address"
                 required
-                className="flex-1 rounded-full border border-zinc-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-zinc-900"
+                className="flex-1 rounded-full border border-zinc-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent"
               />
               <button
                 type="submit"
-                className="cta-button rounded-full bg-zinc-900 px-6 py-2.5 text-white transition-colors hover:bg-zinc-700"
+                className="cta-button rounded-full bg-accent px-6 py-2.5 text-white transition-colors hover:bg-accent-hover"
               >
                 Subscribe
               </button>
@@ -106,7 +106,7 @@ export function Footer() {
           </p>
           <Link
             href="/contact-page"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
           >
             Book a Strategy Call <span aria-hidden="true">&rarr;</span>
           </Link>

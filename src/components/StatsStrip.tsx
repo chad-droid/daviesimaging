@@ -64,7 +64,7 @@ export function StatsStrip() {
       <p className="mb-8 text-center text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">
         By the Numbers
       </p>
-      <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-zinc-200 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-border-light sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {stats.map((stat) => (
           <div key={stat.label} className="px-8 py-10 text-center">
             <p className="text-4xl font-semibold tracking-tight text-zinc-900" style={{ fontFamily: "var(--font-heading)" }}>

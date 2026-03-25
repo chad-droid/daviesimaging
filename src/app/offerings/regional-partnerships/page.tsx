@@ -41,14 +41,14 @@ export default function RegionalPartnershipsPage() {
             </p>
             <Link
               href="/markets/region"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
             >
               See our regions <span aria-hidden="true">&rarr;</span>
             </Link>
           </RevealOnScroll>
 
           <RevealOnScroll>
-            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300" />
+            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-bg-light to-border-light" />
           </RevealOnScroll>
         </div>
       </section>
@@ -67,7 +67,7 @@ export default function RegionalPartnershipsPage() {
             </p>
             <Link
               href="/contact-page"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
             >
               Start a partnership conversation <span aria-hidden="true">&rarr;</span>
             </Link>

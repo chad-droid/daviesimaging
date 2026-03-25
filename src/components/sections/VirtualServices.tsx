@@ -19,7 +19,7 @@ export function VirtualServices() {
           </p>
           <Link
             href="/offerings/frameflow"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
           >
             Get started in FrameFlow <span aria-hidden="true">&rarr;</span>
           </Link>
@@ -27,7 +27,7 @@ export function VirtualServices() {
 
         {/* Image-dominant side */}
         <RevealOnScroll>
-          <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-zinc-300 to-zinc-400" />
+          <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-border-light to-accent-secondary/40" />
         </RevealOnScroll>
       </div>
     </section>

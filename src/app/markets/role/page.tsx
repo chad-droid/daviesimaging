@@ -53,7 +53,7 @@ export default function ByRolePage() {
             <Link
               key={role.href}
               href={role.href}
-              className="mt-6 block first:mt-14 rounded-lg border border-zinc-200 p-8 transition-colors hover:border-zinc-400"
+              className="mt-6 block first:mt-14 rounded-lg border border-zinc-200 p-8 transition-colors hover:border-accent-secondary"
             >
               <h3>{role.title}</h3>
               <p className="mt-2 text-zinc-600">{role.description}</p>

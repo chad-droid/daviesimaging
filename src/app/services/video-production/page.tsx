@@ -29,7 +29,7 @@ export default function VideoProductionPage() {
       <section className="min-h-[70vh] bg-white py-24">
         <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
           <RevealOnScroll>
-            <div className="aspect-video rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300" />
+            <div className="aspect-video rounded-lg bg-gradient-to-br from-bg-light to-border-light" />
           </RevealOnScroll>
 
           <RevealOnScroll>
@@ -43,7 +43,7 @@ export default function VideoProductionPage() {
             </p>
             <Link
               href="/contact-page"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
             >
               Book a strategy call <span aria-hidden="true">&rarr;</span>
             </Link>

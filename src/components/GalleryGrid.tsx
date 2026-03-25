@@ -42,7 +42,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
               className={`cta-button rounded-full px-5 py-2 transition-colors ${
                 active === region
                   ? "bg-zinc-900 text-white"
-                  : "border border-zinc-200 text-zinc-600 hover:border-zinc-400"
+                  : "border border-zinc-200 text-zinc-600 hover:border-accent-secondary"
               }`}
             >
               {region}
@@ -56,10 +56,10 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
         {filtered.map((item) => (
           <div
             key={item.id}
-            className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-gradient-to-br from-zinc-200 to-zinc-300"
+            className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-gradient-to-br from-bg-light to-border-light"
           >
             {/* Replace with <Image> when real assets are ready */}
-            <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-black/50 to-transparent p-6 opacity-0 transition-opacity group-hover:opacity-100">
+            <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-[#121212]/50 to-transparent p-6 opacity-0 transition-opacity group-hover:opacity-100">
               <span className="text-sm font-semibold text-white">
                 {item.title}
               </span>
@@ -68,7 +68,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
                   {item.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-white/20 px-2.5 py-0.5 text-xs text-white"
+                      className="rounded-full bg-bg-surface/20 px-2.5 py-0.5 text-xs text-white"
                     >
                       {tag}
                     </span>
@@ -78,7 +78,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
             </div>
             {/* Always-visible region badge */}
             <div className="absolute right-3 top-3">
-              <span className="meta-text rounded-full bg-white/90 px-3 py-1 text-xs">
+              <span className="meta-text rounded-full bg-bg-surface/90 px-3 py-1 text-xs">
                 {item.region}
               </span>
             </div>
