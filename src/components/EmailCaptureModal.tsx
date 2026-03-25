@@ -26,7 +26,7 @@ export function EmailCaptureModal() {
         <button
           type="button"
           onClick={dismiss}
-          className="absolute right-4 top-4 text-zinc-400 transition-colors hover:text-accent"
+          className="absolute right-4 top-4 text-accent-secondary transition-colors hover:text-accent"
           aria-label="Close"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -34,13 +34,13 @@ export function EmailCaptureModal() {
           </svg>
         </button>
 
-        <p className="text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">
+        <p className="text-xs font-bold uppercase tracking-[0.15em] text-accent-secondary">
           Stay in the Loop
         </p>
         <h3 className="mt-2">
           Get builder marketing <strong>insights</strong>.
         </h3>
-        <p className="mt-2 text-sm text-zinc-600">
+        <p className="mt-2 text-sm text-text-body">
           Strategy, trends, and case studies delivered to your inbox.
         </p>
 
@@ -54,18 +54,18 @@ export function EmailCaptureModal() {
             type="text"
             name="FNAME"
             placeholder="First name"
-            className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+            className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
           />
           <input
             type="email"
             name="EMAIL"
             placeholder="Email address"
             required
-            className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+            className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
           />
           <button
             type="submit"
-            className="cta-button w-full rounded-full bg-accent px-6 py-3 text-white transition-colors hover:bg-accent-hover"
+            className="cta-button w-full rounded-full bg-accent px-6 py-3 text-text-light transition-colors hover:bg-accent-hover"
           >
             Subscribe
           </button>
@@ -74,7 +74,7 @@ export function EmailCaptureModal() {
         <button
           type="button"
           onClick={dismiss}
-          className="mt-4 block w-full text-center text-xs text-zinc-400 transition-colors hover:text-accent"
+          className="mt-4 block w-full text-center text-xs text-accent-secondary transition-colors hover:text-accent"
         >
           No thanks
         </button>

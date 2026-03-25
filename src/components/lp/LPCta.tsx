@@ -20,7 +20,7 @@ export function LPCta({
         <RevealOnScroll>
           <h2>{headline}</h2>
           {description && (
-            <p className="mt-5 text-zinc-600">{description}</p>
+            <p className="mt-5 text-text-body">{description}</p>
           )}
           <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row">
             <Link

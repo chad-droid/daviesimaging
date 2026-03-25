@@ -20,7 +20,7 @@ export function Proof({
   testimonial,
 }: ProofProps) {
   return (
-    <section className="min-h-[60vh] bg-bg-dark py-24 text-white">
+    <section className="min-h-[60vh] bg-bg-dark py-24 text-text-light">
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="text-center">
@@ -38,7 +38,7 @@ export function Proof({
               >
                 {stat.value}
               </p>
-              <p className="mt-2 text-sm text-zinc-400">{stat.label}</p>
+              <p className="mt-2 text-sm text-accent-secondary">{stat.label}</p>
             </div>
           ))}
         </RevealOnScroll>
@@ -47,12 +47,12 @@ export function Proof({
           <RevealOnScroll>
             <blockquote className="mx-auto mt-16 max-w-2xl border-l-2 border-text-light/20 pl-6">
               <p
-                className="lead-text text-zinc-300"
+                className="lead-text text-text-muted"
                 style={{ fontStyle: "italic" }}
               >
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
-              <footer className="meta-text mt-4 text-zinc-500">
+              <footer className="meta-text mt-4 text-accent-secondary">
                 {testimonial.attribution}
               </footer>
             </blockquote>

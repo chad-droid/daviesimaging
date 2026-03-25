@@ -34,7 +34,7 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="border-t border-zinc-200 bg-bg-light">
+    <footer className="border-t border-border-light bg-bg-light">
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
           {/* Brand column */}
@@ -42,7 +42,7 @@ export function Footer() {
             <p className="text-lg font-semibold tracking-tight">
               Davies Imaging Group
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-500">
+            <p className="mt-3 text-sm leading-relaxed text-accent-secondary">
               Revenue-driving marketing assets designed for homebuilder teams
               that need to sell faster.
             </p>
@@ -57,7 +57,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-zinc-500 transition-colors hover:text-accent"
+                      className="text-sm text-accent-secondary transition-colors hover:text-accent"
                     >
                       {link.label}
                     </Link>
@@ -69,10 +69,10 @@ export function Footer() {
         </div>
 
         {/* Newsletter signup */}
-        <div className="mt-12 border-t border-zinc-200 pt-10">
+        <div className="mt-12 border-t border-border-light pt-10">
           <div className="mx-auto max-w-md text-center">
             <h6 className="mb-2">Stay in the Loop</h6>
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-accent-secondary">
               Builder marketing insights delivered to your inbox.
             </p>
             <form
@@ -86,11 +86,11 @@ export function Footer() {
                 name="EMAIL"
                 placeholder="Email address"
                 required
-                className="flex-1 rounded-full border border-zinc-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent"
+                className="flex-1 rounded-full border border-border-light px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent"
               />
               <button
                 type="submit"
-                className="cta-button rounded-full bg-accent px-6 py-2.5 text-white transition-colors hover:bg-accent-hover"
+                className="cta-button rounded-full bg-accent px-6 py-2.5 text-text-light transition-colors hover:bg-accent-hover"
               >
                 Subscribe
               </button>
@@ -99,14 +99,14 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-zinc-200 pt-8 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border-light pt-8 sm:flex-row">
           <p className="meta-text">
             &copy; {new Date().getFullYear()} Davies Imaging Group. All rights
             reserved.
           </p>
           <Link
             href="/contact-page"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
           >
             Book a Strategy Call <span aria-hidden="true">&rarr;</span>
           </Link>

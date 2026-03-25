@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 export default function VirtualVideoPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Virtual Video</Eyebrow>
-            <h1>
+            <h1 className="text-text-light">
               Walkthrough video without the <strong>crew</strong>.
             </h1>
-            <p className="lead-text mt-6 text-zinc-300" style={{ fontStyle: "italic" }}>
+            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               Virtual video transforms existing photography into smooth,
               cinematic walkthroughs. No shoot day, no scheduling, fast
               delivery.
@@ -38,14 +38,14 @@ export default function VirtualVideoPage() {
             <h2>
               Turn stills into buyer <strong>experience</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Virtual video works alongside virtual staging or standalone. Order
               through FrameFlow for fast turnaround on listings that need video
               without a production day.
             </p>
             <Link
               href="/offerings/frameflow"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Order via FrameFlow <span aria-hidden="true">&rarr;</span>
             </Link>

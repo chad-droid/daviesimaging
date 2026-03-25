@@ -23,11 +23,11 @@ export function Solution({
         <RevealOnScroll>
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2>{headline}</h2>
-          <p className="mt-5 text-zinc-600">{description}</p>
+          <p className="mt-5 text-text-body">{description}</p>
           {ctaLabel && ctaHref && (
             <Link
               href={ctaHref}
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               {ctaLabel} <span aria-hidden="true">&rarr;</span>
             </Link>

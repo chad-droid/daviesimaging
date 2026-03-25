@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 export default function VideoProductionPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Video Production</Eyebrow>
-            <h1>
+            <h1 className="text-text-light">
               Video that moves buyers to <strong>action</strong>.
             </h1>
-            <p className="lead-text mt-6 text-zinc-300" style={{ fontStyle: "italic" }}>
+            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               Community tours, model home walkthroughs, and lifestyle video
               built for websites, social, and sales centers.
             </p>
@@ -37,13 +37,13 @@ export default function VideoProductionPage() {
             <h2>
               One shoot, every <strong>platform</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               DIG video production delivers assets formatted for website hero
               loops, social media cuts, email embeds, and sales center displays.
             </p>
             <Link
               href="/contact-page"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Book a strategy call <span aria-hidden="true">&rarr;</span>
             </Link>

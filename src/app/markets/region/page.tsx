@@ -18,7 +18,7 @@ export default function ByRegionPage() {
             <h1>
               One standard across every <strong>market</strong>.
             </h1>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               DIG covers all four U.S. timezone regions. Same quality, same
               process, 24+ markets nationwide.
             </p>

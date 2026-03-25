@@ -41,7 +41,7 @@ export default function ByRolePage() {
             <h1>
               Built for the people who move <strong>homes</strong>.
             </h1>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Every role has different pressures. We built pages that speak
               directly to yours.
             </p>
@@ -53,10 +53,10 @@ export default function ByRolePage() {
             <Link
               key={role.href}
               href={role.href}
-              className="mt-6 block first:mt-14 rounded-lg border border-zinc-200 p-8 transition-colors hover:border-accent-secondary"
+              className="mt-6 block first:mt-14 rounded-lg border border-border-light p-8 transition-colors hover:border-accent-secondary"
             >
               <h3>{role.title}</h3>
-              <p className="mt-2 text-zinc-600">{role.description}</p>
+              <p className="mt-2 text-text-body">{role.description}</p>
               <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark">
                 Learn more <span aria-hidden="true">&rarr;</span>
               </span>

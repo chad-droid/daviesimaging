@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 export default function RegionalPartnershipsPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Regional Partnerships</Eyebrow>
-            <h1>
+            <h1 className="text-text-light">
               One partner, every <strong>market</strong>.
             </h1>
-            <p className="lead-text mt-6 text-zinc-300" style={{ fontStyle: "italic" }}>
+            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               DIG&rsquo;s regional partnership model gives national builders a
               single point of contact for photography, staging, and video
               across all four U.S. regions.
@@ -34,14 +34,14 @@ export default function RegionalPartnershipsPage() {
             <h2>
               Volume pricing without quality <strong>compromise</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Multi-market commitments unlock volume pricing, dedicated account
               management, and brand guidelines enforced across every shoot in
               every region.
             </p>
             <Link
               href="/markets/region"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               See our regions <span aria-hidden="true">&rarr;</span>
             </Link>
@@ -60,14 +60,14 @@ export default function RegionalPartnershipsPage() {
             <h2>
               Centralized ordering across every <strong>region</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Your marketing team orders through FrameFlow regardless of
               market. One platform, one process, consistent delivery from West
               to East.
             </p>
             <Link
               href="/contact-page"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Start a partnership conversation <span aria-hidden="true">&rarr;</span>
             </Link>

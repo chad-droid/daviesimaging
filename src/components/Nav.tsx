@@ -64,7 +64,7 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
     >
       <button
         type="button"
-        className="flex items-center gap-1 text-sm font-medium uppercase tracking-widest text-zinc-600 transition-colors hover:text-accent"
+        className="flex items-center gap-1 text-sm font-medium uppercase tracking-widest text-text-body transition-colors hover:text-accent"
       >
         {menu.label}
         <svg
@@ -78,12 +78,12 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
         </svg>
       </button>
       {open && (
-        <div className="absolute left-0 top-full w-52 rounded-lg border border-zinc-200 bg-bg-surface py-2 pt-4 shadow-lg before:absolute before:-top-4 before:left-0 before:h-4 before:w-full">
+        <div className="absolute left-0 top-full w-52 rounded-lg border border-border-light bg-bg-surface py-2 pt-4 shadow-lg before:absolute before:-top-4 before:left-0 before:h-4 before:w-full">
           {menu.items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="block px-4 py-2 text-sm text-zinc-700 transition-colors hover:bg-bg-light hover:text-accent"
+              className="block px-4 py-2 text-sm text-text-body transition-colors hover:bg-bg-light hover:text-accent"
             >
               {item.label}
             </Link>
@@ -104,11 +104,11 @@ function MobileDropdown({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border-b border-zinc-100 pb-3">
+    <div className="border-b border-border-light pb-3">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between text-sm font-medium uppercase tracking-widest text-zinc-600"
+        className="flex w-full items-center justify-between text-sm font-medium uppercase tracking-widest text-text-body"
       >
         {menu.label}
         <svg
@@ -128,7 +128,7 @@ function MobileDropdown({
               key={item.href}
               href={item.href}
               onClick={onNavigate}
-              className="py-1.5 text-sm text-zinc-500 transition-colors hover:text-accent"
+              className="py-1.5 text-sm text-accent-secondary transition-colors hover:text-accent"
             >
               {item.label}
             </Link>
@@ -143,7 +143,7 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-200 bg-bg-surface/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-border-light bg-bg-surface/95 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="text-xl font-semibold tracking-tight">
@@ -160,7 +160,7 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium uppercase tracking-widest text-zinc-600 transition-colors hover:text-accent"
+              className="text-sm font-medium uppercase tracking-widest text-text-body transition-colors hover:text-accent"
             >
               {link.label}
             </Link>
@@ -169,7 +169,7 @@ export function Nav() {
           {/* Primary CTA */}
           <Link
             href="/frameflow-sell-faster-challenge-0210"
-            className="cta-button rounded-full bg-accent px-5 py-2.5 text-white transition-colors hover:bg-accent-hover"
+            className="cta-button rounded-full bg-accent px-5 py-2.5 text-text-light transition-colors hover:bg-accent-hover"
           >
             Start FrameFlow
           </Link>
@@ -183,7 +183,7 @@ export function Nav() {
           aria-label="Toggle menu"
         >
           <svg
-            className="h-6 w-6 text-zinc-700"
+            className="h-6 w-6 text-text-body"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
@@ -200,7 +200,7 @@ export function Nav() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-zinc-200 bg-bg-surface px-6 pb-6 pt-4 lg:hidden">
+        <div className="border-t border-border-light bg-bg-surface px-6 pb-6 pt-4 lg:hidden">
           <div className="flex flex-col gap-3">
             {dropdowns.map((menu) => (
               <MobileDropdown
@@ -215,7 +215,7 @@ export function Nav() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-sm font-medium uppercase tracking-widest text-zinc-600"
+                className="text-sm font-medium uppercase tracking-widest text-text-body"
               >
                 {link.label}
               </Link>
@@ -224,7 +224,7 @@ export function Nav() {
             <Link
               href="/frameflow-sell-faster-challenge-0210"
               onClick={() => setMobileOpen(false)}
-              className="cta-button mt-2 rounded-full bg-accent px-5 py-2.5 text-center text-white"
+              className="cta-button mt-2 rounded-full bg-accent px-5 py-2.5 text-center text-text-light"
             >
               Start FrameFlow
             </Link>

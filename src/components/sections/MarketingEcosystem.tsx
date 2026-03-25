@@ -11,14 +11,14 @@ export function MarketingEcosystem() {
           <h2>
             Every shoot is built for downstream <strong>velocity</strong>.
           </h2>
-          <p className="mt-5 text-zinc-600">
+          <p className="mt-5 text-text-body">
             Website conversion, email campaigns, paid media, sales center
             storytelling, listing refreshes. Modern builder marketing requires
             velocity, not just visuals.
           </p>
           <Link
             href="/work"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
           >
             Explore our work <span aria-hidden="true">&rarr;</span>
           </Link>

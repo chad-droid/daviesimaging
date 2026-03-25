@@ -11,7 +11,7 @@ export function AssetVsContent() {
           <h2>
             Stop creating content. Start building <strong>assets</strong>.
           </h2>
-          <p className="mt-5 text-zinc-600">
+          <p className="mt-5 text-text-body">
             Most builder marketing teams invest in photography that lives in one
             place. DIG builds assets designed for website conversion, paid media,
             sales centers, email, and listing refreshes.

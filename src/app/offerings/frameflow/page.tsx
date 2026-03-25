@@ -11,15 +11,15 @@ export const metadata: Metadata = {
 export default function FrameFlowPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>FrameFlow</Eyebrow>
-            <h1>
+            <h1 className="text-text-light">
               The platform that powers every DIG{" "}
               <strong>delivery</strong>.
             </h1>
-            <p className="lead-text mt-6 text-zinc-300" style={{ fontStyle: "italic" }}>
+            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               Order Spec+ packages, virtual staging, virtual video, and more.
               One app, every service, streamlined for builder marketing teams.
             </p>
@@ -35,14 +35,14 @@ export default function FrameFlowPage() {
               Strategic sequencing, not just{" "}
               <strong>photography</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               FrameFlow organizes visuals into guided buyer narratives that
               increase engagement and reduce days on market. Every image has a
               purpose and a position.
             </p>
             <Link
               href="/frameflow-sell-faster-challenge-0210"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Try the challenge <span aria-hidden="true">&rarr;</span>
             </Link>
@@ -61,14 +61,14 @@ export default function FrameFlowPage() {
             <h2>
               One app for every DIG <strong>service</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Spec+ packages, standalone virtual staging, virtual video, and
               premium photography. All ordered, tracked, and delivered through
               FrameFlow.
             </p>
             <Link
               href="/contact-page"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Book a demo <span aria-hidden="true">&rarr;</span>
             </Link>

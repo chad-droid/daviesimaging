@@ -18,13 +18,13 @@ export function SpecPlus() {
             Your inventory needs to move. Spec+ delivers{" "}
             <strong>everything</strong>.
           </h2>
-          <p className="mt-5 text-zinc-600">
+          <p className="mt-5 text-text-body">
             Virtual staging, virtual video, and photography in one package built
             for standing inventory. Stop managing multiple vendors.
           </p>
           <Link
             href="/offerings/spec-plus"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
           >
             Order via FrameFlow <span aria-hidden="true">&rarr;</span>
           </Link>

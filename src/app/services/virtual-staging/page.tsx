@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 export default function VirtualStagingPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Virtual Staging</Eyebrow>
-            <h1>
+            <h1 className="text-text-light">
               Furnished visuals without the <strong>furniture</strong>.
             </h1>
-            <p className="lead-text mt-6 text-zinc-300" style={{ fontStyle: "italic" }}>
+            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               Transform empty rooms into styled spaces. No physical staging, no
               shoot required, fast turnaround.
             </p>
@@ -33,14 +33,14 @@ export default function VirtualStagingPage() {
             <h2>
               Already have photos? We handle the <strong>rest</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Send us your existing photography and we&rsquo;ll deliver
               virtually staged images ready for MLS, website, and marketing
               deployment.
             </p>
             <Link
               href="/offerings/frameflow"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Order via FrameFlow <span aria-hidden="true">&rarr;</span>
             </Link>

@@ -9,7 +9,7 @@ export function FinalCta() {
           <h2>
             Let&rsquo;s build assets that move <strong>homes</strong>.
           </h2>
-          <p className="mt-5 text-zinc-600">
+          <p className="mt-5 text-text-body">
             If your content isn&rsquo;t driving momentum, it&rsquo;s time to
             rethink the strategy.
           </p>

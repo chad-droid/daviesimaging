@@ -46,7 +46,7 @@ export default function ByTypePage() {
             <h1>
               Every builder type has a different <strong>need</strong>.
             </h1>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Detached, attached, luxury, BTR, or multifamily. We build asset
               strategies tailored to how you operate.
             </p>
@@ -58,10 +58,10 @@ export default function ByTypePage() {
             <Link
               key={type.title}
               href={type.href}
-              className="mt-6 block first:mt-14 rounded-lg border border-zinc-200 p-8 transition-colors hover:border-accent-secondary"
+              className="mt-6 block first:mt-14 rounded-lg border border-border-light p-8 transition-colors hover:border-accent-secondary"
             >
               <h3>{type.title}</h3>
-              <p className="mt-2 text-zinc-600">{type.description}</p>
+              <p className="mt-2 text-text-body">{type.description}</p>
               <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark">
                 Learn more <span aria-hidden="true">&rarr;</span>
               </span>

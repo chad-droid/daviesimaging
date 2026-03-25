@@ -22,7 +22,7 @@ export function PainPoints({
             <Eyebrow>{eyebrow}</Eyebrow>
             <h2>{headline}</h2>
             {subtitle && (
-              <p className="mt-4 text-zinc-600">{subtitle}</p>
+              <p className="mt-4 text-text-body">{subtitle}</p>
             )}
           </div>
         </RevealOnScroll>
@@ -31,10 +31,10 @@ export function PainPoints({
           {points.map((point) => (
             <div
               key={point.title}
-              className="mt-6 first:mt-14 rounded-lg border border-zinc-200 p-6"
+              className="mt-6 first:mt-14 rounded-lg border border-border-light p-6"
             >
               <h4 className="text-text-dark">{point.title}</h4>
-              <p className="mt-2 text-sm text-zinc-600">{point.description}</p>
+              <p className="mt-2 text-sm text-text-body">{point.description}</p>
             </div>
           ))}
         </RevealOnScroll>

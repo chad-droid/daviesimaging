@@ -12,15 +12,15 @@ export const metadata: Metadata = {
 export default function FrameFlowPremiumPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>FrameFlow Premium</Eyebrow>
-            <h1>
+            <h1 className="text-text-light">
               Premium digital work for builders who need{" "}
               <strong>more</strong>.
             </h1>
-            <p className="lead-text mt-6 text-zinc-300" style={{ fontStyle: "italic" }}>
+            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               Higher-craft virtual staging and video with expanded creative
               direction. Currently in pilot with select builders.
             </p>
@@ -35,14 +35,14 @@ export default function FrameFlowPremiumPage() {
             <h2>
               Invitation <strong>only</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               FrameFlow Premium is currently available to pilot participants.
               If you&rsquo;re interested in joining the program, reach out to
               the DIG team directly.
             </p>
             <Link
               href="/contact-page"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Get in touch <span aria-hidden="true">&rarr;</span>
             </Link>

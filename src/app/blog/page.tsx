@@ -16,7 +16,7 @@ export default function BlogPage() {
           <h1>
             Insights for builder marketing <strong>teams</strong>.
           </h1>
-          <p className="mt-5 text-zinc-600">
+          <p className="mt-5 text-text-body">
             Strategy, trends, and case studies from the DIG team. Content
             coming soon.
           </p>

@@ -164,7 +164,7 @@ export function RegionMap() {
           <Marker key={pin.city} coordinates={pin.coords}>
             <circle
               r={activeRegion === pin.region || !activeRegion ? 4 : 2.5}
-              fill={activeRegion === pin.region ? "#18181b" : "#52525b"}
+              fill={activeRegion === pin.region ? "#5848B5" : "#6A5ACD"}
               stroke="#ffffff"
               strokeWidth={1.5}
               className="transition-all duration-300"
@@ -176,7 +176,7 @@ export function RegionMap() {
                 y={4}
                 fontSize={10}
                 fontWeight={500}
-                fill="#3f3f46"
+                fill="#3A3A3A"
               >
                 {pin.city}
               </text>
@@ -193,8 +193,8 @@ export function RegionMap() {
             href={`/work?region=${region.label}`}
             className={`rounded-lg border p-4 text-center transition-all ${
               activeRegion === region.id
-                ? "border-zinc-900 bg-bg-dark text-white"
-                : "border-zinc-200 hover:border-accent-secondary"
+                ? "border-accent bg-bg-dark text-text-light"
+                : "border-border-light hover:border-accent-secondary"
             }`}
             onMouseEnter={() => setActiveRegion(region.id)}
             onMouseLeave={() => setActiveRegion(null)}
@@ -204,7 +204,7 @@ export function RegionMap() {
             </p>
             <p
               className={`mt-1 text-xs ${
-                activeRegion === region.id ? "text-zinc-300" : "text-zinc-500"
+                activeRegion === region.id ? "text-text-muted" : "text-accent-secondary"
               }`}
             >
               {region.states}

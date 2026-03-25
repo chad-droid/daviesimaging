@@ -11,15 +11,15 @@ export const metadata: Metadata = {
 export default function SpecPlusPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Spec+</Eyebrow>
-            <h1>
+            <h1 className="text-text-light">
               Your inventory needs to move. Spec+ delivers{" "}
               <strong>everything</strong>.
             </h1>
-            <p className="lead-text mt-6 text-zinc-300" style={{ fontStyle: "italic" }}>
+            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               Virtual staging, virtual video, and photography in one package.
               Built for standing inventory. Ordered through FrameFlow.
             </p>
@@ -38,14 +38,14 @@ export default function SpecPlusPage() {
             <h2>
               Stop managing multiple <strong>vendors</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Spec+ bundles everything your listing needs into a single order.
               Photography, virtual staging, and virtual video delivered fast so
               homes move faster.
             </p>
             <Link
               href="/offerings/frameflow"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Order via FrameFlow <span aria-hidden="true">&rarr;</span>
             </Link>
@@ -60,13 +60,13 @@ export default function SpecPlusPage() {
             <h2>
               48-hour turnaround on QMI Close <strong>Kits</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Move-in-ready homes can&rsquo;t wait. The QMI Close Kit delivers
               photography, staging, and video within 48 hours of the shoot.
             </p>
             <Link
               href="/contact-page"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Get started <span aria-hidden="true">&rarr;</span>
             </Link>

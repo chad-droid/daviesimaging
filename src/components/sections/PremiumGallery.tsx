@@ -27,7 +27,7 @@ export function PremiumGallery() {
             >
               <div className="group relative aspect-[16/7] overflow-hidden rounded-lg bg-gradient-to-b from-border-light to-accent-secondary/40">
                 <div className="absolute inset-0 flex items-end p-8">
-                  <span className="text-lg font-semibold uppercase tracking-widest text-white">
+                  <span className="text-lg font-semibold uppercase tracking-widest text-text-light">
                     {region}
                   </span>
                 </div>

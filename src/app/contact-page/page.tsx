@@ -35,7 +35,7 @@ export default function ContactPage() {
             <h1>
               We&rsquo;ll be in <strong>touch</strong>.
             </h1>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Someone from the DIG team will reach out within one business day.
             </p>
           </RevealOnScroll>
@@ -55,7 +55,7 @@ export default function ContactPage() {
               <h1>
                 How can we <strong>help</strong>?
               </h1>
-              <p className="mt-5 text-zinc-600">
+              <p className="mt-5 text-text-body">
                 Choose the option that best describes what you need.
               </p>
             </div>
@@ -66,10 +66,10 @@ export default function ContactPage() {
                   key={opt.id}
                   type="button"
                   onClick={() => setSelected(opt.id)}
-                  className="w-full rounded-lg border border-zinc-200 p-6 text-left transition-colors hover:border-accent-secondary"
+                  className="w-full rounded-lg border border-border-light p-6 text-left transition-colors hover:border-accent-secondary"
                 >
                   <h3>{opt.title}</h3>
-                  <p className="mt-1 text-sm text-zinc-500">
+                  <p className="mt-1 text-sm text-accent-secondary">
                     {opt.description}
                   </p>
                 </button>
@@ -84,7 +84,7 @@ export default function ContactPage() {
             <button
               type="button"
               onClick={() => setSelected(null)}
-              className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-accent"
+              className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-accent-secondary transition-colors hover:text-accent"
             >
               <span aria-hidden="true">&larr;</span> Back
             </button>
@@ -95,7 +95,7 @@ export default function ContactPage() {
             <h2>
               Tell us about your <strong>project</strong>.
             </h2>
-            <p className="mt-4 text-zinc-600">
+            <p className="mt-4 text-text-body">
               Fill out the details below and we&rsquo;ll get back to you within
               one business day.
             </p>
@@ -117,7 +117,7 @@ export default function ContactPage() {
                     name="firstName"
                     type="text"
                     required
-                    className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                    className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                   />
                 </div>
                 <div>
@@ -129,7 +129,7 @@ export default function ContactPage() {
                     name="lastName"
                     type="text"
                     required
-                    className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                    className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                   />
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                   name="email"
                   type="email"
                   required
-                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                 />
               </div>
 
@@ -155,7 +155,7 @@ export default function ContactPage() {
                   id="company"
                   name="company"
                   type="text"
-                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                 />
               </div>
 
@@ -167,13 +167,13 @@ export default function ContactPage() {
                   id="message"
                   name="message"
                   rows={4}
-                  className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
                 />
               </div>
 
               <button
                 type="submit"
-                className="cta-button rounded-full bg-accent px-8 py-3.5 text-white transition-colors hover:bg-accent-hover"
+                className="cta-button rounded-full bg-accent px-8 py-3.5 text-text-light transition-colors hover:bg-accent-hover"
               >
                 Send Message
               </button>

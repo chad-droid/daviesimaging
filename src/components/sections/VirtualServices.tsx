@@ -12,7 +12,7 @@ export function VirtualServices() {
           <h2>
             Already have photos? We can work with <strong>that</strong>.
           </h2>
-          <p className="mt-5 text-zinc-600">
+          <p className="mt-5 text-text-body">
             DIG&rsquo;s virtual staging and virtual video services are available
             without photography. No shoot required, fast turnaround, assets
             ready to deploy.

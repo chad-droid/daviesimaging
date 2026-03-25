@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 export default function MatterportPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Matterport</Eyebrow>
-            <h1>
+            <h1 className="text-text-light">
               Immersive 3D tours that let buyers walk <strong>through</strong>.
             </h1>
-            <p className="lead-text mt-6 text-zinc-300" style={{ fontStyle: "italic" }}>
+            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               Matterport virtual tours give remote buyers the confidence to
               move forward. Built for model homes and community showcases.
             </p>
@@ -33,14 +33,14 @@ export default function MatterportPage() {
             <h2>
               The next best thing to being <strong>there</strong>.
             </h2>
-            <p className="mt-5 text-zinc-600">
+            <p className="mt-5 text-text-body">
               Matterport tours let buyers explore every room at their own pace.
               Embed on your website, share via email, or display in sales
               centers for out-of-market buyers.
             </p>
             <Link
               href="/contact-page"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Book a strategy call <span aria-hidden="true">&rarr;</span>
             </Link>

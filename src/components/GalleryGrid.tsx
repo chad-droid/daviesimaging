@@ -30,7 +30,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
       <div className="text-center">
         <h1>{heading}</h1>
         {description && (
-          <p className="mx-auto mt-4 max-w-2xl text-zinc-600">{description}</p>
+          <p className="mx-auto mt-4 max-w-2xl text-text-body">{description}</p>
         )}
 
         <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -41,8 +41,8 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
               onClick={() => setActive(region)}
               className={`cta-button rounded-full px-5 py-2 transition-colors ${
                 active === region
-                  ? "bg-bg-dark text-white"
-                  : "border border-zinc-200 text-zinc-600 hover:border-accent-secondary"
+                  ? "bg-bg-dark text-text-light"
+                  : "border border-border-light text-text-body hover:border-accent-secondary"
               }`}
             >
               {region}
@@ -60,7 +60,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
           >
             {/* Replace with <Image> when real assets are ready */}
             <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-[#121212]/50 to-transparent p-6 opacity-0 transition-opacity group-hover:opacity-100">
-              <span className="text-sm font-semibold text-white">
+              <span className="text-sm font-semibold text-text-light">
                 {item.title}
               </span>
               {item.tags && (
@@ -68,7 +68,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
                   {item.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-bg-surface/20 px-2.5 py-0.5 text-xs text-white"
+                      className="rounded-full bg-bg-surface/20 px-2.5 py-0.5 text-xs text-text-light"
                     >
                       {tag}
                     </span>
@@ -87,7 +87,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
       </div>
 
       {filtered.length === 0 && (
-        <p className="mt-12 text-center text-zinc-400">
+        <p className="mt-12 text-center text-accent-secondary">
           No projects in this region yet. Check back soon.
         </p>
       )}

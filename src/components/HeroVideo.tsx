@@ -61,12 +61,12 @@ export function HeroVideo() {
         style={{ y: contentY, opacity: contentOpacity }}
       >
         <div className="mx-auto max-w-3xl">
-          <h1 className="text-white">
+          <h1 className="text-text-light">
             Builder assets that win <strong>hearts</strong> and earn{" "}
             <strong>clicks</strong>.
           </h1>
           <p
-            className="lead-text mx-auto mt-6 max-w-2xl text-zinc-300"
+            className="lead-text mx-auto mt-6 max-w-2xl text-text-muted"
             style={{ fontStyle: "italic" }}
           >
             One shoot. Multiple outcomes. Photography, staging, and video
@@ -75,13 +75,13 @@ export function HeroVideo() {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/frameflow-sell-faster-challenge-0210"
-              className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-text-dark transition-colors hover:bg-zinc-200"
+              className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-text-dark transition-colors hover:bg-border-light"
             >
               Try the FrameFlow Challenge Risk Free
             </Link>
             <Link
               href="/contact-page"
-              className="cta-button rounded-full border border-text-light/30 px-8 py-3.5 text-white transition-colors hover:border-text-light/60"
+              className="cta-button rounded-full border border-text-light/30 px-8 py-3.5 text-text-light transition-colors hover:border-text-light/60"
             >
               Book a Strategy Call
             </Link>

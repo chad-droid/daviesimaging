@@ -60,8 +60,8 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 
 export function StatsStrip() {
   return (
-    <section className="border-y border-zinc-200 bg-bg-surface py-16">
-      <p className="mb-8 text-center text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">
+    <section className="border-y border-border-light bg-bg-surface py-16">
+      <p className="mb-8 text-center text-xs font-bold uppercase tracking-[0.15em] text-accent-secondary">
         By the Numbers
       </p>
       <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-border-light sm:grid-cols-3 sm:divide-x sm:divide-y-0">
