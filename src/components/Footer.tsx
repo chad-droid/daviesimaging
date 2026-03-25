@@ -16,14 +16,14 @@ const footerLinks = {
     { label: "Matterport", href: "/services/matterport" },
   ],
   Offerings: [
-    { label: "FrameFlow", href: "/services/frameflow" },
-    { label: "Spec+", href: "/services/spec" },
+    { label: "FrameFlow", href: "/offerings/frameflow" },
+    { label: "Spec+", href: "/offerings/spec-plus" },
     { label: "Regional Partnerships", href: "/offerings/regional-partnerships" },
   ],
   Markets: [
-    { label: "By Type", href: "/markets/by-type" },
-    { label: "By Role", href: "/markets/by-role" },
-    { label: "By Region", href: "/markets/by-region" },
+    { label: "By Type", href: "/markets/type" },
+    { label: "By Role", href: "/markets/role" },
+    { label: "By Region", href: "/markets/region" },
   ],
   Company: [
     { label: "About", href: "/about-us" },
