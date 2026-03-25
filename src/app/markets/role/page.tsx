@@ -57,7 +57,7 @@ export default function ByRolePage() {
             >
               <h3>{role.title}</h3>
               <p className="mt-2 text-zinc-600">{role.description}</p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900">
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark">
                 Learn more <span aria-hidden="true">&rarr;</span>
               </span>
             </Link>

@@ -40,7 +40,7 @@ export function PremiumGallery() {
           <div className="mt-10 text-center">
             <Link
               href="/services/premium"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Explore Premium <span aria-hidden="true">&rarr;</span>
             </Link>

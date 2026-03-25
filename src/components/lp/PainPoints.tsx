@@ -33,7 +33,7 @@ export function PainPoints({
               key={point.title}
               className="mt-6 first:mt-14 rounded-lg border border-zinc-200 p-6"
             >
-              <h4 className="text-zinc-900">{point.title}</h4>
+              <h4 className="text-text-dark">{point.title}</h4>
               <p className="mt-2 text-sm text-zinc-600">{point.description}</p>
             </div>
           ))}

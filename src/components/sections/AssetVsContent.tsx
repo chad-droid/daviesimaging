@@ -18,7 +18,7 @@ export function AssetVsContent() {
           </p>
           <Link
             href="/offerings/frameflow"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-accent"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
           >
             See how it works <span aria-hidden="true">&rarr;</span>
           </Link>

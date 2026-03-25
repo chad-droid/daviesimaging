@@ -75,7 +75,7 @@ export function HeroVideo() {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/frameflow-sell-faster-challenge-0210"
-              className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-zinc-900 transition-colors hover:bg-zinc-200"
+              className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-text-dark transition-colors hover:bg-zinc-200"
             >
               Try the FrameFlow Challenge Risk Free
             </Link>
