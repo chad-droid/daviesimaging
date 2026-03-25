@@ -18,7 +18,7 @@ export default function DirectorsPage() {
         eyebrow="For Directors"
         headline={<>Your marketing deserves assets that actually <strong>perform</strong>.</>}
         subheadline="DIG partners with marketing directors at regional and national builders to deliver photography, staging, and video that drives conversion across every channel."
-        primaryCta={{ label: "Book a Strategy Call", href: "/contact-page" }}
+        primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
         secondaryCta={{ label: "Explore FrameFlow", href: "/offerings/frameflow" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
@@ -54,8 +54,8 @@ export default function DirectorsPage() {
       <LPCta
         headline={<>Let&rsquo;s build assets that move <strong>homes</strong>.</>}
         description="If your content isn't driving momentum, it's time to rethink the strategy."
-        primaryCta={{ label: "Book a Strategy Call", href: "/contact-page" }}
-        secondaryCta={{ label: "Start the FrameFlow Challenge", href: "/frameflow-sell-faster-challenge-0210" }}
+        primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
+        secondaryCta={{ label: "Start the FrameFlow Challenge", href: "/campaigns/frameflow-sell-faster" }}
       />
     </>
   );

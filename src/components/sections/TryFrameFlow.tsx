@@ -17,7 +17,7 @@ export function TryFrameFlow() {
             built for builders.
           </p>
           <Link
-            href="/frameflow-sell-faster-challenge-0210"
+            href="/campaigns/frameflow-sell-faster"
             className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-light transition-colors hover:text-accent-dark-hover"
           >
             Start the challenge <span aria-hidden="true">&rarr;</span>

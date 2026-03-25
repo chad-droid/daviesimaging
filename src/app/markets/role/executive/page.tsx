@@ -18,7 +18,7 @@ export default function ExecutivePage() {
         eyebrow="For Executives"
         headline={<>Consolidate vendors. Scale <strong>coverage</strong>.</>}
         subheadline="VP-level oversight requires predictable quality across markets, vendor simplification, and a partner who can grow with the business."
-        primaryCta={{ label: "Book a Strategy Call", href: "/contact-page" }}
+        primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
         secondaryCta={{ label: "Regional Partnerships", href: "/offerings/regional-partnerships" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
@@ -53,7 +53,7 @@ export default function ExecutivePage() {
       />
       <LPCta
         headline={<>Ready to simplify your marketing <strong>operations</strong>?</>}
-        primaryCta={{ label: "Book a Strategy Call", href: "/contact-page" }}
+        primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
         secondaryCta={{ label: "Explore FrameFlow", href: "/offerings/frameflow" }}
       />
     </>

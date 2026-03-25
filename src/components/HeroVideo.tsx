@@ -33,7 +33,7 @@ export function HeroVideo() {
     >
       {/* Video tile grid — parallax on scroll */}
       <motion.div
-        className="absolute inset-0 grid grid-cols-2 gap-1 sm:grid-cols-3"
+        className="absolute inset-0 grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3"
         style={{ y: gridY, scale: gridScale }}
       >
         {placeholderTiles.map((tile) => (
@@ -74,13 +74,13 @@ export function HeroVideo() {
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
-              href="/frameflow-sell-faster-challenge-0210"
+              href="/campaigns/frameflow-sell-faster"
               className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-text-dark transition-colors hover:bg-border-light"
             >
               Try the FrameFlow Challenge Risk Free
             </Link>
             <Link
-              href="/contact-page"
+              href="/contact"
               className="cta-button rounded-full border border-text-light/30 px-8 py-3.5 text-text-light transition-colors hover:border-text-light/60"
             >
               Book a Strategy Call

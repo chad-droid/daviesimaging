@@ -104,7 +104,7 @@ export default function AboutPage() {
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row">
               <Link
-                href="/contact-page"
+                href="/contact"
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-text-light transition-colors hover:text-accent-dark-hover"
               >
                 Book a Strategy Call <span aria-hidden="true">&rarr;</span>

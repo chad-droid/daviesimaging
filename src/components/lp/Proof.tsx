@@ -33,7 +33,7 @@ export function Proof({
           {stats.map((stat) => (
             <div key={stat.label} className="mt-6 first:mt-14 text-center">
               <p
-                className="text-4xl font-semibold tracking-tight"
+                className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 {stat.value}

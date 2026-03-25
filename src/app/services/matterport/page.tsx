@@ -39,7 +39,7 @@ export default function MatterportPage() {
               centers for out-of-market buyers.
             </p>
             <Link
-              href="/contact-page"
+              href="/contact"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Book a strategy call <span aria-hidden="true">&rarr;</span>

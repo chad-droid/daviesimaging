@@ -41,7 +41,7 @@ export default function FrameFlowPage() {
               purpose and a position.
             </p>
             <Link
-              href="/frameflow-sell-faster-challenge-0210"
+              href="/campaigns/frameflow-sell-faster"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Try the challenge <span aria-hidden="true">&rarr;</span>
@@ -67,7 +67,7 @@ export default function FrameFlowPage() {
               FrameFlow.
             </p>
             <Link
-              href="/contact-page"
+              href="/contact"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Book a demo <span aria-hidden="true">&rarr;</span>

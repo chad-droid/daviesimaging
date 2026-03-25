@@ -23,8 +23,8 @@ export default function FrameFlowChallengePage() {
           </>
         }
         subheadline="The FrameFlow Sell Faster Challenge lets you see how strategic visual sequencing increases engagement and drives faster buyer decisions. Risk-free, built for builders."
-        primaryCta={{ label: "Start the Challenge", href: "/contact-page" }}
-        secondaryCta={{ label: "Book a Strategy Call", href: "/contact-page" }}
+        primaryCta={{ label: "Start the Challenge", href: "/contact" }}
+        secondaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
       />
 
       <LogoStrip
@@ -93,8 +93,8 @@ export default function FrameFlowChallengePage() {
           </>
         }
         description="One community, one challenge, zero risk."
-        primaryCta={{ label: "Start the FrameFlow Challenge", href: "/contact-page" }}
-        secondaryCta={{ label: "Book a Strategy Call", href: "/contact-page" }}
+        primaryCta={{ label: "Start the FrameFlow Challenge", href: "/contact" }}
+        secondaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
       />
     </>
   );

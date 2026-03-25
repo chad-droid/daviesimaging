@@ -67,7 +67,7 @@ export function StatsStrip() {
       <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-border-light sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {stats.map((stat) => (
           <div key={stat.label} className="px-8 py-10 text-center">
-            <p className="text-4xl font-semibold tracking-tight text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+            <p className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
               <AnimatedCounter value={stat.value} suffix={stat.suffix} />
             </p>
             <p className="meta-text mt-2">{stat.label}</p>

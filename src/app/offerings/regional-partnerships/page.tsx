@@ -66,7 +66,7 @@ export default function RegionalPartnershipsPage() {
               to East.
             </p>
             <Link
-              href="/contact-page"
+              href="/contact"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Start a partnership conversation <span aria-hidden="true">&rarr;</span>

@@ -48,9 +48,9 @@ const dropdowns: DropdownMenu[] = [
 ];
 
 const standaloneLinks = [
-  { label: "About", href: "/about-us" },
+  { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact-page" },
+  { label: "Contact", href: "/contact" },
 ];
 
 function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
@@ -168,7 +168,7 @@ export function Nav() {
 
           {/* Primary CTA */}
           <Link
-            href="/frameflow-sell-faster-challenge-0210"
+            href="/campaigns/frameflow-sell-faster"
             className="cta-button rounded-full bg-accent px-5 py-2.5 text-text-light transition-colors hover:bg-accent-hover"
           >
             Start FrameFlow
@@ -222,7 +222,7 @@ export function Nav() {
             ))}
 
             <Link
-              href="/frameflow-sell-faster-challenge-0210"
+              href="/campaigns/frameflow-sell-faster"
               onClick={() => setMobileOpen(false)}
               className="cta-button mt-2 rounded-full bg-accent px-5 py-2.5 text-center text-text-light"
             >

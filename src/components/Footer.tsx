@@ -26,9 +26,9 @@ const footerLinks = {
     { label: "By Region", href: "/markets/region" },
   ],
   Company: [
-    { label: "About", href: "/about-us" },
+    { label: "About", href: "/about" },
     { label: "Blog", href: "/blog" },
-    { label: "Contact", href: "/contact-page" },
+    { label: "Contact", href: "/contact" },
   ],
 };
 
@@ -36,7 +36,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border-light bg-bg-light">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-6 lg:gap-12">
           {/* Brand column */}
           <div>
             <p className="text-lg font-semibold tracking-tight">
@@ -105,7 +105,7 @@ export function Footer() {
             reserved.
           </p>
           <Link
-            href="/contact-page"
+            href="/contact"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
           >
             Book a Strategy Call <span aria-hidden="true">&rarr;</span>

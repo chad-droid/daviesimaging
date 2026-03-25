@@ -42,7 +42,7 @@ export default function VideoProductionPage() {
               loops, social media cuts, email embeds, and sales center displays.
             </p>
             <Link
-              href="/contact-page"
+              href="/contact"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Book a strategy call <span aria-hidden="true">&rarr;</span>

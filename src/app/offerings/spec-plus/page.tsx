@@ -65,7 +65,7 @@ export default function SpecPlusPage() {
               photography, staging, and video within 48 hours of the shoot.
             </p>
             <Link
-              href="/contact-page"
+              href="/contact"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Get started <span aria-hidden="true">&rarr;</span>
