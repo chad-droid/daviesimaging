@@ -944,6 +944,66 @@ src/
 
 ---
 
+## Blog / CMS (Sanity)
+
+**Platform:** Sanity CMS (headless)
+**Project ID:** `5xi4v6mr`
+**Dataset:** `production`
+**Hosted Studio:** `dig-blog.sanity.studio`
+**Embedded Studio:** `/studio` (inside the Next.js app)
+
+### Architecture
+
+| File/Dir | Purpose |
+|---|---|
+| `src/sanity/env.ts` | Project ID, dataset, API version |
+| `src/sanity/client.ts` | Sanity client for server-side data fetching |
+| `src/sanity/image.ts` | Image URL builder helper (`urlFor()`) |
+| `src/sanity/queries.ts` | GROQ queries (`postsQuery`, `postBySlugQuery`, `postSlugsQuery`) |
+| `src/sanity/schemas/post.ts` | Blog post document schema |
+| `src/sanity/schemas/index.ts` | Schema registry |
+| `sanity.config.ts` | Studio config (uses relative imports, not `@/` aliases, for Vite compatibility) |
+| `sanity.cli.ts` | CLI config for `npx sanity deploy` |
+| `src/app/studio/layout.tsx` | Studio layout (full-screen fixed overlay, no Nav/Footer) |
+| `src/app/studio/[[...tool]]/page.tsx` | Studio catch-all route |
+| `src/app/blog/page.tsx` | Blog index, fetches all posts from Sanity |
+| `src/app/blog/[slug]/page.tsx` | Individual post page with Portable Text rendering |
+| `src/components/PortableTextComponents.tsx` | Custom renderers for rich text (images, links, headings, blockquotes) |
+
+### Blog post schema fields
+
+| Field | Type | Notes |
+|---|---|---|
+| `title` | string | Required |
+| `slug` | slug | Auto-generates from title |
+| `excerpt` | text | Short summary for blog index cards |
+| `coverImage` | image | With hotspot support |
+| `author` | string | Defaults to "DIG Team" |
+| `category` | string (enum) | Strategy, Case Study, Trends, Product Updates, Behind the Scenes |
+| `publishedAt` | datetime | Required, used for sort order |
+| `body` | Portable Text array | Supports H2-H4, bold, italic, links, inline images with alt/caption |
+
+### How Nicole creates blog posts
+
+1. Go to `dig-blog.sanity.studio` (or `/studio` on the live site)
+2. Click "Blog Post" in the sidebar
+3. Fill in title, click Generate on slug, add excerpt, cover image, category, author, body content
+4. Hit Publish
+
+### Migration from Webflow
+
+All 24 blog posts were migrated from the Webflow DIG 2025 CMS (collection ID `6938ca3982ba4928bf350693`) using `scripts/migrate-webflow-to-sanity.mjs`. The script converted Webflow's HTML rich text to Sanity Portable Text and uploaded all cover/inline images to Sanity's asset CDN. Each post's original slug was preserved. The migration data source is saved at `webflow-blog-posts.json` (do not commit to production).
+
+### Important notes
+
+- `sanity.config.ts` must use relative imports (`./src/sanity/...`) not `@/` path aliases, because the Sanity CLI uses Vite (not Next.js) for builds.
+- `basePath: "/studio"` is set in the Sanity config so the embedded studio routes correctly.
+- `next.config.ts` includes `cdn.sanity.io` in `images.remotePatterns` for Next.js Image optimization.
+- `styled-components` is installed as a peer dependency required by Sanity Studio.
+- CORS origin `http://localhost:3000` must be added in the Sanity project dashboard (sanity.io/manage > API > CORS origins) for local dev.
+
+---
+
 ## Notes and Constraints
 
 - **No em dashes** anywhere in copy or UI text. Use commas, colons, or line breaks instead.
@@ -952,6 +1012,6 @@ src/
 - The live `daviesimaging.com` domain is on Webflow DIG 2025 — do not touch that site. DNS moves to Vercel only when Chad explicitly approves.
 - FrameFlow Premium page (`/offerings/frameflow-premium`) is built but password-protected via Next.js middleware until the pilot concludes.
 - Virtual Video is also the listing video solution. DIG does NOT create listing video with real cameras. Do not refer to a separate "listing video" service anywhere on the site.
-- Blog content lives in MDX files in `/src/content/blog/`. Chad or Nicole can edit these directly without touching code.
-- All images served from a CDN (Cloudinary or Vercel Blob). No large images committed to the repo.
+- Blog content lives in Sanity CMS (see Blog/CMS section below). Nicole can create and edit posts at `/studio` or `dig-blog.sanity.studio` without touching code.
+- All images served from a CDN (Sanity CDN for blog, Cloudinary or Vercel Blob for other assets). No large images committed to the repo.
 - Environment variables needed: `MAPBOX_PUBLIC_TOKEN`, `RESEND_API_KEY`, `MAILCHIMP_API_KEY`, `FRAMEFLOW_PREMIUM_PASSWORD`

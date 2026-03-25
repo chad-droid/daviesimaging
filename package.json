@@ -12,13 +12,16 @@
     "@portabletext/react": "^6.0.3",
     "@sanity/icons": "^3.7.4",
     "@sanity/image-url": "^2.0.3",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "framer-motion": "^12.38.0",
     "next": "16.2.1",
     "next-sanity": "^12.1.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-simple-maps": "^3.0.0",
-    "sanity": "^5.18.0"
+    "sanity": "^5.18.0",
+    "styled-components": "^6.3.12"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

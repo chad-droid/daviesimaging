@@ -1,46 +1,110 @@
-import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { PortableText, type PortableTextBlock } from "@portabletext/react";
+import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { client } from "@/sanity/client";
+import { postBySlugQuery, postSlugsQuery } from "@/sanity/queries";
+import { urlFor } from "@/sanity/image";
+import { portableTextComponents } from "@/components/PortableTextComponents";
 
-interface BlogPostPageProps {
-  params: Promise<{ slug: string }>;
+interface Post {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt?: string;
+  coverImage?: { asset: { _ref: string } };
+  author?: string;
+  category?: string;
+  publishedAt: string;
+  body?: PortableTextBlock[];
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps) {
+type Params = Promise<{ slug: string }>;
+
+export async function generateStaticParams() {
+  const slugs: string[] = await client.fetch(postSlugsQuery);
+  return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
   const { slug } = await params;
-  const title = slug
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+  const post: Post | null = await client.fetch(postBySlugQuery, { slug });
+  if (!post) return { title: "Post Not Found" };
   return {
-    title: `${title} | DIG Blog`,
-    description: `Read "${title}" on the Davies Imaging Group blog.`,
+    title: `${post.title} | DIG Blog`,
+    description: post.excerpt || "",
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Params;
+}) {
   const { slug } = await params;
-  const title = slug
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+  const post: Post | null = await client.fetch(postBySlugQuery, { slug });
+
+  if (!post) notFound();
 
   return (
     <article className="min-h-screen bg-bg-surface py-24">
-      <div className="mx-auto max-w-2xl px-6">
+      <div className="mx-auto max-w-3xl px-6">
         <RevealOnScroll>
           <Link
             href="/blog"
-            className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-accent-secondary transition-colors hover:text-accent"
+            className="mb-8 inline-block text-sm font-semibold uppercase tracking-wider text-accent hover:text-accent-hover"
           >
-            <span aria-hidden="true">&larr;</span> Back to Blog
+            &larr; Back to Blog
           </Link>
-          <Eyebrow>Blog</Eyebrow>
-          <h1>{title}</h1>
-          <p className="mt-6 text-text-body">
-            This is a placeholder blog post template. Connect a CMS to populate
-            real content for each slug.
+
+          {post.category && (
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-accent-secondary">
+              {post.category.replace("-", " ")}
+            </p>
+          )}
+
+          <h1 className="mb-4">{post.title}</h1>
+
+          <p className="mb-10 text-sm text-text-body/60">
+            {formatDate(post.publishedAt)}
+            {post.author ? ` · ${post.author}` : ""}
           </p>
+
+          {post.coverImage?.asset && (
+            <div className="relative mb-12 aspect-[16/9] overflow-hidden rounded-lg">
+              <Image
+                src={urlFor(post.coverImage).width(1200).height(675).url()}
+                alt={post.title}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, 768px"
+              />
+            </div>
+          )}
+
+          {post.body && (
+            <div className="prose-dig">
+              <PortableText
+                value={post.body}
+                components={portableTextComponents}
+              />
+            </div>
+          )}
         </RevealOnScroll>
       </div>
     </article>
