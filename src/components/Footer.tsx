@@ -1,20 +1,34 @@
 import Link from "next/link";
 
 const footerLinks = {
+  Work: [
+    { label: "Model Homes", href: "/work/model-homes" },
+    { label: "Amenities", href: "/work/amenities" },
+    { label: "Spec Homes", href: "/work/spec-homes" },
+    { label: "Lifestyle", href: "/work/lifestyle" },
+  ],
   Services: [
+    { label: "Premium Photo", href: "/services/premium" },
+    { label: "Listing Photo", href: "/services/listing" },
+    { label: "Video Production", href: "/services/video-production" },
+    { label: "Virtual Staging", href: "/services/virtual-staging" },
+    { label: "Virtual Video", href: "/services/virtual-video" },
+    { label: "Matterport", href: "/services/matterport" },
+  ],
+  Offerings: [
     { label: "FrameFlow", href: "/services/frameflow" },
-    { label: "Premium", href: "/services/premium" },
     { label: "Spec+", href: "/services/spec" },
+    { label: "Regional Partnerships", href: "/offerings/regional-partnerships" },
+  ],
+  Markets: [
+    { label: "By Type", href: "/markets/by-type" },
+    { label: "By Role", href: "/markets/by-role" },
+    { label: "By Region", href: "/markets/by-region" },
   ],
   Company: [
     { label: "About", href: "/about-us" },
     { label: "Blog", href: "/blog" },
     { label: "Contact", href: "/contact-page" },
-  ],
-  "Built For": [
-    { label: "Marketing Directors", href: "/built-for/marketing-directors" },
-    { label: "Sales Leaders", href: "/built-for/sales-leaders" },
-    { label: "Regional Builders", href: "/built-for/regional-builders" },
   ],
 };
 
@@ -22,7 +36,7 @@ export function Footer() {
   return (
     <footer className="border-t border-zinc-200 bg-zinc-50">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-6">
           {/* Brand column */}
           <div>
             <p className="text-lg font-semibold tracking-tight">
