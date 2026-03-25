@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function VirtualStagingPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-zinc-900 py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Virtual Staging</Eyebrow>
@@ -26,7 +26,7 @@ export default function VirtualStagingPage() {
         </div>
       </section>
 
-      <section className="min-h-[70vh] bg-white py-24">
+      <section className="min-h-[70vh] bg-bg-surface py-24">
         <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
           <RevealOnScroll>
             <Eyebrow>No Shoot Required</Eyebrow>

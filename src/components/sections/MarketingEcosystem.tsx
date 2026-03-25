@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 
 export function MarketingEcosystem() {
   return (
-    <section className="flex min-h-[60vh] items-center bg-zinc-50 py-24">
+    <section className="flex min-h-[60vh] items-center bg-bg-light py-24">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
           <Eyebrow>Full Ecosystem</Eyebrow>

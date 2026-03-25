@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 
 export function VirtualServices() {
   return (
-    <section className="min-h-[70vh] bg-white py-24">
+    <section className="min-h-[70vh] bg-bg-surface py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
         {/* Copy side */}
         <RevealOnScroll>

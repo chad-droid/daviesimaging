@@ -28,7 +28,7 @@ export default function ContactPage() {
 
   if (submitted) {
     return (
-      <section className="flex min-h-screen items-center bg-white py-24">
+      <section className="flex min-h-screen items-center bg-bg-surface py-24">
         <div className="mx-auto max-w-2xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Thank You</Eyebrow>
@@ -45,7 +45,7 @@ export default function ContactPage() {
   }
 
   return (
-    <section className="min-h-screen bg-white py-24">
+    <section className="min-h-screen bg-bg-surface py-24">
       <div className="mx-auto max-w-2xl px-6">
         {/* Step 1: Choose */}
         {!selected && (

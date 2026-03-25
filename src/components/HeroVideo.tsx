@@ -29,7 +29,7 @@ export function HeroVideo() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen overflow-hidden bg-zinc-900"
+      className="relative min-h-screen overflow-hidden bg-bg-dark"
     >
       {/* Video tile grid — parallax on scroll */}
       <motion.div
@@ -75,7 +75,7 @@ export function HeroVideo() {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/frameflow-sell-faster-challenge-0210"
-              className="cta-button rounded-full bg-white px-8 py-3.5 text-zinc-900 transition-colors hover:bg-zinc-200"
+              className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-zinc-900 transition-colors hover:bg-zinc-200"
             >
               Try the FrameFlow Challenge Risk Free
             </Link>

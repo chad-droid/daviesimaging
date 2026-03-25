@@ -20,7 +20,7 @@ export function Proof({
   testimonial,
 }: ProofProps) {
   return (
-    <section className="min-h-[60vh] bg-zinc-900 py-24 text-white">
+    <section className="min-h-[60vh] bg-bg-dark py-24 text-white">
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="text-center">

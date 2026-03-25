@@ -8,7 +8,7 @@ export function LogoStrip({
   logos,
 }: LogoStripProps) {
   return (
-    <section className="border-y border-zinc-200 bg-white py-12">
+    <section className="border-y border-zinc-200 bg-bg-surface py-12">
       <div className="mx-auto max-w-6xl px-6">
         <p className="meta-text text-center">{heading}</p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-6">

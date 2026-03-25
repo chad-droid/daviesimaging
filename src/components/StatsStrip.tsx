@@ -60,7 +60,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 
 export function StatsStrip() {
   return (
-    <section className="border-y border-zinc-200 bg-white py-16">
+    <section className="border-y border-zinc-200 bg-bg-surface py-16">
       <p className="mb-8 text-center text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">
         By the Numbers
       </p>

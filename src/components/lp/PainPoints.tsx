@@ -15,7 +15,7 @@ export function PainPoints({
   points,
 }: PainPointsProps) {
   return (
-    <section className="min-h-[60vh] bg-white py-24">
+    <section className="min-h-[60vh] bg-bg-surface py-24">
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="text-center">

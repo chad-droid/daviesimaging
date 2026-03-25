@@ -78,12 +78,12 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
         </svg>
       </button>
       {open && (
-        <div className="absolute left-0 top-full w-52 rounded-lg border border-zinc-200 bg-white py-2 pt-4 shadow-lg before:absolute before:-top-4 before:left-0 before:h-4 before:w-full">
+        <div className="absolute left-0 top-full w-52 rounded-lg border border-zinc-200 bg-bg-surface py-2 pt-4 shadow-lg before:absolute before:-top-4 before:left-0 before:h-4 before:w-full">
           {menu.items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="block px-4 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-accent"
+              className="block px-4 py-2 text-sm text-zinc-700 transition-colors hover:bg-bg-light hover:text-accent"
             >
               {item.label}
             </Link>
@@ -200,7 +200,7 @@ export function Nav() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-zinc-200 bg-white px-6 pb-6 pt-4 lg:hidden">
+        <div className="border-t border-zinc-200 bg-bg-surface px-6 pb-6 pt-4 lg:hidden">
           <div className="flex flex-col gap-3">
             {dropdowns.map((menu) => (
               <MobileDropdown

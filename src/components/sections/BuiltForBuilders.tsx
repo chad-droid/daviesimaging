@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 
 export function BuiltForBuilders() {
   return (
-    <section className="flex min-h-[70vh] items-center bg-zinc-900 py-24 text-white">
+    <section className="flex min-h-[70vh] items-center bg-bg-dark py-24 text-white">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
           <Eyebrow>Built For Builders</Eyebrow>

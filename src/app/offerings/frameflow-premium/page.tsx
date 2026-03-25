@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function FrameFlowPremiumPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-zinc-900 py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>FrameFlow Premium</Eyebrow>
@@ -28,7 +28,7 @@ export default function FrameFlowPremiumPage() {
         </div>
       </section>
 
-      <section className="flex min-h-[70vh] items-center bg-white py-24">
+      <section className="flex min-h-[70vh] items-center bg-bg-surface py-24">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Pilot Program</Eyebrow>

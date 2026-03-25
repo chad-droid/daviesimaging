@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ByRegionPage() {
   return (
-    <section className="min-h-screen bg-white py-24">
+    <section className="min-h-screen bg-bg-surface py-24">
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="text-center">

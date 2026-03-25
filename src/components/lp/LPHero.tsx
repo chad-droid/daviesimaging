@@ -17,7 +17,7 @@ export function LPHero({
   secondaryCta,
 }: LPHeroProps) {
   return (
-    <section className="flex min-h-screen items-center bg-zinc-900 py-28 text-white">
+    <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
       <div className="mx-auto max-w-3xl px-6 text-center">
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <h1>{headline}</h1>
@@ -30,7 +30,7 @@ export function LPHero({
         <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
           <Link
             href={primaryCta.href}
-            className="cta-button rounded-full bg-white px-8 py-3.5 text-zinc-900 transition-colors hover:bg-zinc-200"
+            className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-zinc-900 transition-colors hover:bg-zinc-200"
           >
             {primaryCta.label}
           </Link>

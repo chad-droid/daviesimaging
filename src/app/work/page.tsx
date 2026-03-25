@@ -85,7 +85,7 @@ export default function WorkPage() {
               onClick={() => setActiveCategory(cat)}
               className={`cta-button rounded-full px-5 py-2 transition-colors ${
                 activeCategory === cat
-                  ? "bg-zinc-900 text-white"
+                  ? "bg-bg-dark text-white"
                   : "border border-zinc-200 text-zinc-600 hover:border-accent-secondary"
               }`}
             >
@@ -103,7 +103,7 @@ export default function WorkPage() {
               onClick={() => setActiveRegion(region)}
               className={`rounded-full px-4 py-1.5 text-xs font-medium uppercase tracking-widest transition-colors ${
                 activeRegion === region
-                  ? "bg-zinc-700 text-white"
+                  ? "bg-accent-hover text-white"
                   : "border border-zinc-200 text-zinc-500 hover:border-accent-secondary"
               }`}
             >
@@ -142,7 +142,7 @@ export default function WorkPage() {
               <span className="meta-text rounded-full bg-bg-surface/90 px-3 py-1 text-xs">
                 {item.region}
               </span>
-              <span className="meta-text rounded-full bg-zinc-900/80 px-3 py-1 text-xs text-white">
+              <span className="meta-text rounded-full bg-bg-dark/80 px-3 py-1 text-xs text-white">
                 {item.category}
               </span>
             </div>

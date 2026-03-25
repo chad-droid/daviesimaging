@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 
 export function SpecPlus() {
   return (
-    <section className="min-h-[70vh] bg-zinc-50 py-24">
+    <section className="min-h-[70vh] bg-bg-light py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
         {/* Image-dominant side */}
         <RevealOnScroll>

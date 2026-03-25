@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <section className="flex min-h-screen items-center bg-white py-24">
+    <section className="flex min-h-screen items-center bg-bg-surface py-24">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
           <Eyebrow>Blog</Eyebrow>

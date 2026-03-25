@@ -193,7 +193,7 @@ export function RegionMap() {
             href={`/work?region=${region.label}`}
             className={`rounded-lg border p-4 text-center transition-all ${
               activeRegion === region.id
-                ? "border-zinc-900 bg-zinc-900 text-white"
+                ? "border-zinc-900 bg-bg-dark text-white"
                 : "border-zinc-200 hover:border-accent-secondary"
             }`}
             onMouseEnter={() => setActiveRegion(region.id)}

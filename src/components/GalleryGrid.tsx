@@ -41,7 +41,7 @@ export function GalleryGrid({ items, heading, description }: GalleryGridProps) {
               onClick={() => setActive(region)}
               className={`cta-button rounded-full px-5 py-2 transition-colors ${
                 active === region
-                  ? "bg-zinc-900 text-white"
+                  ? "bg-bg-dark text-white"
                   : "border border-zinc-200 text-zinc-600 hover:border-accent-secondary"
               }`}
             >

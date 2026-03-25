@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 
 export function TryFrameFlow() {
   return (
-    <section className="flex min-h-[60vh] items-center bg-zinc-900 py-24 text-white">
+    <section className="flex min-h-[60vh] items-center bg-bg-dark py-24 text-white">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
           <Eyebrow>FrameFlow Challenge</Eyebrow>

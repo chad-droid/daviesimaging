@@ -6,7 +6,7 @@ const regions = ["West", "Mountain", "Central", "East"];
 
 export function PremiumGallery() {
   return (
-    <section className="min-h-[80vh] bg-white py-24">
+    <section className="min-h-[80vh] bg-bg-surface py-24">
       <div className="mx-auto max-w-6xl px-6">
         {/* Minimal text — image-dominant section */}
         <RevealOnScroll>

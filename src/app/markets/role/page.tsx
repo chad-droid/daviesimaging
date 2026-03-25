@@ -33,7 +33,7 @@ const roles = [
 
 export default function ByRolePage() {
   return (
-    <section className="flex min-h-screen items-center bg-white py-24">
+    <section className="flex min-h-screen items-center bg-bg-surface py-24">
       <div className="mx-auto max-w-4xl px-6">
         <RevealOnScroll>
           <div className="text-center">

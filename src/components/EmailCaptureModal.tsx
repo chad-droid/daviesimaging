@@ -22,7 +22,7 @@ export function EmailCaptureModal() {
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative mx-4 w-full max-w-md rounded-lg bg-white p-8 shadow-2xl">
+      <div className="relative mx-4 w-full max-w-md rounded-lg bg-bg-surface p-8 shadow-2xl">
         <button
           type="button"
           onClick={dismiss}

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function SpecPlusPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-zinc-900 py-28 text-white">
+      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-white">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Spec+</Eyebrow>
@@ -27,7 +27,7 @@ export default function SpecPlusPage() {
         </div>
       </section>
 
-      <section className="min-h-[70vh] bg-white py-24">
+      <section className="min-h-[70vh] bg-bg-surface py-24">
         <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
           <RevealOnScroll>
             <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-bg-light to-border-light" />
@@ -53,7 +53,7 @@ export default function SpecPlusPage() {
         </div>
       </section>
 
-      <section className="flex min-h-[60vh] items-center bg-zinc-50 py-24">
+      <section className="flex min-h-[60vh] items-center bg-bg-light py-24">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Speed</Eyebrow>
