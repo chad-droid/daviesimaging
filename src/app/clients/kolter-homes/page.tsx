@@ -65,7 +65,7 @@ export default function KolterHomesPage() {
           </>
         }
         primaryCta={{ label: "Book a Strategy Call", href: "/contact-page" }}
-        secondaryCta={{ label: "Explore FrameFlow", href: "/services/frameflow" }}
+        secondaryCta={{ label: "Explore FrameFlow", href: "/offerings/frameflow" }}
       />
     </>
   );

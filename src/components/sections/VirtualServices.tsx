@@ -18,7 +18,7 @@ export function VirtualServices() {
             ready to deploy.
           </p>
           <Link
-            href="/services/frameflow"
+            href="/offerings/frameflow"
             className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
           >
             Get started in FrameFlow <span aria-hidden="true">&rarr;</span>

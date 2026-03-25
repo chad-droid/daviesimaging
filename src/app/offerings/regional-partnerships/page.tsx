@@ -40,7 +40,7 @@ export default function RegionalPartnershipsPage() {
               every region.
             </p>
             <Link
-              href="/markets/by-region"
+              href="/markets/region"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
             >
               See our regions <span aria-hidden="true">&rarr;</span>

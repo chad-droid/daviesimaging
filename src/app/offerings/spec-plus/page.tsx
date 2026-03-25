@@ -44,7 +44,7 @@ export default function SpecPlusPage() {
               homes move faster.
             </p>
             <Link
-              href="/services/frameflow"
+              href="/offerings/frameflow"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
             >
               Order via FrameFlow <span aria-hidden="true">&rarr;</span>

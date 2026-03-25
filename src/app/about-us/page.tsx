@@ -78,7 +78,7 @@ export default function AboutPage() {
               Every step supports your marketing team and sales goals.
             </p>
             <Link
-              href="/services/frameflow"
+              href="/offerings/frameflow"
               className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
             >
               Discover FrameFlow <span aria-hidden="true">&rarr;</span>
@@ -110,7 +110,7 @@ export default function AboutPage() {
                 Book a Strategy Call <span aria-hidden="true">&rarr;</span>
               </Link>
               <Link
-                href="/services/frameflow"
+                href="/offerings/frameflow"
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-zinc-300"
               >
                 Explore FrameFlow <span aria-hidden="true">&rarr;</span>

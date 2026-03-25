@@ -21,7 +21,7 @@ export function FinalCta() {
               Book a Strategy Call <span aria-hidden="true">&rarr;</span>
             </Link>
             <Link
-              href="/services/frameflow"
+              href="/offerings/frameflow"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 transition-colors hover:text-zinc-600"
             >
               Explore FrameFlow <span aria-hidden="true">&rarr;</span>

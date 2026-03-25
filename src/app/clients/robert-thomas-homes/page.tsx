@@ -40,7 +40,7 @@ export default function RobertThomasHomesPage() {
         }
         description="From model home launches to spec inventory, DIG handles the full visual pipeline. FrameFlow ordering keeps everything streamlined and on schedule."
         ctaLabel="Explore FrameFlow"
-        ctaHref="/services/frameflow"
+        ctaHref="/offerings/frameflow"
       />
 
       <Proof
