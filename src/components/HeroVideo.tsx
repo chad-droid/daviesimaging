@@ -73,16 +73,16 @@ export function HeroVideo() {
             One shoot. Multiple outcomes. Photography, staging, and video
             designed to convert across every channel.
           </p>
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               href="/offerings/frameflow"
-              className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-text-dark transition-colors hover:bg-border-light"
+              className="rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:bg-accent-hover"
             >
               See FrameFlow in Action
             </Link>
             <Link
               href="/contact"
-              className="cta-button rounded-full border border-text-light/30 px-8 py-3.5 text-text-light transition-colors hover:border-text-light/60"
+              className="rounded-full border border-text-light/25 px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:border-text-light/50 hover:bg-text-light/5"
             >
               Book a 15 Minute Plan
             </Link>
