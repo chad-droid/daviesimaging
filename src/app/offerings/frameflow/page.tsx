@@ -16,8 +16,8 @@ export default function FrameFlowPage() {
           <RevealOnScroll>
             <Eyebrow>FrameFlow</Eyebrow>
             <h1 className="text-text-light">
-              The platform that powers every DIG{" "}
-              <strong>delivery</strong>.
+              The platform behind every high-performing DIG{" "}
+              <strong>listing</strong>.
             </h1>
             <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
               Order Spec+ packages, virtual staging, virtual video, and more.

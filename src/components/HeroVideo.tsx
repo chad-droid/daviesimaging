@@ -62,9 +62,9 @@ export function HeroVideo() {
       >
         <div className="mx-auto max-w-3xl">
           <h1 className="text-text-light lg:text-[4rem] lg:leading-[1.05]">
-            Builder media assets that
+            Homebuilder media that wins
             <br />
-            win <strong>hearts</strong> and earn <strong>clicks</strong>.
+            <strong>hearts</strong> and earns <strong>clicks</strong>.
           </h1>
           <p
             className="lead-text mx-auto mt-6 max-w-2xl text-text-muted"
@@ -75,16 +75,16 @@ export function HeroVideo() {
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
-              href="/campaigns/frameflow-sell-faster"
+              href="/offerings/frameflow"
               className="cta-button rounded-full bg-bg-surface px-8 py-3.5 text-text-dark transition-colors hover:bg-border-light"
             >
-              Try the FrameFlow Challenge Risk Free
+              See FrameFlow in Action
             </Link>
             <Link
               href="/contact"
               className="cta-button rounded-full border border-text-light/30 px-8 py-3.5 text-text-light transition-colors hover:border-text-light/60"
             >
-              Book a Strategy Call
+              Book a 15 Minute Plan
             </Link>
           </div>
         </div>

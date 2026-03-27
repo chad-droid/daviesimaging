@@ -8,11 +8,11 @@ export function BuiltForBuilders() {
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
           <Eyebrow>Built For Builders</Eyebrow>
-          <h2>
+          <h2 className="text-text-light">
             We partner with marketing directors and sales leaders who want{" "}
             <strong>results</strong>.
           </h2>
-          <p className="mt-5 text-accent-secondary">
+          <p className="mt-5 text-text-muted">
             Builders doing 300+ homes annually. Teams that need consistency
             across communities. Leaders who understand launch pressure, spec
             timelines, and sales alignment.

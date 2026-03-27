@@ -9,7 +9,7 @@ export function EmailCaptureModal() {
     const dismissed = sessionStorage.getItem("dig-modal-dismissed");
     if (dismissed) return;
 
-    const timer = setTimeout(() => setOpen(true), 4000);
+    const timer = setTimeout(() => setOpen(true), 30000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -45,7 +45,7 @@ export function EmailCaptureModal() {
         </p>
 
         <form
-          action="https://mailchi.mp/daviesimaging/sign-up-for-updates"
+          action="https://daviesimaging.us17.list-manage.com/subscribe/post?u=de0da4eedef3becab5eb4e4ab&id=418d6a179b"
           method="post"
           target="_blank"
           className="mt-6 space-y-3"

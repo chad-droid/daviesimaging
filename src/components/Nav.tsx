@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface DropdownMenu {
   label: string;
@@ -10,7 +11,7 @@ interface DropdownMenu {
 
 const dropdowns: DropdownMenu[] = [
   {
-    label: "Work",
+    label: "Results",
     items: [
       { label: "Model Homes", href: "/work/model-homes" },
       { label: "Amenities", href: "/work/amenities" },
@@ -19,7 +20,7 @@ const dropdowns: DropdownMenu[] = [
     ],
   },
   {
-    label: "Services",
+    label: "Solutions",
     items: [
       { label: "Premium Photo", href: "/services/premium" },
       { label: "Listing Photo", href: "/services/listing" },
@@ -30,25 +31,18 @@ const dropdowns: DropdownMenu[] = [
     ],
   },
   {
-    label: "Offerings",
+    label: "About",
     items: [
-      { label: "FrameFlow", href: "/offerings/frameflow" },
-      { label: "Spec+", href: "/offerings/spec-plus" },
-      { label: "Regional Partnerships", href: "/offerings/regional-partnerships" },
-    ],
-  },
-  {
-    label: "Markets",
-    items: [
-      { label: "By Type", href: "/markets/type" },
-      { label: "By Role", href: "/markets/role" },
-      { label: "By Region", href: "/markets/region" },
+      { label: "Who We Help", href: "/markets/role" },
+      { label: "What We Do", href: "/services" },
+      { label: "Where We Serve", href: "/markets/region" },
+      { label: "Our History", href: "/about" },
     ],
   },
 ];
 
 const standaloneLinks = [
-  { label: "About", href: "/about" },
+  { label: "FrameFlow", href: "/offerings/frameflow" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
@@ -64,7 +58,7 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
     >
       <button
         type="button"
-        className="flex items-center gap-1 text-sm font-medium uppercase tracking-widest text-text-body transition-colors hover:text-accent"
+        className="flex items-center gap-1 text-[13px] font-medium tracking-wide text-text-body transition-colors hover:text-accent"
       >
         {menu.label}
         <svg
@@ -144,14 +138,21 @@ export function Nav() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-light bg-bg-surface/95 backdrop-blur-sm">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="text-xl font-semibold tracking-tight">
-          Davies Imaging Group
+        <Link href="/" className="shrink-0">
+          <Image
+            src="/dig-logo-dark.png"
+            alt="Davies Imaging Group"
+            width={120}
+            height={73}
+            className="h-8 w-auto"
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-7 lg:flex">
+        <div className="hidden items-center gap-5 lg:flex xl:gap-8">
           {dropdowns.map((menu) => (
             <DesktopDropdown key={menu.label} menu={menu} />
           ))}
@@ -160,7 +161,7 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium uppercase tracking-widest text-text-body transition-colors hover:text-accent"
+              className="text-[13px] font-medium tracking-wide text-text-body transition-colors hover:text-accent"
             >
               {link.label}
             </Link>
@@ -168,10 +169,10 @@ export function Nav() {
 
           {/* Primary CTA */}
           <Link
-            href="/campaigns/frameflow-sell-faster"
+            href="/contact"
             className="cta-button rounded-full bg-accent px-5 py-2.5 text-text-light transition-colors hover:bg-accent-hover"
           >
-            Start FrameFlow
+            Fix My Listings
           </Link>
         </div>
 
@@ -222,11 +223,11 @@ export function Nav() {
             ))}
 
             <Link
-              href="/campaigns/frameflow-sell-faster"
+              href="/contact"
               onClick={() => setMobileOpen(false)}
               className="cta-button mt-2 rounded-full bg-accent px-5 py-2.5 text-center text-text-light"
             >
-              Start FrameFlow
+              Fix My Listings
             </Link>
           </div>
         </div>

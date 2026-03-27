@@ -8,10 +8,10 @@ export function TryFrameFlow() {
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
           <Eyebrow>FrameFlow Challenge</Eyebrow>
-          <h2>
+          <h2 className="text-text-light">
             Before you overhaul everything, <strong>test</strong> it.
           </h2>
-          <p className="mt-5 text-accent-secondary">
+          <p className="mt-5 text-text-muted">
             The FrameFlow Challenge lets you see how strategic visual sequencing
             increases engagement and drives faster buyer decisions. Risk-free,
             built for builders.

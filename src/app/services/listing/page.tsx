@@ -51,6 +51,29 @@ export default function ListingPhotoPage() {
           </RevealOnScroll>
         </div>
       </section>
+
+      <section className="flex min-h-[60vh] items-center bg-bg-dark py-24 text-text-light">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <RevealOnScroll>
+            <Eyebrow>Spec+</Eyebrow>
+            <h2 className="text-text-light">
+              Bundle listing photo with staging and video in one{" "}
+              <strong>order</strong>.
+            </h2>
+            <p className="mt-5 text-text-muted">
+              Spec+ combines listing photography, virtual staging, and virtual
+              video into a single FrameFlow order. The fastest way to get a
+              complete asset set for homes that need to move.
+            </p>
+            <Link
+              href="/offerings/spec-plus"
+              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-light transition-colors hover:text-accent-dark-hover"
+            >
+              Learn about Spec+ <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </RevealOnScroll>
+        </div>
+      </section>
     </>
   );
 }

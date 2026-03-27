@@ -9,9 +9,9 @@ interface Stat {
 }
 
 const stats: Stat[] = [
-  { value: 24, suffix: "+", label: "Markets Served" },
-  { value: 37, suffix: "%", label: "Avg. Days on Market Reduction" },
-  { value: 10000, suffix: "+", label: "Homes Photographed" },
+  { value: 24, suffix: "", label: "Markets Nationwide" },
+  { value: 14, suffix: "", label: "Day Avg. Reduction in Days on Market" },
+  { value: 258, suffix: "", label: "Communities Photographed in 2025" },
 ];
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {

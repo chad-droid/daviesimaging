@@ -63,6 +63,22 @@ export default function ByRolePage() {
             </Link>
           ))}
         </RevealOnScroll>
+
+        <RevealOnScroll>
+          <div className="mt-14 rounded-lg border border-border-light bg-bg-light p-8 text-center">
+            <Eyebrow>Scale</Eyebrow>
+            <h3>Need coverage across multiple <strong>markets</strong>?</h3>
+            <p className="mt-3 text-text-body">
+              DIG&rsquo;s Regional Partnerships program gives national builders one partner, volume pricing, and consistent quality across every region.
+            </p>
+            <Link
+              href="/offerings/regional-partnerships"
+              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
+            >
+              Explore Regional Partnerships <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        </RevealOnScroll>
       </div>
     </section>
   );
