@@ -79,6 +79,23 @@ function detectSource(url: string): "gdrive" | "workdrive" | "unknown" {
   return "unknown";
 }
 
+function extractWorkDriveFolderId(url: string): string | null {
+  // workdrive.zoho.com/folder/FOLDER_ID
+  const folderMatch = url.match(/\/folder\/([a-z0-9]+)/);
+  if (folderMatch) return folderMatch[1];
+  return null;
+}
+
+// Pick the best URL to use: prefer internal (has direct folder IDs), fall back to client
+function pickAssetUrl(deal: Record<string, string | null>): string | null {
+  // Internal assets usually have direct WorkDrive folder IDs
+  if (deal.internal_assets && (deal.internal_assets.includes("workdrive.zoho.com/folder/") || deal.internal_assets.includes("drive.google.com"))) {
+    return deal.internal_assets;
+  }
+  // Fall back to client assets
+  return deal.client_assets || deal.internal_assets || null;
+}
+
 // ── Shared optimize + upload ──
 
 async function optimizeAndUpload(
@@ -138,9 +155,10 @@ export async function POST(req: NextRequest) {
     if (dealResult.rows.length === 0) return NextResponse.json({ error: "Deal not found" }, { status: 404 });
 
     const deal = dealResult.rows[0];
-    if (!deal.client_assets) return NextResponse.json({ error: "No client assets URL" }, { status: 400 });
+    const assetUrl = pickAssetUrl(deal);
+    if (!assetUrl) return NextResponse.json({ error: "No asset URL found (checked internal and client links)" }, { status: 400 });
 
-    const source = detectSource(deal.client_assets);
+    const source = detectSource(assetUrl);
     const limit = maxImages || 30;
 
     const builderSlug = (deal.builder || "unknown").replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-").toLowerCase();
@@ -153,7 +171,7 @@ export async function POST(req: NextRequest) {
     if (source === "gdrive") {
       // ── Google Drive import ──
       const gToken = await getGoogleToken();
-      const folderId = extractGDriveFolderId(deal.client_assets);
+      const folderId = extractGDriveFolderId(assetUrl);
       if (!folderId) return NextResponse.json({ error: "Could not extract Google Drive folder ID" }, { status: 400 });
 
       let files = await listGDriveFiles(folderId, gToken);
@@ -170,14 +188,21 @@ export async function POST(req: NextRequest) {
         }
       }
     } else if (source === "workdrive") {
-      // ── WorkDrive import ──
+      // ── WorkDrive import: try direct folder ID first, then search ──
       const zToken = await getZohoToken();
 
-      // Find the deal folder in WorkDrive
-      const wdFolderId = await findDealFolder(deal.builder || "", deal.name || "", zToken);
+      // Try extracting folder ID directly from URL (internal links have this)
+      let wdFolderId = extractWorkDriveFolderId(assetUrl);
+
+      // If no direct ID (external hash link), search by name
+      if (!wdFolderId) {
+        wdFolderId = await findDealFolder(deal.builder || "", deal.name || "", zToken);
+      }
+
       if (!wdFolderId) {
         return NextResponse.json({
-          error: `Could not find WorkDrive folder for "${deal.name}" under "${deal.builder}". The folder may be named differently than the deal.`,
+          error: `Could not find WorkDrive folder for "${deal.name}" under "${deal.builder}". Try providing a direct workdrive.zoho.com/folder/ link.`,
+          triedUrl: assetUrl,
         }, { status: 404 });
       }
 
@@ -197,7 +222,7 @@ export async function POST(req: NextRequest) {
       }
     } else {
       return NextResponse.json({
-        error: `Unsupported asset source. URL must be Google Drive or Zoho WorkDrive. Got: ${deal.client_assets.slice(0, 60)}...`,
+        error: `Unsupported asset source. URL must be Google Drive or Zoho WorkDrive. Got: ${assetUrl.slice(0, 60)}...`,
       }, { status: 400 });
     }
 
