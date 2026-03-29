@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import dealsData from "@/data/deals.json";
+import recommendedIds from "@/data/recommended-projects.json";
 
 interface Deal {
   id: string;
@@ -32,9 +33,78 @@ interface Deal {
 }
 
 const allDeals = dealsData as Deal[];
+const recommendedSet = new Set(recommendedIds as string[]);
 
-// Extract unique values for filters
-const builders = [...new Set(allDeals.map((d) => d.builder).filter(Boolean))].sort();
+// Preferred builders (Chad's selections)
+const preferredBuilders = new Set([
+  "Lewis Group Of Companies",
+  "Beazer Homes, Northern California",
+  "Beazer Homes, Arizona",
+  "Beazer Homes, Southern California",
+  "Beazer Homes, Las Vegas NV",
+  "Beazer Homes, San Antonio TX",
+  "Beazer Homes, Corporate",
+  "Sekisui House, Northern California",
+  "Sekisui House U.S. - SoCal",
+  "K. Hovnanian",
+  "K. Hovnanian - Southern California",
+  "K. Hovnanian - Northern California",
+  "The New Home Company Inc.",
+  "Coventry Homes - Houston",
+  "Coventry Homes - Dallas",
+  "Coventry Homes: Austin, TX",
+  "Coventry Homes - San Antonio",
+  "Tricon Residential",
+  "CBC Home",
+  "Ladera Living",
+  "Get Community",
+  "Risewell Homes",
+  "Thrive Companies",
+  "Grand Homes Inc",
+  "Van Daele Development Corporation",
+  "Cadence Homes",
+  "Cresleigh Homes",
+  "Bloomfield Homes",
+  "Rurka Homes",
+  "Landsea Homes - NorCal",
+  "DR Horton: Bay Area CA",
+  "DR Horton: Bay Area, CA",
+  "DR Horton: Northern CA",
+  "Woodbridge Pacific Group",
+  "Classic Homes",
+  "City Ventures",
+  "Trumark Homes",
+  "Melia Homes",
+  "Shaddock Homes",
+  "Toll Brothers: Raleigh, NC",
+  "Toll Brothers: Dallas, TX",
+  "Toll Brothers: West FL",
+  "Toll Brothers: CO & CO Springs",
+  "Toll Brothers: Central FL",
+  "Toll Brothers: North FL",
+  "Toll Brothers: Houston, TX",
+  "Toll Brothers: Austin, TX",
+  "Toll Brothers: San Antonio, TX",
+  "Toll Brothers: South FL",
+  "Toll Brothers: Atlanta, GA",
+  "Toll Brothers: Charlotte, NC",
+  "Toll Brothers Inc.",
+  "Toll Brothers - California",
+  "Dream Finders Homes - Atlanta",
+  "Dream Finders Homes",
+]);
+
+function isPreferred(builder: string): boolean {
+  return preferredBuilders.has(builder);
+}
+
+// Extract unique values for filters — preferred builders first
+const builders = [...new Set(allDeals.map((d) => d.builder).filter(Boolean))].sort((a, b) => {
+  const ap = isPreferred(a) ? 0 : 1;
+  const bp = isPreferred(b) ? 0 : 1;
+  if (ap !== bp) return ap - bp;
+  return a.localeCompare(b);
+});
 const states = [...new Set(allDeals.map((d) => d.state).filter(Boolean))].sort();
 const pipelines = [...new Set(allDeals.map((d) => d.pipeline).filter(Boolean))].sort();
 
@@ -60,7 +130,7 @@ export default function AdminAssetsPage() {
   const [filterBuilder, setFilterBuilder] = useState("");
   const [filterState, setFilterState] = useState("");
   const [filterPipeline, setFilterPipeline] = useState("");
-  const [filterStatus, setFilterStatus] = useState<"all" | "approved" | "denied">("all");
+  const [filterStatus, setFilterStatus] = useState<"all" | "approved" | "denied" | "recommended" | "preferred">("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
@@ -71,6 +141,8 @@ export default function AdminAssetsPage() {
       if (filterPipeline && d.pipeline !== filterPipeline) return false;
       if (filterStatus === "approved" && !approvals[d.id]) return false;
       if (filterStatus === "denied" && approvals[d.id] !== false) return false;
+      if (filterStatus === "recommended" && !recommendedSet.has(d.id)) return false;
+      if (filterStatus === "preferred" && !isPreferred(d.builder)) return false;
       return true;
     });
   }, [search, filterBuilder, filterState, filterPipeline, filterStatus, approvals]);
@@ -129,13 +201,26 @@ export default function AdminAssetsPage() {
               {filtered.length} of {allDeals.length} deals shown | {approvedCount} approved
             </p>
           </div>
-          <button
-            onClick={exportApproved}
-            disabled={approvedCount === 0}
-            className="rounded-full bg-[#6A5ACD] px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5] disabled:opacity-30"
-          >
-            Export {approvedCount} Approved
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                const next = { ...approvals };
+                recommendedIds.forEach((id: string) => { next[id] = true; });
+                setApprovals(next);
+                localStorage.setItem("dig-asset-approvals", JSON.stringify(next));
+              }}
+              className="rounded-full border border-[#6A5ACD] px-4 py-2 text-xs font-semibold text-[#6A5ACD] transition-colors hover:bg-[#6A5ACD] hover:text-white"
+            >
+              Approve All Recommended
+            </button>
+            <button
+              onClick={exportApproved}
+              disabled={approvedCount === 0}
+              className="rounded-full bg-[#6A5ACD] px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5] disabled:opacity-30"
+            >
+              Export {approvedCount} Approved
+            </button>
+          </div>
         </div>
       </div>
 
@@ -151,7 +236,7 @@ export default function AdminAssetsPage() {
           />
           <select value={filterBuilder} onChange={(e) => setFilterBuilder(e.target.value)} className="rounded-lg border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5]">
             <option value="">All Builders</option>
-            {builders.map((b) => <option key={b} value={b}>{b}</option>)}
+            {builders.map((b) => <option key={b} value={b}>{isPreferred(b) ? "★ " : ""}{b}</option>)}
           </select>
           <select value={filterState} onChange={(e) => setFilterState(e.target.value)} className="rounded-lg border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5]">
             <option value="">All States</option>
@@ -161,8 +246,10 @@ export default function AdminAssetsPage() {
             <option value="">All Pipelines</option>
             {pipelines.map((p) => <option key={p} value={p}>{p}</option>)}
           </select>
-          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as "all" | "approved" | "denied")} className="rounded-lg border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5]">
+          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as "all" | "approved" | "denied" | "recommended" | "preferred")} className="rounded-lg border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5]">
             <option value="all">All Status</option>
+            <option value="preferred">Preferred Builders</option>
+            <option value="recommended">Recommended (60)</option>
             <option value="approved">Approved</option>
             <option value="denied">Not Approved</option>
           </select>
@@ -220,9 +307,11 @@ export default function AdminAssetsPage() {
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium text-[#F5F5F5]">
+                        {recommendedSet.has(deal.id) && <span className="mr-1.5 text-[#6A5ACD]" title="Recommended">&#9733;</span>}
                         {deal.name}
                       </p>
                       <p className="mt-0.5 truncate text-xs text-[#A8A2D0]">
+                        {isPreferred(deal.builder) && <span className="mr-1 rounded bg-[#6A5ACD]/20 px-1.5 py-0.5 text-[9px] font-semibold text-[#6A5ACD]">PREFERRED</span>}
                         {deal.builder} | {deal.address || "No address"} | {deal.pipeline}
                       </p>
                     </div>
