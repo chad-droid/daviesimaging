@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { ProjectLightbox } from "./ProjectLightbox";
 
 const regions = ["All", "West", "Mountain", "Central", "East"] as const;
 type Region = (typeof regions)[number];
@@ -39,7 +40,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
   const [projects, setProjects] = useState<GalleryProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<Region>("All");
-  const [lightbox, setLightbox] = useState<{ url: string; alt: string } | null>(null);
+  const [lightbox, setLightbox] = useState<{ dealId: string; imageIndex: number } | null>(null);
 
   useEffect(() => {
     fetch(`/api/gallery?action=assignments&page=${encodeURIComponent(pageSlug)}`)
@@ -76,13 +77,15 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
 
   // Flatten all images with project metadata for filtering
   const allImages = projects.flatMap((p) =>
-    p.images.map((img) => ({
+    p.images.map((img, imgIndex) => ({
       ...img,
+      dealId: p.deal_id,
       project: p.deal_name,
       builder: p.builder,
       region: stateToRegion[p.state] || "Unknown",
       city: p.city,
       state: p.state,
+      imageIndex: imgIndex,
     })),
   );
 
@@ -158,7 +161,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
           {filtered.map((img) => (
             <button
               key={img.id}
-              onClick={() => setLightbox({ url: img.url, alt: img.description || img.filename })}
+              onClick={() => setLightbox({ dealId: img.dealId, imageIndex: img.imageIndex })}
               className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-bg-dark"
             >
               <Image
@@ -192,29 +195,13 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
         </p>
       )}
 
-      {/* Lightbox */}
+      {/* Project Lightbox */}
       {lightbox && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            onClick={() => setLightbox(null)}
-            className="absolute right-4 top-4 text-white/60 hover:text-white"
-          >
-            <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          <Image
-            src={lightbox.url}
-            alt={lightbox.alt}
-            width={2400}
-            height={1600}
-            className="max-h-[90vh] w-auto rounded-lg object-contain"
-            quality={95}
-          />
-        </div>
+        <ProjectLightbox
+          dealId={lightbox.dealId}
+          initialImageIndex={lightbox.imageIndex}
+          onClose={() => setLightbox(null)}
+        />
       )}
     </div>
   );
