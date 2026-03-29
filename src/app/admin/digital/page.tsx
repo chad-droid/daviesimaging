@@ -314,10 +314,35 @@ export default function AdminDigitalPage() {
                       {tx.job_notes && <div className="col-span-2"><span className="text-[#666]">Notes:</span> {tx.job_notes}</div>}
                       {tx.additional_services && <div className="col-span-2"><span className="text-[#666]">Additional:</span> {tx.additional_services}</div>}
                     </div>
+                    {/* Before & After links */}
+                    {(tx.resource_files_url || tx.client_assets_url) && (
+                      <div className="mb-4 grid grid-cols-2 gap-3">
+                        {tx.resource_files_url && (
+                          <a href={tx.resource_files_url} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-3 rounded-lg border border-[#E57373]/30 bg-[#E57373]/5 px-4 py-3 transition-colors hover:border-[#E57373]/60">
+                            <div>
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-[#E57373]">Before</p>
+                              <p className="text-xs text-[#A8A2D0]">Original photos ({tx.num_resource_files} files)</p>
+                            </div>
+                            <span className="ml-auto text-xs text-[#E57373]">&rarr;</span>
+                          </a>
+                        )}
+                        {tx.client_assets_url && (
+                          <a href={tx.client_assets_url} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-3 rounded-lg border border-[#4CAF50]/30 bg-[#4CAF50]/5 px-4 py-3 transition-colors hover:border-[#4CAF50]/60">
+                            <div>
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-[#4CAF50]">After</p>
+                              <p className="text-xs text-[#A8A2D0]">Finished assets</p>
+                            </div>
+                            <span className="ml-auto text-xs text-[#4CAF50]">&rarr;</span>
+                          </a>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Other links */}
                     <div className="flex flex-wrap gap-3">
-                      {tx.client_assets_url && <a href={tx.client_assets_url} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#6A5ACD] hover:underline">Client Assets &rarr;</a>}
                       {tx.final_assets_url && <a href={tx.final_assets_url} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">Internal Assets &rarr;</a>}
-                      {tx.resource_files_url && <a href={tx.resource_files_url} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">Resource Files &rarr;</a>}
                       {tx.production_folder && <a href={tx.production_folder} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">Production &rarr;</a>}
                       {tx.project_url && <a href={tx.project_url} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">Zoho Project &rarr;</a>}
                     </div>
