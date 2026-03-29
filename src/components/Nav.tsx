@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -47,7 +47,7 @@ const standaloneLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
+function DesktopDropdown({ menu, transparent }: { menu: DropdownMenu; transparent?: boolean }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -58,7 +58,9 @@ function DesktopDropdown({ menu }: { menu: DropdownMenu }) {
     >
       <button
         type="button"
-        className="flex items-center gap-1 text-[13px] font-medium tracking-wide text-text-body transition-colors hover:text-accent"
+        className={`flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors hover:text-accent ${
+          transparent ? "text-text-light/80" : "text-text-body"
+        }`}
       >
         {menu.label}
         <svg
@@ -135,42 +137,74 @@ function MobileDropdown({
 
 export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 80);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const transparent = !scrolled && !mobileOpen;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border-light bg-bg-surface/95 backdrop-blur-sm">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        transparent
+          ? "border-b border-transparent bg-transparent"
+          : "border-b border-border-light bg-bg-surface/95 backdrop-blur-sm"
+      }`}
+    >
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         {/* Logo */}
         <Link href="/" className="shrink-0">
           <Image
-            src="/dig-logo-dark.png"
+            src={transparent ? "/dig-logo-light.png" : "/dig-logo-dark.png"}
             alt="Davies Imaging Group"
             width={120}
             height={73}
-            className="h-8 w-auto"
+            className="h-7 w-auto"
             priority
           />
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-5 lg:flex xl:gap-8">
+        <div className="hidden items-center gap-4 lg:flex xl:gap-6">
           {dropdowns.map((menu) => (
-            <DesktopDropdown key={menu.label} menu={menu} />
+            <DesktopDropdown key={menu.label} menu={menu} transparent={transparent} />
           ))}
 
           {standaloneLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-[13px] font-medium tracking-wide text-text-body transition-colors hover:text-accent"
+              className={`text-[13px] font-medium tracking-wide transition-colors hover:text-accent ${
+                transparent ? "text-text-light/80" : "text-text-body"
+              }`}
             >
               {link.label}
             </Link>
           ))}
 
-          {/* Primary CTA */}
+          {/* CTAs */}
+          <a
+            href="https://app.daviesimaging.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`rounded-full px-4 py-1.5 text-[11px] font-semibold tracking-wide transition-colors ${
+              transparent
+                ? "border border-text-light/30 text-text-light hover:border-text-light/60"
+                : "border border-border-light text-text-body hover:border-accent"
+            }`}
+          >
+            Client Login
+          </a>
           <Link
-            href="/contact"
-            className="cta-button rounded-full bg-accent px-5 py-2.5 text-text-light transition-colors hover:bg-accent-hover"
+            href="/campaigns/frameflow-sell-faster"
+            className="rounded-full bg-accent px-4 py-1.5 text-[11px] font-semibold tracking-wide text-text-light transition-colors hover:bg-accent-hover"
           >
             Fix My Listings
           </Link>
@@ -184,7 +218,7 @@ export function Nav() {
           aria-label="Toggle menu"
         >
           <svg
-            className="h-6 w-6 text-text-body"
+            className={`h-6 w-6 ${transparent ? "text-text-light" : "text-text-body"}`}
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
@@ -222,10 +256,19 @@ export function Nav() {
               </Link>
             ))}
 
-            <Link
-              href="/contact"
+            <a
+              href="https://app.daviesimaging.com"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setMobileOpen(false)}
-              className="cta-button mt-2 rounded-full bg-accent px-5 py-2.5 text-center text-text-light"
+              className="mt-2 rounded-full border border-border-light px-4 py-2 text-center text-[12px] font-semibold text-text-body"
+            >
+              Client Login
+            </a>
+            <Link
+              href="/campaigns/frameflow-sell-faster"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-full bg-accent px-4 py-2 text-center text-[12px] font-semibold text-text-light"
             >
               Fix My Listings
             </Link>
