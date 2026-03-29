@@ -202,6 +202,12 @@ export default function AdminAssetsPage() {
             </p>
           </div>
           <div className="flex gap-2">
+            <a
+              href="/admin/media"
+              className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+            >
+              Media Library
+            </a>
             <button
               onClick={() => {
                 const next = { ...approvals };
@@ -411,6 +417,21 @@ export default function AdminAssetsPage() {
                             className="h-full w-full"
                           />
                         </div>
+                      </div>
+                    )}
+
+                    {/* Import note */}
+                    {isApproved && deal.clientAssets && (
+                      <div className="mt-4 rounded-lg border border-[#6A5ACD]/30 bg-[#6A5ACD]/5 px-4 py-3">
+                        <p className="text-xs text-[#A8A2D0]">
+                          To import: open the client assets link above, select the images you want, download them, then drag and drop into the Media Library upload tool.
+                        </p>
+                        <a
+                          href="/admin/media"
+                          className="mt-2 inline-block text-xs font-medium text-[#6A5ACD] hover:underline"
+                        >
+                          Open Media Library &rarr;
+                        </a>
                       </div>
                     )}
                   </div>
