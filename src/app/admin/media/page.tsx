@@ -249,6 +249,41 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
   );
 }
 
+function OriginalDownloadButton({ projectPath }: { projectPath: string }) {
+  const [url, setUrl] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const [, dealSlug] = projectPath.split("/");
+    const searchTerm = dealSlug.replace(/-/g, " ");
+    fetch(`/api/deals/status?search=${encodeURIComponent(searchTerm)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.deals?.[0]) {
+          const d = data.deals[0];
+          setUrl(d.client_assets || d.internal_assets || null);
+        }
+        setLoaded(true);
+      })
+      .catch(() => setLoaded(true));
+  }, [projectPath]);
+
+  if (!loaded || !url) return null;
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => e.stopPropagation()}
+      className="rounded-full border border-[#4CAF50]/50 px-3 py-1.5 text-[10px] font-semibold text-[#4CAF50] transition-colors hover:bg-[#4CAF50] hover:text-white"
+      title="Open original hi-res files for social media use"
+    >
+      Download Originals
+    </a>
+  );
+}
+
 export default function AdminMediaPage() {
   const [files, setFiles] = useState<BlobFile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -468,11 +503,12 @@ export default function AdminMediaPage() {
                         <div className="flex h-10 w-14 items-center justify-center rounded bg-[#2C2C2C] text-[10px] text-[#666]">+{project.images.length - 4}</div>
                       )}
                     </div>
+                    {/* Download originals for social */}
+                    <OriginalDownloadButton projectPath={project.path} />
                     {/* Metadata button */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        // Find dealId by matching builder/deal slug pattern
                         setMetadataPanel(project.path);
                       }}
                       className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
