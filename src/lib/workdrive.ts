@@ -146,7 +146,7 @@ async function downloadFile(
   accessToken: string,
 ): Promise<Buffer> {
   const res = await fetch(
-    `${WORKDRIVE_API}/download/${fileId}`,
+    `https://workdrive.zoho.com/api/v1/download/${fileId}`,
     { headers: { Authorization: `Zoho-oauthtoken ${accessToken}` } },
   );
   if (!res.ok) throw new Error(`Download failed: ${res.status}`);
