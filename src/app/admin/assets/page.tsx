@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import dealsData from "@/data/deals.json";
 import recommendedIds from "@/data/recommended-projects.json";
 
@@ -118,20 +118,39 @@ function getDriveFolderId(url: string): string | null {
   return match ? match[1] : null;
 }
 
+interface DealStatusEntry {
+  approved: boolean | null;
+  imported: boolean;
+  importedAt?: string;
+  updatedAt: string;
+}
+
 export default function AdminAssetsPage() {
-  const [approvals, setApprovals] = useState<Record<string, boolean>>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("dig-asset-approvals");
-      return saved ? JSON.parse(saved) : {};
-    }
-    return {};
-  });
+  const [statuses, setStatuses] = useState<Record<string, DealStatusEntry>>({});
+  const [statusLoaded, setStatusLoaded] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
   const [filterBuilder, setFilterBuilder] = useState("");
   const [filterState, setFilterState] = useState("");
   const [filterPipeline, setFilterPipeline] = useState("");
-  const [filterStatus, setFilterStatus] = useState<"all" | "approved" | "denied" | "recommended" | "preferred">("all");
+  const [filterStatus, setFilterStatus] = useState<"all" | "approved" | "denied" | "recommended" | "preferred" | "imported">("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  // Load statuses from server on mount
+  useEffect(() => {
+    fetch("/api/deals/status")
+      .then((r) => r.json())
+      .then((data) => {
+        setStatuses(data);
+        setStatusLoaded(true);
+      })
+      .catch(() => setStatusLoaded(true));
+  }, []);
+
+  // Helper to check approval
+  const isApprovedDeal = (id: string) => statuses[id]?.approved === true;
+  const isDeniedDeal = (id: string) => statuses[id]?.approved === false;
+  const isImported = (id: string) => statuses[id]?.imported === true;
 
   const filtered = useMemo(() => {
     return allDeals.filter((d) => {
@@ -139,23 +158,36 @@ export default function AdminAssetsPage() {
       if (filterBuilder && d.builder !== filterBuilder) return false;
       if (filterState && d.state !== filterState) return false;
       if (filterPipeline && d.pipeline !== filterPipeline) return false;
-      if (filterStatus === "approved" && !approvals[d.id]) return false;
-      if (filterStatus === "denied" && approvals[d.id] !== false) return false;
+      if (filterStatus === "approved" && !isApprovedDeal(d.id)) return false;
+      if (filterStatus === "denied" && !isDeniedDeal(d.id)) return false;
       if (filterStatus === "recommended" && !recommendedSet.has(d.id)) return false;
       if (filterStatus === "preferred" && !isPreferred(d.builder)) return false;
+      if (filterStatus === "imported" && !isImported(d.id)) return false;
       return true;
     });
-  }, [search, filterBuilder, filterState, filterPipeline, filterStatus, approvals]);
+  }, [search, filterBuilder, filterState, filterPipeline, filterStatus, statuses]);
 
-  function toggleApproval(id: string, value: boolean) {
-    const next = { ...approvals, [id]: value };
-    setApprovals(next);
-    localStorage.setItem("dig-asset-approvals", JSON.stringify(next));
+  async function toggleApproval(id: string, value: boolean) {
+    const next = { ...statuses };
+    if (!next[id]) next[id] = { approved: null, imported: false, updatedAt: "" };
+    next[id] = { ...next[id], approved: value, updatedAt: new Date().toISOString() };
+    setStatuses(next);
+
+    // Persist to server
+    setSaving(true);
+    try {
+      await fetch("/api/deals/status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [id]: { approved: value } }),
+      });
+    } catch { /* silent fail, state is in memory */ }
+    setSaving(false);
   }
 
   function exportApproved() {
     const approved = allDeals
-      .filter((d) => approvals[d.id] === true)
+      .filter((d) => isApprovedDeal(d.id))
       .map((d) => ({
         id: d.id,
         name: d.name,
@@ -186,7 +218,8 @@ export default function AdminAssetsPage() {
     URL.revokeObjectURL(url);
   }
 
-  const approvedCount = Object.values(approvals).filter((v) => v === true).length;
+  const approvedCount = Object.values(statuses).filter((v) => v.approved === true).length;
+  const importedCount = Object.values(statuses).filter((v) => v.imported === true).length;
 
   return (
     <div className="min-h-screen bg-[#121212] text-[#F5F5F5]">
@@ -198,7 +231,7 @@ export default function AdminAssetsPage() {
               DIG Asset Manager
             </h1>
             <p className="text-xs text-[#A8A2D0]">
-              {filtered.length} of {allDeals.length} deals shown | {approvedCount} approved
+              {filtered.length} of {allDeals.length} deals shown | {approvedCount} approved | {importedCount} imported{saving ? " | saving..." : ""}
             </p>
           </div>
           <div className="flex gap-2">
@@ -209,11 +242,25 @@ export default function AdminAssetsPage() {
               Media Library
             </a>
             <button
-              onClick={() => {
-                const next = { ...approvals };
-                recommendedIds.forEach((id: string) => { next[id] = true; });
-                setApprovals(next);
-                localStorage.setItem("dig-asset-approvals", JSON.stringify(next));
+              onClick={async () => {
+                const updates: Record<string, { approved: boolean }> = {};
+                const next = { ...statuses };
+                const now = new Date().toISOString();
+                recommendedIds.forEach((id: string) => {
+                  updates[id] = { approved: true };
+                  if (!next[id]) next[id] = { approved: null, imported: false, updatedAt: "" };
+                  next[id] = { ...next[id], approved: true, updatedAt: now };
+                });
+                setStatuses(next);
+                setSaving(true);
+                try {
+                  await fetch("/api/deals/status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updates),
+                  });
+                } catch {}
+                setSaving(false);
               }}
               className="rounded-full border border-[#6A5ACD] px-4 py-2 text-xs font-semibold text-[#6A5ACD] transition-colors hover:bg-[#6A5ACD] hover:text-white"
             >
@@ -258,6 +305,7 @@ export default function AdminAssetsPage() {
             <option value="recommended">Recommended (60)</option>
             <option value="approved">Approved</option>
             <option value="denied">Not Approved</option>
+            <option value="imported">Imported to Library</option>
           </select>
         </div>
       </div>
@@ -266,7 +314,8 @@ export default function AdminAssetsPage() {
       <div className="mx-auto max-w-7xl px-6 py-6">
         <div className="space-y-3">
           {filtered.map((deal) => {
-            const isApproved = approvals[deal.id] === true;
+            const isApproved = isApprovedDeal(deal.id);
+            const hasMedia = isImported(deal.id);
             const isExpanded = expandedId === deal.id;
             const ytId = deal.youtube ? extractYoutubeId(deal.youtube) : null;
             const driveFolderId = deal.clientAssets ? getDriveFolderId(deal.clientAssets) : null;
@@ -297,7 +346,7 @@ export default function AdminAssetsPage() {
                     <button
                       onClick={() => toggleApproval(deal.id, false)}
                       className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                        approvals[deal.id] === false
+                        isDeniedDeal(deal.id)
                           ? "bg-[#E57373]/20 text-[#E57373]"
                           : "border border-[#2C2C2C] text-[#666] hover:border-[#E57373] hover:text-[#E57373]"
                       }`}
@@ -324,6 +373,11 @@ export default function AdminAssetsPage() {
 
                     {/* Badges */}
                     <div className="flex shrink-0 gap-1.5">
+                      {hasMedia && (
+                        <span className="rounded bg-[#4CAF50]/15 px-2 py-0.5 text-[10px] font-medium text-[#4CAF50]">
+                          In Library
+                        </span>
+                      )}
                       {deal.clientAssets && (
                         <span className="rounded bg-[#6A5ACD]/15 px-2 py-0.5 text-[10px] font-medium text-[#A8A2D0]">
                           Photos
