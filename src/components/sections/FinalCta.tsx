@@ -21,8 +21,8 @@ export function FinalCta() {
           <EditableContent slotId="section-final-cta" fields={fields}>
             {(v) => (
               <>
-                <h2 dangerouslySetInnerHTML={{ __html: v.headline.replace(/\*([^*]+)\*/g, "<strong>$1</strong>") }} />
-                <p className="mt-5 text-text-body">{v.body}</p>
+                <h2 dangerouslySetInnerHTML={{ __html: v.headline }} />
+                <p className="mt-5 text-text-body" dangerouslySetInnerHTML={{ __html: v.body }} />
                 <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row">
                   {v.cta1Text && (
                     <Link

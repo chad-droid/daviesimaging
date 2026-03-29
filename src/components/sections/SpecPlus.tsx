@@ -29,8 +29,8 @@ export function SpecPlus() {
             {(v) => (
               <>
                 <Eyebrow>{v.eyebrow}</Eyebrow>
-                <h2 dangerouslySetInnerHTML={{ __html: v.headline.replace(/\*([^*]+)\*/g, "<strong>$1</strong>") }} />
-                <p className="mt-5 text-text-body">{v.body}</p>
+                <h2 dangerouslySetInnerHTML={{ __html: v.headline }} />
+                <p className="mt-5 text-text-body" dangerouslySetInnerHTML={{ __html: v.body }} />
                 {v.ctaText && (
                   <Link
                     href={v.ctaUrl || "/"}

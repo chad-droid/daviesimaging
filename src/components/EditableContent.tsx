@@ -71,6 +71,18 @@ export function EditableContent({ slotId, fields, children }: ContentEditorProps
     current[f.key] = values[f.key] ?? f.defaultValue;
   });
 
+  // Process bold syntax: **word** → <strong>word</strong>
+  // Also support legacy *word* syntax
+  const processed: Record<string, string> = {};
+  fields.forEach((f) => {
+    let val = current[f.key] || "";
+    if (f.type === "text" || f.type === "textarea") {
+      val = val.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      val = val.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, "<strong>$1</strong>");
+    }
+    processed[f.key] = val;
+  });
+
   return (
     <div className="relative">
       {/* Admin edit button — always visible, high z-index */}
@@ -87,8 +99,8 @@ export function EditableContent({ slotId, fields, children }: ContentEditorProps
         </button>
       )}
 
-      {/* Render content */}
-      {children(current)}
+      {/* Render content — processed values have bold HTML applied */}
+      {children(processed)}
 
       {/* Edit modal */}
       {editing && (
@@ -106,8 +118,13 @@ export function EditableContent({ slotId, fields, children }: ContentEditorProps
             <div className="space-y-4 p-6">
               {fields.map((field) => (
                 <div key={field.key}>
-                  <label className="mb-1.5 block text-[10px] uppercase tracking-widest text-[#666]">
+                  <label className="mb-1.5 flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#666]">
                     {field.label}
+                    {(field.type === "text" || field.type === "textarea") && field.key !== "ctaText" && field.key !== "cta1Text" && field.key !== "cta2Text" && (
+                      <span className="normal-case tracking-normal text-[#6A5ACD]">
+                        use **word** to bold
+                      </span>
+                    )}
                   </label>
                   {field.type === "textarea" ? (
                     <textarea
