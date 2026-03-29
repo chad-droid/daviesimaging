@@ -3,9 +3,9 @@ import { put } from "@vercel/blob";
 import sharp from "sharp";
 
 const MAX_WIDTH = 2400;
-const QUALITY = 82;
+const QUALITY = 100;
 const THUMB_WIDTH = 800;
-const THUMB_QUALITY = 85;
+const THUMB_QUALITY = 100;
 
 export async function POST(req: NextRequest) {
   try {

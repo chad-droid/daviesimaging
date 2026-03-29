@@ -13,9 +13,9 @@ import {
 
 // Image optimization settings
 const MAX_WIDTH = 2400;
-const QUALITY = 82;
+const QUALITY = 100;
 const THUMB_WIDTH = 800;
-const THUMB_QUALITY = 85;
+const THUMB_QUALITY = 100;
 
 // ── Google Drive helpers ──
 
