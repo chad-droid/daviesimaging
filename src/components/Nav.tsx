@@ -14,9 +14,9 @@ const dropdowns: DropdownMenu[] = [
     label: "Results",
     items: [
       { label: "Model Homes", href: "/work/model-homes" },
-      { label: "Amenities", href: "/work/amenities" },
+      { label: "Amenities and Clubhouses", href: "/work/amenities" },
       { label: "Spec Homes", href: "/work/spec-homes" },
-      { label: "Lifestyle", href: "/work/lifestyle" },
+      { label: "Lifestyle Productions", href: "/work/lifestyle" },
     ],
   },
   {
