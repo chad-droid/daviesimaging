@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AdminAuth } from "@/components/AdminAuth";
 
 export const metadata: Metadata = {
   title: "Admin | Davies Imaging Group",
@@ -10,5 +11,9 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="admin-layout">{children}</div>;
+  return (
+    <div className="admin-layout">
+      <AdminAuth>{children}</AdminAuth>
+    </div>
+  );
 }
