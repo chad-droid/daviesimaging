@@ -23,12 +23,14 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [mode, setMode] = useState<"single" | "before-after">("single");
+  const [tab, setTab] = useState<"library" | "upload">("library");
   const [selectedImage, setSelectedImage] = useState<MediaFile | null>(null);
   const [selectedBefore, setSelectedBefore] = useState<MediaFile | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
 
-  useEffect(() => {
-    // Load all media files from the database
+  function loadFiles() {
     fetch("/api/media/metadata?dealId=all")
       .then((r) => r.json())
       .then((data) => {
@@ -36,7 +38,26 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  }
+
+  useEffect(() => {
+    loadFiles();
   }, []);
+
+  async function handleUpload(uploadedFiles: File[]) {
+    const imageFiles = uploadedFiles.filter((f) => f.type.startsWith("image/"));
+    if (!imageFiles.length) return;
+    setUploading(true);
+    const fd = new FormData();
+    fd.set("folder", `gallery/direct-uploads/${slotId.replace(/[^a-zA-Z0-9-]/g, "-")}`);
+    imageFiles.forEach((f) => fd.append("files", f));
+    try {
+      await fetch("/api/media/upload", { method: "POST", body: fd });
+      loadFiles();
+      setTab("library");
+    } catch { /* silent */ }
+    setUploading(false);
+  }
 
   const filtered = search
     ? files.filter(
@@ -79,21 +100,38 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
             <p className="text-xs text-[#A8A2D0]">Slot: {slotId}</p>
           </div>
           <div className="flex items-center gap-3">
-            {/* Mode toggle */}
+            {/* Tab toggle */}
             <div className="flex rounded-full border border-[#2C2C2C]">
               <button
-                onClick={() => { setMode("single"); setSelectedBefore(null); }}
-                className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${mode === "single" ? "bg-[#6A5ACD] text-white" : "text-[#666]"}`}
+                onClick={() => setTab("library")}
+                className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${tab === "library" ? "bg-[#6A5ACD] text-white" : "text-[#666]"}`}
               >
-                Single Image
+                Library
               </button>
               <button
-                onClick={() => setMode("before-after")}
-                className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${mode === "before-after" ? "bg-[#6A5ACD] text-white" : "text-[#666]"}`}
+                onClick={() => setTab("upload")}
+                className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${tab === "upload" ? "bg-[#6A5ACD] text-white" : "text-[#666]"}`}
               >
-                Before & After
+                Upload New
               </button>
             </div>
+            {/* Mode toggle */}
+            {tab === "library" && (
+              <div className="flex rounded-full border border-[#2C2C2C]">
+                <button
+                  onClick={() => { setMode("single"); setSelectedBefore(null); }}
+                  className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${mode === "single" ? "bg-[#6A5ACD] text-white" : "text-[#666]"}`}
+                >
+                  Single
+                </button>
+                <button
+                  onClick={() => setMode("before-after")}
+                  className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${mode === "before-after" ? "bg-[#6A5ACD] text-white" : "text-[#666]"}`}
+                >
+                  Before & After
+                </button>
+              </div>
+            )}
             <button onClick={onClose} className="text-[#666] hover:text-[#F5F5F5]">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -131,7 +169,52 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
           </div>
         )}
 
-        {/* Search */}
+        {/* Upload tab */}
+        {tab === "upload" && (
+          <div className="flex flex-1 flex-col items-center justify-center p-6">
+            <div
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setDragOver(false);
+                handleUpload(Array.from(e.dataTransfer.files));
+              }}
+              className={`w-full max-w-md rounded-lg border-2 border-dashed p-12 text-center transition-colors ${
+                dragOver ? "border-[#6A5ACD] bg-[#6A5ACD]/10" : "border-[#2C2C2C] hover:border-[#6A5ACD]/50"
+              }`}
+            >
+              {uploading ? (
+                <p className="text-sm text-[#A8A2D0]">Uploading and optimizing...</p>
+              ) : (
+                <>
+                  <svg className="mx-auto h-10 w-10 text-[#666]" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                  </svg>
+                  <p className="mt-4 text-sm text-[#A8A2D0]">Drag and drop images here</p>
+                  <p className="mt-1 text-xs text-[#666]">Or click to browse. Images auto-optimized to WebP.</p>
+                  <label className="mt-4 inline-block cursor-pointer rounded-full bg-[#6A5ACD] px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5]">
+                    Browse Files
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleUpload(Array.from(e.target.files || []))}
+                    />
+                  </label>
+                </>
+              )}
+            </div>
+            <p className="mt-4 text-xs text-[#666]">
+              Uploaded images appear in the Library tab immediately.
+            </p>
+          </div>
+        )}
+
+        {/* Library tab: Search + Grid */}
+        {tab === "library" && (
+        <>
         <div className="border-b border-[#2C2C2C] px-6 py-3">
           <input
             type="text"
@@ -148,7 +231,6 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
           )}
         </div>
 
-        {/* Image grid */}
         <div className="flex-1 overflow-y-auto p-6">
           {loading && <p className="py-10 text-center text-sm text-[#666]">Loading media library...</p>}
           {!loading && filtered.length === 0 && (
@@ -201,6 +283,8 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
             })}
           </div>
         </div>
+        </>
+        )}
       </div>
     </div>
   );
