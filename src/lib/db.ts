@@ -67,6 +67,17 @@ export async function setupDatabase() {
   return { success: true };
 }
 
+// ── Deal exclusion filter ──
+// Excludes Closed Lost, FF Target, FF Cold Promotion, Trial, Promotion, FF DRH
+const EXCLUSION_CLAUSE = `
+  AND stage != 'Closed Lost'
+  AND name NOT LIKE '%FF Target%'
+  AND name NOT LIKE '%FF Cold Promotion%'
+  AND name NOT LIKE '%Trial%'
+  AND name NOT LIKE '%Promotion%'
+  AND name NOT LIKE '%FF DRH%'
+`;
+
 // ── Deal queries ──
 
 export async function getDeals(filters?: {
@@ -77,7 +88,7 @@ export async function getDeals(filters?: {
   search?: string;
   imported?: boolean;
 }) {
-  let query = `SELECT * FROM deals WHERE 1=1`;
+  let query = `SELECT * FROM deals WHERE 1=1 ${EXCLUSION_CLAUSE}`;
   const params: (string | boolean)[] = [];
   let i = 1;
 
@@ -151,6 +162,12 @@ export async function getDealStats() {
       COUNT(*) FILTER (WHERE status = 'pending') as pending,
       COUNT(*) FILTER (WHERE imported = true) as imported
     FROM deals
+    WHERE stage != 'Closed Lost'
+      AND name NOT LIKE '%FF Target%'
+      AND name NOT LIKE '%FF Cold Promotion%'
+      AND name NOT LIKE '%Trial%'
+      AND name NOT LIKE '%Promotion%'
+      AND name NOT LIKE '%FF DRH%'
   `;
   return result.rows[0];
 }
@@ -163,12 +180,13 @@ export async function getLastSync() {
 }
 
 export async function getUniqueValues() {
-  const builders = await sql`SELECT DISTINCT builder FROM deals WHERE builder IS NOT NULL ORDER BY builder`;
-  const states = await sql`SELECT DISTINCT state FROM deals WHERE state IS NOT NULL ORDER BY state`;
-  const pipelines = await sql`SELECT DISTINCT pipeline FROM deals WHERE pipeline IS NOT NULL ORDER BY pipeline`;
+  const excludeClause = `stage != 'Closed Lost' AND name NOT LIKE '%FF Target%' AND name NOT LIKE '%FF Cold Promotion%' AND name NOT LIKE '%Trial%' AND name NOT LIKE '%Promotion%' AND name NOT LIKE '%FF DRH%'`;
+  const builders = await sql.query(`SELECT DISTINCT builder FROM deals WHERE builder IS NOT NULL AND ${excludeClause} ORDER BY builder`);
+  const states = await sql.query(`SELECT DISTINCT state FROM deals WHERE state IS NOT NULL AND ${excludeClause} ORDER BY state`);
+  const pipelines = await sql.query(`SELECT DISTINCT pipeline FROM deals WHERE pipeline IS NOT NULL AND ${excludeClause} ORDER BY pipeline`);
   return {
-    builders: builders.rows.map((r) => r.builder),
-    states: states.rows.map((r) => r.state),
-    pipelines: pipelines.rows.map((r) => r.pipeline),
+    builders: builders.rows.map((r: { builder: string }) => r.builder),
+    states: states.rows.map((r: { state: string }) => r.state),
+    pipelines: pipelines.rows.map((r: { pipeline: string }) => r.pipeline),
   };
 }
