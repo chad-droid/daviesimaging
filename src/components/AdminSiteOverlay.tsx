@@ -23,51 +23,60 @@ export function AdminSiteOverlay() {
     if (authed === "true") setIsAdmin(true);
   }, []);
 
-  // Handle right-click on images when edit mode is enabled
+  // Find the slot element from a click/right-click target
+  const findSlotElement = useCallback((target: HTMLElement): HTMLElement | null => {
+    return (
+      target.closest("[data-slot]") as HTMLElement ||
+      target.closest("img")?.closest("[data-slot]") as HTMLElement ||
+      null
+    );
+  }, []);
+
+  // Left-click on slot elements opens the picker directly
+  const handleClick = useCallback(
+    (e: MouseEvent) => {
+      if (!enabled) return;
+      const slotEl = findSlotElement(e.target as HTMLElement);
+      if (!slotEl || !slotEl.dataset.slot) return;
+      e.preventDefault();
+      e.stopPropagation();
+      setPickerSlot(slotEl.dataset.slot);
+    },
+    [enabled, findSlotElement],
+  );
+
+  // Right-click shows context menu with before/after option
   const handleContextMenu = useCallback(
     (e: MouseEvent) => {
       if (!enabled) return;
-
-      const target = e.target as HTMLElement;
-      const imageEl =
-        target.closest("[data-slot]") ||
-        target.closest("img") ||
-        (target.tagName === "DIV" &&
-          target.classList.contains("bg-gradient-to-br")
-          ? target
-          : null);
-
-      if (!imageEl) return;
-
+      const slotEl = findSlotElement(e.target as HTMLElement);
+      if (!slotEl || !slotEl.dataset.slot) return;
       e.preventDefault();
-
-      // Generate a slot ID from the element's position/context
-      const slotId =
-        (imageEl as HTMLElement).dataset.slot ||
-        generateSlotId(imageEl as HTMLElement);
-
-      setContextMenu({ x: e.clientX, y: e.clientY, slotId });
+      setContextMenu({ x: e.clientX, y: e.clientY, slotId: slotEl.dataset.slot });
     },
-    [enabled],
+    [enabled, findSlotElement],
   );
 
   // Close context menu on click outside
   useEffect(() => {
-    const handleClick = () => setContextMenu(null);
+    const dismiss = () => setContextMenu(null);
     if (contextMenu) {
-      document.addEventListener("click", handleClick);
-      return () => document.removeEventListener("click", handleClick);
+      document.addEventListener("click", dismiss);
+      return () => document.removeEventListener("click", dismiss);
     }
   }, [contextMenu]);
 
-  // Attach right-click listener
+  // Attach listeners
   useEffect(() => {
     if (enabled) {
+      document.addEventListener("click", handleClick, true);
       document.addEventListener("contextmenu", handleContextMenu);
-      return () =>
+      return () => {
+        document.removeEventListener("click", handleClick, true);
         document.removeEventListener("contextmenu", handleContextMenu);
+      };
     }
-  }, [enabled, handleContextMenu]);
+  }, [enabled, handleClick, handleContextMenu]);
 
   // Add visual indicators to all swappable elements
   useEffect(() => {
@@ -76,20 +85,33 @@ export function AdminSiteOverlay() {
     const style = document.createElement("style");
     style.id = "admin-overlay-styles";
     style.textContent = `
-      [data-slot],
-      .bg-gradient-to-br,
-      .bg-gradient-to-b,
-      main img {
+      [data-slot] {
         outline: 2px dashed rgba(106, 90, 205, 0.4) !important;
         outline-offset: -2px;
-        cursor: crosshair !important;
-        position: relative;
+        cursor: pointer !important;
       }
-      [data-slot]:hover,
-      .bg-gradient-to-br:hover,
-      .bg-gradient-to-b:hover,
-      main img:hover {
+      [data-slot]:hover {
         outline-color: rgba(106, 90, 205, 0.8) !important;
+        outline-style: solid !important;
+      }
+      [data-slot]::after {
+        content: 'Click to swap';
+        position: absolute;
+        bottom: 4px;
+        left: 4px;
+        background: rgba(106, 90, 205, 0.9);
+        color: white;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 4px;
+        opacity: 0;
+        transition: opacity 0.15s;
+        z-index: 10;
+        pointer-events: none;
+      }
+      [data-slot]:hover::after {
+        opacity: 1;
       }
     `;
     document.head.appendChild(style);

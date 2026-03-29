@@ -72,17 +72,18 @@ export function EditableContent({ slotId, fields, children }: ContentEditorProps
   });
 
   return (
-    <div className="relative group/editable">
-      {/* Admin edit button */}
+    <div className="relative">
+      {/* Admin edit button — always visible, high z-index */}
       {isAdmin && !editing && (
         <button
-          onClick={() => setEditing(true)}
-          className="absolute -right-2 -top-2 z-30 rounded-full bg-[#6A5ACD] p-1.5 text-white opacity-0 shadow-lg transition-opacity group-hover/editable:opacity-100"
+          onClick={(e) => { e.stopPropagation(); setEditing(true); }}
+          className="absolute right-0 top-0 z-[80] flex items-center gap-1.5 rounded-full bg-[#6A5ACD] px-3 py-1.5 text-[10px] font-semibold text-white shadow-lg transition-transform hover:scale-105"
           title="Edit content"
         >
-          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
           </svg>
+          Edit
         </button>
       )}
 
