@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
+import { EditableSection } from "@/components/EditableSection";
 import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
@@ -12,69 +10,41 @@ export const metadata: Metadata = {
 export default function RegionalPartnershipsPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <RevealOnScroll>
-            <Eyebrow>Regional Partnerships</Eyebrow>
-            <h1 className="text-text-light">
-              One partner, every <strong>market</strong>.
-            </h1>
-            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
-              DIG&rsquo;s regional partnership model gives national builders a
-              single point of contact for photography, staging, and video
-              across all four U.S. regions.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <EditableSection
+        slotId="offerings-regional-partnerships-hero"
+        variant="hero-dark"
+        defaults={{
+          eyebrow: "Regional Partnerships",
+          headline: "One partner, every <strong>market</strong>.",
+          body: "DIG\u2019s regional partnership model gives national builders a single point of contact for photography, staging, and video across all four U.S. regions.",
+        }}
+      />
 
-      <section className="min-h-[70vh] bg-bg-surface py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
-          <RevealOnScroll>
-            <Eyebrow>Scale</Eyebrow>
-            <h2>
-              Volume pricing without quality <strong>compromise</strong>.
-            </h2>
-            <p className="mt-5 text-text-body">
-              Multi-market commitments unlock volume pricing, dedicated account
-              management, and brand guidelines enforced across every shoot in
-              every region.
-            </p>
-            <Link
-              href="/markets/region"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              See our regions <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </RevealOnScroll>
+      <EditableSection
+        slotId="offerings-regional-partnerships-section1"
+        variant="light-split"
+        defaults={{
+          eyebrow: "Scale",
+          headline: "Volume pricing without quality <strong>compromise</strong>.",
+          body: "Multi-market commitments unlock volume pricing, dedicated account management, and brand guidelines enforced across every shoot in every region.",
+          ctaText: "See our regions",
+          ctaUrl: "/markets/region",
+        }}
+      >
+        <DynamicImage slotId="offerings-regional-partnerships-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
+      </EditableSection>
 
-          <RevealOnScroll>
-            <DynamicImage slotId="offerings-regional-partnerships-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
-          </RevealOnScroll>
-        </div>
-      </section>
-
-      <section className="flex min-h-[60vh] items-center bg-bg-light py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <RevealOnScroll>
-            <Eyebrow>FrameFlow Powered</Eyebrow>
-            <h2>
-              Centralized ordering across every <strong>region</strong>.
-            </h2>
-            <p className="mt-5 text-text-body">
-              Your marketing team orders through FrameFlow regardless of
-              market. One platform, one process, consistent delivery from West
-              to East.
-            </p>
-            <Link
-              href="/contact"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Start a partnership conversation <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <EditableSection
+        slotId="offerings-regional-partnerships-section2"
+        variant="light"
+        defaults={{
+          eyebrow: "FrameFlow Powered",
+          headline: "Centralized ordering across every <strong>region</strong>.",
+          body: "Your marketing team orders through FrameFlow regardless of market. One platform, one process, consistent delivery from West to East.",
+          ctaText: "Start a partnership conversation",
+          ctaUrl: "/contact",
+        }}
+      />
     </>
   );
 }

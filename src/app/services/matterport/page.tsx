@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
+import { EditableSection } from "@/components/EditableSection";
 import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
@@ -12,46 +10,29 @@ export const metadata: Metadata = {
 export default function MatterportPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <RevealOnScroll>
-            <Eyebrow>Matterport</Eyebrow>
-            <h1 className="text-text-light">
-              Immersive 3D tours that let buyers walk <strong>through</strong>.
-            </h1>
-            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
-              Matterport virtual tours give remote buyers the confidence to
-              move forward. Built for model homes and community showcases.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <EditableSection
+        slotId="services-matterport-hero"
+        variant="hero-dark"
+        defaults={{
+          eyebrow: "Matterport",
+          headline: "Immersive 3D tours that let buyers walk <strong>through</strong>.",
+          body: "Matterport virtual tours give remote buyers the confidence to move forward. Built for model homes and community showcases.",
+        }}
+      />
 
-      <section className="min-h-[70vh] bg-bg-surface py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
-          <RevealOnScroll>
-            <Eyebrow>Beyond Photos</Eyebrow>
-            <h2>
-              The next best thing to being <strong>there</strong>.
-            </h2>
-            <p className="mt-5 text-text-body">
-              Matterport tours let buyers explore every room at their own pace.
-              Embed on your website, share via email, or display in sales
-              centers for out-of-market buyers.
-            </p>
-            <Link
-              href="/contact"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Book a strategy call <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </RevealOnScroll>
-
-          <RevealOnScroll>
-            <DynamicImage slotId="services-matterport-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
-          </RevealOnScroll>
-        </div>
-      </section>
+      <EditableSection
+        slotId="services-matterport-section1"
+        variant="light-split"
+        defaults={{
+          eyebrow: "Beyond Photos",
+          headline: "The next best thing to being <strong>there</strong>.",
+          body: "Matterport tours let buyers explore every room at their own pace. Embed on your website, share via email, or display in sales centers for out-of-market buyers.",
+          ctaText: "Book a strategy call",
+          ctaUrl: "/contact",
+        }}
+      >
+        <DynamicImage slotId="services-matterport-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
+      </EditableSection>
     </>
   );
 }

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
+import { EditableSection } from "@/components/EditableSection";
 import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
@@ -12,68 +10,41 @@ export const metadata: Metadata = {
 export default function SpecPlusPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <RevealOnScroll>
-            <Eyebrow>Spec+</Eyebrow>
-            <h1 className="text-text-light">
-              Your inventory needs to move. Spec+ delivers{" "}
-              <strong>everything</strong>.
-            </h1>
-            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
-              Virtual staging, virtual video, and photography in one package.
-              Built for standing inventory. Ordered through FrameFlow.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <EditableSection
+        slotId="offerings-spec-plus-hero"
+        variant="hero-dark"
+        defaults={{
+          eyebrow: "Spec+",
+          headline: "Your inventory needs to move. Spec+ delivers <strong>everything</strong>.",
+          body: "Virtual staging, virtual video, and photography in one package. Built for standing inventory. Ordered through FrameFlow.",
+        }}
+      />
 
-      <section className="min-h-[70vh] bg-bg-surface py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
-          <RevealOnScroll>
-            <DynamicImage slotId="offerings-spec-plus-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
-          </RevealOnScroll>
+      <EditableSection
+        slotId="offerings-spec-plus-section1"
+        variant="light-split"
+        defaults={{
+          eyebrow: "One Order",
+          headline: "Stop managing multiple <strong>vendors</strong>.",
+          body: "Spec+ bundles everything your listing needs into a single order. Photography, virtual staging, and virtual video delivered fast so homes move faster.",
+          ctaText: "Order via FrameFlow",
+          ctaUrl: "/offerings/frameflow",
+        }}
+      >
+        <DynamicImage slotId="offerings-spec-plus-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
+      </EditableSection>
 
-          <RevealOnScroll>
-            <Eyebrow>One Order</Eyebrow>
-            <h2>
-              Stop managing multiple <strong>vendors</strong>.
-            </h2>
-            <p className="mt-5 text-text-body">
-              Spec+ bundles everything your listing needs into a single order.
-              Photography, virtual staging, and virtual video delivered fast so
-              homes move faster.
-            </p>
-            <Link
-              href="/offerings/frameflow"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Order via FrameFlow <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </RevealOnScroll>
-        </div>
-      </section>
-
-      <section className="flex min-h-[60vh] items-center bg-bg-light py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <RevealOnScroll>
-            <Eyebrow>Speed</Eyebrow>
-            <h2>
-              48-hour turnaround on QMI Close <strong>Kits</strong>.
-            </h2>
-            <p className="mt-5 text-text-body">
-              Move-in-ready homes can&rsquo;t wait. The QMI Close Kit delivers
-              photography, staging, and video within 48 hours of the shoot.
-            </p>
-            <Link
-              href="/contact"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Get started <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <EditableSection
+        slotId="offerings-spec-plus-section2"
+        variant="light"
+        defaults={{
+          eyebrow: "Speed",
+          headline: "48-hour turnaround on QMI Close <strong>Kits</strong>.",
+          body: "Move-in-ready homes can\u2019t wait. The QMI Close Kit delivers photography, staging, and video within 48 hours of the shoot.",
+          ctaText: "Get started",
+          ctaUrl: "/contact",
+        }}
+      />
     </>
   );
 }

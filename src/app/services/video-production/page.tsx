@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
+import { EditableSection } from "@/components/EditableSection";
 import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
@@ -12,45 +10,29 @@ export const metadata: Metadata = {
 export default function VideoProductionPage() {
   return (
     <>
-      <section className="flex min-h-screen items-center bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <RevealOnScroll>
-            <Eyebrow>Video Production</Eyebrow>
-            <h1 className="text-text-light">
-              Video that moves buyers to <strong>action</strong>.
-            </h1>
-            <p className="lead-text mt-6 text-text-muted" style={{ fontStyle: "italic" }}>
-              Community tours, model home walkthroughs, and lifestyle video
-              built for websites, social, and sales centers.
-            </p>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <EditableSection
+        slotId="services-video-production-hero"
+        variant="hero-dark"
+        defaults={{
+          eyebrow: "Video Production",
+          headline: "Video that moves buyers to <strong>action</strong>.",
+          body: "Community tours, model home walkthroughs, and lifestyle video built for websites, social, and sales centers.",
+        }}
+      />
 
-      <section className="min-h-[70vh] bg-bg-surface py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
-          <RevealOnScroll>
-            <DynamicImage slotId="services-video-production-img" aspectRatio="16/9" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
-          </RevealOnScroll>
-
-          <RevealOnScroll>
-            <Eyebrow>Multi-Channel</Eyebrow>
-            <h2>
-              One shoot, every <strong>platform</strong>.
-            </h2>
-            <p className="mt-5 text-text-body">
-              DIG video production delivers assets formatted for website hero
-              loops, social media cuts, email embeds, and sales center displays.
-            </p>
-            <Link
-              href="/contact"
-              className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Book a strategy call <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </RevealOnScroll>
-        </div>
-      </section>
+      <EditableSection
+        slotId="services-video-production-section1"
+        variant="light-split"
+        defaults={{
+          eyebrow: "Multi-Channel",
+          headline: "One shoot, every <strong>platform</strong>.",
+          body: "DIG video production delivers assets formatted for website hero loops, social media cuts, email embeds, and sales center displays.",
+          ctaText: "Book a strategy call",
+          ctaUrl: "/contact",
+        }}
+      >
+        <DynamicImage slotId="services-video-production-img" aspectRatio="16/9" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
+      </EditableSection>
     </>
   );
 }
