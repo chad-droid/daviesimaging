@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { AdminMediaPicker } from "./AdminMediaPicker";
+import { AdminGalleryPicker } from "./AdminGalleryPicker";
 
 const ADMIN_STORAGE_KEY = "dig-admin-auth";
 
@@ -9,6 +10,7 @@ export function AdminSiteOverlay() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [pickerSlot, setPickerSlot] = useState<string | null>(null);
+  const [showGalleryPicker, setShowGalleryPicker] = useState(false);
   const [contextMenu, setContextMenu] = useState<{
     x: number;
     y: number;
@@ -113,12 +115,28 @@ export function AdminSiteOverlay() {
         >
           {enabled ? "Exit Edit Mode" : "Edit Images"}
         </button>
+        <button
+          onClick={() => setShowGalleryPicker(true)}
+          className="rounded-full bg-[#1E1E1E] px-4 py-2 text-xs font-semibold text-[#4CAF50] shadow-lg transition-colors hover:bg-[#2C2C2C]"
+        >
+          Manage Gallery
+        </button>
         <a
           href="/admin/assets"
           className="rounded-full bg-[#1E1E1E] px-4 py-2 text-xs font-semibold text-[#A8A2D0] shadow-lg transition-colors hover:bg-[#2C2C2C]"
         >
           Admin
         </a>
+        <button
+          onClick={() => {
+            sessionStorage.removeItem(ADMIN_STORAGE_KEY);
+            setIsAdmin(false);
+            setEnabled(false);
+          }}
+          className="rounded-full bg-[#1E1E1E] px-4 py-2 text-xs font-semibold text-[#E57373] shadow-lg transition-colors hover:bg-[#2C2C2C]"
+        >
+          Logout
+        </button>
       </div>
 
       {/* Context menu */}
@@ -180,6 +198,14 @@ export function AdminSiteOverlay() {
           slotId={pickerSlot.replace(":ba", "")}
           onClose={() => setPickerSlot(null)}
           onSave={() => window.location.reload()}
+        />
+      )}
+
+      {/* Gallery picker */}
+      {showGalleryPicker && (
+        <AdminGalleryPicker
+          pageSlug={typeof window !== "undefined" ? window.location.pathname : "/"}
+          onClose={() => setShowGalleryPicker(false)}
         />
       )}
     </>

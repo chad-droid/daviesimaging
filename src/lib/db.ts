@@ -100,6 +100,17 @@ export async function setupDatabase() {
   `;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS gallery_assignments (
+      id SERIAL PRIMARY KEY,
+      page_slug TEXT NOT NULL,
+      deal_id TEXT NOT NULL,
+      sort_order INTEGER DEFAULT 0,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      UNIQUE(page_slug, deal_id)
+    )
+  `;
+
+  await sql`
     CREATE TABLE IF NOT EXISTS site_assets (
       id SERIAL PRIMARY KEY,
       slot_id TEXT UNIQUE NOT NULL,
