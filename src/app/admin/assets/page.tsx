@@ -312,6 +312,12 @@ export default function AdminAssetsPage() {
               {syncing ? "Syncing..." : "Pull from Zoho"}
             </button>
             <a
+              href="/admin/digital"
+              className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+            >
+              Digital
+            </a>
+            <a
               href="/admin/media"
               className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
             >

@@ -54,6 +54,41 @@ export async function setupDatabase() {
   `;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS digital_transactions (
+      id TEXT PRIMARY KEY,
+      transaction_id TEXT,
+      project_name TEXT,
+      account TEXT,
+      contact TEXT,
+      contact_email TEXT,
+      transaction_type TEXT,
+      selected_services TEXT[],
+      status TEXT,
+      project_address TEXT,
+      project_city_state TEXT,
+      community_name TEXT,
+      job_number TEXT,
+      num_resource_files INTEGER DEFAULT 0,
+      total_points NUMERIC DEFAULT 0,
+      resource_files_url TEXT,
+      final_assets_url TEXT,
+      client_assets_url TEXT,
+      production_folder TEXT,
+      project_url TEXT,
+      target_completion DATE,
+      date_created TIMESTAMPTZ,
+      date_delivered TIMESTAMPTZ,
+      job_notes TEXT,
+      additional_services TEXT,
+      approval_status TEXT DEFAULT 'pending' CHECK (approval_status IN ('pending', 'approved', 'denied', 'archived')),
+      imported BOOLEAN DEFAULT false,
+      imported_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `;
+
+  await sql`
     CREATE TABLE IF NOT EXISTS sync_log (
       id SERIAL PRIMARY KEY,
       source TEXT NOT NULL,
