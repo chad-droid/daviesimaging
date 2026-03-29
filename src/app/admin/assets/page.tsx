@@ -64,6 +64,62 @@ function getDriveFolderId(url: string): string | null {
   return match ? match[1] : null;
 }
 
+function ImportButton({ dealId, dealName, onComplete }: { dealId: string; dealName: string; onComplete: () => void }) {
+  const [importing, setImporting] = useState(false);
+  const [result, setResult] = useState<{ imported: number; savings: string; originalMB: string; optimizedMB: string; errors: string[] } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleImport() {
+    if (!confirm(`Import images from Google Drive for "${dealName}"? This will optimize and upload them to the media library.`)) return;
+    setImporting(true);
+    setError(null);
+    setResult(null);
+    try {
+      const res = await fetch("/api/media/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dealId }),
+      });
+      const data = await res.json();
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setResult(data);
+        onComplete();
+      }
+    } catch (e) {
+      setError(String(e));
+    }
+    setImporting(false);
+  }
+
+  return (
+    <div className="rounded-lg border border-[#6A5ACD]/30 bg-[#6A5ACD]/5 px-4 py-3">
+      {!result && !error && (
+        <>
+          <p className="text-xs text-[#A8A2D0]">
+            Ready to import. This will pull images from Google Drive, optimize to WebP, and upload to the media library.
+          </p>
+          <button
+            onClick={handleImport}
+            disabled={importing}
+            className="mt-2 rounded-full bg-[#6A5ACD] px-4 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5] disabled:opacity-50"
+          >
+            {importing ? "Importing... (this may take a minute)" : "Send to Media"}
+          </button>
+        </>
+      )}
+      {result && (
+        <p className="text-xs text-[#4CAF50]">
+          Imported {result.imported} images | {result.originalMB}MB &rarr; {result.optimizedMB}MB ({result.savings} smaller)
+          {result.errors.length > 0 && <span className="text-[#E57373]"> | {result.errors.length} failed</span>}
+        </p>
+      )}
+      {error && <p className="text-xs text-[#E57373]">{error}</p>}
+    </div>
+  );
+}
+
 type TabView = "pending" | "approved" | "archived" | "imported";
 
 export default function AdminAssetsPage() {
@@ -412,13 +468,17 @@ export default function AdminAssetsPage() {
                       </div>
                     )}
 
-                    {deal.status === "approved" && (
-                      <div className="rounded-lg border border-[#6A5ACD]/30 bg-[#6A5ACD]/5 px-4 py-3">
-                        <p className="text-xs text-[#A8A2D0]">
-                          This project is approved for media import. Open the client assets, download images, then upload via the Media Library.
+                    {deal.status === "approved" && !deal.imported && deal.client_assets && (
+                      <ImportButton dealId={deal.id} dealName={deal.name} onComplete={() => { fetchDeals(); fetchStats(); }} />
+                    )}
+
+                    {deal.imported && (
+                      <div className="rounded-lg border border-[#4CAF50]/30 bg-[#4CAF50]/5 px-4 py-3">
+                        <p className="text-xs text-[#4CAF50]">
+                          Imported to Media Library{deal.imported_at ? ` on ${new Date(deal.imported_at).toLocaleDateString()}` : ""}.
                         </p>
-                        <a href="/admin/media" className="mt-2 inline-block text-xs font-medium text-[#6A5ACD] hover:underline">
-                          Open Media Library &rarr;
+                        <a href="/admin/media" className="mt-2 inline-block text-xs font-medium text-[#4CAF50] hover:underline">
+                          View in Media Library &rarr;
                         </a>
                       </div>
                     )}
