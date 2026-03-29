@@ -137,6 +137,9 @@ export default function AdminAssetsPage() {
   const [filterBuilder, setFilterBuilder] = useState("");
   const [filterState, setFilterState] = useState("");
   const [filterPipeline, setFilterPipeline] = useState("");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [batchImporting, setBatchImporting] = useState(false);
+  const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; currentName: string } | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const fetchDeals = useCallback(async () => {
@@ -205,6 +208,53 @@ export default function AdminAssetsPage() {
       body: JSON.stringify({ action: "bulk", ids, status: "approved" }),
     });
     setSaving(false);
+    fetchDeals();
+    fetchStats();
+  }
+
+  function toggleSelected(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function selectAllVisible() {
+    const importable = deals.filter((d) => d.status === "approved" && !d.imported && d.client_assets);
+    if (selected.size === importable.length) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(importable.map((d) => d.id)));
+    }
+  }
+
+  async function batchImport() {
+    const ids = Array.from(selected);
+    if (ids.length === 0) return;
+    if (!confirm(`Import ${ids.length} projects to Media Library? This may take several minutes.`)) return;
+
+    setBatchImporting(true);
+    setBatchProgress({ current: 0, total: ids.length, currentName: "" });
+
+    for (let i = 0; i < ids.length; i++) {
+      const deal = deals.find((d) => d.id === ids[i]);
+      setBatchProgress({ current: i + 1, total: ids.length, currentName: deal?.name || "" });
+      try {
+        await fetch("/api/media/import", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dealId: ids[i] }),
+        });
+      } catch {
+        // Continue with next deal even if one fails
+      }
+    }
+
+    setBatchImporting(false);
+    setBatchProgress(null);
+    setSelected(new Set());
     fetchDeals();
     fetchStats();
   }
@@ -328,11 +378,47 @@ export default function AdminAssetsPage() {
               Approve Recommended
             </button>
           )}
+          {tab === "approved" && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={selectAllVisible}
+                className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+              >
+                {selected.size > 0 ? `Deselect All` : `Select All`}
+              </button>
+              <button
+                onClick={batchImport}
+                disabled={selected.size === 0 || batchImporting}
+                className="rounded-full bg-[#4CAF50] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#388E3C] disabled:opacity-30"
+              >
+                {batchImporting
+                  ? `Importing ${batchProgress?.current}/${batchProgress?.total}...`
+                  : `Send ${selected.size} to Media`}
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Deal List */}
       <div className="mx-auto max-w-7xl px-6 py-6">
+        {batchImporting && batchProgress && (
+          <div className="mb-4 rounded-lg border border-[#4CAF50]/30 bg-[#4CAF50]/5 p-4">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-[#4CAF50]">
+                Importing {batchProgress.current} of {batchProgress.total}: {batchProgress.currentName}
+              </span>
+              <span className="text-[#666]">{Math.round((batchProgress.current / batchProgress.total) * 100)}%</span>
+            </div>
+            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#2C2C2C]">
+              <div
+                className="h-full rounded-full bg-[#4CAF50] transition-all duration-500"
+                style={{ width: `${(batchProgress.current / batchProgress.total) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         {loading && <p className="py-20 text-center text-sm text-[#666]">Loading...</p>}
 
         {!loading && deals.length === 0 && (
@@ -364,6 +450,15 @@ export default function AdminAssetsPage() {
                 }`}
               >
                 <div className="flex items-center gap-4 px-5 py-4">
+                  {/* Batch select checkbox */}
+                  {tab === "approved" && !deal.imported && deal.client_assets && (
+                    <input
+                      type="checkbox"
+                      checked={selected.has(deal.id)}
+                      onChange={() => toggleSelected(deal.id)}
+                      className="h-4 w-4 shrink-0 cursor-pointer accent-[#6A5ACD]"
+                    />
+                  )}
                   {/* Actions */}
                   <div className="flex shrink-0 gap-1.5">
                     {tab !== "imported" && (
