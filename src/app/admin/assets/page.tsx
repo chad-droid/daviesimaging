@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
-import dealsData from "@/data/deals.json";
+import { useState, useEffect, useCallback } from "react";
 import recommendedIds from "@/data/recommended-projects.json";
 
 interface Deal {
@@ -12,101 +11,48 @@ interface Deal {
   state: string;
   pipeline: string;
   stage: string;
-  productionDate: string;
-  closingDate: string;
-  modelName: string;
-  locationName: string;
-  projectType: string;
-  scope: string;
+  production_date: string;
+  closing_date: string;
+  model_name: string;
   deliverables: string;
-  assetCount: string;
-  qtyImages: string;
-  clientAssets: string;
-  internalAssets: string;
+  asset_count: string;
+  qty_images: string;
+  client_assets: string;
+  internal_assets: string;
   matterport: string;
   youtube: string;
-  gif: string;
-  projectWebsite: string;
-  googleMaps: string;
+  project_website: string;
+  google_maps: string;
   address: string;
-  approved: boolean;
+  amount: number;
+  status: "pending" | "approved" | "denied" | "archived";
+  imported: boolean;
+  imported_at: string | null;
 }
 
-const allDeals = dealsData as Deal[];
 const recommendedSet = new Set(recommendedIds as string[]);
 
-// Preferred builders (Chad's selections)
+// Preferred builders
 const preferredBuilders = new Set([
-  "Lewis Group Of Companies",
-  "Beazer Homes, Northern California",
-  "Beazer Homes, Arizona",
-  "Beazer Homes, Southern California",
-  "Beazer Homes, Las Vegas NV",
-  "Beazer Homes, San Antonio TX",
-  "Beazer Homes, Corporate",
-  "Sekisui House, Northern California",
-  "Sekisui House U.S. - SoCal",
-  "K. Hovnanian",
-  "K. Hovnanian - Southern California",
-  "K. Hovnanian - Northern California",
-  "The New Home Company Inc.",
-  "Coventry Homes - Houston",
-  "Coventry Homes - Dallas",
-  "Coventry Homes: Austin, TX",
-  "Coventry Homes - San Antonio",
-  "Tricon Residential",
-  "CBC Home",
-  "Ladera Living",
-  "Get Community",
-  "Risewell Homes",
-  "Thrive Companies",
-  "Grand Homes Inc",
-  "Van Daele Development Corporation",
-  "Cadence Homes",
-  "Cresleigh Homes",
-  "Bloomfield Homes",
-  "Rurka Homes",
-  "Landsea Homes - NorCal",
-  "DR Horton: Bay Area CA",
-  "DR Horton: Bay Area, CA",
-  "DR Horton: Northern CA",
-  "Woodbridge Pacific Group",
-  "Classic Homes",
-  "City Ventures",
-  "Trumark Homes",
-  "Melia Homes",
-  "Shaddock Homes",
-  "Toll Brothers: Raleigh, NC",
-  "Toll Brothers: Dallas, TX",
-  "Toll Brothers: West FL",
-  "Toll Brothers: CO & CO Springs",
-  "Toll Brothers: Central FL",
-  "Toll Brothers: North FL",
-  "Toll Brothers: Houston, TX",
-  "Toll Brothers: Austin, TX",
-  "Toll Brothers: San Antonio, TX",
-  "Toll Brothers: South FL",
-  "Toll Brothers: Atlanta, GA",
-  "Toll Brothers: Charlotte, NC",
-  "Toll Brothers Inc.",
-  "Toll Brothers - California",
-  "Dream Finders Homes - Atlanta",
-  "Dream Finders Homes",
+  "Lewis Group Of Companies", "Beazer Homes, Northern California", "Beazer Homes, Arizona",
+  "Beazer Homes, Southern California", "Beazer Homes, Las Vegas NV", "Beazer Homes, San Antonio TX",
+  "Sekisui House, Northern California", "Sekisui House U.S. - SoCal",
+  "K. Hovnanian", "K. Hovnanian - Southern California", "K. Hovnanian - Northern California",
+  "The New Home Company Inc.", "Coventry Homes - Houston", "Coventry Homes - Dallas",
+  "Coventry Homes: Austin, TX", "Coventry Homes - San Antonio", "Tricon Residential",
+  "CBC Home", "Ladera Living", "Get Community", "Risewell Homes", "Thrive Companies",
+  "Grand Homes Inc", "Van Daele Development Corporation", "Cadence Homes", "Cresleigh Homes",
+  "Bloomfield Homes", "Rurka Homes", "Landsea Homes - NorCal",
+  "DR Horton: Bay Area CA", "DR Horton: Bay Area, CA", "DR Horton: Northern CA",
+  "Woodbridge Pacific Group", "Classic Homes", "City Ventures", "Trumark Homes",
+  "Melia Homes", "Shaddock Homes",
+  "Toll Brothers: Raleigh, NC", "Toll Brothers: Dallas, TX", "Toll Brothers: West FL",
+  "Toll Brothers: CO & CO Springs", "Toll Brothers: Central FL", "Toll Brothers: North FL",
+  "Toll Brothers: Houston, TX", "Toll Brothers: Austin, TX", "Toll Brothers: San Antonio, TX",
+  "Toll Brothers: South FL", "Toll Brothers: Atlanta, GA", "Toll Brothers: Charlotte, NC",
+  "Toll Brothers Inc.", "Toll Brothers - California",
+  "Dream Finders Homes - Atlanta", "Dream Finders Homes",
 ]);
-
-function isPreferred(builder: string): boolean {
-  return preferredBuilders.has(builder);
-}
-
-// Extract unique values for filters — preferred builders first
-const builders = [...new Set(allDeals.map((d) => d.builder).filter(Boolean))].sort((a, b) => {
-  const ap = isPreferred(a) ? 0 : 1;
-  const bp = isPreferred(b) ? 0 : 1;
-  if (ap !== bp) return ap - bp;
-  return a.localeCompare(b);
-});
-const states = [...new Set(allDeals.map((d) => d.state).filter(Boolean))].sort();
-const pipelines = [...new Set(allDeals.map((d) => d.pipeline).filter(Boolean))].sort();
 
 function extractYoutubeId(url: string): string | null {
   const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?\s]+)/);
@@ -118,108 +64,120 @@ function getDriveFolderId(url: string): string | null {
   return match ? match[1] : null;
 }
 
-interface DealStatusEntry {
-  approved: boolean | null;
-  imported: boolean;
-  importedAt?: string;
-  updatedAt: string;
-}
+type TabView = "pending" | "approved" | "archived" | "imported";
 
 export default function AdminAssetsPage() {
-  const [statuses, setStatuses] = useState<Record<string, DealStatusEntry>>({});
-  const [statusLoaded, setStatusLoaded] = useState(false);
+  const [deals, setDeals] = useState<Deal[]>([]);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [syncResult, setSyncResult] = useState<string | null>(null);
+  const [stats, setStats] = useState<Record<string, number>>({});
+  const [lastSync, setLastSync] = useState<{ synced_at: string; deals_new: number } | null>(null);
+  const [filters, setFilters] = useState<{ builders: string[]; states: string[]; pipelines: string[] }>({ builders: [], states: [], pipelines: [] });
+
+  const [tab, setTab] = useState<TabView>("pending");
   const [search, setSearch] = useState("");
   const [filterBuilder, setFilterBuilder] = useState("");
   const [filterState, setFilterState] = useState("");
   const [filterPipeline, setFilterPipeline] = useState("");
-  const [filterStatus, setFilterStatus] = useState<"all" | "approved" | "denied" | "recommended" | "preferred" | "imported">("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // Load statuses from server on mount
-  useEffect(() => {
-    fetch("/api/deals/status")
-      .then((r) => r.json())
-      .then((data) => {
-        setStatuses(data);
-        setStatusLoaded(true);
-      })
-      .catch(() => setStatusLoaded(true));
+  const fetchDeals = useCallback(async () => {
+    setLoading(true);
+    const statusMap: Record<TabView, string> = {
+      pending: "pending",
+      approved: "approved",
+      archived: "denied",
+      imported: "",
+    };
+
+    const params = new URLSearchParams();
+    if (tab !== "imported") params.set("status", statusMap[tab]);
+    if (tab === "imported") params.set("imported", "true");
+    if (search) params.set("search", search);
+    if (filterBuilder) params.set("builder", filterBuilder);
+    if (filterState) params.set("state", filterState);
+    if (filterPipeline) params.set("pipeline", filterPipeline);
+
+    const res = await fetch(`/api/deals/status?${params}`);
+    const data = await res.json();
+    setDeals(data.deals || []);
+    setLoading(false);
+  }, [tab, search, filterBuilder, filterState, filterPipeline]);
+
+  const fetchStats = useCallback(async () => {
+    const res = await fetch("/api/deals/status?action=stats");
+    const data = await res.json();
+    setStats(data.stats || {});
+    setLastSync(data.lastSync || null);
   }, []);
 
-  // Helper to check approval
-  const isApprovedDeal = (id: string) => statuses[id]?.approved === true;
-  const isDeniedDeal = (id: string) => statuses[id]?.approved === false;
-  const isImported = (id: string) => statuses[id]?.imported === true;
+  const fetchFilters = useCallback(async () => {
+    const res = await fetch("/api/deals/status?action=filters");
+    const data = await res.json();
+    setFilters(data);
+  }, []);
 
-  const filtered = useMemo(() => {
-    return allDeals.filter((d) => {
-      if (search && !`${d.name} ${d.builder} ${d.city} ${d.address}`.toLowerCase().includes(search.toLowerCase())) return false;
-      if (filterBuilder && d.builder !== filterBuilder) return false;
-      if (filterState && d.state !== filterState) return false;
-      if (filterPipeline && d.pipeline !== filterPipeline) return false;
-      if (filterStatus === "approved" && !isApprovedDeal(d.id)) return false;
-      if (filterStatus === "denied" && !isDeniedDeal(d.id)) return false;
-      if (filterStatus === "recommended" && !recommendedSet.has(d.id)) return false;
-      if (filterStatus === "preferred" && !isPreferred(d.builder)) return false;
-      if (filterStatus === "imported" && !isImported(d.id)) return false;
-      return true;
-    });
-  }, [search, filterBuilder, filterState, filterPipeline, filterStatus, statuses]);
+  useEffect(() => {
+    fetchDeals();
+  }, [fetchDeals]);
 
-  async function toggleApproval(id: string, value: boolean) {
-    const next = { ...statuses };
-    if (!next[id]) next[id] = { approved: null, imported: false, updatedAt: "" };
-    next[id] = { ...next[id], approved: value, updatedAt: new Date().toISOString() };
-    setStatuses(next);
+  useEffect(() => {
+    fetchStats();
+    fetchFilters();
+  }, [fetchStats, fetchFilters]);
 
-    // Persist to server
+  async function setDealStatus(id: string, status: "approved" | "denied" | "pending") {
     setSaving(true);
-    try {
-      await fetch("/api/deals/status", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ [id]: { approved: value } }),
-      });
-    } catch { /* silent fail, state is in memory */ }
+    await fetch("/api/deals/status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    });
     setSaving(false);
+    fetchDeals();
+    fetchStats();
   }
 
-  function exportApproved() {
-    const approved = allDeals
-      .filter((d) => isApprovedDeal(d.id))
-      .map((d) => ({
-        id: d.id,
-        name: d.name,
-        builder: d.builder,
-        city: d.city,
-        state: d.state,
-        pipeline: d.pipeline,
-        address: d.address,
-        modelName: d.modelName,
-        locationName: d.locationName,
-        projectType: d.projectType,
-        deliverables: d.deliverables,
-        assetCount: d.assetCount,
-        qtyImages: d.qtyImages,
-        clientAssets: d.clientAssets,
-        matterport: d.matterport,
-        youtube: d.youtube,
-        gif: d.gif,
-        projectWebsite: d.projectWebsite,
-        googleMaps: d.googleMaps,
-      }));
-    const blob = new Blob([JSON.stringify(approved, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `dig-approved-assets-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+  async function bulkApproveRecommended() {
+    setSaving(true);
+    const ids = deals.filter((d) => recommendedSet.has(d.id)).map((d) => d.id);
+    await fetch("/api/deals/status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "bulk", ids, status: "approved" }),
+    });
+    setSaving(false);
+    fetchDeals();
+    fetchStats();
   }
 
-  const approvedCount = Object.values(statuses).filter((v) => v.approved === true).length;
-  const importedCount = Object.values(statuses).filter((v) => v.imported === true).length;
+  async function syncFromZoho() {
+    setSyncing(true);
+    setSyncResult(null);
+    try {
+      const res = await fetch("/api/deals/sync", { method: "POST" });
+      const data = await res.json();
+      if (data.error) {
+        setSyncResult(`Error: ${data.error}`);
+      } else {
+        setSyncResult(`Synced! ${data.new} new, ${data.updated} updated.`);
+        fetchDeals();
+        fetchStats();
+      }
+    } catch (e) {
+      setSyncResult(`Failed: ${e}`);
+    }
+    setSyncing(false);
+  }
+
+  const tabs: { key: TabView; label: string; count: string }[] = [
+    { key: "pending", label: "Pending", count: String(stats.pending || 0) },
+    { key: "approved", label: "Media Pending", count: String(stats.approved || 0) },
+    { key: "imported", label: "In Library", count: String(stats.imported || 0) },
+    { key: "archived", label: "Archive", count: String(stats.denied || 0) },
+  ];
 
   return (
     <div className="min-h-screen bg-[#121212] text-[#F5F5F5]">
@@ -231,49 +189,53 @@ export default function AdminAssetsPage() {
               DIG Asset Manager
             </h1>
             <p className="text-xs text-[#A8A2D0]">
-              {filtered.length} of {allDeals.length} deals shown | {approvedCount} approved | {importedCount} imported{saving ? " | saving..." : ""}
+              {stats.total || 0} deals | {saving ? "saving..." : `${stats.approved || 0} approved, ${stats.imported || 0} imported`}
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            {lastSync && (
+              <span className="hidden text-[10px] text-[#666] sm:block">
+                Last sync: {new Date(lastSync.synced_at).toLocaleDateString()} {new Date(lastSync.synced_at).toLocaleTimeString()}
+              </span>
+            )}
+            <button
+              onClick={syncFromZoho}
+              disabled={syncing}
+              className="rounded-full border border-[#4CAF50] px-4 py-2 text-xs font-semibold text-[#4CAF50] transition-colors hover:bg-[#4CAF50] hover:text-white disabled:opacity-50"
+            >
+              {syncing ? "Syncing..." : "Pull from Zoho"}
+            </button>
             <a
               href="/admin/media"
               className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
             >
               Media Library
             </a>
-            <button
-              onClick={async () => {
-                const updates: Record<string, { approved: boolean }> = {};
-                const next = { ...statuses };
-                const now = new Date().toISOString();
-                recommendedIds.forEach((id: string) => {
-                  updates[id] = { approved: true };
-                  if (!next[id]) next[id] = { approved: null, imported: false, updatedAt: "" };
-                  next[id] = { ...next[id], approved: true, updatedAt: now };
-                });
-                setStatuses(next);
-                setSaving(true);
-                try {
-                  await fetch("/api/deals/status", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(updates),
-                  });
-                } catch {}
-                setSaving(false);
-              }}
-              className="rounded-full border border-[#6A5ACD] px-4 py-2 text-xs font-semibold text-[#6A5ACD] transition-colors hover:bg-[#6A5ACD] hover:text-white"
-            >
-              Approve All Recommended
-            </button>
-            <button
-              onClick={exportApproved}
-              disabled={approvedCount === 0}
-              className="rounded-full bg-[#6A5ACD] px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5] disabled:opacity-30"
-            >
-              Export {approvedCount} Approved
-            </button>
           </div>
+        </div>
+        {syncResult && (
+          <p className={`mx-auto mt-2 max-w-7xl text-xs ${syncResult.startsWith("Error") || syncResult.startsWith("Failed") ? "text-[#E57373]" : "text-[#4CAF50]"}`}>
+            {syncResult}
+          </p>
+        )}
+      </div>
+
+      {/* Tabs */}
+      <div className="border-b border-[#2C2C2C] bg-[#1E1E1E]">
+        <div className="mx-auto flex max-w-7xl">
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`px-5 py-3 text-xs font-medium transition-colors ${
+                tab === t.key
+                  ? "border-b-2 border-[#6A5ACD] text-[#F5F5F5]"
+                  : "text-[#666] hover:text-[#A8A2D0]"
+              }`}
+            >
+              {t.label} <span className="ml-1 text-[#666]">{t.count}</span>
+            </button>
+          ))}
         </div>
       </div>
 
@@ -289,70 +251,89 @@ export default function AdminAssetsPage() {
           />
           <select value={filterBuilder} onChange={(e) => setFilterBuilder(e.target.value)} className="rounded-lg border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5]">
             <option value="">All Builders</option>
-            {builders.map((b) => <option key={b} value={b}>{isPreferred(b) ? "★ " : ""}{b}</option>)}
+            {filters.builders.map((b) => (
+              <option key={b} value={b}>{preferredBuilders.has(b) ? "★ " : ""}{b}</option>
+            ))}
           </select>
           <select value={filterState} onChange={(e) => setFilterState(e.target.value)} className="rounded-lg border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5]">
             <option value="">All States</option>
-            {states.map((s) => <option key={s} value={s}>{s}</option>)}
+            {filters.states.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
           <select value={filterPipeline} onChange={(e) => setFilterPipeline(e.target.value)} className="rounded-lg border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5]">
             <option value="">All Pipelines</option>
-            {pipelines.map((p) => <option key={p} value={p}>{p}</option>)}
+            {filters.pipelines.map((p) => <option key={p} value={p}>{p}</option>)}
           </select>
-          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as "all" | "approved" | "denied" | "recommended" | "preferred")} className="rounded-lg border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5]">
-            <option value="all">All Status</option>
-            <option value="preferred">Preferred Builders</option>
-            <option value="recommended">Recommended (60)</option>
-            <option value="approved">Approved</option>
-            <option value="denied">Not Approved</option>
-            <option value="imported">Imported to Library</option>
-          </select>
+          {tab === "pending" && (
+            <button
+              onClick={bulkApproveRecommended}
+              disabled={saving}
+              className="rounded-full border border-[#6A5ACD] px-4 py-2 text-xs font-semibold text-[#6A5ACD] transition-colors hover:bg-[#6A5ACD] hover:text-white disabled:opacity-50"
+            >
+              Approve Recommended
+            </button>
+          )}
         </div>
       </div>
 
       {/* Deal List */}
       <div className="mx-auto max-w-7xl px-6 py-6">
+        {loading && <p className="py-20 text-center text-sm text-[#666]">Loading...</p>}
+
+        {!loading && deals.length === 0 && (
+          <p className="py-20 text-center text-sm text-[#666]">
+            {tab === "pending" ? "No pending deals. Pull from Zoho or check other tabs." :
+             tab === "approved" ? "No approved deals awaiting media import." :
+             tab === "imported" ? "No deals imported to library yet." :
+             "Archive is empty."}
+          </p>
+        )}
+
         <div className="space-y-3">
-          {filtered.map((deal) => {
-            const isApproved = isApprovedDeal(deal.id);
-            const hasMedia = isImported(deal.id);
+          {deals.map((deal) => {
             const isExpanded = expandedId === deal.id;
+            const isRecommended = recommendedSet.has(deal.id);
+            const isPreferred = preferredBuilders.has(deal.builder);
             const ytId = deal.youtube ? extractYoutubeId(deal.youtube) : null;
-            const driveFolderId = deal.clientAssets ? getDriveFolderId(deal.clientAssets) : null;
+            const driveFolderId = deal.client_assets ? getDriveFolderId(deal.client_assets) : null;
 
             return (
               <div
                 key={deal.id}
                 className={`rounded-lg border transition-colors ${
-                  isApproved
-                    ? "border-[#6A5ACD]/50 bg-[#6A5ACD]/5"
-                    : "border-[#2C2C2C] bg-[#1E1E1E]"
+                  deal.imported
+                    ? "border-[#4CAF50]/40 bg-[#4CAF50]/5"
+                    : deal.status === "approved"
+                      ? "border-[#6A5ACD]/40 bg-[#6A5ACD]/5"
+                      : "border-[#2C2C2C] bg-[#1E1E1E]"
                 }`}
               >
-                {/* Row */}
                 <div className="flex items-center gap-4 px-5 py-4">
-                  {/* Approve/Deny */}
+                  {/* Actions */}
                   <div className="flex shrink-0 gap-1.5">
-                    <button
-                      onClick={() => toggleApproval(deal.id, true)}
-                      className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                        isApproved
-                          ? "bg-[#6A5ACD] text-white"
-                          : "border border-[#2C2C2C] text-[#666] hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
-                      }`}
-                    >
-                      Yes
-                    </button>
-                    <button
-                      onClick={() => toggleApproval(deal.id, false)}
-                      className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                        isDeniedDeal(deal.id)
-                          ? "bg-[#E57373]/20 text-[#E57373]"
-                          : "border border-[#2C2C2C] text-[#666] hover:border-[#E57373] hover:text-[#E57373]"
-                      }`}
-                    >
-                      No
-                    </button>
+                    {tab !== "imported" && (
+                      <>
+                        <button
+                          onClick={() => setDealStatus(deal.id, "approved")}
+                          className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                            deal.status === "approved"
+                              ? "bg-[#6A5ACD] text-white"
+                              : "border border-[#2C2C2C] text-[#666] hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+                          }`}
+                        >
+                          Yes
+                        </button>
+                        <button
+                          onClick={() => setDealStatus(deal.id, "denied")}
+                          className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                            deal.status === "denied"
+                              ? "bg-[#E57373]/20 text-[#E57373]"
+                              : "border border-[#2C2C2C] text-[#666] hover:border-[#E57373] hover:text-[#E57373]"
+                          }`}
+                        >
+                          No
+                        </button>
+                      </>
+                    )}
                   </div>
 
                   {/* Info */}
@@ -362,40 +343,31 @@ export default function AdminAssetsPage() {
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium text-[#F5F5F5]">
-                        {recommendedSet.has(deal.id) && <span className="mr-1.5 text-[#6A5ACD]" title="Recommended">&#9733;</span>}
+                        {isRecommended && <span className="mr-1.5 text-[#6A5ACD]">&#9733;</span>}
                         {deal.name}
                       </p>
                       <p className="mt-0.5 truncate text-xs text-[#A8A2D0]">
-                        {isPreferred(deal.builder) && <span className="mr-1 rounded bg-[#6A5ACD]/20 px-1.5 py-0.5 text-[9px] font-semibold text-[#6A5ACD]">PREFERRED</span>}
-                        {deal.builder} | {deal.address || "No address"} | {deal.pipeline}
+                        {isPreferred && <span className="mr-1 rounded bg-[#6A5ACD]/20 px-1.5 py-0.5 text-[9px] font-semibold text-[#6A5ACD]">PREFERRED</span>}
+                        {deal.builder} | {deal.address || deal.city || "No address"} | {deal.pipeline}
+                        {deal.amount > 0 && ` | $${Number(deal.amount).toLocaleString()}`}
                       </p>
                     </div>
 
-                    {/* Badges */}
                     <div className="flex shrink-0 gap-1.5">
-                      {hasMedia && (
-                        <span className="rounded bg-[#4CAF50]/15 px-2 py-0.5 text-[10px] font-medium text-[#4CAF50]">
-                          In Library
-                        </span>
+                      {deal.imported && (
+                        <span className="rounded bg-[#4CAF50]/15 px-2 py-0.5 text-[10px] font-medium text-[#4CAF50]">In Library</span>
                       )}
-                      {deal.clientAssets && (
-                        <span className="rounded bg-[#6A5ACD]/15 px-2 py-0.5 text-[10px] font-medium text-[#A8A2D0]">
-                          Photos
-                        </span>
+                      {deal.client_assets && (
+                        <span className="rounded bg-[#6A5ACD]/15 px-2 py-0.5 text-[10px] font-medium text-[#A8A2D0]">Photos</span>
                       )}
                       {deal.youtube && (
-                        <span className="rounded bg-[#E57373]/15 px-2 py-0.5 text-[10px] font-medium text-[#E57373]">
-                          Video
-                        </span>
+                        <span className="rounded bg-[#E57373]/15 px-2 py-0.5 text-[10px] font-medium text-[#E57373]">Video</span>
                       )}
                       {deal.matterport && (
-                        <span className="rounded bg-[#4CAF50]/15 px-2 py-0.5 text-[10px] font-medium text-[#4CAF50]">
-                          3D Tour
-                        </span>
+                        <span className="rounded bg-[#4CAF50]/15 px-2 py-0.5 text-[10px] font-medium text-[#4CAF50]">3D</span>
                       )}
                     </div>
 
-                    {/* Chevron */}
                     <svg
                       className={`h-4 w-4 shrink-0 text-[#666] transition-transform ${isExpanded ? "rotate-180" : ""}`}
                       fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
@@ -405,85 +377,47 @@ export default function AdminAssetsPage() {
                   </button>
                 </div>
 
-                {/* Expanded Content */}
                 {isExpanded && (
                   <div className="border-t border-[#2C2C2C] px-5 py-5">
-                    {/* Meta */}
                     <div className="mb-4 grid grid-cols-2 gap-x-8 gap-y-2 text-xs sm:grid-cols-4">
-                      {deal.productionDate && <div><span className="text-[#666]">Produced:</span> {deal.productionDate}</div>}
-                      {deal.modelName && <div><span className="text-[#666]">Model:</span> {deal.modelName}</div>}
-                      {deal.qtyImages && <div><span className="text-[#666]">Images:</span> {deal.qtyImages}</div>}
-                      {deal.assetCount && <div><span className="text-[#666]">Assets:</span> {deal.assetCount}</div>}
+                      {deal.production_date && <div><span className="text-[#666]">Produced:</span> {deal.production_date}</div>}
+                      {deal.model_name && <div><span className="text-[#666]">Model:</span> {deal.model_name}</div>}
+                      {deal.qty_images && <div><span className="text-[#666]">Images:</span> {deal.qty_images}</div>}
+                      {deal.asset_count && <div><span className="text-[#666]">Assets:</span> {deal.asset_count}</div>}
                       {deal.deliverables && <div className="col-span-2"><span className="text-[#666]">Deliverables:</span> {deal.deliverables}</div>}
                     </div>
 
-                    {/* Links */}
                     <div className="mb-4 flex flex-wrap gap-3">
-                      {deal.clientAssets && (
-                        <a href={deal.clientAssets} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#6A5ACD] hover:underline">
-                          Open Client Assets &rarr;
-                        </a>
-                      )}
-                      {deal.internalAssets && (
-                        <a href={deal.internalAssets} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">
-                          Internal Assets &rarr;
-                        </a>
-                      )}
-                      {deal.matterport && (
-                        <a href={deal.matterport} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#4CAF50] hover:underline">
-                          Matterport Tour &rarr;
-                        </a>
-                      )}
-                      {deal.projectWebsite && (
-                        <a href={deal.projectWebsite} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">
-                          Project Website &rarr;
-                        </a>
-                      )}
-                      {deal.googleMaps && (
-                        <a href={deal.googleMaps} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">
-                          Google Maps &rarr;
-                        </a>
-                      )}
+                      {deal.client_assets && <a href={deal.client_assets} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#6A5ACD] hover:underline">Client Assets &rarr;</a>}
+                      {deal.internal_assets && <a href={deal.internal_assets} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">Internal Assets &rarr;</a>}
+                      {deal.matterport && <a href={deal.matterport} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#4CAF50] hover:underline">Matterport &rarr;</a>}
+                      {deal.project_website && <a href={deal.project_website} target="_blank" rel="noopener noreferrer" className="text-xs font-medium text-[#A8A2D0] hover:underline">Website &rarr;</a>}
                     </div>
 
-                    {/* YouTube embed */}
                     {ytId && (
                       <div className="mb-4">
-                        <p className="mb-2 text-xs font-medium text-[#666]">Video Preview</p>
+                        <p className="mb-2 text-xs font-medium text-[#666]">Video</p>
                         <div className="aspect-video overflow-hidden rounded-lg">
-                          <iframe
-                            src={`https://www.youtube.com/embed/${ytId}`}
-                            className="h-full w-full"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          />
+                          <iframe src={`https://www.youtube.com/embed/${ytId}`} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                         </div>
                       </div>
                     )}
 
-                    {/* Drive folder embed */}
                     {driveFolderId && (
-                      <div>
-                        <p className="mb-2 text-xs font-medium text-[#666]">Photo Folder Preview</p>
+                      <div className="mb-4">
+                        <p className="mb-2 text-xs font-medium text-[#666]">Photos</p>
                         <div className="aspect-[16/9] overflow-hidden rounded-lg border border-[#2C2C2C]">
-                          <iframe
-                            src={`https://drive.google.com/embeddedfolderview?id=${driveFolderId}#grid`}
-                            className="h-full w-full"
-                          />
+                          <iframe src={`https://drive.google.com/embeddedfolderview?id=${driveFolderId}#grid`} className="h-full w-full" />
                         </div>
                       </div>
                     )}
 
-                    {/* Import note */}
-                    {isApproved && deal.clientAssets && (
-                      <div className="mt-4 rounded-lg border border-[#6A5ACD]/30 bg-[#6A5ACD]/5 px-4 py-3">
+                    {deal.status === "approved" && (
+                      <div className="rounded-lg border border-[#6A5ACD]/30 bg-[#6A5ACD]/5 px-4 py-3">
                         <p className="text-xs text-[#A8A2D0]">
-                          To import: open the client assets link above, select the images you want, download them, then drag and drop into the Media Library upload tool.
+                          This project is approved for media import. Open the client assets, download images, then upload via the Media Library.
                         </p>
-                        <a
-                          href="/admin/media"
-                          className="mt-2 inline-block text-xs font-medium text-[#6A5ACD] hover:underline"
-                        >
+                        <a href="/admin/media" className="mt-2 inline-block text-xs font-medium text-[#6A5ACD] hover:underline">
                           Open Media Library &rarr;
                         </a>
                       </div>
@@ -494,10 +428,6 @@ export default function AdminAssetsPage() {
             );
           })}
         </div>
-
-        {filtered.length === 0 && (
-          <p className="py-20 text-center text-sm text-[#666]">No deals match your filters.</p>
-        )}
       </div>
     </div>
   );

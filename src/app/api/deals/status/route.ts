@@ -1,73 +1,72 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put, list } from "@vercel/blob";
+import {
+  getDeals,
+  updateDealStatus,
+  updateDealImported,
+  bulkUpdateStatus,
+  getDealStats,
+  getLastSync,
+  getUniqueValues,
+} from "@/lib/db";
 
-const STATUS_FILE = "admin/deal-status.json";
-
-interface DealStatus {
-  [dealId: string]: {
-    approved: boolean | null; // true = approved, false = rejected, null = undecided
-    imported: boolean; // has media in the library
-    importedAt?: string;
-    updatedAt: string;
-  };
-}
-
-async function getStatus(): Promise<DealStatus> {
+// GET: return deals with optional filters, stats, and last sync
+export async function GET(req: NextRequest) {
   try {
-    const result = await list({ prefix: STATUS_FILE });
-    if (result.blobs.length === 0) return {};
-    const res = await fetch(result.blobs[0].url);
-    return (await res.json()) as DealStatus;
-  } catch {
-    return {};
-  }
-}
+    const p = req.nextUrl.searchParams;
+    const action = p.get("action");
 
-async function saveStatus(status: DealStatus): Promise<void> {
-  await put(STATUS_FILE, JSON.stringify(status), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-  });
-}
+    if (action === "stats") {
+      const stats = await getDealStats();
+      const lastSync = await getLastSync();
+      return NextResponse.json({ stats, lastSync });
+    }
 
-// GET: return all deal statuses
-export async function GET() {
-  try {
-    const status = await getStatus();
-    return NextResponse.json(status);
+    if (action === "filters") {
+      const values = await getUniqueValues();
+      return NextResponse.json(values);
+    }
+
+    const deals = await getDeals({
+      status: p.get("status") || undefined,
+      builder: p.get("builder") || undefined,
+      state: p.get("state") || undefined,
+      pipeline: p.get("pipeline") || undefined,
+      search: p.get("search") || undefined,
+      imported: p.has("imported") ? p.get("imported") === "true" : undefined,
+    });
+
+    return NextResponse.json({ deals });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
 }
 
-// POST: update one or more deal statuses
+// POST: update deal statuses
 export async function POST(req: NextRequest) {
   try {
-    const updates = (await req.json()) as Record<
-      string,
-      { approved?: boolean | null; imported?: boolean }
-    >;
+    const body = await req.json();
+    const { action, ids, id, status, imported } = body as {
+      action?: string;
+      ids?: string[];
+      id?: string;
+      status?: "pending" | "approved" | "denied" | "archived";
+      imported?: boolean;
+    };
 
-    const status = await getStatus();
-    const now = new Date().toISOString();
-
-    for (const [id, update] of Object.entries(updates)) {
-      if (!status[id]) {
-        status[id] = { approved: null, imported: false, updatedAt: now };
-      }
-      if (update.approved !== undefined) {
-        status[id].approved = update.approved;
-      }
-      if (update.imported !== undefined) {
-        status[id].imported = update.imported;
-        if (update.imported) status[id].importedAt = now;
-      }
-      status[id].updatedAt = now;
+    if (action === "bulk" && ids && status) {
+      await bulkUpdateStatus(ids, status);
+      return NextResponse.json({ updated: ids.length });
     }
 
-    await saveStatus(status);
-    return NextResponse.json({ updated: Object.keys(updates).length });
+    if (id && status) {
+      await updateDealStatus(id, status);
+    }
+
+    if (id && imported !== undefined) {
+      await updateDealImported(id, imported);
+    }
+
+    return NextResponse.json({ success: true });
   } catch (e) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
