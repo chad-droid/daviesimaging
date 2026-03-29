@@ -76,38 +76,34 @@ export function DynamicImage({
   }
 
   const hasBefore = !!asset.before_url;
-  const displayUrl = showBefore && asset.before_url ? asset.before_url : (asset.thumb_url || asset.image_url);
+  const afterUrl = asset.thumb_url || asset.image_url;
+  const beforeUrl = asset.before_thumb_url || asset.before_url || "";
 
   return (
     <div
       data-slot={slotId}
       className={`relative overflow-hidden ${className}`}
       style={{ aspectRatio }}
+      onMouseEnter={() => hasBefore && setShowBefore(true)}
+      onMouseLeave={() => hasBefore && setShowBefore(false)}
     >
       <Image
-        src={displayUrl}
+        src={showBefore ? beforeUrl : afterUrl}
         alt={asset.alt_text || ""}
         fill
-        className="object-cover"
+        className="object-cover transition-opacity duration-300"
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
         quality={90}
       />
 
-      {/* Before/After toggle */}
+      {/* Before/After label */}
       {hasBefore && (
-        <div className="absolute bottom-3 left-3 z-10 flex rounded-full border border-white/20 bg-black/50 text-[10px] font-semibold backdrop-blur-sm">
-          <button
-            onClick={() => setShowBefore(false)}
-            className={`rounded-full px-3 py-1 transition-colors ${!showBefore ? "bg-[#4CAF50] text-white" : "text-white/60"}`}
-          >
-            After
-          </button>
-          <button
-            onClick={() => setShowBefore(true)}
-            className={`rounded-full px-3 py-1 transition-colors ${showBefore ? "bg-[#E57373] text-white" : "text-white/60"}`}
-          >
-            Before
-          </button>
+        <div className="absolute bottom-3 left-3 z-10">
+          <span className={`rounded-full px-3 py-1.5 text-[10px] font-semibold text-white shadow-lg transition-colors ${
+            showBefore ? "bg-[#6A5ACD]" : "bg-[#6A5ACD]"
+          }`}>
+            {showBefore ? "Before" : "After"}
+          </span>
         </div>
       )}
     </div>
