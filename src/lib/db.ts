@@ -99,6 +99,20 @@ export async function setupDatabase() {
     )
   `;
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS site_assets (
+      id SERIAL PRIMARY KEY,
+      slot_id TEXT UNIQUE NOT NULL,
+      image_url TEXT,
+      thumb_url TEXT,
+      before_url TEXT,
+      before_thumb_url TEXT,
+      alt_text TEXT,
+      deal_id TEXT,
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `;
+
   return { success: true };
 }
 

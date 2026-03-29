@@ -6,6 +6,7 @@ import { EmailCaptureModal } from "@/components/EmailCaptureModal";
 import { PageTransition } from "@/components/PageTransition";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { AdminSiteOverlay } from "@/components/AdminSiteOverlay";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -66,6 +67,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <EmailCaptureModal />
+        <AdminSiteOverlay />
         <Analytics />
         <SpeedInsights />
       </body>

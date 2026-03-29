@@ -7,6 +7,12 @@ export async function GET(req: NextRequest) {
   if (!dealId) return NextResponse.json({ error: "dealId required" }, { status: 400 });
 
   try {
+    // Special case: fetch all files for the media picker
+    if (dealId === "all") {
+      const files = await sql`SELECT * FROM media_files ORDER BY created_at DESC`;
+      return NextResponse.json({ files: files.rows });
+    }
+
     const deal = await sql`SELECT * FROM deals WHERE id = ${dealId}`;
     if (deal.rows.length === 0) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
