@@ -4,6 +4,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableContent } from "@/components/EditableContent";
+import { DynamicImage } from "@/components/DynamicImage";
 
 const fields = [
   { key: "eyebrow", label: "Eyebrow", type: "text" as const, defaultValue: "Spec+" },
@@ -19,7 +20,7 @@ export function SpecPlus() {
       <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
         {/* Image-dominant side */}
         <RevealOnScroll>
-          <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-border-light to-accent-secondary/40" />
+          <DynamicImage slotId="section-spec-plus-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-border-light to-accent-secondary/40" />
         </RevealOnScroll>
 
         {/* Copy side — no competing imagery */}

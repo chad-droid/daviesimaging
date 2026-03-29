@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
   title: "Spec+ | Davies Imaging Group",
@@ -30,7 +31,7 @@ export default function SpecPlusPage() {
       <section className="min-h-[70vh] bg-bg-surface py-24">
         <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
           <RevealOnScroll>
-            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-bg-light to-border-light" />
+            <DynamicImage slotId="offerings-spec-plus-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
           </RevealOnScroll>
 
           <RevealOnScroll>

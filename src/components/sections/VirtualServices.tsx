@@ -4,6 +4,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableContent } from "@/components/EditableContent";
+import { DynamicImage } from "@/components/DynamicImage";
 
 const fields = [
   { key: "eyebrow", label: "Eyebrow", type: "text" as const, defaultValue: "Virtual Staging + Virtual Video" },
@@ -40,7 +41,7 @@ export function VirtualServices() {
 
         {/* Image-dominant side */}
         <RevealOnScroll>
-          <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-border-light to-accent-secondary/40" />
+          <DynamicImage slotId="section-virtual-services-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-border-light to-accent-secondary/40" />
         </RevealOnScroll>
       </div>
     </section>

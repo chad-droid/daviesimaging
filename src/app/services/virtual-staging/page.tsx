@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
   title: "Virtual Staging | Davies Imaging Group",
@@ -47,7 +48,7 @@ export default function VirtualStagingPage() {
           </RevealOnScroll>
 
           <RevealOnScroll>
-            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-bg-light to-border-light" />
+            <DynamicImage slotId="services-virtual-staging-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-bg-light to-border-light" />
           </RevealOnScroll>
         </div>
       </section>
