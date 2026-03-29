@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { AdminMediaPicker } from "./AdminMediaPicker";
 import { AdminGalleryPicker } from "./AdminGalleryPicker";
 
 const ADMIN_STORAGE_KEY = "dig-admin-auth";
 
 export function AdminSiteOverlay() {
+  const pathname = usePathname();
   const [isAdmin, setIsAdmin] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [pickerSlot, setPickerSlot] = useState<string | null>(null);
@@ -17,11 +19,11 @@ export function AdminSiteOverlay() {
     slotId: string;
   } | null>(null);
 
-  // Check if user is admin
+  // Check admin on mount and on every route change
   useEffect(() => {
     const authed = sessionStorage.getItem(ADMIN_STORAGE_KEY);
-    if (authed === "true") setIsAdmin(true);
-  }, []);
+    setIsAdmin(authed === "true");
+  }, [pathname]);
 
   // Find the slot element from a click/right-click target
   const findSlotElement = useCallback((target: HTMLElement): HTMLElement | null => {

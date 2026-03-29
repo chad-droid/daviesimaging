@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { usePathname } from "next/navigation";
 
 const ADMIN_KEY = "dig-admin-auth";
 
@@ -16,16 +17,17 @@ interface ContentEditorProps {
 }
 
 export function EditableContent({ slotId, fields, children }: ContentEditorProps) {
+  const pathname = usePathname();
   const [isAdmin, setIsAdmin] = useState(false);
   const [editing, setEditing] = useState(false);
   const [values, setValues] = useState<Record<string, string>>({});
   const [loaded, setLoaded] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  // Check admin
+  // Check admin on mount and route changes
   useEffect(() => {
-    if (sessionStorage.getItem(ADMIN_KEY) === "true") setIsAdmin(true);
-  }, []);
+    setIsAdmin(sessionStorage.getItem(ADMIN_KEY) === "true");
+  }, [pathname]);
 
   // Load saved content
   const loadContent = useCallback(async () => {
