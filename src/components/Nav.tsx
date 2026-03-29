@@ -22,8 +22,8 @@ const dropdowns: DropdownMenu[] = [
   {
     label: "Solutions",
     items: [
-      { label: "Premium Photo", href: "/services/premium" },
-      { label: "Listing Photo", href: "/services/listing" },
+      { label: "Premium Photography", href: "/services/premium" },
+      { label: "Listing Photography", href: "/services/listing" },
       { label: "Video Production", href: "/services/video-production" },
       { label: "Virtual Staging", href: "/services/virtual-staging" },
       { label: "Virtual Video", href: "/services/virtual-video" },
