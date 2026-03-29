@@ -152,7 +152,7 @@ export function Nav() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
         transparent
           ? "border-b border-transparent bg-transparent"
           : "border-b border-border-light bg-bg-surface/95 backdrop-blur-sm"

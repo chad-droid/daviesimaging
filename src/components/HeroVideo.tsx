@@ -51,7 +51,7 @@ export function HeroVideo() {
         return (
           <section
             ref={containerRef}
-            className="relative min-h-screen overflow-hidden bg-bg-dark"
+            className="relative -mt-16 min-h-screen overflow-hidden bg-bg-dark"
           >
             {/* Background: YouTube video or placeholder tiles */}
             {ytId ? (

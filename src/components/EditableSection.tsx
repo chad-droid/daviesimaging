@@ -34,7 +34,7 @@ export function EditableSection({ slotId, variant, defaults, children }: Editabl
   const isSplit = variant === "light-split" || variant === "dark-split";
 
   const sectionClass = isHero
-    ? "flex min-h-screen items-center bg-bg-dark py-28 text-text-light"
+    ? "flex -mt-16 min-h-screen items-center bg-bg-dark py-28 text-text-light"
     : isDark
       ? "flex min-h-[60vh] items-center bg-bg-dark py-24 text-text-light"
       : "min-h-[70vh] bg-bg-surface py-24";

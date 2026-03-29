@@ -62,7 +62,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-bg-light text-text-body">
         <Nav />
-        <main className="flex-1">
+        <main className="flex-1 pt-16">
           <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
