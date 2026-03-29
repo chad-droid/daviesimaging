@@ -3,6 +3,7 @@ import { put } from "@vercel/blob";
 import { sql } from "@vercel/postgres";
 import { GoogleAuth } from "google-auth-library";
 import sharp from "sharp";
+import Anthropic from "@anthropic-ai/sdk";
 import {
   getAccessToken as getZohoToken,
   findDealFolder,
@@ -96,6 +97,44 @@ function pickAssetUrl(deal: Record<string, string | null>): string | null {
   return deal.client_assets || deal.internal_assets || null;
 }
 
+// ── AI description ──
+
+interface DealContext {
+  name: string;
+  builder: string;
+  city: string;
+  state: string;
+  modelName: string;
+}
+
+async function describeImage(imageUrl: string, ctx: DealContext): Promise<string> {
+  try {
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    const response = await anthropic.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 200,
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "image", source: { type: "url", url: imageUrl } },
+            {
+              type: "text",
+              text: `Write a concise SEO-optimized alt text for this real estate photo. 1-2 sentences max.
+Context: ${ctx.name} by ${ctx.builder} in ${ctx.city}, ${ctx.state}. Model: ${ctx.modelName || "N/A"}.
+Describe what's visible (room, features, materials, lighting). Include builder name and location naturally. No filler words.`,
+            },
+          ],
+        },
+      ],
+    });
+    const block = response.content.find((b) => b.type === "text");
+    return block ? block.text : "";
+  } catch {
+    return "";
+  }
+}
+
 // ── Shared optimize + upload ──
 
 async function optimizeAndUpload(
@@ -103,7 +142,8 @@ async function optimizeAndUpload(
   filename: string,
   folder: string,
   dealId: string,
-): Promise<{ filename: string; fullUrl: string; thumbUrl: string; originalKB: number; optimizedKB: number } | null> {
+  dealContext: DealContext,
+): Promise<{ filename: string; fullUrl: string; thumbUrl: string; originalKB: number; optimizedKB: number; description: string } | null> {
   const originalKB = Math.round(raw.length / 1024);
 
   const full = await sharp(raw)
@@ -128,10 +168,13 @@ async function optimizeAndUpload(
     access: "public", contentType: "image/webp",
   });
 
+  // Generate AI description
+  const description = await describeImage(fullBlob.url, dealContext);
+
   const meta = await sharp(full).metadata();
   await sql`
-    INSERT INTO media_files (deal_id, url, thumb_url, filename, size_bytes, width, height)
-    VALUES (${dealId}, ${fullBlob.url}, ${thumbBlob.url}, ${filename}, ${full.length}, ${meta.width || 0}, ${meta.height || 0})
+    INSERT INTO media_files (deal_id, url, thumb_url, filename, description, size_bytes, width, height)
+    VALUES (${dealId}, ${fullBlob.url}, ${thumbBlob.url}, ${filename}, ${description}, ${full.length}, ${meta.width || 0}, ${meta.height || 0})
   `;
 
   return {
@@ -140,6 +183,7 @@ async function optimizeAndUpload(
     thumbUrl: thumbBlob.url,
     originalKB,
     optimizedKB: Math.round(full.length / 1024),
+    description,
   };
 }
 
@@ -165,7 +209,15 @@ export async function POST(req: NextRequest) {
     const dealSlug = (deal.name || "unknown").replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-").toLowerCase();
     const folder = `gallery/${builderSlug}/${dealSlug}`;
 
-    const results: { filename: string; fullUrl: string; thumbUrl: string; originalKB: number; optimizedKB: number }[] = [];
+    const dealContext: DealContext = {
+      name: deal.name || "",
+      builder: deal.builder || "",
+      city: deal.city || "",
+      state: deal.state || "",
+      modelName: deal.model_name || "",
+    };
+
+    const results: { filename: string; fullUrl: string; thumbUrl: string; originalKB: number; optimizedKB: number; description: string }[] = [];
     const errors: string[] = [];
 
     if (source === "gdrive") {
@@ -181,7 +233,7 @@ export async function POST(req: NextRequest) {
       for (const file of files) {
         try {
           const raw = await downloadGDriveFile(file.id, gToken);
-          const result = await optimizeAndUpload(raw, file.name, folder, dealId);
+          const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
           if (result) results.push(result);
         } catch (e) {
           errors.push(`${file.name}: ${e}`);
@@ -214,7 +266,7 @@ export async function POST(req: NextRequest) {
       for (const file of imageFiles) {
         try {
           const raw = await downloadWorkDriveFile(file.id, zToken);
-          const result = await optimizeAndUpload(raw, file.name, folder, dealId);
+          const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
           if (result) results.push(result);
         } catch (e) {
           errors.push(`${file.name}: ${e}`);
