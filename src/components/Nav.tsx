@@ -59,7 +59,7 @@ function DesktopDropdown({ menu, transparent }: { menu: DropdownMenu; transparen
       <button
         type="button"
         className={`flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors hover:text-accent ${
-          transparent ? "text-text-light/80" : "text-text-body"
+          transparent ? "text-white" : "text-text-body"
         }`}
       >
         {menu.label}
@@ -182,7 +182,7 @@ export function Nav() {
               key={link.href}
               href={link.href}
               className={`text-[13px] font-medium tracking-wide transition-colors hover:text-accent ${
-                transparent ? "text-text-light/80" : "text-text-body"
+                transparent ? "text-white" : "text-text-body"
               }`}
             >
               {link.label}
@@ -196,7 +196,7 @@ export function Nav() {
             rel="noopener noreferrer"
             className={`rounded-full px-4 py-1.5 text-[11px] font-semibold tracking-wide transition-colors ${
               transparent
-                ? "border border-text-light/30 text-text-light hover:border-text-light/60"
+                ? "border border-white/40 text-white hover:border-white/70"
                 : "border border-border-light text-text-body hover:border-accent"
             }`}
           >
@@ -218,7 +218,7 @@ export function Nav() {
           aria-label="Toggle menu"
         >
           <svg
-            className={`h-6 w-6 ${transparent ? "text-text-light" : "text-text-body"}`}
+            className={`h-6 w-6 ${transparent ? "text-white" : "text-text-body"}`}
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
