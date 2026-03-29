@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
           COUNT(*) FILTER (WHERE approval_status = 'pending') as pending,
           COUNT(*) FILTER (WHERE imported = true) as imported
         FROM digital_transactions
-        WHERE transaction_type = 'Debit' AND status = 'Complete'
+        WHERE transaction_type = 'Credit' AND status = 'Complete'
       `;
       const lastSync = await sql`
         SELECT * FROM sync_log WHERE source = 'zoho-digital' ORDER BY synced_at DESC LIMIT 1
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     }
 
     // List transactions
-    let query = `SELECT * FROM digital_transactions WHERE transaction_type = 'Debit' AND status = 'Complete'`;
+    let query = `SELECT * FROM digital_transactions WHERE transaction_type = 'Credit' AND status = 'Complete'`;
     const params: string[] = [];
     let i = 1;
 
