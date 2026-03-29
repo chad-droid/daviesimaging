@@ -3,6 +3,23 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { EditableContent } from "./EditableContent";
+
+const heroFields = [
+  { key: "headline1", label: "Headline (line 1)", type: "text" as const, defaultValue: "Homebuilder media that wins" },
+  { key: "headline2", label: "Headline (line 2)", type: "text" as const, defaultValue: "hearts and earns clicks." },
+  { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "One shoot. Multiple outcomes. Photography, staging, and video designed to convert across every channel." },
+  { key: "cta1Text", label: "Primary CTA Text", type: "text" as const, defaultValue: "See FrameFlow in Action" },
+  { key: "cta1Url", label: "Primary CTA URL", type: "url" as const, defaultValue: "/offerings/frameflow" },
+  { key: "cta2Text", label: "Secondary CTA Text", type: "text" as const, defaultValue: "Book a 15 Minute Plan" },
+  { key: "cta2Url", label: "Secondary CTA URL", type: "url" as const, defaultValue: "/contact" },
+  { key: "videoUrl", label: "Background Video (YouTube URL)", type: "url" as const, defaultValue: "" },
+];
+
+function extractYoutubeId(url: string): string | null {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?\s]+)/);
+  return match ? match[1] : null;
+}
 
 const placeholderTiles = [
   { label: "Lifestyle", gradient: "from-bg-dark to-bg-dark-surface" },
@@ -27,68 +44,93 @@ export function HeroVideo() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <section
-      ref={containerRef}
-      className="relative min-h-screen overflow-hidden bg-bg-dark"
-    >
-      {/* Video tile grid — parallax on scroll */}
-      <motion.div
-        className="absolute inset-0 grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3"
-        style={{ y: gridY, scale: gridScale }}
-      >
-        {placeholderTiles.map((tile) => (
-          <div
-            key={tile.label}
-            className={`bg-gradient-to-br ${tile.gradient} flex items-center justify-center`}
-          >
-            {/* Replace with <video> elements when footage is ready */}
-            <span className="text-xs font-medium uppercase tracking-widest text-accent-secondary/30">
-              {tile.label}
-            </span>
-          </div>
-        ))}
-      </motion.div>
+    <EditableContent slotId="hero-main" fields={heroFields}>
+      {(v) => {
+        const ytId = v.videoUrl ? extractYoutubeId(v.videoUrl) : null;
 
-      {/* Dark overlay — deepens on scroll */}
-      <motion.div
-        className="absolute inset-0 bg-black"
-        style={{ opacity: overlayOpacity }}
-      />
-
-      {/* Hero content — scrolls away with fade */}
-      <motion.div
-        className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center"
-        style={{ y: contentY, opacity: contentOpacity }}
-      >
-        <div className="mx-auto max-w-3xl">
-          <h1 className="text-text-light lg:text-[4rem] lg:leading-[1.05]">
-            Homebuilder media that wins
-            <br />
-            <strong>hearts</strong> and earns <strong>clicks</strong>.
-          </h1>
-          <p
-            className="lead-text mx-auto mt-6 max-w-2xl text-text-muted"
-            style={{ fontStyle: "italic" }}
+        return (
+          <section
+            ref={containerRef}
+            className="relative min-h-screen overflow-hidden bg-bg-dark"
           >
-            One shoot. Multiple outcomes. Photography, staging, and video
-            designed to convert across every channel.
-          </p>
-          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link
-              href="/offerings/frameflow"
-              className="rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:bg-accent-hover"
+            {/* Background: YouTube video or placeholder tiles */}
+            {ytId ? (
+              <motion.div
+                className="absolute inset-0"
+                style={{ y: gridY, scale: gridScale }}
+              >
+                <iframe
+                  src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&playsinline=1`}
+                  className="pointer-events-none absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2"
+                  style={{ aspectRatio: "16/9", minWidth: "100%", minHeight: "100%" }}
+                  allow="autoplay; encrypted-media"
+                  tabIndex={-1}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                className="absolute inset-0 grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3"
+                style={{ y: gridY, scale: gridScale }}
+              >
+                {placeholderTiles.map((tile) => (
+                  <div
+                    key={tile.label}
+                    className={`bg-gradient-to-br ${tile.gradient} flex items-center justify-center`}
+                  >
+                    <span className="text-xs font-medium uppercase tracking-widest text-accent-secondary/30">
+                      {tile.label}
+                    </span>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+
+            {/* Dark overlay */}
+            <motion.div
+              className="absolute inset-0 bg-black"
+              style={{ opacity: overlayOpacity }}
+            />
+
+            {/* Content */}
+            <motion.div
+              className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center"
+              style={{ y: contentY, opacity: contentOpacity }}
             >
-              See FrameFlow in Action
-            </Link>
-            <Link
-              href="/contact"
-              className="rounded-full border border-text-light/25 px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:border-text-light/50 hover:bg-text-light/5"
-            >
-              Book a 15 Minute Plan
-            </Link>
-          </div>
-        </div>
-      </motion.div>
-    </section>
+              <div className="mx-auto max-w-3xl">
+                <h1 className="text-text-light lg:text-[4rem] lg:leading-[1.05]">
+                  {v.headline1}
+                  <br />
+                  {v.headline2}
+                </h1>
+                <p
+                  className="lead-text mx-auto mt-6 max-w-2xl text-text-muted"
+                  style={{ fontStyle: "italic" }}
+                >
+                  {v.subheadline}
+                </p>
+                <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+                  {v.cta1Text && (
+                    <Link
+                      href={v.cta1Url || "/"}
+                      className="rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:bg-accent-hover"
+                    >
+                      {v.cta1Text}
+                    </Link>
+                  )}
+                  {v.cta2Text && (
+                    <Link
+                      href={v.cta2Url || "/"}
+                      className="rounded-full border border-text-light/25 px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:border-text-light/50 hover:bg-text-light/5"
+                    >
+                      {v.cta2Text}
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </section>
+        );
+      }}
+    </EditableContent>
   );
 }

@@ -111,6 +111,15 @@ export async function setupDatabase() {
   `;
 
   await sql`
+    CREATE TABLE IF NOT EXISTS site_content (
+      id SERIAL PRIMARY KEY,
+      slot_id TEXT UNIQUE NOT NULL,
+      content JSONB DEFAULT '{}',
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `;
+
+  await sql`
     CREATE TABLE IF NOT EXISTS site_assets (
       id SERIAL PRIMARY KEY,
       slot_id TEXT UNIQUE NOT NULL,

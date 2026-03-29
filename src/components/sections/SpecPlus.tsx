@@ -1,6 +1,17 @@
+"use client";
+
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { EditableContent } from "@/components/EditableContent";
+
+const fields = [
+  { key: "eyebrow", label: "Eyebrow", type: "text" as const, defaultValue: "Spec+" },
+  { key: "headline", label: "Headline", type: "text" as const, defaultValue: "Your inventory needs to move. Spec+ delivers *everything*." },
+  { key: "body", label: "Body", type: "textarea" as const, defaultValue: "Virtual staging, virtual video, and photography in one package built for standing inventory. Stop managing multiple vendors." },
+  { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "Order via FrameFlow" },
+  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/offerings/spec-plus" },
+];
 
 export function SpecPlus() {
   return (
@@ -13,21 +24,23 @@ export function SpecPlus() {
 
         {/* Copy side — no competing imagery */}
         <RevealOnScroll>
-          <Eyebrow>Spec+</Eyebrow>
-          <h2>
-            Your inventory needs to move. Spec+ delivers{" "}
-            <strong>everything</strong>.
-          </h2>
-          <p className="mt-5 text-text-body">
-            Virtual staging, virtual video, and photography in one package built
-            for standing inventory. Stop managing multiple vendors.
-          </p>
-          <Link
-            href="/offerings/spec-plus"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-          >
-            Order via FrameFlow <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <EditableContent slotId="section-spec-plus" fields={fields}>
+            {(v) => (
+              <>
+                <Eyebrow>{v.eyebrow}</Eyebrow>
+                <h2 dangerouslySetInnerHTML={{ __html: v.headline.replace(/\*([^*]+)\*/g, "<strong>$1</strong>") }} />
+                <p className="mt-5 text-text-body">{v.body}</p>
+                {v.ctaText && (
+                  <Link
+                    href={v.ctaUrl || "/"}
+                    className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
+                  >
+                    {v.ctaText} <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                )}
+              </>
+            )}
+          </EditableContent>
         </RevealOnScroll>
       </div>
     </section>

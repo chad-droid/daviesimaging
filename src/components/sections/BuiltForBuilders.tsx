@@ -1,28 +1,40 @@
+"use client";
+
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { EditableContent } from "@/components/EditableContent";
+
+const fields = [
+  { key: "eyebrow", label: "Eyebrow", type: "text" as const, defaultValue: "Built For Builders" },
+  { key: "headline", label: "Headline", type: "text" as const, defaultValue: "We partner with marketing directors and sales leaders who want *results*." },
+  { key: "body", label: "Body", type: "textarea" as const, defaultValue: "Builders doing 300+ homes annually. Teams that need consistency across communities. Leaders who understand launch pressure, spec timelines, and sales alignment." },
+  { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "See who we serve" },
+  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/markets/role/directors" },
+];
 
 export function BuiltForBuilders() {
   return (
     <section className="flex min-h-[70vh] items-center bg-bg-dark py-24 text-text-light">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
-          <Eyebrow>Built For Builders</Eyebrow>
-          <h2 className="text-text-light">
-            We partner with marketing directors and sales leaders who want{" "}
-            <strong>results</strong>.
-          </h2>
-          <p className="mt-5 text-text-muted">
-            Builders doing 300+ homes annually. Teams that need consistency
-            across communities. Leaders who understand launch pressure, spec
-            timelines, and sales alignment.
-          </p>
-          <Link
-            href="/markets/role/directors"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-light transition-colors hover:text-accent-dark-hover"
-          >
-            See who we serve <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <EditableContent slotId="section-built-for-builders" fields={fields}>
+            {(v) => (
+              <>
+                <Eyebrow>{v.eyebrow}</Eyebrow>
+                <h2 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline.replace(/\*([^*]+)\*/g, "<strong>$1</strong>") }} />
+                <p className="mt-5 text-text-muted">{v.body}</p>
+                {v.ctaText && (
+                  <Link
+                    href={v.ctaUrl || "/"}
+                    className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-light transition-colors hover:text-accent-dark-hover"
+                  >
+                    {v.ctaText} <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                )}
+              </>
+            )}
+          </EditableContent>
         </RevealOnScroll>
       </div>
     </section>
