@@ -10,10 +10,45 @@ interface BlobFile {
   uploadedAt: string;
 }
 
+interface MediaFile {
+  id: number;
+  deal_id: string;
+  url: string;
+  thumb_url: string;
+  filename: string;
+  description: string | null;
+  size_bytes: number;
+  width: number;
+  height: number;
+}
+
+interface DealMeta {
+  id: string;
+  name: string;
+  builder: string;
+  city: string;
+  state: string;
+  pipeline: string;
+  model_name: string;
+  location_name: string;
+  project_type: string;
+  scope: string;
+  deliverables: string;
+  address: string;
+  amount: number;
+  production_date: string;
+  client_assets: string;
+  internal_assets: string;
+  matterport: string;
+  youtube: string;
+  project_website: string;
+}
+
 interface ProjectGroup {
   builder: string;
   deal: string;
   path: string;
+  dealId: string;
   images: BlobFile[];
   thumbs: BlobFile[];
 }
@@ -24,12 +59,204 @@ function formatSize(bytes: number): string {
   return (bytes / 1024 / 1024).toFixed(1) + " MB";
 }
 
+function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => void }) {
+  const [deal, setDeal] = useState<DealMeta | null>(null);
+  const [files, setFiles] = useState<MediaFile[]>([]);
+  const [editing, setEditing] = useState<Record<string, string>>({});
+  const [saving, setSaving] = useState(false);
+  const [describing, setDescribing] = useState(false);
+  const [describeResult, setDescribeResult] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/media/metadata?dealId=${dealId}`)
+      .then((r) => r.json())
+      .then((data) => {
+        setDeal(data.deal);
+        setFiles(data.files || []);
+      });
+  }, [dealId]);
+
+  async function saveFields() {
+    if (Object.keys(editing).length === 0) return;
+    setSaving(true);
+    await fetch("/api/media/metadata", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dealId, fields: editing }),
+    });
+    setSaving(false);
+    setEditing({});
+    // Refresh
+    const res = await fetch(`/api/media/metadata?dealId=${dealId}`);
+    const data = await res.json();
+    setDeal(data.deal);
+  }
+
+  async function describeAll() {
+    setDescribing(true);
+    setDescribeResult(null);
+    try {
+      const res = await fetch("/api/media/describe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dealId, all: true }),
+      });
+      const data = await res.json();
+      setDescribeResult(`${data.described} images described${data.failed > 0 ? `, ${data.failed} failed` : ""}`);
+      // Refresh files
+      const meta = await fetch(`/api/media/metadata?dealId=${dealId}`);
+      const metaData = await meta.json();
+      setFiles(metaData.files || []);
+    } catch (e) {
+      setDescribeResult(`Error: ${e}`);
+    }
+    setDescribing(false);
+  }
+
+  if (!deal) return <div className="p-8 text-center text-sm text-[#666]">Loading...</div>;
+
+  const editableFields = [
+    { key: "name", label: "Deal Name" },
+    { key: "builder", label: "Builder" },
+    { key: "city", label: "City" },
+    { key: "state", label: "State" },
+    { key: "model_name", label: "Model Name" },
+    { key: "location_name", label: "Location" },
+    { key: "project_type", label: "Project Type" },
+    { key: "address", label: "Address" },
+    { key: "deliverables", label: "Deliverables" },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+
+      {/* Panel */}
+      <div className="relative ml-auto h-full w-full max-w-2xl overflow-y-auto bg-[#1E1E1E] shadow-2xl">
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#2C2C2C] bg-[#1E1E1E] px-6 py-4">
+          <div>
+            <h2 className="text-sm font-semibold text-[#F5F5F5]" style={{ fontSize: "1rem", fontFamily: "inherit" }}>
+              {deal.name}
+            </h2>
+            <p className="text-xs text-[#A8A2D0]">{deal.builder} | {deal.city}, {deal.state}</p>
+          </div>
+          <button onClick={onClose} className="text-[#666] hover:text-[#F5F5F5]">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="p-6">
+          {/* Deal metadata */}
+          <div className="mb-6">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#A8A2D0]">Project Info</p>
+              {Object.keys(editing).length > 0 && (
+                <button
+                  onClick={saveFields}
+                  disabled={saving}
+                  className="rounded-full bg-[#6A5ACD] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#5848B5] disabled:opacity-50"
+                >
+                  {saving ? "Saving..." : "Save Changes"}
+                </button>
+              )}
+            </div>
+            <div className="space-y-3">
+              {editableFields.map((field) => (
+                <div key={field.key}>
+                  <label className="mb-1 block text-[10px] uppercase tracking-widest text-[#666]">
+                    {field.label}
+                  </label>
+                  <input
+                    type="text"
+                    value={editing[field.key] ?? (deal as unknown as Record<string, string>)[field.key] ?? ""}
+                    onChange={(e) => setEditing({ ...editing, [field.key]: e.target.value })}
+                    className="w-full rounded border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5] outline-none focus:border-[#6A5ACD]"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Read-only fields */}
+            <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
+              {deal.pipeline && <div><span className="text-[#666]">Pipeline:</span> <span className="text-[#F5F5F5]">{deal.pipeline}</span></div>}
+              {deal.production_date && <div><span className="text-[#666]">Produced:</span> <span className="text-[#F5F5F5]">{deal.production_date}</span></div>}
+              {deal.amount > 0 && <div><span className="text-[#666]">Amount:</span> <span className="text-[#F5F5F5]">${Number(deal.amount).toLocaleString()}</span></div>}
+            </div>
+
+            {/* Links */}
+            <div className="mt-4 flex flex-wrap gap-3">
+              {deal.client_assets && <a href={deal.client_assets} target="_blank" rel="noopener noreferrer" className="text-xs text-[#6A5ACD] hover:underline">Client Assets &rarr;</a>}
+              {deal.internal_assets && <a href={deal.internal_assets} target="_blank" rel="noopener noreferrer" className="text-xs text-[#A8A2D0] hover:underline">Internal &rarr;</a>}
+              {deal.matterport && <a href={deal.matterport} target="_blank" rel="noopener noreferrer" className="text-xs text-[#4CAF50] hover:underline">Matterport &rarr;</a>}
+              {deal.project_website && <a href={deal.project_website} target="_blank" rel="noopener noreferrer" className="text-xs text-[#A8A2D0] hover:underline">Website &rarr;</a>}
+            </div>
+          </div>
+
+          {/* AI Descriptions */}
+          <div className="mb-6 border-t border-[#2C2C2C] pt-6">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#A8A2D0]">
+                Image Descriptions ({files.filter((f) => f.description).length}/{files.length} done)
+              </p>
+              <button
+                onClick={describeAll}
+                disabled={describing}
+                className="rounded-full bg-[#6A5ACD] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#5848B5] disabled:opacity-50"
+              >
+                {describing ? "Analyzing images..." : "Generate AI Descriptions"}
+              </button>
+            </div>
+            {describeResult && (
+              <p className={`mb-3 text-xs ${describeResult.startsWith("Error") ? "text-[#E57373]" : "text-[#4CAF50]"}`}>
+                {describeResult}
+              </p>
+            )}
+          </div>
+
+          {/* File list with descriptions */}
+          <div className="space-y-3">
+            {files.map((file) => (
+              <div key={file.id} className="flex gap-3 rounded-lg border border-[#2C2C2C] bg-[#121212] p-3">
+                <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded bg-[#2C2C2C]">
+                  <Image
+                    src={file.thumb_url || file.url}
+                    alt={file.description || file.filename}
+                    fill
+                    className="object-cover"
+                    sizes="96px"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-xs font-medium text-[#F5F5F5]">{file.filename}</p>
+                  <p className="text-[10px] text-[#666]">
+                    {file.width}x{file.height} | {formatSize(file.size_bytes)}
+                  </p>
+                  {file.description ? (
+                    <p className="mt-1 text-xs leading-relaxed text-[#A8A2D0]">{file.description}</p>
+                  ) : (
+                    <p className="mt-1 text-[10px] italic text-[#666]">No description yet</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminMediaPage() {
   const [files, setFiles] = useState<BlobFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  const [metadataPanel, setMetadataPanel] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
   const [showUpload, setShowUpload] = useState(false);
   const [uploadFolder, setUploadFolder] = useState("gallery/");
   const [uploading, setUploading] = useState(false);
@@ -71,18 +298,17 @@ export default function AdminMediaPage() {
     fetchFiles();
   }, [fetchFiles]);
 
-  // Group files by project (builder/deal)
+  // Group files by project
   const projects: ProjectGroup[] = (() => {
     const groups: Record<string, ProjectGroup> = {};
     for (const f of files) {
-      // pathname: gallery/builder-name/deal-name/file.webp or .../thumbs/file.webp
       const parts = f.pathname.split("/");
       if (parts.length < 4) continue;
       const builder = parts[1];
       const deal = parts[2];
       const key = `${builder}/${deal}`;
       if (!groups[key]) {
-        groups[key] = { builder, deal, path: key, images: [], thumbs: [] };
+        groups[key] = { builder, deal, path: key, dealId: "", images: [], thumbs: [] };
       }
       if (parts[3] === "thumbs") {
         groups[key].thumbs.push(f);
@@ -93,6 +319,15 @@ export default function AdminMediaPage() {
     return Object.values(groups).sort((a, b) => a.builder.localeCompare(b.builder));
   })();
 
+  // Filter by search
+  const filteredProjects = search
+    ? projects.filter(
+        (p) =>
+          p.builder.toLowerCase().includes(search.toLowerCase()) ||
+          p.deal.toLowerCase().includes(search.toLowerCase()),
+      )
+    : projects;
+
   const totalSize = files.reduce((s, f) => s + f.size, 0);
   const imageCount = files.filter((f) => !f.pathname.includes("/thumbs/")).length;
 
@@ -102,37 +337,37 @@ export default function AdminMediaPage() {
       <div className="sticky top-0 z-40 border-b border-[#2C2C2C] bg-[#1E1E1E] px-6 py-4">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div>
-            <h1
-              className="text-lg font-semibold text-[#F5F5F5]"
-              style={{ fontSize: "1.125rem" }}
-            >
+            <h1 className="text-lg font-semibold text-[#F5F5F5]" style={{ fontSize: "1.125rem" }}>
               DIG Media Library
             </h1>
             <p className="text-xs text-[#A8A2D0]">
-              {projects.length} projects | {imageCount} images |{" "}
-              {formatSize(totalSize)} total
+              {filteredProjects.length} projects | {imageCount} images | {formatSize(totalSize)} total
             </p>
           </div>
           <div className="flex gap-2">
-            <a
-              href="/admin/assets"
-              className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
-            >
+            <a href="/admin/assets" className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]">
               Asset Manager
             </a>
-            <button
-              onClick={() => setShowUpload(!showUpload)}
-              className="rounded-full bg-[#6A5ACD] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5]"
-            >
+            <button onClick={() => setShowUpload(!showUpload)} className="rounded-full bg-[#6A5ACD] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5]">
               {showUpload ? "Close Upload" : "Upload Images"}
             </button>
-            <button
-              onClick={fetchFiles}
-              className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
-            >
+            <button onClick={fetchFiles} className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]">
               Refresh
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Search bar */}
+      <div className="border-b border-[#2C2C2C] bg-[#1E1E1E] px-6 py-3">
+        <div className="mx-auto max-w-7xl">
+          <input
+            type="text"
+            placeholder="Search projects by builder or deal name..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full rounded-lg border border-[#2C2C2C] bg-[#121212] px-4 py-2.5 text-sm text-[#F5F5F5] outline-none placeholder:text-[#666] focus:border-[#6A5ACD]"
+          />
         </div>
       </div>
 
@@ -140,21 +375,16 @@ export default function AdminMediaPage() {
       {showUpload && (
         <div className="border-b border-[#2C2C2C] bg-[#1E1E1E] px-6 py-6">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-4 flex items-end gap-4">
-              <div className="flex-1">
-                <label className="mb-1.5 block text-xs text-[#666]">
-                  Folder path (e.g. gallery/builder-name/deal-name)
-                </label>
-                <input
-                  type="text"
-                  value={uploadFolder}
-                  onChange={(e) => setUploadFolder(e.target.value)}
-                  placeholder="gallery/builder-name/deal-name"
-                  className="w-full rounded-lg border border-[#2C2C2C] bg-[#121212] px-4 py-2.5 text-sm text-[#F5F5F5] outline-none focus:border-[#6A5ACD]"
-                />
-              </div>
+            <div className="mb-4">
+              <label className="mb-1.5 block text-xs text-[#666]">Folder path</label>
+              <input
+                type="text"
+                value={uploadFolder}
+                onChange={(e) => setUploadFolder(e.target.value)}
+                placeholder="gallery/builder-name/deal-name"
+                className="w-full rounded-lg border border-[#2C2C2C] bg-[#121212] px-4 py-2.5 text-sm text-[#F5F5F5] outline-none focus:border-[#6A5ACD]"
+              />
             </div>
-
             <div
               onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
               onDragLeave={() => setDragOver(false)}
@@ -162,275 +392,177 @@ export default function AdminMediaPage() {
                 e.preventDefault();
                 setDragOver(false);
                 if (uploading) return;
-                const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith("image/"));
+                const droppedFiles = Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith("image/"));
                 if (!droppedFiles.length) return;
-
                 setUploading(true);
                 setUploadResult(null);
                 const fd = new FormData();
                 fd.set("folder", uploadFolder);
-                droppedFiles.forEach(f => fd.append("files", f));
-
+                droppedFiles.forEach((f) => fd.append("files", f));
                 try {
                   const res = await fetch("/api/media/upload", { method: "POST", body: fd });
-                  const data = await res.json();
-                  setUploadResult(data);
+                  setUploadResult(await res.json());
                   fetchFiles();
                 } catch (err) {
                   setUploadResult({ imported: 0, savings: "0%", totalOriginalMB: "0", totalOptimizedMB: "0", errors: [String(err)] });
-                } finally {
-                  setUploading(false);
                 }
+                setUploading(false);
               }}
-              className={`rounded-lg border-2 border-dashed p-10 text-center transition-colors ${
-                dragOver
-                  ? "border-[#6A5ACD] bg-[#6A5ACD]/10"
-                  : "border-[#2C2C2C] hover:border-[#6A5ACD]/50"
-              }`}
+              className={`rounded-lg border-2 border-dashed p-10 text-center transition-colors ${dragOver ? "border-[#6A5ACD] bg-[#6A5ACD]/10" : "border-[#2C2C2C] hover:border-[#6A5ACD]/50"}`}
             >
               {uploading ? (
                 <p className="text-sm text-[#A8A2D0]">Optimizing and uploading...</p>
               ) : (
                 <>
-                  <p className="text-sm text-[#A8A2D0]">
-                    Drag and drop images here
-                  </p>
-                  <p className="mt-1 text-xs text-[#666]">
-                    Images auto-optimized to WebP (max 2400px, 82% quality) with thumbnails generated
-                  </p>
-                  <label className="mt-4 inline-block cursor-pointer rounded-full border border-[#6A5ACD] px-5 py-2 text-xs font-semibold text-[#6A5ACD] transition-colors hover:bg-[#6A5ACD] hover:text-white">
-                    Or browse files
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      className="hidden"
-                      onChange={async (e) => {
-                        const selectedFiles = Array.from(e.target.files || []);
-                        if (!selectedFiles.length || uploading) return;
-
-                        setUploading(true);
-                        setUploadResult(null);
-                        const fd = new FormData();
-                        fd.set("folder", uploadFolder);
-                        selectedFiles.forEach(f => fd.append("files", f));
-
-                        try {
-                          const res = await fetch("/api/media/upload", { method: "POST", body: fd });
-                          const data = await res.json();
-                          setUploadResult(data);
-                          fetchFiles();
-                        } catch (err) {
-                          setUploadResult({ imported: 0, savings: "0%", totalOriginalMB: "0", totalOptimizedMB: "0", errors: [String(err)] });
-                        } finally {
-                          setUploading(false);
-                        }
-                      }}
-                    />
-                  </label>
+                  <p className="text-sm text-[#A8A2D0]">Drag and drop images here</p>
+                  <p className="mt-1 text-xs text-[#666]">Auto-optimized to WebP (max 2400px, 82% quality)</p>
                 </>
               )}
             </div>
-
             {uploadResult && (
-              <div className="mt-4 rounded-lg border border-[#2C2C2C] bg-[#121212] p-4 text-xs">
-                <p className="text-[#F5F5F5]">
-                  Imported {uploadResult.imported} images | {uploadResult.totalOriginalMB}MB &rarr; {uploadResult.totalOptimizedMB}MB ({uploadResult.savings} smaller)
-                </p>
-                {uploadResult.errors.length > 0 && (
-                  <div className="mt-2 text-[#E57373]">
-                    {uploadResult.errors.map((err, i) => <p key={i}>{err}</p>)}
-                  </div>
-                )}
-              </div>
+              <p className="mt-3 text-xs text-[#4CAF50]">
+                Imported {uploadResult.imported} | {uploadResult.totalOriginalMB}MB &rarr; {uploadResult.totalOptimizedMB}MB ({uploadResult.savings} smaller)
+              </p>
             )}
           </div>
         </div>
       )}
 
+      {/* Project list */}
       <div className="mx-auto max-w-7xl px-6 py-6">
-        {loading && (
+        {loading && <p className="py-20 text-center text-sm text-[#666]">Loading media...</p>}
+        {error && <p className="py-20 text-center text-sm text-[#E57373]">{error}</p>}
+
+        {!loading && filteredProjects.length === 0 && (
           <p className="py-20 text-center text-sm text-[#666]">
-            Loading media...
+            {search ? "No projects match your search." : "No images imported yet."}
           </p>
         )}
-        {error && (
-          <p className="py-20 text-center text-sm text-[#E57373]">{error}</p>
-        )}
 
-        {!loading && projects.length === 0 && (
-          <div className="py-20 text-center">
-            <p className="text-sm text-[#666]">
-              No images imported yet. Go to the{" "}
-              <a
-                href="/admin/assets"
-                className="text-[#6A5ACD] hover:underline"
-              >
-                Asset Manager
-              </a>{" "}
-              to approve and import projects.
-            </p>
-          </div>
-        )}
-
-        {/* Project grid */}
-        {!loading && projects.length > 0 && (
-          <div className="space-y-3">
-            {projects.map((project) => {
-              const isExpanded = selectedProject === project.path;
-              return (
-                <div
-                  key={project.path}
-                  className="rounded-lg border border-[#2C2C2C] bg-[#1E1E1E]"
-                >
+        <div className="space-y-3">
+          {filteredProjects.map((project) => {
+            const isExpanded = selectedProject === project.path;
+            return (
+              <div key={project.path} className="rounded-lg border border-[#2C2C2C] bg-[#1E1E1E]">
+                <div className="flex items-center justify-between px-5 py-4">
                   <button
-                    onClick={() =>
-                      setSelectedProject(isExpanded ? null : project.path)
-                    }
-                    className="flex w-full items-center justify-between px-5 py-4 text-left"
+                    onClick={() => setSelectedProject(isExpanded ? null : project.path)}
+                    className="flex flex-1 items-center gap-4 text-left"
                   >
                     <div>
-                      <p className="text-sm font-medium text-[#F5F5F5]">
-                        {project.deal.replace(/-/g, " ")}
-                      </p>
+                      <p className="text-sm font-medium text-[#F5F5F5]">{project.deal.replace(/-/g, " ")}</p>
                       <p className="mt-0.5 text-xs text-[#A8A2D0]">
-                        {project.builder.replace(/-/g, " ")} |{" "}
-                        {project.images.length} images |{" "}
-                        {formatSize(
-                          project.images.reduce((s, f) => s + f.size, 0),
-                        )}
+                        {project.builder.replace(/-/g, " ")} | {project.images.length} images | {formatSize(project.images.reduce((s, f) => s + f.size, 0))}
                       </p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      {/* Preview thumbnails */}
-                      <div className="hidden gap-1 sm:flex">
-                        {(project.thumbs.length > 0
-                          ? project.thumbs
-                          : project.images
-                        )
-                          .slice(0, 4)
-                          .map((f) => (
-                            <div
-                              key={f.pathname}
-                              className="relative h-10 w-14 overflow-hidden rounded bg-[#2C2C2C]"
-                            >
-                              <Image
-                                src={f.url}
-                                alt=""
-                                fill
-                                className="object-cover"
-                                sizes="56px"
-                              />
-                            </div>
-                          ))}
-                        {project.images.length > 4 && (
-                          <div className="flex h-10 w-14 items-center justify-center rounded bg-[#2C2C2C] text-[10px] text-[#666]">
-                            +{project.images.length - 4}
-                          </div>
-                        )}
-                      </div>
-                      <svg
-                        className={`h-4 w-4 text-[#666] transition-transform ${isExpanded ? "rotate-180" : ""}`}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
                     </div>
                   </button>
-
-                  {isExpanded && (
-                    <div className="border-t border-[#2C2C2C] px-5 py-5">
-                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                        {project.images.map((img) => {
-                          const thumb = project.thumbs.find((t) =>
-                            t.pathname.endsWith(
-                              img.pathname.split("/").pop() || "",
-                            ),
-                          );
-                          return (
-                            <button
-                              key={img.pathname}
-                              onClick={() => setLightboxUrl(img.url)}
-                              className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-[#2C2C2C]"
-                            >
-                              <Image
-                                src={thumb?.url || img.url}
-                                alt={img.pathname.split("/").pop() || ""}
-                                fill
-                                className="object-cover transition-transform group-hover:scale-105"
-                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                              />
-                              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2 opacity-0 transition-opacity group-hover:opacity-100">
-                                <p className="truncate text-[10px] text-white">
-                                  {img.pathname.split("/").pop()}
-                                </p>
-                                <p className="text-[9px] text-white/60">
-                                  {formatSize(img.size)}
-                                </p>
-                              </div>
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Copy URL helper */}
-                      <div className="mt-4 flex items-center gap-2">
-                        <p className="text-xs text-[#666]">
-                          Blob path: <code className="text-[#A8A2D0]">{project.path}/</code>
-                        </p>
-                      </div>
+                  <div className="flex items-center gap-2">
+                    {/* Preview thumbs */}
+                    <div className="hidden gap-1 sm:flex">
+                      {(project.thumbs.length > 0 ? project.thumbs : project.images).slice(0, 4).map((f) => (
+                        <div key={f.pathname} className="relative h-10 w-14 overflow-hidden rounded bg-[#2C2C2C]">
+                          <Image src={f.url} alt="" fill className="object-cover" sizes="56px" />
+                        </div>
+                      ))}
+                      {project.images.length > 4 && (
+                        <div className="flex h-10 w-14 items-center justify-center rounded bg-[#2C2C2C] text-[10px] text-[#666]">+{project.images.length - 4}</div>
+                      )}
                     </div>
-                  )}
+                    {/* Metadata button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Find dealId by matching builder/deal slug pattern
+                        setMetadataPanel(project.path);
+                      }}
+                      className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+                    >
+                      Metadata
+                    </button>
+                    <svg
+                      className={`h-4 w-4 text-[#666] transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                      fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
+
+                {isExpanded && (
+                  <div className="border-t border-[#2C2C2C] px-5 py-5">
+                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                      {project.images.map((img) => {
+                        const thumb = project.thumbs.find((t) => t.pathname.endsWith(img.pathname.split("/").pop() || ""));
+                        return (
+                          <button
+                            key={img.pathname}
+                            onClick={() => setLightboxUrl(img.url)}
+                            className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-[#2C2C2C]"
+                          >
+                            <Image
+                              src={thumb?.url || img.url}
+                              alt=""
+                              fill
+                              className="object-cover transition-transform group-hover:scale-105"
+                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                            />
+                            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2 opacity-0 transition-opacity group-hover:opacity-100">
+                              <p className="truncate text-[10px] text-white">{img.pathname.split("/").pop()}</p>
+                              <p className="text-[9px] text-white/60">{formatSize(img.size)}</p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Lightbox */}
       {lightboxUrl && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-          onClick={() => setLightboxUrl(null)}
-        >
-          <button
-            onClick={() => setLightboxUrl(null)}
-            className="absolute right-4 top-4 text-white/60 transition-colors hover:text-white"
-          >
-            <svg
-              className="h-8 w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4" onClick={() => setLightboxUrl(null)}>
+          <button onClick={() => setLightboxUrl(null)} className="absolute right-4 top-4 text-white/60 hover:text-white">
+            <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          <div className="relative max-h-[90vh] max-w-[90vw]">
-            <Image
-              src={lightboxUrl}
-              alt="Full size preview"
-              width={2400}
-              height={1600}
-              className="max-h-[90vh] w-auto rounded-lg object-contain"
-              quality={95}
-            />
-          </div>
+          <Image src={lightboxUrl} alt="Full size" width={2400} height={1600} className="max-h-[90vh] w-auto rounded-lg object-contain" quality={95} />
         </div>
+      )}
+
+      {/* Metadata Panel */}
+      {metadataPanel && (
+        <MetadataPanelLoader
+          projectPath={metadataPanel}
+          onClose={() => setMetadataPanel(null)}
+        />
       )}
     </div>
   );
+}
+
+// Resolves project path to deal ID, then opens MetadataPanel
+function MetadataPanelLoader({ projectPath, onClose }: { projectPath: string; onClose: () => void }) {
+  const [dealId, setDealId] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Search for the deal by matching builder and deal name slugs
+    const [builderSlug, dealSlug] = projectPath.split("/");
+    const searchTerm = dealSlug.replace(/-/g, " ");
+    fetch(`/api/deals/status?search=${encodeURIComponent(searchTerm)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.deals && data.deals.length > 0) {
+          setDealId(data.deals[0].id);
+        }
+      });
+  }, [projectPath]);
+
+  if (!dealId) return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"><p className="text-sm text-[#A8A2D0]">Finding deal...</p></div>;
+
+  return <MetadataPanel dealId={dealId} onClose={onClose} />;
 }

@@ -45,6 +45,7 @@ export async function setupDatabase() {
       url TEXT NOT NULL,
       thumb_url TEXT,
       filename TEXT,
+      description TEXT,
       size_bytes INTEGER,
       width INTEGER,
       height INTEGER,
