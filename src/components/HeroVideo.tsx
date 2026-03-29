@@ -56,13 +56,13 @@ export function HeroVideo() {
             {/* Background: YouTube video or placeholder tiles */}
             {ytId ? (
               <motion.div
-                className="absolute inset-0"
+                className="absolute inset-0 overflow-hidden"
                 style={{ y: gridY, scale: gridScale }}
               >
                 <iframe
                   src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&playsinline=1`}
-                  className="pointer-events-none absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2"
-                  style={{ aspectRatio: "16/9", minWidth: "100%", minHeight: "100%" }}
+                  className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                  style={{ width: "177.78vh", height: "56.25vw", minWidth: "100vw", minHeight: "100vh" }}
                   allow="autoplay; encrypted-media"
                   tabIndex={-1}
                 />
