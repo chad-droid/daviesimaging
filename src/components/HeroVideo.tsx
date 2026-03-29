@@ -39,7 +39,7 @@ export function HeroVideo() {
 
   const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const gridScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.8], [0.55, 0.85]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.8], [0.45, 0.8]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
@@ -55,10 +55,7 @@ export function HeroVideo() {
           >
             {/* Background: YouTube video or placeholder tiles */}
             {ytId ? (
-              <motion.div
-                className="absolute inset-0 overflow-hidden"
-                style={{ y: gridY, scale: gridScale }}
-              >
+              <div className="absolute inset-0 overflow-hidden">
                 <iframe
                   src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&playsinline=1`}
                   className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -66,7 +63,7 @@ export function HeroVideo() {
                   allow="autoplay; encrypted-media"
                   tabIndex={-1}
                 />
-              </motion.div>
+              </div>
             ) : (
               <motion.div
                 className="absolute inset-0 grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3"
