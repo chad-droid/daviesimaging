@@ -77,7 +77,6 @@ export function DynamicImage({
 
   const hasBefore = !!asset.before_url;
   const displayUrl = showBefore && asset.before_url ? asset.before_url : asset.image_url;
-  const displayThumb = showBefore && asset.before_thumb_url ? asset.before_thumb_url : asset.thumb_url;
 
   return (
     <div
@@ -86,11 +85,12 @@ export function DynamicImage({
       style={{ aspectRatio }}
     >
       <Image
-        src={displayThumb || displayUrl}
+        src={displayUrl}
         alt={asset.alt_text || ""}
         fill
         className="object-cover"
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
+        quality={90}
       />
 
       {/* Before/After toggle */}
