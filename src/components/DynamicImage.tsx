@@ -76,7 +76,7 @@ export function DynamicImage({
   }
 
   const hasBefore = !!asset.before_url;
-  const displayUrl = showBefore && asset.before_url ? asset.before_url : asset.image_url;
+  const displayUrl = showBefore && asset.before_url ? asset.before_url : (asset.thumb_url || asset.image_url);
 
   return (
     <div

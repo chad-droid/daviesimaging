@@ -5,7 +5,7 @@ import sharp from "sharp";
 const MAX_WIDTH = 2400;
 const QUALITY = 82;
 const THUMB_WIDTH = 800;
-const THUMB_QUALITY = 75;
+const THUMB_QUALITY = 85;
 
 export async function POST(req: NextRequest) {
   try {

@@ -15,7 +15,7 @@ import {
 const MAX_WIDTH = 2400;
 const QUALITY = 82;
 const THUMB_WIDTH = 800;
-const THUMB_QUALITY = 75;
+const THUMB_QUALITY = 85;
 
 // ── Google Drive helpers ──
 
