@@ -75,29 +75,29 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       .catch(() => setLoading(false));
   }, [pageSlug]);
 
-  // Flatten all images with project metadata for filtering
-  const allImages = projects.flatMap((p) =>
-    p.images.map((img, imgIndex) => ({
-      ...img,
+  // One cover image per project (first image as representative)
+  const projectCovers = projects
+    .filter((p) => p.images.length > 0)
+    .map((p) => ({
+      ...p.images[0],
       dealId: p.deal_id,
       project: p.deal_name,
       builder: p.builder,
       region: stateToRegion[p.state] || "Unknown",
       city: p.city,
       state: p.state,
-      imageIndex: imgIndex,
-    })),
-  );
+      imageCount: p.images.length,
+    }));
 
   const filtered =
     active === "All"
-      ? allImages
-      : allImages.filter((img) => img.region === active);
+      ? projectCovers
+      : projectCovers.filter((p) => p.region === active);
 
   // Count per region for badges
   const regionCounts: Record<string, number> = {};
-  allImages.forEach((img) => {
-    regionCounts[img.region] = (regionCounts[img.region] || 0) + 1;
+  projectCovers.forEach((p) => {
+    regionCounts[p.region] = (regionCounts[p.region] || 0) + 1;
   });
 
   const hasData = projects.length > 0;
@@ -155,34 +155,39 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
         </div>
       )}
 
-      {/* Image grid */}
+      {/* Project grid — one cover image per project */}
       {!loading && hasData && (
         <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((img) => (
+          {filtered.map((cover) => (
             <button
-              key={img.id}
-              onClick={() => setLightbox({ dealId: img.dealId, imageIndex: img.imageIndex })}
+              key={cover.dealId}
+              onClick={() => setLightbox({ dealId: cover.dealId, imageIndex: 0 })}
               className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-bg-dark"
             >
               <Image
-                src={img.thumb_url || img.url}
-                alt={img.description || `${img.project} - ${img.builder}`}
+                src={cover.thumb_url || cover.url}
+                alt={cover.description || `${cover.project} - ${cover.builder}`}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
               <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-[#121212]/60 to-transparent p-5 opacity-0 transition-opacity group-hover:opacity-100">
                 <span className="text-sm font-semibold text-text-light">
-                  {img.project}
+                  {cover.project}
                 </span>
                 <span className="mt-0.5 text-xs text-text-muted">
-                  {img.builder} | {img.city}{img.state ? `, ${img.state}` : ""}
+                  {cover.builder} | {cover.city}{cover.state ? `, ${cover.state}` : ""}
                 </span>
               </div>
-              <div className="absolute right-3 top-3">
+              <div className="absolute right-3 top-3 flex gap-1.5">
                 <span className="rounded-full bg-bg-surface/90 px-3 py-1 text-xs font-medium text-text-body">
-                  {img.region}
+                  {cover.region}
                 </span>
+                {cover.imageCount > 1 && (
+                  <span className="rounded-full bg-[#121212]/70 px-2.5 py-1 text-xs font-medium text-text-light backdrop-blur-sm">
+                    {cover.imageCount} photos
+                  </span>
+                )}
               </div>
             </button>
           ))}

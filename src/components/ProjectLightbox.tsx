@@ -18,12 +18,25 @@ interface ProjectInfo {
   state: string;
   pipeline: string;
   model_name: string;
+  scope: string;
   deliverables: string;
   production_date: string;
   address: string;
   project_website: string;
   qty_images: string;
   asset_count: string;
+}
+
+function formatMonthYear(dateStr: string): string {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  return d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+}
+
+function combineDescription(scope: string, deliverables: string): string {
+  const parts = [scope, deliverables].filter(Boolean);
+  return parts.join(" ");
 }
 
 interface ProjectLightboxProps {
@@ -170,22 +183,17 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
                 </p>
               </div>
 
-              {project.model_name && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest text-[#666]">Models</p>
-                  <p className="mt-0.5 text-sm text-[#F5F5F5]">{project.model_name}</p>
-                </div>
-              )}
-
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-[#666]">Service</p>
                 <p className="mt-0.5 text-sm text-[#F5F5F5]">{project.pipeline || "Premium"}</p>
               </div>
 
-              {project.deliverables && (
+              {combineDescription(project.scope, project.deliverables) && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-[#666]">Deliverables</p>
-                  <p className="mt-0.5 text-xs leading-relaxed text-[#A8A2D0]">{project.deliverables}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#666]">Description</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-[#A8A2D0]">
+                    {combineDescription(project.scope, project.deliverables)}
+                  </p>
                 </div>
               )}
 
@@ -201,7 +209,7 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
               {project.production_date && (
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-[#666]">Produced</p>
-                  <p className="mt-0.5 text-sm text-[#F5F5F5]">{project.production_date}</p>
+                  <p className="mt-0.5 text-sm text-[#F5F5F5]">{formatMonthYear(project.production_date)}</p>
                 </div>
               )}
 
