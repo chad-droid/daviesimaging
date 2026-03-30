@@ -87,14 +87,25 @@ function extractWorkDriveFolderId(url: string): string | null {
   return null;
 }
 
-// Pick the best URL to use: prefer internal (has direct folder IDs), fall back to client
+// Pick the best URL to use
+// Priority: 1) internal with direct folder ID, 2) internal with any recognized source,
+// 3) client assets, 4) any internal
 function pickAssetUrl(deal: Record<string, string | null>): string | null {
-  // Internal assets usually have direct WorkDrive folder IDs
-  if (deal.internal_assets && (deal.internal_assets.includes("workdrive.zoho.com/folder/") || deal.internal_assets.includes("drive.google.com"))) {
-    return deal.internal_assets;
-  }
-  // Fall back to client assets
-  return deal.client_assets || deal.internal_assets || null;
+  const ia = deal.internal_assets || "";
+  const ca = deal.client_assets || "";
+
+  // Best: internal with direct WorkDrive folder ID
+  if (ia.includes("workdrive.zoho.com/folder/")) return ia;
+  // Good: internal Google Drive
+  if (ia.includes("drive.google.com")) return ia;
+  // Client assets with WorkDrive (external hash or folder)
+  if (ca.includes("workdrive")) return ca;
+  // Client assets with Google Drive
+  if (ca.includes("drive.google.com")) return ca;
+  // Internal with WorkDrive external hash
+  if (ia.includes("workdrive")) return ia;
+  // Anything left
+  return ca || ia || null;
 }
 
 // ── AI description ──
