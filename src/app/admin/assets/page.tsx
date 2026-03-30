@@ -153,6 +153,7 @@ export default function AdminAssetsPage() {
 
     const params = new URLSearchParams();
     if (tab !== "imported") params.set("status", statusMap[tab]);
+    if (tab === "approved") params.set("imported", "false");
     if (tab === "imported") params.set("imported", "true");
     if (search) params.set("search", search);
     if (filterBuilder) params.set("builder", filterBuilder);

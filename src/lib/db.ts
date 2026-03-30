@@ -225,7 +225,7 @@ export async function getDealStats() {
   const result = await sql`
     SELECT
       COUNT(*) as total,
-      COUNT(*) FILTER (WHERE status = 'approved') as approved,
+      COUNT(*) FILTER (WHERE status = 'approved' AND imported = false) as approved,
       COUNT(*) FILTER (WHERE status = 'denied') as denied,
       COUNT(*) FILTER (WHERE status = 'archived') as archived,
       COUNT(*) FILTER (WHERE status = 'pending') as pending,

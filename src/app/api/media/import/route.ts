@@ -191,13 +191,23 @@ async function optimizeAndUpload(
     access: "public", contentType: "image/webp", addRandomSuffix: false, allowOverwrite: true,
   });
 
-  // Generate AI description
-  const description = await describeImage(fullBlob.url, dealContext);
-
   const meta = await sharp(full).metadata();
+
+  // Generate AI description (non-blocking — don't fail import if this times out)
+  let description = "";
+  try {
+    const descPromise = describeImage(fullBlob.url, dealContext);
+    const timeout = new Promise<string>((resolve) => setTimeout(() => resolve(""), 8000));
+    description = await Promise.race([descPromise, timeout]);
+  } catch { /* skip description on error */ }
+
   await sql`
     INSERT INTO media_files (deal_id, url, thumb_url, filename, description, size_bytes, width, height)
     VALUES (${dealId}, ${fullBlob.url}, ${thumbBlob.url}, ${filename}, ${description}, ${full.length}, ${meta.width || 0}, ${meta.height || 0})
+    ON CONFLICT (deal_id, url) DO UPDATE SET
+      thumb_url = EXCLUDED.thumb_url, filename = EXCLUDED.filename,
+      description = COALESCE(NULLIF(EXCLUDED.description, ''), media_files.description),
+      size_bytes = EXCLUDED.size_bytes, width = EXCLUDED.width, height = EXCLUDED.height
   `;
 
   return {
