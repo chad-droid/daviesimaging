@@ -285,6 +285,7 @@ export default function AdminDigitalPage() {
                       </p>
                       <p className="mt-0.5 truncate text-xs text-[#A8A2D0]">
                         {tx.account} | {tx.project_city_state || "No location"} | {tx.status || "No status"}
+                        {tx.date_delivered && ` | Delivered ${new Date(tx.date_delivered).toLocaleDateString()}`}
                       </p>
                     </div>
                     <div className="flex shrink-0 gap-1.5">

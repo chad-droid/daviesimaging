@@ -507,6 +507,7 @@ export default function AdminAssetsPage() {
                       <p className="mt-0.5 truncate text-xs text-[#A8A2D0]">
                         {isPreferred && <span className="mr-1 rounded bg-[#6A5ACD]/20 px-1.5 py-0.5 text-[9px] font-semibold text-[#6A5ACD]">PREFERRED</span>}
                         {deal.builder} | {deal.address || deal.city || "No address"} | {deal.pipeline}
+                        {deal.production_date && ` | ${deal.production_date}`}
                         {deal.amount > 0 && ` | $${Number(deal.amount).toLocaleString()}`}
                       </p>
                     </div>
