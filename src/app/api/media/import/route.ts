@@ -224,7 +224,7 @@ async function optimizeAndUpload(
 
 export async function POST(req: NextRequest) {
   try {
-    const { dealId, maxImages } = (await req.json()) as { dealId: string; maxImages?: number };
+    const { dealId, maxImages, overrideUrl } = (await req.json()) as { dealId: string; maxImages?: number; overrideUrl?: string };
 
     if (!dealId) return NextResponse.json({ error: "dealId required" }, { status: 400 });
 
@@ -232,7 +232,7 @@ export async function POST(req: NextRequest) {
     if (dealResult.rows.length === 0) return NextResponse.json({ error: "Deal not found" }, { status: 404 });
 
     const deal = dealResult.rows[0];
-    const assetUrl = pickAssetUrl(deal);
+    const assetUrl = overrideUrl || pickAssetUrl(deal);
     if (!assetUrl) return NextResponse.json({ error: "No asset URL found (checked internal and client links)" }, { status: 400 });
 
     const source = detectSource(assetUrl);

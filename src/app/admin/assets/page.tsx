@@ -68,54 +68,89 @@ function ImportButton({ dealId, dealName, onComplete }: { dealId: string; dealNa
   const [importing, setImporting] = useState(false);
   const [result, setResult] = useState<{ imported: number; savings: string; originalMB: string; optimizedMB: string; errors: string[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [overrideUrl, setOverrideUrl] = useState("");
+  const [showOverride, setShowOverride] = useState(false);
 
-  async function handleImport() {
-    if (!confirm(`Import images from Google Drive for "${dealName}"? This will optimize and upload them to the media library.`)) return;
+  async function handleImport(url?: string) {
     setImporting(true);
     setError(null);
     setResult(null);
     try {
+      const body: Record<string, string | number> = { dealId };
+      if (url) body.overrideUrl = url;
       const res = await fetch("/api/media/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dealId }),
+        body: JSON.stringify(body),
       });
       const data = await res.json();
       if (data.error) {
         setError(data.error);
+        setShowOverride(true);
       } else {
         setResult(data);
-        onComplete();
+        if (data.imported > 0) onComplete();
+        else { setShowOverride(true); setError(`Found 0 images in folder.`); }
       }
     } catch (e) {
       setError(String(e));
+      setShowOverride(true);
     }
     setImporting(false);
   }
 
   return (
     <div className="rounded-lg border border-[#6A5ACD]/30 bg-[#6A5ACD]/5 px-4 py-3">
-      {!result && !error && (
+      {!result && !showOverride && (
         <>
           <p className="text-xs text-[#A8A2D0]">
-            Ready to import. This will pull images from Google Drive, optimize to WebP, and upload to the media library.
+            Ready to import. Images will be pulled, optimized, and uploaded to the media library.
           </p>
           <button
-            onClick={handleImport}
+            onClick={() => handleImport()}
             disabled={importing}
             className="mt-2 rounded-full bg-[#6A5ACD] px-4 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5] disabled:opacity-50"
           >
-            {importing ? "Importing... (this may take a minute)" : "Send to Media"}
+            {importing ? "Importing..." : "Send to Media"}
           </button>
         </>
       )}
-      {result && (
+      {result && result.imported > 0 && (
         <p className="text-xs text-[#4CAF50]">
           Imported {result.imported} images | {result.originalMB}MB &rarr; {result.optimizedMB}MB ({result.savings} smaller)
           {result.errors.length > 0 && <span className="text-[#E57373]"> | {result.errors.length} failed</span>}
         </p>
       )}
-      {error && <p className="text-xs text-[#E57373]">{error}</p>}
+      {showOverride && (
+        <div>
+          {error && <p className="mb-2 text-xs text-[#E57373]">{error}</p>}
+          <p className="mb-2 text-xs text-[#A8A2D0]">
+            Paste a direct WorkDrive or Google Drive folder URL to retry:
+          </p>
+          <div className="flex gap-2">
+            <input
+              type="url"
+              value={overrideUrl}
+              onChange={(e) => setOverrideUrl(e.target.value)}
+              placeholder="https://workdrive.zoho.com/folder/... or Google Drive URL"
+              className="flex-1 rounded border border-[#2C2C2C] bg-[#121212] px-3 py-1.5 text-xs text-[#F5F5F5] outline-none focus:border-[#6A5ACD]"
+            />
+            <button
+              onClick={() => handleImport(overrideUrl)}
+              disabled={importing || !overrideUrl}
+              className="shrink-0 rounded-full bg-[#6A5ACD] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#5848B5] disabled:opacity-50"
+            >
+              {importing ? "Importing..." : "Retry"}
+            </button>
+          </div>
+          <button
+            onClick={() => { setShowOverride(false); setError(null); }}
+            className="mt-2 text-[10px] text-[#666] hover:text-[#A8A2D0]"
+          >
+            Try auto-detect again
+          </button>
+        </div>
+      )}
     </div>
   );
 }

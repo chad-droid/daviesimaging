@@ -61,25 +61,61 @@ async function searchFolders(
   );
 }
 
+// Strip common suffixes that appear in deal names but not folder names
+function normalizeDealName(name: string): string[] {
+  const stripped = name
+    .replace(/\b(photography|production|photo|matterport|scanning|inventory|exterior|interior|model|models|sales gallery|amenities|clubhouse|twilight|brand update|spec\+?|lifestyle)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const candidates: string[] = [];
+
+  // Full stripped name
+  if (stripped) candidates.push(stripped.toLowerCase());
+
+  // Original name
+  candidates.push(name.toLowerCase());
+
+  // First 2-3 significant words
+  const words = stripped.split(" ").filter((w) => w.length > 2);
+  if (words.length >= 2) candidates.push(words.slice(0, 2).join(" ").toLowerCase());
+  if (words.length >= 3) candidates.push(words.slice(0, 3).join(" ").toLowerCase());
+
+  // Also try without trailing descriptors separated by " - " or " – "
+  const dashSplit = name.split(/\s*[-–]\s*/)[0].trim();
+  if (dashSplit && dashSplit !== name) candidates.push(dashSplit.toLowerCase());
+
+  return [...new Set(candidates)];
+}
+
+// Fuzzy match: does the folder name contain any of the search candidates?
+function fuzzyMatch(folderName: string, candidates: string[]): boolean {
+  const lower = folderName.toLowerCase();
+  return candidates.some((c) => lower.includes(c) || c.includes(lower));
+}
+
 // Recursively search for a folder matching the deal name
-// Structure: Finished Assets > Builder > Year > Region > Deal
 async function findDealFolder(
   builderName: string,
   dealName: string,
   accessToken: string,
 ): Promise<string | null> {
   // Step 1: Find builder folder
+  const builderSearch = builderName.split(",")[0].split(" - ")[0].trim();
   const builderFolders = await searchFolders(
     FINISHED_ASSETS_FOLDER_ID,
-    builderName.split(",")[0].split(" - ")[0].trim(), // "Beazer Homes, Northern California" → "Beazer Homes"
+    builderSearch,
     accessToken,
   );
 
   if (builderFolders.length === 0) return null;
 
-  // Step 2: Search recursively through year/region subfolders
+  // Step 2: Generate fuzzy search candidates from deal name
+  const candidates = normalizeDealName(dealName);
+
+  // Step 3: Search recursively through year/region subfolders
   for (const builderFolder of builderFolders) {
-    const found = await searchDeep(builderFolder.id, dealName, accessToken, 10);
+    const found = await searchDeep(builderFolder.id, candidates, accessToken, 10);
     if (found) return found;
   }
 
@@ -88,18 +124,17 @@ async function findDealFolder(
 
 async function searchDeep(
   folderId: string,
-  dealName: string,
+  candidates: string[],
   accessToken: string,
   maxDepth: number,
 ): Promise<string | null> {
   if (maxDepth <= 0) return null;
 
   const items = await listFiles(folderId, accessToken, 200);
-  const lower = dealName.toLowerCase();
 
-  // Check if any subfolder matches the deal name
+  // Check if any subfolder fuzzy-matches the deal name
   for (const item of items) {
-    if (item.type === "folder" && item.name.toLowerCase().includes(lower)) {
+    if (item.type === "folder" && fuzzyMatch(item.name, candidates)) {
       return item.id;
     }
   }
@@ -107,7 +142,7 @@ async function searchDeep(
   // Recurse into subfolders (year folders, region folders)
   for (const item of items) {
     if (item.type === "folder") {
-      const found = await searchDeep(item.id, dealName, accessToken, maxDepth - 1);
+      const found = await searchDeep(item.id, candidates, accessToken, maxDepth - 1);
       if (found) return found;
     }
   }
@@ -126,7 +161,6 @@ async function getImageFiles(
     const items = await listFiles(parentId, accessToken, 200);
     for (const item of items) {
       if (item.type === "folder") {
-        // Look inside "Finished" or "Final" subfolders, or any image-containing folder
         await collectImages(item.id, depth + 1);
       } else if (
         item.mimeType?.startsWith("image/") ||
