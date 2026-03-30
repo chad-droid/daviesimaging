@@ -99,25 +99,24 @@ function extractWorkDriveFolderId(url: string): string | null {
   return null;
 }
 
-// Pick the best URL to use
-// Priority: 1) internal with direct folder ID, 2) internal with any recognized source,
-// 3) client assets, 4) any internal
-function pickAssetUrl(deal: Record<string, string | null>): string | null {
+// Return all candidate URLs in priority order (try each until one has images)
+function getAssetUrls(deal: Record<string, string | null>): string[] {
   const ia = deal.internal_assets || "";
   const ca = deal.client_assets || "";
+  const urls: string[] = [];
 
-  // Best: internal with direct WorkDrive folder ID
-  if (ia.includes("workdrive.zoho.com/folder/")) return ia;
-  // Good: internal Google Drive
-  if (ia.includes("drive.google.com")) return ia;
-  // Client assets with WorkDrive (external hash or folder)
-  if (ca.includes("workdrive")) return ca;
-  // Client assets with Google Drive
-  if (ca.includes("drive.google.com")) return ca;
-  // Internal with WorkDrive external hash
-  if (ia.includes("workdrive")) return ia;
-  // Anything left
-  return ca || ia || null;
+  // WorkDrive direct folder ID (most reliable)
+  if (ia.includes("workdrive.zoho.com/folder/")) urls.push(ia);
+  // Client WorkDrive (folder or hash)
+  if (ca.includes("workdrive")) urls.push(ca);
+  // Client Google Drive
+  if (ca.includes("drive.google.com")) urls.push(ca);
+  // Internal Google Drive (often empty production folders, try last)
+  if (ia.includes("drive.google.com") && !urls.includes(ia)) urls.push(ia);
+  // Internal WorkDrive hash
+  if (ia.includes("workdrive") && !urls.includes(ia)) urls.push(ia);
+
+  return [...new Set(urls)];
 }
 
 // ── AI description ──
@@ -232,10 +231,17 @@ export async function POST(req: NextRequest) {
     if (dealResult.rows.length === 0) return NextResponse.json({ error: "Deal not found" }, { status: 404 });
 
     const deal = dealResult.rows[0];
-    const assetUrl = overrideUrl || pickAssetUrl(deal);
-    if (!assetUrl) return NextResponse.json({ error: "No asset URL found (checked internal and client links)" }, { status: 400 });
+    const candidateUrls = overrideUrl ? [overrideUrl] : getAssetUrls(deal);
+    if (candidateUrls.length === 0) return NextResponse.json({ error: "No asset URL found (checked internal and client links)" }, { status: 400 });
 
-    const source = detectSource(assetUrl);
+    // Try each URL until one produces results
+    let assetUrl = candidateUrls[0];
+    for (const url of candidateUrls) {
+      assetUrl = url;
+      const src = detectSource(url);
+      if (src !== "unknown") break; // Use first recognized source, we'll retry below if 0 images
+    }
+
     const limit = maxImages || 30;
 
     const builderSlug = (deal.builder || "unknown").replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-").toLowerCase();
@@ -252,63 +258,81 @@ export async function POST(req: NextRequest) {
 
     const results: { filename: string; fullUrl: string; thumbUrl: string; originalKB: number; optimizedKB: number; description: string }[] = [];
     const errors: string[] = [];
+    let lastError = "";
+    let usedUrl = assetUrl;
 
-    if (source === "gdrive") {
-      // ── Google Drive import ──
-      const gToken = await getGoogleToken();
-      const folderId = extractGDriveFolderId(assetUrl);
-      if (!folderId) return NextResponse.json({ error: "Could not extract Google Drive folder ID" }, { status: 400 });
+    // Try each candidate URL until one produces images
+    for (const tryUrl of candidateUrls) {
+      usedUrl = tryUrl;
+      const source = detectSource(tryUrl);
+      results.length = 0;
+      errors.length = 0;
+      lastError = "";
 
-      let files = await listGDriveFiles(folderId, gToken);
-      files.sort((a, b) => parseInt(b.size || "0") - parseInt(a.size || "0"));
-      if (files.length > limit) files = files.slice(0, limit);
+      try {
+        if (source === "gdrive") {
+          const gToken = await getGoogleToken();
+          const folderId = extractGDriveFolderId(tryUrl);
+          if (!folderId) { lastError = "Could not extract Google Drive folder ID"; continue; }
 
-      for (const file of files) {
-        try {
-          const raw = await downloadGDriveFile(file.id, gToken);
-          const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
-          if (result) results.push(result);
-        } catch (e) {
-          errors.push(`${file.name}: ${e}`);
+          let files = await listGDriveFiles(folderId, gToken);
+          if (files.length === 0) { lastError = `Google Drive folder empty (${folderId})`; continue; }
+
+          files.sort((a, b) => parseInt(b.size || "0") - parseInt(a.size || "0"));
+          if (files.length > limit) files = files.slice(0, limit);
+
+          for (const file of files) {
+            try {
+              const raw = await downloadGDriveFile(file.id, gToken);
+              const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+              if (result) results.push(result);
+            } catch (e) {
+              errors.push(`${file.name}: ${e}`);
+            }
+          }
+        } else if (source === "workdrive") {
+          const zToken = await getZohoToken();
+          let wdFolderId = extractWorkDriveFolderId(tryUrl);
+
+          if (!wdFolderId) {
+            wdFolderId = await findDealFolder(deal.builder || "", deal.name || "", zToken);
+          }
+
+          if (!wdFolderId) { lastError = `Could not find WorkDrive folder for "${deal.name}" under "${deal.builder}"`; continue; }
+
+          let imageFiles = await getImageFiles(wdFolderId, zToken);
+          if (imageFiles.length === 0) { lastError = `WorkDrive folder empty (${wdFolderId})`; continue; }
+
+          imageFiles.sort((a, b) => (b.size || 0) - (a.size || 0));
+          if (imageFiles.length > limit) imageFiles = imageFiles.slice(0, limit);
+
+          for (const file of imageFiles) {
+            try {
+              const raw = await downloadWorkDriveFile(file.id, zToken);
+              const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+              if (result) results.push(result);
+            } catch (e) {
+              errors.push(`${file.name}: ${e}`);
+            }
+          }
+        } else {
+          lastError = `Unsupported source: ${tryUrl.slice(0, 60)}`;
+          continue;
         }
-      }
-    } else if (source === "workdrive") {
-      // ── WorkDrive import: try direct folder ID first, then search ──
-      const zToken = await getZohoToken();
-
-      // Try extracting folder ID directly from URL (internal links have this)
-      let wdFolderId = extractWorkDriveFolderId(assetUrl);
-
-      // If no direct ID (external hash link), search by name
-      if (!wdFolderId) {
-        wdFolderId = await findDealFolder(deal.builder || "", deal.name || "", zToken);
+      } catch (e) {
+        lastError = String(e);
+        continue;
       }
 
-      if (!wdFolderId) {
-        return NextResponse.json({
-          error: `Could not find WorkDrive folder for "${deal.name}" under "${deal.builder}". Try providing a direct workdrive.zoho.com/folder/ link.`,
-          triedUrl: assetUrl,
-        }, { status: 404 });
-      }
+      // If we got results, stop trying other URLs
+      if (results.length > 0) break;
+    }
 
-      // Get image files from the folder
-      let imageFiles = await getImageFiles(wdFolderId, zToken);
-      imageFiles.sort((a, b) => (b.size || 0) - (a.size || 0));
-      if (imageFiles.length > limit) imageFiles = imageFiles.slice(0, limit);
-
-      for (const file of imageFiles) {
-        try {
-          const raw = await downloadWorkDriveFile(file.id, zToken);
-          const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
-          if (result) results.push(result);
-        } catch (e) {
-          errors.push(`${file.name}: ${e}`);
-        }
-      }
-    } else {
+    if (results.length === 0 && lastError) {
       return NextResponse.json({
-        error: `Unsupported asset source. URL must be Google Drive or Zoho WorkDrive. Got: ${assetUrl.slice(0, 60)}...`,
-      }, { status: 400 });
+        error: `${lastError}. Try providing a direct workdrive.zoho.com/folder/ or Google Drive URL.`,
+        triedUrls: candidateUrls,
+      }, { status: 404 });
     }
 
     // Mark deal as imported
@@ -321,7 +345,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       dealId,
-      source,
+      source: detectSource(usedUrl),
       folder,
       imported: results.length,
       failed: errors.length,
