@@ -79,7 +79,7 @@ async function findDealFolder(
 
   // Step 2: Search recursively through year/region subfolders
   for (const builderFolder of builderFolders) {
-    const found = await searchDeep(builderFolder.id, dealName, accessToken, 3);
+    const found = await searchDeep(builderFolder.id, dealName, accessToken, 10);
     if (found) return found;
   }
 
@@ -122,7 +122,7 @@ async function getImageFiles(
   const allFiles: WDFile[] = [];
 
   async function collectImages(parentId: string, depth: number) {
-    if (depth > 2) return;
+    if (depth > 10) return;
     const items = await listFiles(parentId, accessToken, 200);
     for (const item of items) {
       if (item.type === "folder") {

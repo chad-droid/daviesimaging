@@ -44,7 +44,7 @@ function extractGDriveFolderId(url: string): string | null {
 interface GDriveFile { id: string; name: string; mimeType: string; size: string; }
 
 async function listGDriveFiles(folderId: string, token: string, depth = 0): Promise<GDriveFile[]> {
-  if (depth > 3) return [];
+  if (depth > 10) return [];
   const allFiles: GDriveFile[] = [];
   let pageToken: string | undefined;
 
