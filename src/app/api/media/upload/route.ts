@@ -57,12 +57,14 @@ export async function POST(req: NextRequest) {
           access: "public",
           contentType: "image/webp",
           addRandomSuffix: false,
+          allowOverwrite: true,
         });
 
         const thumbBlob = await put(`${folder}/thumbs/${baseName}.webp`, thumb, {
           access: "public",
           contentType: "image/webp",
           addRandomSuffix: false,
+          allowOverwrite: true,
         });
 
         results.push({
