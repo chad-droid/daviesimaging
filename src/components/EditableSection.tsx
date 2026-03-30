@@ -133,7 +133,7 @@ export function EditableSection({ slotId, variant, defaults, children }: Editabl
               />
             )}
 
-            <div className={`${isHero ? "relative z-10" : ""} mx-auto max-w-3xl px-6 text-center`}>
+            <div className={`${isHero ? "relative z-10" : ""} mx-auto max-w-4xl px-6 text-center`}>
               <RevealOnScroll>
                 <Eyebrow dark={isDark}>{v.eyebrow}</Eyebrow>
                 {isHero ? (

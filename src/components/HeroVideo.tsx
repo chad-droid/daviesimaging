@@ -93,7 +93,7 @@ export function HeroVideo() {
               className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center"
               style={{ y: contentY, opacity: contentOpacity }}
             >
-              <div className="mx-auto max-w-3xl">
+              <div className="mx-auto max-w-4xl">
                 <h1 className="text-text-light lg:text-[4rem] lg:leading-[1.05]">
                   {v.headline1}
                   <br />

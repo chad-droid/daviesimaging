@@ -16,7 +16,7 @@ export function LPCta({
 }: LPCtaProps) {
   return (
     <section className="flex min-h-[60vh] items-center bg-bg-surface py-24">
-      <div className="mx-auto max-w-3xl px-6 text-center">
+      <div className="mx-auto max-w-4xl px-6 text-center">
         <RevealOnScroll>
           <h2>{headline}</h2>
           {description && (

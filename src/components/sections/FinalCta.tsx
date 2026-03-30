@@ -19,7 +19,7 @@ export function FinalCta() {
   return (
     <ParallaxBackground slotId="bg-final-cta" overlayOpacity={0.7} className="min-h-[70vh] bg-bg-dark text-text-light">
       <div className="flex min-h-[70vh] items-center py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <EditableContent slotId="section-final-cta" fields={fields}>
               {(v) => (

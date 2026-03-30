@@ -18,7 +18,7 @@ export function BuiltForBuilders() {
   return (
     <ParallaxBackground slotId="bg-built-for-builders" overlayOpacity={0.65} className="min-h-[80vh] bg-bg-dark text-text-light">
       <div className="flex min-h-[80vh] items-center py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <EditableContent slotId="section-built-for-builders" fields={fields}>
               {(v) => (

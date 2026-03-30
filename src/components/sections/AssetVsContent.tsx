@@ -16,7 +16,7 @@ const fields = [
 export function AssetVsContent() {
   return (
     <section className="flex min-h-[70vh] items-center bg-bg-surface py-24">
-      <div className="mx-auto max-w-3xl px-6 text-center">
+      <div className="mx-auto max-w-4xl px-6 text-center">
         <RevealOnScroll>
           <EditableContent slotId="section-asset-vs-content" fields={fields}>
             {(v) => (
