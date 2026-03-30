@@ -43,12 +43,14 @@ function extractGDriveFolderId(url: string): string | null {
 
 interface GDriveFile { id: string; name: string; mimeType: string; size: string; }
 
-async function listGDriveFiles(folderId: string, token: string): Promise<GDriveFile[]> {
-  const files: GDriveFile[] = [];
+async function listGDriveFiles(folderId: string, token: string, depth = 0): Promise<GDriveFile[]> {
+  if (depth > 3) return [];
+  const allFiles: GDriveFile[] = [];
   let pageToken: string | undefined;
+
   do {
     const params = new URLSearchParams({
-      q: `'${folderId}' in parents and (mimeType contains 'image/')`,
+      q: `'${folderId}' in parents`,
       fields: "nextPageToken, files(id, name, mimeType, size)",
       pageSize: "100",
     });
@@ -58,10 +60,20 @@ async function listGDriveFiles(folderId: string, token: string): Promise<GDriveF
     });
     if (!res.ok) throw new Error(`Drive API: ${await res.text()}`);
     const data = await res.json();
-    files.push(...(data.files || []));
+
+    for (const file of data.files || []) {
+      if (file.mimeType === "application/vnd.google-apps.folder") {
+        // Recurse into subfolders
+        const subFiles = await listGDriveFiles(file.id, token, depth + 1);
+        allFiles.push(...subFiles);
+      } else if (file.mimeType?.startsWith("image/")) {
+        allFiles.push(file);
+      }
+    }
     pageToken = data.nextPageToken;
   } while (pageToken);
-  return files;
+
+  return allFiles;
 }
 
 async function downloadGDriveFile(fileId: string, token: string): Promise<Buffer> {
