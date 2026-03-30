@@ -162,10 +162,10 @@ async function optimizeAndUpload(
     .toLowerCase();
 
   const fullBlob = await put(`${folder}/${baseName}.webp`, full, {
-    access: "public", contentType: "image/webp",
+    access: "public", contentType: "image/webp", addRandomSuffix: false,
   });
   const thumbBlob = await put(`${folder}/thumbs/${baseName}.webp`, thumb, {
-    access: "public", contentType: "image/webp",
+    access: "public", contentType: "image/webp", addRandomSuffix: false,
   });
 
   // Generate AI description
