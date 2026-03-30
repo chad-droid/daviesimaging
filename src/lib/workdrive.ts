@@ -94,18 +94,27 @@ function fuzzyMatch(folderName: string, candidates: string[]): boolean {
   return candidates.some((c) => lower.includes(c) || c.includes(lower));
 }
 
+// Normalize a builder name for searching: strip periods, colons, regions
+function normalizeBuilder(name: string): string[] {
+  const base = name.split(",")[0].split(" - ")[0].split(":")[0].trim();
+  const noPeriods = base.replace(/\./g, "");
+  const withPeriods = base.replace(/([A-Z])([A-Z])/g, "$1.$2."); // DR → D.R.
+  return [...new Set([base, noPeriods, withPeriods].map(s => s.toLowerCase().trim()).filter(Boolean))];
+}
+
 // Recursively search for a folder matching the deal name
 async function findDealFolder(
   builderName: string,
   dealName: string,
   accessToken: string,
 ): Promise<string | null> {
-  // Step 1: Find builder folder
-  const builderSearch = builderName.split(",")[0].split(" - ")[0].trim();
-  const builderFolders = await searchFolders(
-    FINISHED_ASSETS_FOLDER_ID,
-    builderSearch,
-    accessToken,
+  // Step 1: Find builder folder with fuzzy matching
+  const builderCandidates = normalizeBuilder(builderName);
+  const allFolders = await listFiles(FINISHED_ASSETS_FOLDER_ID, accessToken, 200);
+  const builderFolders = allFolders.filter(
+    (f) => f.type === "folder" && builderCandidates.some(
+      (c) => f.name.toLowerCase().includes(c) || c.includes(f.name.toLowerCase())
+    ),
   );
 
   if (builderFolders.length === 0) return null;
