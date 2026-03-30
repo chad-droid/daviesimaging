@@ -154,7 +154,7 @@ export function StatsStrip() {
 
   return (
     <section className="bg-bg-dark py-20">
-      <p className="mb-12 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">
+      <p className="mb-12 text-center text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
         By the Numbers
       </p>
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-6 sm:grid-cols-3 sm:gap-4">

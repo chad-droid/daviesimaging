@@ -194,7 +194,7 @@ export function Nav() {
             href="https://app.daviesimaging.com"
             target="_blank"
             rel="noopener noreferrer"
-            className={`rounded-full px-4 py-1.5 text-[11px] font-semibold tracking-wide transition-colors ${
+            className={`rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide transition-colors ${
               transparent
                 ? "border border-white/40 text-white hover:border-white/70"
                 : "border border-border-light text-text-body hover:border-accent"
@@ -204,7 +204,7 @@ export function Nav() {
           </a>
           <Link
             href="/campaigns/frameflow-sell-faster"
-            className="rounded-full bg-accent px-4 py-1.5 text-[11px] font-semibold tracking-wide text-text-light transition-colors hover:bg-accent-hover"
+            className="rounded-full bg-accent px-4 py-1.5 text-xs font-semibold tracking-wide text-text-light transition-colors hover:bg-accent-hover"
           >
             Fix My Listings
           </Link>
