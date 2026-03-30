@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -136,8 +137,10 @@ function MobileDropdown({
 }
 
 export function Nav() {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hasDarkHero, setHasDarkHero] = useState(false);
 
   useEffect(() => {
     function onScroll() {
@@ -148,7 +151,17 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const transparent = !scrolled && !mobileOpen;
+  // Detect if the page has a dark hero behind the nav
+  useEffect(() => {
+    const firstSection = document.querySelector("main > div > section, main > section");
+    const isDark = firstSection?.classList.contains("bg-bg-dark") ||
+      firstSection?.querySelector(".bg-bg-dark") !== null ||
+      firstSection?.classList.contains("bg-[#121212]") ||
+      false;
+    setHasDarkHero(isDark);
+  }, [pathname]);
+
+  const transparent = hasDarkHero && !scrolled && !mobileOpen;
 
   return (
     <header
