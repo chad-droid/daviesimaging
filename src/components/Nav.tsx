@@ -59,7 +59,7 @@ function DesktopDropdown({ menu, transparent }: { menu: DropdownMenu; transparen
     >
       <button
         type="button"
-        className={`flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors hover:text-accent ${
+        className={`flex items-center gap-1 text-[13px] font-medium tracking-wide 2xl:text-[15px] transition-colors hover:text-accent ${
           transparent ? "text-white" : "text-text-body"
         }`}
       >
@@ -171,7 +171,7 @@ export function Nav() {
           : "border-b border-border-light bg-bg-surface/95 backdrop-blur-sm"
       }`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+      <nav className="mx-auto flex max-w-[90rem] items-center justify-between px-6 py-4 lg:px-8 2xl:px-12 2xl:py-5">
         {/* Logo */}
         <Link href="/" className="shrink-0">
           <Image
@@ -179,7 +179,7 @@ export function Nav() {
             alt="Davies Imaging Group"
             width={120}
             height={73}
-            className="h-7 w-auto"
+            className="h-7 w-auto 2xl:h-9"
             priority
           />
         </Link>
@@ -194,7 +194,7 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-[13px] font-medium tracking-wide transition-colors hover:text-accent ${
+              className={`text-[13px] font-medium tracking-wide 2xl:text-[15px] transition-colors hover:text-accent ${
                 transparent ? "text-white" : "text-text-body"
               }`}
             >

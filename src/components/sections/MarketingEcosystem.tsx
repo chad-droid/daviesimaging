@@ -15,7 +15,7 @@ const fields = [
 
 export function MarketingEcosystem() {
   return (
-    <section className="flex min-h-[60vh] items-center bg-bg-light py-24">
+    <section className="flex min-h-[40vh] items-center bg-bg-light py-24">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <RevealOnScroll>
           <EditableContent slotId="section-marketing-ecosystem" fields={fields}>

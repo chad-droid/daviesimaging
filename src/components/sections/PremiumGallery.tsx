@@ -23,7 +23,7 @@ const regions = [
 export function PremiumGallery() {
   return (
     <section className="bg-bg-surface py-24">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-7xl px-6">
         <RevealOnScroll>
           <div className="text-center">
             <EditableContent slotId="section-premium-gallery" fields={fields}>

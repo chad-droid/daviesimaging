@@ -16,8 +16,8 @@ const fields = [
 
 export function TryFrameFlow() {
   return (
-    <ParallaxBackground slotId="bg-try-frameflow" overlayOpacity={0.6} className="min-h-[70vh] bg-bg-dark text-text-light">
-      <div className="flex min-h-[70vh] items-center py-24">
+    <ParallaxBackground slotId="bg-try-frameflow" overlayOpacity={0.6} className="min-h-[50vh] bg-bg-dark text-text-light">
+      <div className="flex min-h-[50vh] items-center py-24">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <EditableContent slotId="section-try-frameflow" fields={fields}>

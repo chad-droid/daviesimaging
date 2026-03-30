@@ -103,24 +103,24 @@
   }
 
   @media (min-width: 1280px) {
-    body { font-size: 1.0625rem; line-height: 1.7; }
+    html { font-size: 17px; }
     h1 { font-size: 3.5rem; }
+    h2 { font-size: 2.5rem; }
+    h3 { font-size: 1.875rem; }
+  }
+
+  @media (min-width: 1536px) {
+    html { font-size: 18px; }
+    h1 { font-size: 4rem; }
     h2 { font-size: 2.75rem; }
     h3 { font-size: 2rem; }
   }
 
-  @media (min-width: 1536px) {
-    body { font-size: 1.125rem; }
-    h1 { font-size: 4rem; }
-    h2 { font-size: 3.25rem; }
-    h3 { font-size: 2.25rem; }
-  }
-
   @media (min-width: 1920px) {
-    body { font-size: 1.1875rem; }
+    html { font-size: 19px; }
     h1 { font-size: 4.5rem; }
-    h2 { font-size: 3.75rem; }
-    h3 { font-size: 2.5rem; }
+    h2 { font-size: 3rem; }
+    h3 { font-size: 2.25rem; }
   }
 
   h4 {

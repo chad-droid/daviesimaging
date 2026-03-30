@@ -52,11 +52,11 @@ export function EditableSection({ slotId, variant, defaults, children }: Editabl
 
   if (isSplit) {
     const sectionClass = isDark
-      ? "flex min-h-[60vh] items-center bg-bg-dark py-24 text-text-light"
-      : "min-h-[70vh] bg-bg-surface py-24";
+      ? "flex min-h-[40vh] items-center bg-bg-dark py-24 text-text-light"
+      : "min-h-[50vh] bg-bg-surface py-24";
     return (
       <section className={sectionClass}>
-        <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-2">
           <RevealOnScroll>
             <EditableContent slotId={slotId} fields={fields}>
               {(v) => (
@@ -90,8 +90,8 @@ export function EditableSection({ slotId, variant, defaults, children }: Editabl
         const sectionClass = isHero
           ? "relative flex -mt-16 min-h-screen items-center overflow-hidden bg-bg-dark py-28 text-text-light"
           : isDark
-            ? "flex min-h-[60vh] items-center bg-bg-dark py-24 text-text-light"
-            : "min-h-[70vh] bg-bg-surface py-24";
+            ? "flex min-h-[40vh] items-center bg-bg-dark py-24 text-text-light"
+            : "min-h-[50vh] bg-bg-surface py-24";
 
         return (
           <section className={sectionClass}>

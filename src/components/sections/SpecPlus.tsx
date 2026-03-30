@@ -16,8 +16,8 @@ const fields = [
 
 export function SpecPlus() {
   return (
-    <section className="min-h-[70vh] bg-bg-light py-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
+    <section className="min-h-[50vh] bg-bg-light py-24">
+      <div className="mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-2">
         {/* Image-dominant side */}
         <RevealOnScroll>
           <DynamicImage slotId="section-spec-plus-img" className="rounded-lg" fallbackClass="bg-gradient-to-br from-border-light to-accent-secondary/40" />

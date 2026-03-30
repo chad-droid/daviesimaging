@@ -121,7 +121,7 @@ function CircularProgress({ value, max, accent, children }: { value: number; max
 
   return (
     <div ref={ref} className="relative inline-flex items-center justify-center">
-      <svg width="140" height="140" className="-rotate-90">
+      <svg viewBox="0 0 140 140" className="-rotate-90 h-[140px] w-[140px] 2xl:h-[180px] 2xl:w-[180px]">
         {/* Background track */}
         <circle
           cx="70" cy="70" r="54"
