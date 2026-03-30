@@ -24,7 +24,7 @@ export function Proof({
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="text-center">
-            <Eyebrow>{eyebrow}</Eyebrow>
+            <Eyebrow dark>{eyebrow}</Eyebrow>
             <h2>{headline}</h2>
           </div>
         </RevealOnScroll>
@@ -38,7 +38,7 @@ export function Proof({
               >
                 {stat.value}
               </p>
-              <p className="mt-2 text-sm text-accent-secondary">{stat.label}</p>
+              <p className="mt-2 text-sm text-text-muted">{stat.label}</p>
             </div>
           ))}
         </RevealOnScroll>
@@ -52,7 +52,7 @@ export function Proof({
               >
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
-              <footer className="meta-text mt-4 text-accent-secondary">
+              <footer className="meta-text mt-4 text-text-muted">
                 {testimonial.attribution}
               </footer>
             </blockquote>

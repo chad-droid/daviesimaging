@@ -121,7 +121,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
                 className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
                   active === region
                     ? "bg-accent text-text-light"
-                    : "border border-border-light text-text-body hover:border-accent-secondary"
+                    : "border border-border-light text-text-body hover:border-accent"
                 }`}
               >
                 {region}
@@ -146,10 +146,10 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       {/* Empty state */}
       {!loading && !hasData && (
         <div className="mt-12 text-center">
-          <p className="text-accent-secondary">
+          <p className="text-text-body">
             No projects assigned to this gallery yet.
           </p>
-          <p className="mt-1 text-xs text-accent-secondary/60">
+          <p className="mt-1 text-xs text-text-body/60">
             Use the admin toolbar to add projects.
           </p>
         </div>
@@ -195,7 +195,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       )}
 
       {!loading && hasData && filtered.length === 0 && (
-        <p className="mt-12 text-center text-accent-secondary">
+        <p className="mt-12 text-center text-text-body">
           No projects in this region yet.
         </p>
       )}

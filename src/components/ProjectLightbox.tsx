@@ -90,7 +90,7 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
       {/* Top bar */}
       <div className="flex items-center justify-between border-b border-[#1E1E1E] px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3">
-          <button onClick={onClose} className="text-[#666] transition-colors hover:text-[#F5F5F5]">
+          <button onClick={onClose} className="text-[#999] transition-colors hover:text-[#F5F5F5]">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -98,18 +98,18 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
           {project && (
             <div>
               <p className="text-sm font-medium text-[#F5F5F5]">{project.name}</p>
-              <p className="text-xs text-[#A8A2D0]">{project.builder} | {project.city}{project.state ? `, ${project.state}` : ""}</p>
+              <p className="text-xs text-text-muted">{project.builder} | {project.city}{project.state ? `, ${project.state}` : ""}</p>
             </div>
           )}
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-[#666]">
+          <span className="text-xs text-[#999]">
             {currentIndex + 1} / {images.length}
           </span>
           <button
             onClick={() => setInfoOpen(!infoOpen)}
             className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${
-              infoOpen ? "bg-[#6A5ACD] text-white" : "border border-[#2C2C2C] text-[#666] hover:text-[#A8A2D0]"
+              infoOpen ? "bg-[#6A5ACD] text-white" : "border border-[#2C2C2C] text-[#999] hover:text-[#A8A2D0]"
             }`}
           >
             {infoOpen ? "Hide Info" : "Show Info"}
@@ -121,7 +121,7 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
       <div className="flex flex-1 overflow-hidden">
         {/* Image viewer */}
         <div className="relative flex flex-1 items-center justify-center p-4">
-          {loading && <p className="text-sm text-[#666]">Loading project...</p>}
+          {loading && <p className="text-sm text-[#999]">Loading project...</p>}
 
           {!loading && current && (
             <>
@@ -172,25 +172,25 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
 
             <div className="mt-4 space-y-4">
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-[#666]">Builder</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#999]">Builder</p>
                 <p className="mt-0.5 text-sm text-[#F5F5F5]">{project.builder}</p>
               </div>
 
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-[#666]">Location</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#999]">Location</p>
                 <p className="mt-0.5 text-sm text-[#F5F5F5]">
                   {project.address || `${project.city}${project.state ? `, ${project.state}` : ""}`}
                 </p>
               </div>
 
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-[#666]">Service</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#999]">Service</p>
                 <p className="mt-0.5 text-sm text-[#F5F5F5]">{project.pipeline || "Premium"}</p>
               </div>
 
               {combineDescription(project.scope, project.deliverables) && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-[#666]">Description</p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#999]">Description</p>
                   <p className="mt-0.5 text-xs leading-relaxed text-[#A8A2D0]">
                     {combineDescription(project.scope, project.deliverables)}
                   </p>
@@ -199,7 +199,7 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
 
               {(project.qty_images || project.asset_count) && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-[#666]">Assets</p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#999]">Assets</p>
                   <p className="mt-0.5 text-sm text-[#F5F5F5]">
                     {project.qty_images || project.asset_count} images
                   </p>
@@ -208,7 +208,7 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
 
               {project.production_date && (
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-[#666]">Produced</p>
+                  <p className="text-[10px] uppercase tracking-widest text-[#999]">Produced</p>
                   <p className="mt-0.5 text-sm text-[#F5F5F5]">{formatMonthYear(project.production_date)}</p>
                 </div>
               )}
@@ -230,7 +230,7 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
             {/* Current image description */}
             {current?.description && (
               <div className="mt-6 border-t border-[#1E1E1E] pt-4">
-                <p className="text-[10px] uppercase tracking-widest text-[#666]">Image Description</p>
+                <p className="text-[10px] uppercase tracking-widest text-[#999]">Image Description</p>
                 <p className="mt-1 text-xs leading-relaxed text-[#A8A2D0]">{current.description}</p>
               </div>
             )}

@@ -23,7 +23,7 @@ export default function SpecHomesPage() {
       <section className="flex min-h-[60vh] items-center bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow>Spec+</Eyebrow>
+            <Eyebrow dark>Spec+</Eyebrow>
             <h2 className="text-text-light">
               One order. Listing photo, staging, and video{" "}
               <strong>delivered</strong>.

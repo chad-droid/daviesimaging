@@ -164,7 +164,7 @@ export default function ContactPage() {
                     name="firstName"
                     type="text"
                     required
-                    className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                    className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-dark placeholder:text-accent-secondary outline-none transition-colors focus:border-accent"
                   />
                 </div>
                 <div>
@@ -176,7 +176,7 @@ export default function ContactPage() {
                     name="lastName"
                     type="text"
                     required
-                    className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                    className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-dark placeholder:text-accent-secondary outline-none transition-colors focus:border-accent"
                   />
                 </div>
               </div>
@@ -190,7 +190,7 @@ export default function ContactPage() {
                   name="email"
                   type="email"
                   required
-                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-dark placeholder:text-accent-secondary outline-none transition-colors focus:border-accent"
                 />
               </div>
 
@@ -202,7 +202,7 @@ export default function ContactPage() {
                   id="company"
                   name="company"
                   type="text"
-                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-dark placeholder:text-accent-secondary outline-none transition-colors focus:border-accent"
                 />
               </div>
 
@@ -215,7 +215,7 @@ export default function ContactPage() {
                   name="message"
                   rows={4}
                   placeholder="How many specs are you sitting on? What markets? What's your biggest marketing challenge right now?"
-                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+                  className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-dark placeholder:text-accent-secondary outline-none transition-colors focus:border-accent"
                 />
               </div>
 

@@ -124,7 +124,7 @@ function MobileDropdown({
               key={item.href}
               href={item.href}
               onClick={onNavigate}
-              className="py-1.5 text-sm text-accent-secondary transition-colors hover:text-accent"
+              className="py-1.5 text-sm text-text-body transition-colors hover:text-accent"
             >
               {item.label}
             </Link>

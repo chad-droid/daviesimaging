@@ -21,7 +21,7 @@ export function TryFrameFlow() {
           <EditableContent slotId="section-try-frameflow" fields={fields}>
             {(v) => (
               <>
-                <Eyebrow>{v.eyebrow}</Eyebrow>
+                <Eyebrow dark>{v.eyebrow}</Eyebrow>
                 <h2 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
                 <p className="mt-5 text-text-muted" dangerouslySetInnerHTML={{ __html: v.body }} />
                 {v.ctaText && (

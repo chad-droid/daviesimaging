@@ -61,7 +61,7 @@ export function EditableSection({ slotId, variant, defaults, children }: Editabl
             <EditableContent slotId={slotId} fields={fields}>
               {(v) => (
                 <>
-                  <Eyebrow>{v.eyebrow}</Eyebrow>
+                  <Eyebrow dark={isDark}>{v.eyebrow}</Eyebrow>
                   <h2 className={headlineClass} dangerouslySetInnerHTML={{ __html: v.headline }} />
                   <p className={bodyClass} dangerouslySetInnerHTML={{ __html: v.body }} />
                   {v.ctaText && (
@@ -135,7 +135,7 @@ export function EditableSection({ slotId, variant, defaults, children }: Editabl
 
             <div className={`${isHero ? "relative z-10" : ""} mx-auto max-w-3xl px-6 text-center`}>
               <RevealOnScroll>
-                <Eyebrow>{v.eyebrow}</Eyebrow>
+                <Eyebrow dark={isDark}>{v.eyebrow}</Eyebrow>
                 {isHero ? (
                   <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
                 ) : (
