@@ -10,7 +10,6 @@ import {
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
-// State FIPS to region
 const stateRegion: Record<string, string> = {
   "53": "west", "41": "west", "06": "west", "32": "west",
   "30": "mountain", "16": "mountain", "56": "mountain", "49": "mountain",
@@ -26,19 +25,18 @@ const stateRegion: Record<string, string> = {
   "10": "east", "11": "east",
 };
 
-// Region accent colors per region
-const regionColors: Record<string, { base: string; active: string; pin: string }> = {
-  west:     { base: "#e8e8f0", active: "#c4c4d8", pin: "#6A5ACD" },
-  mountain: { base: "#e4e8ec", active: "#bcc4cc", pin: "#6A5ACD" },
-  central:  { base: "#dde0e8", active: "#b0b8cc", pin: "#6A5ACD" },
-  east:     { base: "#d8dce8", active: "#a8b0c8", pin: "#6A5ACD" },
+const regionColors: Record<string, { base: string; active: string }> = {
+  west:     { base: "#e8e8f0", active: "#c4c4d8" },
+  mountain: { base: "#e4e8ec", active: "#bcc4cc" },
+  central:  { base: "#dde0e8", active: "#b0b8cc" },
+  east:     { base: "#d8dce8", active: "#a8b0c8" },
 };
 
 const regionMeta = [
-  { id: "west",     label: "West",     subtitle: "CA, OR, WA, NV", markets: 5 },
-  { id: "mountain", label: "Mountain", subtitle: "ID, UT, CO, AZ",  markets: 4 },
-  { id: "central",  label: "Central",  subtitle: "TX, AR, LA, OK",  markets: 4 },
-  { id: "east",     label: "East",     subtitle: "FL, GA, SC, NC, OH, DC", markets: 12 },
+  { id: "west",     label: "West",     subtitle: "CA, OR, NV",           markets: 7  },
+  { id: "mountain", label: "Mountain", subtitle: "ID, UT, CO, AZ, OR",   markets: 5  },
+  { id: "central",  label: "Central",  subtitle: "TX, OK, LA",           markets: 4  },
+  { id: "east",     label: "East",     subtitle: "FL, GA, SC, NC, OH, DC", markets: 11 },
 ];
 
 interface MarketPin {
@@ -50,37 +48,43 @@ interface MarketPin {
   labelY?: number;
 }
 
-// 25 actual DIG markets — Sacramento + Dallas flagged as offices
+// 27 DIG markets — Sacramento + Dallas are offices
 const marketPins: MarketPin[] = [
-  // West (5)
-  { coords: [-121.49, 38.58], city: "Sacramento",  region: "west",     isOffice: true,  labelAnchor: "start",  labelY: -10 },
-  { coords: [-122.03, 37.54], city: "Bay Area",    region: "west",     labelAnchor: "end",    labelY: -10 },
-  { coords: [-118.24, 34.05], city: "Los Angeles", region: "west",     labelAnchor: "start",  labelY: -10 },
-  { coords: [-117.82, 33.68], city: "OC",          region: "west",     labelAnchor: "end",    labelY:  12 },
-  { coords: [-119.77, 36.74], city: "Fresno",      region: "west",     labelAnchor: "start",  labelY: -10 },
-  // Mountain (4)
-  { coords: [-122.68, 45.52], city: "Portland",    region: "mountain", labelAnchor: "end",    labelY: -10 },
-  { coords: [-116.20, 43.62], city: "Boise",       region: "mountain", labelAnchor: "start",  labelY: -10 },
-  { coords: [-111.89, 40.76], city: "SLC",         region: "mountain", labelAnchor: "start",  labelY: -10 },
-  { coords: [-112.07, 33.45], city: "Phoenix",     region: "mountain", labelAnchor: "end",    labelY: -10 },
-  // Central (4 + Denver in Mountain timezone but listed — moving to Central group)
-  { coords: [-104.99, 39.74], city: "Denver",      region: "mountain", labelAnchor: "start",  labelY: -10 },
-  { coords: [-96.80, 32.78],  city: "DFW",         region: "central",  isOffice: true,  labelAnchor: "start",  labelY: -10 },
-  { coords: [-97.74, 30.27],  city: "Austin",      region: "central",  labelAnchor: "start",  labelY:  12 },
-  { coords: [-95.37, 29.76],  city: "Houston",     region: "central",  labelAnchor: "end",    labelY: -10 },
-  { coords: [-98.49, 29.42],  city: "San Antonio", region: "central",  labelAnchor: "start",  labelY:  12 },
+  // West (7)
+  { coords: [-121.49, 38.58], city: "Sacramento",  region: "west",     isOffice: true, labelAnchor: "start", labelY: -10 },
+  { coords: [-122.03, 37.54], city: "Bay Area",    region: "west",                     labelAnchor: "end",   labelY: -10 },
+  { coords: [-118.24, 34.05], city: "Los Angeles", region: "west",                     labelAnchor: "end",   labelY: -10 },
+  { coords: [-117.82, 33.68], city: "OC",          region: "west",                     labelAnchor: "start", labelY:  13 },
+  { coords: [-119.77, 36.74], city: "Fresno",      region: "west",                     labelAnchor: "end",   labelY: -10 },
+  { coords: [-115.14, 36.17], city: "Las Vegas",   region: "west",                     labelAnchor: "start", labelY: -10 },
+  { coords: [-119.81, 39.53], city: "Reno",        region: "west",                     labelAnchor: "start", labelY: -10 },
+
+  // Mountain (5 — Portland sits here timezone-wise)
+  { coords: [-122.68, 45.52], city: "Portland",    region: "mountain",                 labelAnchor: "end",   labelY: -10 },
+  { coords: [-116.20, 43.62], city: "Boise",       region: "mountain",                 labelAnchor: "start", labelY: -10 },
+  { coords: [-111.89, 40.76], city: "SLC",         region: "mountain",                 labelAnchor: "start", labelY: -10 },
+  { coords: [-104.99, 39.74], city: "Denver",      region: "mountain",                 labelAnchor: "start", labelY: -10 },
+  { coords: [-112.07, 33.45], city: "Phoenix",     region: "mountain",                 labelAnchor: "end",   labelY: -10 },
+
+  // Central (4)
+  { coords: [-96.80, 32.78],  city: "Dallas",      region: "central",  isOffice: true, labelAnchor: "start", labelY: -10 },
+  { coords: [-97.74, 30.27],  city: "Austin",      region: "central",                  labelAnchor: "start", labelY:  13 },
+  { coords: [-95.37, 29.76],  city: "Houston",     region: "central",                  labelAnchor: "end",   labelY: -10 },
+  { coords: [-98.49, 29.42],  city: "San Antonio", region: "central",                  labelAnchor: "start", labelY:  13 },
+
   // East (11)
-  { coords: [-82.46, 27.95],  city: "Tampa",       region: "east",     labelAnchor: "end",    labelY: -10 },
-  { coords: [-81.38, 28.54],  city: "Orlando",     region: "east",     labelAnchor: "start",  labelY: -10 },
-  { coords: [-80.19, 25.76],  city: "Miami",       region: "east",     labelAnchor: "start",  labelY: -10 },
-  { coords: [-81.66, 30.33],  city: "Jacksonville",region: "east",     labelAnchor: "start",  labelY: -10 },
-  { coords: [-84.39, 33.75],  city: "Atlanta",     region: "east",     labelAnchor: "end",    labelY: -10 },
-  { coords: [-79.94, 32.78],  city: "Charleston",  region: "east",     labelAnchor: "start",  labelY: -10 },
-  { coords: [-79.79, 36.07],  city: "Greensboro",  region: "east",     labelAnchor: "start",  labelY: -10 },
-  { coords: [-80.84, 35.23],  city: "Charlotte",   region: "east",     labelAnchor: "end",    labelY: -10 },
-  { coords: [-78.64, 35.78],  city: "Raleigh",     region: "east",     labelAnchor: "start",  labelY: -10 },
-  { coords: [-82.99, 39.96],  city: "Columbus",    region: "east",     labelAnchor: "start",  labelY: -10 },
-  { coords: [-77.04, 38.91],  city: "DC",          region: "east",     labelAnchor: "start",  labelY: -10 },
+  { coords: [-82.46, 27.95],  city: "Tampa",        region: "east",                    labelAnchor: "end",    labelY: -10 },
+  { coords: [-81.38, 28.54],  city: "Orlando",      region: "east",                    labelAnchor: "start",  labelY: -10 },
+  { coords: [-80.19, 25.76],  city: "Miami",        region: "east",                    labelAnchor: "start",  labelY: -10 },
+  { coords: [-81.66, 30.33],  city: "Jacksonville", region: "east",                    labelAnchor: "start",  labelY: -10 },
+  { coords: [-84.39, 33.75],  city: "Atlanta",      region: "east",                    labelAnchor: "end",    labelY: -10 },
+  { coords: [-79.94, 32.78],  city: "Charleston",   region: "east",                    labelAnchor: "start",  labelY: -10 },
+  // NC trio — staggered to avoid overlap: Charlotte left, Greensboro up, Raleigh right-below
+  { coords: [-80.84, 35.23],  city: "Charlotte",    region: "east",                    labelAnchor: "end",    labelY: -10 },
+  { coords: [-79.79, 36.07],  city: "Greensboro",   region: "east",                    labelAnchor: "middle", labelY: -13 },
+  { coords: [-78.64, 35.78],  city: "Raleigh",      region: "east",                    labelAnchor: "start",  labelY:  13 },
+  { coords: [-82.99, 39.96],  city: "Columbus",     region: "east",                    labelAnchor: "start",  labelY: -10 },
+  { coords: [-77.04, 38.91],  city: "DC",           region: "east",                    labelAnchor: "start",  labelY: -10 },
 ];
 
 export function RegionMap() {
@@ -93,7 +97,13 @@ export function RegionMap() {
 
   return (
     <div className="relative">
-      {/* Map */}
+      {/* Hide labels on mobile via inline style tag */}
+      <style>{`
+        @media (max-width: 640px) {
+          .map-city-label { display: none; }
+        }
+      `}</style>
+
       <ComposableMap
         projection="geoAlbersUsa"
         projectionConfig={{ scale: 1000 }}
@@ -109,13 +119,18 @@ export function RegionMap() {
               const region = stateRegion[fips];
               if (!region) return null;
               const colors = regionColors[region];
-              const isActive = activeRegion === region || activeRegion === null;
 
               return (
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
-                  fill={activeRegion === region ? colors.active : isActive ? colors.base : "#f0f0f0"}
+                  fill={
+                    activeRegion === region
+                      ? colors.active
+                      : activeRegion === null
+                      ? colors.base
+                      : "#efefef"
+                  }
                   stroke="#ffffff"
                   strokeWidth={0.75}
                   style={{
@@ -138,58 +153,55 @@ export function RegionMap() {
           const labelX = anchor === "end" ? -8 : anchor === "middle" ? 0 : 8;
 
           return (
-            <Marker
-              key={pin.city}
-              coordinates={pin.coords}
-            >
+            <Marker key={pin.city} coordinates={pin.coords}>
               <g
                 onMouseEnter={() => setHoveredCity(pin.city)}
                 onMouseLeave={() => setHoveredCity(null)}
                 style={{ cursor: "pointer" }}
               >
-              {/* Office pin: filled circle with ring; Market pin: small dot */}
-              {isOffice ? (
-                <>
-                  <circle r={7} fill="#6A5ACD" opacity={0.15} />
-                  <circle r={4} fill="#6A5ACD" stroke="#ffffff" strokeWidth={1.5} />
-                  <circle r={1.5} fill="#ffffff" />
-                </>
-              ) : (
-                <circle
-                  r={isHovered ? 5 : 3.5}
-                  fill={isHovered ? "#5848B5" : "#6A5ACD"}
-                  stroke="#ffffff"
-                  strokeWidth={1.5}
-                  style={{ transition: "all 0.15s ease" }}
-                />
-              )}
+                {/* Office: larger filled pin with halo; Market: small dot */}
+                {isOffice ? (
+                  <>
+                    <circle r={7} fill="#6A5ACD" opacity={0.12} />
+                    <circle r={4} fill="#6A5ACD" stroke="#ffffff" strokeWidth={1.5} />
+                    <circle r={1.5} fill="#ffffff" />
+                  </>
+                ) : (
+                  <circle
+                    r={isHovered ? 5 : 3.5}
+                    fill={isHovered ? "#5848B5" : "#6A5ACD"}
+                    stroke="#ffffff"
+                    strokeWidth={1.5}
+                    style={{ transition: "all 0.15s ease" }}
+                  />
+                )}
 
-              {/* Label — always visible, bolder on hover */}
-              <text
-                textAnchor={anchor}
-                x={labelX}
-                y={pin.labelY ?? -10}
-                fontSize={isHovered ? 10 : 8.5}
-                fontWeight={isHovered || isOffice ? 600 : 400}
-                fill={isHovered ? "#3A3A3A" : "#555"}
-                style={{ pointerEvents: "none", transition: "all 0.15s ease" }}
-              >
-                {pin.city}
-                {isOffice ? " ★" : ""}
-              </text>
+                {/* City label — hidden on mobile via .map-city-label */}
+                <text
+                  className="map-city-label"
+                  textAnchor={anchor}
+                  x={labelX}
+                  y={pin.labelY ?? -10}
+                  fontSize={isHovered ? 10 : 8.5}
+                  fontWeight={isHovered || isOffice ? 600 : 400}
+                  fill={isHovered ? "#222" : "#555"}
+                  style={{ pointerEvents: "none", transition: "all 0.15s ease" }}
+                >
+                  {pin.city}
+                </text>
               </g>
             </Marker>
           );
         })}
       </ComposableMap>
 
-      {/* Guadalajara international office callout */}
+      {/* Guadalajara international office */}
       <div className="mt-3 flex justify-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5">
-          <span className="flex h-2.5 w-2.5 items-center justify-center">
+          <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-accent/15">
             <span className="h-2 w-2 rounded-full bg-accent" />
           </span>
-          <span className="text-xs font-semibold text-accent">★ Guadalajara</span>
+          <span className="text-xs font-semibold text-accent">Guadalajara</span>
           <span className="text-xs text-text-muted">International Office</span>
         </div>
       </div>
@@ -211,18 +223,10 @@ export function RegionMap() {
             <p className="text-sm font-semibold uppercase tracking-widest">
               {region.label}
             </p>
-            <p
-              className={`mt-0.5 text-xs ${
-                activeRegion === region.id ? "text-accent-secondary" : "text-text-muted"
-              }`}
-            >
+            <p className={`mt-0.5 text-xs ${activeRegion === region.id ? "text-accent-secondary" : "text-text-muted"}`}>
               {region.subtitle}
             </p>
-            <p
-              className={`mt-1 text-[10px] font-medium tabular-nums ${
-                activeRegion === region.id ? "text-white/60" : "text-text-muted"
-              }`}
-            >
+            <p className={`mt-1 text-[10px] font-medium tabular-nums ${activeRegion === region.id ? "text-white/60" : "text-text-muted"}`}>
               {region.markets} markets
             </p>
           </button>
@@ -241,7 +245,7 @@ export function RegionMap() {
           <span className="h-2.5 w-2.5 rounded-full bg-accent" />
           Active market
         </span>
-        <span className="text-text-muted">25 U.S. markets + Guadalajara</span>
+        <span>27 U.S. markets + Guadalajara</span>
       </div>
     </div>
   );
