@@ -3,8 +3,6 @@ import { BuilderLogoStrip } from "@/components/BuilderLogoStrip";
 import { StatsStrip } from "@/components/StatsStrip";
 import { AssetVsContent } from "@/components/sections/AssetVsContent";
 import { ServiceExplorer } from "@/components/sections/ServiceExplorer";
-import { SpecPlus } from "@/components/sections/SpecPlus";
-import { VirtualServices } from "@/components/sections/VirtualServices";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { ModelMatchCallout } from "@/components/sections/ModelMatchCallout";
 import { DigDeskPlatform } from "@/components/sections/DigDeskPlatform";
@@ -22,8 +20,6 @@ export default function Home() {
       <StatsStrip />
       <AssetVsContent />
       <ServiceExplorer />
-      <SpecPlus />
-      <VirtualServices />
       <HowItWorks />
       <ModelMatchCallout />
       <DigDeskPlatform />
