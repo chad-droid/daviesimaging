@@ -22,11 +22,11 @@ export default function LifestylePage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Work / Lifestyle</Eyebrow>
+            <Eyebrow dark>Gallery / Lifestyle</Eyebrow>
             <h1 className="text-text-light">
               Buyers buy feelings. <strong>Give them something to feel</strong>.
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-text-muted">
+            <p className="mt-5 max-w-2xl text-lg text-text-muted">
               Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit.
             </p>
 

@@ -22,11 +22,11 @@ export default function ModelHomesPage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Work / Model Homes</Eyebrow>
+            <Eyebrow dark>Gallery / Model Homes</Eyebrow>
             <h1 className="text-text-light">
               Model home photography built to <strong>earn attention</strong>.
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-text-muted">
+            <p className="mt-5 max-w-2xl text-lg text-text-muted">
               Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package.
             </p>
 

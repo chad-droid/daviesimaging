@@ -99,7 +99,7 @@ export function HeroVideo() {
                     <br />
                     {v.headline2}
                   </h1>
-                  <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-text-muted">
+                  <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
                     {v.subheadline}
                   </p>
                   <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
