@@ -3,9 +3,9 @@ import Image from "next/image";
 
 const footerLinks = {
   Results: [
-    { label: "Models", href: "/work/model-homes" },
+    { label: "Model Homes", href: "/work/model-homes" },
     { label: "Amenities", href: "/work/amenities" },
-    { label: "Listings", href: "/work/spec-homes" },
+    { label: "Spec Homes", href: "/work/spec-homes" },
     { label: "Lifestyle", href: "/work/lifestyle" },
   ],
   Solutions: [
