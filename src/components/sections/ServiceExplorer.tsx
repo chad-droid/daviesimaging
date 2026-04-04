@@ -13,7 +13,7 @@ const tabs = [
     tag: "$600 flat — all sizes",
     tagColor: "bg-accent text-white",
     headline: "Every spec home. Complete package.",
-    body: "25 listing photos, 8 ModelMatch-staged images, and 1 virtual video. One order through FrameFlow, 72-hour delivery, flat $600 pricing regardless of home size.",
+    body: "25 listing photos, 8 ModelMatch-staged images, and 1 virtual video. Photography plus FrameFlow digital production in one package. 72-hour delivery, flat $600 pricing regardless of home size.",
     details: [
       "25 MLS-ready listing images",
       "8 ModelMatch virtually staged images",
@@ -40,8 +40,8 @@ const tabs = [
       "Sky replacement + retouching",
       "Add drone, Matterport, or staging",
     ],
-    cta: "Order via FrameFlow",
-    ctaHref: "/offerings/frameflow",
+    cta: "Book a Listing Shoot",
+    ctaHref: "/contact",
     secondaryCta: "Learn more",
     secondaryHref: "/services/listing",
     imageSlot: "explorer-listing",
@@ -137,7 +137,7 @@ export function ServiceExplorer() {
             <strong>One platform to order it.</strong>
           </h2>
           <p className="mt-4 text-text-body">
-            From flagship model home photography to 72-hour spec bundles, every DIG service is available through FrameFlow.
+            From flagship model home photography to 72-hour spec bundles. Digital services like virtual staging and video are powered by FrameFlow Studio inside digDesk.
           </p>
         </motion.div>
 

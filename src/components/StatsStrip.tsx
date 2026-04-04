@@ -13,9 +13,9 @@ interface Stat {
 
 const stats: Stat[] = [
   {
-    value: 24,
+    value: 28,
     prefix: "",
-    suffix: "+",
+    suffix: "",
     label: "Markets",
     sublabel: "Nationwide",
     accent: "#6A5ACD",

@@ -1,293 +1,466 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 
-interface DropdownMenu {
+// ─── Nav data ────────────────────────────────────────────────────────────────
+
+interface NavItem {
   label: string;
-  items: { label: string; href: string }[];
+  href: string;
+  description?: string;
 }
 
-const dropdowns: DropdownMenu[] = [
+interface NavGroup {
+  label: string;
+  basePath?: string; // used for active-state detection
+  items: NavItem[];
+}
+
+const navGroups: NavGroup[] = [
   {
     label: "Results",
+    basePath: "/work",
     items: [
-      { label: "Model Homes", href: "/work/model-homes" },
-      { label: "Amenities and Clubhouses", href: "/work/amenities" },
-      { label: "Spec Homes", href: "/work/spec-homes" },
-      { label: "Lifestyle Productions", href: "/work/lifestyle" },
+      { label: "Models", href: "/work/model-homes", description: "Furnished interiors and architectural detail" },
+      { label: "Amenities", href: "/work/amenities", description: "Clubhouses, pools, and community spaces" },
+      { label: "Listings", href: "/work/spec-homes", description: "Listing photography and virtual staging" },
+      { label: "Lifestyle", href: "/work/lifestyle", description: "People, community, and brand storytelling" },
     ],
   },
   {
     label: "Solutions",
+    basePath: "/services",
     items: [
-      { label: "Premium Photography", href: "/services/premium" },
-      { label: "Listing Photography", href: "/services/listing" },
-      { label: "Video Production", href: "/services/video-production" },
-      { label: "Virtual Staging", href: "/services/virtual-staging" },
-      { label: "Virtual Video", href: "/services/virtual-video" },
-      { label: "Matterport", href: "/services/matterport" },
+      { label: "Premium Photography", href: "/services/premium", description: "Full-service model home and lifestyle shoots" },
+      { label: "Listing Photography", href: "/services/listing", description: "HDR spec photography, 24-hour delivery" },
+      { label: "Video Production", href: "/services/video-production", description: "Crew-based community and lifestyle video" },
+      { label: "Virtual Staging", href: "/services/virtual-staging", description: "Reference-based staging, no shoot required" },
+      { label: "Virtual Video", href: "/services/virtual-video", description: "Digital listing video from existing photos" },
+      { label: "Matterport", href: "/services/matterport", description: "3D virtual tour scanning" },
+    ],
+  },
+  {
+    label: "Offerings",
+    basePath: "/offerings",
+    items: [
+      { label: "digDesk", href: "/offerings/digdesk", description: "One portal for orders, delivery, and brand assets" },
+      { label: "FrameFlow Studio", href: "/offerings/frameflow", description: "Virtual staging + video inside digDesk" },
+      { label: "Spec+", href: "/offerings/spec-plus", description: "Photography + staging + video, $600 flat" },
+      { label: "Regional Partnerships", href: "/offerings/regional-partnerships", description: "Volume pricing for 300+ home builders" },
     ],
   },
   {
     label: "About",
     items: [
-      { label: "Who We Help", href: "/markets/role" },
-      { label: "What We Do", href: "/services" },
-      { label: "Where We Serve", href: "/markets/region" },
-      { label: "Our History", href: "/about" },
+      { label: "Why We Exist", href: "/about", description: "How DIG was built inside the industry" },
+      { label: "How We Do It", href: "/about/how-we-do-it", description: "Our specialization model and philosophy" },
+      { label: "Who We Help", href: "/markets/role", description: "Directors, coordinators, sales leaders" },
+      { label: "Our Markets", href: "/markets/region", description: "28 markets across four U.S. regions" },
+      { label: "Blog", href: "/blog", description: "Photography, strategy, and builder insights" },
     ],
   },
 ];
 
-const standaloneLinks = [
-  { label: "FrameFlow", href: "/offerings/frameflow" },
-  { label: "Blog", href: "/blog" },
+const standaloneLinks: NavItem[] = [
   { label: "Contact", href: "/contact" },
 ];
 
-function DesktopDropdown({ menu, transparent }: { menu: DropdownMenu; transparent?: boolean }) {
+// ─── Dropdown panel ───────────────────────────────────────────────────────────
+
+function DesktopDropdown({
+  group,
+  active,
+}: {
+  group: NavGroup;
+  active: boolean;
+}) {
   const [open, setOpen] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pathname = usePathname();
+
+  function handleMouseEnter() {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setOpen(true);
+  }
+
+  function handleMouseLeave() {
+    timerRef.current = setTimeout(() => setOpen(false), 120);
+  }
 
   return (
     <div
       className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <button
         type="button"
-        className={`flex items-center gap-1 text-[13px] font-medium tracking-wide 2xl:text-[15px] transition-colors hover:text-accent ${
-          transparent ? "text-white" : "text-text-body"
+        className={`group relative flex items-center gap-1 text-[13px] font-medium tracking-wide transition-colors 2xl:text-[14px] ${
+          active
+            ? "text-text-dark"
+            : "text-text-body hover:text-text-dark"
         }`}
       >
-        {menu.label}
+        {group.label}
         <svg
-          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
-          strokeWidth={2}
+          strokeWidth={2.5}
           stroke="currentColor"
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
         </svg>
+        {/* Active underline */}
+        {active && (
+          <span className="absolute -bottom-1 left-0 right-0 h-px bg-accent" />
+        )}
       </button>
-      {open && (
-        <div className="absolute left-0 top-full w-52 rounded-lg border border-border-light bg-bg-surface py-2 pt-4 shadow-lg before:absolute before:-top-4 before:left-0 before:h-4 before:w-full">
-          {menu.items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block px-4 py-2 text-sm text-text-body transition-colors hover:bg-bg-light hover:text-accent"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      )}
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 4, scale: 0.98 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+            className="absolute left-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-xl border border-border-light bg-bg-surface shadow-xl shadow-black/8"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            {/* Invisible bridge to prevent mouse gap from closing menu */}
+            <div className="absolute -top-2 left-0 h-2 w-full" />
+            <div className="py-2">
+              {group.items.map((item) => {
+                const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`group/item flex flex-col px-4 py-2.5 transition-colors hover:bg-bg-light ${
+                      isActive ? "bg-bg-light" : ""
+                    }`}
+                  >
+                    <span
+                      className={`text-sm font-medium transition-colors group-hover/item:text-accent ${
+                        isActive ? "text-accent" : "text-text-dark"
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+                    {item.description && (
+                      <span className="mt-0.5 text-[11px] leading-snug text-text-muted transition-colors group-hover/item:text-text-body">
+                        {item.description}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-function MobileDropdown({
-  menu,
-  onNavigate,
+// ─── Mobile drawer ────────────────────────────────────────────────────────────
+
+function MobileDrawer({
+  open,
+  onClose,
 }: {
-  menu: DropdownMenu;
-  onNavigate: () => void;
+  open: boolean;
+  onClose: () => void;
 }) {
-  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close on route change
+  useEffect(() => {
+    onClose();
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <div className="border-b border-border-light pb-3">
+    <AnimatePresence>
+      {open && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+            onClick={onClose}
+          />
+
+          {/* Drawer */}
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] as [number, number, number, number] }}
+            className="fixed right-0 top-0 z-50 flex h-full w-[min(360px,90vw)] flex-col bg-bg-surface shadow-2xl lg:hidden"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-border-light px-6 py-4">
+              <Link href="/" onClick={onClose}>
+                <Image
+                  src="/dig-logo-dark.png"
+                  alt="Davies Imaging Group"
+                  width={120}
+                  height={73}
+                  className="h-6 w-auto"
+                  priority
+                />
+              </Link>
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-lg p-1.5 text-text-muted transition-colors hover:bg-bg-light hover:text-text-dark"
+                aria-label="Close menu"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Nav items */}
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+              {navGroups.map((group) => (
+                <MobileGroup key={group.label} group={group} pathname={pathname} onNavigate={onClose} />
+              ))}
+
+              {standaloneLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={onClose}
+                  className={`flex items-center py-3 text-sm font-medium transition-colors hover:text-accent ${
+                    pathname === link.href ? "text-accent" : "text-text-body"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div className="border-t border-border-light px-4 py-4 space-y-2.5">
+              <Link
+                href="/get-started"
+                onClick={onClose}
+                className="flex w-full items-center justify-center rounded-full bg-accent px-4 py-2.5 text-[12px] font-semibold tracking-wide text-white transition-colors hover:bg-accent-hover"
+              >
+                Get Started
+              </Link>
+              <a
+                href="https://desk.daviesimaging.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onClose}
+                className="flex w-full items-center justify-center rounded-full border border-border-light px-4 py-2.5 text-[12px] font-semibold tracking-wide text-text-body transition-colors hover:border-accent hover:text-accent"
+              >
+                Log In to digDesk
+              </a>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function MobileGroup({
+  group,
+  pathname,
+  onNavigate,
+}: {
+  group: NavGroup;
+  pathname: string;
+  onNavigate: () => void;
+}) {
+  const isGroupActive = group.basePath
+    ? pathname.startsWith(group.basePath)
+    : group.items.some((item) => pathname === item.href || pathname.startsWith(item.href + "/"));
+
+  const [open, setOpen] = useState(isGroupActive);
+
+  return (
+    <div className="border-b border-border-light/60 py-1">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between text-sm font-medium uppercase tracking-widest text-text-body"
+        className={`flex w-full items-center justify-between py-2.5 text-sm font-medium transition-colors ${
+          isGroupActive ? "text-text-dark" : "text-text-body"
+        }`}
       >
-        {menu.label}
+        <span>{group.label}</span>
         <svg
-          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 text-text-muted transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           fill="none"
           viewBox="0 0 24 24"
-          strokeWidth={2}
+          strokeWidth={2.5}
           stroke="currentColor"
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
         </svg>
       </button>
-      {open && (
-        <div className="mt-2 flex flex-col gap-1 pl-4">
-          {menu.items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onNavigate}
-              className="py-1.5 text-sm text-text-body transition-colors hover:text-accent"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      )}
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="pb-2 pl-2">
+              {group.items.map((item) => {
+                const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onNavigate}
+                    className={`flex flex-col py-2 pl-2 transition-colors hover:text-accent ${
+                      isActive ? "text-accent" : "text-text-body"
+                    }`}
+                  >
+                    <span className="text-sm font-medium">{item.label}</span>
+                    {item.description && (
+                      <span className="mt-0.5 text-[11px] text-text-muted">{item.description}</span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
+
+// ─── Main Nav ─────────────────────────────────────────────────────────────────
 
 export function Nav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [hasDarkHero, setHasDarkHero] = useState(false);
-
-  useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 80);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Detect if the page has a dark hero behind the nav
-  useEffect(() => {
-    const firstSection = document.querySelector("main > div > section, main > section");
-    const isDark = firstSection?.classList.contains("bg-bg-dark") ||
-      firstSection?.querySelector(".bg-bg-dark") !== null ||
-      firstSection?.classList.contains("bg-[#121212]") ||
-      false;
-    setHasDarkHero(isDark);
-  }, [pathname]);
-
-  const transparent = hasDarkHero && !scrolled && !mobileOpen;
 
   return (
-    <header
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-        transparent
-          ? "border-b border-transparent bg-transparent"
-          : "border-b border-border-light bg-bg-surface/95 backdrop-blur-sm"
-      }`}
-    >
-      <nav className="mx-auto flex max-w-[90rem] items-center justify-between px-6 py-4 lg:px-8 2xl:px-12 2xl:py-5">
-        {/* Logo */}
-        <Link href="/" className="shrink-0">
-          <Image
-            src={transparent ? "/dig-logo-light.png" : "/dig-logo-dark.png"}
-            alt="Davies Imaging Group"
-            width={120}
-            height={73}
-            className="h-7 w-auto 2xl:h-9"
-            priority
-          />
-        </Link>
-
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-4 lg:flex xl:gap-6">
-          {dropdowns.map((menu) => (
-            <DesktopDropdown key={menu.label} menu={menu} transparent={transparent} />
-          ))}
-
-          {standaloneLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-[13px] font-medium tracking-wide 2xl:text-[15px] transition-colors hover:text-accent ${
-                transparent ? "text-white" : "text-text-body"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-
-          {/* CTAs */}
-          <a
-            href="https://desk.daviesimaging.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide transition-colors ${
-              transparent
-                ? "border border-white/40 text-white hover:border-white/70"
-                : "border border-border-light text-text-body hover:border-accent"
-            }`}
-          >
-            <span style={{ fontWeight: 600 }}>dig</span>Desk Login
-          </a>
-          <Link
-            href="/campaigns/frameflow-sell-faster"
-            className="rounded-full bg-accent px-4 py-1.5 text-xs font-semibold tracking-wide text-text-light transition-colors hover:bg-accent-hover"
-          >
-            Fix My Listings
+    <>
+      <header className="fixed left-0 right-0 top-0 z-40 border-b border-border-light bg-bg-surface/95 backdrop-blur-sm">
+        <nav className="mx-auto flex max-w-[90rem] items-center justify-between px-6 py-3.5 lg:px-8 2xl:px-12 2xl:py-4">
+          {/* Logo */}
+          <Link href="/" className="shrink-0">
+            <Image
+              src="/dig-logo-dark.png"
+              alt="Davies Imaging Group"
+              width={120}
+              height={73}
+              className="h-[26px] w-auto 2xl:h-8"
+              priority
+            />
           </Link>
-        </div>
 
-        {/* Mobile hamburger */}
-        <button
-          type="button"
-          className="lg:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          <svg
-            className={`h-6 w-6 ${transparent ? "text-white" : "text-text-body"}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            {mobileOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            )}
-          </svg>
-        </button>
-      </nav>
+          {/* Desktop nav */}
+          <div className="hidden items-center gap-5 lg:flex xl:gap-7">
+            {navGroups.map((group) => {
+              const isActive = group.basePath
+                ? pathname.startsWith(group.basePath)
+                : group.items.some(
+                    (item) => pathname === item.href || pathname.startsWith(item.href + "/")
+                  );
+              return (
+                <DesktopDropdown
+                  key={group.label}
+                  group={group}
+                  active={isActive}
+                />
+              );
+            })}
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="border-t border-border-light bg-bg-surface px-6 pb-6 pt-4 lg:hidden">
-          <div className="flex flex-col gap-3">
-            {dropdowns.map((menu) => (
-              <MobileDropdown
-                key={menu.label}
-                menu={menu}
-                onNavigate={() => setMobileOpen(false)}
-              />
-            ))}
+            {standaloneLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative text-[13px] font-medium tracking-wide transition-colors 2xl:text-[14px] ${
+                    isActive
+                      ? "text-text-dark"
+                      : "text-text-body hover:text-text-dark"
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-accent" />
+                  )}
+                </Link>
+              );
+            })}
 
-            {standaloneLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="text-sm font-medium uppercase tracking-widest text-text-body"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {/* Divider */}
+            <span className="h-4 w-px bg-border-light" />
 
+            {/* CTAs */}
             <a
               href="https://desk.daviesimaging.com"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => setMobileOpen(false)}
-              className="mt-2 rounded-full border border-border-light px-4 py-2 text-center text-[12px] font-semibold text-text-body"
+              className="rounded-full border border-border-light px-4 py-1.5 text-[12px] font-semibold tracking-wide text-text-body transition-all hover:border-accent hover:text-accent"
             >
-              <span style={{ fontWeight: 600 }}>dig</span>Desk Login
+              Log In
             </a>
             <Link
-              href="/campaigns/frameflow-sell-faster"
-              onClick={() => setMobileOpen(false)}
-              className="rounded-full bg-accent px-4 py-2 text-center text-[12px] font-semibold text-text-light"
+              href="/get-started"
+              className="rounded-full bg-accent px-4 py-1.5 text-[12px] font-semibold tracking-wide text-white transition-colors hover:bg-accent-hover"
             >
-              Fix My Listings
+              Get Started
             </Link>
           </div>
-        </div>
-      )}
-    </header>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            className="rounded-lg p-1.5 lg:hidden"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
+            <svg
+              className="h-5 w-5 text-text-dark"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.75}
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </nav>
+      </header>
+
+      {/* Mobile drawer — rendered outside header so it can be full-height */}
+      <MobileDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
+    </>
   );
 }

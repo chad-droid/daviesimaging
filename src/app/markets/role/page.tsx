@@ -5,81 +5,121 @@ import { Eyebrow } from "@/components/Eyebrow";
 
 export const metadata: Metadata = {
   title: "Markets by Role | Davies Imaging Group",
-  description: "DIG serves coordinators, directors, executives, and C-suite leaders at homebuilders.",
+  description: "DIG serves marketing coordinators, directors, executives, and C-suite leaders at homebuilders. Find the page built for your role.",
 };
 
 const roles = [
   {
     title: "Coordinators",
-    description: "Day-to-day scheduling, ordering, and asset management. FrameFlow makes your workflow faster.",
+    description: "You schedule shoots, submit orders, and manage assets day to day. FrameFlow Studio and digDesk are built to make your workflow faster and your deliveries more predictable.",
+    pain: "Chasing vendors, missed deadlines, inconsistent output",
+    solution: "One platform, one team, 95% first-delivery success rate",
     href: "/markets/role/coordinators",
   },
   {
-    title: "Directors",
-    description: "Brand consistency, multi-community rollouts, and marketing performance. Assets that work across channels.",
+    title: "Marketing Directors",
+    description: "Brand consistency across communities, multi-market rollouts, and assets that perform across every channel. DIG aligns creative to your marketing strategy, not just your shoot calendar.",
+    pain: "Inconsistent photography across markets, assets that only live in one place",
+    solution: "Standardized production across 28 markets, assets built for downstream deployment",
     href: "/markets/role/directors",
   },
   {
-    title: "Executive",
-    description: "VP-level oversight. Regional coverage, vendor consolidation, and scalable asset partnerships.",
+    title: "VP Level",
+    description: "Regional coverage, vendor consolidation, and scalable asset partnerships that reduce cost and complexity across your portfolio.",
+    pain: "Managing multiple vendors across regions, unpredictable quality and pricing",
+    solution: "Regional Partnerships with volume pricing, dedicated capacity, and one account team",
     href: "/markets/role/executive",
   },
   {
     title: "C-Suite",
-    description: "Strategic growth, cost efficiency, and competitive advantage through visual marketing.",
+    description: "Strategic growth, cost efficiency, and competitive advantage through visual marketing that moves inventory faster and supports your sales team.",
+    pain: "Days on market, carry costs, sales team without the right tools to close",
+    solution: "Spec+ packages that reduce time from listing to sale through superior marketing assets",
     href: "/markets/role/c-suite",
   },
 ];
 
 export default function ByRolePage() {
   return (
-    <section className="flex min-h-screen items-center bg-bg-surface py-24">
-      <div className="mx-auto max-w-4xl px-6">
-        <RevealOnScroll>
-          <div className="text-center">
-            <Eyebrow>By Role</Eyebrow>
-            <h1>
+    <>
+      {/* Hero */}
+      <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <RevealOnScroll>
+            <Eyebrow dark>By Role</Eyebrow>
+            <h1 className="text-text-light">
               Built for the people who move <strong>homes</strong>.
             </h1>
-            <p className="mt-5 text-text-body">
-              Every role has different pressures. We built pages that speak
-              directly to yours.
+            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+              Every role in a homebuilding organization has different pressures. We built pages that speak directly to yours.
             </p>
-          </div>
-        </RevealOnScroll>
+          </RevealOnScroll>
+        </div>
+      </section>
 
-        <RevealOnScroll stagger={150}>
-          {roles.map((role) => (
-            <Link
-              key={role.href}
-              href={role.href}
-              className="mt-6 block first:mt-14 rounded-lg border border-border-light p-8 transition-colors hover:border-accent-secondary"
-            >
-              <h3>{role.title}</h3>
-              <p className="mt-2 text-text-body">{role.description}</p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark">
-                Learn more <span aria-hidden="true">&rarr;</span>
-              </span>
-            </Link>
-          ))}
-        </RevealOnScroll>
+      {/* Roles */}
+      <section className="py-24">
+        <div className="mx-auto max-w-5xl px-6">
+          <RevealOnScroll>
+            <div className="grid gap-6 sm:grid-cols-2">
+              {roles.map((role) => (
+                <Link
+                  key={role.href}
+                  href={role.href}
+                  className="group flex flex-col rounded-xl border border-border-light bg-bg-surface p-6 transition-all hover:border-accent hover:shadow-sm"
+                >
+                  <h3 className="text-xl font-semibold text-text-dark transition-colors group-hover:text-accent">
+                    {role.title}
+                  </h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-text-body">{role.description}</p>
+                  <div className="mt-5 space-y-2 border-t border-border-light pt-4">
+                    <div className="flex items-start gap-2 text-xs text-text-muted">
+                      <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-text-muted" />
+                      <span><strong className="text-text-body">Problem:</strong> {role.pain}</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-xs text-text-muted">
+                      <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                      <span><strong className="text-text-body">DIG answer:</strong> {role.solution}</span>
+                    </div>
+                  </div>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors group-hover:text-accent">
+                    See this page <span aria-hidden="true">&rarr;</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
 
-        <RevealOnScroll>
-          <div className="mt-14 rounded-lg border border-border-light bg-bg-light p-8 text-center">
-            <Eyebrow>Scale</Eyebrow>
-            <h3>Need coverage across multiple <strong>markets</strong>?</h3>
-            <p className="mt-3 text-text-body">
-              DIG&rsquo;s Regional Partnerships program gives national builders one partner, volume pricing, and consistent quality across every region.
-            </p>
-            <Link
-              href="/offerings/regional-partnerships"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Explore Regional Partnerships <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
-        </RevealOnScroll>
-      </div>
-    </section>
+      {/* Regional partnerships callout */}
+      <section className="bg-bg-light py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <RevealOnScroll>
+            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
+              <Eyebrow>Scale</Eyebrow>
+              <h2 className="mt-2">Need coverage across multiple <strong>markets</strong>?</h2>
+              <p className="mx-auto mt-4 max-w-xl text-text-body">
+                DIG&apos;s Regional Partnerships program gives national builders one partner, volume pricing, and consistent quality across every region.
+              </p>
+              <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Link
+                  href="/offerings/regional-partnerships"
+                  className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                >
+                  Explore Regional Partnerships
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-sm font-medium text-text-body transition-colors hover:text-accent"
+                >
+                  Book a strategy call &rarr;
+                </Link>
+              </div>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+    </>
   );
 }

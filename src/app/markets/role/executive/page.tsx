@@ -42,7 +42,7 @@ export default function ExecutivePage() {
         eyebrow="Scale"
         headline={<>Coverage without <strong>compromise</strong>.</>}
         stats={[
-          { value: "24+", label: "Markets served" },
+          { value: "28", label: "Markets served" },
           { value: "4", label: "Regions covered" },
           { value: "10,000+", label: "Homes delivered" },
         ]}

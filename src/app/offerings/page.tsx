@@ -5,45 +5,178 @@ import { Eyebrow } from "@/components/Eyebrow";
 
 export const metadata: Metadata = {
   title: "Offerings | Davies Imaging Group",
-  description: "FrameFlow, Spec+, and Regional Partnerships. How builders purchase DIG services.",
+  description: "digDesk, FrameFlow Studio, Spec+, and Regional Partnerships. How builders purchase and manage DIG services.",
+};
+
+const platform = {
+  title: "digDesk",
+  href: "/offerings/digdesk",
+  description: "The DIG client portal. Every service, every order, every asset — one dashboard. FrameFlow Studio, Spec+, listing photography, Premium photography requests, and ModelMatch gallery management all live here.",
+  cta: "Explore digDesk",
 };
 
 const offerings = [
-  { title: "FrameFlow", href: "/offerings/frameflow", description: "Digital ordering platform. Entry point for virtual staging, virtual video, and Spec+ orders." },
-  { title: "Spec+", href: "/offerings/spec-plus", description: "All-in-one package: listing photography, virtual staging, and virtual video in one order." },
-  { title: "Regional Partnerships", href: "/offerings/regional-partnerships", description: "Volume commitment program with price discounts and dedicated capacity across regions." },
+  {
+    title: "FrameFlow Studio",
+    href: "/offerings/frameflow",
+    tag: "Ordering Platform",
+    description: "The digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer. Entry point for all digital orders.",
+    price: "Starting at $25 / image",
+    cta: "Explore FrameFlow Studio",
+  },
+  {
+    title: "Spec+",
+    href: "/offerings/spec-plus",
+    tag: "Most Popular",
+    description: "The complete spec home asset package. 25 listing photos, 8 ModelMatch virtually staged images, and 1 virtual video. One coordinated order, one delivery, $600 flat.",
+    price: "$600 flat per listing",
+    cta: "See Spec+ Details",
+    featured: true,
+  },
+  {
+    title: "Regional Partnerships",
+    href: "/offerings/regional-partnerships",
+    tag: "VP + C-Suite",
+    description: "Volume commitment program for national and regional builders. Price discounts in exchange for volume guarantees. Dedicated capacity and brand consistency across all four U.S. regions.",
+    price: "Custom pricing by volume",
+    cta: "Explore Regional Partnerships",
+  },
 ];
 
 export default function OfferingsIndex() {
   return (
-    <section className="flex min-h-screen items-center bg-bg-surface py-24">
-      <div className="mx-auto max-w-4xl px-6">
-        <RevealOnScroll>
-          <div className="text-center">
-            <Eyebrow>Offerings</Eyebrow>
-            <h1>How builders <strong>purchase</strong>.</h1>
-            <p className="mt-5 text-text-body">
-              Streamlined packages and platforms designed for how builder marketing teams actually buy.
+    <>
+      {/* Hero */}
+      <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <RevealOnScroll>
+            <Eyebrow dark>Offerings</Eyebrow>
+            <h1 className="text-text-light">How builders <strong>purchase</strong>.</h1>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+              Streamlined packages and platforms designed for how builder marketing teams actually buy. No subscriptions, no minimums, no surprises.
             </p>
-          </div>
-        </RevealOnScroll>
+          </RevealOnScroll>
+        </div>
+      </section>
 
-        <RevealOnScroll stagger={150}>
-          {offerings.map((off) => (
-            <Link
-              key={off.href}
-              href={off.href}
-              className="mt-6 block first:mt-14 rounded-lg border border-border-light p-8 transition-colors hover:border-accent-secondary"
-            >
-              <h3>{off.title}</h3>
-              <p className="mt-2 text-text-body">{off.description}</p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark">
-                Learn more <span aria-hidden="true">&rarr;</span>
-              </span>
-            </Link>
-          ))}
-        </RevealOnScroll>
-      </div>
-    </section>
+      {/* digDesk platform banner */}
+      <section className="py-16">
+        <div className="mx-auto max-w-5xl px-6">
+          <RevealOnScroll>
+            <div className="rounded-2xl border border-border-light bg-bg-dark p-8 lg:p-10">
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex-1">
+                  <Eyebrow dark>The Platform</Eyebrow>
+                  <h2 className="mt-2 text-text-light">
+                    Everything runs through <strong>digDesk</strong>.
+                  </h2>
+                  <p className="mt-3 max-w-xl text-text-muted text-[1.0625rem] leading-relaxed">
+                    {platform.description}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-end lg:gap-3">
+                  <Link
+                    href={platform.href}
+                    className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover whitespace-nowrap"
+                  >
+                    {platform.cta} &rarr;
+                  </Link>
+                  <a
+                    href="https://desk.daviesimaging.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-text-muted transition-colors hover:border-white/40 hover:text-text-light whitespace-nowrap text-center"
+                  >
+                    Log In
+                  </a>
+                </div>
+              </div>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* Offerings grid */}
+      <section className="pb-24">
+        <div className="mx-auto max-w-5xl px-6">
+          <RevealOnScroll>
+            <div className="mb-10 text-center">
+              <Eyebrow>Packages and Programs</Eyebrow>
+              <h2>What builders <strong>order</strong>.</h2>
+            </div>
+            <div className="grid gap-6 lg:grid-cols-3">
+              {offerings.map((off) => (
+                <div
+                  key={off.href}
+                  className={`flex flex-col rounded-xl border p-6 ${
+                    off.featured
+                      ? "border-accent bg-bg-surface shadow-md"
+                      : "border-border-light bg-bg-surface"
+                  }`}
+                >
+                  <div className="mb-4 flex items-start justify-between gap-2">
+                    <h3 className="text-xl font-semibold text-text-dark">{off.title}</h3>
+                    {off.tag && (
+                      <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                        off.featured ? "bg-accent/10 text-accent" : "bg-bg-light text-text-muted"
+                      }`}>
+                        {off.tag}
+                      </span>
+                    )}
+                  </div>
+                  <p className="flex-1 text-sm leading-relaxed text-text-body">{off.description}</p>
+                  <div className="mt-6 border-t border-border-light pt-4">
+                    <p className={`text-sm font-semibold ${off.featured ? "text-accent" : "text-text-dark"}`}>
+                      {off.price}
+                    </p>
+                  </div>
+                  <Link
+                    href={off.href}
+                    className={`mt-4 inline-flex items-center gap-1.5 text-sm font-medium transition-colors ${
+                      off.featured
+                        ? "text-accent hover:underline"
+                        : "text-text-dark hover:text-accent"
+                    }`}
+                  >
+                    {off.cta} <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* Get started CTA */}
+      <section className="bg-bg-light py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <RevealOnScroll>
+            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
+              <Eyebrow>Ready to Order</Eyebrow>
+              <h2 className="mt-2">
+                Two ways to get <strong>into digDesk</strong>.
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-text-body">
+                Schedule a 15-minute demo and we will walk you through the platform, or submit your account request directly and start ordering within one business day.
+              </p>
+              <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Link
+                  href="/get-started"
+                  className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                >
+                  Get Started
+                </Link>
+                <Link
+                  href="/offerings/digdesk"
+                  className="text-sm font-medium text-text-body transition-colors hover:text-accent"
+                >
+                  Learn about digDesk &rarr;
+                </Link>
+              </div>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+    </>
   );
 }

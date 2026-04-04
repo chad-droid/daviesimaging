@@ -33,7 +33,7 @@ export default function BeazerFrameFlowPage() {
         stats={[
           { value: "37%", label: "Avg. DOM reduction" },
           { value: "3-in-1", label: "Photo + staging + video" },
-          { value: "24+", label: "Markets covered" },
+          { value: "28", label: "Markets covered" },
         ]}
       />
       <LPCta

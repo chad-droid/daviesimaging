@@ -91,7 +91,7 @@ export function BuilderLogoStrip() {
       `}</style>
 
       <p className="mb-6 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-text-muted">
-        Trusted by homebuilders across 24 markets
+        Trusted by homebuilders across 28 markets
       </p>
 
       <MarqueeRow items={row1} direction="left" speed={50} />

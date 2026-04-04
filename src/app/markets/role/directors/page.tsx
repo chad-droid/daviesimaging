@@ -43,7 +43,7 @@ export default function DirectorsPage() {
         headline={<>Numbers that <strong>matter</strong>.</>}
         stats={[
           { value: "37%", label: "Avg. reduction in days on market" },
-          { value: "24+", label: "Markets served nationwide" },
+          { value: "28", label: "Markets served nationwide" },
           { value: "10,000+", label: "Homes photographed" },
         ]}
         testimonial={{

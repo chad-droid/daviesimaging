@@ -3,10 +3,10 @@ import Image from "next/image";
 
 const footerLinks = {
   Results: [
-    { label: "Model Homes", href: "/work/model-homes" },
-    { label: "Amenities and Clubhouses", href: "/work/amenities" },
-    { label: "Spec Homes", href: "/work/spec-homes" },
-    { label: "Lifestyle Productions", href: "/work/lifestyle" },
+    { label: "Models", href: "/work/model-homes" },
+    { label: "Amenities", href: "/work/amenities" },
+    { label: "Listings", href: "/work/spec-homes" },
+    { label: "Lifestyle", href: "/work/lifestyle" },
   ],
   Solutions: [
     { label: "Premium Photography", href: "/services/premium" },
@@ -17,15 +17,21 @@ const footerLinks = {
     { label: "Matterport", href: "/services/matterport" },
   ],
   About: [
+    { label: "Why We Exist", href: "/about" },
+    { label: "How We Do It", href: "/about/how-we-do-it" },
     { label: "Who We Help", href: "/markets/role" },
-    { label: "What We Do", href: "/services" },
-    { label: "Where We Serve", href: "/markets/region" },
-    { label: "Our History", href: "/about" },
+    { label: "Our Markets", href: "/markets/region" },
+    { label: "Blog", href: "/blog" },
+    { label: "Careers", href: "/careers" },
   ],
   Links: [
-    { label: "FrameFlow", href: "/offerings/frameflow" },
-    { label: "Blog", href: "/blog" },
+    { label: "digDesk", href: "/offerings/digdesk" },
+    { label: "FrameFlow Studio", href: "/offerings/frameflow" },
+    { label: "Spec+", href: "/offerings/spec-plus" },
     { label: "Contact", href: "/contact" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Legal", href: "/legal" },
+    { label: "Copyright & Usage", href: "/copyright" },
   ],
 };
 

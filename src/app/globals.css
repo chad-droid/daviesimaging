@@ -19,7 +19,8 @@
   --bg-dark: #121212;
   --bg-dark-surface: #1E1E1E;
   --text-light: #F5F5F5;
-  --text-light-muted: #CFCFCF;
+  --text-light-muted: #CFCFCF;   /* light text for dark backgrounds */
+  --text-muted: #5C5C5C;          /* muted text for light backgrounds */
   --border-dark: #2C2C2C;
 
   /* Media overlays */
@@ -49,7 +50,7 @@
   --color-text-dark: var(--text-dark);
   --color-text-body: var(--text-body);
   --color-text-light: var(--text-light);
-  --color-text-muted: var(--text-light-muted);
+  --color-text-muted: var(--text-muted);
 
   --color-border-light: var(--border-light);
   --color-border-dark: var(--border-dark);
@@ -147,7 +148,7 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--accent-secondary);
+    color: var(--text-muted);
   }
 
   .lead-text {
@@ -169,7 +170,7 @@
     font-family: var(--font-body);
     font-size: 0.875rem;
     font-weight: 400;
-    color: var(--accent-secondary);
+    color: var(--text-muted);
   }
 
   .cta-button {

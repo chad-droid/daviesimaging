@@ -44,7 +44,7 @@ export default function CoordinatorsPage() {
         stats={[
           { value: "1", label: "Platform for all orders" },
           { value: "48hr", label: "Spec turnaround" },
-          { value: "24+", label: "Markets supported" },
+          { value: "28", label: "Markets supported" },
         ]}
       />
       <LPCta
