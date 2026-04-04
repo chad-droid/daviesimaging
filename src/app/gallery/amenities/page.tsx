@@ -20,13 +20,13 @@ export default function AmenitiesPage() {
     <>
       {/* Hero */}
       <section className="bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Amenities</Eyebrow>
             <h1 className="text-text-light">
               Buyers choose communities. Give them a reason to choose <strong>yours</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Pools, clubhouses, fitness centers, trails, and parks. DIG captures every amenity the way it deserves: with context, with light, and with buyers in mind.
             </p>
 
@@ -49,7 +49,7 @@ export default function AmenitiesPage() {
 
       {/* Context section */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">

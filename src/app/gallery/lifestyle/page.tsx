@@ -20,13 +20,13 @@ export default function LifestylePage() {
     <>
       {/* Hero */}
       <section className="bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Lifestyle</Eyebrow>
             <h1 className="text-text-light">
               Buyers buy feelings. <strong>Give them something to feel</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit.
             </p>
 
@@ -49,7 +49,7 @@ export default function LifestylePage() {
 
       {/* Context section */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
