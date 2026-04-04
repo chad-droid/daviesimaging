@@ -32,7 +32,7 @@ export default function SpecPlusPage() {
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Spec+</Eyebrow>
+            <Eyebrow dark>Programs / Spec+</Eyebrow>
             <h1 className="text-text-light">
               Your inventory needs to move. Spec+ delivers <strong>everything</strong>.
             </h1>

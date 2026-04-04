@@ -35,7 +35,7 @@ export default function VirtualVideoPage() {
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Virtual Video</Eyebrow>
+            <Eyebrow dark>Solutions / Virtual Video</Eyebrow>
             <h1 className="text-text-light">
               Listing video without the <strong>crew</strong>.
             </h1>

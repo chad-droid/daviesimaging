@@ -24,7 +24,7 @@ export default function ListingPhotoPage() {
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Listing Photography</Eyebrow>
+            <Eyebrow dark>Solutions / Listing Photography</Eyebrow>
             <h1 className="text-text-light">
               Photography built for homes that need to <strong>move</strong>.
             </h1>

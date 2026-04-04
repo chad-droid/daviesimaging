@@ -59,7 +59,7 @@ export default function VirtualStagingPage() {
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>ModelMatch Virtual Staging</Eyebrow>
+            <Eyebrow dark>Solutions / Virtual Staging</Eyebrow>
             <h1 className="text-text-light">
               Staging that looks like your community. Because <strong>it is</strong>.
             </h1>

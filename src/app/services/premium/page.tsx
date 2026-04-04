@@ -72,7 +72,7 @@ export default function PremiumPage() {
       <section className="min-h-[65vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Premium Photography</Eyebrow>
+            <Eyebrow dark>Solutions / Premium Photography</Eyebrow>
             <h1 className="text-text-light">
               Full-service photography for builders who demand the <strong>best</strong>.
             </h1>

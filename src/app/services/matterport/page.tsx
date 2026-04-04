@@ -35,7 +35,7 @@ export default function MatterportPage() {
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Matterport 3D Tours</Eyebrow>
+            <Eyebrow dark>Solutions / Matterport</Eyebrow>
             <h1 className="text-text-light">
               Let buyers walk through before they <strong>visit</strong>.
             </h1>

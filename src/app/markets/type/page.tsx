@@ -53,7 +53,7 @@ export default function ByTypePage() {
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>By Type</Eyebrow>
+            <Eyebrow dark>Markets / By Type</Eyebrow>
             <h1 className="text-text-light">
               Every builder type has a different <strong>need</strong>.
             </h1>

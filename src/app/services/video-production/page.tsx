@@ -35,7 +35,7 @@ export default function VideoProductionPage() {
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Video Production</Eyebrow>
+            <Eyebrow dark>Solutions / Video Production</Eyebrow>
             <h1 className="text-text-light">
               Video that moves buyers to <strong>action</strong>.
             </h1>

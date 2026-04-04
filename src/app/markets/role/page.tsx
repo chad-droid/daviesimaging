@@ -46,7 +46,7 @@ export default function ByRolePage() {
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>By Role</Eyebrow>
+            <Eyebrow dark>Markets / By Role</Eyebrow>
             <h1 className="text-text-light">
               Built for the people who move <strong>homes</strong>.
             </h1>

@@ -50,7 +50,7 @@ export default function RegionalPartnershipsPage() {
       <section className="min-h-[65vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Regional Partnerships</Eyebrow>
+            <Eyebrow dark>Programs / Regional Partnerships</Eyebrow>
             <h1 className="text-text-light">
               One partner, every <strong>market</strong>.
             </h1>

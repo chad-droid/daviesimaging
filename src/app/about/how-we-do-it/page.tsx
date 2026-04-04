@@ -41,7 +41,7 @@ export default function HowWeDoItPage() {
       <section className="min-h-[65vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Our Philosophy</Eyebrow>
+            <Eyebrow dark>About / How We Do It</Eyebrow>
             <h1 className="mt-4 text-text-light">
               The traditional approach to builder photography{" "}
               <strong>is broken</strong>.

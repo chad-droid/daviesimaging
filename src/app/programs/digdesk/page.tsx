@@ -66,7 +66,7 @@ export default function DigDeskPage() {
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>digDesk</Eyebrow>
+            <Eyebrow dark>Programs / digDesk</Eyebrow>
             <h1 className="text-text-light">
               One portal for your <strong>entire visual pipeline</strong>.
             </h1>

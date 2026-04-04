@@ -15,7 +15,7 @@ export default function ByRegionPage() {
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="text-center">
-            <Eyebrow>By Region</Eyebrow>
+            <Eyebrow>Markets / By Region</Eyebrow>
             <h1>
               One standard across every <strong>market</strong>.
             </h1>
