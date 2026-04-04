@@ -65,7 +65,7 @@ export default function FrameFlowChallengePage() {
         }
         description="We take one community or model home and apply the FrameFlow methodology. You see the difference in engagement, buyer behavior, and listing performance."
         ctaLabel="See how it works"
-        ctaHref="/offerings/frameflow"
+        ctaHref="/programs/frameflow"
       />
 
       <Proof

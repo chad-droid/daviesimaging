@@ -12,7 +12,7 @@ const fields = [
   { key: "cta1Text", label: "CTA 1 Text", type: "text" as const, defaultValue: "Book a Strategy Call" },
   { key: "cta1Url", label: "CTA 1 URL", type: "url" as const, defaultValue: "/contact" },
   { key: "cta2Text", label: "CTA 2 Text", type: "text" as const, defaultValue: "Explore FrameFlow" },
-  { key: "cta2Url", label: "CTA 2 URL", type: "url" as const, defaultValue: "/offerings/frameflow" },
+  { key: "cta2Url", label: "CTA 2 URL", type: "url" as const, defaultValue: "/programs/frameflow" },
 ];
 
 export function FinalCta() {

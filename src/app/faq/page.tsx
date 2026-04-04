@@ -13,7 +13,7 @@ const categories = [
   { label: "Spec+", href: "#spec-plus" },
   { label: "Virtual Staging", href: "/services/virtual-staging" },
   { label: "Virtual Video", href: "/services/virtual-video" },
-  { label: "Ordering", href: "/offerings/frameflow" },
+  { label: "Ordering", href: "/programs/frameflow" },
 ];
 
 export default function FaqPage() {
@@ -69,7 +69,7 @@ export default function FaqPage() {
                   Contact Us
                 </Link>
                 <Link
-                  href="/offerings/frameflow"
+                  href="/programs/frameflow"
                   className="rounded-full border border-border-light px-8 py-3 text-sm font-semibold text-text-body transition-colors hover:border-accent hover:text-accent"
                 >
                   Explore FrameFlow Studio

@@ -104,7 +104,7 @@ export default function VirtualStagingPage() {
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
-                    href="/offerings/spec-plus"
+                    href="/programs/spec-plus"
                     className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
                   >
                     Bundle in Spec+
@@ -239,7 +239,7 @@ export default function VirtualStagingPage() {
                   <span className="ml-1 text-sm font-sans font-normal text-text-muted">/ property</span>
                 </p>
                 <Link
-                  href="/offerings/spec-plus"
+                  href="/programs/spec-plus"
                   className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
                 >
                   Learn about Spec+ &rarr;
@@ -268,7 +268,7 @@ export default function VirtualStagingPage() {
                 Request a sample
               </Link>
               <Link
-                href="/offerings/spec-plus"
+                href="/programs/spec-plus"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See full Spec+ pricing &rarr;

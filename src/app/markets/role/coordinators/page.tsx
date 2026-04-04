@@ -18,7 +18,7 @@ export default function CoordinatorsPage() {
         eyebrow="For Coordinators"
         headline={<>One platform to manage every <strong>order</strong>.</>}
         subheadline="FrameFlow replaces the email chains, spreadsheets, and vendor juggling. Schedule shoots, order staging, track delivery, all in one place."
-        primaryCta={{ label: "See FrameFlow", href: "/offerings/frameflow" }}
+        primaryCta={{ label: "See FrameFlow", href: "/programs/frameflow" }}
         secondaryCta={{ label: "Book a Demo", href: "/contact" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
@@ -36,7 +36,7 @@ export default function CoordinatorsPage() {
         headline={<>Order, track, and receive in one <strong>app</strong>.</>}
         description="FrameFlow centralizes ordering for photography, virtual staging, virtual video, and Spec+ packages. One login, one dashboard, every asset delivered and organized."
         ctaLabel="Explore FrameFlow"
-        ctaHref="/offerings/frameflow"
+        ctaHref="/programs/frameflow"
       />
       <Proof
         eyebrow="Impact"
@@ -50,7 +50,7 @@ export default function CoordinatorsPage() {
       <LPCta
         headline={<>Ready to simplify your <strong>workflow</strong>?</>}
         primaryCta={{ label: "Book a Demo", href: "/contact" }}
-        secondaryCta={{ label: "Explore FrameFlow", href: "/offerings/frameflow" }}
+        secondaryCta={{ label: "Explore FrameFlow", href: "/programs/frameflow" }}
       />
     </>
   );

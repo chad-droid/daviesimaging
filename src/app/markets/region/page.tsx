@@ -39,7 +39,7 @@ export default function ByRegionPage() {
               Volume pricing, dedicated capacity, and brand consistency enforced from West to East. Built for builders doing 300+ homes annually.
             </p>
             <Link
-              href="/offerings/regional-partnerships"
+              href="/programs/regional-partnerships"
               className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
             >
               Explore Regional Partnerships <span aria-hidden="true">&rarr;</span>

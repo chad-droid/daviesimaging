@@ -25,9 +25,9 @@ const footerLinks = {
     { label: "Careers", href: "/careers" },
   ],
   Links: [
-    { label: "digDesk", href: "/offerings/digdesk" },
-    { label: "FrameFlow Studio", href: "/offerings/frameflow" },
-    { label: "Spec+", href: "/offerings/spec-plus" },
+    { label: "digDesk", href: "/programs/digdesk" },
+    { label: "FrameFlow Studio", href: "/programs/frameflow" },
+    { label: "Spec+", href: "/programs/spec-plus" },
     { label: "Contact", href: "/contact" },
     { label: "FAQ", href: "/faq" },
     { label: "Legal", href: "/legal" },

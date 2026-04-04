@@ -19,7 +19,7 @@ export default function CSuitePage() {
         headline={<>Visual marketing as a competitive <strong>advantage</strong>.</>}
         subheadline="Builder leadership needs partners who think in terms of cost per home, days on market, and brand equity. DIG delivers measurable marketing ROI."
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
-        secondaryCta={{ label: "Regional Partnerships", href: "/offerings/regional-partnerships" }}
+        secondaryCta={{ label: "Regional Partnerships", href: "/programs/regional-partnerships" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
       <PainPoints
@@ -36,7 +36,7 @@ export default function CSuitePage() {
         headline={<>Predictable cost. Measurable <strong>impact</strong>.</>}
         description="DIG's regional partnerships provide volume pricing, dedicated capacity, and performance data that connects visual assets to days on market, listing engagement, and buyer conversion."
         ctaLabel="Explore partnerships"
-        ctaHref="/offerings/regional-partnerships"
+        ctaHref="/programs/regional-partnerships"
       />
       <Proof
         eyebrow="Business Impact"
@@ -55,7 +55,7 @@ export default function CSuitePage() {
         headline={<>Let&rsquo;s talk about <strong>growth</strong>.</>}
         description="Strategic partnerships start with a conversation."
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
-        secondaryCta={{ label: "Explore FrameFlow", href: "/offerings/frameflow" }}
+        secondaryCta={{ label: "Explore FrameFlow", href: "/programs/frameflow" }}
       />
     </>
   );

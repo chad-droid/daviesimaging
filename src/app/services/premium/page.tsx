@@ -281,7 +281,7 @@ export default function PremiumPage() {
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">
                   <Link
-                    href="/offerings/regional-partnerships"
+                    href="/programs/regional-partnerships"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
                   >
                     Explore Regional Partnerships &rarr;

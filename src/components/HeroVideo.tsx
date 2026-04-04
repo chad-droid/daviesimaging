@@ -10,7 +10,7 @@ const heroFields = [
   { key: "headline2", label: "Headline (line 2)", type: "text" as const, defaultValue: "hearts and earns clicks." },
   { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "One shoot. Multiple outcomes. Photography, staging, and video designed to convert across every channel." },
   { key: "cta1Text", label: "Primary CTA Text", type: "text" as const, defaultValue: "See FrameFlow in Action" },
-  { key: "cta1Url", label: "Primary CTA URL", type: "url" as const, defaultValue: "/offerings/frameflow" },
+  { key: "cta1Url", label: "Primary CTA URL", type: "url" as const, defaultValue: "/programs/frameflow" },
   { key: "cta2Text", label: "Secondary CTA Text", type: "text" as const, defaultValue: "Book a 15 Minute Plan" },
   { key: "cta2Url", label: "Secondary CTA URL", type: "url" as const, defaultValue: "/contact" },
   { key: "videoUrl", label: "Background Video (YouTube URL)", type: "url" as const, defaultValue: "" },

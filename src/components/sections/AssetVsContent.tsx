@@ -10,7 +10,7 @@ const fields = [
   { key: "headline", label: "Headline", type: "text" as const, defaultValue: "Stop creating content. Start building assets." },
   { key: "body", label: "Body", type: "textarea" as const, defaultValue: "Most builder marketing teams invest in photography that lives in one place. DIG builds assets designed for website conversion, paid media, sales centers, email, and listing refreshes." },
   { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "See how it works" },
-  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/offerings/frameflow" },
+  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/programs/frameflow" },
 ];
 
 export function AssetVsContent() {

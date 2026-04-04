@@ -257,7 +257,7 @@ export function HowItWorks() {
           className="mt-14 flex flex-col items-center gap-3"
         >
           <Link
-            href="/offerings/frameflow"
+            href="/programs/frameflow"
             className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-medium text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:shadow-accent/30"
           >
             Start your first order in FrameFlow

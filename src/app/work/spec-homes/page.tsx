@@ -84,7 +84,7 @@ export default function SpecHomesPage() {
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/offerings/spec-plus"
+                href="/programs/spec-plus"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 See Spec+ Details

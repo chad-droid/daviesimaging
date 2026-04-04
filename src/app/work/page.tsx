@@ -107,7 +107,7 @@ export default function WorkPage() {
                 Book a Strategy Call
               </Link>
               <Link
-                href="/offerings/spec-plus"
+                href="/programs/spec-plus"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See Spec+ pricing &rarr;

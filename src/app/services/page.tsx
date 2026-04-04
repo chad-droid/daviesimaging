@@ -168,7 +168,7 @@ export default function ServicesIndex() {
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
-                  href="/offerings/regional-partnerships"
+                  href="/programs/regional-partnerships"
                   className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                 >
                   Explore Regional Partnerships

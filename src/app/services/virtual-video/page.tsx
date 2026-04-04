@@ -80,7 +80,7 @@ export default function VirtualVideoPage() {
                 </p>
                 <div className="mt-8 flex gap-4">
                   <Link
-                    href="/offerings/spec-plus"
+                    href="/programs/spec-plus"
                     className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
                   >
                     Bundle in Spec+
@@ -169,7 +169,7 @@ export default function VirtualVideoPage() {
                   Photography + 8 staged images + virtual video in one $600 order. 72-hour delivery after the shoot.
                 </p>
                 <Link
-                  href="/offerings/spec-plus"
+                  href="/programs/spec-plus"
                   className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
                 >
                   Learn about Spec+ &rarr;
@@ -200,7 +200,7 @@ export default function VirtualVideoPage() {
                 Create Your Account
               </a>
               <Link
-                href="/offerings/spec-plus"
+                href="/programs/spec-plus"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See the Spec+ bundle &rarr;

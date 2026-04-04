@@ -192,7 +192,7 @@ export default function AboutPage() {
                 Book a Strategy Call
               </Link>
               <Link
-                href="/offerings/frameflow"
+                href="/programs/frameflow"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 Explore FrameFlow Studio &rarr;

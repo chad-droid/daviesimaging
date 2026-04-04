@@ -186,7 +186,7 @@ export default function RegionalPartnershipsPage() {
                 </p>
                 <div className="pt-2">
                   <Link
-                    href="/offerings/frameflow"
+                    href="/programs/frameflow"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline"
                   >
                     Learn how FrameFlow Studio works &rarr;

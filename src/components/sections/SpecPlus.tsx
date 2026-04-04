@@ -11,7 +11,7 @@ const fields = [
   { key: "headline", label: "Headline", type: "text" as const, defaultValue: "Your inventory needs to move. Spec+ delivers *everything*." },
   { key: "body", label: "Body", type: "textarea" as const, defaultValue: "Virtual staging, virtual video, and photography in one package built for standing inventory. Stop managing multiple vendors." },
   { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "Order via FrameFlow" },
-  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/offerings/spec-plus" },
+  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/programs/spec-plus" },
 ];
 
 export function SpecPlus() {

@@ -4,13 +4,13 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 
 export const metadata: Metadata = {
-  title: "Offerings | Davies Imaging Group",
+  title: "Programs | Davies Imaging Group",
   description: "digDesk, FrameFlow Studio, Spec+, and Regional Partnerships. How builders purchase and manage DIG services.",
 };
 
 const platform = {
   title: "digDesk",
-  href: "/offerings/digdesk",
+  href: "/programs/digdesk",
   description: "The DIG client portal. Every service, every order, every asset — one dashboard. FrameFlow Studio, Spec+, listing photography, Premium photography requests, and ModelMatch gallery management all live here.",
   cta: "Explore digDesk",
 };
@@ -18,7 +18,7 @@ const platform = {
 const offerings = [
   {
     title: "FrameFlow Studio",
-    href: "/offerings/frameflow",
+    href: "/programs/frameflow",
     tag: "Ordering Platform",
     description: "The digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer. Entry point for all digital orders.",
     price: "Starting at $25 / image",
@@ -26,7 +26,7 @@ const offerings = [
   },
   {
     title: "Spec+",
-    href: "/offerings/spec-plus",
+    href: "/programs/spec-plus",
     tag: "Most Popular",
     description: "The complete spec home asset package. 25 listing photos, 8 ModelMatch virtually staged images, and 1 virtual video. One coordinated order, one delivery, $600 flat.",
     price: "$600 flat per listing",
@@ -35,7 +35,7 @@ const offerings = [
   },
   {
     title: "Regional Partnerships",
-    href: "/offerings/regional-partnerships",
+    href: "/programs/regional-partnerships",
     tag: "VP + C-Suite",
     description: "Volume commitment program for national and regional builders. Price discounts in exchange for volume guarantees. Dedicated capacity and brand consistency across all four U.S. regions.",
     price: "Custom pricing by volume",
@@ -43,14 +43,14 @@ const offerings = [
   },
 ];
 
-export default function OfferingsIndex() {
+export default function ProgramsIndex() {
   return (
     <>
       {/* Hero */}
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Offerings</Eyebrow>
+            <Eyebrow dark>Programs</Eyebrow>
             <h1 className="text-text-light">How builders <strong>purchase</strong>.</h1>
             <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
               Streamlined packages and platforms designed for how builder marketing teams actually buy. No subscriptions, no minimums, no surprises.
@@ -167,7 +167,7 @@ export default function OfferingsIndex() {
                   Get Started
                 </Link>
                 <Link
-                  href="/offerings/digdesk"
+                  href="/programs/digdesk"
                   className="text-sm font-medium text-text-body transition-colors hover:text-accent"
                 >
                   Learn about digDesk &rarr;

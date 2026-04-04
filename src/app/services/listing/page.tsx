@@ -33,7 +33,7 @@ export default function ListingPhotoPage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/offerings/spec-plus"
+                href="/programs/spec-plus"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 Bundle in Spec+
@@ -136,7 +136,7 @@ export default function ListingPhotoPage() {
                     <p className="text-xs text-text-muted">flat per listing</p>
                   </div>
                   <Link
-                    href="/offerings/spec-plus"
+                    href="/programs/spec-plus"
                     className="rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                   >
                     See Spec+ Details
@@ -164,7 +164,7 @@ export default function ListingPhotoPage() {
                 Book a Listing Shoot
               </Link>
               <Link
-                href="/offerings/spec-plus"
+                href="/programs/spec-plus"
                 className="text-sm font-medium text-text-body transition-colors hover:text-accent"
               >
                 Explore Spec+ bundle &rarr;

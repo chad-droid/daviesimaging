@@ -14,7 +14,7 @@ const modules = [
     number: "01",
     title: "FrameFlow Studio",
     body: "The digital production module inside digDesk. Upload listing photography and receive ModelMatch virtual staging and virtual video without scheduling a new shoot. Order standalone or bundle as Spec+.",
-    href: "/offerings/frameflow",
+    href: "/programs/frameflow",
     linkLabel: "Explore FrameFlow Studio",
   },
   {
@@ -337,7 +337,7 @@ export default function DigDeskPage() {
                 Get Access to digDesk
               </Link>
               <Link
-                href="/offerings/frameflow"
+                href="/programs/frameflow"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 Explore FrameFlow Studio &rarr;

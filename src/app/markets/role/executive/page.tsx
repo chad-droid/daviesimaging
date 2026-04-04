@@ -19,7 +19,7 @@ export default function ExecutivePage() {
         headline={<>Consolidate vendors. Scale <strong>coverage</strong>.</>}
         subheadline="VP-level oversight requires predictable quality across markets, vendor simplification, and a partner who can grow with the business."
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
-        secondaryCta={{ label: "Regional Partnerships", href: "/offerings/regional-partnerships" }}
+        secondaryCta={{ label: "Regional Partnerships", href: "/programs/regional-partnerships" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
       <PainPoints
@@ -36,7 +36,7 @@ export default function ExecutivePage() {
         headline={<>One partner across every <strong>region</strong>.</>}
         description="DIG's regional partnership model gives you a single point of contact, volume pricing, and brand guidelines enforced across West, Mountain, Central, and East."
         ctaLabel="Explore partnerships"
-        ctaHref="/offerings/regional-partnerships"
+        ctaHref="/programs/regional-partnerships"
       />
       <Proof
         eyebrow="Scale"
@@ -54,7 +54,7 @@ export default function ExecutivePage() {
       <LPCta
         headline={<>Ready to simplify your marketing <strong>operations</strong>?</>}
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
-        secondaryCta={{ label: "Explore FrameFlow", href: "/offerings/frameflow" }}
+        secondaryCta={{ label: "Explore FrameFlow", href: "/programs/frameflow" }}
       />
     </>
   );

@@ -149,7 +149,7 @@ export default function MatterportPage() {
                 </div>
               </div>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/offerings/frameflow" className="text-sm font-medium text-accent hover:underline">
+                <Link href="/programs/frameflow" className="text-sm font-medium text-accent hover:underline">
                   Learn about FrameFlow &rarr;
                 </Link>
               </div>

@@ -44,13 +44,13 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
-    label: "Offerings",
-    basePath: "/offerings",
+    label: "Programs",
+    basePath: "/programs",
     items: [
-      { label: "digDesk", href: "/offerings/digdesk", description: "One portal for orders, delivery, and brand assets" },
-      { label: "FrameFlow Studio", href: "/offerings/frameflow", description: "Virtual staging + video inside digDesk" },
-      { label: "Spec+", href: "/offerings/spec-plus", description: "Photography + staging + video, $600 flat" },
-      { label: "Regional Partnerships", href: "/offerings/regional-partnerships", description: "Volume pricing for 300+ home builders" },
+      { label: "digDesk", href: "/programs/digdesk", description: "One portal for orders, delivery, and brand assets" },
+      { label: "FrameFlow Studio", href: "/programs/frameflow", description: "Virtual staging + video inside digDesk" },
+      { label: "Spec+", href: "/programs/spec-plus", description: "Photography + staging + video, $600 flat" },
+      { label: "Regional Partnerships", href: "/programs/regional-partnerships", description: "Volume pricing for 300+ home builders" },
     ],
   },
   {
