@@ -20,13 +20,13 @@ export default function SpecHomesPage() {
     <>
       {/* Hero */}
       <section className="bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Spec Homes</Eyebrow>
             <h1 className="text-text-light">
               Standing inventory needs to move. <strong>This is what that looks like</strong>.
             </h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete.
             </p>
 
@@ -49,7 +49,7 @@ export default function SpecHomesPage() {
 
       {/* Context section */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
