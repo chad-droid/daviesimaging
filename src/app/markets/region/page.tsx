@@ -20,7 +20,7 @@ export default function ByRegionPage() {
               One standard across every <strong>market</strong>.
             </h1>
             <p className="mt-5 text-text-body">
-              28 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.
+              26 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.
             </p>
           </div>
         </RevealOnScroll>
