@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { EditableContent } from "./EditableContent";
@@ -31,12 +31,10 @@ const placeholderTiles = [
 ];
 
 export function HeroVideo() {
+  // Ref lives on the outermost div (renders synchronously, not inside async EditableContent)
   const containerRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
   const { scrollYProgress } = useScroll({
-    target: mounted ? containerRef : undefined,
+    target: containerRef,
     offset: ["start start", "end start"],
   });
 
@@ -47,90 +45,90 @@ export function HeroVideo() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <EditableContent slotId="hero-main" fields={heroFields}>
-      {(v) => {
-        const ytId = v.videoUrl ? extractYoutubeId(v.videoUrl) : null;
+    // Ref is here — renders immediately, never blocked by async content loading
+    <div ref={containerRef} className="relative -mt-16 min-h-screen overflow-hidden bg-bg-dark">
+      <EditableContent slotId="hero-main" fields={heroFields}>
+        {(v) => {
+          const ytId = v.videoUrl ? extractYoutubeId(v.videoUrl) : null;
 
-        return (
-          <section
-            ref={containerRef}
-            className="relative -mt-16 min-h-screen overflow-hidden bg-bg-dark"
-          >
-            {/* Background: YouTube video or placeholder tiles */}
-            {ytId ? (
-              <div className="absolute inset-0 overflow-hidden">
-                <iframe
-                  src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&playsinline=1`}
-                  className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                  style={{ width: "177.78vh", height: "56.25vw", minWidth: "100vw", minHeight: "100vh" }}
-                  allow="autoplay; encrypted-media"
-                  tabIndex={-1}
-                />
-              </div>
-            ) : (
-              <motion.div
-                className="absolute inset-0 grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3"
-                style={{ y: gridY, scale: gridScale }}
-              >
-                {placeholderTiles.map((tile) => (
-                  <div
-                    key={tile.label}
-                    className={`bg-gradient-to-br ${tile.gradient} flex items-center justify-center`}
-                  >
-                    <span className="text-xs font-medium uppercase tracking-widest text-accent-secondary/30">
-                      {tile.label}
-                    </span>
-                  </div>
-                ))}
-              </motion.div>
-            )}
-
-            {/* Dark overlay */}
-            <motion.div
-              className="absolute inset-0 bg-black"
-              style={{ opacity: overlayOpacity }}
-            />
-
-            {/* Content */}
-            <motion.div
-              className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center"
-              style={{ y: contentY, opacity: contentOpacity }}
-            >
-              <div className="mx-auto max-w-4xl">
-                <h1 className="text-text-light lg:text-[4rem] lg:leading-[1.05]">
-                  {v.headline1}
-                  <br />
-                  {v.headline2}
-                </h1>
-                <p
-                  className="lead-text mx-auto mt-6 max-w-2xl text-text-muted"
-                  style={{ fontStyle: "italic" }}
-                >
-                  {v.subheadline}
-                </p>
-                <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-                  {v.cta1Text && (
-                    <Link
-                      href={v.cta1Url || "/"}
-                      className="rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:bg-accent-hover"
-                    >
-                      {v.cta1Text}
-                    </Link>
-                  )}
-                  {v.cta2Text && (
-                    <Link
-                      href={v.cta2Url || "/"}
-                      className="rounded-full border border-text-light/25 px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:border-text-light/50 hover:bg-text-light/5"
-                    >
-                      {v.cta2Text}
-                    </Link>
-                  )}
+          return (
+            <>
+              {/* Background: YouTube video or placeholder tiles */}
+              {ytId ? (
+                <div className="absolute inset-0 overflow-hidden">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&playsinline=1`}
+                    className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                    style={{ width: "177.78vh", height: "56.25vw", minWidth: "100vw", minHeight: "100vh" }}
+                    allow="autoplay; encrypted-media"
+                    tabIndex={-1}
+                  />
                 </div>
-              </div>
-            </motion.div>
-          </section>
-        );
-      }}
-    </EditableContent>
+              ) : (
+                <motion.div
+                  className="absolute inset-0 grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3"
+                  style={{ y: gridY, scale: gridScale }}
+                >
+                  {placeholderTiles.map((tile) => (
+                    <div
+                      key={tile.label}
+                      className={`bg-gradient-to-br ${tile.gradient} flex items-center justify-center`}
+                    >
+                      <span className="text-xs font-medium uppercase tracking-widest text-accent-secondary/30">
+                        {tile.label}
+                      </span>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+
+              {/* Dark overlay */}
+              <motion.div
+                className="absolute inset-0 bg-black"
+                style={{ opacity: overlayOpacity }}
+              />
+
+              {/* Content */}
+              <motion.div
+                className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center"
+                style={{ y: contentY, opacity: contentOpacity }}
+              >
+                <div className="mx-auto max-w-4xl">
+                  <h1 className="text-text-light lg:text-[4rem] lg:leading-[1.05]">
+                    {v.headline1}
+                    <br />
+                    {v.headline2}
+                  </h1>
+                  <p
+                    className="lead-text mx-auto mt-6 max-w-2xl text-text-muted"
+                    style={{ fontStyle: "italic" }}
+                  >
+                    {v.subheadline}
+                  </p>
+                  <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+                    {v.cta1Text && (
+                      <Link
+                        href={v.cta1Url || "/"}
+                        className="rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:bg-accent-hover"
+                      >
+                        {v.cta1Text}
+                      </Link>
+                    )}
+                    {v.cta2Text && (
+                      <Link
+                        href={v.cta2Url || "/"}
+                        className="rounded-full border border-text-light/25 px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:border-text-light/50 hover:bg-text-light/5"
+                      >
+                        {v.cta2Text}
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          );
+        }}
+      </EditableContent>
+    </div>
   );
 }
