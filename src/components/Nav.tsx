@@ -204,7 +204,7 @@ export function Nav() {
 
           {/* CTAs */}
           <a
-            href="https://app.daviesimaging.com"
+            href="https://desk.daviesimaging.com"
             target="_blank"
             rel="noopener noreferrer"
             className={`rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide transition-colors ${
@@ -270,7 +270,7 @@ export function Nav() {
             ))}
 
             <a
-              href="https://app.daviesimaging.com"
+              href="https://desk.daviesimaging.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMobileOpen(false)}
