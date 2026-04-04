@@ -6,7 +6,7 @@ import { RegionMap } from "@/components/RegionMap";
 
 export const metadata: Metadata = {
   title: "Markets by Region | Davies Imaging Group",
-  description: "DIG operates across four U.S. timezone regions: West, Mountain, Central, and East. 24+ markets nationwide.",
+  description: "DIG operates across 25 U.S. markets in four regions, with offices in Sacramento, Dallas, and Guadalajara.",
 };
 
 export default function ByRegionPage() {
@@ -20,8 +20,7 @@ export default function ByRegionPage() {
               One standard across every <strong>market</strong>.
             </h1>
             <p className="mt-5 text-text-body">
-              DIG covers all four U.S. timezone regions. Same quality, same
-              process, 24+ markets nationwide.
+              25 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.
             </p>
           </div>
         </RevealOnScroll>
