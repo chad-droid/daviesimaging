@@ -2,43 +2,39 @@
 
 import { useEffect, useRef, useState } from "react";
 
-interface Stat {
-  value: number;
-  suffix: string;
-  prefix: string;
-  label: string;
-  sublabel: string;
-  accent: string;
-}
-
-const stats: Stat[] = [
+const stats = [
   {
-    value: 28,
+    value: 48,
+    suffix: " hrs",
     prefix: "",
-    suffix: "",
-    label: "Markets",
-    sublabel: "Nationwide",
-    accent: "#6A5ACD",
+    label: "Spec+ Delivery",
+    sublabel: "Shoot to published assets",
   },
   {
     value: 14,
+    suffix: " days",
     prefix: "",
-    suffix: "",
-    label: "Day Avg.",
-    sublabel: "DOM Reduction",
-    accent: "#4CAF50",
+    label: "Faster to Sold",
+    sublabel: "Avg. DOM reduction with DIG assets",
   },
   {
-    value: 258,
-    prefix: "",
+    value: 600,
     suffix: "",
-    label: "Communities",
-    sublabel: "Photographed in 2025",
-    accent: "#6A5ACD",
+    prefix: "$",
+    label: "Complete Package",
+    sublabel: "Photography, staging, and video",
   },
 ];
 
-function AnimatedCounter({ value, prefix, suffix }: { value: number; prefix: string; suffix: string }) {
+function AnimatedCounter({
+  value,
+  prefix,
+  suffix,
+}: {
+  value: number;
+  prefix: string;
+  suffix: string;
+}) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
@@ -51,7 +47,7 @@ function AnimatedCounter({ value, prefix, suffix }: { value: number; prefix: str
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
-          const duration = 2000;
+          const duration = 1800;
           const startTime = performance.now();
 
           function tick(now: number) {
@@ -75,100 +71,48 @@ function AnimatedCounter({ value, prefix, suffix }: { value: number; prefix: str
 
   return (
     <span ref={ref} className="tabular-nums">
-      {prefix}{count.toLocaleString()}{suffix}
+      {prefix}
+      {count.toLocaleString()}
+      {suffix}
     </span>
   );
 }
 
-function CircularProgress({ value, max, accent, children }: { value: number; max: number; accent: string; children: React.ReactNode }) {
-  const [progress, setProgress] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          const duration = 2000;
-          const startTime = performance.now();
-          const target = (value / max) * 100;
-
-          function tick(now: number) {
-            const elapsed = now - startTime;
-            const p = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - p, 3);
-            setProgress(eased * target);
-            if (p < 1) requestAnimationFrame(tick);
-          }
-
-          requestAnimationFrame(tick);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.3 },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [value, max]);
-
-  const circumference = 2 * Math.PI * 54;
-  const strokeDashoffset = circumference - (progress / 100) * circumference;
-
-  return (
-    <div ref={ref} className="relative inline-flex items-center justify-center">
-      <svg viewBox="0 0 140 140" className="-rotate-90 h-[140px] w-[140px] 2xl:h-[180px] 2xl:w-[180px]">
-        {/* Background track */}
-        <circle
-          cx="70" cy="70" r="54"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          className="text-border-light"
-        />
-        {/* Progress arc */}
-        <circle
-          cx="70" cy="70" r="54"
-          fill="none"
-          stroke={accent}
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          style={{ transition: "stroke-dashoffset 0.1s ease-out" }}
-        />
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        {children}
-      </div>
-    </div>
-  );
-}
-
 export function StatsStrip() {
-  const maxValues = [30, 30, 300]; // denominators for the circular progress
-
   return (
     <section className="bg-bg-dark py-20">
-      <p className="mb-12 text-center text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
+      <p className="mb-14 text-center text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
         By the Numbers
       </p>
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-6 sm:grid-cols-3 sm:gap-4">
-        {stats.map((stat, i) => (
-          <div key={stat.label} className="flex flex-col items-center text-center">
-            <CircularProgress value={stat.value} max={maxValues[i]} accent={stat.accent}>
-              <p className="text-3xl font-semibold tracking-tight text-text-light lg:text-4xl" style={{ fontFamily: "var(--font-heading)" }}>
-                <AnimatedCounter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
-              </p>
-            </CircularProgress>
-            <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-text-light">
+
+      <div className="mx-auto grid max-w-4xl grid-cols-1 divide-y divide-white/8 px-6 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className="flex flex-col items-center px-8 py-8 text-center sm:py-0 first:pt-0 last:pb-0 sm:first:pt-0 sm:last:pb-0"
+          >
+            {/* Large editorial numeral */}
+            <p
+              className="text-[4.5rem] font-semibold leading-none tracking-tight text-text-light lg:text-[5.5rem] 2xl:text-[6.5rem]"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              <AnimatedCounter
+                value={stat.value}
+                prefix={stat.prefix}
+                suffix={stat.suffix}
+              />
+            </p>
+
+            {/* Accent rule */}
+            <div className="mt-5 h-px w-12 bg-accent" />
+
+            {/* Label */}
+            <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.15em] text-text-light">
               {stat.label}
             </p>
-            <p className="mt-1 text-xs text-text-muted">
+
+            {/* Descriptor */}
+            <p className="mt-1.5 text-xs leading-snug text-text-muted">
               {stat.sublabel}
             </p>
           </div>
