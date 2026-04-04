@@ -213,7 +213,7 @@ export function Nav() {
                 : "border border-border-light text-text-body hover:border-accent"
             }`}
           >
-            Client Login
+            <strong>dig</strong>Desk Login
           </a>
           <Link
             href="/campaigns/frameflow-sell-faster"
@@ -276,7 +276,7 @@ export function Nav() {
               onClick={() => setMobileOpen(false)}
               className="mt-2 rounded-full border border-border-light px-4 py-2 text-center text-[12px] font-semibold text-text-body"
             >
-              Client Login
+              <strong>dig</strong>Desk Login
             </a>
             <Link
               href="/campaigns/frameflow-sell-faster"
