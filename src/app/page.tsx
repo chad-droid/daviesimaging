@@ -2,7 +2,7 @@ import { HeroVideo } from "@/components/HeroVideo";
 import { BuilderLogoStrip } from "@/components/BuilderLogoStrip";
 import { StatsStrip } from "@/components/StatsStrip";
 import { AssetVsContent } from "@/components/sections/AssetVsContent";
-import { ServicesOverview } from "@/components/sections/ServicesOverview";
+import { ServiceExplorer } from "@/components/sections/ServiceExplorer";
 import { SpecPlus } from "@/components/sections/SpecPlus";
 import { VirtualServices } from "@/components/sections/VirtualServices";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -21,7 +21,7 @@ export default function Home() {
       <BuilderLogoStrip />
       <StatsStrip />
       <AssetVsContent />
-      <ServicesOverview />
+      <ServiceExplorer />
       <SpecPlus />
       <VirtualServices />
       <HowItWorks />
