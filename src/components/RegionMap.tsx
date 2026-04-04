@@ -51,11 +51,11 @@ interface MarketPin {
 // 27 DIG markets — Sacramento + Dallas are offices
 const marketPins: MarketPin[] = [
   // West (7)
-  { coords: [-121.49, 38.58], city: "Sacramento",  region: "west",     isOffice: true, labelAnchor: "start", labelY: -10 },
-  { coords: [-122.03, 37.54], city: "Bay Area",    region: "west",                     labelAnchor: "end",   labelY: -10 },
+  { coords: [-121.49, 38.58], city: "Sacramento",  region: "west",     isOffice: true, labelAnchor: "end",    labelY: -10 },
+  { coords: [-122.03, 37.54], city: "Bay Area",    region: "west",                     labelAnchor: "start", labelY:  13 },
   { coords: [-118.24, 34.05], city: "Los Angeles", region: "west",                     labelAnchor: "end",   labelY: -10 },
   { coords: [-117.82, 33.68], city: "OC",          region: "west",                     labelAnchor: "start", labelY:  13 },
-  { coords: [-119.77, 36.74], city: "Fresno",      region: "west",                     labelAnchor: "end",   labelY: -10 },
+  { coords: [-119.77, 36.74], city: "Fresno",      region: "west",                     labelAnchor: "start", labelY: -10 },
   { coords: [-115.14, 36.17], city: "Las Vegas",   region: "west",                     labelAnchor: "start", labelY: -10 },
   { coords: [-119.81, 39.53], city: "Reno",        region: "west",                     labelAnchor: "start", labelY: -10 },
 
