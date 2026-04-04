@@ -67,10 +67,10 @@ const marketPins: MarketPin[] = [
   { coords: [-112.07, 33.45], city: "Phoenix",     region: "mountain",                 labelAnchor: "end",   labelY: -10 },
 
   // Central (4)
-  { coords: [-96.80, 32.78],  city: "Dallas",      region: "central",  isOffice: true, labelAnchor: "start", labelY: -10 },
-  { coords: [-97.74, 30.27],  city: "Austin",      region: "central",                  labelAnchor: "start", labelY:  13 },
-  { coords: [-95.37, 29.76],  city: "Houston",     region: "central",                  labelAnchor: "end",   labelY: -10 },
-  { coords: [-98.49, 29.42],  city: "San Antonio", region: "central",                  labelAnchor: "start", labelY:  13 },
+  { coords: [-96.80, 32.78],  city: "Dallas",      region: "central",  isOffice: true, labelAnchor: "start",  labelY: -10 },
+  { coords: [-95.37, 29.76],  city: "Houston",     region: "central",                  labelAnchor: "start",  labelY: -10 },
+  { coords: [-97.74, 30.27],  city: "Austin",      region: "central",                  labelAnchor: "middle", labelY: -13 },
+  { coords: [-98.49, 29.42],  city: "San Antonio", region: "central",                  labelAnchor: "end",    labelY: -10 },
 
   // East (11)
   { coords: [-82.46, 27.95],  city: "Tampa",        region: "east",                    labelAnchor: "end",    labelY: -10 },
