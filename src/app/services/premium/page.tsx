@@ -9,30 +9,24 @@ export const metadata: Metadata = {
   description: "Full-service model home, amenity, and lifestyle photography for homebuilders. DIG's signature service across 28 U.S. markets.",
 };
 
-const deliverables = [
+const shootTypes = [
   {
-    title: "Model home interiors",
-    detail: "Room-by-room coverage capturing architecture, design details, and finishes at their best.",
+    number: "01",
+    title: "Model Home Photography",
+    detail: "Room-by-room coverage of furnished interiors, architectural detail, twilight exteriors, and detail and finish work. Planned in advance, executed at launch, delivered as a complete publish-ready package.",
+    gallery: { label: "See Model Home Work", href: "/gallery/model-homes" },
   },
   {
-    title: "Amenity and community spaces",
-    detail: "Pool decks, clubhouses, fitness centers, trails, and parks photographed to show buyers the life waiting for them.",
+    number: "02",
+    title: "Amenity Photography",
+    detail: "Pools, clubhouses, fitness centers, trails, and parks photographed to show buyers the life waiting for them. Scheduled independently from model home shoots — amenities deserve their own day.",
+    gallery: { label: "See Amenity Work", href: "/gallery/amenities" },
   },
   {
-    title: "Lifestyle photography",
-    detail: "Talent-driven photography that shows buyers how they'll live in the community, not just what it looks like.",
-  },
-  {
-    title: "Twilight and exterior",
-    detail: "Dramatic exterior images timed to golden hour and blue hour. The shots that stop the scroll.",
-  },
-  {
-    title: "Detail and finish work",
-    detail: "Kitchens, baths, and architectural moments that earn attention in paid ads and on listing pages.",
-  },
-  {
-    title: "Sky replacement and editing",
-    detail: "Every exterior polished in post, ready to deploy without additional retouching on your end.",
+    number: "03",
+    title: "Lifestyle Photography",
+    detail: "Talent-driven photography that shows buyers how they'll live in the community, not just what it looks like. Casting, styling, and art direction handled by DIG's production team.",
+    gallery: { label: "See Lifestyle Work", href: "/gallery/lifestyle" },
   },
 ];
 
@@ -114,10 +108,10 @@ export default function PremiumPage() {
                   Every detail, every <strong>angle</strong>.
                 </h2>
                 <p className="mt-4 text-text-body">
-                  Premium photography captures the full story of a builder&apos;s community: model home interiors, amenity spaces, lifestyle moments, and twilight exteriors. Each shoot is planned in advance, executed by DIG&apos;s most experienced photographers, and delivered as a complete, publish-ready marketing asset package.
+                  Premium Photography is DIG&apos;s umbrella for high-craft, full-service shoots. It covers three distinct engagement types: model home photography, amenity photography, and lifestyle photography. Builders order each as a separate shoot, not as a single combined package.
                 </p>
                 <p className="mt-4 text-text-body">
-                  This is not fast-turn listing photography. Premium is DIG&apos;s highest-craft output, reserved for launches, community reveals, lifestyle campaigns, and builder brands that need imagery that earns attention in every channel it appears.
+                  This is not fast-turn listing photography. Every Premium shoot is planned in advance, executed by DIG&apos;s most experienced photographers, and delivered as a complete, publish-ready asset package built for launches, community reveals, and builder brands that need imagery that earns attention everywhere it appears.
                 </p>
               </div>
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
@@ -135,21 +129,31 @@ export default function PremiumPage() {
         </div>
       </section>
 
-      {/* Deliverables */}
+      {/* Shoot Types */}
       <section className="bg-bg-light py-24">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>What You Get</Eyebrow>
+              <Eyebrow>What You&apos;re Booking</Eyebrow>
               <h2>
-                A complete asset package, not just <strong>photos</strong>.
+                Three shoot types. <strong>One standard of quality</strong>.
               </h2>
+              <p className="mx-auto mt-4 max-w-xl text-text-body">
+                Premium Photography is an umbrella. Builders order model home, amenity, and lifestyle shoots as separate engagements — each scoped and scheduled for its specific subject.
+              </p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {deliverables.map((item, i) => (
-                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-6">
-                  <h4 className="text-sm font-semibold text-text-dark">{item.title}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-text-body">{item.detail}</p>
+            <div className="grid gap-6 lg:grid-cols-3">
+              {shootTypes.map((type) => (
+                <div key={type.number} className="flex flex-col rounded-xl border border-border-light bg-bg-surface p-6">
+                  <span className="font-mono text-[10px] text-text-muted">{type.number}</span>
+                  <h4 className="mt-2 text-base font-semibold text-text-dark">{type.title}</h4>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-text-body">{type.detail}</p>
+                  <Link
+                    href={type.gallery.href}
+                    className="mt-5 inline-flex items-center gap-1 text-xs font-medium text-accent transition-colors hover:underline"
+                  >
+                    {type.gallery.label} &rarr;
+                  </Link>
                 </div>
               ))}
             </div>
