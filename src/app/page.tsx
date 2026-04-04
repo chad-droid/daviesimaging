@@ -1,8 +1,13 @@
 import { HeroVideo } from "@/components/HeroVideo";
+import { BuilderLogoStrip } from "@/components/BuilderLogoStrip";
 import { StatsStrip } from "@/components/StatsStrip";
 import { AssetVsContent } from "@/components/sections/AssetVsContent";
+import { ServicesOverview } from "@/components/sections/ServicesOverview";
 import { SpecPlus } from "@/components/sections/SpecPlus";
 import { VirtualServices } from "@/components/sections/VirtualServices";
+import { HowItWorks } from "@/components/sections/HowItWorks";
+import { ModelMatchCallout } from "@/components/sections/ModelMatchCallout";
+import { DigDeskPlatform } from "@/components/sections/DigDeskPlatform";
 import { BuiltForBuilders } from "@/components/sections/BuiltForBuilders";
 import { MarketingEcosystem } from "@/components/sections/MarketingEcosystem";
 import { PremiumGallery } from "@/components/sections/PremiumGallery";
@@ -13,10 +18,15 @@ export default function Home() {
   return (
     <>
       <HeroVideo />
+      <BuilderLogoStrip />
       <StatsStrip />
       <AssetVsContent />
+      <ServicesOverview />
       <SpecPlus />
       <VirtualServices />
+      <HowItWorks />
+      <ModelMatchCallout />
+      <DigDeskPlatform />
       <BuiltForBuilders />
       <MarketingEcosystem />
       <PremiumGallery />

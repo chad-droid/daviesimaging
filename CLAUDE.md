@@ -15,6 +15,33 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 
 ---
 
+## Current Build Status (as of April 2026)
+
+### Done
+- Full homepage: HeroVideo (parallax + placeholder tiles), StatsStrip (animated counters: 24 markets / 14 days DOM / 258 communities), all 8 sections with RevealOnScroll
+- `EditableContent` inline editing system — slot-based, persists to Neon Postgres
+- `DynamicImage` and `ParallaxBackground` — pull images from `site_assets` table
+- Admin panel (`/admin`) — media library, gallery curation, digital assets, image slot assignment
+- Contact form pipeline — Slack + Resend email + Mailchimp, all live and tested
+- Email capture modal — 30-second timer, Mailchimp subscribe (correct endpoint: `us17.list-manage.com/subscribe/post`)
+- Footer — Mailchimp subscribe form (same correct endpoint), social links
+- Sanity blog — live at `/blog`
+- All routes scaffolded (work, services, offerings, markets, campaigns)
+
+### In Progress / Pending
+- Hero video tiles — placeholder gradients, needs real MP4 footage from DIG shoots
+- `RevealOnScroll` — currently uses IntersectionObserver; upgrade to Framer Motion `useInView` for smoother WAAPI animations
+- StatsStrip circular progress rings — built but denominator ratios need review (currently 24/30, 14/30, 258/300)
+- Image slots — most sections have `DynamicImage` / `ParallaxBackground` wired up but no images assigned yet
+- Gallery curation — admin tool built, actual image ingestion from Dropbox pending
+- About page, service pages, offering pages — scaffolded, copy needs full implementation per briefs below
+
+### Do Not Touch
+- Webflow DIG 2025 (`68596ef61365cb1c678a0e7f`) — live production at `daviesimaging.com`
+- DNS — do not move domain until Chad explicitly approves
+
+---
+
 ## Webflow Sites (reference only — do not touch)
 
 | Site | ID | Status |
@@ -468,21 +495,13 @@ Secondary CTA: Explore FrameFlow
 
 ### In Review (nearly done — check with Andrew/Nicole before touching)
 
-#### 5. Email Capture Modal
+#### 5. Email Capture Modal — DONE
 **Task GID:** `1213427029547065`
-**Tag:** Update
-**Priority:** Medium
+Implemented as `EmailCaptureModal.tsx`. 30-second timer, session-dismissed. Mailchimp endpoint: `https://daviesimaging.us17.list-manage.com/subscribe/post?u=de0da4eedef3becab5eb4e4ab&id=418d6a179b`
 
-Add a modal that fires a few seconds after page load to collect name and email.
-Connects to: `https://mailchi.mp/daviesimaging/sign-up-for-updates`
-Implement with Webflow's native form or embed Mailchimp form inside a Webflow lightbox triggered by a timed Interaction.
-
-#### 6. Footer Mailchimp Form
+#### 6. Footer Mailchimp Form — DONE
 **Task GID:** `1213427029547059`
-**Tag:** Update
-**Priority:** Medium
-
-Add a Mailchimp email signup embed to the site footer. Keep it minimal — email field + submit button. Match existing footer styling.
+Implemented in `Footer.tsx`. Same Mailchimp endpoint as modal above.
 
 #### 7. Homepage Tagline Update
 **Task GID:** `1213422658455181`
@@ -659,23 +678,32 @@ Note: Virtual Video covers both the digital-only and the listing video use case.
 
 ## Tech Stack
 
-This is a Next.js project deployed on Vercel. There is no Webflow, no CMS, no visual editor, no Andrew. Claude Code is the sole builder.
+This is a Next.js project deployed on Vercel. There is no Webflow, no external CMS, no visual editor, no Andrew. Claude Code is the sole builder.
 
 | Layer | Tool | Notes |
 |---|---|---|
-| Framework | Next.js 14+ (App Router) | File-based routing, React Server Components |
-| Styling | Tailwind CSS | Utility-first, no CSS modules |
-| Animation | Framer Motion | Scroll interactions, section reveals, counter animations |
-| Scroll video | Custom hook + `useScroll` | Single video scrubbed by scroll position (Terminal pattern) |
-| Parallax | Framer Motion `useTransform` | Layer-based scroll speed differences |
-| Interactive map | Mapbox GL JS | Region pins across 24 DIG markets |
-| Gallery filtering | React state + Framer Motion | Client-side, no backend needed for static galleries |
-| Contact form | React Hook Form + Resend | Multi-step intent chooser, email delivery |
-| Email capture | Custom modal + Mailchimp API | Timed on-load, footer embed |
-| CMS / content | MDX files or Contentlayer | Blog posts, easy for Chad to edit |
-| Deployment | Vercel | Auto-deploy on push, preview URLs per branch |
+| Framework | Next.js 16 (App Router) | File-based routing, React Server Components |
+| Styling | Tailwind CSS v4 | Utility-first, no CSS modules |
+| Animation | Framer Motion | Scroll interactions, section reveals, counter animations, parallax |
+| Database | Neon PostgreSQL | Stores site_content (editable copy), site_assets (image slots), media library, gallery curation |
+| File storage | Vercel Blob | Stores uploaded images and media files |
+| Blog CMS | Sanity | Powers `/blog` and blog post pages — do not remove |
+| Inline editing | `EditableContent` component | Slot-based copy editor for admins; persists to Neon via `/api/site-content` |
+| Dynamic images | `DynamicImage` / `ParallaxBackground` | Pull from `site_assets` table via `/api/site-assets`; admin-assignable per slot |
+| Admin panel | `/admin` routes + `AdminSiteOverlay` | Password-protected; manages media, gallery curation, digital assets |
+| Contact form | Custom API route + Resend + Slack + Mailchimp | `/api/contact` — all three integrations live and tested |
+| Email capture | `EmailCaptureModal` | 30-second timer, session-dismissed, Mailchimp embed |
+| Deployment | Vercel | Auto-deploy on push; `npx vercel --prod` for manual production deploy |
 | Domain | `daviesimaging.com` | Currently on Webflow DIG 2025 — swap DNS to Vercel when ready |
-| Analytics | Vercel Analytics + Google Analytics | Both lightweight, no performance hit |
+| Analytics | Vercel Analytics + Speed Insights | Both installed in root layout |
+
+### Key environment variables (all set in `.env.local` and Vercel dashboard)
+- `DATABASE_URL` / `POSTGRES_*` — Neon PostgreSQL connection (pooled + unpooled)
+- `BLOB_READ_WRITE_TOKEN` — Vercel Blob for media uploads
+- `SLACK_WEBHOOK_URL` — Contact form Slack notifications
+- `RESEND_API_KEY` — Transactional email via Resend (domain: `daviesimaging.com`)
+- `NOTIFICATION_EMAIL` — `info@daviesimaging.com`
+- `MAILCHIMP_API_KEY` / `MAILCHIMP_LIST_ID` / `MAILCHIMP_SERVER` — Audience `418d6a179b`, server `us17`
 
 ---
 
@@ -731,72 +759,114 @@ p:  font-sans font-normal text-base leading-relaxed                   (Noto Sans
 
 ---
 
-## File Structure
+## File Structure (actual — as built)
 
 ```
 src/
   app/
     page.tsx                          # Homepage
+    layout.tsx                        # Root layout — fonts, Nav, Footer, EmailCaptureModal
     about/page.tsx
     contact/page.tsx
-    work/
-      page.tsx                        # Work index
-      model-homes/page.tsx
-      amenities/page.tsx
-      spec-homes/page.tsx
-      lifestyle/page.tsx
-    services/
-      page.tsx                        # Services index
-      premium/page.tsx
-      listing/page.tsx
-      video-production/page.tsx
-      virtual-staging/page.tsx
-      virtual-video/page.tsx
-      matterport/page.tsx
-    offerings/
-      page.tsx                        # Offerings index
-      frameflow/page.tsx
-      frameflow-premium/page.tsx      # Password-protected draft
-      spec-plus/page.tsx
-      regional-partnerships/page.tsx
-    markets/
-      page.tsx                        # Markets index
-      type/page.tsx
-      role/
-        page.tsx
-        coordinators/page.tsx
-        directors/page.tsx
-        executive/page.tsx
-        c-suite/page.tsx
-      region/page.tsx                 # Interactive Mapbox map
+    admin/
+      layout.tsx                      # Admin auth gate
+      assets/page.tsx                 # Manage site image slots
+      digital/page.tsx                # Digital asset management
+      media/page.tsx                  # Media library browser
+    api/
+      contact/route.ts                # POST: Slack + Resend + Mailchimp pipeline (LIVE)
+      site-content/route.ts           # GET/POST: editable copy slots (Neon)
+      site-assets/route.ts            # GET/POST: image slot assignments (Neon)
+      media/
+        list/route.ts                 # List media from Vercel Blob
+        upload/route.ts               # Upload to Vercel Blob
+        import/route.ts               # Import from external URL
+        describe/route.ts             # AI describe image
+        metadata/route.ts             # Update media metadata
+      gallery/
+        route.ts                      # Curated gallery query
+        curate/route.ts               # Admin: curate gallery selection
+      deals/status|sync               # CRM deal tracking
+      digital/status|sync             # Digital asset sync
+      db/migrate|setup                # Database schema management
+    blog/
+      page.tsx                        # Sanity-powered blog index
+      [slug]/page.tsx                 # Sanity-powered blog post
     campaigns/
       beazer-frameflow/page.tsx
       frameflow-sell-faster/page.tsx
       frameflow-demo/page.tsx
-    blog/
       page.tsx
-      [slug]/page.tsx
+    markets/
+      page.tsx
+      type/page.tsx
+      region/page.tsx
+      role/page.tsx + coordinators|directors|executive|c-suite/page.tsx
+    offerings/
+      page.tsx
+      frameflow/page.tsx
+      frameflow-premium/page.tsx
+      spec-plus/page.tsx
+      regional-partnerships/page.tsx
+    services/
+      page.tsx
+      premium|listing|video-production|virtual-staging|virtual-video|matterport/page.tsx
+    work/
+      page.tsx + layout.tsx
+      model-homes|amenities|spec-homes|lifestyle/page.tsx
+    studio/[[...tool]]/page.tsx       # Sanity Studio (blog CMS)
+
   components/
-    layout/
-      Nav.tsx                         # Top nav with Work/Services/Offerings/Markets dropdowns
-      Footer.tsx
-    home/
-      HeroVideo.tsx                   # Scroll-scrubbed single video
-      StatsStrip.tsx                  # Animated number counters
-      SpecPlusSection.tsx
-      VirtualServicesSection.tsx
-      PersonaCallout.tsx
-      PremiumGalleryTeaser.tsx
-      FrameFlowCTA.tsx
-      FinalCTA.tsx
-    shared/
-      ScrollReveal.tsx                # Framer Motion scroll-in-view wrapper
-      ParallaxLayer.tsx               # Scroll speed control wrapper
-      GalleryGrid.tsx                 # Filterable image gallery
-      ServiceTab.tsx                  # Tabbed service explorer
-      ContactForm.tsx                 # Multi-step intent + form
-      EmailModal.tsx                  # Timed email capture modal
-      BuilderLogoStrip.tsx            # Auto-scrolling greyscale logo marquee
+    # Layout
+    Nav.tsx                           # Top nav
+    Footer.tsx                        # Footer + Mailchimp subscribe form
+    EmailCaptureModal.tsx             # 30-second timed modal, Mailchimp embed
+
+    # Animation / scroll
+    RevealOnScroll.tsx                # IntersectionObserver scroll reveal wrapper
+    PageTransition.tsx                # Page-to-page transition
+
+    # Content system
+    EditableContent.tsx               # Slot-based inline copy editor (admin-only edit mode)
+    EditableSection.tsx               # Section-level editable wrapper
+    DynamicImage.tsx                  # Image slot — pulls from site_assets, hover before/after
+    ParallaxBackground.tsx            # Parallax section bg — pulls from site_assets
+    DynamicGallery.tsx                # Curated gallery with lightbox
+    GalleryGrid.tsx                   # Static gallery grid
+    ImageShowcase.tsx                 # Feature image display
+    ProjectLightbox.tsx               # Full-screen image lightbox
+
+    # Admin
+    AdminAuth.tsx                     # Admin session auth
+    AdminSiteOverlay.tsx              # Site-wide admin overlay (click slots to assign images)
+    AdminGalleryCurator.tsx           # Curate gallery selections
+    AdminGalleryPicker.tsx            # Pick images for gallery
+    AdminMediaPicker.tsx              # Pick from media library
+
+    # Homepage sections
+    HeroVideo.tsx                     # Parallax video tile hero (EditableContent-powered)
+    StatsStrip.tsx                    # Animated counters: 24 markets, 14 days DOM, 258 communities
+    sections/
+      AssetVsContent.tsx              # "Stop creating content. Start building assets."
+      SpecPlus.tsx                    # Spec+ feature block (DynamicImage + EditableContent)
+      VirtualServices.tsx             # "Already have photos?"
+      BuiltForBuilders.tsx            # Persona callout
+      MarketingEcosystem.tsx          # "Designed for the full marketing ecosystem"
+      PremiumGallery.tsx              # Premium gallery teaser
+      TryFrameFlow.tsx                # FrameFlow challenge CTA
+      FinalCta.tsx                    # Dark closing CTA (ParallaxBackground + EditableContent)
+
+    # Shared UI
+    Eyebrow.tsx                       # Small caps label above H2
+    StatsStrip.tsx                    # Animated counters
+    RegionMap.tsx                     # Interactive region map
+
+    # LP system
+    lp/LPHero|LPCta|LogoStrip|PainPoints|Proof|Solution.tsx
+
+    # Sanity
+    PortableTextComponents.tsx        # Blog content renderer
+```
       TestimonialBand.tsx             # Full-bleed photo + quote
       RegionMap.tsx                   # Mapbox interactive map
       EyebrowLabel.tsx                # Small all-caps section labels
