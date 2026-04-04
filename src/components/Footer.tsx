@@ -132,7 +132,7 @@ export function Footer() {
             href="/contact"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
           >
-            Book a Strategy Call <span aria-hidden="true">&rarr;</span>
+            Get in Touch <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </div>

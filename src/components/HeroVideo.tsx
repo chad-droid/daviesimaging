@@ -99,10 +99,7 @@ export function HeroVideo() {
                     <br />
                     {v.headline2}
                   </h1>
-                  <p
-                    className="lead-text mx-auto mt-6 max-w-2xl text-text-muted"
-                    style={{ fontStyle: "italic" }}
-                  >
+                  <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-text-muted">
                     {v.subheadline}
                   </p>
                   <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
