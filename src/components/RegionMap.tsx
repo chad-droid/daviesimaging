@@ -247,7 +247,7 @@ export function RegionMap() {
           <span className="h-2.5 w-2.5 rounded-full bg-accent" />
           Active market
         </span>
-        <span>28 U.S. markets + Guadalajara</span>
+        <span>28 U.S. markets + growing</span>
       </div>
     </div>
   );
