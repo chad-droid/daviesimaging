@@ -12,22 +12,22 @@ export const metadata: Metadata = {
 const categories = [
   {
     title: "Model Homes",
-    href: "/work/model-homes",
+    href: "/gallery/model-homes",
     description: "Furnished interiors, architectural detail, and finished spaces. DIG&apos;s highest-craft output.",
   },
   {
     title: "Amenities",
-    href: "/work/amenities",
+    href: "/gallery/amenities",
     description: "Pools, clubhouses, fitness centers, and parks. The community infrastructure that drives buyer decisions.",
   },
   {
     title: "Spec Homes",
-    href: "/work/spec-homes",
+    href: "/gallery/spec-homes",
     description: "Move-in ready homes. Listing photography, virtual staging, and virtual video output.",
   },
   {
     title: "Lifestyle",
-    href: "/work/lifestyle",
+    href: "/gallery/lifestyle",
     description: "Talent-driven photography and video that connects buyers emotionally to a community.",
   },
 ];

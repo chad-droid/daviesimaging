@@ -50,7 +50,7 @@ export default function MatterportPage() {
                 Book a Strategy Call
               </Link>
               <Link
-                href="/work/model-homes"
+                href="/gallery/model-homes"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See model home work &rarr;

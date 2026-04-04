@@ -5,29 +5,29 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 
 export const metadata: Metadata = {
-  title: "Amenities | Davies Imaging Group",
-  description: "Community amenity photography that showcases pools, clubhouses, trails, and lifestyle spaces builders invest in.",
+  title: "Lifestyle | Davies Imaging Group",
+  description: "Lifestyle photography that captures how buyers actually live in a home. Talent, styling, and storytelling built for builder marketing.",
 };
 
 const otherWork = [
-  { label: "Model Homes", href: "/work/model-homes" },
-  { label: "Spec Homes", href: "/work/spec-homes" },
-  { label: "Lifestyle", href: "/work/lifestyle" },
+  { label: "Model Homes", href: "/gallery/model-homes" },
+  { label: "Amenities", href: "/gallery/amenities" },
+  { label: "Spec Homes", href: "/gallery/spec-homes" },
 ];
 
-export default function AmenitiesPage() {
+export default function LifestylePage() {
   return (
     <>
       {/* Hero */}
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Work / Amenities</Eyebrow>
+            <Eyebrow dark>Work / Lifestyle</Eyebrow>
             <h1 className="text-text-light">
-              Buyers choose communities. Give them a reason to choose <strong>yours</strong>.
+              Buyers buy feelings. <strong>Give them something to feel</strong>.
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-text-muted">
-              Pools, clubhouses, fitness centers, trails, and parks. DIG captures every amenity the way it deserves: with context, with light, and with buyers in mind.
+              Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit.
             </p>
 
           </RevealOnScroll>
@@ -39,7 +39,7 @@ export default function AmenitiesPage() {
         <div className="mx-auto max-w-7xl px-6">
           <RevealOnScroll>
             <DynamicGallery
-              pageSlug="/work/amenities"
+              pageSlug="/gallery/lifestyle"
               heading=""
               description=""
             />
@@ -53,17 +53,17 @@ export default function AmenitiesPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>Community Infrastructure</Eyebrow>
+                <Eyebrow>Photo + Video</Eyebrow>
                 <h2 className="mt-3">
-                  The amenity is the <strong>differentiator</strong>.
+                  Lifestyle covers both <strong>photo and video</strong>.
                 </h2>
               </div>
               <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
-                  In a competitive market, two homes at the same price point are often separated by one thing: the community around them. A pool, a clubhouse, a trail system. DIG captures these spaces at their best so buyers can imagine themselves in them before the first visit.
+                  Lifestyle is a primary output of two DIG services: Premium photography and Video Production. Both appear in this gallery because both serve the same purpose: connecting buyers emotionally to a community before a physical visit ever happens.
                 </p>
                 <p>
-                  Amenity photography is planned around the best light, the right weather window, and the features that matter most to your target buyer. The result goes directly into your website, digital ads, and email campaigns, where it does the work of making buyers choose your community first.
+                  Lifestyle shoots involve talent, styling, and real-moment direction. The goal is not staged perfection. It is authentic energy that communicates what it actually feels like to live in a home. That distinction is what makes lifestyle content outperform architecture-only photography in paid media and website conversion.
                 </p>
               </div>
             </div>
@@ -75,25 +75,31 @@ export default function AmenitiesPage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Book an Amenity Shoot</Eyebrow>
+            <Eyebrow dark>Lifestyle and Video</Eyebrow>
             <h2 className="text-text-light">
-              Ready to showcase what makes your community <strong>worth choosing</strong>?
+              DIG Premium includes lifestyle photography. DIG Video Production captures the full community <strong>story on film</strong>.
             </h2>
             <p className="mt-5 text-text-muted">
-              Amenity photography is part of DIG Premium. Coordinate it alongside your model home shoot or book it as a standalone engagement.
+              Both are delivered to your marketing team, ready to deploy across website, paid media, email, and sales center.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/contact"
+                href="/services/video-production"
                 className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Request a Quote
+                Explore Video Production
               </Link>
               <Link
                 href="/services/premium"
+                className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-text-muted transition-colors hover:border-accent hover:text-accent"
+              >
+                Explore Premium Photo
+              </Link>
+              <Link
+                href="/contact"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
-                See how Premium works &rarr;
+                Book a strategy call &rarr;
               </Link>
             </div>
           </RevealOnScroll>

@@ -76,7 +76,7 @@ export default function VirtualStagingPage() {
                 Order via FrameFlow Studio
               </a>
               <Link
-                href="/work/spec-homes"
+                href="/gallery/spec-homes"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See staged results &rarr;

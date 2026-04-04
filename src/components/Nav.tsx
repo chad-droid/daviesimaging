@@ -22,13 +22,13 @@ interface NavGroup {
 
 const navGroups: NavGroup[] = [
   {
-    label: "Results",
-    basePath: "/work",
+    label: "Gallery",
+    basePath: "/gallery",
     items: [
-      { label: "Model Homes", href: "/work/model-homes", description: "Furnished interiors and architectural detail" },
-      { label: "Amenities", href: "/work/amenities", description: "Clubhouses, pools, and community spaces" },
-      { label: "Spec Homes", href: "/work/spec-homes", description: "Listing photography and virtual staging" },
-      { label: "Lifestyle", href: "/work/lifestyle", description: "People, community, and brand storytelling" },
+      { label: "Model Homes", href: "/gallery/model-homes", description: "Furnished interiors and architectural detail" },
+      { label: "Amenities", href: "/gallery/amenities", description: "Clubhouses, pools, and community spaces" },
+      { label: "Spec Homes", href: "/gallery/spec-homes", description: "Listing photography and virtual staging" },
+      { label: "Lifestyle", href: "/gallery/lifestyle", description: "People, community, and brand storytelling" },
     ],
   },
   {
@@ -262,8 +262,8 @@ function MobileDrawer({
               ))}
             </div>
 
-            {/* CTAs */}
-            <div className="border-t border-border-light px-4 py-4 space-y-2.5">
+            {/* CTA */}
+            <div className="border-t border-border-light px-4 py-4">
               <Link
                 href="/get-started"
                 onClick={onClose}
@@ -271,15 +271,6 @@ function MobileDrawer({
               >
                 Get Started
               </Link>
-              <a
-                href="https://desk.daviesimaging.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={onClose}
-                className="flex w-full items-center justify-center rounded-full border border-border-light px-4 py-2.5 text-[12px] font-semibold tracking-wide text-text-body transition-colors hover:border-accent hover:text-accent"
-              >
-                Log In to digDesk
-              </a>
             </div>
           </motion.div>
         </>
@@ -439,23 +430,31 @@ export function Nav() {
             </Link>
           </div>
 
-          {/* Mobile hamburger */}
-          <button
-            type="button"
-            className="rounded-lg p-1.5 lg:hidden"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
-          >
-            <svg
-              className="h-5 w-5 text-text-dark"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.75}
-              stroke="currentColor"
+          {/* Mobile right — Get Started + hamburger */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <Link
+              href="/get-started"
+              className="rounded-full bg-accent px-4 py-1.5 text-[12px] font-semibold tracking-wide text-white transition-colors hover:bg-accent-hover"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-          </button>
+              Get Started
+            </Link>
+            <button
+              type="button"
+              className="rounded-lg p-1.5"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+            >
+              <svg
+                className="h-5 w-5 text-text-dark"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.75}
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            </button>
+          </div>
         </nav>
       </header>
 

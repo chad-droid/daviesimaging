@@ -1,12 +1,16 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 
 const footerLinks = {
-  Results: [
-    { label: "Model Homes", href: "/work/model-homes" },
-    { label: "Amenities", href: "/work/amenities" },
-    { label: "Spec Homes", href: "/work/spec-homes" },
-    { label: "Lifestyle", href: "/work/lifestyle" },
+  Gallery: [
+    { label: "Model Homes", href: "/gallery/model-homes" },
+    { label: "Amenities", href: "/gallery/amenities" },
+    { label: "Spec Homes", href: "/gallery/spec-homes" },
+    { label: "Lifestyle", href: "/gallery/lifestyle" },
   ],
   Solutions: [
     { label: "Premium Photography", href: "/services/premium" },
@@ -35,13 +39,88 @@ const footerLinks = {
   ],
 };
 
+function FooterAccordion({
+  heading,
+  links,
+}: {
+  heading: string;
+  links: { label: string; href: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-b border-border-light sm:border-none">
+      {/* Mobile: tap-to-expand heading */}
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between py-3 sm:hidden"
+      >
+        <span className="text-xs font-bold uppercase tracking-[0.12em] text-text-dark">
+          {heading}
+        </span>
+        <svg
+          className={`h-3.5 w-3.5 text-text-muted transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2.5}
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </button>
+
+      {/* Desktop: static heading */}
+      <h6 className="mb-4 hidden sm:block">{heading}</h6>
+
+      {/* Mobile: animated link list */}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.ul
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeInOut" }}
+            className="overflow-hidden pb-3 sm:hidden"
+          >
+            {links.map((link) => (
+              <li key={link.href} className="py-1.5 pl-1">
+                <Link
+                  href={link.href}
+                  className="text-sm text-text-body transition-colors hover:text-accent"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop: static link list */}
+      <ul className="hidden space-y-2.5 sm:block">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              className="text-sm text-text-body transition-colors hover:text-accent"
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function Footer() {
   return (
     <footer className="border-t border-border-light bg-bg-light">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-5 lg:gap-12">
+        <div className="grid gap-0 sm:gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-12">
           {/* Brand column */}
-          <div>
+          <div className="mb-8 border-b border-border-light pb-6 sm:mb-0 sm:border-none sm:pb-0">
             <Image
               src="/dig-logo-dark.png"
               alt="Davies Imaging Group"
@@ -72,23 +151,9 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
+          {/* Link columns — accordion on mobile, static on desktop */}
           {Object.entries(footerLinks).map(([heading, links]) => (
-            <div key={heading}>
-              <h6 className="mb-4">{heading}</h6>
-              <ul className="space-y-2.5">
-                {links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-text-body transition-colors hover:text-accent"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <FooterAccordion key={heading} heading={heading} links={links} />
           ))}
         </div>
 

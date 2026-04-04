@@ -60,9 +60,9 @@ const useCases = [
 ];
 
 const galleryLinks = [
-  { label: "Model Homes", href: "/work/model-homes" },
-  { label: "Amenities", href: "/work/amenities" },
-  { label: "Lifestyle", href: "/work/lifestyle" },
+  { label: "Model Homes", href: "/gallery/model-homes" },
+  { label: "Amenities", href: "/gallery/amenities" },
+  { label: "Lifestyle", href: "/gallery/lifestyle" },
 ];
 
 export default function PremiumPage() {
@@ -212,7 +212,7 @@ export default function PremiumPage() {
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
-                    href="/work/amenities"
+                    href="/gallery/amenities"
                     className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
                   >
                     See amenity work
@@ -244,7 +244,7 @@ export default function PremiumPage() {
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
-                  href="/work/lifestyle"
+                  href="/gallery/lifestyle"
                   className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
                 >
                   See lifestyle gallery

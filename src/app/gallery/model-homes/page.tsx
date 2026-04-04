@@ -5,29 +5,29 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 
 export const metadata: Metadata = {
-  title: "Lifestyle | Davies Imaging Group",
-  description: "Lifestyle photography that captures how buyers actually live in a home. Talent, styling, and storytelling built for builder marketing.",
+  title: "Model Homes | Davies Imaging Group",
+  description: "Full-service model home photography across markets nationwide. Lifestyle, staging, and architectural visuals built to sell.",
 };
 
 const otherWork = [
-  { label: "Model Homes", href: "/work/model-homes" },
-  { label: "Amenities", href: "/work/amenities" },
-  { label: "Spec Homes", href: "/work/spec-homes" },
+  { label: "Amenities", href: "/gallery/amenities" },
+  { label: "Spec Homes", href: "/gallery/spec-homes" },
+  { label: "Lifestyle", href: "/gallery/lifestyle" },
 ];
 
-export default function LifestylePage() {
+export default function ModelHomesPage() {
   return (
     <>
       {/* Hero */}
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Work / Lifestyle</Eyebrow>
+            <Eyebrow dark>Work / Model Homes</Eyebrow>
             <h1 className="text-text-light">
-              Buyers buy feelings. <strong>Give them something to feel</strong>.
+              Model home photography built to <strong>earn attention</strong>.
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-text-muted">
-              Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit.
+              Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package.
             </p>
 
           </RevealOnScroll>
@@ -39,7 +39,7 @@ export default function LifestylePage() {
         <div className="mx-auto max-w-7xl px-6">
           <RevealOnScroll>
             <DynamicGallery
-              pageSlug="/work/lifestyle"
+              pageSlug="/gallery/model-homes"
               heading=""
               description=""
             />
@@ -53,17 +53,17 @@ export default function LifestylePage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>Photo + Video</Eyebrow>
+                <Eyebrow>Premium Photography</Eyebrow>
                 <h2 className="mt-3">
-                  Lifestyle covers both <strong>photo and video</strong>.
+                  What goes into a <strong>model home shoot</strong>.
                 </h2>
               </div>
               <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
-                  Lifestyle is a primary output of two DIG services: Premium photography and Video Production. Both appear in this gallery because both serve the same purpose: connecting buyers emotionally to a community before a physical visit ever happens.
+                  Every model home shoot starts before the photographer arrives. Pre-shoot planning covers room-by-room angles, exterior timing, and lifestyle staging context so the day runs efficiently and nothing gets missed.
                 </p>
                 <p>
-                  Lifestyle shoots involve talent, styling, and real-moment direction. The goal is not staged perfection. It is authentic energy that communicates what it actually feels like to live in a home. That distinction is what makes lifestyle content outperform architecture-only photography in paid media and website conversion.
+                  On-site, DIG captures architectural detail, interior spaces, twilight exteriors, and lifestyle moments. Post-production handles retouching, sky replacement, and color correction. The result is a complete asset package ready for your website, paid ads, email, and sales center, delivered within the agreed window.
                 </p>
               </div>
             </div>
@@ -75,25 +75,19 @@ export default function LifestylePage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Lifestyle and Video</Eyebrow>
+            <Eyebrow dark>Premium Photography</Eyebrow>
             <h2 className="text-text-light">
-              DIG Premium includes lifestyle photography. DIG Video Production captures the full community <strong>story on film</strong>.
+              Your model home deserves photography that <strong>earns attention</strong>.
             </h2>
             <p className="mt-5 text-text-muted">
-              Both are delivered to your marketing team, ready to deploy across website, paid media, email, and sales center.
+              DIG Premium delivers full-service lifestyle and model home photography, from pre-shoot planning to final asset delivery. 28 markets, one standard.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/services/video-production"
+                href="/services/premium"
                 className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Explore Video Production
-              </Link>
-              <Link
-                href="/services/premium"
-                className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-text-muted transition-colors hover:border-accent hover:text-accent"
-              >
-                Explore Premium Photo
+                Explore Premium Photography
               </Link>
               <Link
                 href="/contact"

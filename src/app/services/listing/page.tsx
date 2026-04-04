@@ -39,7 +39,7 @@ export default function ListingPhotoPage() {
                 Bundle in Spec+
               </Link>
               <Link
-                href="/work/spec-homes"
+                href="/gallery/spec-homes"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See listing work &rarr;

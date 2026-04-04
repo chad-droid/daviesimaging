@@ -50,7 +50,7 @@ export default function VideoProductionPage() {
                 Book a Strategy Call
               </Link>
               <Link
-                href="/work/lifestyle"
+                href="/gallery/lifestyle"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See lifestyle work &rarr;
@@ -182,7 +182,7 @@ export default function VideoProductionPage() {
                 Book a Strategy Call
               </Link>
               <Link
-                href="/work/lifestyle"
+                href="/gallery/lifestyle"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 View lifestyle work &rarr;

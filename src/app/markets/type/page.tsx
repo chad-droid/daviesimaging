@@ -13,14 +13,14 @@ const types = [
     title: "Detached",
     description: "Single-family production and custom homes. Photography, staging, and video for every price point. Spec+ is the primary tool for standing inventory. Premium for model home launches.",
     services: ["Premium Photo", "Listing Photo", "Spec+"],
-    href: "/work/model-homes",
+    href: "/gallery/model-homes",
     cta: "See model home work",
   },
   {
     title: "Attached",
     description: "Townhomes and duplexes. Consistent asset packages across high-volume attached communities where every unit looks as good as the last. Virtual staging is especially effective for showing unit variations without multiple shoots.",
     services: ["Listing Photo", "Virtual Staging", "Virtual Video"],
-    href: "/work/spec-homes",
+    href: "/gallery/spec-homes",
     cta: "See spec home work",
   },
   {
@@ -34,7 +34,7 @@ const types = [
     title: "BTR",
     description: "Build-to-rent communities. Amenity-forward photography and virtual staging for lease-up marketing. DIG captures the community infrastructure that drives BTR leasing decisions: pools, clubhouses, fitness centers, and outdoor spaces.",
     services: ["Premium Photo", "Virtual Staging", "Amenity Shoots"],
-    href: "/work/amenities",
+    href: "/gallery/amenities",
     cta: "See amenity work",
   },
   {

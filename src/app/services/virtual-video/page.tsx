@@ -52,7 +52,7 @@ export default function VirtualVideoPage() {
                 Order via FrameFlow
               </a>
               <Link
-                href="/work/lifestyle"
+                href="/gallery/lifestyle"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See video examples &rarr;
