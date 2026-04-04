@@ -34,10 +34,10 @@ const stateRegion: Record<string, string> = {
 };
 
 const regionColors: Record<string, { base: string; active: string }> = {
-  west:     { base: "#e8e8f0", active: "#c4c4d8" },
-  mountain: { base: "#e4e8ec", active: "#bcc4cc" },
-  central:  { base: "#dde0e8", active: "#b0b8cc" },
-  east:     { base: "#c8ccd8", active: "#a0a8be" },
+  west:     { base: "#eaeaf4", active: "#c8c8e0" }, // lightest — cool lavender tint
+  mountain: { base: "#dcdde8", active: "#b8bace" }, // one step darker
+  central:  { base: "#d0d2e0", active: "#abadc4" }, // medium
+  east:     { base: "#c2c5d4", active: "#9da0b6" }, // darkest — clearly distinct
 };
 
 interface RegionInfo {
@@ -73,7 +73,7 @@ const marketPins: MarketPin[] = [
   { coords: [-121.49, 38.58], city: "Sacramento",   region: "west",     blurb: "DIG's West Coast headquarters. Central Valley coverage hub.",             isOffice: true,        labelAnchor: "end",    labelY: -10 },
   { coords: [-122.03, 37.54], city: "Bay Area",     region: "west",     blurb: "Bay Area and Silicon Valley homebuilders.",                               labelAnchor: "end",    labelY: -10 },
   { coords: [-118.24, 34.05], city: "Los Angeles",  region: "west",     blurb: "Greater LA metro production and luxury communities.",                     labelAnchor: "end",    labelY: -10 },
-  { coords: [-117.82, 33.68], city: "Orange County",region: "west",     blurb: "Orange County and Inland Empire new home communities.",                   labelAnchor: "end",    labelY: -10 },
+  { coords: [-117.82, 33.68], city: "Orange County",region: "west",     blurb: "Orange County and Inland Empire new home communities.",                   labelAnchor: "start",  labelY:  14 },
   { coords: [-119.77, 36.74], city: "Fresno",       region: "west",     blurb: "Central Valley growth corridor — one of California's fastest-growing new home markets.", labelAnchor: "start", labelY: -10 },
   { coords: [-115.14, 36.17], city: "Las Vegas",    region: "west",     blurb: "Nevada's largest new home market — high-volume spec and master plan.",    labelAnchor: "start",  labelY: -10 },
   { coords: [-119.81, 39.53], city: "Reno",         region: "west",     blurb: "Northern Nevada — Reno/Sparks metro and Lake Tahoe corridor.",            labelAnchor: "start",  labelY: -10 },
