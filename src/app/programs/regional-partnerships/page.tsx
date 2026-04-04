@@ -47,17 +47,17 @@ export default function RegionalPartnershipsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[65vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6">
+      <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Programs / Regional Partnerships</Eyebrow>
             <h1 className="text-text-light">
               One partner, every <strong>market</strong>.
             </h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               DIG&apos;s regional partnership model gives national and regional builders a single point of contact for photography, staging, and video across all four U.S. regions. Volume pricing. Dedicated capacity. Brand consistency enforced.
             </p>
-            <div className="mt-10 flex flex-col items-start justify-start gap-3 sm:flex-row sm:items-center">
+            <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/contact"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
@@ -199,14 +199,14 @@ export default function RegionalPartnershipsPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24">
+      <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow>Start the Conversation</Eyebrow>
-            <h2>
+            <Eyebrow dark>Start the Conversation</Eyebrow>
+            <h2 className="text-text-light">
               Ready to build a partnership that <strong>scales</strong>?
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-text-body">
+            <p className="mx-auto mt-5 max-w-xl text-text-muted">
               Regional partnership pricing and structure is negotiated directly with the DIG team. The conversation starts with a strategy call to understand your volume, markets, and brand requirements.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -218,7 +218,7 @@ export default function RegionalPartnershipsPage() {
               </Link>
               <Link
                 href="/markets/region"
-                className="text-sm font-medium text-text-body transition-colors hover:text-accent"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-white"
               >
                 View our markets &rarr;
               </Link>

@@ -39,7 +39,7 @@ export default function VideoProductionPage() {
             <h1 className="text-text-light">
               Video that moves buyers to <strong>action</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               On-site, crew-based video production for community walkthroughs, lifestyle campaigns, and builder brand films. DIG&apos;s highest-craft video output.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">

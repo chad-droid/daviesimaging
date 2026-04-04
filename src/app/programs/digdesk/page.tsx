@@ -64,16 +64,16 @@ export default function DigDeskPage() {
     <>
       {/* Hero */}
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Programs / digDesk</Eyebrow>
             <h1 className="text-text-light">
               One portal for your <strong>entire visual pipeline</strong>.
             </h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               digDesk is the DIG client portal. Order every service, track every job, manage your ModelMatch brand library, and download finished assets — from a single dashboard.
             </p>
-            <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+            <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/get-started"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"

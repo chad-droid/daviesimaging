@@ -42,7 +42,7 @@ export default function HowWeDoItPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>About / How We Do It</Eyebrow>
-            <h1 className="mt-4 text-text-light">
+            <h1 className="text-text-light">
               The traditional approach to builder photography{" "}
               <strong>is broken</strong>.
             </h1>
@@ -120,15 +120,15 @@ export default function HowWeDoItPage() {
                 Photography, editing, virtual staging, and video production are separate disciplines staffed by separate specialists.
               </p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2">
               {specialists.map((s, i) => (
                 <div
                   key={i}
-                  className="rounded-xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-white/14 hover:bg-white/[0.055]"
+                  className="rounded-xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-white/14 hover:bg-white/[0.055]"
                 >
                   <div className="mb-1 flex items-center gap-2">
                     <span className="font-mono text-[10px] text-white/25">0{i + 1}</span>
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-text-light">
+                    <h4 className="text-base font-semibold text-text-light">
                       {s.role}
                     </h4>
                   </div>
@@ -185,11 +185,11 @@ export default function HowWeDoItPage() {
       </section>
 
       {/* Closing statement */}
-      <section className="py-24">
+      <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow>Home Building Experts</Eyebrow>
-            <h2 className="mt-4">
+            <Eyebrow dark>Home Building Experts</Eyebrow>
+            <h2 className="mt-4 text-text-light">
               We understand your standards. We know your expectations. <strong>We help you raise the bar.</strong>
             </h2>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -201,7 +201,7 @@ export default function HowWeDoItPage() {
               </Link>
               <Link
                 href="/about"
-                className="text-sm font-medium text-text-body transition-colors hover:text-accent"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-white"
               >
                 Our story &rarr;
               </Link>

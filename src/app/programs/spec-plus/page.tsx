@@ -36,7 +36,7 @@ export default function SpecPlusPage() {
             <h1 className="text-text-light">
               Your inventory needs to move. Spec+ delivers <strong>everything</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               DIG listing photography combined with FrameFlow Studio digital production. $600 flat, regardless of home size. Delivered in 72 hours.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">

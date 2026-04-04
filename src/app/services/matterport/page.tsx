@@ -39,7 +39,7 @@ export default function MatterportPage() {
             <h1 className="text-text-light">
               Let buyers walk through before they <strong>visit</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Matterport 3D virtual tours give buyers an immersive, room-by-room experience of your model homes. Built for remote buyers, sales centers, and digital campaigns.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">

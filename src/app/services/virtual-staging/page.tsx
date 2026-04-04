@@ -63,7 +63,7 @@ export default function VirtualStagingPage() {
             <h1 className="text-text-light">
               Staging that looks like your community. Because <strong>it is</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               DIG virtual staging uses your builder&apos;s own model home photography as the design reference. Every staged image is branded and on-spec, not a generic template.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">

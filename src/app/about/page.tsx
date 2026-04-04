@@ -123,16 +123,16 @@ export default function AboutPage() {
                 Three things we think about that most photographers <strong>don&apos;t</strong>.
               </h2>
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-3">
               {pillars.map((p, i) => (
                 <div
                   key={i}
-                  className="rounded-xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-white/14"
+                  className="rounded-xl border border-white/10 bg-white/5 p-6 transition-colors hover:border-white/14"
                 >
                   <div className="mb-2 flex items-center gap-2">
                     <span className="font-mono text-[10px] text-white/25">0{i + 1}</span>
                   </div>
-                  <h4 className="text-sm font-semibold uppercase tracking-wider text-text-light">{p.title}</h4>
+                  <h4 className="text-base font-semibold text-text-light">{p.title}</h4>
                   <p className="mt-3 text-sm leading-relaxed text-text-muted">{p.body}</p>
                 </div>
               ))}

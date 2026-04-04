@@ -19,14 +19,14 @@ export default function LifestylePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-bg-dark py-24 text-text-light">
-        <div className="mx-auto max-w-5xl px-6">
+      <section className="bg-bg-dark py-28 text-text-light">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Lifestyle</Eyebrow>
             <h1 className="text-text-light">
               Buyers buy feelings. <strong>Give them something to feel</strong>.
             </h1>
-            <p className="mt-5 max-w-2xl text-lg text-text-muted">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit.
             </p>
 
@@ -85,13 +85,13 @@ export default function LifestylePage() {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/services/video-production"
-                className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 Explore Video Production
               </Link>
               <Link
                 href="/services/premium"
-                className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-text-muted transition-colors hover:border-accent hover:text-accent"
+                className="rounded-full border border-white/20 px-8 py-3 text-sm font-semibold text-text-muted transition-colors hover:border-accent hover:text-accent"
               >
                 Explore Premium Photo
               </Link>

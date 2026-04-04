@@ -44,7 +44,7 @@ export default function FrameFlowPage() {
             <h1 className="text-text-light">
               Virtual staging and video. <strong>No shoot required</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               FrameFlow Studio is the digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">

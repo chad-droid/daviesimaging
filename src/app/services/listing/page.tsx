@@ -28,7 +28,7 @@ export default function ListingPhotoPage() {
             <h1 className="text-text-light">
               Photography built for homes that need to <strong>move</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Fast turnaround, consistent quality, and assets ready to deploy across MLS, website, email, and paid channels. Built for spec homes and standing inventory.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -103,7 +103,7 @@ export default function ListingPhotoPage() {
             <div className="rounded-2xl border-2 border-accent bg-bg-surface p-8 sm:p-10">
               <div className="grid gap-8 lg:grid-cols-[1fr_auto]">
                 <div>
-                  <div className="mb-3 inline-flex rounded-full bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-accent">
+                  <div className="mb-3 inline-flex rounded-full bg-accent/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-accent">
                     Recommended
                   </div>
                   <Eyebrow>Spec+ Bundle</Eyebrow>
@@ -149,11 +149,11 @@ export default function ListingPhotoPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24">
+      <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow>Book a Shoot</Eyebrow>
-            <h2>
+            <Eyebrow dark>Book a Shoot</Eyebrow>
+            <h2 className="text-text-light">
               Ready to get your listings <strong>photography-ready</strong>?
             </h2>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -165,7 +165,7 @@ export default function ListingPhotoPage() {
               </Link>
               <Link
                 href="/programs/spec-plus"
-                className="text-sm font-medium text-text-body transition-colors hover:text-accent"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-white"
               >
                 Explore Spec+ bundle &rarr;
               </Link>

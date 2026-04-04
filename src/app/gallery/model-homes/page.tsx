@@ -19,14 +19,14 @@ export default function ModelHomesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-bg-dark py-24 text-text-light">
-        <div className="mx-auto max-w-5xl px-6">
+      <section className="bg-bg-dark py-28 text-text-light">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Model Homes</Eyebrow>
             <h1 className="text-text-light">
               Model home photography built to <strong>earn attention</strong>.
             </h1>
-            <p className="mt-5 max-w-2xl text-lg text-text-muted">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package.
             </p>
 
@@ -85,7 +85,7 @@ export default function ModelHomesPage() {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/services/premium"
-                className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 Explore Premium Photography
               </Link>

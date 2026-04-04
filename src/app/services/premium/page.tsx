@@ -63,17 +63,17 @@ export default function PremiumPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[65vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6">
+      <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
+        <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Premium Photography</Eyebrow>
             <h1 className="text-text-light">
               Full-service photography for builders who demand the <strong>best</strong>.
             </h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Slow, methodical, full-setup photography for model homes, amenity spaces, and lifestyle shoots. DIG&apos;s signature service across 28 markets nationwide.
             </p>
-            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
+            <div className="mt-10 flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-8">
               <Link
                 href="/contact"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
@@ -304,15 +304,15 @@ export default function PremiumPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+      <section className="bg-bg-dark py-24 text-text-light">
+        <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <div className="text-center">
-              <Eyebrow>Browse the Work</Eyebrow>
-              <h2>
+              <Eyebrow dark>Browse the Work</Eyebrow>
+              <h2 className="text-text-light">
                 See what Premium looks like <strong>in the field</strong>.
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
+              <p className="mx-auto mt-4 max-w-xl text-text-muted">
                 Browse gallery examples across all four Premium output types, then book a call to scope your shoot.
               </p>
               {/* Gallery pill links */}
@@ -321,7 +321,7 @@ export default function PremiumPage() {
                   <Link
                     key={g.href}
                     href={g.href}
-                    className="rounded-full border border-border-light px-5 py-2 text-sm font-medium text-text-body transition-colors hover:border-accent hover:text-accent"
+                    className="rounded-full border border-white/20 px-5 py-2 text-sm font-medium text-white/70 transition-colors hover:border-white/60 hover:text-white"
                   >
                     {g.label} gallery &rarr;
                   </Link>

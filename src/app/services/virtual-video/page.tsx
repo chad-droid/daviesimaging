@@ -39,7 +39,7 @@ export default function VirtualVideoPage() {
             <h1 className="text-text-light">
               Listing video without the <strong>crew</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               DIG virtual video transforms existing photography into smooth, cinematic walkthroughs. No shoot day, no scheduling overhead, fast delivery through FrameFlow.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
