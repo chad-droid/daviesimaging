@@ -33,8 +33,8 @@ const regionColors: Record<string, { base: string; active: string }> = {
 };
 
 const regionMeta = [
-  { id: "west",     label: "West",     subtitle: "CA, OR, NV",           markets: 7  },
-  { id: "mountain", label: "Mountain", subtitle: "ID, UT, CO, AZ, OR",   markets: 5  },
+  { id: "west",     label: "West",     subtitle: "CA, OR, WA, NV",        markets: 9  },
+  { id: "mountain", label: "Mountain", subtitle: "ID, UT, CO, AZ",        markets: 4  },
   { id: "central",  label: "Central",  subtitle: "TX, OK, LA",           markets: 4  },
   { id: "east",     label: "East",     subtitle: "FL, GA, SC, NC, OH, DC", markets: 11 },
 ];
@@ -59,8 +59,10 @@ const marketPins: MarketPin[] = [
   { coords: [-115.14, 36.17], city: "Las Vegas",   region: "west",                     labelAnchor: "start", labelY: -10 },
   { coords: [-119.81, 39.53], city: "Reno",        region: "west",                     labelAnchor: "start", labelY: -10 },
 
-  // Mountain (5 — Portland sits here timezone-wise)
-  { coords: [-122.68, 45.52], city: "Portland",    region: "mountain",                 labelAnchor: "end",   labelY: -10 },
+  { coords: [-122.33, 47.61], city: "Seattle",     region: "west",                     labelAnchor: "end",   labelY: -10 },
+  { coords: [-122.68, 45.52], city: "Portland",    region: "west",                     labelAnchor: "end",   labelY: -10 },
+
+  // Mountain (4)
   { coords: [-116.20, 43.62], city: "Boise",       region: "mountain",                 labelAnchor: "start", labelY: -10 },
   { coords: [-111.89, 40.76], city: "SLC",         region: "mountain",                 labelAnchor: "start", labelY: -10 },
   { coords: [-104.99, 39.74], city: "Denver",      region: "mountain",                 labelAnchor: "start", labelY: -10 },
@@ -245,7 +247,7 @@ export function RegionMap() {
           <span className="h-2.5 w-2.5 rounded-full bg-accent" />
           Active market
         </span>
-        <span>27 U.S. markets + Guadalajara</span>
+        <span>28 U.S. markets + Guadalajara</span>
       </div>
     </div>
   );
