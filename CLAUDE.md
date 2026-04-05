@@ -458,14 +458,86 @@ Sanity — same project as the blog (`5xi4v6mr`, dataset `production`). Add a ne
 
 ### The 6 Modules
 
-| # | Title | Slug | Category | Notes |
+| # | Title | Slug | Category | Content status |
 |---|---|---|---|---|
-| 1 | Picking a Camera | `picking-a-camera` | `gear` | Gear recommendations for different budget levels. What DIG photographers use. |
-| 2 | Setting Up Your Camera | `setting-up-your-camera` | `camera-setup` | Settings, modes, exposure triangle, white balance for interiors. |
-| 3 | Builder Photography 101 | `builder-photography-101` | `photography` | Shooting model homes, spec homes, room compositions, lighting, HDR basics. |
-| 4 | Builder Video 101 | `builder-video-101` | `video` | Basic walkthrough video, stabilization, frame rates, builder-specific techniques. |
-| 5 | Editing Photos | `editing-photos` | `editing-photo` | Lightroom workflow, HDR merge, color grading for interiors. |
-| 6 | Editing Videos | `editing-videos` | `editing-video` | Basic video editing for walkthroughs. Premiere / DaVinci basics. |
+| 1 | Picking a Camera | `picking-a-camera` | `gear` | Not yet written |
+| 2 | Setting Up Your Camera | `setting-up-your-camera` | `camera-setup` | Not yet written |
+| 3 | Builder Photography 101 | `builder-photography-101` | `photography` | **TRANSCRIPT + FULL WRITTEN COURSE READY** — Google Doc |
+| 4 | Builder Video 101 | `builder-video-101` | `video` | Not yet written |
+| 5 | Editing Photos | `editing-photos` | `editing-photo` | Not yet written |
+| 6 | Editing Videos | `editing-videos` | `editing-video` | Not yet written |
+
+**Source doc:** `https://docs.google.com/document/d/1i85icbRb6J_KtIddS6gmUJ86109yqPTJc4pAOrjsjLo`
+Google Doc ID: `1i85icbRb6J_KtIddS6gmUJ86109yqPTJc4pAOrjsjLo`
+
+---
+
+### Module 3: Builder Photography 101 — Content Outline
+
+This module is fully written and ready to build. Source is Chad's recorded transcript, polished into a 5-part course. Content below is the complete outline — full text is in the Google Doc above.
+
+**Course philosophy:** Homebuilder photography is not about artistic expression. It is about helping buyers understand the architecture, plan, flow, scale, and lifestyle promise of the home. Every decision supports clarity.
+
+**5 parts:**
+
+#### Part 1: Compression
+- Stand back — middle of the street or across the street
+- Reduces distortion, honors architecture, makes rooflines cleaner
+- Foreground trees feel smaller, front elevation reads better
+- "Compression is your best friend for exteriors. When in doubt, back up."
+- Practice: shoot same home from 3 distances, compare
+
+#### Part 2: Finding Center
+- Not just the literal middle — visual balance of the composition
+- Anchor on a center line: sink, island, fireplace, bathtub, front door, range hood
+- Keep camera plumb and level — vertical lines stay vertical
+- Asymmetrical rooms require interpretive balance (design skill, not just photography)
+- "First find the axis, then build the frame."
+- Practice: shoot kitchen 3 times — left of sink, on sink, right of sink
+
+#### Part 3: Camera Height
+- Sweet spot: between belly button and eye level
+- Too low: lose visibility into room and adjacent spaces
+- Too high: viewer feels like looking at a floor plan
+- Kitchens: go slightly higher to see over countertop
+- Lower angle = room feels bigger/taller, but blocks flow through furniture
+- "Camera height should help the viewer understand the room, not just dramatize it."
+- Practice: 3 shots of one kitchen at low / mid / elevated height
+
+#### Part 4: Styling
+- Often more than half the work on a model home shoot
+- Spec homes: straighten faucets, open/close doors fully, tidy counters, align seating
+- Model homes: move furniture and accessories, fluff pillows, restyle blankets, simplify tabletops
+- 25 minutes preparing / 5 minutes shooting is normal — the magic is in the setup
+- Style for clarity of plan, not artistic flourish
+- "Style for clarity, not clutter. Style for plan, not props."
+- Practice: 60-second pre-shoot scan (what's crooked, distracting, blocking, competing?)
+
+#### Part 5: Time of Day
+- Shoot front elevation when sunlight hits it evenly and attractively
+- Avoid: backlit (sun behind house), midday overhead, too-late twilight (blue cast)
+- Twilight sweet spot: 10-minute window after sunset — glow in sky, accurate colors, windows warm
+- Street planning: shoot homes facing the sun first, come back for opposite side later
+- "Do not just shoot when you arrive. Shoot when the light is right."
+- Practice: scout neighborhood at different times, build routing plan
+
+---
+
+### daviesimaging.com/education — Philosophy Page
+
+This page lives at `daviesimaging.com/education` on the main site. It is NOT the full digDojo platform — it is the entry/marketing page that explains what digDojo is and drives registration to `dojo.daviesimaging.com`.
+
+**Page purpose:** Introduce digDojo, establish credibility, drive free registration.
+
+**Page structure:**
+1. Hero — "Learn to shoot homes the way builders want them shot." + registration CTA
+2. What digDojo is — free training, written by DIG photographers, for anyone who shoots homes
+3. Who it's for — DIG photographers, builder marketing teams, independent photographers
+4. The 6 modules — preview cards (title + short description, locked icon on gated content)
+5. Philosophy statement — builder photography is not art for art's sake; it is about clarity, plan, and buyer understanding
+6. CTA — "Create your free digDojo account" → links to `dojo.daviesimaging.com/register`
+
+This page uses the standard site design system (same nav, footer, Eyebrow, etc.).
 
 ---
 
