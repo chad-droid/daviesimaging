@@ -44,13 +44,13 @@ export default function ByRolePage() {
     <>
       {/* Hero */}
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Markets / By Role</Eyebrow>
+            <Eyebrow dark>About / Who We Help</Eyebrow>
             <h1 className="text-text-light">
               Built for the people who move <strong>homes</strong>.
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Every role in a homebuilding organization has different pressures. We built pages that speak directly to yours.
             </p>
           </RevealOnScroll>
