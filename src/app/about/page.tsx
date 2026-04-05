@@ -3,7 +3,6 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
@@ -48,7 +47,6 @@ export default function AboutPage() {
               subheadDefault="Davies Imaging Group was built inside the homebuilding industry, not outside of it. That distinction changes everything about how we work."
             />
           </RevealOnScroll>
-          <EditableHeroMedia slotId="about-main-hero-media" />
         </div>
       </section>
 

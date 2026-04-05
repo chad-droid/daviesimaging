@@ -172,9 +172,13 @@
   }
 
   .cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: var(--font-body);
     font-size: 0.875rem;
     font-weight: 700;
+    line-height: 1;
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }

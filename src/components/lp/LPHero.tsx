@@ -27,7 +27,7 @@ export function LPHero({
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
             href={primaryCta.href}
-            className="cta-button rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:bg-accent-hover"
+            className="cta-button rounded-full bg-accent px-8 py-3.5 text-text-light transition-colors hover:bg-accent-hover"
           >
             {primaryCta.label}
           </Link>
