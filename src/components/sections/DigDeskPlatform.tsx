@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { useEditableSlot } from "@/lib/useEditableSlot";
+import { DarkSectionBg } from "@/components/DarkSectionBg";
 
 // ─── Editable fields ──────────────────────────────────────────────────────────
 
@@ -176,6 +177,7 @@ export function DigDeskPlatform() {
 
   return (
     <section className="relative overflow-hidden bg-bg-dark py-24">
+      <DarkSectionBg showGlow={false} gridSize={90} gridOpacity={0.02} />
       <div className="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/4 translate-x-1/4 rounded-full bg-accent/8 blur-[100px]" />
 
       <div ref={ref} className="relative mx-auto max-w-7xl px-6">

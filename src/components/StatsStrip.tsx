@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useEditableSlot } from "@/lib/useEditableSlot";
+import { DarkSectionBg } from "@/components/DarkSectionBg";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Clock — compact, used as right-side accent in the 48-hr cell
@@ -362,8 +363,17 @@ function FeaturedStatCell() {
 // ─────────────────────────────────────────────────────────────────────────────
 export function StatsStrip() {
   return (
-    <section className="bg-bg-dark py-20">
-      <div className="mb-14 text-center">
+    <section className="relative overflow-hidden bg-bg-dark py-20">
+      <DarkSectionBg
+        gridSize={72}
+        gridOpacity={0.022}
+        glowPosition="top-right"
+        glowIntensity={6}
+        glowSize={700}
+        glowBlur={130}
+      />
+
+      <div className="relative mb-14 text-center">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
           Best Value in Homebuilding
         </p>
@@ -372,7 +382,7 @@ export function StatsStrip() {
         </p>
       </div>
 
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="relative mx-auto max-w-5xl px-6">
         {/* Bordered grid container — gap-px creates hairline dividers */}
         <div className="overflow-hidden rounded-2xl border border-white/8 lg:grid lg:grid-cols-2">
 
