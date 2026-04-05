@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { DynamicImage } from "@/components/DynamicImage";
+import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 
 export const metadata: Metadata = {
   title: "About Us | Davies Imaging Group",
@@ -47,13 +47,7 @@ export default function AboutPage() {
               subheadDefault="Davies Imaging Group was built inside the homebuilding industry, not outside of it. That distinction changes everything about how we work."
             />
           </RevealOnScroll>
-          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
-            <DynamicImage
-              slotId="about-main-hero-img"
-              className="h-full w-full object-cover"
-              fallbackClass="h-full w-full"
-            />
-          </div>
+          <EditableHeroMedia slotId="about-main-hero-media" />
         </div>
       </section>
 

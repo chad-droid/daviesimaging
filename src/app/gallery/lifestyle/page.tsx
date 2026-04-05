@@ -4,7 +4,7 @@ import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { DynamicImage } from "@/components/DynamicImage";
+import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 
 export const metadata: Metadata = {
   title: "Lifestyle | Davies Imaging Group",
@@ -31,13 +31,7 @@ export default function LifestylePage() {
               subheadDefault="Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit."
             />
           </RevealOnScroll>
-          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
-            <DynamicImage
-              slotId="gallery-lifestyle-hero-img"
-              className="h-full w-full object-cover"
-              fallbackClass="h-full w-full"
-            />
-          </div>
+          <EditableHeroMedia slotId="gallery-lifestyle-hero-media" />
         </div>
       </section>
 

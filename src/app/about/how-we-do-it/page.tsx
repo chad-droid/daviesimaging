@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { DynamicImage } from "@/components/DynamicImage";
+import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 
 export const metadata: Metadata = {
   title: "How We Do It | Davies Imaging Group",
@@ -50,13 +50,7 @@ export default function HowWeDoItPage() {
               subheadDefault="We believe specialization is the answer. And it is why working with DIG feels different."
             />
           </RevealOnScroll>
-          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
-            <DynamicImage
-              slotId="about-how-we-do-it-hero-img"
-              className="h-full w-full object-cover"
-              fallbackClass="h-full w-full"
-            />
-          </div>
+          <EditableHeroMedia slotId="about-how-we-do-it-hero-media" />
         </div>
       </section>
 

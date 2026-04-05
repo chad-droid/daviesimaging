@@ -4,7 +4,7 @@ import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { DynamicImage } from "@/components/DynamicImage";
+import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 
 export const metadata: Metadata = {
   title: "Spec Homes | Davies Imaging Group",
@@ -31,13 +31,7 @@ export default function SpecHomesPage() {
               subheadDefault="Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete."
             />
           </RevealOnScroll>
-          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
-            <DynamicImage
-              slotId="gallery-spec-homes-hero-img"
-              className="h-full w-full object-cover"
-              fallbackClass="h-full w-full"
-            />
-          </div>
+          <EditableHeroMedia slotId="gallery-listings-hero-media" />
         </div>
       </section>
 

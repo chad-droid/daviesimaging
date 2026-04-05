@@ -4,7 +4,7 @@ import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { DynamicImage } from "@/components/DynamicImage";
+import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 
 export const metadata: Metadata = {
   title: "Amenities | Davies Imaging Group",
@@ -31,13 +31,7 @@ export default function AmenitiesPage() {
               subheadDefault="Pools, clubhouses, fitness centers, trails, and parks. DIG captures every amenity the way it deserves: with context, with light, and with buyers in mind."
             />
           </RevealOnScroll>
-          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
-            <DynamicImage
-              slotId="gallery-amenities-hero-img"
-              className="h-full w-full object-cover"
-              fallbackClass="h-full w-full"
-            />
-          </div>
+          <EditableHeroMedia slotId="gallery-amenities-hero-media" />
         </div>
       </section>
 

@@ -18,16 +18,13 @@ export function LPHero({
 }: LPHeroProps) {
   return (
     <section className="flex -mt-16 min-h-screen items-center bg-bg-dark py-28 text-text-light">
-      <div className="mx-auto max-w-4xl px-6 text-center">
+      <div className="mx-auto max-w-4xl px-6">
         {eyebrow && <Eyebrow dark>{eyebrow}</Eyebrow>}
         <h1 className="text-text-light">{headline}</h1>
-        <p
-          className="lead-text mt-6 text-text-muted"
-          style={{ fontStyle: "italic" }}
-        >
+        <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
           {subheadline}
         </p>
-        <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
           <Link
             href={primaryCta.href}
             className="cta-button rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-text-light transition-colors hover:bg-accent-hover"
