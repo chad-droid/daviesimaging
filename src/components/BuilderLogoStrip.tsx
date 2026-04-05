@@ -2,8 +2,9 @@
 
 // Builder logo strip — auto-scrolling marquee, two rows, opposite directions
 // Actual logo files live in /public/DIG Website 2026 Client Logos/
+// Folder and file names with spaces must be fully percent-encoded.
 
-const LOGOS = "/DIG Website 2026 Client Logos";
+const LOGOS = "/DIG%20Website%202026%20Client%20Logos";
 
 const row1 = [
   { name: "Toll Brothers", file: "toll brothers.png" },
