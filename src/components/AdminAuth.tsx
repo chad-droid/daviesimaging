@@ -2,29 +2,45 @@
 
 import { useState, useEffect } from "react";
 
-const ADMIN_PASSWORD = "password123";
-const STORAGE_KEY = "dig-admin-auth";
+// sessionStorage key — used by useEditableSlot to gate edit UI.
+// The actual password never touches the client. Validation happens server-side
+// via /api/admin-auth so the password is never shipped in the JS bundle.
+export const ADMIN_STORAGE_KEY = "dig-admin-auth";
 
 export function AdminAuth({ children }: { children: React.ReactNode }) {
   const [authed, setAuthed] = useState(false);
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
   const [checking, setChecking] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem(STORAGE_KEY);
+    const saved = sessionStorage.getItem(ADMIN_STORAGE_KEY);
     if (saved === "true") setAuthed(true);
     setChecking(false);
   }, []);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (input === ADMIN_PASSWORD) {
-      sessionStorage.setItem(STORAGE_KEY, "true");
-      setAuthed(true);
-      setError(false);
-    } else {
+    setLoading(true);
+    setError(false);
+    try {
+      const res = await fetch("/api/admin-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: input }),
+      });
+      if (res.ok) {
+        sessionStorage.setItem(ADMIN_STORAGE_KEY, "true");
+        setAuthed(true);
+      } else {
+        setError(true);
+        setInput("");
+      }
+    } catch {
       setError(true);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -43,7 +59,8 @@ export function AdminAuth({ children }: { children: React.ReactNode }) {
             onChange={(e) => { setInput(e.target.value); setError(false); }}
             placeholder="Password"
             autoFocus
-            className={`w-full rounded-lg border px-4 py-3 text-sm text-[#F5F5F5] outline-none transition-colors bg-[#1E1E1E] ${
+            disabled={loading}
+            className={`w-full rounded-lg border px-4 py-3 text-sm text-[#F5F5F5] outline-none transition-colors bg-[#1E1E1E] disabled:opacity-50 ${
               error ? "border-[#E57373]" : "border-[#2C2C2C] focus:border-[#6A5ACD]"
             }`}
           />
@@ -52,9 +69,10 @@ export function AdminAuth({ children }: { children: React.ReactNode }) {
           )}
           <button
             type="submit"
-            className="mt-4 w-full rounded-full bg-[#6A5ACD] py-2.5 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5]"
+            disabled={loading || !input}
+            className="mt-4 w-full rounded-full bg-[#6A5ACD] py-2.5 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5] disabled:opacity-50"
           >
-            Enter
+            {loading ? "Verifying…" : "Enter"}
           </button>
         </form>
       </div>
