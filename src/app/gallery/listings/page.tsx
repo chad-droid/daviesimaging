@@ -4,7 +4,6 @@ import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
@@ -32,7 +31,6 @@ export default function SpecHomesPage() {
               subheadDefault="Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete."
             />
           </RevealOnScroll>
-          <EditableHeroMedia slotId="gallery-listings-hero-media" />
         </div>
       </section>
 

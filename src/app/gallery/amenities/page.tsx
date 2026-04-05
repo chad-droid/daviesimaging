@@ -4,7 +4,6 @@ import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
@@ -32,7 +31,6 @@ export default function AmenitiesPage() {
               subheadDefault="Pools, clubhouses, fitness centers, trails, and parks. DIG captures every amenity the way it deserves: with context, with light, and with buyers in mind."
             />
           </RevealOnScroll>
-          <EditableHeroMedia slotId="gallery-amenities-hero-media" />
         </div>
       </section>
 

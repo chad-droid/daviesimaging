@@ -4,7 +4,6 @@ import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
@@ -32,7 +31,6 @@ export default function LifestylePage() {
               subheadDefault="Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit."
             />
           </RevealOnScroll>
-          <EditableHeroMedia slotId="gallery-lifestyle-hero-media" />
         </div>
       </section>
 

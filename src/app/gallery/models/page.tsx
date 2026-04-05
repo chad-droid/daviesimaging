@@ -4,7 +4,6 @@ import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
-import { EditableHeroMedia } from "@/components/EditableHeroMedia";
 import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
@@ -32,7 +31,6 @@ export default function ModelHomesPage() {
               subheadDefault="Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package."
             />
           </RevealOnScroll>
-          <EditableHeroMedia slotId="gallery-model-homes-hero-media" />
         </div>
       </section>
 
