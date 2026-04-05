@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
-import { EditableContent } from "@/components/EditableContent";
+import { EditableHero } from "@/components/EditableHero";
 import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
@@ -25,20 +25,11 @@ export default function ModelHomesPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Model Homes</Eyebrow>
-            <EditableContent
+            <EditableHero
               slotId="gallery-model-homes-hero"
-              fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Model home photography built to <strong>earn attention</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package." },
-              ]}
-            >
-              {(v) => (
-                <>
-                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
-                </>
-              )}
-            </EditableContent>
+              headlineDefault="Model home photography built to <strong>earn attention</strong>."
+              subheadDefault="Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package."
+            />
           </RevealOnScroll>
           <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
             <DynamicImage

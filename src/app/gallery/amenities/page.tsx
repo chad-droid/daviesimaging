@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
-import { EditableContent } from "@/components/EditableContent";
+import { EditableHero } from "@/components/EditableHero";
 import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
@@ -25,20 +25,11 @@ export default function AmenitiesPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Amenities</Eyebrow>
-            <EditableContent
+            <EditableHero
               slotId="gallery-amenities-hero"
-              fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Buyers choose communities. Give them a reason to choose <strong>yours</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Pools, clubhouses, fitness centers, trails, and parks. DIG captures every amenity the way it deserves: with context, with light, and with buyers in mind." },
-              ]}
-            >
-              {(v) => (
-                <>
-                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
-                </>
-              )}
-            </EditableContent>
+              headlineDefault="Buyers choose communities. Give them a reason to choose <strong>yours</strong>."
+              subheadDefault="Pools, clubhouses, fitness centers, trails, and parks. DIG captures every amenity the way it deserves: with context, with light, and with buyers in mind."
+            />
           </RevealOnScroll>
           <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
             <DynamicImage

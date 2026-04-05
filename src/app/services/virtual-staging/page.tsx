@@ -4,7 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { ModelMatchDemo } from "@/components/ModelMatchDemo";
-import { EditableContent } from "@/components/EditableContent";
+import { EditableHero } from "@/components/EditableHero";
 
 export const metadata: Metadata = {
   title: "Virtual Staging | Davies Imaging Group",
@@ -61,20 +61,11 @@ export default function VirtualStagingPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Virtual Staging</Eyebrow>
-            <EditableContent
+            <EditableHero
               slotId="services-virtual-staging-hero"
-              fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Staging that looks like your community. Because <strong>it is</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "DIG virtual staging uses your builder's own model home photography as the design reference. Every staged image is branded and on-spec, not a generic template." },
-              ]}
-            >
-              {(v) => (
-                <>
-                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
-                </>
-              )}
-            </EditableContent>
+              headlineDefault="Staging that looks like your community. Because <strong>it is</strong>."
+              subheadDefault="DIG virtual staging uses your builder's own model home photography as the design reference. Every staged image is branded and on-spec, not a generic template."
+            />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <a
                 href="https://desk.daviesimaging.com"

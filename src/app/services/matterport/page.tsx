@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
-import { EditableContent } from "@/components/EditableContent";
+import { EditableHero } from "@/components/EditableHero";
 
 export const metadata: Metadata = {
   title: "Matterport 3D Tours | Davies Imaging Group",
@@ -37,20 +37,11 @@ export default function MatterportPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Matterport</Eyebrow>
-            <EditableContent
+            <EditableHero
               slotId="services-matterport-hero"
-              fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Let buyers walk through before they <strong>visit</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Matterport 3D virtual tours give buyers an immersive, room-by-room experience of your model homes. Built for remote buyers, sales centers, and digital campaigns." },
-              ]}
-            >
-              {(v) => (
-                <>
-                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
-                </>
-              )}
-            </EditableContent>
+              headlineDefault="Let buyers walk through before they <strong>visit</strong>."
+              subheadDefault="Matterport 3D virtual tours give buyers an immersive, room-by-room experience of your model homes. Built for remote buyers, sales centers, and digital campaigns."
+            />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contact"

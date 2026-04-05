@@ -4,7 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { SpecFaq } from "@/components/SpecFaq";
-import { EditableContent } from "@/components/EditableContent";
+import { EditableHero } from "@/components/EditableHero";
 
 export const metadata: Metadata = {
   title: "Spec+ | Davies Imaging Group",
@@ -34,20 +34,11 @@ export default function SpecPlusPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Programs / Spec+</Eyebrow>
-            <EditableContent
+            <EditableHero
               slotId="programs-spec-plus-hero"
-              fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Your inventory needs to move. Spec+ delivers <strong>everything</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "DIG listing photography combined with FrameFlow Studio digital production. $600 flat, regardless of home size. Delivered in 72 hours." },
-              ]}
-            >
-              {(v) => (
-                <>
-                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
-                </>
-              )}
-            </EditableContent>
+              headlineDefault="Your inventory needs to move. Spec+ delivers <strong>everything</strong>."
+              subheadDefault="DIG listing photography combined with FrameFlow Studio digital production. $600 flat, regardless of home size. Delivered in 72 hours."
+            />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <a
                 href="https://desk.daviesimaging.com"

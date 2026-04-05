@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
-import { EditableContent } from "@/components/EditableContent";
+import { EditableHero } from "@/components/EditableHero";
 
 export const metadata: Metadata = {
   title: "Video Production | Davies Imaging Group",
@@ -37,20 +37,11 @@ export default function VideoProductionPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Video Production</Eyebrow>
-            <EditableContent
+            <EditableHero
               slotId="services-video-production-hero"
-              fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Video that moves buyers to <strong>action</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "On-site, crew-based video production for community walkthroughs, lifestyle campaigns, and builder brand films. DIG's highest-craft video output." },
-              ]}
-            >
-              {(v) => (
-                <>
-                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
-                </>
-              )}
-            </EditableContent>
+              headlineDefault="Video that moves buyers to <strong>action</strong>."
+              subheadDefault="On-site, crew-based video production for community walkthroughs, lifestyle campaigns, and builder brand films. DIG's highest-craft video output."
+            />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contact"

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
-import { EditableContent } from "@/components/EditableContent";
+import { EditableHero } from "@/components/EditableHero";
 
 export const metadata: Metadata = {
   title: "Listing Photography | Davies Imaging Group",
@@ -26,20 +26,11 @@ export default function ListingPhotoPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Listing Photography</Eyebrow>
-            <EditableContent
+            <EditableHero
               slotId="services-listing-hero"
-              fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Photography built for homes that need to <strong>move</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Fast turnaround, consistent quality, and assets ready to deploy across MLS, website, email, and paid channels. Built for spec homes and standing inventory." },
-              ]}
-            >
-              {(v) => (
-                <>
-                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
-                </>
-              )}
-            </EditableContent>
+              headlineDefault="Photography built for homes that need to <strong>move</strong>."
+              subheadDefault="Fast turnaround, consistent quality, and assets ready to deploy across MLS, website, email, and paid channels. Built for spec homes and standing inventory."
+            />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/programs/spec-plus"

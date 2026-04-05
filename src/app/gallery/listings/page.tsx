@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
-import { EditableContent } from "@/components/EditableContent";
+import { EditableHero } from "@/components/EditableHero";
 import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
@@ -25,20 +25,11 @@ export default function SpecHomesPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Spec Homes</Eyebrow>
-            <EditableContent
+            <EditableHero
               slotId="gallery-spec-homes-hero"
-              fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Standing inventory needs to move. <strong>This is what that looks like</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete." },
-              ]}
-            >
-              {(v) => (
-                <>
-                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
-                </>
-              )}
-            </EditableContent>
+              headlineDefault="Standing inventory needs to move. <strong>This is what that looks like</strong>."
+              subheadDefault="Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete."
+            />
           </RevealOnScroll>
           <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
             <DynamicImage
