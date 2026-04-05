@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useEditableSlot } from "@/lib/useEditableSlot";
 
 // ─────────────────────────────────────────────
 // Stat definitions
@@ -280,13 +281,26 @@ function AnimatedCounter({
 }
 
 // ─────────────────────────────────────────────
-// Single stat cell
+// Single stat cell — with inline editing
 // ─────────────────────────────────────────────
-function StatCell({ stat }: { stat: (typeof stats)[number] }) {
+function StatCell({ stat, slotIndex }: { stat: (typeof stats)[number]; slotIndex: number }) {
   const [active, setActive] = useState(false);
 
+  const slotFields = [
+    { key: "value",    label: "Numeric value",  type: "text" as const, defaultValue: String(stat.value) },
+    { key: "prefix",   label: "Prefix (e.g. $)",type: "text" as const, defaultValue: stat.prefix },
+    { key: "suffix",   label: "Suffix (e.g. hrs)",type:"text" as const, defaultValue: stat.suffix },
+    { key: "label",    label: "Label",          type: "text" as const, defaultValue: stat.label },
+    { key: "sublabel", label: "Descriptor",     type: "text" as const, defaultValue: stat.sublabel },
+  ];
+  const { v, editOverlay } = useEditableSlot(`stats-strip-stat-${slotIndex + 1}`, slotFields);
+
+  const numericValue = parseInt(v.value) || stat.value;
+
   return (
-    <div className="flex flex-col items-center px-8 py-10 text-center sm:py-0 first:pt-0 last:pb-0 sm:first:pt-0 sm:last:pb-0">
+    <div className="relative flex flex-col items-center px-8 py-10 text-center sm:py-0 first:pt-0 last:pb-0 sm:first:pt-0 sm:last:pb-0">
+      {editOverlay}
+
       {/* Graphic area — fixed height so numerals align */}
       <div className="flex h-[80px] w-full items-center justify-center">
         {stat.graphic === "timeline" && <TimelineGraphic animate={active} />}
@@ -300,9 +314,9 @@ function StatCell({ stat }: { stat: (typeof stats)[number] }) {
         style={{ fontFamily: "var(--font-heading)" }}
       >
         <AnimatedCounter
-          value={stat.value}
-          prefix={stat.prefix}
-          suffix={stat.suffix}
+          value={numericValue}
+          prefix={v.prefix}
+          suffix={v.suffix}
           onStart={() => setActive(true)}
         />
       </p>
@@ -318,11 +332,11 @@ function StatCell({ stat }: { stat: (typeof stats)[number] }) {
 
       {/* Label */}
       <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.15em] text-text-light">
-        {stat.label}
+        {v.label}
       </p>
 
       {/* Descriptor */}
-      <p className="mt-1.5 text-xs leading-snug text-text-muted">{stat.sublabel}</p>
+      <p className="mt-1.5 text-xs leading-snug text-text-muted">{v.sublabel}</p>
     </div>
   );
 }
@@ -344,8 +358,8 @@ export function StatsStrip() {
       </p>
 
       <div className="mx-auto grid max-w-4xl grid-cols-1 divide-y divide-white/8 px-6 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-        {stats.map((stat) => (
-          <StatCell key={stat.label} stat={stat} />
+        {stats.map((stat, i) => (
+          <StatCell key={stat.label} stat={stat} slotIndex={i} />
         ))}
       </div>
     </section>

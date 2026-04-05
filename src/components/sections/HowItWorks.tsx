@@ -4,12 +4,32 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
+import { useEditableSlot } from "@/lib/useEditableSlot";
 
-const steps = [
+// ─── Editable slot definitions ────────────────────────────────────────────────
+
+const metaFields = [
+  { key: "eyebrow",  label: "Eyebrow",     type: "text"     as const, defaultValue: "How It Works" },
+  { key: "headline", label: "Headline",    type: "textarea" as const, defaultValue: "Order complete. Assets live. **24 hours.**" },
+  { key: "subhead",  label: "Subhead",     type: "textarea" as const, defaultValue: "FrameFlow Studio handles the workflow. You focus on moving homes." },
+  { key: "ctaText",  label: "CTA Button",  type: "text"     as const, defaultValue: "Start your first order in FrameFlow" },
+  { key: "ctaHref",  label: "CTA URL",     type: "url"      as const, defaultValue: "/programs/frameflow" },
+  { key: "ctaNote",  label: "CTA Note",    type: "text"     as const, defaultValue: "No setup fee. First Spec+ order includes a risk-free FrameFlow video." },
+];
+
+const stepFields = (n: number) => [
+  { key: "title", label: `Step ${n} Title`, type: "text"     as const, defaultValue: "" },
+  { key: "body",  label: `Step ${n} Body`,  type: "textarea" as const, defaultValue: "" },
+  { key: "proof", label: `Step ${n} Proof`, type: "text"     as const, defaultValue: "" },
+];
+
+// ─── Static step defaults ─────────────────────────────────────────────────────
+
+const STEP_DEFAULTS = [
   {
     number: "01",
     title: "Upload your photos",
-    body: "Drop listing photos into FrameFlow Studio — from any photographer, any shoot. The dashboard organizes your jobs, tracks delivery status, and stores every asset you've ever ordered.",
+    body: "Drop listing photos into FrameFlow Studio from any photographer, any shoot. The dashboard organizes your jobs, tracks delivery status, and stores every asset you've ever ordered.",
     proof: "Works with photos you already have",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-6 w-6" stroke="currentColor" strokeWidth={1.5}>
@@ -22,7 +42,7 @@ const steps = [
   {
     number: "02",
     title: "Choose services. Apply ModelMatch.",
-    body: "Select virtual staging, virtual video, or the full Spec+ bundle. Apply your ModelMatch gallery to stage every spec home using your actual model home furniture — not generic stock furniture.",
+    body: "Select virtual staging, virtual video, or the full Spec+ bundle. Apply your ModelMatch gallery to stage every spec home using your actual model home furniture, not generic stock furniture.",
     proof: "Brand-consistent results across every community",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-6 w-6" stroke="currentColor" strokeWidth={1.5}>
@@ -37,7 +57,7 @@ const steps = [
   {
     number: "03",
     title: "Assets in your dashboard. 24 hours.",
-    body: "Finished photos, staged images, and videos appear in your FrameFlow dashboard within 24 hours. Download and deploy to MLS, your website, email campaigns, and paid media — all from one folder.",
+    body: "Finished photos, staged images, and videos appear in your FrameFlow dashboard within 24 hours. Download and deploy to MLS, your website, email campaigns, and paid media from one folder.",
     proof: "One order. Multiple outputs. Every channel covered.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-6 w-6" stroke="currentColor" strokeWidth={1.5}>
@@ -49,7 +69,8 @@ const steps = [
   },
 ];
 
-/* Fake FrameFlow UI mockup — stylized app window per step */
+// ─── UI preview mockups (structural, not editable) ────────────────────────────
+
 function UIPreview({ step }: { step: number }) {
   if (step === 0) {
     return (
@@ -76,7 +97,7 @@ function UIPreview({ step }: { step: number }) {
               </div>
             ))}
           </div>
-          <div className="mt-3 h-6 w-full rounded-lg bg-accent/20 border border-accent/30 flex items-center justify-center">
+          <div className="mt-3 flex h-6 w-full items-center justify-center rounded-lg border border-accent/30 bg-accent/20">
             <span className="text-[9px] font-semibold uppercase tracking-wider text-accent/70">+ Drop photos here</span>
           </div>
         </div>
@@ -93,18 +114,18 @@ function UIPreview({ step }: { step: number }) {
           <span className="h-2 w-2 rounded-full bg-white/15" />
           <span className="ml-2 text-[10px] text-white/25">Staging Direction</span>
         </div>
-        <div className="p-4 space-y-2.5">
+        <div className="space-y-2.5 p-4">
           {["Virtual Staging", "Virtual Video", "Spec+ Bundle"].map((service, i) => (
             <div key={service} className={`flex items-center justify-between rounded-lg px-3 py-2 ${i === 2 ? "border border-accent/40 bg-accent/10" : "bg-white/5"}`}>
               <div className="flex items-center gap-2">
                 <div className={`h-3 w-3 rounded-full border ${i === 2 ? "border-accent bg-accent" : "border-white/20"}`} />
                 <span className={`text-[10px] ${i === 2 ? "text-white/80" : "text-white/30"}`}>{service}</span>
               </div>
-              {i === 2 && <span className="text-[9px] text-accent/70 uppercase tracking-wider">Selected</span>}
+              {i === 2 && <span className="text-[9px] uppercase tracking-wider text-accent/70">Selected</span>}
             </div>
           ))}
           <div className="pt-1">
-            <div className="flex items-center justify-between text-[9px] text-white/30 mb-1">
+            <div className="mb-1 flex items-center justify-between text-[9px] text-white/30">
               <span>ModelMatch Gallery</span>
             </div>
             <div className="flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2">
@@ -126,10 +147,10 @@ function UIPreview({ step }: { step: number }) {
         <span className="h-2 w-2 rounded-full bg-white/15" />
         <span className="ml-2 text-[10px] text-white/25">Job Dashboard</span>
       </div>
-      <div className="p-4 space-y-2">
+      <div className="space-y-2 p-4">
         {[
           { label: "Maple Grove — Lot 14", status: "Delivered", color: "text-green-400" },
-          { label: "Meadowbrook — Lot 7", status: "In Progress", color: "text-accent/70" },
+          { label: "Meadowbrook — Lot 7",  status: "In Progress", color: "text-accent/70" },
           { label: "Vista Ridge — Lot 22", status: "Delivered", color: "text-green-400" },
         ].map((job) => (
           <div key={job.label} className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
@@ -148,6 +169,8 @@ function UIPreview({ step }: { step: number }) {
   );
 }
 
+// ─── Animation variants ────────────────────────────────────────────────────────
+
 const containerVariants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.15 } },
@@ -162,13 +185,70 @@ const cardVariants = {
   },
 };
 
+// ─── Step card with its own editable slot ─────────────────────────────────────
+
+function StepCard({ index, staticData }: { index: number; staticData: (typeof STEP_DEFAULTS)[number] }) {
+  const slotId = `how-it-works-step-${index + 1}`;
+  const fields = stepFields(index + 1).map((f, i) => ({
+    ...f,
+    defaultValue: [staticData.title, staticData.body, staticData.proof][i],
+  }));
+  const { v, editOverlay } = useEditableSlot(slotId, fields);
+
+  return (
+    <motion.div
+      variants={cardVariants}
+      className="group relative rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-white/14 hover:bg-white/[0.055]"
+    >
+      {editOverlay}
+
+      {/* Connector arrow */}
+      {index < STEP_DEFAULTS.length - 1 && (
+        <div className="absolute -right-3.5 top-[3.6rem] z-10 hidden sm:block">
+          <svg viewBox="0 0 14 14" className="h-3.5 w-3.5 text-white/15">
+            <path d="M1 7h12M8 3l5 4-5 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </svg>
+        </div>
+      )}
+
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-accent/8 text-accent transition-colors group-hover:border-accent/40 group-hover:bg-accent/12">
+          {staticData.icon}
+        </div>
+        <span
+          className="text-[4.5rem] font-semibold leading-none text-white/5 transition-colors group-hover:text-white/[0.07]"
+          style={{ fontFamily: "var(--font-heading)" }}
+          aria-hidden
+        >
+          {staticData.number}
+        </span>
+      </div>
+
+      <h3 className="mt-5 text-[1.1rem] font-medium leading-snug text-text-light"
+        dangerouslySetInnerHTML={{ __html: v.title || staticData.title }}
+      />
+      <p className="mt-2.5 text-sm leading-relaxed text-text-muted">
+        {v.body || staticData.body}
+      </p>
+      <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-accent/70">
+        {v.proof || staticData.proof}
+      </p>
+
+      <UIPreview step={index} />
+    </motion.div>
+  );
+}
+
+// ─── Main export ──────────────────────────────────────────────────────────────
+
 export function HowItWorks() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.15 });
+  const { v, editOverlay } = useEditableSlot("how-it-works-meta", metaFields);
 
   return (
     <section className="relative overflow-hidden bg-bg-dark py-28">
-      {/* Grid texture overlay */}
+      {/* Grid texture */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.025]"
         style={{
@@ -178,21 +258,15 @@ export function HowItWorks() {
           ].join(","),
         }}
       />
-
-      {/* Ambient glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/3 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         {/* Section header */}
-        <div className="mx-auto max-w-xl text-center">
-          <Eyebrow dark>How It Works</Eyebrow>
-          <h2 className="mt-2 text-text-light">
-            Order complete. Assets live.{" "}
-            <strong className="text-accent">24 hours.</strong>
-          </h2>
-          <p className="mt-4 text-text-muted">
-            FrameFlow Studio handles the workflow. You focus on moving homes.
-          </p>
+        <div className="relative mx-auto max-w-xl text-center">
+          {editOverlay}
+          <Eyebrow dark>{v.eyebrow}</Eyebrow>
+          <h2 className="mt-2 text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
+          <p className="mt-4 text-text-muted">{v.subhead}</p>
         </div>
 
         {/* Step cards */}
@@ -203,49 +277,8 @@ export function HowItWorks() {
           animate={inView ? "visible" : "hidden"}
           className="mt-16 grid gap-6 sm:grid-cols-3"
         >
-          {steps.map((step, i) => (
-            <motion.div
-              key={step.number}
-              variants={cardVariants}
-              className="group relative rounded-2xl border border-white/8 bg-white/[0.03] p-6 transition-colors hover:border-white/14 hover:bg-white/[0.055]"
-            >
-              {/* Connector arrow — desktop */}
-              {i < steps.length - 1 && (
-                <div className="absolute -right-3.5 top-[3.6rem] z-10 hidden sm:block">
-                  <svg viewBox="0 0 14 14" className="h-3.5 w-3.5 rotate-0 text-white/15">
-                    <path d="M1 7h12M8 3l5 4-5 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  </svg>
-                </div>
-              )}
-
-              {/* Step header row */}
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-accent/8 text-accent transition-colors group-hover:border-accent/40 group-hover:bg-accent/12">
-                  {step.icon}
-                </div>
-                <span
-                  className="text-[4.5rem] font-semibold leading-none text-white/5 transition-colors group-hover:text-white/[0.07]"
-                  style={{ fontFamily: "var(--font-heading)" }}
-                  aria-hidden
-                >
-                  {step.number}
-                </span>
-              </div>
-
-              {/* Copy */}
-              <h3 className="mt-5 text-[1.1rem] font-medium leading-snug text-text-light">
-                {step.title}
-              </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-text-muted">{step.body}</p>
-
-              {/* Proof line */}
-              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-accent/70">
-                {step.proof}
-              </p>
-
-              {/* Stylized UI preview */}
-              <UIPreview step={i} />
-            </motion.div>
+          {STEP_DEFAULTS.map((step, i) => (
+            <StepCard key={step.number} index={i} staticData={step} />
           ))}
         </motion.div>
 
@@ -257,15 +290,13 @@ export function HowItWorks() {
           className="mt-14 flex flex-col items-center gap-3"
         >
           <Link
-            href="/programs/frameflow"
+            href={v.ctaHref || "/programs/frameflow"}
             className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-medium text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:shadow-accent/30"
           >
-            Start your first order in FrameFlow
+            {v.ctaText}
             <span aria-hidden="true">→</span>
           </Link>
-          <p className="text-xs text-text-muted">
-            No setup fee. First Spec+ order includes a risk-free FrameFlow video.
-          </p>
+          <p className="text-xs text-text-muted">{v.ctaNote}</p>
         </motion.div>
       </div>
     </section>

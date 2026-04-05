@@ -2,40 +2,44 @@
 
 // Builder logo strip — auto-scrolling marquee, two rows, opposite directions
 // Actual logo files live in /public/DIG Website 2026 Client Logos/
-// Folder and file names with spaces must be fully percent-encoded.
+
+import { useEditableSlot } from "@/lib/useEditableSlot";
 
 const LOGOS = "/DIG%20Website%202026%20Client%20Logos";
 
 const row1 = [
-  { name: "Toll Brothers", file: "toll brothers.png" },
-  { name: "Beazer Homes", file: "beazer_logo-copy-1024x271.png" },
-  { name: "K. Hovnanian", file: "khov-logo-og.webp" },
-  { name: "Grand Homes", file: "grand homes.jpeg" },
-  { name: "Pahlisch Homes", file: "pahlisch-homes-logo.webp" },
-  { name: "Woodside Homes", file: "woodside.png" },
-  { name: "Mungo Homes", file: "mungo homes.svg" },
+  { name: "Toll Brothers",    file: "toll brothers.png" },
+  { name: "Beazer Homes",     file: "beazer_logo-copy-1024x271.png" },
+  { name: "K. Hovnanian",     file: "khov-logo-og.webp" },
+  { name: "Grand Homes",      file: "grand homes.jpeg" },
+  { name: "Pahlisch Homes",   file: "pahlisch-homes-logo.webp" },
+  { name: "Woodside Homes",   file: "woodside.png" },
+  { name: "Mungo Homes",      file: "mungo homes.svg" },
   { name: "Bloomfield Homes", file: "bloomfield.png" },
-  { name: "Ladera Living", file: "ladera.png" },
-  { name: "Thrive Cos.", file: "thrive_sitelogo.png" },
+  { name: "Ladera Living",    file: "ladera.png" },
+  { name: "Thrive Cos.",      file: "thrive_sitelogo.png" },
 ];
 
 const row2 = [
-  { name: "Risewell Homes", file: "risewell-logo.webp" },
-  { name: "SHAWOOD", file: "shawood.png" },
+  { name: "Risewell Homes",     file: "risewell-logo.webp" },
+  { name: "SHAWOOD",            file: "shawood.png" },
   { name: "Tricon Communities", file: "tricon_wordmark_RGB_orange.png" },
-  { name: "Lewis Communities", file: "lewis commnities.png" },
-  { name: "Cresleigh Homes", file: "cresleigh homes.png" },
-  { name: "CBC Homes", file: "cbc-home-social.png" },
-  { name: "Visionary Homes", file: "visionary homes logo.png" },
-  { name: "Tresidio Homes", file: "tresidio homes.png" },
-  { name: "Van Daele Homes", file: "vandaele-logo.png" },
-  { name: "Rurka Homes", file: "rurka-homes-logo.avif" },
+  { name: "Lewis Communities",  file: "lewis commnities.png" },
+  { name: "Cresleigh Homes",    file: "cresleigh homes.png" },
+  { name: "CBC Homes",          file: "cbc-home-social.png" },
+  { name: "Visionary Homes",    file: "visionary homes logo.png" },
+  { name: "Tresidio Homes",     file: "tresidio homes.png" },
+  { name: "Van Daele Homes",    file: "vandaele-logo.png" },
+  { name: "Rurka Homes",        file: "rurka-homes-logo.avif" },
+];
+
+const headlineFields = [
+  { key: "headline", label: "Headline text", type: "text" as const, defaultValue: "Trusted by homebuilders across 28 markets" },
 ];
 
 type LogoEntry = { name: string; file: string };
 
 function LogoItem({ name, file }: LogoEntry) {
-  // encode each path segment so spaces and special chars are handled
   const src = `${LOGOS}/${encodeURIComponent(file)}`;
   return (
     <div className="flex flex-shrink-0 items-center justify-center px-8 py-1">
@@ -63,7 +67,6 @@ function MarqueeRow({
 
   return (
     <div className="relative overflow-hidden py-2">
-      {/* Edge fade masks */}
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-bg-surface to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-bg-surface to-transparent" />
 
@@ -80,8 +83,10 @@ function MarqueeRow({
 }
 
 export function BuilderLogoStrip() {
+  const { v, editOverlay } = useEditableSlot("builder-logo-strip", headlineFields);
+
   return (
-    <section className="overflow-hidden bg-bg-surface py-14">
+    <section className="relative overflow-hidden bg-bg-surface py-14">
       <style>{`
         @keyframes marquee-left {
           0%   { transform: translateX(0); }
@@ -96,8 +101,10 @@ export function BuilderLogoStrip() {
         }
       `}</style>
 
+      {editOverlay}
+
       <p className="mb-10 text-center text-sm font-semibold uppercase tracking-[0.15em] text-text-muted">
-        Trusted by homebuilders across 28 markets
+        {v.headline}
       </p>
 
       <MarqueeRow items={row1} direction="left" speed={50} />
