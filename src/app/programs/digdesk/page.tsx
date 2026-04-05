@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "digDesk | Davies Imaging Group",
@@ -65,7 +66,7 @@ export default function DigDeskPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
+      <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Programs / digDesk</Eyebrow>
@@ -92,7 +93,7 @@ export default function DigDeskPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* What it is */}
       <section className="py-24">
@@ -208,7 +209,7 @@ export default function DigDeskPage() {
       </section>
 
       {/* Four modules */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-14 text-center">
@@ -237,7 +238,7 @@ export default function DigDeskPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Why digDesk */}
       <section className="py-24">
@@ -322,7 +323,7 @@ export default function DigDeskPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <EditableTextContent
@@ -347,7 +348,7 @@ export default function DigDeskPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

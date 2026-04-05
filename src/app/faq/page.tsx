@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { SpecFaq } from "@/components/SpecFaq";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "FAQ | Davies Imaging Group",
@@ -20,7 +21,7 @@ export default function FaqPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Help Center</Eyebrow>
@@ -32,7 +33,7 @@ export default function FaqPage() {
             </p>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* FAQ body */}
       <section className="bg-bg-surface py-20">

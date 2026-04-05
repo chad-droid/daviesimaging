@@ -1,5 +1,6 @@
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DarkSection } from "@/components/DarkSection";
 
 interface ProofStat {
   value: string;
@@ -20,7 +21,7 @@ export function Proof({
   testimonial,
 }: ProofProps) {
   return (
-    <section className="min-h-[60vh] bg-bg-dark py-24 text-text-light">
+    <DarkSection className="min-h-[60vh] py-24 text-text-light">
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="text-center">
@@ -59,6 +60,6 @@ export function Proof({
           </RevealOnScroll>
         )}
       </div>
-    </section>
+    </DarkSection>
   );
 }

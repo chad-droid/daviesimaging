@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Markets | Davies Imaging Group",
@@ -33,7 +34,7 @@ export default function MarketsIndex() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
+      <DarkSection className="min-h-[55vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Markets</Eyebrow>
@@ -43,7 +44,7 @@ export default function MarketsIndex() {
             </p>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Dimensions grid */}
       <section className="py-24">

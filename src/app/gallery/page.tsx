@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicGallery } from "@/components/DynamicGallery";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Our Work | Davies Imaging Group",
@@ -36,7 +37,7 @@ export default function WorkPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
+      <DarkSection className="min-h-[55vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery</Eyebrow>
@@ -48,7 +49,7 @@ export default function WorkPage() {
             </p>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Category nav */}
       <section className="bg-bg-light py-16">
@@ -92,7 +93,7 @@ export default function WorkPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Ready to Work Together?</Eyebrow>
@@ -115,7 +116,7 @@ export default function WorkPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

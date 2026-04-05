@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "How We Do It | Davies Imaging Group",
@@ -40,7 +41,7 @@ export default function HowWeDoItPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[65vh] bg-bg-dark py-28 text-text-light">
+      <DarkSection className="min-h-[65vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>About / How We Do It</Eyebrow>
@@ -51,7 +52,7 @@ export default function HowWeDoItPage() {
             />
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* The problem */}
       <section className="py-24">
@@ -112,7 +113,7 @@ export default function HowWeDoItPage() {
       </section>
 
       {/* Specialist grid */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
@@ -142,7 +143,7 @@ export default function HowWeDoItPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Builder advantage */}
       <section className="py-24">
@@ -191,7 +192,7 @@ export default function HowWeDoItPage() {
       </section>
 
       {/* Closing statement */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Home Building Experts</Eyebrow>
@@ -217,7 +218,7 @@ export default function HowWeDoItPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

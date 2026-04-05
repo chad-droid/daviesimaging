@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableTextContent } from "@/components/EditableTextContent";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Markets by Role | Davies Imaging Group",
@@ -44,7 +45,7 @@ export default function ByRolePage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
+      <DarkSection className="min-h-[55vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>About / Who We Help</Eyebrow>
@@ -56,7 +57,7 @@ export default function ByRolePage() {
             </p>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Roles */}
       <section className="py-24">

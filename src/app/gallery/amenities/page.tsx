@@ -5,6 +5,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Amenities | Davies Imaging Group",
@@ -21,7 +22,7 @@ export default function AmenitiesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-bg-dark py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Amenities</Eyebrow>
@@ -32,7 +33,7 @@ export default function AmenitiesPage() {
             />
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Gallery */}
       <section className="py-16">
@@ -74,7 +75,7 @@ export default function AmenitiesPage() {
       </section>
 
       {/* CTA section */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Book an Amenity Shoot</Eyebrow>
@@ -100,7 +101,7 @@ export default function AmenitiesPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

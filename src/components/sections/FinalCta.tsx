@@ -4,7 +4,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableContent } from "@/components/EditableContent";
-import { ParallaxBackground } from "@/components/ParallaxBackground";
+import { DarkSection } from "@/components/DarkSection";
 
 const fields = [
   { key: "headline", label: "Headline", type: "text" as const, defaultValue: "Let\u2019s build assets that move **homes**." },
@@ -17,7 +17,7 @@ const fields = [
 
 export function FinalCta() {
   return (
-    <ParallaxBackground slotId="bg-final-cta" overlayOpacity={0.7} className="min-h-[50vh] bg-bg-dark text-text-light">
+    <DarkSection className="min-h-[50vh] text-text-light">
       <div className="flex min-h-[50vh] items-center py-24">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
@@ -51,6 +51,6 @@ export function FinalCta() {
           </RevealOnScroll>
         </div>
       </div>
-    </ParallaxBackground>
+    </DarkSection>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DarkSection } from "@/components/DarkSection";
 
 interface LPHeroProps {
   eyebrow?: string;
@@ -17,7 +18,7 @@ export function LPHero({
   secondaryCta,
 }: LPHeroProps) {
   return (
-    <section className="flex -mt-16 min-h-screen items-center bg-bg-dark py-28 text-text-light">
+    <DarkSection className="flex -mt-16 min-h-screen items-center py-28 text-text-light">
       <div className="mx-auto max-w-4xl px-6">
         {eyebrow && <Eyebrow dark>{eyebrow}</Eyebrow>}
         <h1 className="text-text-light">{headline}</h1>
@@ -41,6 +42,6 @@ export function LPHero({
           )}
         </div>
       </div>
-    </section>
+    </DarkSection>
   );
 }

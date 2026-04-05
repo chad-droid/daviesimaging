@@ -5,6 +5,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Lifestyle | Davies Imaging Group",
@@ -21,7 +22,7 @@ export default function LifestylePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-bg-dark py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Lifestyle</Eyebrow>
@@ -32,7 +33,7 @@ export default function LifestylePage() {
             />
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Gallery */}
       <section className="py-16">
@@ -74,7 +75,7 @@ export default function LifestylePage() {
       </section>
 
       {/* CTA section */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Lifestyle and Video</Eyebrow>
@@ -106,7 +107,7 @@ export default function LifestylePage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

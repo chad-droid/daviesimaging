@@ -365,9 +365,7 @@ export function StatsStrip() {
   return (
     <section className="relative overflow-hidden bg-bg-dark py-20">
       <DarkSectionBg
-        gridSize={72}
-        gridOpacity={0.022}
-        glowPosition="top-right"
+        showGrid={false}
         glowIntensity={6}
         glowSize={700}
         glowBlur={130}

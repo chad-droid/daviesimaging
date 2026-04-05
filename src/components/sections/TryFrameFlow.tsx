@@ -4,7 +4,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableContent } from "@/components/EditableContent";
-import { ParallaxBackground } from "@/components/ParallaxBackground";
+import { DarkSection } from "@/components/DarkSection";
 
 const fields = [
   { key: "eyebrow", label: "Eyebrow", type: "text" as const, defaultValue: "FrameFlow Challenge" },
@@ -16,7 +16,7 @@ const fields = [
 
 export function TryFrameFlow() {
   return (
-    <ParallaxBackground slotId="bg-try-frameflow" overlayOpacity={0.6} className="min-h-[50vh] bg-bg-dark text-text-light">
+    <DarkSection className="min-h-[50vh] text-text-light">
       <div className="flex min-h-[50vh] items-center py-24">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
@@ -40,6 +40,6 @@ export function TryFrameFlow() {
           </RevealOnScroll>
         </div>
       </div>
-    </ParallaxBackground>
+    </DarkSection>
   );
 }

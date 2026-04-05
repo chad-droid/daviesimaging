@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Programs | Davies Imaging Group",
@@ -47,7 +48,7 @@ export default function ProgramsIndex() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
+      <DarkSection className="min-h-[55vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Programs</Eyebrow>
@@ -57,7 +58,7 @@ export default function ProgramsIndex() {
             </p>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* digDesk platform banner */}
       <section className="py-16">

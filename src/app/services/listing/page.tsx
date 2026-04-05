@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Listing Photography | Davies Imaging Group",
@@ -23,7 +24,7 @@ export default function ListingPhotoPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
+      <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Listing Photography</Eyebrow>
@@ -48,7 +49,7 @@ export default function ListingPhotoPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* What&apos;s included */}
       <section className="py-24">
@@ -148,7 +149,7 @@ export default function ListingPhotoPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Book a Shoot</Eyebrow>
@@ -174,7 +175,7 @@ export default function ListingPhotoPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "About Us | Davies Imaging Group",
@@ -37,7 +38,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[65vh] bg-bg-dark py-28 text-text-light">
+      <DarkSection className="min-h-[65vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>About / Why We Exist</Eyebrow>
@@ -48,7 +49,7 @@ export default function AboutPage() {
             />
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Origin Story */}
       <section className="py-24">
@@ -119,7 +120,7 @@ export default function AboutPage() {
       </section>
 
       {/* How we think */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
@@ -147,7 +148,7 @@ export default function AboutPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
 
       {/* Five-Step Strategy */}
       <section className="py-24">
@@ -184,7 +185,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-bg-dark py-24 text-text-light">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Let&apos;s Work Together</Eyebrow>
@@ -210,7 +211,7 @@ export default function AboutPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

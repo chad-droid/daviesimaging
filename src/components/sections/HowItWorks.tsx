@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { useEditableSlot } from "@/lib/useEditableSlot";
+import { DarkSectionBg } from "@/components/DarkSectionBg";
 
 // ─── Editable slot definitions ────────────────────────────────────────────────
 
@@ -248,17 +249,7 @@ export function HowItWorks() {
 
   return (
     <section className="relative overflow-hidden bg-bg-dark py-28">
-      {/* Grid texture */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.025]"
-        style={{
-          backgroundImage: [
-            "repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 80px)",
-            "repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 1px,transparent 80px)",
-          ].join(","),
-        }}
-      />
-      <div className="pointer-events-none absolute left-1/2 top-1/3 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-[120px]" />
+      <DarkSectionBg showGrid={false} />
 
       <div className="relative mx-auto max-w-7xl px-6">
         {/* Section header */}

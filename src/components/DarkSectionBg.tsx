@@ -1,77 +1,89 @@
+"use client";
+
 /**
- * DarkSectionBg — reusable atmospheric background for `bg-bg-dark` sections
- * with no photo or video assigned.
+ * DarkSectionBg — animated atmospheric background for `bg-bg-dark` sections.
  *
- * Composed of two layers:
- *   1. Grid texture — repeating-linear-gradient hairline grid at very low opacity
- *   2. Radial glow  — blurred accent-color blob giving a soft ambient light
+ * Behaviour:
+ *   • Glow starts at a random position on every page load (via useEffect to avoid SSR mismatch)
+ *   • Continuously pulses scale 0.75 → 1.3 → 0.75 with a random phase per instance
+ *   • Drifts diagonally across the section as the user scrolls past it (Framer useScroll)
+ *   • Grids are OFF by default — set showGrid={true} to enable
  *
- * Drop inside any `relative overflow-hidden` dark section:
+ * Drop inside any `relative overflow-hidden` dark section, or use the <DarkSection> wrapper
+ * which handles the positioning automatically.
  *
  *   <section className="relative overflow-hidden bg-bg-dark py-24">
  *     <DarkSectionBg />
- *     <div className="relative ...">content</div>
+ *     <div className="relative">content</div>   ← inner content needs relative to stack above
  *   </section>
- *
- * ─── Tuning guide ────────────────────────────────────────────────────────────
- *
- *  gridSize      (default 80)    — px between grid lines. Larger = coarser grid.
- *  gridOpacity   (default 0.025) — 0–1. 0.02 is barely-there; 0.05 reads clearly.
- *  glowPosition  (default "center") — where the glow sits in the section.
- *  glowIntensity (default 5)    — bg-accent/X. 5 = very subtle, 12 = noticeable.
- *  glowSize      (default 600)  — px diameter of the source circle before blur.
- *  glowBlur      (default 120)  — px CSS blur radius. Higher = softer/wider spread.
  */
 
-type GlowPosition =
-  | "center"
-  | "top-center"
-  | "top-left"
-  | "top-right"
-  | "bottom-center"
-  | "bottom-left"
-  | "bottom-right";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface DarkSectionBgProps {
-  gridSize?:      number;
-  gridOpacity?:   number;
-  glowPosition?:  GlowPosition;
+  /** Accent opacity for the glow — higher = more visible. Default 6 */
   glowIntensity?: number;
-  glowSize?:      number;
-  glowBlur?:      number;
-  /** Set false to suppress the grid (glow only) */
-  showGrid?:      boolean;
-  /** Set false to suppress the glow (grid only) */
-  showGlow?:      boolean;
+  /** Diameter of the glow source circle before blur (px). Default 650 */
+  glowSize?: number;
+  /** CSS blur radius (px). Default 130 */
+  glowBlur?: number;
+  /** Show the hairline grid texture. Default false */
+  showGrid?: boolean;
+  /** Show the animated radial glow. Default true */
+  showGlow?: boolean;
+  /** Grid cell size (px). Default 80 */
+  gridSize?: number;
+  /** Grid opacity (0–1). Default 0.025 */
+  gridOpacity?: number;
 }
 
-const POSITION_CLASSES: Record<GlowPosition, string> = {
-  "center":        "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-  "top-center":    "left-1/2 top-0 -translate-x-1/2 -translate-y-1/2",
-  "top-left":      "left-0 top-0 -translate-x-1/3 -translate-y-1/3",
-  "top-right":     "right-0 top-0 translate-x-1/3 -translate-y-1/3",
-  "bottom-center": "left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2",
-  "bottom-left":   "left-0 bottom-0 -translate-x-1/3 translate-y-1/3",
-  "bottom-right":  "right-0 bottom-0 translate-x-1/3 translate-y-1/3",
-};
-
 export function DarkSectionBg({
-  gridSize      = 80,
-  gridOpacity   = 0.025,
-  glowPosition  = "center",
-  glowIntensity = 5,
-  glowSize      = 600,
-  glowBlur      = 120,
-  showGrid      = true,
-  showGlow      = true,
+  glowIntensity = 6,
+  glowSize = 650,
+  glowBlur = 130,
+  showGrid = false,
+  showGlow = true,
+  gridSize = 80,
+  gridOpacity = 0.025,
 }: DarkSectionBgProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Random origin — computed after mount to avoid SSR hydration mismatch
+  const [origin, setOrigin] = useState({ x: 50, y: 50 });
+  const [pulseDuration, setPulseDuration] = useState(5);
+  const [pulseDelay, setPulseDelay] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setOrigin({
+      x: 15 + Math.random() * 70, // 15–85% from left
+      y: 15 + Math.random() * 70, // 15–85% from top
+    });
+    setPulseDuration(4 + Math.random() * 3); // 4–7 s per cycle
+    setPulseDelay(-(Math.random() * 6));     // random phase offset
+    setMounted(true);
+  }, []);
+
+  // Scroll-linked drift — glow moves diagonally as the section passes the viewport
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const xDrift = useTransform(scrollYProgress, [0, 1], ["-22%", "22%"]);
+  const yDrift = useTransform(scrollYProgress, [0, 1], ["14%", "-14%"]);
+
   return (
-    <>
-      {/* Layer 1 — grid texture */}
+    <div
+      ref={containerRef}
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      aria-hidden
+    >
+      {/* ── Layer 1: optional grid ── */}
       {showGrid && (
         <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
+          className="absolute inset-0"
           style={{
             opacity: gridOpacity,
             backgroundImage: [
@@ -82,19 +94,39 @@ export function DarkSectionBg({
         />
       )}
 
-      {/* Layer 2 — radial glow */}
-      {showGlow && (
-        <div
-          aria-hidden
-          className={`pointer-events-none absolute rounded-full ${POSITION_CLASSES[glowPosition]}`}
+      {/* ── Layer 2: animated glow ── */}
+      {showGlow && mounted && (
+        // Outer motion.div: scroll-linked position drift
+        <motion.div
           style={{
-            width:  glowSize,
-            height: glowSize,
-            backgroundColor: `color-mix(in srgb, var(--accent) ${glowIntensity}%, transparent)`,
-            filter: `blur(${glowBlur}px)`,
+            position: "absolute",
+            left: `${origin.x}%`,
+            top: `${origin.y}%`,
+            x: xDrift,
+            y: yDrift,
           }}
-        />
+        >
+          {/* Inner motion.div: continuous pulse */}
+          <motion.div
+            animate={{ scale: [0.75, 1.3, 0.75] }}
+            transition={{
+              duration: pulseDuration,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: pulseDelay,
+            }}
+            style={{
+              width: glowSize,
+              height: glowSize,
+              borderRadius: "50%",
+              translateX: "-50%",
+              translateY: "-50%",
+              backgroundColor: `color-mix(in srgb, var(--accent) ${glowIntensity}%, transparent)`,
+              filter: `blur(${glowBlur}px)`,
+            }}
+          />
+        </motion.div>
       )}
-    </>
+    </div>
   );
 }
