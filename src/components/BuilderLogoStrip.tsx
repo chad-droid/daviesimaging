@@ -1,53 +1,56 @@
 "use client";
 
 // Builder logo strip — auto-scrolling marquee, two rows, opposite directions
-// Actual logo files live in /public/DIG Website 2026 Client Logos/
+// Per-logo heights normalize the visual size so all logos appear equally weighted.
 
 import { useEditableSlot } from "@/lib/useEditableSlot";
 
 const LOGOS = "/DIG%20Website%202026%20Client%20Logos";
 
+// h = display height in px. Tuned per-logo to normalize visual weight.
+// Logos with thin/small text get taller; bold wordmarks get shorter.
 const row1 = [
-  { name: "Toll Brothers",    file: "toll brothers.png" },
-  { name: "Beazer Homes",     file: "beazer_logo-copy-1024x271.png" },
-  { name: "K. Hovnanian",     file: "khov-logo-og.webp" },
-  { name: "Grand Homes",      file: "grand homes.jpeg" },
-  { name: "Pahlisch Homes",   file: "pahlisch-homes-logo.webp" },
-  { name: "Woodside Homes",   file: "woodside.png" },
-  { name: "Mungo Homes",      file: "mungo homes.svg" },
-  { name: "Bloomfield Homes", file: "bloomfield.png" },
-  { name: "Ladera Living",    file: "ladera.png" },
-  { name: "Thrive Cos.",      file: "thrive_sitelogo.png" },
+  { name: "Toll Brothers",    file: "toll brothers.png",               h: 28, maxW: 160 },
+  { name: "Beazer Homes",     file: "beazer_logo-copy-1024x271.png",   h: 30, maxW: 150 },
+  { name: "K. Hovnanian",     file: "khov-logo-og.webp",               h: 36, maxW: 140 },
+  { name: "Grand Homes",      file: "grand homes.jpeg",                h: 44, maxW: 130 },
+  { name: "Pahlisch Homes",   file: "pahlisch-homes-logo.webp",        h: 28, maxW: 130 },
+  { name: "Woodside Homes",   file: "woodside.png",                    h: 40, maxW: 130 },
+  { name: "Mungo Homes",      file: "mungo homes.svg",                 h: 34, maxW: 130 },
+  { name: "Bloomfield Homes", file: "bloomfield.png",                  h: 46, maxW: 130 },
+  { name: "Ladera Living",    file: "ladera.png",                      h: 44, maxW: 130 },
+  { name: "Thrive Cos.",      file: "thrive_sitelogo.png",             h: 28, maxW: 110 },
 ];
 
 const row2 = [
-  { name: "Risewell Homes",     file: "risewell-logo.webp" },
-  { name: "SHAWOOD",            file: "shawood.png" },
-  { name: "Tricon Communities", file: "tricon_wordmark_RGB_orange.png" },
-  { name: "Lewis Communities",  file: "lewis commnities.png" },
-  { name: "Cresleigh Homes",    file: "cresleigh homes.png" },
-  { name: "CBC Homes",          file: "cbc-home-social.png" },
-  { name: "Visionary Homes",    file: "visionary homes logo.png" },
-  { name: "Tresidio Homes",     file: "tresidio homes.png" },
-  { name: "Van Daele Homes",    file: "vandaele-logo.png" },
-  { name: "Rurka Homes",        file: "rurka-homes-logo.avif" },
+  { name: "Risewell Homes",     file: "risewell-logo.webp",                        h: 30, maxW: 130 },
+  { name: "SHAWOOD",            file: "shawood.png",                               h: 30, maxW: 120 },
+  { name: "Tricon Communities", file: "tricon_wordmark_RGB_orange.png",            h: 24, maxW: 120 },
+  { name: "Lewis Communities",  file: "lewis commnities.png",                      h: 36, maxW: 140 },
+  { name: "Cresleigh Homes",    file: "cresleigh homes.png",                       h: 32, maxW: 130 },
+  { name: "CBC Homes",          file: "cbc-home-social.png",                       h: 38, maxW: 110 },
+  { name: "Visionary Homes",    file: "visionary homes logo.png",                  h: 32, maxW: 130 },
+  { name: "Tresidio Homes",     file: "tresidio homes.png",                        h: 32, maxW: 130 },
+  { name: "Van Daele Homes",    file: "vandaele-logo.png",                         h: 32, maxW: 130 },
+  { name: "Rurka Homes",        file: "rurka-homes-logo.avif",                     h: 30, maxW: 130 },
 ];
 
 const headlineFields = [
   { key: "headline", label: "Headline text", type: "text" as const, defaultValue: "Trusted by homebuilders across 28 markets" },
 ];
 
-type LogoEntry = { name: string; file: string };
+type LogoEntry = { name: string; file: string; h: number; maxW: number };
 
-function LogoItem({ name, file }: LogoEntry) {
+function LogoItem({ name, file, h, maxW }: LogoEntry) {
   const src = `${LOGOS}/${encodeURIComponent(file)}`;
   return (
-    <div className="flex flex-shrink-0 items-center justify-center px-8 py-1">
+    <div className="flex flex-shrink-0 items-center justify-center px-7 py-1">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
         alt={name}
-        className="h-9 w-auto max-w-[140px] object-contain grayscale opacity-50 transition-all duration-300 hover:grayscale-0 hover:opacity-90"
+        style={{ height: h, maxWidth: maxW, width: "auto" }}
+        className="object-contain grayscale opacity-50 transition-all duration-300 hover:grayscale-0 hover:opacity-90"
         loading="lazy"
       />
     </div>
@@ -64,12 +67,10 @@ function MarqueeRow({
   speed?: number;
 }) {
   const doubled = [...items, ...items];
-
   return (
-    <div className="relative overflow-hidden py-2">
+    <div className="relative overflow-hidden py-3">
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-bg-surface to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-bg-surface to-transparent" />
-
       <div
         className="flex w-max items-center"
         style={{ animation: `marquee-${direction} ${speed}s linear infinite` }}

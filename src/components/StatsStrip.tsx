@@ -1,230 +1,190 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useEditableSlot } from "@/lib/useEditableSlot";
 
-// ─────────────────────────────────────────────
-// Stat definitions
-// ─────────────────────────────────────────────
-const stats = [
-  {
-    value: 48,
-    suffix: " hrs",
-    prefix: "",
-    label: "Spec+ Delivery",
-    sublabel: "Shoot to published assets",
-    graphic: "timeline",
-  },
-  {
-    value: 14,
-    suffix: " days",
-    prefix: "",
-    label: "Faster to Sold",
-    sublabel: "Avg. DOM reduction with DIG assets",
-    graphic: "bars",
-  },
-  {
-    value: 600,
-    suffix: "",
-    prefix: "$",
-    label: "Complete Package",
-    sublabel: "Photography, staging, and video",
-    graphic: "layers",
-  },
-];
-
-// ─────────────────────────────────────────────
-// 48 hrs — animated delivery timeline rail
-// A glowing dot races from "Shoot" to "Deliver"
-// ─────────────────────────────────────────────
-function TimelineGraphic({ animate }: { animate: boolean }) {
-  const steps = ["Shoot", "Edit", "Stage", "Deliver"];
-  const dotPos = animate ? 100 : 0; // percent along the rail
+// ─────────────────────────────────────────────────────────────────────────────
+// 48 hrs — animated clock
+// Minute hand sweeps once; hour hand advances to ~2 o'clock (48 hrs = 2 days)
+// ─────────────────────────────────────────────────────────────────────────────
+function ClockGraphic({ animate }: { animate: boolean }) {
+  const cx = 32, cy = 32, r = 28;
 
   return (
-    <div className="flex w-full flex-col items-center gap-3 px-2">
-      {/* Rail */}
-      <div className="relative flex w-full max-w-[200px] items-center">
-        {/* Track background */}
-        <div className="absolute inset-y-0 left-0 right-0 my-auto h-px bg-white/10" />
+    <svg width="64" height="64" viewBox="0 0 64 64" className="text-accent" aria-hidden="true">
+      {/* Face */}
+      <circle cx={cx} cy={cy} r={r} stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" fill="none" />
 
-        {/* Animated fill */}
-        <div
-          className="absolute inset-y-0 left-0 my-auto h-px bg-accent origin-left"
-          style={{
-            width: `${dotPos}%`,
-            transition: animate ? "width 1.1s cubic-bezier(0.22,1,0.36,1) 0.1s" : "none",
-          }}
-        />
+      {/* 12 tick marks */}
+      {Array.from({ length: 12 }, (_, i) => {
+        const angle = (i * 30 - 90) * (Math.PI / 180);
+        const isMain = i % 3 === 0;
+        const inner = r - (isMain ? 7 : 4);
+        return (
+          <line
+            key={i}
+            x1={cx + inner * Math.cos(angle)}
+            y1={cy + inner * Math.sin(angle)}
+            x2={cx + (r - 1) * Math.cos(angle)}
+            y2={cy + (r - 1) * Math.sin(angle)}
+            stroke={isMain ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)"}
+            strokeWidth={isMain ? 2 : 1}
+            strokeLinecap="round"
+          />
+        );
+      })}
 
-        {/* Tick marks + glowing dot at end */}
-        {steps.map((_, i) => {
-          const pct = (i / (steps.length - 1)) * 100;
-          const isActive = animate && dotPos >= pct;
-          const isLast = i === steps.length - 1;
-          return (
-            <div
-              key={i}
-              className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{ left: `${pct}%` }}
-            >
-              {isLast && animate ? (
-                /* Glowing pulse at delivery point */
-                <div className="relative flex items-center justify-center">
-                  <div
-                    className="absolute h-4 w-4 rounded-full bg-accent opacity-20"
-                    style={{
-                      animation: animate ? "ping 1.5s cubic-bezier(0,0,0.2,1) infinite 1.2s" : "none",
-                    }}
-                  />
-                  <div className="h-2 w-2 rounded-full bg-accent shadow-[0_0_8px_rgba(var(--accent-rgb,79,70,229),0.8)]" />
-                </div>
-              ) : (
-                <div
-                  className="h-1.5 w-1.5 rounded-full transition-all duration-300"
-                  style={{
-                    backgroundColor: isActive ? "var(--accent)" : "rgba(255,255,255,0.2)",
-                    transitionDelay: isActive ? `${(pct / 100) * 1.1}s` : "0s",
-                  }}
-                />
-              )}
-            </div>
-          );
-        })}
+      {/* Hour hand — rotates to 60° (2 o'clock = 48 hrs) */}
+      <line
+        x1={cx}
+        y1={cy}
+        x2={cx}
+        y2={cy - r * 0.55}
+        stroke="rgba(255,255,255,0.45)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        style={{
+          transformOrigin: `${cx}px ${cy}px`,
+          transform: animate ? "rotate(60deg)" : "rotate(0deg)",
+          transition: animate ? "transform 1.8s cubic-bezier(0.22,1,0.36,1) 0s" : "none",
+        }}
+      />
+
+      {/* Minute hand — sweeps full 360° */}
+      <line
+        x1={cx}
+        y1={cy}
+        x2={cx}
+        y2={cy - r * 0.77}
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        style={{
+          transformOrigin: `${cx}px ${cy}px`,
+          transform: animate ? "rotate(360deg)" : "rotate(0deg)",
+          transition: animate ? "transform 1.8s cubic-bezier(0.22,1,0.36,1) 0s" : "none",
+        }}
+      />
+
+      {/* Center cap */}
+      <circle cx={cx} cy={cy} r="2.5" fill="currentColor" />
+    </svg>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 14 days — calendar counting backwards
+// 14 day cells animate with strikethrough sequentially — showing days saved
+// ─────────────────────────────────────────────────────────────────────────────
+function CalendarGraphic({ animate }: { animate: boolean }) {
+  // 14 cells: shows days 14 → 1, each getting crossed off as animation runs
+  const DAYS = Array.from({ length: 14 }, (_, i) => 14 - i); // [14,13,...,1]
+  const DURATION_EACH = 110; // ms per cell
+
+  return (
+    <div className="flex flex-col items-center gap-1">
+      {/* Calendar header */}
+      <div className="flex h-5 w-full items-center justify-center rounded-t-md bg-accent/25 px-2">
+        <span className="text-[8px] font-bold uppercase tracking-widest text-accent/80">Days Saved</span>
       </div>
 
-      {/* Step labels */}
-      <div className="flex w-full max-w-[200px] justify-between">
-        {steps.map((step, i) => (
-          <span
-            key={step}
-            className="text-[9px] uppercase tracking-widest transition-colors duration-300"
+      {/* Grid: 2 rows of 7 */}
+      <div className="grid grid-cols-7 gap-[3px]">
+        {DAYS.map((day, i) => (
+          <div
+            key={day}
+            className="relative flex h-[22px] w-[22px] items-center justify-center rounded transition-colors duration-200"
             style={{
-              color: animate && (i / (steps.length - 1)) * 100 <= dotPos
-                ? "rgba(255,255,255,0.5)"
-                : "rgba(255,255,255,0.15)",
-              transitionDelay: animate ? `${(i / (steps.length - 1)) * 1.1 + 0.1}s` : "0s",
+              backgroundColor: animate ? "rgba(106,90,205,0.18)" : "rgba(255,255,255,0.05)",
+              transitionDelay: animate ? `${i * DURATION_EACH}ms` : "0s",
             }}
           >
-            {step}
-          </span>
+            <span
+              className="relative text-[8px] font-semibold transition-colors duration-200"
+              style={{
+                color: animate ? "rgba(106,90,205,0.6)" : "rgba(255,255,255,0.2)",
+                transitionDelay: animate ? `${i * DURATION_EACH}ms` : "0s",
+              }}
+            >
+              {day}
+            </span>
+            {/* Strikethrough */}
+            <span
+              className="pointer-events-none absolute inset-0 flex items-center justify-center"
+              aria-hidden="true"
+            >
+              <span
+                className="block h-px bg-accent/50 origin-left"
+                style={{
+                  width: animate ? "14px" : "0px",
+                  transition: animate
+                    ? `width 0.2s ease ${i * DURATION_EACH + 120}ms`
+                    : "none",
+                }}
+              />
+            </span>
+          </div>
         ))}
       </div>
     </div>
   );
 }
 
-// ─────────────────────────────────────────────
-// 14 days — before/after bar comparison
-// Industry avg vs DIG, with 2× delta label
-// ─────────────────────────────────────────────
-function BarsGraphic({ animate }: { animate: boolean }) {
-  const industryH = 64; // px, "~28 days industry avg"
-  const digH = 32;      // px, "~14 days with DIG"
-
-  return (
-    <div className="flex items-end justify-center gap-6">
-      {/* Industry avg bar */}
-      <div className="flex flex-col items-center gap-2">
-        <span
-          className="text-[9px] uppercase tracking-widest text-white/20 transition-opacity duration-500"
-          style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? "0.9s" : "0s" }}
-        >
-          Industry
-        </span>
-        <div className="relative w-8 overflow-hidden rounded-sm bg-white/5">
-          <div
-            className="w-full bg-white/15 rounded-sm transition-all duration-700 ease-out"
-            style={{
-              height: animate ? industryH : 0,
-              transitionDelay: animate ? "0.15s" : "0s",
-            }}
-          />
-          {/* height placeholder so layout doesn't jump */}
-          <div style={{ height: industryH }} className="absolute inset-0 opacity-0" />
-        </div>
-      </div>
-
-      {/* Delta label */}
-      <div
-        className="mb-8 flex flex-col items-center gap-1 transition-opacity duration-400"
-        style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? "0.85s" : "0s" }}
-      >
-        <span className="font-mono text-base font-bold text-accent">2×</span>
-        <span className="text-[9px] uppercase tracking-widest text-white/25">faster</span>
-      </div>
-
-      {/* DIG bar */}
-      <div className="flex flex-col items-center gap-2">
-        <span
-          className="text-[9px] uppercase tracking-widest text-accent/60 transition-opacity duration-500"
-          style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? "0.9s" : "0s" }}
-        >
-          DIG
-        </span>
-        <div className="relative w-8 overflow-hidden rounded-sm bg-white/5">
-          <div
-            className="w-full rounded-sm bg-accent/70 transition-all duration-700 ease-out"
-            style={{
-              height: animate ? digH : 0,
-              transitionDelay: animate ? "0.35s" : "0s",
-            }}
-          />
-          <div style={{ height: industryH }} className="absolute inset-0 opacity-0" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────
-// $600 — layered value stack
-// Photo / Staging / Video build up in sequence
-// ─────────────────────────────────────────────
-function LayersGraphic({ animate }: { animate: boolean }) {
-  const layers = [
-    { label: "Photography", width: "100%" },
-    { label: "Virtual Staging", width: "82%" },
-    { label: "Virtual Video", width: "64%" },
+// ─────────────────────────────────────────────────────────────────────────────
+// $600 — price breakdown with savings callout
+// ─────────────────────────────────────────────────────────────────────────────
+function PackageBreakdown({ animate }: { animate: boolean }) {
+  const components = [
+    { label: "Photography",     price: "$450" },
+    { label: "Virtual Staging", price: "$250" },
+    { label: "Virtual Video",   price: "$200" },
   ];
 
   return (
-    <div className="flex w-full max-w-[190px] flex-col gap-2">
-      {layers.map((layer, i) => (
-        <div key={layer.label} className="flex items-center gap-3">
+    <div className="flex w-full max-w-[200px] flex-col gap-1.5">
+      {components.map((item, i) => (
+        <div key={item.label} className="flex items-center gap-2">
           {/* Bar */}
-          <div className="relative h-[7px] flex-1 overflow-hidden rounded-full bg-white/5">
+          <div className="relative h-[5px] flex-1 overflow-hidden rounded-full bg-white/5">
             <div
-              className="absolute inset-y-0 left-0 rounded-full bg-accent/60 origin-left"
+              className="absolute inset-y-0 left-0 rounded-full bg-accent/50 origin-left"
               style={{
-                width: layer.width,
                 transform: animate ? "scaleX(1)" : "scaleX(0)",
                 transition: animate
-                  ? `transform 0.55s cubic-bezier(0.22,1,0.36,1) ${i * 160 + 80}ms`
+                  ? `transform 0.45s cubic-bezier(0.22,1,0.36,1) ${i * 140 + 60}ms`
                   : "none",
               }}
             />
           </div>
-          {/* Label */}
-          <span
-            className="w-[90px] text-right text-[9px] uppercase tracking-widest transition-opacity duration-300"
-            style={{
-              color: "rgba(255,255,255,0.25)",
-              opacity: animate ? 1 : 0,
-              transitionDelay: animate ? `${i * 160 + 200}ms` : "0s",
-            }}
+          {/* Label + price */}
+          <div
+            className="flex w-[115px] shrink-0 items-center justify-between transition-opacity duration-300"
+            style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? `${i * 140 + 100}ms` : "0s" }}
           >
-            {layer.label}
-          </span>
+            <span className="text-[8px] uppercase tracking-widest text-white/30">{item.label}</span>
+            <span className="text-[9px] font-mono text-white/30 line-through">{item.price}</span>
+          </div>
         </div>
       ))}
+
+      {/* Savings badge */}
+      <div
+        className="mt-1 flex items-center justify-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 transition-all duration-500"
+        style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? "600ms" : "0s" }}
+      >
+        <svg viewBox="0 0 12 12" className="h-3 w-3 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
+          <path d="M1.5 10.5l9-9M4.5 1.5h-3v3M10.5 7.5v3h-3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        <span className="text-[10px] font-bold tracking-widest text-accent">SAVE $300</span>
+      </div>
     </div>
   );
 }
 
-// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // Animated counter
-// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 function AnimatedCounter({
   value,
   prefix,
@@ -243,7 +203,6 @@ function AnimatedCounter({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
@@ -251,7 +210,6 @@ function AnimatedCounter({
           onStart?.();
           const duration = 1800;
           const startTime = performance.now();
-
           function tick(now: number) {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
@@ -259,53 +217,55 @@ function AnimatedCounter({
             setCount(Math.round(eased * value));
             if (progress < 1) requestAnimationFrame(tick);
           }
-
           requestAnimationFrame(tick);
           observer.unobserve(el);
         }
       },
       { threshold: 0.3 },
     );
-
     observer.observe(el);
     return () => observer.disconnect();
   }, [value, onStart]);
 
   return (
     <span ref={ref} className="tabular-nums">
-      {prefix}
-      {count.toLocaleString()}
-      {suffix}
+      {prefix}{count.toLocaleString()}{suffix}
     </span>
   );
 }
 
-// ─────────────────────────────────────────────
-// Single stat cell — with inline editing
-// ─────────────────────────────────────────────
-function StatCell({ stat, slotIndex }: { stat: (typeof stats)[number]; slotIndex: number }) {
+// ─────────────────────────────────────────────────────────────────────────────
+// Stat cell
+// ─────────────────────────────────────────────────────────────────────────────
+function StatCell({ slotIndex }: { slotIndex: number }) {
   const [active, setActive] = useState(false);
 
-  const slotFields = [
-    { key: "value",    label: "Numeric value",  type: "text" as const, defaultValue: String(stat.value) },
-    { key: "prefix",   label: "Prefix (e.g. $)",type: "text" as const, defaultValue: stat.prefix },
-    { key: "suffix",   label: "Suffix (e.g. hrs)",type:"text" as const, defaultValue: stat.suffix },
-    { key: "label",    label: "Label",          type: "text" as const, defaultValue: stat.label },
-    { key: "sublabel", label: "Descriptor",     type: "text" as const, defaultValue: stat.sublabel },
-  ];
-  const { v, editOverlay } = useEditableSlot(`stats-strip-stat-${slotIndex + 1}`, slotFields);
+  const DEFAULTS = [
+    { value: "48",  prefix: "",  suffix: " hrs", label: "Spec+ Delivery",  sublabel: "Shoot to published assets",         graphic: "clock"    },
+    { value: "14",  prefix: "",  suffix: " days",label: "Faster to Sold",   sublabel: "Avg. DOM reduction with DIG assets", graphic: "calendar" },
+    { value: "600", prefix: "$", suffix: "",      label: "Complete Package", sublabel: "Photography, staging, and video",    graphic: "package"  },
+  ][slotIndex];
 
-  const numericValue = parseInt(v.value) || stat.value;
+  const fields = [
+    { key: "value",    label: "Numeric value",      type: "text" as const, defaultValue: DEFAULTS.value },
+    { key: "prefix",   label: "Prefix (e.g. $)",    type: "text" as const, defaultValue: DEFAULTS.prefix },
+    { key: "suffix",   label: "Suffix (e.g. hrs)",  type: "text" as const, defaultValue: DEFAULTS.suffix },
+    { key: "label",    label: "Label",              type: "text" as const, defaultValue: DEFAULTS.label },
+    { key: "sublabel", label: "Descriptor",         type: "text" as const, defaultValue: DEFAULTS.sublabel },
+  ];
+
+  const { v, editOverlay } = useEditableSlot(`stats-strip-stat-${slotIndex + 1}`, fields);
+  const numericValue = parseInt(v.value) || parseInt(DEFAULTS.value);
 
   return (
-    <div className="relative flex flex-col items-center px-8 py-10 text-center sm:py-0 first:pt-0 last:pb-0 sm:first:pt-0 sm:last:pb-0">
+    <div className="relative flex flex-col items-center px-6 py-10 text-center sm:py-0 first:pt-0 last:pb-0 sm:first:pt-0 sm:last:pb-0">
       {editOverlay}
 
-      {/* Graphic area — fixed height so numerals align */}
-      <div className="flex h-[80px] w-full items-center justify-center">
-        {stat.graphic === "timeline" && <TimelineGraphic animate={active} />}
-        {stat.graphic === "bars" && <BarsGraphic animate={active} />}
-        {stat.graphic === "layers" && <LayersGraphic animate={active} />}
+      {/* Graphic — fixed height so numerals align across all three cells */}
+      <div className="flex h-[90px] w-full items-center justify-center">
+        {DEFAULTS.graphic === "clock"    && <ClockGraphic    animate={active} />}
+        {DEFAULTS.graphic === "calendar" && <CalendarGraphic animate={active} />}
+        {DEFAULTS.graphic === "package"  && <PackageBreakdown animate={active} />}
       </div>
 
       {/* Large editorial numeral */}
@@ -321,7 +281,7 @@ function StatCell({ stat, slotIndex }: { stat: (typeof stats)[number]; slotIndex
         />
       </p>
 
-      {/* Accent rule — expands with counter */}
+      {/* Accent rule */}
       <div
         className="mt-5 h-px bg-accent"
         style={{
@@ -337,29 +297,37 @@ function StatCell({ stat, slotIndex }: { stat: (typeof stats)[number]; slotIndex
 
       {/* Descriptor */}
       <p className="mt-1.5 text-xs leading-snug text-text-muted">{v.sublabel}</p>
+
+      {/* Explore Spec+ CTA — only on the $600 column */}
+      {slotIndex === 2 && (
+        <Link
+          href="/programs/spec-plus"
+          className="mt-6 inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-5 py-2 text-[11px] font-semibold text-accent transition-all hover:border-accent hover:bg-accent/20"
+          style={{ opacity: active ? 1 : 0, transition: active ? "opacity 0.5s ease 1.2s" : "none" }}
+        >
+          Explore Spec+
+          <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path d="M2 6h8M7 3l3 3-3 3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </Link>
+      )}
     </div>
   );
 }
 
-// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // Main export
-// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 export function StatsStrip() {
   return (
     <section className="bg-bg-dark py-20">
-      <style>{`
-        @keyframes ping {
-          75%, 100% { transform: scale(2); opacity: 0; }
-        }
-      `}</style>
-
       <p className="mb-14 text-center text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
-        By the Numbers
+        Best Value in Homebuilding
       </p>
 
-      <div className="mx-auto grid max-w-4xl grid-cols-1 divide-y divide-white/8 px-6 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-        {stats.map((stat, i) => (
-          <StatCell key={stat.label} stat={stat} slotIndex={i} />
+      <div className="mx-auto grid max-w-5xl grid-cols-1 divide-y divide-white/8 px-6 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        {[0, 1, 2].map((i) => (
+          <StatCell key={i} slotIndex={i} />
         ))}
       </div>
     </section>
