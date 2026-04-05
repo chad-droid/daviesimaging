@@ -81,8 +81,8 @@ These are resolved decisions. Do not re-litigate them without explicit instructi
 | Label | Slug | Notes |
 |---|---|---|
 | Gallery | (dropdown) | Renamed from "Results" / was "Work" |
-| Gallery > Model Homes | `/gallery/model-homes` | Was "Models" in nav |
-| Gallery > Spec Homes | `/gallery/spec-homes` | Was "Listings" in nav |
+| Gallery > Models | `/gallery/models` | Nav label: "Models" |
+| Gallery > Listings | `/gallery/listings` | Nav label: "Listings" |
 | Gallery > Amenities | `/gallery/amenities` | — |
 | Gallery > Lifestyle | `/gallery/lifestyle` | — |
 | Services | (dropdown) | Unchanged |
@@ -739,9 +739,9 @@ The site is organized into four distinct navigation pillars, each answering a di
 
 | Page | Path | Description |
 |---|---|---|
-| Model Homes | `/gallery/model-homes` | Furnished interiors, architectural detail, finished spaces. DIG's highest-craft output. |
+| Models | `/gallery/models` | Furnished interiors, architectural detail, finished spaces. DIG's highest-craft output. |
 | Amenities | `/gallery/amenities` | Pools, clubhouses, fitness, parks. Community infrastructure photography. |
-| Spec Homes | `/gallery/spec-homes` | Move-in ready homes. Listing photography and virtual staging output. |
+| Listings | `/gallery/listings` | Move-in ready homes. Listing photography and virtual staging output. |
 | Lifestyle | `/gallery/lifestyle` | Talent-driven photography and video. People, community, aspiration. Both lifestyle photo (Premium service) and lifestyle video (Video Production service) output live here. |
 
 All Gallery pages are gallery-first. Minimal copy. Photography does the selling. Hero sections are LEFT-JUSTIFIED (editorial feel, not centered). Each page links to relevant Services and Programs.
