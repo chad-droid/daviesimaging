@@ -18,23 +18,27 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 ## Current Build Status (as of April 2026)
 
 ### Done
-- Full homepage: HeroVideo (parallax + placeholder tiles), StatsStrip (animated counters: 24 markets / 14 days DOM / 258 communities), all 8 sections with RevealOnScroll
+- Full homepage: HeroVideo (parallax + placeholder tiles), StatsStrip (animated counters), all sections with RevealOnScroll
 - `EditableContent` inline editing system — slot-based, persists to Neon Postgres
 - `DynamicImage` and `ParallaxBackground` — pull images from `site_assets` table
 - Admin panel (`/admin`) — media library, gallery curation, digital assets, image slot assignment
 - Contact form pipeline — Slack + Resend email + Mailchimp, all live and tested
 - Email capture modal — 30-second timer, Mailchimp subscribe (correct endpoint: `us17.list-manage.com/subscribe/post`)
-- Footer — Mailchimp subscribe form (same correct endpoint), social links
+- Footer — Mailchimp subscribe form (same correct endpoint), social links, mobile accordion columns
 - Sanity blog — live at `/blog`
-- All routes scaffolded (work, services, offerings, markets, campaigns)
+- All routes scaffolded and live on TEST branch
+- Nav renamed and restructured (see Nav section below)
+- StatsStrip rebuilt with editorial Cormorant numerals (see StatsStrip section below)
+- All service, program, gallery, about, and markets pages complete with consistent styling
+- Eyebrow breadcrumb hierarchy implemented across all child pages
 
 ### In Progress / Pending
 - Hero video tiles — placeholder gradients, needs real MP4 footage from DIG shoots
 - `RevealOnScroll` — currently uses IntersectionObserver; upgrade to Framer Motion `useInView` for smoother WAAPI animations
-- StatsStrip circular progress rings — built but denominator ratios need review (currently 24/30, 14/30, 258/300)
 - Image slots — most sections have `DynamicImage` / `ParallaxBackground` wired up but no images assigned yet
 - Gallery curation — admin tool built, actual image ingestion from Dropbox pending
-- About page, service pages, offering pages — scaffolded, copy needs full implementation per briefs below
+- Phoenix, AZ geo-targeted landing page (listing + ModelMatch virtual staging, for paid ad campaigns)
+- Resources and Education section
 
 ### Do Not Touch
 - Webflow DIG 2025 (`68596ef61365cb1c678a0e7f`) — live production at `daviesimaging.com`
@@ -66,6 +70,177 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 
 ---
 
+## Design Decisions and Styling Rules
+
+These are resolved decisions. Do not re-litigate them without explicit instruction from Chad.
+
+---
+
+### Navigation
+
+| Label | Slug | Notes |
+|---|---|---|
+| Gallery | (dropdown) | Renamed from "Results" / was "Work" |
+| Gallery > Model Homes | `/gallery/model-homes` | Was "Models" in nav |
+| Gallery > Spec Homes | `/gallery/spec-homes` | Was "Listings" in nav |
+| Gallery > Amenities | `/gallery/amenities` | — |
+| Gallery > Lifestyle | `/gallery/lifestyle` | — |
+| Services | (dropdown) | Unchanged |
+| Programs | (dropdown) | Renamed from "Offerings" |
+| Markets | (dropdown) | Unchanged |
+
+**Mobile nav rules:**
+- "Get Started" pill is always visible in the header (beside the hamburger), never hidden behind the drawer
+- "Log In to digDesk" is NOT in the mobile drawer — digDesk is not mobile optimized
+- Footer CTA text is "Get in Touch" (links to `/contact`), NOT "Book a Strategy Call"
+- Footer columns collapse to accordions on mobile (Framer Motion AnimatePresence)
+
+---
+
+### Eyebrow Component (`Eyebrow.tsx`)
+
+The `Eyebrow` component detects a "Parent / Child" pattern and renders with visual hierarchy automatically. No page-level changes needed — just pass the string.
+
+```tsx
+<Eyebrow dark>Gallery / Model Homes</Eyebrow>
+<Eyebrow>Services / Premium Photography</Eyebrow>
+```
+
+**Rendering rules:**
+- Parent: `text-white/35` (dark) or `text-text-muted` (light)
+- Separator " / ": `text-white/20` (dark) or `text-border-light` (light)
+- Child: `text-accent-dark-hover` (dark) or `text-accent` (light)
+- Same line — do NOT stack parent and child vertically
+
+**Every child page hero must use this format.** Mapping:
+- Gallery pages: `Gallery / [Page Name]`
+- Services pages: `Services / [Page Name]`
+  *(Note: nav label is "Services" but user prefers "Solutions" as eyebrow — use `Solutions / [Page Name]`)*
+- Programs pages: `Programs / [Page Name]`
+- About sub-pages: `About / [Page Name]`
+- Markets sub-pages: `Markets / [Page Name]`
+
+---
+
+### Page Hero Sections
+
+**Centered heroes** (service, program, about, markets pages):
+```tsx
+<div className="mx-auto max-w-4xl px-6 text-center">
+  <Eyebrow dark>Parent / Page Name</Eyebrow>
+  <h1 className="text-text-light">Headline with <strong>bold word</strong>.</h1>
+  <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+    Subhead copy.
+  </p>
+  {/* CTAs centered */}
+  <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+    ...
+  </div>
+</div>
+```
+
+**Left-justified heroes** (gallery pages only — editorial/curatorial feel):
+```tsx
+<div className="mx-auto max-w-4xl px-6">
+  <Eyebrow dark>Gallery / Page Name</Eyebrow>
+  <h1 className="text-text-light">Headline with <strong>bold word</strong>.</h1>
+  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+    Subhead copy. NO mx-auto here.
+  </p>
+</div>
+```
+
+**Hero subhead standard:** Always `text-xl leading-relaxed` — never `text-lg`, never Cormorant italic `lead-text`. The italic serif subhead is invisible on photo/dark backgrounds.
+
+**Hero background:** Always `bg-bg-dark` with `text-text-light`. Hero sections are never white/light.
+
+**Hero min-height:** `min-h-[60vh]` standard. Use `py-28` for padding.
+
+---
+
+### Final CTA Sections
+
+All "final CTA" closing sections (bottom of every page) must use `bg-bg-dark`. Never white, never `bg-bg-light`. The dark treatment creates a consistent visual bookend across all pages.
+
+```tsx
+<section className="bg-bg-dark py-24 text-text-light">
+  <div className="mx-auto max-w-3xl px-6 text-center">
+    <Eyebrow dark>Label</Eyebrow>
+    <h2 className="text-text-light">Headline with <strong>emphasis</strong>.</h2>
+    <p className="mx-auto mt-5 max-w-xl text-text-muted">Supporting copy.</p>
+    <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <Link href="/contact" className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white ...">
+        Primary CTA
+      </Link>
+    </div>
+  </div>
+</section>
+```
+
+---
+
+### H4 / H5 Global Styles
+
+H4 and H5 are **not** uppercase or accent-colored in `globals.css`. They are neutral card-heading defaults. The old uppercase/bold/accent treatment was visually aggressive and competed with the Eyebrow component.
+
+```css
+h4 { font-family: var(--font-body); font-size: 1.0625rem; font-weight: 600; line-height: 1.4; color: var(--text-dark); }
+h5 { font-family: var(--font-body); font-size: 0.9375rem; font-weight: 600; line-height: 1.4; color: var(--text-dark); }
+```
+
+Do not add `uppercase`, `tracking-wider`, or accent color to h4/h5 in globals.css.
+
+---
+
+### Dark Cards (on `bg-bg-dark` sections)
+
+```tsx
+<div className="rounded-xl border border-white/10 bg-white/5 p-6">
+  <h4 className="text-text-light">Card Title</h4>
+  <p className="mt-2 text-sm leading-relaxed text-text-muted">Card body.</p>
+</div>
+```
+
+Use `border-white/10 bg-white/5` — not opaque dark colors. The subtle transparency maintains visual depth.
+
+---
+
+### StatsStrip
+
+**Current stats (as of April 2026):**
+| Value | Label | Sublabel |
+|---|---|---|
+| 48 hrs | Spec+ Delivery | Shoot to published assets |
+| 14 days | Faster to Sold | Avg. DOM reduction with DIG assets |
+| $600 | Complete Package | Photography, staging, and video |
+
+**Treatment:** Large editorial Cormorant numerals (`text-[5.5rem]` on desktop), `h-px w-12 bg-accent` rule below each number, Noto Bold uppercase label, muted descriptor. Three columns with `divide-x divide-white/8` hairlines. No circles, no rings, no SVG progress indicators.
+
+**Animation:** IntersectionObserver + `requestAnimationFrame` count-up. Ease-out cubic (`1 - (1-progress)^3`). Duration 1800ms. Triggers once on scroll-enter.
+
+---
+
+### Premium Photography
+
+Premium Photography is an **umbrella** covering three distinct shoot types ordered separately. It is NOT a bundled package with deliverables. Do not list deliverables as a grid.
+
+The three shoot types are:
+1. **Model Home Photography** — room-by-room coverage, architectural detail, twilight exteriors, finish work
+2. **Amenity Photography** — pools, clubhouses, fitness centers, trails — scheduled independently from model home shoots
+3. **Lifestyle Photography** — talent-driven, casting/styling/art direction by DIG production team
+
+Each shoot type gets its own card with a link to the relevant gallery page.
+
+---
+
+### Landing Pages (Geo-Targeted)
+
+Geo-targeted ad landing pages live at `/lp/[market-slug]` (e.g. `/lp/phoenix-az`). These are outside the main nav and designed for paid traffic. They should not appear in the site navigation.
+
+**Phoenix, AZ page:** Push listing photography services and ModelMatch virtual staging. Conversion goal is contact form / strategy call.
+
+---
+
 ## Typography System
 
 **Source:** The Cormorant & Novo System (PDF framework, March 2026)
@@ -81,8 +256,8 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 | H2 (Section) | `h2` | Cormorant Garamond | 2.25rem / 36px | 500 Medium | line-height 1.2 |
 | H3 (Sub-heading) | `h3` | Cormorant Garamond | 1.75rem / 28px | 400 Regular | line-height 1.3 |
 | Lead / Subheading | `.lead-text` | Cormorant Garamond | 1.25rem / 20px | 400 Italic | line-height 1.5 — short intro statements only, never full paragraphs |
-| H4 (Minor heading) | `h4` | Noto Sans | 1.25rem / 20px | 700 Bold | UPPERCASE, letter-spacing 0.05em |
-| H5 | `h5` | Noto Sans | 1.125rem / 18px | 700 Bold | UPPERCASE, letter-spacing 0.05em |
+| H4 (Card heading) | `h4` | Noto Sans | 1.0625rem / 17px | 600 SemiBold | NO uppercase, neutral `var(--text-dark)` — see Design Decisions |
+| H5 | `h5` | Noto Sans | 0.9375rem / 15px | 600 SemiBold | NO uppercase, neutral `var(--text-dark)` — see Design Decisions |
 | H6 | `h6` | Noto Sans | 1rem / 16px | 500 Medium | UPPERCASE, letter-spacing 0.05em, color #555 |
 | Body / Paragraph | `p` | Noto Sans | 1rem / 16px | 400 Regular | line-height 1.6 |
 | Caption / Meta | `.meta-text` | Noto Sans | 0.875rem / 14px | 400 Regular | color #666 |
@@ -545,29 +720,31 @@ Create a Webflow page called `LP-TEMPLATE` with all sections built as Webflow Co
 
 ---
 
-## Site Architecture (DIG 2026 — New Structure)
+## Site Architecture (DIG 2026 — Current Structure)
 
-The site has been completely re-architected from the flat "Services" structure into four distinct navigation pillars, each answering a different buyer question.
+The site is organized into four distinct navigation pillars, each answering a different buyer question.
 
-| Nav pillar | Buyer question it answers | Old equivalent |
-|---|---|---|
-| Work | "What do you shoot?" | None — new |
-| Services | "How do you do it?" | /services/ (restructured) |
-| Offerings | "How do I buy it?" | None — scattered |
-| Markets | "Is this for me?" | None — new |
+| Nav label | Buyer question | Directory | Old equivalent |
+|---|---|---|---|
+| Gallery | "What do you shoot?" | `src/app/gallery/` | `src/app/work/` |
+| Services | "How do you do it?" | `src/app/services/` | same |
+| Programs | "How do I buy it?" | `src/app/programs/` | `src/app/offerings/` |
+| Markets | "Is this for me?" | `src/app/markets/` | same |
+
+**Nav label history:** "Results" was renamed to "Gallery", "Offerings" was renamed to "Programs". All slugs and directories updated to match. Do not use old paths anywhere.
 
 ---
 
-### Work — gallery-driven, what DIG shoots
+### Gallery — gallery-driven, what DIG shoots
 
 | Page | Path | Description |
 |---|---|---|
-| Model Homes | `/work/model-homes` | Furnished interiors, architectural detail, finished spaces. DIG's highest-craft output. |
-| Amenities | `/work/amenities` | Pools, clubhouses, fitness, parks. Community infrastructure photography. |
-| Spec Homes | `/work/spec-homes` | Move-in ready homes. Listing photography and virtual staging output. |
-| Lifestyle | `/work/lifestyle` | Talent-driven photography and video. People, community, aspiration. Both lifestyle photo (Premium service) and lifestyle video (Video Production service) output live here. |
+| Model Homes | `/gallery/model-homes` | Furnished interiors, architectural detail, finished spaces. DIG's highest-craft output. |
+| Amenities | `/gallery/amenities` | Pools, clubhouses, fitness, parks. Community infrastructure photography. |
+| Spec Homes | `/gallery/spec-homes` | Move-in ready homes. Listing photography and virtual staging output. |
+| Lifestyle | `/gallery/lifestyle` | Talent-driven photography and video. People, community, aspiration. Both lifestyle photo (Premium service) and lifestyle video (Video Production service) output live here. |
 
-All Work pages are gallery-first. Minimal copy. Photography does the selling. Each page links to relevant Services and Offerings.
+All Gallery pages are gallery-first. Minimal copy. Photography does the selling. Hero sections are LEFT-JUSTIFIED (editorial feel, not centered). Each page links to relevant Services and Programs.
 
 ---
 
@@ -610,23 +787,24 @@ Note: Virtual Video covers both the digital-only and the listing video use case.
 
 ---
 
-### Offerings — how buyers purchase (conversion landing pages)
+### Programs — how buyers purchase (conversion landing pages)
 
-| Offering | Path | What it is | Status |
+**Directory:** `src/app/programs/` (renamed from `src/app/offerings/` — do not use `/offerings/` paths anywhere)
+
+| Program | Path | What it is | Status |
 |---|---|---|---|
-| FrameFlow | `/offerings/frameflow` | The digital ordering platform. Entry point for virtual staging, virtual video, and Spec+ orders. Not a photography product — a platform. Home of the FrameFlow Challenge. | Rebuild as platform LP |
-| FrameFlow Premium | `/offerings/frameflow-premium` | Higher-cost, more specific digital work. Pilot in progress. Build as draft now, password-protect until pilot concludes. | Stealth pilot — draft only |
-| Spec+ | `/offerings/spec-plus` | All-in-one package: Listing photography + Virtual Staging + Virtual Video. One order, complete output. Ordered via FrameFlow. Primary product to promote on homepage. | Rebuild as package LP |
-| Regional Partnerships | `/offerings/regional-partnerships` | Volume commitment program. Two large states live in 2026. Price discounts in exchange for volume guarantees. Target audience is VP and C-Suite level — lead with commercial benefit: predictable coverage, discounted rates, dedicated capacity. | Live program — needs page |
+| FrameFlow | `/programs/frameflow` | The digital ordering platform. Entry point for virtual staging, virtual video, and Spec+ orders. Not a photography product — a platform. Home of the FrameFlow Challenge. | Live |
+| FrameFlow Premium | `/programs/frameflow-premium` | Higher-cost, more specific digital work. Pilot in progress. Build as draft now, password-protect until pilot concludes. | Stealth pilot — draft only |
+| Spec+ | `/programs/spec-plus` | All-in-one package: Listing photography + Virtual Staging + Virtual Video. One order, complete output. Ordered via FrameFlow. Primary product to promote on homepage. | Live |
+| Regional Partnerships | `/programs/regional-partnerships` | Volume commitment program. Two large states live in 2026. Price discounts in exchange for volume guarantees. Target audience is VP and C-Suite level — lead with commercial benefit: predictable coverage, discounted rates, dedicated capacity. | Live |
+| digDesk | `/programs/digdesk` | The DIG client portal. Order every service, track every job, manage ModelMatch brand library, download finished assets. | Live |
 
-**Campaign pages (relocated from root to subfolder):**
-| Page | Old path | New path |
-|---|---|---|
-| Beazer x FrameFlow | `/beazer-frameflow` | `/campaigns/beazer-frameflow` |
-| FrameFlow Sell Faster Challenge | `/frameflow-sell-faster-challenge-0210` | `/campaigns/frameflow-sell-faster` |
-| FrameFlow v2.0 Demo | `/frameflow-v2-0-demo` | `/campaigns/frameflow-demo` |
-
-**FrameFlow slug conflict:** Currently `/services/frameflow` and `/frameflow` (the order form) both exist. The order form moves to `/offerings/frameflow/order` or stays at `/frameflow` and is linked from the FrameFlow Offering LP.
+**Campaign pages:**
+| Page | Path |
+|---|---|
+| Beazer x FrameFlow | `/campaigns/beazer-frameflow` |
+| FrameFlow Sell Faster Challenge | `/campaigns/frameflow-sell-faster` |
+| FrameFlow v2.0 Demo | `/campaigns/frameflow-demo` |
 
 ---
 
