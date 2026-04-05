@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
+import { EditableContent } from "@/components/EditableContent";
 
 export const metadata: Metadata = {
   title: "digDesk | Davies Imaging Group",
@@ -67,12 +68,20 @@ export default function DigDeskPage() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Programs / digDesk</Eyebrow>
-            <h1 className="text-text-light">
-              One portal for your <strong>entire visual pipeline</strong>.
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              digDesk is the DIG client portal. Order every service, track every job, manage your ModelMatch brand library, and download finished assets — from a single dashboard.
-            </p>
+            <EditableContent
+              slotId="programs-digdesk-hero"
+              fields={[
+                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "One portal for your <strong>entire visual pipeline</strong>." },
+                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "digDesk is the DIG client portal. Order every service, track every job, manage your ModelMatch brand library, and download finished assets from a single dashboard." },
+              ]}
+            >
+              {(v) => (
+                <>
+                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
+                  <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+                </>
+              )}
+            </EditableContent>
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/get-started"

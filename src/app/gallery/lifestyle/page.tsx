@@ -3,6 +3,8 @@ import Link from "next/link";
 import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { EditableContent } from "@/components/EditableContent";
+import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
   title: "Lifestyle | Davies Imaging Group",
@@ -23,14 +25,28 @@ export default function LifestylePage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery / Lifestyle</Eyebrow>
-            <h1 className="text-text-light">
-              Buyers buy feelings. <strong>Give them something to feel</strong>.
-            </h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit.
-            </p>
-
+            <EditableContent
+              slotId="gallery-lifestyle-hero"
+              fields={[
+                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Buyers buy feelings. <strong>Give them something to feel</strong>." },
+                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit." },
+              ]}
+            >
+              {(v) => (
+                <>
+                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
+                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+                </>
+              )}
+            </EditableContent>
           </RevealOnScroll>
+          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
+            <DynamicImage
+              slotId="gallery-lifestyle-hero-img"
+              className="h-full w-full object-cover"
+              fallbackClass="h-full w-full"
+            />
+          </div>
         </div>
       </section>
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
+import { EditableContent } from "@/components/EditableContent";
 
 export const metadata: Metadata = {
   title: "Premium Photography | Davies Imaging Group",
@@ -67,12 +68,20 @@ export default function PremiumPage() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Premium Photography</Eyebrow>
-            <h1 className="text-text-light">
-              Full-service photography for builders who demand the <strong>best</strong>.
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              Slow, methodical, full-setup photography for model homes, amenity spaces, and lifestyle shoots. DIG&apos;s signature service across 28 markets nationwide.
-            </p>
+            <EditableContent
+              slotId="services-premium-hero"
+              fields={[
+                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Full-service photography for builders who demand the <strong>best</strong>." },
+                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Slow, methodical, full-setup photography for model homes, amenity spaces, and lifestyle shoots. DIG's signature service across 28 markets nationwide." },
+              ]}
+            >
+              {(v) => (
+                <>
+                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
+                  <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+                </>
+              )}
+            </EditableContent>
             <div className="mt-10 flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-8">
               <Link
                 href="/contact"

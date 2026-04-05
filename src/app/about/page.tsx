@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { EditableContent } from "@/components/EditableContent";
+import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
   title: "About Us | Davies Imaging Group",
@@ -39,13 +41,28 @@ export default function AboutPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>About DIG</Eyebrow>
-            <h1 className="text-text-light">
-              We don&apos;t just capture homes. We help builders <strong>win</strong>.
-            </h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              Davies Imaging Group was built inside the homebuilding industry, not outside of it. That distinction changes everything about how we work.
-            </p>
+            <EditableContent
+              slotId="about-main-hero"
+              fields={[
+                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "We don't just capture homes. We help builders <strong>win</strong>." },
+                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Davies Imaging Group was built inside the homebuilding industry, not outside of it. That distinction changes everything about how we work." },
+              ]}
+            >
+              {(v) => (
+                <>
+                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
+                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+                </>
+              )}
+            </EditableContent>
           </RevealOnScroll>
+          <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
+            <DynamicImage
+              slotId="about-main-hero-img"
+              className="h-full w-full object-cover"
+              fallbackClass="h-full w-full"
+            />
+          </div>
         </div>
       </section>
 

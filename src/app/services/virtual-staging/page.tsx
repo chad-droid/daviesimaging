@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { ModelMatchDemo } from "@/components/ModelMatchDemo";
+import { EditableContent } from "@/components/EditableContent";
 
 export const metadata: Metadata = {
   title: "Virtual Staging | Davies Imaging Group",
@@ -60,12 +61,20 @@ export default function VirtualStagingPage() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Virtual Staging</Eyebrow>
-            <h1 className="text-text-light">
-              Staging that looks like your community. Because <strong>it is</strong>.
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              DIG virtual staging uses your builder&apos;s own model home photography as the design reference. Every staged image is branded and on-spec, not a generic template.
-            </p>
+            <EditableContent
+              slotId="services-virtual-staging-hero"
+              fields={[
+                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Staging that looks like your community. Because <strong>it is</strong>." },
+                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "DIG virtual staging uses your builder's own model home photography as the design reference. Every staged image is branded and on-spec, not a generic template." },
+              ]}
+            >
+              {(v) => (
+                <>
+                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
+                  <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+                </>
+              )}
+            </EditableContent>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="https://desk.daviesimaging.com"

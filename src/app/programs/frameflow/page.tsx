@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
+import { EditableContent } from "@/components/EditableContent";
 
 export const metadata: Metadata = {
   title: "FrameFlow | Davies Imaging Group",
@@ -41,12 +42,20 @@ export default function FrameFlowPage() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Programs / FrameFlow Studio</Eyebrow>
-            <h1 className="text-text-light">
-              Virtual staging and video. <strong>No shoot required</strong>.
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              FrameFlow Studio is the digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer.
-            </p>
+            <EditableContent
+              slotId="programs-frameflow-hero"
+              fields={[
+                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Virtual staging and video. <strong>No shoot required</strong>." },
+                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "FrameFlow Studio is the digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer." },
+              ]}
+            >
+              {(v) => (
+                <>
+                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
+                  <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+                </>
+              )}
+            </EditableContent>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="https://desk.daviesimaging.com"

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
+import { EditableContent } from "@/components/EditableContent";
 
 export const metadata: Metadata = {
   title: "Regional Partnerships | Davies Imaging Group",
@@ -51,12 +52,20 @@ export default function RegionalPartnershipsPage() {
         <div className="mx-auto max-w-4xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Programs / Regional Partnerships</Eyebrow>
-            <h1 className="text-text-light">
-              One partner, every <strong>market</strong>.
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              DIG&apos;s regional partnership model gives national and regional builders a single point of contact for photography, staging, and video across all four U.S. regions. Volume pricing. Dedicated capacity. Brand consistency enforced.
-            </p>
+            <EditableContent
+              slotId="programs-regional-partnerships-hero"
+              fields={[
+                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "One partner, every <strong>market</strong>." },
+                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "DIG's regional partnership model gives national and regional builders a single point of contact for photography, staging, and video across all four U.S. regions. Volume pricing. Dedicated capacity. Brand consistency enforced." },
+              ]}
+            >
+              {(v) => (
+                <>
+                  <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
+                  <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+                </>
+              )}
+            </EditableContent>
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
                 href="/contact"
