@@ -61,7 +61,7 @@ export default function FaqPage() {
               <p className="mx-auto mt-4 max-w-md text-text-body">
                 If your question is not covered above, reach out directly. We respond quickly and are happy to walk through anything before you order.
               </p>
-              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
                 <Link
                   href="/contact"
                   className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"

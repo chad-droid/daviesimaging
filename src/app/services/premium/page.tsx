@@ -65,7 +65,7 @@ export default function PremiumPage() {
     <>
       {/* Hero */}
       <section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Solutions / Premium Photography</Eyebrow>
             <EditableContent
@@ -78,11 +78,11 @@ export default function PremiumPage() {
               {(v) => (
                 <>
                   <h1 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+                  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
                 </>
               )}
             </EditableContent>
-            <div className="mt-10 flex flex-col items-center gap-5 sm:flex-row sm:justify-center sm:gap-8">
+            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:gap-8">
               <Link
                 href="/contact"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"

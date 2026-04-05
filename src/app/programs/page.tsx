@@ -48,7 +48,7 @@ export default function ProgramsIndex() {
     <>
       {/* Hero */}
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Programs</Eyebrow>
             <h1 className="text-text-light">How builders <strong>purchase</strong>.</h1>

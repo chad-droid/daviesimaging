@@ -34,11 +34,11 @@ export default function MarketsIndex() {
     <>
       {/* Hero */}
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Markets</Eyebrow>
             <h1 className="text-text-light">Who DIG <strong>serves</strong>.</h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+            <p className="mt-5 max-w-xl text-lg text-text-muted">
               Three ways to find the right fit: by what you build, who you are, or where you operate. Every page is written for your specific situation.
             </p>
           </RevealOnScroll>

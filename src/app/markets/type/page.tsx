@@ -51,13 +51,13 @@ export default function ByTypePage() {
     <>
       {/* Hero */}
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Markets / By Type</Eyebrow>
             <h1 className="text-text-light">
               Every builder type has a different <strong>need</strong>.
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+            <p className="mt-5 max-w-xl text-lg text-text-muted">
               Detached, attached, luxury, BTR, or multifamily. We build asset strategies tailored to how you operate and what your buyers actually need to see.
             </p>
           </RevealOnScroll>

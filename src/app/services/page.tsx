@@ -91,7 +91,7 @@ export default function ServicesIndex() {
     <>
       {/* Hero */}
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Services</Eyebrow>
             <h1 className="text-text-light">How DIG does the <strong>work</strong>.</h1>

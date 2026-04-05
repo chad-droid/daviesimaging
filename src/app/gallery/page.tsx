@@ -37,13 +37,13 @@ export default function WorkPage() {
     <>
       {/* Hero */}
       <section className="min-h-[55vh] bg-bg-dark py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Gallery</Eyebrow>
             <h1 className="text-text-light">
               Assets built to move <strong>homes</strong>.
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mt-6 max-w-2xl text-lg text-text-muted">
               Browse the full DIG portfolio across every category. Photography, staging, and video built for homebuilder marketing teams that need results, not just visuals.
             </p>
           </RevealOnScroll>
