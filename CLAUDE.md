@@ -124,33 +124,33 @@ The `Eyebrow` component detects a "Parent / Child" pattern and renders with visu
 
 ### Page Hero Sections
 
-**Centered heroes** (service, program, about, markets pages):
+**ALL heroes are LEFT-JUSTIFIED.** No centered heroes anywhere on the site. This was a firm decision made April 2026 — do not re-introduce `text-center`, `mx-auto` on subheads, or `justify-center` on CTA rows in hero sections under any circumstances.
+
+**Standard hero container:**
 ```tsx
-<div className="mx-auto max-w-4xl px-6 text-center">
-  <Eyebrow dark>Parent / Page Name</Eyebrow>
-  <h1 className="text-text-light">Headline with <strong>bold word</strong>.</h1>
-  <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-    Subhead copy.
-  </p>
-  {/* CTAs centered */}
-  <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-    ...
+<section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
+  <div className="mx-auto max-w-4xl px-6">
+    <RevealOnScroll>
+      <Eyebrow dark>Parent / Page Name</Eyebrow>
+      <EditableHero
+        slotId="page-slug-hero"
+        headlineDefault="Headline with <strong>bold word</strong>."
+        subheadDefault="Subhead copy as plain text."
+      />
+      <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+        <Link href="/contact" className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white ...">
+          Primary CTA
+        </Link>
+        <Link href="..." className="text-sm font-medium text-text-muted ...">
+          Secondary link &rarr;
+        </Link>
+      </div>
+    </RevealOnScroll>
   </div>
-</div>
+</section>
 ```
 
-**Left-justified heroes** (gallery pages only — editorial/curatorial feel):
-```tsx
-<div className="mx-auto max-w-4xl px-6">
-  <Eyebrow dark>Gallery / Page Name</Eyebrow>
-  <h1 className="text-text-light">Headline with <strong>bold word</strong>.</h1>
-  <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-    Subhead copy. NO mx-auto here.
-  </p>
-</div>
-```
-
-**Hero subhead standard:** Always `text-xl leading-relaxed` — never `text-lg`, never Cormorant italic `lead-text`. The italic serif subhead is invisible on photo/dark backgrounds.
+**Hero subhead standard:** Always `text-xl leading-relaxed text-text-muted` with `max-w-2xl` — never `text-lg`, never `mx-auto`, never Cormorant italic `lead-text`.
 
 **Hero background:** Always `bg-bg-dark` with `text-text-light`. Hero sections are never white/light.
 
@@ -238,6 +238,159 @@ Each shoot type gets its own card with a link to the relevant gallery page.
 Geo-targeted ad landing pages live at `/lp/[market-slug]` (e.g. `/lp/phoenix-az`). These are outside the main nav and designed for paid traffic. They should not appear in the site navigation.
 
 **Phoenix, AZ page:** Push listing photography services and ModelMatch virtual staging. Conversion goal is contact form / strategy call.
+
+---
+
+### Eyebrow Naming Conventions (resolved)
+
+These are the exact eyebrow strings to use on each page. Do not deviate.
+
+| Page | Eyebrow string | dark prop |
+|---|---|---|
+| `/about` | `About / Why We Exist` | yes |
+| `/about/how-we-do-it` | `About / How We Do It` | yes |
+| `/markets/role` | `About / Who We Help` | yes |
+| `/markets/region` | `About / Our Markets` | no (light bg) |
+| `/markets/type` | `About / Builder Types` | yes |
+| `/gallery/models` | `Gallery / Models` | yes |
+| `/gallery/listings` | `Gallery / Listings` | yes |
+| `/gallery/amenities` | `Gallery / Amenities` | yes |
+| `/gallery/lifestyle` | `Gallery / Lifestyle` | yes |
+| `/services/premium` | `Solutions / Premium Photography` | yes |
+| `/services/listing` | `Solutions / Listing Photography` | yes |
+| `/services/video-production` | `Solutions / Video Production` | yes |
+| `/services/virtual-staging` | `Solutions / Virtual Staging` | yes |
+| `/services/virtual-video` | `Solutions / Virtual Video` | yes |
+| `/services/matterport` | `Solutions / Matterport` | yes |
+| `/programs/frameflow` | `Programs / FrameFlow Studio` | yes |
+| `/programs/spec-plus` | `Programs / Spec+` | yes |
+| `/programs/digdesk` | `Programs / digDesk` | yes |
+| `/programs/regional-partnerships` | `Programs / Regional Partnerships` | yes |
+
+**Note:** The nav label is "Solutions" but the top-level section is `src/app/services/`. Eyebrows use "Solutions" (the user-facing label), not "Services" (the directory name).
+
+---
+
+### Product and Feature Naming (resolved)
+
+Consistent capitalization and formatting across all copy and UI:
+
+| Name | Correct format | Notes |
+|---|---|---|
+| digDesk | `digDesk` | lowercase "d", capital "D" — never "DigDesk" or "Digdesk" |
+| FrameFlow Studio | `FrameFlow Studio` | two words, both capitalized — never "Frameflow" |
+| ModelMatch | `ModelMatch` | one word, camel case — never "Model Match" |
+| Spec+ | `Spec+` | capital S, plus sign — never "Spec Plus" or "spec+" |
+| DIG | `DIG` | always all-caps — never "Dig" |
+| Davies Imaging Group | full name on first reference per page, then "DIG" |
+
+**No em dashes** anywhere in copy or UI. Use commas, colons, or line breaks instead.
+
+---
+
+## Architectural Decisions
+
+These are resolved engineering decisions. Do not change the pattern without explicit instruction.
+
+---
+
+### Server / Client Component Boundary
+
+Next.js App Router enforces a hard rule: **functions cannot be passed from Server Components to Client Components**. Only serializable values (strings, numbers, plain objects, arrays) can cross the boundary.
+
+**Problem this caused:** The agent-generated `EditableContent` hero pattern used a render prop (`children` as a function), which broke prerendering on all 16 pages that had `export const metadata`.
+
+**Resolved pattern — `EditableHero` wrapper:**
+
+```tsx
+// src/components/EditableHero.tsx — "use client"
+// Contains the render function client-side.
+// Server Component pages import this and pass only plain strings.
+
+<EditableHero
+  slotId="page-slug-hero"
+  headlineDefault="Headline with <strong>bold</strong>."
+  subheadDefault="Plain text subhead."
+/>
+```
+
+**Rule:** Any component that uses a render prop or passes a function as a prop MUST be a Client Component and must be wrapped so that Server Component pages only pass serializable props. Never add render props directly to components used from Server Component pages.
+
+**Admin editing components and their correct usage:**
+
+| Component | Type | Usage |
+|---|---|---|
+| `EditableContent` | `"use client"` | Used directly in Client Component pages, or wrapped |
+| `EditableHero` | `"use client"` | Wrapper for hero sections — safe from Server Components |
+| `DynamicImage` | `"use client"` | Safe to import from Server Components (props are serializable) |
+| `AdminSiteOverlay` | `"use client"` | Mounted once in root layout |
+
+---
+
+### Admin Editing System
+
+Two separate systems for admin editing:
+
+**1. Text editing (`EditableContent` / `EditableHero`)**
+- Slot-based. Each editable section has a unique `slotId`.
+- Content stored in Neon Postgres via `/api/site-content`.
+- Admin sees edit UI when logged in via `sessionStorage` key `dig-admin-auth`.
+- Hero sections use `EditableHero` (Server Component safe).
+- Other sections can use `EditableContent` directly if the page is a Client Component.
+
+**2. Image editing (`DynamicImage` + `AdminSiteOverlay`)**
+- Each image slot has a unique `slotId` via `data-slot` attribute.
+- `AdminSiteOverlay` (mounted in root layout) detects clicks on `[data-slot]` elements when admin mode is enabled.
+- Images stored in Neon Postgres `site_assets` table, files in Vercel Blob.
+- Slot naming convention: `{page-prefix}-{description}` e.g. `services-premium-hero-img`
+
+**Slot ID naming convention:**
+- Hero text: `{section}-{page}-hero` (e.g. `services-premium-hero`)
+- Hero image: `{section}-{page}-hero-img`
+- Content images: `{section}-{page}-{description}-img`
+
+---
+
+### Commit and Deploy Protocol
+
+**Every change must be committed and pushed immediately after being made.** Do not batch uncommitted changes. The TEST branch auto-deploys to Vercel on every push — the user is reviewing the live TEST URL, not local files.
+
+Workflow:
+1. Make edit
+2. `git add [file]`
+3. `git commit -m "..."`
+4. `git push origin TEST`
+
+Never leave changes sitting uncommitted while asking the user to check the site.
+
+---
+
+### Directory Structure (current — do not rename without updating all references)
+
+```
+src/app/
+  gallery/          # Was "work/", then "results/" — now "gallery/" — FINAL
+    models/         # Was "model-homes/" — FINAL slug
+    listings/       # Was "spec-homes/" — FINAL slug
+    amenities/
+    lifestyle/
+  services/         # Directory name. Nav label = "Solutions". Eyebrow = "Solutions / X"
+  programs/         # Was "offerings/" — FINAL
+    frameflow/
+    spec-plus/
+    digdesk/
+    regional-partnerships/
+  markets/
+    role/           # Eyebrow: "About / Who We Help"
+    region/         # Eyebrow: "About / Our Markets"
+    type/           # Eyebrow: "About / Builder Types"
+  about/
+    how-we-do-it/
+  lp/               # Geo-targeted landing pages — NOT in nav
+    phoenix-az/     # Pending build
+```
+
+**When renaming any slug:** Update (1) the directory, (2) all internal links via grep, (3) Nav.tsx, (4) Footer.tsx, (5) this file.
 
 ---
 
