@@ -14,12 +14,12 @@ export default function ByRegionPage() {
     <section className="min-h-screen bg-bg-surface py-24">
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
-          <div className="text-center">
-            <Eyebrow>Markets / By Region</Eyebrow>
+          <div>
+            <Eyebrow>About / Our Markets</Eyebrow>
             <h1>
               One standard across every <strong>market</strong>.
             </h1>
-            <p className="mt-5 text-text-body">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-body">
               28 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.
             </p>
           </div>
