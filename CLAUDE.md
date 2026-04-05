@@ -39,6 +39,7 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 - Gallery curation — admin tool built, actual image ingestion from Dropbox pending
 - Phoenix, AZ geo-targeted landing page (listing + ModelMatch virtual staging, for paid ad campaigns)
 - Resources and Education section
+- digDojo photography training platform (see full spec below)
 
 ### Do Not Touch
 - Webflow DIG 2025 (`68596ef61365cb1c678a0e7f`) — live production at `daviesimaging.com`
@@ -391,6 +392,127 @@ src/app/
 ```
 
 **When renaming any slug:** Update (1) the directory, (2) all internal links via grep, (3) Nav.tsx, (4) Footer.tsx, (5) this file.
+
+---
+
+## digDojo — Photography Training Platform
+
+### Overview
+
+digDojo is DIG's free photography training platform. It serves as both an educational resource and a photographer acquisition funnel. The brand name is **digDojo** — one word, lowercase "d", capital "D" and "J".
+
+**Goals:**
+1. Train DIG's own field photographers on builder photography standards
+2. Attract homebuilder marketing teams who want to improve in-house photography
+3. Acquire new photographers into DIG's network
+4. Position DIG as a thought leader in builder photography
+
+---
+
+### URLs
+
+| Surface | URL |
+|---|---|
+| Main site entry point | `daviesimaging.com/education` |
+| Dedicated subdomain | `dojo.daviesimaging.com` |
+
+Both URLs should resolve to the same content. The subdomain is for direct traffic and ad campaigns targeting photographers.
+
+---
+
+### Access Model
+
+| Content tier | Who sees it | Auth required |
+|---|---|---|
+| Module previews / teasers | Anyone | None |
+| Full module content | Registered digDojo users | digDojo account (free) |
+| digDojo bonus content | digDojo registered users | digDojo account |
+| digDesk integration | Existing DIG clients | digDesk login (shared auth) |
+
+**Registration is free.** No payment, no trial. Email + name to create an account.
+
+**digDesk logins work on digDojo.** Existing DIG clients should be able to log into digDojo with their digDesk credentials. This requires shared auth against the same Neon DB — users table needs a `dojo_access` flag or role field. Do NOT build two separate user tables. Extend the existing users table.
+
+---
+
+### CMS
+
+Sanity — same project as the blog (`5xi4v6mr`, dataset `production`). Add a new document type `dojoModule` to the Sanity schema. Do not create a separate Sanity project.
+
+**`dojoModule` schema fields:**
+
+| Field | Type | Notes |
+|---|---|---|
+| `title` | string | Module title |
+| `slug` | slug | URL slug |
+| `moduleNumber` | number | 1-6, controls sort order |
+| `category` | string (enum) | `gear`, `camera-setup`, `photography`, `video`, `editing-photo`, `editing-video` |
+| `excerpt` | text | Short description for index card |
+| `coverImage` | image | Card thumbnail |
+| `isFree` | boolean | If true, full content visible without login. If false, gated. |
+| `body` | Portable Text | Full lesson content — supports H2-H4, bold, italic, images with captions, callout blocks |
+| `exampleImages` | array of images | Gallery of example photos for this module |
+| `publishedAt` | datetime | Sort + display |
+
+---
+
+### The 6 Modules
+
+| # | Title | Slug | Category | Notes |
+|---|---|---|---|---|
+| 1 | Picking a Camera | `picking-a-camera` | `gear` | Gear recommendations for different budget levels. What DIG photographers use. |
+| 2 | Setting Up Your Camera | `setting-up-your-camera` | `camera-setup` | Settings, modes, exposure triangle, white balance for interiors. |
+| 3 | Builder Photography 101 | `builder-photography-101` | `photography` | Shooting model homes, spec homes, room compositions, lighting, HDR basics. |
+| 4 | Builder Video 101 | `builder-video-101` | `video` | Basic walkthrough video, stabilization, frame rates, builder-specific techniques. |
+| 5 | Editing Photos | `editing-photos` | `editing-photo` | Lightroom workflow, HDR merge, color grading for interiors. |
+| 6 | Editing Videos | `editing-videos` | `editing-video` | Basic video editing for walkthroughs. Premiere / DaVinci basics. |
+
+---
+
+### Site Structure
+
+```
+/education                          # digDojo index — module cards, registration CTA
+/education/[slug]                   # Individual module page
+/education/login                    # digDojo login (accepts digDesk credentials too)
+/education/register                 # Free registration form
+/education/account                  # User dashboard (progress, saved modules)
+```
+
+---
+
+### Auth Architecture
+
+- digDojo users stored in existing Neon DB — add `dojo_users` table or extend existing `users` table with `dojo_access boolean default true`
+- digDesk users: check existing `users` table first — if found, grant dojo access without re-registration
+- Session: JWT stored in cookie (not sessionStorage — needs to persist across dojo.daviesimaging.com subdomain)
+- Registration flow: email + name + password → verify email → full access
+- Login flow: email + password → check `users` table → if digDesk user, grant access → set cookie
+
+**Cookie domain:** Set to `.daviesimaging.com` so the same session works on both `daviesimaging.com/education` and `dojo.daviesimaging.com`.
+
+---
+
+### Content Format (Phase 1 — written guides)
+
+Each module page:
+1. Hero with module number, title, cover image
+2. What you'll learn (3-4 bullet points)
+3. Body content via Sanity Portable Text (written guide)
+4. Example photo gallery (DIG shoot examples)
+5. Key takeaways
+6. Next module CTA
+
+Video content is Phase 2 — placeholder sections in the schema now, populate later.
+
+---
+
+### Photographer Acquisition Hook
+
+At the bottom of every module, after the content:
+- "Shoot for DIG" CTA — links to `/careers` or a dedicated photographer application form
+- Copy: "Ready to put these skills to work? DIG is always looking for photographers in our 28 markets."
+- This is the primary acquisition mechanism — people who complete the training are warm leads
 
 ---
 
