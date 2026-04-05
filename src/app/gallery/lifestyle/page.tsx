@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 };
 
 const otherWork = [
-  { label: "Model Homes", href: "/gallery/model-homes" },
+  { label: "Model Homes", href: "/gallery/models" },
   { label: "Amenities", href: "/gallery/amenities" },
-  { label: "Spec Homes", href: "/gallery/spec-homes" },
+  { label: "Spec Homes", href: "/gallery/listings" },
 ];
 
 export default function LifestylePage() {

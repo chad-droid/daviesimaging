@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const categories = [
   {
     title: "Model Homes",
-    href: "/gallery/model-homes",
+    href: "/gallery/models",
     description: "Furnished interiors, architectural detail, and finished spaces. DIG&apos;s highest-craft output.",
   },
   {
@@ -22,7 +22,7 @@ const categories = [
   },
   {
     title: "Spec Homes",
-    href: "/gallery/spec-homes",
+    href: "/gallery/listings",
     description: "Move-in ready homes. Listing photography, virtual staging, and virtual video output.",
   },
   {

@@ -25,9 +25,9 @@ const navGroups: NavGroup[] = [
     label: "Gallery",
     basePath: "/gallery",
     items: [
-      { label: "Model Homes", href: "/gallery/model-homes", description: "Furnished interiors and architectural detail" },
+      { label: "Models", href: "/gallery/models", description: "Furnished interiors and architectural detail" },
       { label: "Amenities", href: "/gallery/amenities", description: "Clubhouses, pools, and community spaces" },
-      { label: "Spec Homes", href: "/gallery/spec-homes", description: "Listing photography and virtual staging" },
+      { label: "Listings", href: "/gallery/listings", description: "Listing photography and virtual staging" },
       { label: "Lifestyle", href: "/gallery/lifestyle", description: "People, community, and brand storytelling" },
     ],
   },

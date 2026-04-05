@@ -15,7 +15,7 @@ const shootTypes = [
     number: "01",
     title: "Model Home Photography",
     detail: "Room-by-room coverage of furnished interiors, architectural detail, twilight exteriors, and detail and finish work. Planned in advance, executed at launch, delivered as a complete publish-ready package.",
-    gallery: { label: "See Model Home Work", href: "/gallery/model-homes" },
+    gallery: { label: "See Model Home Work", href: "/gallery/models" },
   },
   {
     number: "02",
@@ -55,7 +55,7 @@ const useCases = [
 ];
 
 const galleryLinks = [
-  { label: "Model Homes", href: "/gallery/model-homes" },
+  { label: "Model Homes", href: "/gallery/models" },
   { label: "Amenities", href: "/gallery/amenities" },
   { label: "Lifestyle", href: "/gallery/lifestyle" },
 ];

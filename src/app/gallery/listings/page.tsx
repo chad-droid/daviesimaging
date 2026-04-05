@@ -7,29 +7,29 @@ import { EditableContent } from "@/components/EditableContent";
 import { DynamicImage } from "@/components/DynamicImage";
 
 export const metadata: Metadata = {
-  title: "Model Homes | Davies Imaging Group",
-  description: "Full-service model home photography across markets nationwide. Lifestyle, staging, and architectural visuals built to sell.",
+  title: "Spec Homes | Davies Imaging Group",
+  description: "Fast-turn photography, virtual staging, and virtual video for spec homes and standing inventory. Built to move homes faster.",
 };
 
 const otherWork = [
+  { label: "Model Homes", href: "/gallery/models" },
   { label: "Amenities", href: "/gallery/amenities" },
-  { label: "Spec Homes", href: "/gallery/spec-homes" },
   { label: "Lifestyle", href: "/gallery/lifestyle" },
 ];
 
-export default function ModelHomesPage() {
+export default function SpecHomesPage() {
   return (
     <>
       {/* Hero */}
       <section className="bg-bg-dark py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Gallery / Model Homes</Eyebrow>
+            <Eyebrow dark>Gallery / Spec Homes</Eyebrow>
             <EditableContent
-              slotId="gallery-model-homes-hero"
+              slotId="gallery-spec-homes-hero"
               fields={[
-                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Model home photography built to <strong>earn attention</strong>." },
-                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package." },
+                { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Standing inventory needs to move. <strong>This is what that looks like</strong>." },
+                { key: "subhead", label: "Subhead", type: "textarea" as const, defaultValue: "Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete." },
               ]}
             >
               {(v) => (
@@ -42,7 +42,7 @@ export default function ModelHomesPage() {
           </RevealOnScroll>
           <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
             <DynamicImage
-              slotId="gallery-model-homes-hero-img"
+              slotId="gallery-spec-homes-hero-img"
               className="h-full w-full object-cover"
               fallbackClass="h-full w-full"
             />
@@ -55,7 +55,7 @@ export default function ModelHomesPage() {
         <div className="mx-auto max-w-7xl px-6">
           <RevealOnScroll>
             <DynamicGallery
-              pageSlug="/gallery/model-homes"
+              pageSlug="/gallery/listings"
               heading=""
               description=""
             />
@@ -69,17 +69,17 @@ export default function ModelHomesPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>Premium Photography</Eyebrow>
+                <Eyebrow>Spec+ Output</Eyebrow>
                 <h2 className="mt-3">
-                  What goes into a <strong>model home shoot</strong>.
+                  What a <strong>Spec+ delivery</strong> looks like.
                 </h2>
               </div>
               <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
-                  Every model home shoot starts before the photographer arrives. Pre-shoot planning covers room-by-room angles, exterior timing, and lifestyle staging context so the day runs efficiently and nothing gets missed.
+                  Every image and video in this gallery came from a Spec+ order: listing photography, virtually staged interiors, and a digital video walkthrough, all delivered in one package within 72 hours of the shoot.
                 </p>
                 <p>
-                  On-site, DIG captures architectural detail, interior spaces, twilight exteriors, and lifestyle moments. Post-production handles retouching, sky replacement, and color correction. The result is a complete asset package ready for your website, paid ads, email, and sales center, delivered within the agreed window.
+                  The virtual staging uses ModelMatch, which means the furniture and finishes are pulled from your builder&apos;s own model home photography. Every staged room looks like it belongs to your community, not a generic staging catalog. That specificity is what makes these images perform on MLS, paid ads, and your website.
                 </p>
               </div>
             </div>
@@ -87,29 +87,29 @@ export default function ModelHomesPage() {
         </div>
       </section>
 
-      {/* CTA section */}
+      {/* Spec+ CTA */}
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Premium Photography</Eyebrow>
+            <Eyebrow dark>Spec+</Eyebrow>
             <h2 className="text-text-light">
-              Your model home deserves photography that <strong>earns attention</strong>.
+              One order. Listing photo, staging, and video <strong>delivered</strong>.
             </h2>
             <p className="mt-5 text-text-muted">
-              DIG Premium delivers full-service lifestyle and model home photography, from pre-shoot planning to final asset delivery. 28 markets, one standard.
+              $600 flat. 72 hours after the shoot. Stop managing multiple vendors and start moving homes faster.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/services/premium"
+                href="/programs/spec-plus"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Explore Premium Photography
+                See Spec+ Details
               </Link>
               <Link
                 href="/contact"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
-                Book a strategy call &rarr;
+                Talk to someone first &rarr;
               </Link>
             </div>
           </RevealOnScroll>

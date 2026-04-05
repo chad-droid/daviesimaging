@@ -7,9 +7,9 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const footerLinks = {
   Gallery: [
-    { label: "Model Homes", href: "/gallery/model-homes" },
+    { label: "Model Homes", href: "/gallery/models" },
     { label: "Amenities", href: "/gallery/amenities" },
-    { label: "Spec Homes", href: "/gallery/spec-homes" },
+    { label: "Spec Homes", href: "/gallery/listings" },
     { label: "Lifestyle", href: "/gallery/lifestyle" },
   ],
   Solutions: [

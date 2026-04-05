@@ -13,14 +13,14 @@ const types = [
     title: "Detached",
     description: "Single-family production and custom homes. Photography, staging, and video for every price point. Spec+ is the primary tool for standing inventory. Premium for model home launches.",
     services: ["Premium Photo", "Listing Photo", "Spec+"],
-    href: "/gallery/model-homes",
+    href: "/gallery/models",
     cta: "See model home work",
   },
   {
     title: "Attached",
     description: "Townhomes and duplexes. Consistent asset packages across high-volume attached communities where every unit looks as good as the last. Virtual staging is especially effective for showing unit variations without multiple shoots.",
     services: ["Listing Photo", "Virtual Staging", "Virtual Video"],
-    href: "/gallery/spec-homes",
+    href: "/gallery/listings",
     cta: "See spec home work",
   },
   {

@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 };
 
 const otherWork = [
-  { label: "Model Homes", href: "/gallery/model-homes" },
-  { label: "Spec Homes", href: "/gallery/spec-homes" },
+  { label: "Model Homes", href: "/gallery/models" },
+  { label: "Spec Homes", href: "/gallery/listings" },
   { label: "Lifestyle", href: "/gallery/lifestyle" },
 ];
 

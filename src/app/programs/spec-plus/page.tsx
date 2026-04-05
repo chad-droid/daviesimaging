@@ -247,7 +247,7 @@ export default function SpecPlusPage() {
                 Order via digDesk
               </a>
               <Link
-                href="/gallery/spec-homes"
+                href="/gallery/listings"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 See Spec+ results &rarr;
