@@ -262,11 +262,37 @@ export function ServiceExplorer() {
           ))}
         </motion.div>
 
-        {/* Content panel */}
-        <div className="mt-10 min-h-[420px]">
+        {/* Content panel with side-arrow navigation */}
+        <div className="relative mt-10 min-h-[420px] lg:px-14">
+
+          {/* ← Prev arrow */}
+          <button
+            onClick={() => setActive((a) => Math.max(0, a - 1))}
+            disabled={active === 0}
+            className="absolute left-0 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border-light bg-bg-surface shadow-sm transition-all hover:border-text-muted hover:shadow-md disabled:opacity-20 disabled:cursor-default lg:flex"
+            aria-label="Previous service"
+          >
+            <svg viewBox="0 0 16 16" className="h-4 w-4 text-text-body" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M10 3L5 8l5 5" />
+            </svg>
+          </button>
+
           <AnimatePresence mode="wait">
             <TabPanel key={active} tabIndex={active} tabStatic={TAB_STATIC[active]} />
           </AnimatePresence>
+
+          {/* → Next arrow */}
+          <button
+            onClick={() => setActive((a) => Math.min(TAB_STATIC.length - 1, a + 1))}
+            disabled={active === TAB_STATIC.length - 1}
+            className="absolute right-0 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border-light bg-bg-surface shadow-sm transition-all hover:border-text-muted hover:shadow-md disabled:opacity-20 disabled:cursor-default lg:flex"
+            aria-label="Next service"
+          >
+            <svg viewBox="0 0 16 16" className="h-4 w-4 text-text-body" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 3l5 5-5 5" />
+            </svg>
+          </button>
+
         </div>
 
         {/* Dot indicators */}

@@ -275,7 +275,7 @@ function FeaturedStatCell() {
 
   const DEFAULTS = {
     value: "600", prefix: "$", suffix: "",
-    label: "Complete Package", sublabel: "Photography, staging, and video",
+    label: "Spec+ Complete Package", sublabel: "Photo + virtual staging + virtual video",
   };
 
   const fields = [
@@ -293,7 +293,16 @@ function FeaturedStatCell() {
     <div className="relative flex h-full flex-col px-8 py-10">
       {editOverlay}
 
-      {/* Package breakdown fills the top */}
+      {/* Spec+ attribution — anchors everything in this cell */}
+      <div className="mb-6 flex items-center gap-2.5">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1 ring-1 ring-inset ring-accent/25">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+          <span className="text-[10px] font-bold uppercase tracking-widest text-accent">Spec+ Bundle</span>
+        </span>
+        <span className="text-[10px] text-text-muted">All home sizes</span>
+      </div>
+
+      {/* Package breakdown */}
       <div className="flex-1 flex flex-col justify-center">
         <PackageBreakdown animate={active} />
       </div>
@@ -354,9 +363,14 @@ function FeaturedStatCell() {
 export function StatsStrip() {
   return (
     <section className="bg-bg-dark py-20">
-      <p className="mb-14 text-center text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
-        Best Value in Homebuilding
-      </p>
+      <div className="mb-14 text-center">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
+          Best Value in Homebuilding
+        </p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-text-muted/60">
+          The Spec+ bundle combines photography, virtual staging, and virtual video into one flat-rate order — not a la carte pricing.
+        </p>
+      </div>
 
       <div className="mx-auto max-w-5xl px-6">
         {/* Bordered grid container — gap-px creates hairline dividers */}
