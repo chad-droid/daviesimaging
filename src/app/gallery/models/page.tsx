@@ -5,6 +5,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableHeroMedia } from "@/components/EditableHeroMedia";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Model Homes | Davies Imaging Group",
@@ -55,9 +56,11 @@ export default function ModelHomesPage() {
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>Premium Photography</Eyebrow>
-                <h2 className="mt-3">
-                  What goes into a <strong>model home shoot</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="gallery-models-context"
+                  headlineDefault="What goes into a <strong>model home shoot</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -77,12 +80,12 @@ export default function ModelHomesPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Premium Photography</Eyebrow>
-            <h2 className="text-text-light">
-              Your model home deserves photography that <strong>earns attention</strong>.
-            </h2>
-            <p className="mt-5 text-text-muted">
-              DIG Premium delivers full-service lifestyle and model home photography, from pre-shoot planning to final asset delivery. 28 markets, one standard.
-            </p>
+            <EditableTextContent
+              slotId="gallery-models-cta"
+              headlineDefault="Your model home deserves photography that <strong>earns attention</strong>."
+              bodyDefault="DIG Premium delivers full-service lifestyle and model home photography, from pre-shoot planning to final asset delivery. 28 markets, one standard."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/services/premium"

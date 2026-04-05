@@ -5,6 +5,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableHeroMedia } from "@/components/EditableHeroMedia";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Lifestyle | Davies Imaging Group",
@@ -55,9 +56,11 @@ export default function LifestylePage() {
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>Photo + Video</Eyebrow>
-                <h2 className="mt-3">
-                  Lifestyle covers both <strong>photo and video</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="gallery-lifestyle-context"
+                  headlineDefault="Lifestyle covers both <strong>photo and video</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -77,12 +80,12 @@ export default function LifestylePage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Lifestyle and Video</Eyebrow>
-            <h2 className="text-text-light">
-              DIG Premium includes lifestyle photography. DIG Video Production captures the full community <strong>story on film</strong>.
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Both are delivered to your marketing team, ready to deploy across website, paid media, email, and sales center.
-            </p>
+            <EditableTextContent
+              slotId="gallery-lifestyle-cta"
+              headlineDefault="DIG Premium includes lifestyle photography. DIG Video Production captures the full community <strong>story on film</strong>."
+              bodyDefault="Both are delivered to your marketing team, ready to deploy across website, paid media, email, and sales center."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/services/video-production"

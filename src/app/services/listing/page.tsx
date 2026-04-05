@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Listing Photography | Davies Imaging Group",
@@ -56,12 +57,11 @@ export default function ListingPhotoPage() {
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
                 <Eyebrow>What You Get</Eyebrow>
-                <h2>
-                  Every listing, same <strong>standard</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  Whether it&apos;s the first home in a community or the fiftieth, DIG listing photography delivers brand-consistent visuals that perform across every channel.
-                </p>
+                <EditableTextContent
+                  slotId="services-listing-what-you-get"
+                  headlineDefault="Every listing, same <strong>standard</strong>."
+                  bodyDefault="Whether it's the first home in a community or the fiftieth, DIG listing photography delivers brand-consistent visuals that perform across every channel."
+                />
                 <ul className="mt-6 space-y-2.5">
                   {deliverables.map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-text-body">
@@ -107,12 +107,11 @@ export default function ListingPhotoPage() {
                     Recommended
                   </div>
                   <Eyebrow>Spec+ Bundle</Eyebrow>
-                  <h2 className="mt-3">
-                    Add staging and video for <strong>one flat price</strong>.
-                  </h2>
-                  <p className="mt-4 text-text-body">
-                    Spec+ combines listing photography, 8 ModelMatch-staged images, and a virtual video walkthrough into a single order. Everything your spec home needs to compete, delivered within 72 hours of the shoot.
-                  </p>
+                  <EditableTextContent
+                    slotId="services-listing-spec-upsell"
+                    headlineDefault="Add staging and video for <strong>one flat price</strong>."
+                    bodyDefault="Spec+ combines listing photography, 8 ModelMatch-staged images, and a virtual video walkthrough into a single order. Everything your spec home needs to compete, delivered within 72 hours of the shoot."
+                  />
                   <ul className="mt-5 space-y-2">
                     {[
                       "Listing photography included",
@@ -153,9 +152,12 @@ export default function ListingPhotoPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Book a Shoot</Eyebrow>
-            <h2 className="text-text-light">
-              Ready to get your listings <strong>photography-ready</strong>?
-            </h2>
+            <EditableTextContent
+              slotId="services-listing-cta"
+              headlineDefault="Ready to get your listings <strong>photography-ready</strong>?"
+              bodyDefault=""
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"

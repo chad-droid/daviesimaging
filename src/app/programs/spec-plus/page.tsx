@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { SpecFaq } from "@/components/SpecFaq";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Spec+ | Davies Imaging Group",
@@ -93,12 +94,11 @@ export default function SpecPlusPage() {
             <div className="grid gap-12 lg:grid-cols-2">
               <div>
                 <Eyebrow>Package Contents</Eyebrow>
-                <h2>
-                  Everything your listing needs. <strong>Nothing it doesn&apos;t</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  Spec+ was built for one purpose: get standing inventory listed, marketed, and sold faster. Every element in the package earns its place.
-                </p>
+                <EditableTextContent
+                  slotId="programs-spec-plus-package"
+                  headlineDefault="Everything your listing needs. <strong>Nothing it doesn't</strong>."
+                  bodyDefault="Spec+ was built for one purpose: get standing inventory listed, marketed, and sold faster. Every element in the package earns its place."
+                />
                 <ul className="mt-8 space-y-4">
                   {included.map((item) => (
                     <li key={item.label} className="flex items-start gap-3">
@@ -143,9 +143,11 @@ export default function SpecPlusPage() {
           <RevealOnScroll>
             <div className="text-center">
               <Eyebrow>How It Works</Eyebrow>
-              <h2>
-                Order today. Assets in <strong>72 hours</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="programs-spec-plus-how-it-works"
+                headlineDefault="Order today. Assets in <strong>72 hours</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="mt-14 grid gap-8 sm:grid-cols-3">
               {steps.map((step) => (
@@ -168,12 +170,12 @@ export default function SpecPlusPage() {
               <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
                 <div>
                   <Eyebrow>ModelMatch Virtual Staging</Eyebrow>
-                  <h3>
-                    Not generic furniture. <strong>Your builder&apos;s design palette</strong>.
-                  </h3>
-                  <p className="mt-4 text-text-body">
-                    Spec+ virtual staging uses your model home photography as the design reference. The result looks branded and on-spec, because it is. No mismatched styles, no generic staging templates.
-                  </p>
+                  <EditableTextContent
+                    slotId="programs-spec-plus-modelmatch"
+                    headlineDefault="Not generic furniture. <strong>Your builder's design palette</strong>."
+                    bodyDefault="Spec+ virtual staging uses your model home photography as the design reference. The result looks branded and on-spec, because it is. No mismatched styles, no generic staging templates."
+                    headingLevel="h3"
+                  />
                   <Link
                     href="/services/virtual-staging"
                     className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
@@ -208,9 +210,11 @@ export default function SpecPlusPage() {
           <RevealOnScroll>
             <div className="mb-10 text-center">
               <Eyebrow>Common Questions</Eyebrow>
-              <h2>
-                Everything you need to <strong>know before ordering</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="programs-spec-plus-faq"
+                headlineDefault="Everything you need to <strong>know before ordering</strong>."
+                bodyDefault=""
+              />
             </div>
             <SpecFaq />
           </RevealOnScroll>
@@ -222,12 +226,12 @@ export default function SpecPlusPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Ready to Order</Eyebrow>
-            <h2 className="text-text-light">
-              $600. 72 hours. <strong>Move faster</strong>.
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Stop managing vendors. Stop waiting on turnarounds. Order Spec+ through digDesk and get photography, staging, and video in one coordinated delivery.
-            </p>
+            <EditableTextContent
+              slotId="programs-spec-plus-cta"
+              headlineDefault="$600. 72 hours. <strong>Move faster</strong>."
+              bodyDefault="Stop managing vendors. Stop waiting on turnarounds. Order Spec+ through digDesk and get photography, staging, and video in one coordinated delivery."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="https://desk.daviesimaging.com"

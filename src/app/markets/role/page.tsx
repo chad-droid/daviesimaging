@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Markets by Role | Davies Imaging Group",
@@ -98,10 +99,11 @@ export default function ByRolePage() {
           <RevealOnScroll>
             <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
               <Eyebrow>Scale</Eyebrow>
-              <h2 className="mt-2">Need coverage across multiple <strong>markets</strong>?</h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
-                DIG&apos;s Regional Partnerships program gives national builders one partner, volume pricing, and consistent quality across every region.
-              </p>
+              <EditableTextContent
+                slotId="markets-role-scale"
+                headlineDefault="Need coverage across multiple <strong>markets</strong>?"
+                bodyDefault="DIG's Regional Partnerships program gives national builders one partner, volume pricing, and consistent quality across every region."
+              />
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
                   href="/programs/regional-partnerships"

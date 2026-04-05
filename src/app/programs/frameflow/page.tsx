@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "FrameFlow | Davies Imaging Group",
@@ -73,12 +74,11 @@ export default function FrameFlowPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>What FrameFlow Does</Eyebrow>
-              <h2>
-                Digital production from <strong>photos you already have</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
-                FrameFlow Studio handles two things: virtual staging and virtual video. Both are digital services that work from existing photography. No new shoot required.
-              </p>
+              <EditableTextContent
+                slotId="programs-frameflow-what-it-does"
+                headlineDefault="Digital production from <strong>photos you already have</strong>."
+                bodyDefault="FrameFlow Studio handles two things: virtual staging and virtual video. Both are digital services that work from existing photography. No new shoot required."
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {capabilities.map((s) => (
@@ -118,12 +118,11 @@ export default function FrameFlowPage() {
               </div>
               <div>
                 <Eyebrow>Inside digDesk</Eyebrow>
-                <h2>
-                  FrameFlow Studio lives <strong>inside your digDesk portal</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  digDesk is the DIG client portal. FrameFlow Studio is one of its modules, dedicated to digital production. Log in to digDesk to place FrameFlow orders, track progress, and download assets.
-                </p>
+                <EditableTextContent
+                  slotId="programs-frameflow-inside-digdesk"
+                  headlineDefault="FrameFlow Studio lives <strong>inside your digDesk portal</strong>."
+                  bodyDefault="digDesk is the DIG client portal. FrameFlow Studio is one of its modules, dedicated to digital production. Log in to digDesk to place FrameFlow orders, track progress, and download assets."
+                />
                 <p className="mt-4 text-text-body">
                   Not a digDesk client yet? Book a demo and we&apos;ll set up your account.
                 </p>
@@ -155,9 +154,11 @@ export default function FrameFlowPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>Why It Works</Eyebrow>
-              <h2>
-                Four reasons builders use <strong>FrameFlow Studio</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="programs-frameflow-why"
+                headlineDefault="Four reasons builders use <strong>FrameFlow Studio</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {reasons.map((r, i) => (
@@ -177,12 +178,11 @@ export default function FrameFlowPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>Pricing</Eyebrow>
-              <h2>
-                No subscription. No commitment. <strong>Pay as you go</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
-                digDesk is built for flexibility. Order when you need it, pay per transaction, and scale up when your volume demands it.
-              </p>
+              <EditableTextContent
+                slotId="programs-frameflow-pricing"
+                headlineDefault="No subscription. No commitment. <strong>Pay as you go</strong>."
+                bodyDefault="digDesk is built for flexibility. Order when you need it, pay per transaction, and scale up when your volume demands it."
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-3">
               <div className="rounded-xl border border-border-light bg-bg-surface p-6 text-center">
@@ -243,12 +243,11 @@ export default function FrameFlowPage() {
           <RevealOnScroll>
             <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
               <Eyebrow>FrameFlow + Photography</Eyebrow>
-              <h2>
-                Bundle it with a shoot. <strong>That&apos;s Spec+</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
-                Spec+ combines DIG listing photography with FrameFlow Studio production. One coordinated package, 72-hour delivery, $600 flat. The most efficient way to get standing inventory market-ready.
-              </p>
+              <EditableTextContent
+                slotId="programs-frameflow-spec-plus"
+                headlineDefault="Bundle it with a shoot. <strong>That's Spec+</strong>."
+                bodyDefault="Spec+ combines DIG listing photography with FrameFlow Studio production. One coordinated package, 72-hour delivery, $600 flat. The most efficient way to get standing inventory market-ready."
+              />
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
                   href="/programs/spec-plus"
@@ -272,12 +271,12 @@ export default function FrameFlowPage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <h2 className="text-text-light">
-              Already a digDesk client? <strong>Start a FrameFlow order</strong>.
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Log in to your digDesk portal and open FrameFlow Studio to submit a virtual staging or virtual video order.
-            </p>
+            <EditableTextContent
+              slotId="programs-frameflow-cta"
+              headlineDefault="Already a digDesk client? <strong>Start a FrameFlow order</strong>."
+              bodyDefault="Log in to your digDesk portal and open FrameFlow Studio to submit a virtual staging or virtual video order."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="https://desk.daviesimaging.com"

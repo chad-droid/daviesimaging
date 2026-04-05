@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { ModelMatchDemo } from "@/components/ModelMatchDemo";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Virtual Staging | Davies Imaging Group",
@@ -93,12 +94,11 @@ export default function VirtualStagingPage() {
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
                 <Eyebrow>The ModelMatch Difference</Eyebrow>
-                <h2>
-                  Not furniture swaps. <strong>Brand-matched staging</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  Most virtual staging services drop generic furniture into empty rooms. DIG builds a permanent staging reference library from your actual model home photography. Every staged image reflects your builder&apos;s design identity.
-                </p>
+                <EditableTextContent
+                  slotId="services-virtual-staging-modelmatch"
+                  headlineDefault="Not furniture swaps. <strong>Brand-matched staging</strong>."
+                  bodyDefault="Most virtual staging services drop generic furniture into empty rooms. DIG builds a permanent staging reference library from your actual model home photography. Every staged image reflects your builder's design identity."
+                />
                 <p className="mt-4 text-text-body">
                   The result: staged listings that feel like an extension of your community, not a furniture showroom. Buyers recognize the brand. That recognition builds trust.
                 </p>
@@ -138,12 +138,12 @@ export default function VirtualStagingPage() {
           <RevealOnScroll>
             <div className="mb-14 text-center">
               <Eyebrow dark>How It Works</Eyebrow>
-              <h2 className="text-text-light">
-                Four steps to <strong>on-brand staging</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-muted">
-                ModelMatch is built around your account. Once your reference library is set up, every future order uses it automatically.
-              </p>
+              <EditableTextContent
+                slotId="services-virtual-staging-how-it-works"
+                headlineDefault="Four steps to <strong>on-brand staging</strong>."
+                bodyDefault="ModelMatch is built around your account. Once your reference library is set up, every future order uses it automatically."
+                dark={true}
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {steps.map((step) => (
@@ -164,12 +164,11 @@ export default function VirtualStagingPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>See the Progression</Eyebrow>
-              <h2>
-                Reference. Vacant. <strong>Result</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
-                Each room below shows the three-stage ModelMatch process: source reference images, the vacant listing photo, and the finished staged output. Select a room to explore the difference.
-              </p>
+              <EditableTextContent
+                slotId="services-virtual-staging-progression"
+                headlineDefault="Reference. Vacant. <strong>Result</strong>."
+                bodyDefault="Each room below shows the three-stage ModelMatch process: source reference images, the vacant listing photo, and the finished staged output. Select a room to explore the difference."
+              />
             </div>
           </RevealOnScroll>
           <RevealOnScroll>
@@ -184,9 +183,11 @@ export default function VirtualStagingPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>Why Builders Choose ModelMatch</Eyebrow>
-              <h2>
-                Every listing. <strong>Same brand</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="services-virtual-staging-why"
+                headlineDefault="Every listing. <strong>Same brand</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {differentiators.map((item, i) => (
@@ -206,12 +207,11 @@ export default function VirtualStagingPage() {
           <RevealOnScroll>
             <div className="text-center">
               <Eyebrow>Pricing</Eyebrow>
-              <h2>
-                Standalone or <strong>bundled in Spec+</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
-                Order virtual staging by itself through FrameFlow Studio, or bundle it with listing photography and virtual video inside Spec+ for one flat price.
-              </p>
+              <EditableTextContent
+                slotId="services-virtual-staging-pricing"
+                headlineDefault="Standalone or <strong>bundled in Spec+</strong>."
+                bodyDefault="Order virtual staging by itself through FrameFlow Studio, or bundle it with listing photography and virtual video inside Spec+ for one flat price."
+              />
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border border-border-light p-6">
@@ -254,12 +254,12 @@ export default function VirtualStagingPage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <h2 className="text-text-light">
-              Ready to see ModelMatch <strong>on your listings</strong>?
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Send us a community name and existing model home photography. We&apos;ll show you exactly what ModelMatch staging looks like for your builder before you order.
-            </p>
+            <EditableTextContent
+              slotId="services-virtual-staging-cta"
+              headlineDefault="Ready to see ModelMatch <strong>on your listings</strong>?"
+              bodyDefault="Send us a community name and existing model home photography. We'll show you exactly what ModelMatch staging looks like for your builder before you order."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"

@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Virtual Video | Davies Imaging Group",
@@ -69,12 +70,11 @@ export default function VirtualVideoPage() {
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
                 <Eyebrow>From Photos to Video</Eyebrow>
-                <h2>
-                  Turn stills into buyer <strong>experience</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  Virtual video is DIG&apos;s digital production service for listing and spec home video. We take your existing photography, apply professional motion and transitions, and deliver a finished walkthrough video ready for MLS and social.
-                </p>
+                <EditableTextContent
+                  slotId="services-virtual-video-what-it-is"
+                  headlineDefault="Turn stills into buyer <strong>experience</strong>."
+                  bodyDefault="Virtual video is DIG's digital production service for listing and spec home video. We take your existing photography, apply professional motion and transitions, and deliver a finished walkthrough video ready for MLS and social."
+                />
                 <p className="mt-4 text-text-body">
                   DIG does not create listing video with a real camera crew. Virtual video is the fast, consistent solution for builders who need video on every listing without a full production day for each.
                 </p>
@@ -114,9 +114,11 @@ export default function VirtualVideoPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>Why It Works</Eyebrow>
-              <h2>
-                Fast video for every listing. <strong>No exceptions</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="services-virtual-video-why"
+                headlineDefault="Fast video for every listing. <strong>No exceptions</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {differentiators.map((item, i) => (
@@ -136,12 +138,11 @@ export default function VirtualVideoPage() {
           <RevealOnScroll>
             <div className="text-center">
               <Eyebrow>How to Order</Eyebrow>
-              <h2>
-                Standalone or <strong>bundled in Spec+</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
-                Order virtual video by itself through FrameFlow, or bundle it with listing photography and virtual staging inside a Spec+ package.
-              </p>
+              <EditableTextContent
+                slotId="services-virtual-video-how-to-order"
+                headlineDefault="Standalone or <strong>bundled in Spec+</strong>."
+                bodyDefault="Order virtual video by itself through FrameFlow, or bundle it with listing photography and virtual staging inside a Spec+ package."
+              />
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border border-border-light p-6">
@@ -184,12 +185,12 @@ export default function VirtualVideoPage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <h2 className="text-text-light">
-              Every listing deserves <strong>a video</strong>.
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Create your digDesk account and start ordering virtual video for your inventory today.
-            </p>
+            <EditableTextContent
+              slotId="services-virtual-video-cta"
+              headlineDefault="Every listing deserves <strong>a video</strong>."
+              bodyDefault="Create your digDesk account and start ordering virtual video for your inventory today."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
                 href="https://desk.daviesimaging.com/register"

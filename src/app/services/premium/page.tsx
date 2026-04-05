@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Premium Photography | Davies Imaging Group",
@@ -104,12 +105,11 @@ export default function PremiumPage() {
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
                 <Eyebrow>Signature Service</Eyebrow>
-                <h2>
-                  Every detail, every <strong>angle</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  Premium Photography is DIG&apos;s umbrella for high-craft, full-service shoots. It covers three distinct engagement types: model home photography, amenity photography, and lifestyle photography. Builders order each as a separate shoot, not as a single combined package.
-                </p>
+                <EditableTextContent
+                  slotId="services-premium-signature"
+                  headlineDefault="Every detail, every <strong>angle</strong>."
+                  bodyDefault="Premium Photography is DIG's umbrella for high-craft, full-service shoots. It covers three distinct engagement types: model home photography, amenity photography, and lifestyle photography. Builders order each as a separate shoot, not as a single combined package."
+                />
                 <p className="mt-4 text-text-body">
                   This is not fast-turn listing photography. Every Premium shoot is planned in advance, executed by DIG&apos;s most experienced photographers, and delivered as a complete, publish-ready asset package built for launches, community reveals, and builder brands that need imagery that earns attention everywhere it appears.
                 </p>
@@ -135,12 +135,11 @@ export default function PremiumPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>What You&apos;re Booking</Eyebrow>
-              <h2>
-                Three shoot types. <strong>One standard of quality</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
-                Premium Photography is an umbrella. Builders order model home, amenity, and lifestyle shoots as separate engagements — each scoped and scheduled for its specific subject.
-              </p>
+              <EditableTextContent
+                slotId="services-premium-shoot-types"
+                headlineDefault="Three shoot types. <strong>One standard of quality</strong>."
+                bodyDefault="Premium Photography is an umbrella. Builders order model home, amenity, and lifestyle shoots as separate engagements — each scoped and scheduled for its specific subject."
+              />
             </div>
             <div className="grid gap-6 lg:grid-cols-3">
               {shootTypes.map((type) => (
@@ -167,9 +166,11 @@ export default function PremiumPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>How Builders Use It</Eyebrow>
-              <h2>
-                From model home launches to <strong>community reveals</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="services-premium-use-cases"
+                headlineDefault="From model home launches to <strong>community reveals</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {useCases.map((item) => (
@@ -205,12 +206,11 @@ export default function PremiumPage() {
               {/* Copy */}
               <div>
                 <Eyebrow>Amenity Photography</Eyebrow>
-                <h2>
-                  The amenity is the <strong>differentiator</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  In a competitive market, buyers choose communities as much as they choose floor plans. The pool deck, the clubhouse, the trail system, the fitness center: these are the assets that close the gap between interest and decision.
-                </p>
+                <EditableTextContent
+                  slotId="services-premium-amenities"
+                  headlineDefault="The amenity is the <strong>differentiator</strong>."
+                  bodyDefault="In a competitive market, buyers choose communities as much as they choose floor plans. The pool deck, the clubhouse, the trail system, the fitness center: these are the assets that close the gap between interest and decision."
+                />
                 <p className="mt-4 text-text-body">
                   DIG Premium amenity photography is planned, lit, and executed with the same care as model home interiors. The result is gallery-quality imagery that works across your website, paid social, and sales center displays.
                 </p>
@@ -240,12 +240,11 @@ export default function PremiumPage() {
           <RevealOnScroll>
             <div className="rounded-2xl border border-border-light bg-bg-surface p-8 lg:p-12">
               <Eyebrow>Lifestyle Photography</Eyebrow>
-              <h2 className="mt-3">
-                Buyers buy feelings. <strong>Premium delivers them</strong>.
-              </h2>
-              <p className="mt-4 text-text-body">
-                Lifestyle photography is a primary output of DIG Premium. Talent, styling, and real-moment storytelling that connects buyers emotionally to your community before they ever visit. This is the work that makes your brand stand apart on Instagram, on your website hero, and in the sales center.
-              </p>
+              <EditableTextContent
+                slotId="services-premium-lifestyle"
+                headlineDefault="Buyers buy feelings. <strong>Premium delivers them</strong>."
+                bodyDefault="Lifestyle photography is a primary output of DIG Premium. Talent, styling, and real-moment storytelling that connects buyers emotionally to your community before they ever visit. This is the work that makes your brand stand apart on Instagram, on your website hero, and in the sales center."
+              />
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
                   href="/gallery/lifestyle"
@@ -272,9 +271,12 @@ export default function PremiumPage() {
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow dark>Regional Coverage</Eyebrow>
-                <h2 className="mt-3 text-text-light">
-                  One standard across every <strong>market</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="services-premium-regional"
+                  headlineDefault="One standard across every <strong>market</strong>."
+                  bodyDefault=""
+                  dark={true}
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-muted">
                 <p>
@@ -309,12 +311,12 @@ export default function PremiumPage() {
           <RevealOnScroll>
             <div className="text-center">
               <Eyebrow dark>Browse the Work</Eyebrow>
-              <h2 className="text-text-light">
-                See what Premium looks like <strong>in the field</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-muted">
-                Browse gallery examples across all four Premium output types, then book a call to scope your shoot.
-              </p>
+              <EditableTextContent
+                slotId="services-premium-cta"
+                headlineDefault="See what Premium looks like <strong>in the field</strong>."
+                bodyDefault="Browse gallery examples across all four Premium output types, then book a call to scope your shoot."
+                dark={true}
+              />
               {/* Gallery pill links */}
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                 {galleryLinks.map((g) => (

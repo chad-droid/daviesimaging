@@ -5,6 +5,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableHeroMedia } from "@/components/EditableHeroMedia";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Amenities | Davies Imaging Group",
@@ -55,9 +56,11 @@ export default function AmenitiesPage() {
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>Community Infrastructure</Eyebrow>
-                <h2 className="mt-3">
-                  The amenity is the <strong>differentiator</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="gallery-amenities-context"
+                  headlineDefault="The amenity is the <strong>differentiator</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -77,12 +80,12 @@ export default function AmenitiesPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Book an Amenity Shoot</Eyebrow>
-            <h2 className="text-text-light">
-              Ready to showcase what makes your community <strong>worth choosing</strong>?
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Amenity photography is part of DIG Premium. Coordinate it alongside your model home shoot or book it as a standalone engagement.
-            </p>
+            <EditableTextContent
+              slotId="gallery-amenities-cta"
+              headlineDefault="Ready to showcase what makes your community <strong>worth choosing</strong>?"
+              bodyDefault="Amenity photography is part of DIG Premium. Coordinate it alongside your model home shoot or book it as a standalone engagement."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"

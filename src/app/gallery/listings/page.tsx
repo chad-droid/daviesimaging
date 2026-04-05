@@ -5,6 +5,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableHeroMedia } from "@/components/EditableHeroMedia";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Spec Homes | Davies Imaging Group",
@@ -55,9 +56,11 @@ export default function SpecHomesPage() {
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>Spec+ Output</Eyebrow>
-                <h2 className="mt-3">
-                  What a <strong>Spec+ delivery</strong> looks like.
-                </h2>
+                <EditableTextContent
+                  slotId="gallery-listings-context"
+                  headlineDefault="What a <strong>Spec+ delivery</strong> looks like."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -77,12 +80,12 @@ export default function SpecHomesPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Spec+</Eyebrow>
-            <h2 className="text-text-light">
-              One order. Listing photo, staging, and video <strong>delivered</strong>.
-            </h2>
-            <p className="mt-5 text-text-muted">
-              $600 flat. 72 hours after the shoot. Stop managing multiple vendors and start moving homes faster.
-            </p>
+            <EditableTextContent
+              slotId="gallery-listings-cta"
+              headlineDefault="One order. Listing photo, staging, and video <strong>delivered</strong>."
+              bodyDefault="$600 flat. 72 hours after the shoot. Stop managing multiple vendors and start moving homes faster."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/programs/spec-plus"

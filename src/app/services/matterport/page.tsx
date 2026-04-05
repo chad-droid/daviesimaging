@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Matterport 3D Tours | Davies Imaging Group",
@@ -67,12 +68,11 @@ export default function MatterportPage() {
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
                 <Eyebrow>The Experience</Eyebrow>
-                <h2>
-                  The next best thing to being <strong>there</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  Matterport captures the complete geometry of a space and delivers an interactive 3D model buyers can navigate room by room. It&apos;s the immersive experience that photography alone can&apos;t provide.
-                </p>
+                <EditableTextContent
+                  slotId="services-matterport-experience"
+                  headlineDefault="The next best thing to being <strong>there</strong>."
+                  bodyDefault="Matterport captures the complete geometry of a space and delivers an interactive 3D model buyers can navigate room by room. It's the immersive experience that photography alone can't provide."
+                />
                 <p className="mt-4 text-text-body">
                   Embed it on your website, share it in emails, or display it in your sales center. One scan, multiple deployment channels.
                 </p>
@@ -106,9 +106,11 @@ export default function MatterportPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>How Builders Use It</Eyebrow>
-              <h2>
-                Four ways Matterport earns its <strong>keep</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="services-matterport-use-cases"
+                headlineDefault="Four ways Matterport earns its <strong>keep</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {useCases.map((item, i) => (
@@ -128,12 +130,11 @@ export default function MatterportPage() {
           <RevealOnScroll>
             <div className="rounded-2xl border border-border-light bg-bg-light p-8">
               <Eyebrow>Matterport vs. FrameFlow</Eyebrow>
-              <h2 className="mt-3">
-                Different tools for different <strong>needs</strong>.
-              </h2>
-              <p className="mt-4 text-text-body">
-                Matterport and FrameFlow are not competitors. They serve different purposes, and many builders use both.
-              </p>
+              <EditableTextContent
+                slotId="services-matterport-vs-frameflow"
+                headlineDefault="Different tools for different <strong>needs</strong>."
+                bodyDefault="Matterport and FrameFlow are not competitors. They serve different purposes, and many builders use both."
+              />
               <div className="mt-8 grid gap-6 sm:grid-cols-2">
                 <div>
                   <h4 className="text-sm font-semibold text-text-dark">Matterport</h4>
@@ -162,12 +163,12 @@ export default function MatterportPage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <h2 className="text-text-light">
-              Give remote buyers a reason to <strong>commit</strong>.
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Matterport is custom-quoted based on property size and number of spaces. Start with a strategy call.
-            </p>
+            <EditableTextContent
+              slotId="services-matterport-cta"
+              headlineDefault="Give remote buyers a reason to <strong>commit</strong>."
+              bodyDefault="Matterport is custom-quoted based on property size and number of spaces. Start with a strategy call."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"

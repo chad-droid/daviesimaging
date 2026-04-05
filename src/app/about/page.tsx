@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableHeroMedia } from "@/components/EditableHeroMedia";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "About Us | Davies Imaging Group",
@@ -58,9 +59,11 @@ export default function AboutPage() {
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>Origin</Eyebrow>
-                <h2 className="mt-3">
-                  Founded on a clear <strong>conviction</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="about-origin"
+                  headlineDefault="Founded on a clear <strong>conviction</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -98,9 +101,11 @@ export default function AboutPage() {
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>Perspective</Eyebrow>
-                <h2 className="mt-3">
-                  We understand your world <strong>from the inside</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="about-perspective"
+                  headlineDefault="We understand your world <strong>from the inside</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -121,9 +126,12 @@ export default function AboutPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow dark>Our Approach</Eyebrow>
-              <h2 className="text-text-light">
-                Three things we think about that most photographers <strong>don&apos;t</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="about-approach"
+                headlineDefault="Three things we think about that most photographers <strong>don't</strong>."
+                bodyDefault=""
+                dark={true}
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-3">
               {pillars.map((p, i) => (
@@ -150,9 +158,11 @@ export default function AboutPage() {
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>How We Work</Eyebrow>
-                <h2 className="mt-3">
-                  From alignment to <strong>delivery</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="about-how-we-work"
+                  headlineDefault="From alignment to <strong>delivery</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -180,12 +190,12 @@ export default function AboutPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Let&apos;s Work Together</Eyebrow>
-            <h2 className="text-text-light">
-              Let&apos;s build assets that move <strong>homes</strong>.
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl text-text-muted">
-              If you&apos;re looking for a vendor, there are plenty. If you&apos;re looking for a partner who understands how builder marketing actually works, let&apos;s talk.
-            </p>
+            <EditableTextContent
+              slotId="about-cta"
+              headlineDefault="Let's build assets that move <strong>homes</strong>."
+              bodyDefault="If you're looking for a vendor, there are plenty. If you're looking for a partner who understands how builder marketing actually works, let's talk."
+              dark={true}
+            />
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"

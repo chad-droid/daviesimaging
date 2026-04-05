@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { RegionMap } from "@/components/RegionMap";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Markets by Region | Davies Imaging Group",
@@ -34,10 +35,12 @@ export default function ByRegionPage() {
         <RevealOnScroll>
           <div className="mt-14 rounded-lg border border-border-light bg-bg-light p-8 text-center">
             <Eyebrow>Partnerships</Eyebrow>
-            <h3>One partner across every <strong>region</strong>.</h3>
-            <p className="mt-3 text-text-body">
-              Volume pricing, dedicated capacity, and brand consistency enforced from West to East. Built for builders doing 300+ homes annually.
-            </p>
+            <EditableTextContent
+              slotId="markets-region-partnerships"
+              headlineDefault="One partner across every <strong>region</strong>."
+              bodyDefault="Volume pricing, dedicated capacity, and brand consistency enforced from West to East. Built for builders doing 300+ homes annually."
+              headingLevel="h3"
+            />
             <Link
               href="/programs/regional-partnerships"
               className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"

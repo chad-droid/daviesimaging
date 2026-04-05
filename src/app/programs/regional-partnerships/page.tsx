@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Regional Partnerships | Davies Imaging Group",
@@ -82,9 +83,11 @@ export default function RegionalPartnershipsPage() {
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>Built For Scale</Eyebrow>
-                <h2 className="mt-3">
-                  Volume pricing without quality <strong>compromise</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="programs-regional-partnerships-scale"
+                  headlineDefault="Volume pricing without quality <strong>compromise</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -116,9 +119,11 @@ export default function RegionalPartnershipsPage() {
               </div>
               <div>
                 <Eyebrow>Four Regions</Eyebrow>
-                <h2>
-                  Consistent quality from West to <strong>East</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="programs-regional-partnerships-regions"
+                  headlineDefault="Consistent quality from West to <strong>East</strong>."
+                  bodyDefault=""
+                />
                 <div className="mt-8 space-y-4">
                   {regions.map((r) => (
                     <div key={r.name} className="border-b border-border-light pb-4 last:border-0 last:pb-0">
@@ -147,9 +152,11 @@ export default function RegionalPartnershipsPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>What You Get</Eyebrow>
-              <h2>
-                Six things that change when you partner <strong>at scale</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="programs-regional-partnerships-benefits"
+                headlineDefault="Six things that change when you partner <strong>at scale</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {benefits.map((b, i) => (
@@ -173,9 +180,12 @@ export default function RegionalPartnershipsPage() {
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow dark>FrameFlow Powered</Eyebrow>
-                <h2 className="mt-3 text-text-light">
-                  Centralized ordering across every <strong>region</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="programs-regional-partnerships-frameflow"
+                  headlineDefault="Centralized ordering across every <strong>region</strong>."
+                  bodyDefault=""
+                  dark={true}
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-muted">
                 <p>
@@ -203,12 +213,12 @@ export default function RegionalPartnershipsPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Start the Conversation</Eyebrow>
-            <h2 className="text-text-light">
-              Ready to build a partnership that <strong>scales</strong>?
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl text-text-muted">
-              Regional partnership pricing and structure is negotiated directly with the DIG team. The conversation starts with a strategy call to understand your volume, markets, and brand requirements.
-            </p>
+            <EditableTextContent
+              slotId="programs-regional-partnerships-cta"
+              headlineDefault="Ready to build a partnership that <strong>scales</strong>?"
+              bodyDefault="Regional partnership pricing and structure is negotiated directly with the DIG team. The conversation starts with a strategy call to understand your volume, markets, and brand requirements."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"

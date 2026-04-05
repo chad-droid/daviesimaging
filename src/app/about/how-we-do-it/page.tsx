@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableHeroMedia } from "@/components/EditableHeroMedia";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "How We Do It | Davies Imaging Group",
@@ -61,9 +62,11 @@ export default function HowWeDoItPage() {
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>The Problem</Eyebrow>
-                <h2 className="mt-3">
-                  One person cannot carry the whole <strong>weight</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="about-how-we-do-it-problem"
+                  headlineDefault="One person cannot carry the whole <strong>weight</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -88,9 +91,11 @@ export default function HowWeDoItPage() {
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>The Answer</Eyebrow>
-                <h2 className="mt-3">
-                  Specialization at <strong>every level</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="about-how-we-do-it-answer"
+                  headlineDefault="Specialization at <strong>every level</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -114,12 +119,12 @@ export default function HowWeDoItPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow dark>The Team</Eyebrow>
-              <h2 className="text-text-light">
-                Four disciplines. <strong>One roof</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-muted">
-                Photography, editing, virtual staging, and video production are separate disciplines staffed by separate specialists.
-              </p>
+              <EditableTextContent
+                slotId="about-how-we-do-it-team"
+                headlineDefault="Four disciplines. <strong>One roof</strong>."
+                bodyDefault="Photography, editing, virtual staging, and video production are separate disciplines staffed by separate specialists."
+                dark={true}
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {specialists.map((s, i) => (
@@ -148,9 +153,11 @@ export default function HowWeDoItPage() {
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
                 <Eyebrow>Your Advantage</Eyebrow>
-                <h2 className="mt-3">
-                  One team. Every <strong>specialty</strong>.
-                </h2>
+                <EditableTextContent
+                  slotId="about-how-we-do-it-advantage"
+                  headlineDefault="One team. Every <strong>specialty</strong>."
+                  bodyDefault=""
+                />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
@@ -190,9 +197,12 @@ export default function HowWeDoItPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow dark>Home Building Experts</Eyebrow>
-            <h2 className="mt-4 text-text-light">
-              We understand your standards. We know your expectations. <strong>We help you raise the bar.</strong>
-            </h2>
+            <EditableTextContent
+              slotId="about-how-we-do-it-cta"
+              headlineDefault="We understand your standards. We know your expectations. <strong>We help you raise the bar.</strong>"
+              bodyDefault=""
+              dark={true}
+            />
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"

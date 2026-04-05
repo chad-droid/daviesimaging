@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "digDesk | Davies Imaging Group",
@@ -100,12 +101,11 @@ export default function DigDeskPage() {
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
                 <Eyebrow>The DIG Client Portal</Eyebrow>
-                <h2>
-                  Every DIG service. <strong>One dashboard</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  digDesk replaces the back-and-forth of email-based ordering. From your portal, you can place new orders, upload shoot details, choose your ModelMatch reference gallery, track production, and download finished assets — all without a single email to your account team.
-                </p>
+                <EditableTextContent
+                  slotId="programs-digdesk-portal"
+                  headlineDefault="Every DIG service. <strong>One dashboard</strong>."
+                  bodyDefault="digDesk replaces the back-and-forth of email-based ordering. From your portal, you can place new orders, upload shoot details, choose your ModelMatch reference gallery, track production, and download finished assets — all without a single email to your account team."
+                />
                 <p className="mt-4 text-text-body">
                   Every order type DIG offers runs through digDesk. Listing photography, virtual staging, virtual video, Spec+ bundles, and Premium photography requests all start and finish in the same place.
                 </p>
@@ -213,12 +213,12 @@ export default function DigDeskPage() {
           <RevealOnScroll>
             <div className="mb-14 text-center">
               <Eyebrow dark>What's Inside</Eyebrow>
-              <h2 className="text-text-light">
-                Four modules. <strong>Every DIG service covered</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-muted">
-                digDesk is organized around the services your team actually uses. Each module has its own ordering flow, tracking view, and delivery destination.
-              </p>
+              <EditableTextContent
+                slotId="programs-digdesk-modules"
+                headlineDefault="Four modules. <strong>Every DIG service covered</strong>."
+                bodyDefault="digDesk is organized around the services your team actually uses. Each module has its own ordering flow, tracking view, and delivery destination."
+                dark={true}
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {modules.map((m) => (
@@ -245,9 +245,11 @@ export default function DigDeskPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>Why It Matters</Eyebrow>
-              <h2>
-                Less coordination. <strong>More velocity</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="programs-digdesk-why"
+                headlineDefault="Less coordination. <strong>More velocity</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {reasons.map((r, i) => (
@@ -268,12 +270,12 @@ export default function DigDeskPage() {
             <div className="grid gap-10 lg:grid-cols-2">
               <div className="rounded-xl border border-border-light bg-bg-surface p-8">
                 <Eyebrow>Existing DIG Clients</Eyebrow>
-                <h3 className="mt-3">
-                  Already working <strong>with DIG</strong>?
-                </h3>
-                <p className="mt-3 text-text-body text-sm leading-relaxed">
-                  If your team already orders photography or digital services through DIG, your digDesk account is either active or ready to be set up. Log in with your existing credentials or reach out and we will get your account activated.
-                </p>
+                <EditableTextContent
+                  slotId="programs-digdesk-existing-clients"
+                  headlineDefault="Already working <strong>with DIG</strong>?"
+                  bodyDefault="If your team already orders photography or digital services through DIG, your digDesk account is either active or ready to be set up. Log in with your existing credentials or reach out and we will get your account activated."
+                  headingLevel="h3"
+                />
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <a
                     href="https://desk.daviesimaging.com"
@@ -293,12 +295,12 @@ export default function DigDeskPage() {
               </div>
               <div className="rounded-xl border border-border-light bg-bg-surface p-8">
                 <Eyebrow>New to DIG</Eyebrow>
-                <h3 className="mt-3">
-                  Ready to get <strong>started</strong>?
-                </h3>
-                <p className="mt-3 text-text-body text-sm leading-relaxed">
-                  New accounts are reviewed by our team and activated within one business day. Start with a 15-minute demo to see digDesk in action, or submit your account request directly and start ordering right away.
-                </p>
+                <EditableTextContent
+                  slotId="programs-digdesk-new-clients"
+                  headlineDefault="Ready to get <strong>started</strong>?"
+                  bodyDefault="New accounts are reviewed by our team and activated within one business day. Start with a 15-minute demo to see digDesk in action, or submit your account request directly and start ordering right away."
+                  headingLevel="h3"
+                />
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <Link
                     href="/get-started"
@@ -323,12 +325,12 @@ export default function DigDeskPage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <h2 className="text-text-light">
-              The portal your marketing team <strong>has been missing</strong>.
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Order photography, virtual staging, and video. Track every job. Download every asset. All from one place built specifically for homebuilder marketing teams.
-            </p>
+            <EditableTextContent
+              slotId="programs-digdesk-cta"
+              headlineDefault="The portal your marketing team <strong>has been missing</strong>."
+              bodyDefault="Order photography, virtual staging, and video. Track every job. Download every asset. All from one place built specifically for homebuilder marketing teams."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/get-started"

@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
+import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   title: "Video Production | Davies Imaging Group",
@@ -67,12 +68,11 @@ export default function VideoProductionPage() {
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
                 <Eyebrow>Premium Video</Eyebrow>
-                <h2>
-                  One shoot. Every <strong>platform</strong>.
-                </h2>
-                <p className="mt-4 text-text-body">
-                  DIG video production delivers assets formatted for website hero loops, social media cuts, email embeds, and sales center displays. One production day, multiple outputs across every channel your team uses.
-                </p>
+                <EditableTextContent
+                  slotId="services-video-production-what-it-is"
+                  headlineDefault="One shoot. Every <strong>platform</strong>."
+                  bodyDefault="DIG video production delivers assets formatted for website hero loops, social media cuts, email embeds, and sales center displays. One production day, multiple outputs across every channel your team uses."
+                />
                 <p className="mt-4 text-text-body">
                   This is DIG&apos;s full-crew, high-craft video service. For fast-turn listing video without a crew, see virtual video.
                 </p>
@@ -112,9 +112,11 @@ export default function VideoProductionPage() {
           <RevealOnScroll>
             <div className="mb-12 text-center">
               <Eyebrow>Use Cases</Eyebrow>
-              <h2>
-                Four ways builders use <strong>DIG video</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="services-video-production-use-cases"
+                headlineDefault="Four ways builders use <strong>DIG video</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {useCases.map((item, i) => (
@@ -137,9 +139,11 @@ export default function VideoProductionPage() {
           <RevealOnScroll>
             <div className="text-center">
               <Eyebrow>Which Video Is Right?</Eyebrow>
-              <h2>
-                Know which service <strong>fits your need</strong>.
-              </h2>
+              <EditableTextContent
+                slotId="services-video-production-which-video"
+                headlineDefault="Know which service <strong>fits your need</strong>."
+                bodyDefault=""
+              />
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border-2 border-accent p-6">
@@ -168,12 +172,12 @@ export default function VideoProductionPage() {
       <section className="bg-bg-dark py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <h2 className="text-text-light">
-              Ready to build video that <strong>earns attention</strong>?
-            </h2>
-            <p className="mt-5 text-text-muted">
-              Video production is custom-quoted based on scope, location, and deliverables. Start with a strategy call.
-            </p>
+            <EditableTextContent
+              slotId="services-video-production-cta"
+              headlineDefault="Ready to build video that <strong>earns attention</strong>?"
+              bodyDefault="Video production is custom-quoted based on scope, location, and deliverables. Start with a strategy call."
+              dark={true}
+            />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"
