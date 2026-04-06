@@ -51,7 +51,6 @@ function LogoItem({ name, file, h, maxW }: LogoEntry) {
         alt={name}
         style={{ height: h, maxWidth: maxW, width: "auto" }}
         className="object-contain grayscale opacity-50 transition-all duration-300 hover:grayscale-0 hover:opacity-90"
-        loading="lazy"
       />
     </div>
   );
