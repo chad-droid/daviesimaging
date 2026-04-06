@@ -44,7 +44,7 @@ export default function MatterportPage() {
               headlineDefault="Let buyers walk through before they <strong>visit</strong>."
               subheadDefault="Matterport 3D virtual tours give buyers an immersive, room-by-room experience of your model homes. Built for remote buyers, sales centers, and digital campaigns."
             />
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/contact"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"

@@ -44,7 +44,7 @@ export default function VirtualVideoPage() {
               headlineDefault="Listing video without the <strong>crew</strong>."
               subheadDefault="DIG virtual video transforms existing photography into smooth, cinematic walkthroughs. No shoot day, no scheduling overhead, fast delivery through FrameFlow."
             />
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href="https://desk.daviesimaging.com"
                 target="_blank"

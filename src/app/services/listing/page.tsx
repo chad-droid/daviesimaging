@@ -33,7 +33,7 @@ export default function ListingPhotoPage() {
               headlineDefault="Photography built for homes that need to <strong>move</strong>."
               subheadDefault="Fast turnaround, consistent quality, and assets ready to deploy across MLS, website, email, and paid channels. Built for spec homes and standing inventory."
             />
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/programs/spec-plus"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"

@@ -44,7 +44,7 @@ export default function VideoProductionPage() {
               headlineDefault="Video that moves buyers to <strong>action</strong>."
               subheadDefault="On-site, crew-based video production for community walkthroughs, lifestyle campaigns, and builder brand films. DIG's highest-craft video output."
             />
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/contact"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
