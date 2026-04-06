@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { AdminNav } from "./AdminNav";
 
 // sessionStorage key — used by useEditableSlot to gate edit UI.
 // The actual password never touches the client. Validation happens server-side
@@ -79,5 +80,10 @@ export function AdminAuth({ children }: { children: React.ReactNode }) {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <AdminNav />
+      {children}
+    </>
+  );
 }

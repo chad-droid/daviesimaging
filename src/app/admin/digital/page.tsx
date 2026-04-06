@@ -168,7 +168,7 @@ export default function AdminDigitalPage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div>
             <h1 className="text-lg font-semibold text-[#F5F5F5]" style={{ fontSize: "1.125rem" }}>
-              DIG Digital Transactions
+              Digital Pipeline
             </h1>
             <p className="text-xs text-[#A8A2D0]">
               {stats.total || 0} transactions | {saving ? "saving..." : `${stats.approved || 0} approved, ${stats.imported || 0} imported`}
@@ -183,12 +183,6 @@ export default function AdminDigitalPage() {
             <button onClick={syncFromZoho} disabled={syncing} className="rounded-full border border-[#4CAF50] px-4 py-2 text-xs font-semibold text-[#4CAF50] transition-colors hover:bg-[#4CAF50] hover:text-white disabled:opacity-50">
               {syncing ? "Syncing..." : "Pull from Zoho"}
             </button>
-            <a href="/admin/assets" className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]">
-              Deals
-            </a>
-            <a href="/admin/media" className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]">
-              Media Library
-            </a>
           </div>
         </div>
         {syncResult && (

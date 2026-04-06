@@ -328,7 +328,7 @@ export default function AdminAssetsPage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div>
             <h1 className="text-lg font-semibold text-[#F5F5F5]" style={{ fontSize: "1.125rem" }}>
-              DIG Asset Manager
+              Deal Pipeline
             </h1>
             <p className="text-xs text-[#A8A2D0]">
               {stats.total || 0} deals | {saving ? "saving..." : `${stats.approved || 0} approved, ${stats.imported || 0} imported`}
@@ -347,18 +347,6 @@ export default function AdminAssetsPage() {
             >
               {syncing ? "Syncing..." : "Pull from Zoho"}
             </button>
-            <a
-              href="/admin/digital"
-              className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
-            >
-              Digital
-            </a>
-            <a
-              href="/admin/media"
-              className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
-            >
-              Media Library
-            </a>
           </div>
         </div>
         {syncResult && (

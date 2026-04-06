@@ -380,9 +380,6 @@ export default function AdminMediaPage() {
             </p>
           </div>
           <div className="flex gap-2">
-            <a href="/admin/assets" className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]">
-              Asset Manager
-            </a>
             <button onClick={() => setShowUpload(!showUpload)} className="rounded-full bg-[#6A5ACD] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5]">
               {showUpload ? "Close Upload" : "Upload Images"}
             </button>
