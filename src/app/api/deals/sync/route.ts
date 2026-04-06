@@ -99,7 +99,8 @@ export async function POST() {
     let updatedCount = 0;
 
     for (const zd of zohodeals) {
-      // Only include deals with client-facing assets or matterport or youtube
+      // Only include Closed Won deals with client-facing assets
+      if (zd.Stage !== "Closed Won") continue;
       const hasAssets =
         zd.Finished_Assets_Client ||
         zd.Matterport_Links ||
@@ -140,7 +141,7 @@ export async function POST() {
         `;
         newCount++;
       } else {
-        // Update existing deal data (but preserve status and imported flags)
+        // Update existing deal data (preserve status and imported flags)
         await sql`
           UPDATE deals SET
             name = ${zd.Deal_Name},
@@ -159,6 +160,21 @@ export async function POST() {
         `;
         updatedCount++;
       }
+    }
+
+    // Auto-archive any previously-synced Zoho deals whose stage is no longer Closed Won
+    // (deals that were in the DB but not present in this sync's Closed Won set)
+    const syncedIds = zohodeals
+      .filter((zd) => zd.Stage === "Closed Won")
+      .map((zd) => `zcrm_${zd.id}`);
+    if (syncedIds.length > 0) {
+      await sql.query(
+        `UPDATE deals SET status = 'archived', updated_at = NOW()
+         WHERE id LIKE 'zcrm_%'
+           AND status = 'pending'
+           AND id NOT IN (${syncedIds.map((_, i) => `$${i + 1}`).join(",")})`,
+        syncedIds,
+      );
     }
 
     // Log sync

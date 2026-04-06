@@ -136,15 +136,10 @@ export async function setupDatabase() {
   return { success: true };
 }
 
-// ── Deal exclusion filter ──
-// Excludes Closed Lost, FF Target, FF Cold Promotion, Trial, Promotion, FF DRH
+// ── Deal filter ──
+// Only show Closed Won deals from Zoho, plus manually created deals (source = 'manual')
 const EXCLUSION_CLAUSE = `
-  AND stage != 'Closed Lost'
-  AND name NOT LIKE '%FF Target%'
-  AND name NOT LIKE '%FF Cold Promotion%'
-  AND name NOT LIKE '%Trial%'
-  AND name NOT LIKE '%Promotion%'
-  AND name NOT LIKE '%FF DRH%'
+  AND (stage = 'Closed Won' OR source = 'manual')
 `;
 
 // ── Deal queries ──
@@ -231,12 +226,7 @@ export async function getDealStats() {
       COUNT(*) FILTER (WHERE status = 'pending') as pending,
       COUNT(*) FILTER (WHERE imported = true) as imported
     FROM deals
-    WHERE stage != 'Closed Lost'
-      AND name NOT LIKE '%FF Target%'
-      AND name NOT LIKE '%FF Cold Promotion%'
-      AND name NOT LIKE '%Trial%'
-      AND name NOT LIKE '%Promotion%'
-      AND name NOT LIKE '%FF DRH%'
+    WHERE (stage = 'Closed Won' OR source = 'manual')
   `;
   return result.rows[0];
 }
@@ -249,7 +239,7 @@ export async function getLastSync() {
 }
 
 export async function getUniqueValues() {
-  const excludeClause = `stage != 'Closed Lost' AND name NOT LIKE '%FF Target%' AND name NOT LIKE '%FF Cold Promotion%' AND name NOT LIKE '%Trial%' AND name NOT LIKE '%Promotion%' AND name NOT LIKE '%FF DRH%'`;
+  const excludeClause = `(stage = 'Closed Won' OR source = 'manual')`;
   const builders = await sql.query(`SELECT DISTINCT builder FROM deals WHERE builder IS NOT NULL AND ${excludeClause} ORDER BY builder`);
   const states = await sql.query(`SELECT DISTINCT state FROM deals WHERE state IS NOT NULL AND ${excludeClause} ORDER BY state`);
   const pipelines = await sql.query(`SELECT DISTINCT pipeline FROM deals WHERE pipeline IS NOT NULL AND ${excludeClause} ORDER BY pipeline`);
