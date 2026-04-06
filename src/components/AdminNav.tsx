@@ -29,7 +29,7 @@ export function AdminNav() {
   const pathname = usePathname();
 
   return (
-    <div className="sticky top-0 z-50 border-b border-[#2C2C2C] bg-[#0a0a0a]">
+    <div className="sticky top-16 z-[39] border-b border-[#2C2C2C] bg-[#0a0a0a]">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2">
         {/* Logo / back link */}
         <a
