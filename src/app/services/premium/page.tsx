@@ -75,7 +75,7 @@ export default function PremiumPage() {
               headlineDefault="Full-service photography for builders who demand the <strong>best</strong>."
               subheadDefault="Slow, methodical, full-setup photography for model homes, amenity spaces, and lifestyle shoots. DIG's signature service across 28 markets nationwide."
             />
-            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:gap-8">
+            <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
               <Link
                 href="/contact"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
