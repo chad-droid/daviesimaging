@@ -50,26 +50,14 @@ export default function SpecHomesPage() {
 
       {/* Context section */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-3xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
-              <div className="pt-1">
-                <Eyebrow>Spec+ Output</Eyebrow>
-                <EditableTextContent
-                  slotId="gallery-listings-context"
-                  headlineDefault="What a <strong>Spec+ delivery</strong> looks like."
-                  bodyDefault=""
-                />
-              </div>
-              <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
-                <p>
-                  Every image and video in this gallery came from a Spec+ order: listing photography, virtually staged interiors, and a digital video walkthrough, all delivered in one package within 72 hours of the shoot.
-                </p>
-                <p>
-                  The virtual staging uses ModelMatch, which means the furniture and finishes are pulled from your builder&apos;s own model home photography. Every staged room looks like it belongs to your community, not a generic staging catalog. That specificity is what makes these images perform on MLS, paid ads, and your website.
-                </p>
-              </div>
-            </div>
+            <EditableTextContent
+              slotId="gallery-listings-context"
+              eyebrowDefault="Spec+ Output"
+              headlineDefault="What a <strong>Spec+ delivery</strong> looks like."
+              bodyDefault="Every image and video in this gallery came from a Spec+ order: listing photography, virtually staged interiors, and a digital video walkthrough, all delivered in one package within 72 hours of the shoot.<br><br>The virtual staging uses ModelMatch, which means the furniture and finishes are pulled from your builder's own model home photography. Every staged room looks like it belongs to your community, not a generic staging catalog. That specificity is what makes these images perform on MLS, paid ads, and your website."
+            />
           </RevealOnScroll>
         </div>
       </section>

@@ -50,26 +50,14 @@ export default function LifestylePage() {
 
       {/* Context section */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-3xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
-              <div className="pt-1">
-                <Eyebrow>Photo + Video</Eyebrow>
-                <EditableTextContent
-                  slotId="gallery-lifestyle-context"
-                  headlineDefault="Lifestyle covers both <strong>photo and video</strong>."
-                  bodyDefault=""
-                />
-              </div>
-              <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
-                <p>
-                  Lifestyle is a primary output of two DIG services: Premium photography and Video Production. Both appear in this gallery because both serve the same purpose: connecting buyers emotionally to a community before a physical visit ever happens.
-                </p>
-                <p>
-                  Lifestyle shoots involve talent, styling, and real-moment direction. The goal is not staged perfection. It is authentic energy that communicates what it actually feels like to live in a home. That distinction is what makes lifestyle content outperform architecture-only photography in paid media and website conversion.
-                </p>
-              </div>
-            </div>
+            <EditableTextContent
+              slotId="gallery-lifestyle-context"
+              eyebrowDefault="Photo + Video"
+              headlineDefault="Lifestyle covers both <strong>photo and video</strong>."
+              bodyDefault="Lifestyle is a primary output of two DIG services: Premium photography and Video Production. Both appear in this gallery because both serve the same purpose: connecting buyers emotionally to a community before a physical visit ever happens.<br><br>Lifestyle shoots involve talent, styling, and real-moment direction. The goal is not staged perfection. It is authentic energy that communicates what it actually feels like to live in a home. That distinction is what makes lifestyle content outperform architecture-only photography in paid media and website conversion."
+            />
           </RevealOnScroll>
         </div>
       </section>

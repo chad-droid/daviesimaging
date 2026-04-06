@@ -50,26 +50,14 @@ export default function AmenitiesPage() {
 
       {/* Context section */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-3xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
-              <div className="pt-1">
-                <Eyebrow>Perception Drives Value</Eyebrow>
-                <EditableTextContent
-                  slotId="gallery-amenities-context"
-                  headlineDefault="Value is established before the <strong>first visit</strong>."
-                  bodyDefault=""
-                />
-              </div>
-              <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
-                <p>
-                  Perceived value is established before a buyer ever steps on site. What they see online sets the tone, defining what feels premium, considered, and worth pursuing.
-                </p>
-                <p>
-                  DIG captures your amenities as high-impact visual assets, crafted to elevate perception, create excitement, and position your community as the clear choice early in the process.
-                </p>
-              </div>
-            </div>
+            <EditableTextContent
+              slotId="gallery-amenities-context"
+              eyebrowDefault="Perception Drives Value"
+              headlineDefault="Value is established before the <strong>first visit</strong>."
+              bodyDefault="Perceived value is established before a buyer ever steps on site. What they see online sets the tone, defining what feels premium, considered, and worth pursuing.<br><br>DIG captures your amenities as high-impact visual assets, crafted to elevate perception, create excitement, and position your community as the clear choice early in the process."
+            />
           </RevealOnScroll>
         </div>
       </section>

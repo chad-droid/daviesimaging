@@ -50,26 +50,14 @@ export default function ModelHomesPage() {
 
       {/* Context section */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-3xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
-              <div className="pt-1">
-                <Eyebrow>Premium Photography</Eyebrow>
-                <EditableTextContent
-                  slotId="gallery-models-context"
-                  headlineDefault="What goes into a <strong>model home shoot</strong>."
-                  bodyDefault=""
-                />
-              </div>
-              <div className="space-y-4 text-[1.0625rem] leading-relaxed text-text-body">
-                <p>
-                  Every model home shoot starts before the photographer arrives. Pre-shoot planning covers room-by-room angles, exterior timing, and lifestyle staging context so the day runs efficiently and nothing gets missed.
-                </p>
-                <p>
-                  On-site, DIG captures architectural detail, interior spaces, twilight exteriors, and lifestyle moments. Post-production handles retouching, sky replacement, and color correction. The result is a complete asset package ready for your website, paid ads, email, and sales center, delivered within the agreed window.
-                </p>
-              </div>
-            </div>
+            <EditableTextContent
+              slotId="gallery-models-context"
+              eyebrowDefault="Premium Photography"
+              headlineDefault="What goes into a <strong>model home shoot</strong>."
+              bodyDefault="Every model home shoot starts before the photographer arrives. Pre-shoot planning covers room-by-room angles, exterior timing, and lifestyle staging context so the day runs efficiently and nothing gets missed.<br><br>On-site, DIG captures architectural detail, interior spaces, twilight exteriors, and lifestyle moments. Post-production handles retouching, sky replacement, and color correction. The result is a complete asset package ready for your website, paid ads, email, and sales center, delivered within the agreed window."
+            />
           </RevealOnScroll>
         </div>
       </section>
