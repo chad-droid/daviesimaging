@@ -9,10 +9,10 @@ const heroFields = [
   { key: "headline1", label: "Headline (line 1)", type: "text" as const, defaultValue: "Homebuilder media that wins" },
   { key: "headline2", label: "Headline (line 2)", type: "text" as const, defaultValue: "hearts and earns clicks." },
   { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "One shoot. Multiple outcomes. Photography, staging, and video designed to convert across every channel." },
-  { key: "cta1Text", label: "Primary CTA Text", type: "text" as const, defaultValue: "See FrameFlow in Action" },
-  { key: "cta1Url", label: "Primary CTA URL", type: "url" as const, defaultValue: "/programs/frameflow" },
-  { key: "cta2Text", label: "Secondary CTA Text", type: "text" as const, defaultValue: "Book a 15 Minute Plan" },
-  { key: "cta2Url", label: "Secondary CTA URL", type: "url" as const, defaultValue: "/contact" },
+  { key: "cta1Text", label: "Primary CTA Text", type: "text" as const, defaultValue: "Book a Strategy Call" },
+  { key: "cta1Url", label: "Primary CTA URL", type: "url" as const, defaultValue: "/contact" },
+  { key: "cta2Text", label: "Secondary CTA Text", type: "text" as const, defaultValue: "See Our Work" },
+  { key: "cta2Url", label: "Secondary CTA URL", type: "url" as const, defaultValue: "/gallery" },
   { key: "videoUrl", label: "Background Video (YouTube URL)", type: "url" as const, defaultValue: "" },
 ];
 
@@ -102,7 +102,7 @@ export function HeroVideo() {
                   <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
                     {v.subheadline}
                   </p>
-                  <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+                  <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:items-center">
                     {v.cta1Text && (
                       <Link
                         href={v.cta1Url || "/"}
