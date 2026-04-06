@@ -48,10 +48,11 @@ interface RegionInfo {
 }
 
 const regionInfo: Record<string, RegionInfo> = {
-  west:     { label: "West",     subtitle: "CA, OR, WA, NV",         markets: 9,  href: "/results?region=west"     },
-  mountain: { label: "Mountain", subtitle: "ID, UT, CO, AZ",         markets: 4,  href: "/results?region=mountain" },
-  central:  { label: "Central",  subtitle: "TX",                     markets: 4,  href: "/results?region=central"  },
-  east:     { label: "East",     subtitle: "FL, GA, SC, NC, OH",     markets: 9,  href: "/results?region=east"     },
+  west:     { label: "West",     subtitle: "CA, OR, WA, NV",         markets: 9,  href: "/markets/region" },
+  mountain: { label: "Mountain", subtitle: "ID, UT, CO, AZ",         markets: 4,  href: "/markets/region" },
+  central:  { label: "Central",  subtitle: "TX",                     markets: 4,  href: "/markets/region" },
+  east:     { label: "East",     subtitle: "FL, GA, SC, NC, OH",     markets: 9,  href: "/markets/region" },
+  // TODO: replace with /gallery?region=X once region-filtered gallery pages are built
 };
 
 const regionList = Object.entries(regionInfo).map(([id, v]) => ({ id, ...v }));
@@ -250,7 +251,7 @@ export function RegionMap() {
                 </div>
                 <p className="mt-0.5 text-[10px] leading-snug text-text-muted">{hoveredPin.blurb}</p>
                 <p className="mt-1.5 text-[10px] font-medium text-accent">
-                  View {regionInfo[hoveredPin.region].label} results →
+                  View {regionInfo[hoveredPin.region].label} region →
                 </p>
               </div>
             </motion.div>

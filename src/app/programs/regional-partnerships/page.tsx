@@ -59,7 +59,7 @@ export default function RegionalPartnershipsPage() {
               headlineDefault="One partner, every <strong>market</strong>."
               subheadDefault="DIG's regional partnership model gives national and regional builders a single point of contact for photography, staging, and video across all four U.S. regions. Volume pricing. Dedicated capacity. Brand consistency enforced."
             />
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/contact"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
