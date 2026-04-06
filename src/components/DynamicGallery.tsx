@@ -21,6 +21,7 @@ interface GalleryProject {
   city: string;
   state: string;
   pipeline: string;
+  youtube?: string;
   images: {
     id: number;
     url: string;
@@ -80,6 +81,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
               city: a.city || meta.deal?.city || "",
               state: a.state || meta.deal?.state || "",
               pipeline: a.pipeline || meta.deal?.pipeline || "",
+              youtube: meta.deal?.youtube || "",
               images: orderedFiles,
             });
           } catch { /* skip failed fetches */ }
@@ -90,19 +92,29 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       .catch(() => setLoading(false));
   }, [pageSlug]);
 
+  function extractYoutubeId(url: string): string | null {
+    const match = url?.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?\s]+)/);
+    return match ? match[1] : null;
+  }
+
   // One cover image per project (first image as representative)
   const projectCovers = projects
-    .filter((p) => p.images.length > 0)
-    .map((p) => ({
-      ...p.images[0],
-      dealId: p.deal_id,
-      project: p.deal_name,
-      builder: p.builder,
-      region: stateToRegion[p.state] || "Unknown",
-      city: p.city,
-      state: p.state,
-      imageCount: p.images.length,
-    }));
+    .filter((p) => p.images.length > 0 || !!p.youtube)
+    .map((p) => {
+      const youtubeId = extractYoutubeId(p.youtube || "");
+      const firstImage = p.images[0];
+      return {
+        ...(firstImage || { id: 0, url: "", thumb_url: "", filename: "", description: null }),
+        dealId: p.deal_id,
+        project: p.deal_name,
+        builder: p.builder,
+        region: stateToRegion[p.state] || "Unknown",
+        city: p.city,
+        state: p.state,
+        imageCount: p.images.length,
+        youtubeId,
+      };
+    });
 
   const filtered =
     active === "All"
@@ -119,41 +131,43 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
 
   return (
     <div>
-      {/* Header + filters */}
-      <div className="text-center">
-        <h1>{heading}</h1>
-        {description && (
-          <p className="mx-auto mt-4 max-w-2xl text-text-body">{description}</p>
-        )}
+      {/* Header + filters — contained */}
+      {(heading || hasData) && (
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          {heading && <h1>{heading}</h1>}
+          {description && (
+            <p className="mx-auto mt-4 max-w-2xl text-text-body">{description}</p>
+          )}
 
-        {hasData && (
-          <div className="mt-8 flex flex-wrap justify-center gap-2">
-            {regions.map((region) => (
-              <button
-                key={region}
-                type="button"
-                onClick={() => setActive(region)}
-                className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
-                  active === region
-                    ? "bg-accent text-text-light"
-                    : "border border-border-light text-text-body hover:border-accent"
-                }`}
-              >
-                {region}
-                {region !== "All" && regionCounts[region] && (
-                  <span className="ml-1.5 text-xs opacity-60">{regionCounts[region]}</span>
-                )}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+          {hasData && (
+            <div className="mt-8 flex flex-wrap justify-center gap-2">
+              {regions.map((region) => (
+                <button
+                  key={region}
+                  type="button"
+                  onClick={() => setActive(region)}
+                  className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                    active === region
+                      ? "bg-accent text-text-light"
+                      : "border border-border-light text-text-body hover:border-accent"
+                  }`}
+                >
+                  {region}
+                  {region !== "All" && regionCounts[region] && (
+                    <span className="ml-1.5 text-xs opacity-60">{regionCounts[region]}</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
-      {/* Loading state */}
+      {/* Loading state — full bleed */}
       {loading && (
-        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="aspect-[4/3] animate-pulse rounded-lg bg-border-light/50" />
+        <div className="mt-8 grid grid-cols-2 gap-0.5 lg:grid-cols-3 xl:grid-cols-4">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="aspect-[4/3] animate-pulse bg-border-light/50" />
           ))}
         </div>
       )}
@@ -161,46 +175,65 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       {/* Empty state */}
       {!loading && !hasData && (
         <div className="mt-12 text-center">
-          <p className="text-text-body">
-            No projects assigned to this gallery yet.
-          </p>
-          <p className="mt-1 text-xs text-text-body/60">
-            Use the admin toolbar to add projects.
-          </p>
+          <p className="text-text-body">No projects assigned to this gallery yet.</p>
+          <p className="mt-1 text-xs text-text-body/60">Use the admin toolbar to add projects.</p>
         </div>
       )}
 
-      {/* Project grid — one cover image per project */}
+      {/* Project grid — full bleed, no gap, tiles flush edge-to-edge */}
       {!loading && hasData && (
-        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-0.5 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((cover) => (
             <button
               key={cover.dealId}
               onClick={() => setLightbox({ dealId: cover.dealId, imageIndex: 0 })}
-              className="group relative aspect-[4/3] overflow-hidden rounded-lg bg-bg-dark"
+              className="group relative aspect-[4/3] overflow-hidden bg-bg-dark"
             >
-              <Image
-                src={cover.thumb_url || cover.url}
-                alt={cover.description || `${cover.project} - ${cover.builder}`}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-[#121212]/60 to-transparent p-5 opacity-0 transition-opacity group-hover:opacity-100">
-                <span className="text-sm font-semibold text-text-light">
+              {/* Cover image or YouTube thumbnail */}
+              {cover.youtubeId && !cover.url ? (
+                <Image
+                  src={`https://img.youtube.com/vi/${cover.youtubeId}/maxresdefault.jpg`}
+                  alt={`${cover.project} video`}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+              ) : cover.url ? (
+                <Image
+                  src={cover.thumb_url || cover.url}
+                  alt={cover.description || `${cover.project} - ${cover.builder}`}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
+              ) : null}
+
+              {/* Play icon for video projects */}
+              {cover.youtubeId && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+                    <svg className="ml-1 h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </div>
+              )}
+
+              <div className="absolute inset-0 flex flex-col items-start justify-end bg-gradient-to-t from-[#121212]/70 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <span className="text-sm font-semibold text-text-light leading-snug">
                   {cover.project}
                 </span>
                 <span className="mt-0.5 text-xs text-text-muted">
                   {cover.builder} | {cover.city}{cover.state ? `, ${cover.state}` : ""}
                 </span>
               </div>
-              <div className="absolute right-3 top-3 flex gap-1.5">
-                <span className="rounded-full bg-bg-surface/90 px-3 py-1 text-xs font-medium text-text-body">
+              <div className="absolute right-2 top-2 flex gap-1">
+                <span className="rounded-full bg-black/50 px-2.5 py-1 text-[10px] font-medium text-white/80 backdrop-blur-sm">
                   {cover.region}
                 </span>
                 {cover.imageCount > 1 && (
-                  <span className="rounded-full bg-[#121212]/70 px-2.5 py-1 text-xs font-medium text-text-light backdrop-blur-sm">
-                    {cover.imageCount} photos
+                  <span className="rounded-full bg-black/50 px-2.5 py-1 text-[10px] font-medium text-white/80 backdrop-blur-sm">
+                    {cover.imageCount}
                   </span>
                 )}
               </div>
@@ -210,9 +243,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       )}
 
       {!loading && hasData && filtered.length === 0 && (
-        <p className="mt-12 text-center text-text-body">
-          No projects in this region yet.
-        </p>
+        <p className="mt-12 text-center text-text-body">No projects in this region yet.</p>
       )}
 
       {/* Project Lightbox */}

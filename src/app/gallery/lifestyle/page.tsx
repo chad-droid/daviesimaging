@@ -37,15 +37,11 @@ export default function LifestylePage() {
 
       {/* Gallery */}
       <section className="py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <RevealOnScroll>
-            <DynamicGallery
-              pageSlug="/gallery/lifestyle"
-              heading=""
-              description=""
-            />
-          </RevealOnScroll>
-        </div>
+        <DynamicGallery
+          pageSlug="/gallery/lifestyle"
+          heading=""
+          description=""
+        />
       </section>
 
       {/* Context section */}

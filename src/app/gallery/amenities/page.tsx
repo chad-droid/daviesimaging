@@ -37,15 +37,11 @@ export default function AmenitiesPage() {
 
       {/* Gallery */}
       <section className="py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <RevealOnScroll>
-            <DynamicGallery
-              pageSlug="/gallery/amenities"
-              heading=""
-              description=""
-            />
-          </RevealOnScroll>
-        </div>
+        <DynamicGallery
+          pageSlug="/gallery/amenities"
+          heading=""
+          description=""
+        />
       </section>
 
       {/* Context section */}

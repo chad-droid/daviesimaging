@@ -4,11 +4,12 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
 interface LightboxImage {
-  id: number;
+  id: number | "video";
   url: string;
   thumb_url: string;
   filename: string;
   description: string | null;
+  youtubeId?: string;
 }
 
 interface ProjectInfo {
@@ -52,11 +53,32 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
   const [loading, setLoading] = useState(true);
   const [infoOpen, setInfoOpen] = useState(true);
 
+  function extractYoutubeId(url: string): string | null {
+    const match = url?.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?\s]+)/);
+    return match ? match[1] : null;
+  }
+
   useEffect(() => {
     fetch(`/api/media/metadata?dealId=${dealId}`)
       .then((r) => r.json())
       .then((data) => {
-        setImages(data.files || []);
+        const files: LightboxImage[] = data.files || [];
+        const youtubeId = extractYoutubeId(data.deal?.youtube || "");
+        // Prepend video item if deal has a YouTube URL
+        const items: LightboxImage[] = youtubeId
+          ? [
+              {
+                id: "video",
+                youtubeId,
+                url: `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`,
+                thumb_url: `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`,
+                filename: "Video",
+                description: "Watch the video",
+              },
+              ...files,
+            ]
+          : files;
+        setImages(items);
         setProject(data.deal || null);
         setLoading(false);
       })
@@ -125,17 +147,28 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
 
           {!loading && current && (
             <>
-              {/* Main image */}
+              {/* Main viewer — video or image */}
               <div className="relative h-full w-full">
-                <Image
-                  src={current.url}
-                  alt={current.description || current.filename}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 1024px) 100vw, 75vw"
-                  priority
-                  quality={90}
-                />
+                {current.youtubeId ? (
+                  <iframe
+                    key={current.youtubeId}
+                    src={`https://www.youtube.com/embed/${current.youtubeId}?autoplay=1&rel=0`}
+                    title={current.filename}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                  />
+                ) : (
+                  <Image
+                    src={current.url}
+                    alt={current.description || current.filename}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 100vw, 75vw"
+                    priority
+                    quality={90}
+                  />
+                )}
               </div>
 
               {/* Nav arrows */}
@@ -244,7 +277,7 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
           <div className="flex gap-1.5 overflow-x-auto">
             {images.map((img, i) => (
               <button
-                key={img.id}
+                key={String(img.id)}
                 onClick={() => setCurrentIndex(i)}
                 className={`relative h-14 w-20 shrink-0 overflow-hidden rounded transition-all ${
                   i === currentIndex
@@ -259,6 +292,13 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
                   className="object-cover"
                   sizes="80px"
                 />
+                {img.youtubeId && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                    <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                )}
               </button>
             ))}
           </div>

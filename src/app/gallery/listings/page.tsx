@@ -37,15 +37,11 @@ export default function SpecHomesPage() {
 
       {/* Gallery */}
       <section className="py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <RevealOnScroll>
-            <DynamicGallery
-              pageSlug="/gallery/listings"
-              heading=""
-              description=""
-            />
-          </RevealOnScroll>
-        </div>
+        <DynamicGallery
+          pageSlug="/gallery/listings"
+          heading=""
+          description=""
+        />
       </section>
 
       {/* Context section */}

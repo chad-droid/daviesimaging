@@ -64,14 +64,29 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST: add/update gallery assignments
+// POST: add/update/remove/reorder gallery assignments
 export async function POST(req: NextRequest) {
   try {
-    const { pageSlug, dealId, action: act } = (await req.json()) as {
+    const body = (await req.json()) as {
       pageSlug: string;
-      dealId: string;
+      dealId?: string;
       action?: string;
+      order?: string[]; // for reorder: array of deal_ids in new order
     };
+    const { pageSlug, dealId, action: act, order } = body;
+
+    // Bulk reorder — receives ordered array of deal_ids
+    if (act === "reorder" && order) {
+      for (let i = 0; i < order.length; i++) {
+        await sql`
+          UPDATE gallery_assignments SET sort_order = ${i + 1}
+          WHERE page_slug = ${pageSlug} AND deal_id = ${order[i]}
+        `;
+      }
+      return NextResponse.json({ success: true });
+    }
+
+    if (!dealId) return NextResponse.json({ error: "dealId required" }, { status: 400 });
 
     if (act === "remove") {
       await sql`DELETE FROM gallery_assignments WHERE page_slug = ${pageSlug} AND deal_id = ${dealId}`;
