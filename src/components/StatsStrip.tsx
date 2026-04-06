@@ -372,10 +372,11 @@ export function StatsStrip() {
       />
 
       <div className="relative mb-14 text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-text-muted">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">
           Best Value in Homebuilding
         </p>
-        <p className="mx-auto mt-2 max-w-md text-sm text-text-muted/60">
+        <h2 className="mt-3 text-text-light">Spec+ Listing Media Package</h2>
+        <p className="mx-auto mt-3 max-w-md text-sm text-text-muted/60">
           The Spec+ bundle combines photography, virtual staging, and virtual video into one flat-rate order — not a la carte pricing.
         </p>
       </div>
