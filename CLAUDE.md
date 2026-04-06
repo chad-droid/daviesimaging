@@ -26,11 +26,21 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 - Email capture modal — 30-second timer, Mailchimp subscribe (correct endpoint: `us17.list-manage.com/subscribe/post`)
 - Footer — Mailchimp subscribe form (same correct endpoint), social links, mobile accordion columns
 - Sanity blog — live at `/blog`
-- All routes scaffolded and live on TEST branch
+- All routes scaffolded and live on main (production)
 - Nav renamed and restructured (see Nav section below)
 - StatsStrip rebuilt with editorial Cormorant numerals (see StatsStrip section below)
 - All service, program, gallery, about, and markets pages complete with consistent styling
 - Eyebrow breadcrumb hierarchy implemented across all child pages
+- `DarkSection` + `DarkSectionBg` — animated radial glow with scroll-linked drift and scale pulse; applied site-wide
+- `EditableTextContent` eyebrow support — `eyebrowDefault` prop adds an editable Eyebrow field to admin panel
+- Gallery context sections — all 4 pages refactored: eyebrow + body now editable; single-column `max-w-3xl` layout
+- Homepage module order — DigDeskPlatform appears before HowItWorks
+- Homepage hero CTAs — "Book a Strategy Call" → `/contact` + "See Our Work" → `/gallery`
+- RegionMap hover card — sticky 160ms hide timer; card is clickable; `/markets/region` links
+- Button alignment — `sm:items-center` added to all service, program, and hero flex rows
+- StatsStrip — eyebrow is `text-accent`; H2 "Spec+ Listing Media Package" added
+- BuilderLogoStrip marquee — removed `loading="lazy"` to fix seam gap in looping animation
+- Sitemap — `src/app/sitemap.ts` generates `/sitemap.xml` at build time; static routes + dynamic Sanity blog posts
 
 ### In Progress / Pending
 - Hero video tiles — placeholder gradients, needs real MP4 footage from DIG shoots
@@ -40,6 +50,7 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 - Phoenix, AZ geo-targeted landing page (listing + ModelMatch virtual staging, for paid ad campaigns)
 - Resources and Education section
 - digDojo photography training platform (see full spec below)
+- `ADMIN_PASSWORD` env var — set in Vercel dashboard (currently only in `.env.local`)
 
 ### Do Not Touch
 - Webflow DIG 2025 (`68596ef61365cb1c678a0e7f`) — live production at `daviesimaging.com`
@@ -1523,6 +1534,59 @@ import { DarkSectionBg } from "@/components/DarkSectionBg";
 - **Color** — `color-mix(in srgb, var(--accent) ${glowIntensity}%, transparent)` ties the glow to the CSS accent variable automatically.
 
 **Applied to:** all 29+ `bg-bg-dark` sections site-wide via `<DarkSection>`. Sections that use `DarkSectionBg` directly: `StatsStrip`, `HowItWorks`, `DigDeskPlatform`.
+
+---
+
+### EditableTextContent.tsx — eyebrow support
+
+`EditableTextContent` accepts an optional `eyebrowDefault` prop. When provided, an **Eyebrow** field appears at the top of the admin edit panel and renders the `<Eyebrow>` component above the headline.
+
+```tsx
+// Without eyebrow (original behavior — headline + body only)
+<EditableTextContent
+  slotId="services-listing-whatyouget"
+  headlineDefault="Every listing, same <strong>standard</strong>."
+  bodyDefault="Whether it's the first home or the fiftieth..."
+/>
+
+// With eyebrow (eyebrow + headline + body — all three editable)
+<EditableTextContent
+  slotId="gallery-listings-context"
+  eyebrowDefault="Spec+ Output"
+  headlineDefault="What a <strong>Spec+ delivery</strong> looks like."
+  bodyDefault="Every image and video..."
+  // dark={true} for dark-bg sections — passes dark prop to Eyebrow too
+/>
+```
+
+**DB slot key:** `eyebrow` (string). Added as the FIRST field in the fields array when `eyebrowDefault` is provided, so it appears first in the edit modal.
+
+**Rule:** Any page section that has a hardcoded `<Eyebrow>` above an `EditableTextContent` should be migrated to use `eyebrowDefault` instead. This makes the eyebrow editable without code changes.
+
+**Gallery context sections** (all 4 completed April 2026): `/gallery/listings`, `/gallery/amenities`, `/gallery/models`, `/gallery/lifestyle` — all use `eyebrowDefault` + `bodyDefault` in a single `max-w-3xl` single-column layout. The old 2-column `[1fr_2fr]` grid with hardcoded adjacent body div has been removed from all four.
+
+---
+
+### sitemap.ts — SEO sitemap
+
+`src/app/sitemap.ts` — Next.js App Router native sitemap. Generates `/sitemap.xml` at build time.
+
+- Static routes: all public pages with appropriate `priority` (1.0 homepage → 0.3 legal) and `changeFrequency`
+- Dynamic routes: blog post slugs fetched from Sanity at build time via `postSlugsQuery`
+- **Excluded intentionally:** `/admin/*`, `/studio/*`, `/programs/frameflow-premium` (password-protected pilot), `/campaigns/*`
+- Base URL: `https://daviesimaging.com` (hardcoded — update if domain changes)
+
+Submit to Google Search Console after DNS moves to Vercel.
+
+---
+
+### BuilderLogoStrip.tsx — marquee notes
+
+Two-row auto-scrolling logo marquee. Row 1 scrolls left (speed 50s), Row 2 scrolls right (speed 44s).
+
+**Critical:** Logo `<img>` elements must NOT have `loading="lazy"`. Lazy-loaded images off-screen in the doubled array report `width: 0` during initial layout, causing `w-max` to calculate incorrectly. `translateX(-50%)` then lands at the wrong position and a gap appears at the loop seam. Always use eager (default) loading on marquee images.
+
+**Adding logos:** Add to `row1` or `row2` arrays. Files must be uploaded to Vercel Blob under the `/DIG%20Website%202026%20Client%20Logos/` path. Tune `h` (display height in px) and `maxW` (max-width in px) per logo to normalize visual weight.
 
 ---
 
