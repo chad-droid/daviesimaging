@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -106,6 +106,23 @@ export function RegionMap() {
   const [hoveredPin, setHoveredPin] = useState<MarketPin | null>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
 
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearHideTimer = useCallback(() => {
+    if (hideTimer.current) { clearTimeout(hideTimer.current); hideTimer.current = null; }
+  }, []);
+
+  const scheduleHide = useCallback(() => {
+    clearHideTimer();
+    hideTimer.current = setTimeout(() => {
+      setHoveredPin(null);
+      setMousePos(null);
+    }, 160);
+  }, [clearHideTimer]);
+
+  // Clean up on unmount
+  useEffect(() => () => { if (hideTimer.current) clearTimeout(hideTimer.current); }, []);
+
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
@@ -125,7 +142,7 @@ export function RegionMap() {
       <div
         className="relative"
         onMouseMove={handleMouseMove}
-        onMouseLeave={() => { setMousePos(null); setHoveredPin(null); }}
+        onMouseLeave={scheduleHide}
       >
         <ComposableMap
           projection="geoAlbersUsa"
@@ -172,8 +189,8 @@ export function RegionMap() {
             return (
               <Marker key={pin.city} coordinates={pin.coords}>
                 <g
-                  onMouseEnter={() => setHoveredPin(pin)}
-                  onMouseLeave={() => setHoveredPin(null)}
+                  onMouseEnter={() => { clearHideTimer(); setHoveredPin(pin); }}
+                  onMouseLeave={scheduleHide}
                   onClick={() => router.push(regionInfo[pin.region].href)}
                   style={{ cursor: "pointer" }}
                 >
@@ -219,11 +236,11 @@ export function RegionMap() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 4 }}
               transition={{ duration: 0.14 }}
-              className="pointer-events-none absolute z-20 w-52 overflow-hidden rounded-xl border border-border-light bg-white shadow-xl"
-              style={{
-                left: mousePos.x + 16,
-                top: mousePos.y - 60,
-              }}
+              className="absolute z-20 w-52 cursor-pointer overflow-hidden rounded-xl border border-border-light bg-white shadow-xl"
+              style={{ left: mousePos.x + 16, top: mousePos.y - 60 }}
+              onMouseEnter={clearHideTimer}
+              onMouseLeave={scheduleHide}
+              onClick={() => router.push(regionInfo[hoveredPin.region].href)}
             >
               {/* Thumbnail */}
               <div className="relative h-28 w-full bg-bg-surface">
@@ -233,7 +250,6 @@ export function RegionMap() {
                   fallbackClass="h-full w-full bg-gradient-to-br from-bg-surface to-accent/10"
                   aspectRatio="16/9"
                 />
-                {/* Region badge overlaid on image */}
                 <span className="absolute left-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
                   {regionInfo[hoveredPin.region].label}
                 </span>
