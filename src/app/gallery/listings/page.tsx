@@ -28,7 +28,7 @@ export default function SpecHomesPage() {
             <Eyebrow dark>Gallery / Listings</Eyebrow>
             <EditableHero
               slotId="gallery-spec-homes-hero"
-              headlineDefault="Standing inventory needs to move. <strong>This is what that looks like</strong>."
+              headlineDefault="Slow moving inventory? <strong>Increases your sales pace.</strong>"
               subheadDefault="Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete."
             />
           </RevealOnScroll>
