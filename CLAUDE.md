@@ -1473,6 +1473,59 @@ src/
 
 ---
 
+### DarkSectionBg.tsx + DarkSection.tsx — animated atmospheric background
+
+Every `bg-bg-dark` section that has no photo or video background uses an animated radial glow powered by these two components.
+
+**DarkSection** is the drop-in wrapper for new or existing dark sections:
+```tsx
+// BEFORE
+<section className="bg-bg-dark py-24 text-text-light relative overflow-hidden">
+  <div className="relative mx-auto max-w-7xl px-6">...</div>
+</section>
+
+// AFTER — add DarkSection import, remove bg-bg-dark / relative / overflow-hidden from className
+import { DarkSection } from "@/components/DarkSection";
+
+<DarkSection className="py-24 text-text-light">
+  <div className="mx-auto max-w-7xl px-6">...</div>
+</DarkSection>
+// DarkSection adds: bg-bg-dark, relative, overflow-hidden, DarkSectionBg, and a relative z-[1] content wrapper
+```
+
+**DarkSectionBg** is the raw component used when you need direct control (e.g., inside a section that is already a client component with its own ref):
+```tsx
+import { DarkSectionBg } from "@/components/DarkSectionBg";
+
+// Drop as first child of any `relative overflow-hidden bg-bg-dark` section
+// Inner content divs must have `relative` to stack above the background
+<section className="relative overflow-hidden bg-bg-dark py-24">
+  <DarkSectionBg />
+  <div className="relative mx-auto ...">content</div>
+</section>
+```
+
+**Props (DarkSectionBg):**
+| Prop | Default | Notes |
+|---|---|---|
+| `glowIntensity` | `12` | Accent color opacity %. Higher = more visible glow. |
+| `glowSize` | `650` | Source circle diameter (px) before blur. |
+| `glowBlur` | `130` | CSS blur radius (px). |
+| `showGlow` | `true` | Toggle the animated radial glow. |
+| `showGrid` | `false` | Toggle the hairline grid texture (off site-wide by default). |
+| `gridSize` | `80` | Grid cell size (px). Only relevant if showGrid=true. |
+| `gridOpacity` | `0.025` | Grid opacity. Only relevant if showGrid=true. |
+
+**How the animation works:**
+- **Random start position** — `useEffect` sets origin to a random point (15–85% from each edge) after mount, avoiding SSR hydration mismatch. Each section and each page load gets a unique starting position.
+- **Continuous pulse** — `motion.div` animates `scale: [0.75, 1.3, 0.75]` on a 4–7 second cycle. Each instance gets a random phase offset so adjacent sections breathe out of sync.
+- **Scroll-linked drift** — `useScroll({ target: containerRef, offset: ["start end", "end start"] })` tracks the section through the viewport. `useTransform` maps scroll progress to ±22% horizontal and ±14% vertical drift, creating a slow diagonal parallax.
+- **Color** — `color-mix(in srgb, var(--accent) ${glowIntensity}%, transparent)` ties the glow to the CSS accent variable automatically.
+
+**Applied to:** all 29+ `bg-bg-dark` sections site-wide via `<DarkSection>`. Sections that use `DarkSectionBg` directly: `StatsStrip`, `HowItWorks`, `DigDeskPlatform`.
+
+---
+
 ## Build Phases
 
 ### Phase 1 — Foundation (start here)
