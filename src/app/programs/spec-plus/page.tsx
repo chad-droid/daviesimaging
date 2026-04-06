@@ -41,7 +41,7 @@ export default function SpecPlusPage() {
               headlineDefault="Your inventory needs to move. Spec+ delivers <strong>everything</strong>."
               subheadDefault="DIG listing photography combined with FrameFlow Studio digital production. $600 flat, regardless of home size. Delivered in 72 hours."
             />
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href="https://desk.daviesimaging.com"
                 target="_blank"

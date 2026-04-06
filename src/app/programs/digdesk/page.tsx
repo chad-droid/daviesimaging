@@ -75,7 +75,7 @@ export default function DigDeskPage() {
               headlineDefault="One portal for your <strong>entire visual pipeline</strong>."
               subheadDefault="digDesk is the DIG client portal. Order every service, track every job, manage your ModelMatch brand library, and download finished assets from a single dashboard."
             />
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/get-started"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
@@ -277,7 +277,7 @@ export default function DigDeskPage() {
                   bodyDefault="If your team already orders photography or digital services through DIG, your digDesk account is either active or ready to be set up. Log in with your existing credentials or reach out and we will get your account activated."
                   headingLevel="h3"
                 />
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <a
                     href="https://desk.daviesimaging.com"
                     target="_blank"
@@ -302,7 +302,7 @@ export default function DigDeskPage() {
                   bodyDefault="New accounts are reviewed by our team and activated within one business day. Start with a 15-minute demo to see digDesk in action, or submit your account request directly and start ordering right away."
                   headingLevel="h3"
                 />
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <Link
                     href="/get-started"
                     className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"

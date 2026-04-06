@@ -49,7 +49,7 @@ export default function FrameFlowPage() {
               headlineDefault="Virtual staging and video. <strong>No shoot required</strong>."
               subheadDefault="FrameFlow Studio is the digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer."
             />
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href="https://desk.daviesimaging.com"
                 target="_blank"
