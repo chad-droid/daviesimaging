@@ -39,7 +39,7 @@ interface DarkSectionBgProps {
 }
 
 export function DarkSectionBg({
-  glowIntensity = 12,
+  glowIntensity = 20,
   glowSize = 650,
   glowBlur = 130,
   showGrid = false,

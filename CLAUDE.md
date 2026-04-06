@@ -1508,7 +1508,7 @@ import { DarkSectionBg } from "@/components/DarkSectionBg";
 **Props (DarkSectionBg):**
 | Prop | Default | Notes |
 |---|---|---|
-| `glowIntensity` | `12` | Accent color opacity %. Higher = more visible glow. |
+| `glowIntensity` | `20` | Accent color opacity %. Higher = more visible glow. |
 | `glowSize` | `650` | Source circle diameter (px) before blur. |
 | `glowBlur` | `130` | CSS blur radius (px). |
 | `showGlow` | `true` | Toggle the animated radial glow. |

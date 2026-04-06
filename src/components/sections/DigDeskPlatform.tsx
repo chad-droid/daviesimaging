@@ -177,7 +177,7 @@ export function DigDeskPlatform() {
 
   return (
     <section className="relative overflow-hidden bg-bg-dark py-24">
-      <DarkSectionBg showGrid={false} glowIntensity={12} glowSize={600} glowBlur={120} />
+      <DarkSectionBg showGrid={false} glowIntensity={20} glowSize={600} glowBlur={120} />
 
       <div ref={ref} className="relative mx-auto max-w-7xl px-6">
         <div className="grid items-center gap-16 lg:grid-cols-2">
