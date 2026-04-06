@@ -25,7 +25,7 @@ export default function SpecHomesPage() {
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Gallery / Spec Homes</Eyebrow>
+            <Eyebrow dark>Gallery / Listings</Eyebrow>
             <EditableHero
               slotId="gallery-spec-homes-hero"
               headlineDefault="Standing inventory needs to move. <strong>This is what that looks like</strong>."
