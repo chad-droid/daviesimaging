@@ -20,9 +20,9 @@ export default function Home() {
       <StatsStrip />
       <AssetVsContent />
       <ServiceExplorer />
-      <HowItWorks />
-      <ModelMatchCallout />
       <DigDeskPlatform />
+      <ModelMatchCallout />
+      <HowItWorks />
       <BuiltForBuilders />
       <MarketingEcosystem />
       <PremiumGallery />
