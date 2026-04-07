@@ -334,14 +334,18 @@ export default function AdminMediaPage() {
     fetchFiles();
   }, [fetchFiles]);
 
-  async function deleteProject(dealId: string, projectName: string, imageCount: number) {
+  async function deleteProject(dealId: string, pathPrefix: string, projectName: string, imageCount: number) {
     if (!confirm(`Delete all ${imageCount} images for "${projectName}"? This removes them from Vercel Blob and the media library and cannot be undone.`)) return;
-    setDeleting(dealId);
+    const key = dealId || pathPrefix;
+    setDeleting(key);
     try {
+      const body: Record<string, string> = {};
+      if (dealId) body.dealId = dealId;
+      if (pathPrefix) body.pathPrefix = `gallery/${pathPrefix}`;
       const res = await fetch("/api/media/delete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dealId }),
+        body: JSON.stringify(body),
       });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
@@ -536,12 +540,12 @@ export default function AdminMediaPage() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        deleteProject(project.dealId, project.deal.replace(/-/g, " "), project.images.length);
+                        deleteProject(project.dealId, project.path, project.deal.replace(/-/g, " "), project.images.length);
                       }}
-                      disabled={deleting === project.dealId}
+                      disabled={deleting === (project.dealId || project.path)}
                       className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373] disabled:opacity-40"
                     >
-                      {deleting === project.dealId ? "Deleting…" : "Delete"}
+                      {deleting === (project.dealId || project.path) ? "Deleting…" : "Delete"}
                     </button>
                     <svg
                       className={`h-4 w-4 text-[#666] transition-transform ${isExpanded ? "rotate-180" : ""}`}

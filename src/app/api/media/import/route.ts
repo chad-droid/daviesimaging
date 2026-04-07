@@ -372,13 +372,9 @@ async function optimizeAndUpload(
 
   const meta = await sharp(full).metadata();
 
-  // Generate AI description (non-blocking — don't fail import if this times out)
-  let description = "";
-  try {
-    const descPromise = describeImage(fullBlob.url, dealContext);
-    const timeout = new Promise<string>((resolve) => setTimeout(() => resolve(""), 8000));
-    description = await Promise.race([descPromise, timeout]);
-  } catch { /* skip description on error */ }
+  // AI descriptions are skipped during import to stay within the 60s Vercel timeout.
+  // Run /api/media/describe after import to generate them in a separate request.
+  const description = "";
 
   await sql`
     INSERT INTO media_files (deal_id, url, thumb_url, filename, description, size_bytes, width, height)
@@ -397,6 +393,26 @@ async function optimizeAndUpload(
     optimizedKB: Math.round(full.length / 1024),
     description,
   };
+}
+
+// Process an array of items concurrently, CONCURRENCY at a time.
+// Returns [results[], errors[]] where results excludes nulls.
+async function processInBatches<T, R>(
+  items: T[],
+  concurrency: number,
+  fn: (item: T) => Promise<R | null>,
+): Promise<{ results: NonNullable<R>[]; errors: string[] }> {
+  const results: NonNullable<R>[] = [];
+  const errors: string[] = [];
+  for (let i = 0; i < items.length; i += concurrency) {
+    const batch = items.slice(i, i + concurrency);
+    const settled = await Promise.allSettled(batch.map(fn));
+    for (const s of settled) {
+      if (s.status === "fulfilled" && s.value != null) results.push(s.value as NonNullable<R>);
+      else if (s.status === "rejected") errors.push(String(s.reason));
+    }
+  }
+  return { results, errors };
 }
 
 // ── Main route ──
@@ -467,15 +483,12 @@ export async function POST(req: NextRequest) {
           files.sort((a, b) => parseInt(b.size || "0") - parseInt(a.size || "0"));
           if (files.length > limit) files = files.slice(0, limit);
 
-          for (const file of files) {
-            try {
-              const raw = await downloadGDriveFile(file.id, gToken);
-              const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
-              if (result) results.push(result);
-            } catch (e) {
-              errors.push(`${file.name}: ${e}`);
-            }
-          }
+          const { results: batchResults, errors: batchErrors } = await processInBatches(files, 5, async (file) => {
+            const raw = await downloadGDriveFile(file.id, gToken);
+            return optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+          });
+          results.push(...batchResults);
+          errors.push(...batchErrors);
         } else if (source === "workdrive") {
           const zToken = providedZohoToken || await getZohoToken();
           let folderIds: string[] = [];
@@ -496,13 +509,11 @@ export async function POST(req: NextRequest) {
                 if (files.length === 0) { errors.push(`GDrive folder ${gFolderId}: no JPEG images`); continue; }
                 files.sort((a, b) => parseInt(b.size || "0") - parseInt(a.size || "0"));
                 if (files.length > limit) files = files.slice(0, limit);
-                for (const file of files) {
-                  try {
-                    const raw = await downloadGDriveFile(file.id, gToken);
-                    const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
-                    if (result) results.push(result);
-                  } catch (e) { errors.push(`${file.name}: ${e}`); }
-                }
+                const { results: br, errors: be } = await processInBatches(files, 5, async (file) => {
+                  const raw = await downloadGDriveFile(file.id, gToken);
+                  return optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+                });
+                results.push(...br); errors.push(...be);
               }
             }
             folderIds = wdIds;
@@ -526,13 +537,11 @@ export async function POST(req: NextRequest) {
                     if (files.length > 0) {
                       files.sort((a, b) => parseInt(b.size || "0") - parseInt(a.size || "0"));
                       if (files.length > limit) files = files.slice(0, limit);
-                      for (const file of files) {
-                        try {
-                          const raw = await downloadGDriveFile(file.id, gToken);
-                          const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
-                          if (result) results.push(result);
-                        } catch (e) { errors.push(`${file.name}: ${e}`); }
-                      }
+                      const { results: br, errors: be } = await processInBatches(files, 5, async (file) => {
+                        const raw = await downloadGDriveFile(file.id, gToken);
+                        return optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+                      });
+                      results.push(...br); errors.push(...be);
                       if (results.length > 0) break; // Done — exit URL loop
                     }
                   } else {
@@ -573,15 +582,11 @@ export async function POST(req: NextRequest) {
             imageFiles.sort((a, b) => (b.size || 0) - (a.size || 0));
             if (imageFiles.length > limit) imageFiles = imageFiles.slice(0, limit);
 
-            for (const file of imageFiles) {
-              try {
-                const raw = await downloadWorkDriveFile(file.id, zToken);
-                const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
-                if (result) results.push(result);
-              } catch (e) {
-                errors.push(`${file.name}: ${e}`);
-              }
-            }
+            const { results: br, errors: be } = await processInBatches(imageFiles, 5, async (file) => {
+              const raw = await downloadWorkDriveFile(file.id, zToken);
+              return optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+            });
+            results.push(...br); errors.push(...be);
           }
         } else if (source === "dropbox") {
           const dbToken = await getDropboxToken();
@@ -591,15 +596,11 @@ export async function POST(req: NextRequest) {
           files.sort((a, b) => (b.size || 0) - (a.size || 0));
           if (files.length > limit) files = files.slice(0, limit);
 
-          for (const file of files) {
-            try {
-              const raw = await downloadDropboxFile(file, tryUrl, dbToken);
-              const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
-              if (result) results.push(result);
-            } catch (e) {
-              errors.push(`${file.name}: ${e}`);
-            }
-          }
+          const { results: br, errors: be } = await processInBatches(files, 5, async (file) => {
+            const raw = await downloadDropboxFile(file, tryUrl, dbToken);
+            return optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+          });
+          results.push(...br); errors.push(...be);
         } else {
           lastError = `Unsupported source: ${tryUrl.slice(0, 60)}. Expected a Google Drive, Zoho WorkDrive, or Dropbox URL.`;
           continue;
