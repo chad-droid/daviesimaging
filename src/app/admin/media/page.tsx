@@ -288,6 +288,118 @@ function AttnSection({ onResolved }: { onResolved: () => void }) {
   );
 }
 
+const GALLERIES = [
+  { label: "Models",    slug: "/gallery/models"    },
+  { label: "Listings",  slug: "/gallery/listings"  },
+  { label: "Amenities", slug: "/gallery/amenities" },
+  { label: "Lifestyle", slug: "/gallery/lifestyle" },
+];
+
+// ── Gallery assignment dropdown for a project card ────────────────────────────
+function GalleryDropdown({ projectPath }: { projectPath: string }) {
+  const [open, setOpen] = useState(false);
+  const [assigned, setAssigned] = useState<Set<string>>(new Set());
+  const [dealId, setDealId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState<string | null>(null);
+
+  async function loadAssignments(id: string) {
+    // Fetch each gallery's assignments to see if this deal is in it
+    const results = await Promise.all(
+      GALLERIES.map((g) =>
+        fetch(`/api/gallery?action=assignments&page=${encodeURIComponent(g.slug)}`)
+          .then((r) => r.json())
+          .then((data) => ({ slug: g.slug, assigned: (data.assignments || []).some((a: { deal_id: string }) => a.deal_id === id) }))
+      )
+    );
+    const slugs = new Set(results.filter((r) => r.assigned).map((r) => r.slug));
+    setAssigned(slugs);
+  }
+
+  async function handleOpen() {
+    if (open) { setOpen(false); return; }
+    setOpen(true);
+    if (dealId) return; // already loaded
+    setLoading(true);
+    const [, dealSlug] = projectPath.split("/");
+    const res = await fetch(`/api/deals/status?search=${encodeURIComponent(dealSlug.replace(/-/g, " "))}`);
+    const data = await res.json();
+    const id = data.deals?.[0]?.id || null;
+    setDealId(id);
+    if (id) await loadAssignments(id);
+    setLoading(false);
+  }
+
+  async function toggle(slug: string) {
+    if (!dealId) return;
+    setSaving(slug);
+    const isAssigned = assigned.has(slug);
+    await fetch("/api/gallery", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pageSlug: slug, dealId, action: isAssigned ? "remove" : undefined }),
+    });
+    setAssigned((prev) => {
+      const next = new Set(prev);
+      isAssigned ? next.delete(slug) : next.add(slug);
+      return next;
+    });
+    setSaving(null);
+  }
+
+  const label = assigned.size > 0
+    ? GALLERIES.filter((g) => assigned.has(g.slug)).map((g) => g.label).join(", ")
+    : "Gallery";
+
+  return (
+    <div className="relative">
+      <button
+        onClick={(e) => { e.stopPropagation(); handleOpen(); }}
+        className={`rounded-full border px-3 py-1.5 text-[10px] font-semibold transition-colors ${
+          assigned.size > 0
+            ? "border-[#A8A2D0] text-[#A8A2D0] hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+            : "border-[#2C2C2C] text-[#666] hover:border-[#A8A2D0] hover:text-[#A8A2D0]"
+        }`}
+      >
+        {label}
+      </button>
+      {open && (
+        <div
+          className="absolute right-0 top-full z-50 mt-1 w-44 overflow-hidden rounded-lg border border-[#2C2C2C] bg-[#1E1E1E] shadow-xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {loading ? (
+            <p className="px-3 py-2 text-[10px] text-[#666]">Loading...</p>
+          ) : (
+            GALLERIES.map((g) => (
+              <button
+                key={g.slug}
+                onClick={() => toggle(g.slug)}
+                disabled={saving === g.slug}
+                className="flex w-full items-center gap-2 px-3 py-2 text-left text-xs transition-colors hover:bg-[#2C2C2C] disabled:opacity-50"
+              >
+                <span className={`flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border ${
+                  assigned.has(g.slug) ? "border-[#6A5ACD] bg-[#6A5ACD]" : "border-[#444]"
+                }`}>
+                  {assigned.has(g.slug) && (
+                    <svg className="h-2.5 w-2.5 text-white" viewBox="0 0 10 10" fill="currentColor">
+                      <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </span>
+                <span className={assigned.has(g.slug) ? "text-[#F5F5F5]" : "text-[#A8A2D0]"}>{g.label}</span>
+              </button>
+            ))
+          )}
+          <div className="border-t border-[#2C2C2C] px-3 py-1.5">
+            <button onClick={() => setOpen(false)} className="text-[10px] text-[#555] hover:text-[#999]">Close</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Deal search — find any deal and move it to library ────────────────────────
 function DealSearchBox() {
   const [query, setQuery] = useState("");
@@ -1003,6 +1115,7 @@ export default function AdminMediaPage() {
                           )}
                         </div>
                         <OriginalDownloadButton projectPath={project.path} />
+                        <GalleryDropdown projectPath={project.path} />
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
