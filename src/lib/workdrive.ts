@@ -237,8 +237,10 @@ export async function findDealFolders(
         ),
       );
     } else {
-      // CRM_ACCOUNTS: paginate looking for builder-named top-level folders
-      try { builderFolders = await findFoldersInRootByName(root.id, builderCandidates, accessToken, 4000); }
+      // CRM_ACCOUNTS: paginate through builder-named top-level folders.
+      // Cap at 1000 items (5 pages × 200) — enough to reach K/L/T alphabetically
+      // if the workspace has builder-level folders (~200-500 total).
+      try { builderFolders = await findFoldersInRootByName(root.id, builderCandidates, accessToken, 1000); }
       catch { continue; }
     }
 
@@ -246,20 +248,9 @@ export async function findDealFolders(
       if (!diagnostic.builderFoldersFound.includes(bf.name)) {
         diagnostic.builderFoldersFound.push(bf.name);
       }
-      const found = await collectMatchingFolders(bf.id, dealCandidates, accessToken, 6, bf.name);
+      const found = await collectMatchingFolders(bf.id, dealCandidates, accessToken, 3, bf.name);
       for (const f of found) {
         if (!candidates.find((c) => c.id === f.id)) candidates.push(f);
-      }
-    }
-
-    // For CRM_ACCOUNTS also try a direct deal-name match at the root level
-    // (handles cases where deals are stored flat, one folder per project)
-    if (root.label === "CRM_ACCOUNTS" && candidates.length === 0) {
-      const directMatches = await findFoldersInRootByName(root.id, dealCandidates, accessToken, 4000);
-      for (const f of directMatches) {
-        if (!candidates.find((c) => c.id === f.id)) {
-          candidates.push({ id: f.id, name: f.name, path: `CRM_ACCOUNTS / ${f.name}` });
-        }
       }
     }
   }
@@ -305,39 +296,97 @@ async function collectMatchingFolders(
 }
 
 // JPEG-only image collection. Prefers subfolders named "web", "web jpeg", "lo-res", etc.
-// over high-res/raw subfolders. Falls back to all JPEGs in the folder.
+// Uses BFS limited to 2 levels deep to avoid sequential API call explosion.
+// Strategy:
+//   Level 0 (root): look for web folder → if found, return its JPEGs immediately
+//   Level 1 (subfolders of root): look for web folder in each subfolder
+//   Fallback: return all JPEGs found at root + level-1 (non-skip folders)
 export async function getWebPreferredImageFiles(folderId: string, accessToken: string): Promise<WDFile[]> {
-  const items = await listFiles(folderId, accessToken, 200);
+  const SKIP_RE = /^(video|raw|cr2|tiff|dng|bts|behind[\s_-]*the[\s_-]*scenes|4k|drone|hiRes|hi[\s_-]*res|high[\s_-]*res)/i;
+  const isJpeg = (name: string) => /\.(jpe?g)$/i.test(name);
 
-  // Look for a "web" subfolder at the top level
-  const webFolder = items.find((i) => i.type === "folder" && WEB_FOLDER_RE.test(i.name));
-  if (webFolder) {
-    const webItems = await listFiles(webFolder.id, accessToken, 200);
-    const jpegs = webItems.filter((i) => i.type !== "folder" && /\.(jpe?g)$/i.test(i.name));
+  // --- Level 0: list root ---
+  const rootItems = await listFiles(folderId, accessToken, 200);
+
+  // Immediate win: web folder at root level
+  const rootWebFolder = rootItems.find((i) => i.type === "folder" && WEB_FOLDER_RE.test(i.name));
+  if (rootWebFolder) {
+    const webItems = await listFiles(rootWebFolder.id, accessToken, 200);
+    const jpegs = webItems.filter((i) => i.type !== "folder" && isJpeg(i.name));
     if (jpegs.length > 0) return jpegs;
   }
 
-  // No web folder — collect all JPEGs recursively (skip video/raw/tiff subfolders by name)
-  const allJpegs: WDFile[] = [];
-  const SKIP_FOLDER_RE = /^(video|raw|cr2|tiff|dng|bts|behind[\s_-]*the[\s_-]*scenes|4k|drone[\s_-]*raw)/i;
+  // Collect root-level JPEGs and non-skip subfolders for level 1 scan
+  const collectedJpegs: WDFile[] = rootItems.filter((i) => i.type !== "folder" && isJpeg(i.name));
+  const level1Folders = rootItems.filter((i) => i.type === "folder" && !SKIP_RE.test(i.name));
 
-  async function collect(parentId: string, depth: number) {
-    if (depth > 4) return;
-    const children = await listFiles(parentId, accessToken, 200);
-    for (const child of children) {
-      if (child.type === "folder") {
-        if (!SKIP_FOLDER_RE.test(child.name)) await collect(child.id, depth + 1);
-      } else if (/\.(jpe?g)$/i.test(child.name)) {
-        allJpegs.push(child);
+  // --- Level 1: check each subfolder for a web folder or JPEGs ---
+  // Fetch all subfolders concurrently to minimise wall-clock time
+  const level1Results = await Promise.all(
+    level1Folders.map(async (folder) => {
+      try {
+        const items = await listFiles(folder.id, accessToken, 200);
+
+        // Web subfolder found one level deep — fetch its contents
+        const webFolder = items.find((i) => i.type === "folder" && WEB_FOLDER_RE.test(i.name));
+        if (webFolder) {
+          const webItems = await listFiles(webFolder.id, accessToken, 200);
+          const jpegs = webItems.filter((i) => i.type !== "folder" && isJpeg(i.name));
+          if (jpegs.length > 0) return { webJpegs: jpegs, fallbackJpegs: [] as WDFile[] };
+        }
+
+        // No web folder — collect JPEGs directly in this subfolder
+        const fallbackJpegs = items.filter((i) => i.type !== "folder" && isJpeg(i.name));
+        return { webJpegs: [] as WDFile[], fallbackJpegs };
+      } catch {
+        return { webJpegs: [] as WDFile[], fallbackJpegs: [] as WDFile[] };
       }
-    }
-  }
-  await collect(folderId, 0);
-  return allJpegs;
+    }),
+  );
+
+  // If any level-1 folder had a web subfolder, return only those JPEGs
+  const webFromLevel1 = level1Results.flatMap((r) => r.webJpegs);
+  if (webFromLevel1.length > 0) return webFromLevel1;
+
+  // Fallback: all JPEGs from root + level-1 subfolders
+  collectedJpegs.push(...level1Results.flatMap((r) => r.fallbackJpegs));
+  return collectedJpegs;
 }
 
 // Keep old name exported for any remaining callers
 export { getWebPreferredImageFiles as getImageFiles };
+
+// ── External share link resolution ──
+
+// Extracts the hash from a zohoexternal.com/external/{hash} URL
+export function extractExternalShareHash(url: string): string | null {
+  const match = url.match(/zohoexternal\.com\/external\/([a-f0-9]+)/i);
+  return match ? match[1] : null;
+}
+
+// Resolves a WorkDrive external share hash to an underlying folder ID.
+// Calls GET /workdrive/api/v1/links/{hash} and extracts resource_id from the response.
+export async function resolveExternalShareToFolderId(
+  hash: string,
+  accessToken: string,
+): Promise<string | null> {
+  try {
+    const res = await fetch(`${WORKDRIVE_API}/links/${hash}`, {
+      headers: { Authorization: `Zoho-oauthtoken ${accessToken}` },
+    });
+    const raw = await res.text();
+    if (!res.ok) return null;
+    let data: { data?: { attributes?: { resource_id?: string; entity_id?: string }; id?: string } };
+    try { data = JSON.parse(raw); } catch { return null; }
+    // Try resource_id first (standard), then entity_id, then the top-level id
+    return data.data?.attributes?.resource_id
+      ?? data.data?.attributes?.entity_id
+      ?? data.data?.id
+      ?? null;
+  } catch {
+    return null;
+  }
+}
 
 export async function downloadFile(fileId: string, accessToken: string): Promise<Buffer> {
   const res = await fetch(

@@ -11,6 +11,8 @@ import {
   findDealFolders,
   getWebPreferredImageFiles,
   downloadFile as downloadWorkDriveFile,
+  extractExternalShareHash,
+  resolveExternalShareToFolderId,
 } from "@/lib/workdrive";
 
 // Image optimization settings
@@ -494,8 +496,18 @@ export async function POST(req: NextRequest) {
           let folderIds: string[] = [];
 
           if (extractWorkDriveFolderId(tryUrl)) {
-            // Direct URL provided — use it
+            // Direct /folder/{id} URL — use it immediately
             folderIds = [extractWorkDriveFolderId(tryUrl)!];
+          } else if (extractExternalShareHash(tryUrl)) {
+            // zohoexternal.com/external/{hash} — resolve hash to underlying folder ID
+            const hash = extractExternalShareHash(tryUrl)!;
+            const resolvedId = await resolveExternalShareToFolderId(hash, zToken);
+            if (resolvedId) {
+              folderIds = [resolvedId];
+            } else {
+              lastError = `Could not resolve external WorkDrive share link (hash: ${hash.slice(0, 12)}…). The link may be expired or require different credentials.`;
+              continue;
+            }
           } else if (selectedFolderIds && selectedFolderIds.length > 0) {
             // User selected folders from a previous candidates response.
             // Google Drive candidates have a "gdrive:" prefix — route them to the GDrive handler.
