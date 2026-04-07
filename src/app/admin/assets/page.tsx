@@ -278,12 +278,18 @@ export default function AdminAssetsPage() {
 
     // Fetch a single Zoho token before the batch — passed to every import request
     // so each serverless function invocation reuses it instead of fetching its own.
+    // Zoho tokens expire after 1 hour — refresh every 45 minutes mid-batch.
     let zohoToken: string | undefined;
-    try {
-      const tokenRes = await fetch("/api/workdrive/token");
-      const tokenData = await tokenRes.json();
-      if (tokenData.token) zohoToken = tokenData.token;
-    } catch { /* proceed without pre-fetched token — imports will self-authenticate */ }
+    let tokenFetchedAt = 0;
+
+    async function refreshZohoToken() {
+      try {
+        const tokenRes = await fetch("/api/workdrive/token");
+        const tokenData = await tokenRes.json();
+        if (tokenData.token) { zohoToken = tokenData.token; tokenFetchedAt = Date.now(); }
+      } catch { /* proceed without pre-fetched token — imports will self-authenticate */ }
+    }
+    await refreshZohoToken();
 
     for (let i = 0; i < ids.length; i++) {
       const deal = deals.find((d) => d.id === ids[i]);
@@ -291,17 +297,29 @@ export default function AdminAssetsPage() {
       // 3s delay between requests — WorkDrive API rate limits apply to file listing
       // and download calls, not just token refreshes
       if (i > 0) await new Promise((r) => setTimeout(r, 3000));
+
+      // Refresh Zoho token every 45 minutes to prevent mid-batch expiry
+      if (tokenFetchedAt > 0 && Date.now() - tokenFetchedAt > 45 * 60 * 1000) {
+        await refreshZohoToken();
+      }
+
       try {
         const res = await fetch("/api/media/import", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ dealId: ids[i], zohoToken }),
         });
-        const data = await res.json();
+        let data: Record<string, unknown>;
+        try {
+          data = await res.json();
+        } catch {
+          // Vercel timeout or server crash returned non-JSON (HTML error page)
+          data = { error: `Server error (${res.status}) — request may have timed out` };
+        }
         if (data.error) {
-          failures.push({ name: deal?.name || ids[i], error: data.error });
-        } else if (data.errors?.length > 0) {
-          failures.push({ name: deal?.name || ids[i], error: `${data.errors.length} file(s) failed: ${data.errors.slice(0, 2).join("; ")}` });
+          failures.push({ name: deal?.name || ids[i], error: data.error as string });
+        } else if (Array.isArray(data.errors) && data.errors.length > 0) {
+          failures.push({ name: deal?.name || ids[i], error: `${data.errors.length} file(s) failed: ${(data.errors as string[]).slice(0, 2).join("; ")}` });
         }
       } catch (e) {
         failures.push({ name: deal?.name || ids[i], error: String(e) });

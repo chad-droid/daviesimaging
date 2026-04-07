@@ -23,7 +23,10 @@ async function getAccessToken(): Promise<string> {
       grant_type: "refresh_token",
     }),
   });
-  const data = await res.json();
+  const rawText = await res.text();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let data: any;
+  try { data = JSON.parse(rawText); } catch { throw new Error(`Zoho auth failed (non-JSON): ${rawText.slice(0, 200)}`); }
   if (!data.access_token) throw new Error(`Zoho auth failed: ${JSON.stringify(data)}`);
 
   _cachedToken = data.access_token;
