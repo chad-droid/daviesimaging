@@ -303,6 +303,7 @@ export default function AdminMediaPage() {
     errors: string[];
   } | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [deleting, setDeleting] = useState<string | null>(null); // dealId being deleted
 
   const fetchFiles = useCallback(async () => {
     setLoading(true);
@@ -332,6 +333,25 @@ export default function AdminMediaPage() {
   useEffect(() => {
     fetchFiles();
   }, [fetchFiles]);
+
+  async function deleteProject(dealId: string, projectName: string, imageCount: number) {
+    if (!confirm(`Delete all ${imageCount} images for "${projectName}"? This removes them from Vercel Blob and the media library and cannot be undone.`)) return;
+    setDeleting(dealId);
+    try {
+      const res = await fetch("/api/media/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dealId }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      await fetchFiles(); // refresh list
+    } catch (e) {
+      alert("Delete failed: " + String(e));
+    } finally {
+      setDeleting(null);
+    }
+  }
 
   // Group files by project
   const projects: ProjectGroup[] = (() => {
@@ -511,6 +531,17 @@ export default function AdminMediaPage() {
                       className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
                     >
                       Metadata
+                    </button>
+                    {/* Delete project */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteProject(project.dealId, project.deal.replace(/-/g, " "), project.images.length);
+                      }}
+                      disabled={deleting === project.dealId}
+                      className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373] disabled:opacity-40"
+                    >
+                      {deleting === project.dealId ? "Deleting…" : "Delete"}
                     </button>
                     <svg
                       className={`h-4 w-4 text-[#666] transition-transform ${isExpanded ? "rotate-180" : ""}`}
