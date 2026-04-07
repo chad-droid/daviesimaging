@@ -86,14 +86,14 @@ async function downloadGDriveFile(fileId: string, token: string): Promise<Buffer
 
 // ── Detect source type ──
 
-function detectSource(url: string): "gdrive" | "workdrive" | "unknown" {
+function detectSource(url: string): "gdrive" | "workdrive" | "dropbox" | "unknown" {
   if (url.includes("drive.google.com")) return "gdrive";
   if (url.includes("workdrive.zoho") || url.includes("zohoexternal.com")) return "workdrive";
+  if (url.includes("dropbox.com")) return "dropbox";
   return "unknown";
 }
 
 function extractWorkDriveFolderId(url: string): string | null {
-  // workdrive.zoho.com/folder/FOLDER_ID
   const folderMatch = url.match(/\/folder\/([a-z0-9]+)/);
   if (folderMatch) return folderMatch[1];
   return null;
@@ -111,12 +111,104 @@ function getAssetUrls(deal: Record<string, string | null>): string[] {
   if (ca.includes("workdrive")) urls.push(ca);
   // Client Google Drive
   if (ca.includes("drive.google.com")) urls.push(ca);
+  // Dropbox shared folders
+  if (ca.includes("dropbox.com")) urls.push(ca);
+  if (ia.includes("dropbox.com") && !urls.includes(ia)) urls.push(ia);
   // Internal Google Drive (often empty production folders, try last)
   if (ia.includes("drive.google.com") && !urls.includes(ia)) urls.push(ia);
   // Internal WorkDrive hash
   if (ia.includes("workdrive") && !urls.includes(ia)) urls.push(ia);
 
   return [...new Set(urls)];
+}
+
+// ── Dropbox helpers ──
+
+async function getDropboxToken(): Promise<string> {
+  // Prefer long-lived access token if set
+  const accessToken = process.env.DROPBOX_ACCESS_TOKEN;
+  if (accessToken) return accessToken;
+
+  // OAuth2 refresh flow with App Key + App Secret + Refresh Token
+  const appKey = process.env.DROPBOX_APP_KEY;
+  const appSecret = process.env.DROPBOX_APP_SECRET;
+  const refreshToken = process.env.DROPBOX_REFRESH_TOKEN;
+  if (!appKey || !appSecret || !refreshToken) {
+    throw new Error("Dropbox credentials not configured. Set DROPBOX_ACCESS_TOKEN or DROPBOX_APP_KEY + DROPBOX_APP_SECRET + DROPBOX_REFRESH_TOKEN.");
+  }
+
+  const res = await fetch("https://api.dropboxapi.com/oauth2/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+      client_id: appKey,
+      client_secret: appSecret,
+    }),
+  });
+  const data = await res.json();
+  if (!data.access_token) throw new Error(`Dropbox auth failed: ${JSON.stringify(data)}`);
+  return data.access_token;
+}
+
+interface DropboxEntry {
+  ".tag": string;
+  name: string;
+  id: string;
+  path_display: string;
+  size?: number;
+}
+
+async function listDropboxFiles(sharedLinkUrl: string, token: string): Promise<DropboxEntry[]> {
+  const allFiles: DropboxEntry[] = [];
+  let hasMore = true;
+  let cursor: string | undefined;
+
+  while (hasMore) {
+    let res: Response;
+    if (cursor) {
+      res = await fetch("https://api.dropboxapi.com/2/files/list_folder/continue", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ cursor }),
+      });
+    } else {
+      res = await fetch("https://api.dropboxapi.com/2/files/list_folder", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          path: "",
+          shared_link: { url: sharedLinkUrl },
+          recursive: true,
+          include_non_downloadable_files: false,
+        }),
+      });
+    }
+    if (!res.ok) throw new Error(`Dropbox list error: ${await res.text()}`);
+    const data = await res.json();
+
+    const images = (data.entries as DropboxEntry[]).filter(
+      (e) => e[".tag"] === "file" && /\.(jpe?g|png|webp|tiff?)$/i.test(e.name),
+    );
+    allFiles.push(...images);
+    hasMore = data.has_more || false;
+    cursor = data.cursor;
+  }
+  return allFiles;
+}
+
+async function downloadDropboxFile(file: DropboxEntry, sharedLinkUrl: string, token: string): Promise<Buffer> {
+  // Use the shared link + relative path to download
+  const res = await fetch("https://content.dropboxapi.com/2/sharing/get_shared_link_file", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Dropbox-API-Arg": JSON.stringify({ url: sharedLinkUrl, path: file.path_display }),
+    },
+  });
+  if (!res.ok) throw new Error(`Dropbox download failed (${res.status}): ${await res.text()}`);
+  return Buffer.from(await res.arrayBuffer());
 }
 
 // ── AI description ──
@@ -315,8 +407,25 @@ export async function POST(req: NextRequest) {
               errors.push(`${file.name}: ${e}`);
             }
           }
+        } else if (source === "dropbox") {
+          const dbToken = await getDropboxToken();
+          let files = await listDropboxFiles(tryUrl, dbToken);
+          if (files.length === 0) { lastError = `Dropbox folder empty or inaccessible`; continue; }
+
+          files.sort((a, b) => (b.size || 0) - (a.size || 0));
+          if (files.length > limit) files = files.slice(0, limit);
+
+          for (const file of files) {
+            try {
+              const raw = await downloadDropboxFile(file, tryUrl, dbToken);
+              const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+              if (result) results.push(result);
+            } catch (e) {
+              errors.push(`${file.name}: ${e}`);
+            }
+          }
         } else {
-          lastError = `Unsupported source: ${tryUrl.slice(0, 60)}`;
+          lastError = `Unsupported source: ${tryUrl.slice(0, 60)}. Expected a Google Drive, Zoho WorkDrive, or Dropbox URL.`;
           continue;
         }
       } catch (e) {
