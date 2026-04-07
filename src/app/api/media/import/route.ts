@@ -115,6 +115,44 @@ async function downloadGDriveFile(fileId: string, token: string): Promise<Buffer
   return Buffer.from(await res.arrayBuffer());
 }
 
+// Search Google Drive for folders matching the deal name (used as fallback when no URL is stored)
+async function searchGDriveFoldersByName(
+  dealName: string,
+  token: string,
+): Promise<{ id: string; name: string }[]> {
+  // Try progressively shorter versions of the deal name to broaden the search
+  const stripped = dealName
+    .replace(/\b(photography|production|photo|matterport|scanning|inventory|exterior|interior|model|models|spec\+?|lifestyle)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const queries = [...new Set([dealName, stripped].filter(Boolean))];
+  const seen = new Set<string>();
+  const results: { id: string; name: string }[] = [];
+
+  for (const q of queries) {
+    // Use "contains" instead of exact match for better recall
+    const safeQ = q.replace(/'/g, "\\'");
+    const params = new URLSearchParams({
+      q: `mimeType='application/vnd.google-apps.folder' and name contains '${safeQ}' and trashed=false`,
+      fields: "files(id, name)",
+      pageSize: "20",
+    });
+    try {
+      const res = await fetch(`https://www.googleapis.com/drive/v3/files?${params}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) continue;
+      const data = await res.json();
+      for (const f of (data.files || []) as { id: string; name: string }[]) {
+        if (!seen.has(f.id)) { seen.add(f.id); results.push(f); }
+      }
+    } catch { /* non-fatal */ }
+    if (results.length > 0) break; // Found something — don't over-search
+  }
+  return results;
+}
+
 // ── Detect source type ──
 
 function detectSource(url: string): "gdrive" | "workdrive" | "dropbox" | "unknown" {
@@ -446,8 +484,29 @@ export async function POST(req: NextRequest) {
             // Direct URL provided — use it
             folderIds = [extractWorkDriveFolderId(tryUrl)!];
           } else if (selectedFolderIds && selectedFolderIds.length > 0) {
-            // User already selected specific folders from a previous candidates response
-            folderIds = selectedFolderIds;
+            // User selected folders from a previous candidates response.
+            // Google Drive candidates have a "gdrive:" prefix — route them to the GDrive handler.
+            const gdriveIds = selectedFolderIds.filter((id) => id.startsWith("gdrive:")).map((id) => id.slice(7));
+            const wdIds = selectedFolderIds.filter((id) => !id.startsWith("gdrive:"));
+
+            if (gdriveIds.length > 0) {
+              const gToken = await getGoogleToken();
+              for (const gFolderId of gdriveIds) {
+                let files = await getGDriveWebFiles(gFolderId, gToken);
+                if (files.length === 0) { errors.push(`GDrive folder ${gFolderId}: no JPEG images`); continue; }
+                files.sort((a, b) => parseInt(b.size || "0") - parseInt(a.size || "0"));
+                if (files.length > limit) files = files.slice(0, limit);
+                for (const file of files) {
+                  try {
+                    const raw = await downloadGDriveFile(file.id, gToken);
+                    const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+                    if (result) results.push(result);
+                  } catch (e) { errors.push(`${file.name}: ${e}`); }
+                }
+              }
+            }
+            folderIds = wdIds;
+            if (folderIds.length === 0) break; // All GDrive — skip WorkDrive loop
           } else {
             // Search by name across both root folders + CRM integration
             const zohoRecordId = dealId.startsWith("zcrm_") ? dealId.slice(5) : null;
@@ -456,7 +515,40 @@ export async function POST(req: NextRequest) {
             );
 
             if (candidates.length === 0) {
-              lastError = `Could not find folder for "${deal.name}" under "${deal.builder}". Searched: ${diagnostic.rootsSearched.join(", ")}. Builder folders found: ${diagnostic.builderFoldersFound.join(", ") || "none"}`;
+              // WorkDrive name search failed — try Google Drive folder name search as fallback
+              try {
+                const gToken = await getGoogleToken();
+                const gdFolders = await searchGDriveFoldersByName(deal.name || "", gToken);
+                if (gdFolders.length > 0) {
+                  if (gdFolders.length === 1) {
+                    // Single match — use it directly
+                    let files = await getGDriveWebFiles(gdFolders[0].id, gToken);
+                    if (files.length > 0) {
+                      files.sort((a, b) => parseInt(b.size || "0") - parseInt(a.size || "0"));
+                      if (files.length > limit) files = files.slice(0, limit);
+                      for (const file of files) {
+                        try {
+                          const raw = await downloadGDriveFile(file.id, gToken);
+                          const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+                          if (result) results.push(result);
+                        } catch (e) { errors.push(`${file.name}: ${e}`); }
+                      }
+                      if (results.length > 0) break; // Done — exit URL loop
+                    }
+                  } else {
+                    // Multiple Google Drive folder matches — return as candidates
+                    return NextResponse.json({
+                      status: "candidates",
+                      dealId,
+                      dealName: deal.name,
+                      candidates: gdFolders.map((f) => ({ id: `gdrive:${f.id}`, name: f.name, path: `Google Drive / ${f.name}` })),
+                      diagnostic: { ...diagnostic, source: "gdrive-name-search" },
+                    });
+                  }
+                }
+              } catch { /* GDrive fallback failed — fall through to error */ }
+
+              lastError = `Could not find folder for "${deal.name}" (${deal.builder}). WorkDrive searched: ${diagnostic.rootsSearched.join(", ")}; builder folders found: ${diagnostic.builderFoldersFound.join(", ") || "none"}; Google Drive: no match.`;
               continue;
             }
 

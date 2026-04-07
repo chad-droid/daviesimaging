@@ -66,14 +66,20 @@ export async function listFiles(
   folderId: string,
   accessToken: string,
   limit = 50,
+  offset = 0,
 ): Promise<WDFile[]> {
+  const qs = `page%5Blimit%5D=${limit}${offset > 0 ? `&page%5Boffset%5D=${offset}` : ""}`;
   const res = await fetch(
-    `${WORKDRIVE_API}/files/${folderId}/files?page%5Blimit%5D=${limit}`,
+    `${WORKDRIVE_API}/files/${folderId}/files?${qs}`,
     { headers: { Authorization: `Zoho-oauthtoken ${accessToken}` } },
   );
-  if (!res.ok) throw new Error(`WorkDrive list error: ${await res.text()}`);
-  const data = await res.json();
-  return (data.data || []).map((item: { id: string; attributes: Record<string, unknown> }) => ({
+  // Read as text first to avoid SyntaxError when Zoho returns a plain-text error
+  const raw = await res.text();
+  if (!res.ok) throw new Error(`WorkDrive list error (${res.status}): ${raw.slice(0, 300)}`);
+  let data: { data?: unknown[] };
+  try { data = JSON.parse(raw); }
+  catch { throw new Error(`WorkDrive list error (non-JSON): ${raw.slice(0, 300)}`); }
+  return ((data.data as { id: string; attributes: Record<string, unknown> }[] | undefined) || []).map((item) => ({
     id: item.id,
     name: item.attributes.name as string,
     type: item.attributes.type as string,
@@ -82,6 +88,46 @@ export async function listFiles(
       ? (item.attributes.storage_info as Record<string, number>).size
       : undefined,
   }));
+}
+
+// Paginate through a root folder to find subfolders whose name matches any of the given
+// candidates. Stops as soon as we've gone past the alphabetical range, or hit maxItems.
+async function findFoldersInRootByName(
+  rootFolderId: string,
+  candidates: string[],
+  accessToken: string,
+  maxItems = 4000,
+): Promise<WDFile[]> {
+  const matches: WDFile[] = [];
+  const pageSize = 200;
+  // The first candidate (longest / most specific) determines when we've gone past it alphabetically
+  const sortedCandidates = [...candidates].sort((a, b) => a.localeCompare(b));
+  const highWatermark = sortedCandidates[sortedCandidates.length - 1];
+
+  for (let offset = 0; offset < maxItems; offset += pageSize) {
+    let items: WDFile[];
+    try { items = await listFiles(rootFolderId, accessToken, pageSize, offset); }
+    catch { break; }
+    if (items.length === 0) break;
+
+    for (const item of items) {
+      if (item.type === "folder" && candidates.some(
+        (c) => item.name.toLowerCase().includes(c) || c.includes(item.name.toLowerCase()),
+      )) {
+        matches.push(item);
+      }
+    }
+
+    // Early exit: if we've found matches AND the last item on this page is alphabetically
+    // past the highest candidate, no more matches can appear
+    if (matches.length > 0) {
+      const lastName = items[items.length - 1].name.toLowerCase();
+      if (lastName > highWatermark + "zzz") break;
+    }
+
+    if (items.length < pageSize) break; // Last page reached
+  }
+  return matches;
 }
 
 // ── Name normalization ──
@@ -178,14 +224,23 @@ export async function findDealFolders(
 
   for (const root of roots) {
     diagnostic.rootsSearched.push(root.label);
-    let topLevel: WDFile[] = [];
-    try { topLevel = await listFiles(root.id, accessToken, 200); } catch { continue; }
 
-    const builderFolders = topLevel.filter(
-      (f) => f.type === "folder" && builderCandidates.some(
-        (c) => f.name.toLowerCase().includes(c) || c.includes(f.name.toLowerCase()),
-      ),
-    );
+    // FINISHED_ASSETS has ~76 builder folders — one page fetch is enough.
+    // CRM_ACCOUNTS has 70k+ items — skip the initial fetch and use the paginated helper.
+    let builderFolders: WDFile[];
+    if (root.label === "FINISHED_ASSETS") {
+      let topLevel: WDFile[] = [];
+      try { topLevel = await listFiles(root.id, accessToken, 200); } catch { continue; }
+      builderFolders = topLevel.filter(
+        (f) => f.type === "folder" && builderCandidates.some(
+          (c) => f.name.toLowerCase().includes(c) || c.includes(f.name.toLowerCase()),
+        ),
+      );
+    } else {
+      // CRM_ACCOUNTS: paginate looking for builder-named top-level folders
+      try { builderFolders = await findFoldersInRootByName(root.id, builderCandidates, accessToken, 4000); }
+      catch { continue; }
+    }
 
     for (const bf of builderFolders) {
       if (!diagnostic.builderFoldersFound.includes(bf.name)) {
@@ -194,6 +249,17 @@ export async function findDealFolders(
       const found = await collectMatchingFolders(bf.id, dealCandidates, accessToken, 6, bf.name);
       for (const f of found) {
         if (!candidates.find((c) => c.id === f.id)) candidates.push(f);
+      }
+    }
+
+    // For CRM_ACCOUNTS also try a direct deal-name match at the root level
+    // (handles cases where deals are stored flat, one folder per project)
+    if (root.label === "CRM_ACCOUNTS" && candidates.length === 0) {
+      const directMatches = await findFoldersInRootByName(root.id, dealCandidates, accessToken, 4000);
+      for (const f of directMatches) {
+        if (!candidates.find((c) => c.id === f.id)) {
+          candidates.push({ id: f.id, name: f.name, path: `CRM_ACCOUNTS / ${f.name}` });
+        }
       }
     }
   }
