@@ -3,6 +3,42 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
+// Recursively collect all image Files from a drop event, including folders.
+async function readDroppedItems(e: React.DragEvent): Promise<File[]> {
+  const files: File[] = [];
+
+  async function readEntry(entry: FileSystemEntry) {
+    if (entry.isFile) {
+      const file = await new Promise<File>((res) => (entry as FileSystemFileEntry).file(res));
+      if (file.type.startsWith("image/")) files.push(file);
+    } else if (entry.isDirectory) {
+      const reader = (entry as FileSystemDirectoryEntry).createReader();
+      // readEntries returns max 100 at a time — loop until empty
+      while (true) {
+        const batch = await new Promise<FileSystemEntry[]>((res) => reader.readEntries(res));
+        if (batch.length === 0) break;
+        for (const child of batch) await readEntry(child);
+      }
+    }
+  }
+
+  if (e.dataTransfer.items) {
+    const promises: Promise<void>[] = [];
+    for (let i = 0; i < e.dataTransfer.items.length; i++) {
+      const entry = e.dataTransfer.items[i].webkitGetAsEntry();
+      if (entry) promises.push(readEntry(entry));
+    }
+    await Promise.all(promises);
+  } else {
+    // Fallback for browsers without DataTransferItem API
+    for (const f of Array.from(e.dataTransfer.files)) {
+      if (f.type.startsWith("image/")) files.push(f);
+    }
+  }
+
+  return files;
+}
+
 interface BlobFile {
   url: string;
   pathname: string;
@@ -113,7 +149,7 @@ function DealUploadZone({ deal, onSuccess }: { deal: { id: string }; onSuccess: 
           e.preventDefault();
           setDragOver(false);
           if (uploading) return;
-          handleFiles(Array.from(e.dataTransfer.files));
+          handleFiles(await readDroppedItems(e));
         }}
         onClick={() => {
           const input = document.createElement("input");
@@ -682,11 +718,13 @@ export default function AdminMediaPage() {
   })();
 
   const filteredProjects = search
-    ? projects.filter(
-        (p) =>
-          p.builder.toLowerCase().includes(search.toLowerCase()) ||
-          p.deal.toLowerCase().includes(search.toLowerCase()),
-      )
+    ? projects.filter((p) => {
+        const q = search.toLowerCase();
+        const dealReadable = p.deal.replace(/-/g, " ").toLowerCase();
+        const builderReadable = p.builder.replace(/-/g, " ").toLowerCase();
+        return dealReadable.includes(q) || builderReadable.includes(q) ||
+               p.deal.toLowerCase().includes(q) || p.builder.toLowerCase().includes(q);
+      })
     : projects;
 
   const totalSize = files.reduce((s, f) => s + f.size, 0);
@@ -751,7 +789,7 @@ export default function AdminMediaPage() {
                 e.preventDefault();
                 setDragOver(false);
                 if (uploading) return;
-                const droppedFiles = Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith("image/"));
+                const droppedFiles = await readDroppedItems(e);
                 if (!droppedFiles.length) return;
                 setUploading(true);
                 setUploadResult(null);

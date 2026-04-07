@@ -3,6 +3,36 @@
 import { useState, useEffect, useCallback } from "react";
 import recommendedIds from "@/data/recommended-projects.json";
 
+async function readDroppedItems(e: React.DragEvent): Promise<File[]> {
+  const files: File[] = [];
+  async function readEntry(entry: FileSystemEntry) {
+    if (entry.isFile) {
+      const file = await new Promise<File>((res) => (entry as FileSystemFileEntry).file(res));
+      if (file.type.startsWith("image/")) files.push(file);
+    } else if (entry.isDirectory) {
+      const reader = (entry as FileSystemDirectoryEntry).createReader();
+      while (true) {
+        const batch = await new Promise<FileSystemEntry[]>((res) => reader.readEntries(res));
+        if (batch.length === 0) break;
+        for (const child of batch) await readEntry(child);
+      }
+    }
+  }
+  if (e.dataTransfer.items) {
+    const promises: Promise<void>[] = [];
+    for (let i = 0; i < e.dataTransfer.items.length; i++) {
+      const entry = e.dataTransfer.items[i].webkitGetAsEntry();
+      if (entry) promises.push(readEntry(entry));
+    }
+    await Promise.all(promises);
+  } else {
+    for (const f of Array.from(e.dataTransfer.files)) {
+      if (f.type.startsWith("image/")) files.push(f);
+    }
+  }
+  return files;
+}
+
 interface Deal {
   id: string;
   name: string;
@@ -93,7 +123,7 @@ function ManualUploadZone({ dealId, onComplete }: { dealId: string; onComplete: 
       <div
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={() => setDragOver(false)}
-        onDrop={(e) => { e.preventDefault(); setDragOver(false); if (!uploading) handleFiles(Array.from(e.dataTransfer.files)); }}
+        onDrop={async (e) => { e.preventDefault(); setDragOver(false); if (!uploading) handleFiles(await readDroppedItems(e)); }}
         onClick={() => {
           const input = document.createElement("input");
           input.type = "file"; input.accept = "image/*"; input.multiple = true;
