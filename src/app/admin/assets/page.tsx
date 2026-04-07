@@ -64,6 +64,62 @@ function getDriveFolderId(url: string): string | null {
   return match ? match[1] : null;
 }
 
+function ManualUploadZone({ dealId, onComplete }: { dealId: string; onComplete: () => void }) {
+  const [dragOver, setDragOver] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [result, setResult] = useState<{ imported: number; errors: string[] } | null>(null);
+
+  async function handleFiles(files: File[]) {
+    const images = files.filter((f) => f.type.startsWith("image/"));
+    if (!images.length) return;
+    setUploading(true);
+    setResult(null);
+    const fd = new FormData();
+    fd.set("dealId", dealId);
+    images.forEach((f) => fd.append("files", f));
+    try {
+      const res = await fetch("/api/media/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      setResult({ imported: data.imported || 0, errors: data.errors || [] });
+      if (data.imported > 0) onComplete();
+    } catch (e) {
+      setResult({ imported: 0, errors: [String(e)] });
+    }
+    setUploading(false);
+  }
+
+  return (
+    <div className="mt-3">
+      <div
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => { e.preventDefault(); setDragOver(false); if (!uploading) handleFiles(Array.from(e.dataTransfer.files)); }}
+        onClick={() => {
+          const input = document.createElement("input");
+          input.type = "file"; input.accept = "image/*"; input.multiple = true;
+          input.onchange = () => { if (input.files) handleFiles(Array.from(input.files)); };
+          input.click();
+        }}
+        className={`cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors ${
+          dragOver ? "border-[#4CAF50] bg-[#4CAF50]/10" : "border-[#2C2C2C] hover:border-[#4CAF50]/50"
+        }`}
+      >
+        {uploading
+          ? <p className="text-xs text-[#A8A2D0]">Optimizing and uploading...</p>
+          : <><p className="text-xs text-[#A8A2D0]">Drag photos here or click to browse</p>
+             <p className="mt-0.5 text-[10px] text-[#666]">Auto-converted to WebP and added to library</p></>
+        }
+      </div>
+      {result && (
+        <p className={`mt-2 text-xs ${result.imported > 0 ? "text-[#4CAF50]" : "text-[#E57373]"}`}>
+          {result.imported > 0 ? `${result.imported} photo${result.imported !== 1 ? "s" : ""} uploaded` : ""}
+          {result.errors.length > 0 ? result.errors.slice(0, 2).join("; ") : ""}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function ImportButton({ dealId, dealName, onComplete }: { dealId: string; dealName: string; onComplete: () => void }) {
   const [importing, setImporting] = useState(false);
   const [result, setResult] = useState<{ imported: number; savings: string; originalMB: string; optimizedMB: string; errors: string[] } | null>(null);
@@ -602,13 +658,31 @@ export default function AdminAssetsPage() {
                 {selected.size > 0 ? `Deselect All` : `Select All`}
               </button>
               <button
+                onClick={async () => {
+                  const ids = Array.from(selected);
+                  if (!ids.length) return;
+                  await fetch("/api/deals/status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: "moveToLibrary", ids }),
+                  });
+                  setSelected(new Set());
+                  fetchDeals();
+                  fetchStats();
+                }}
+                disabled={selected.size === 0 || batchImporting}
+                className="rounded-full border border-[#4CAF50] px-4 py-2 text-xs font-semibold text-[#4CAF50] transition-colors hover:bg-[#4CAF50] hover:text-white disabled:opacity-30"
+              >
+                Move {selected.size} to Library
+              </button>
+              <button
                 onClick={batchImport}
                 disabled={selected.size === 0 || batchImporting}
-                className="rounded-full bg-[#4CAF50] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#388E3C] disabled:opacity-30"
+                className="rounded-full bg-[#6A5ACD] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5848B5] disabled:opacity-30"
               >
                 {batchImporting
                   ? `Importing ${batchProgress?.current}/${batchProgress?.total}...`
-                  : `Send ${selected.size} to Library`}
+                  : `Auto-Import ${selected.size}`}
               </button>
             </div>
           )}
@@ -698,16 +772,26 @@ export default function AdminAssetsPage() {
                     >
                       Appr.
                     </button>
-                    {/* Libr. — read-only, set by import process */}
-                    <span
-                      className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
+                    {/* Libr. — click to move deal to library without importing photos */}
+                    <button
+                      onClick={() => {
+                        if (!deal.imported) {
+                          fetch("/api/deals/status", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ action: "moveToLibrary", id: deal.id }),
+                          }).then(() => { fetchDeals(); fetchStats(); });
+                        }
+                      }}
+                      title={deal.imported ? "In library" : "Move to library (no photos yet)"}
+                      className={`rounded-full px-2 py-1 text-[10px] font-semibold transition-colors ${
                         deal.imported
-                          ? "bg-[#4CAF50] text-white"
-                          : "border border-[#2C2C2C] text-[#333]"
+                          ? "bg-[#4CAF50] text-white cursor-default"
+                          : "border border-[#2C2C2C] text-[#555] hover:border-[#4CAF50] hover:text-[#4CAF50]"
                       }`}
                     >
                       Libr.
-                    </span>
+                    </button>
                     {/* Arcv. */}
                     <button
                       onClick={() => deal.status !== "denied" && setDealStatus(deal.id, "denied")}

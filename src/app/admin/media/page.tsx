@@ -54,6 +54,16 @@ interface AttnDeal {
   import_error: string;
 }
 
+interface EmptyLibraryDeal {
+  id: string;
+  name: string;
+  builder: string;
+  city: string;
+  state: string;
+  client_assets: string;
+  imported_at: string | null;
+}
+
 interface ProjectGroup {
   builder: string;
   deal: string;
@@ -69,8 +79,8 @@ function formatSize(bytes: number): string {
   return (bytes / 1024 / 1024).toFixed(1) + " MB";
 }
 
-// ── Per-deal upload zone used in Attn section ─────────────────────────────────
-function DealUploadZone({ deal, onSuccess }: { deal: AttnDeal; onSuccess: () => void }) {
+// ── Per-deal upload zone ──────────────────────────────────────────────────────
+function DealUploadZone({ deal, onSuccess }: { deal: { id: string }; onSuccess: () => void }) {
   const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [result, setResult] = useState<{ imported: number; errors: string[] } | null>(null);
@@ -230,6 +240,138 @@ function AttnSection({ onResolved }: { onResolved: () => void }) {
                       setExpanded((prev) => { const n = new Set(prev); n.delete(deal.id); return n; });
                       fetchAttn();
                       onResolved();
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── Empty library slots — deals moved to library with no photos yet ───────────
+function EmptyLibrarySection({ onUploaded }: { onUploaded: () => void }) {
+  const [deals, setDeals] = useState<EmptyLibraryDeal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [editing, setEditing] = useState<{ id: string; name: string; builder: string } | null>(null);
+  const [savingEdit, setSavingEdit] = useState(false);
+
+  const fetchEmpty = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/deals/status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "emptyLibrary" }),
+      });
+      const data = await res.json();
+      setDeals(data.deals || []);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchEmpty(); }, [fetchEmpty]);
+
+  async function saveEdit() {
+    if (!editing) return;
+    setSavingEdit(true);
+    await fetch("/api/media/metadata", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dealId: editing.id, fields: { name: editing.name, builder: editing.builder } }),
+    });
+    setSavingEdit(false);
+    setEditing(null);
+    fetchEmpty();
+  }
+
+  if (loading || deals.length === 0) return null;
+
+  return (
+    <div className="mx-auto max-w-7xl px-6 pt-6">
+      <div className="mb-2 flex items-center gap-2">
+        <span className="inline-block h-2 w-2 rounded-full bg-[#6A5ACD]" />
+        <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#6A5ACD]">
+          In Library — {deals.length} project{deals.length !== 1 ? "s" : ""} awaiting photos
+        </p>
+      </div>
+      <div className="space-y-2">
+        {deals.map((deal) => {
+          const isOpen = expanded.has(deal.id);
+          const isEditing = editing?.id === deal.id;
+          return (
+            <div key={deal.id} className="rounded-lg border border-[#6A5ACD]/30 bg-[#6A5ACD]/5">
+              <div className="flex items-center justify-between px-4 py-3">
+                <div className="flex flex-1 items-start gap-3 min-w-0">
+                  {isEditing ? (
+                    <div className="flex flex-1 items-center gap-2 flex-wrap">
+                      <input
+                        value={editing.name}
+                        onChange={(e) => setEditing({ ...editing, name: e.target.value })}
+                        placeholder="Project name"
+                        className="rounded border border-[#6A5ACD] bg-[#121212] px-2 py-1 text-sm text-[#F5F5F5] outline-none w-64"
+                      />
+                      <input
+                        value={editing.builder}
+                        onChange={(e) => setEditing({ ...editing, builder: e.target.value })}
+                        placeholder="Builder"
+                        className="rounded border border-[#6A5ACD] bg-[#121212] px-2 py-1 text-sm text-[#F5F5F5] outline-none w-48"
+                      />
+                      <button onClick={saveEdit} disabled={savingEdit} className="rounded-full bg-[#6A5ACD] px-3 py-1 text-[10px] font-semibold text-white hover:bg-[#5848B5] disabled:opacity-50">
+                        {savingEdit ? "Saving…" : "Save"}
+                      </button>
+                      <button onClick={() => setEditing(null)} className="text-[10px] text-[#666] hover:text-[#F5F5F5]">Cancel</button>
+                    </div>
+                  ) : (
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-[#F5F5F5]">{deal.name}</p>
+                      <p className="mt-0.5 text-xs text-[#A8A2D0]">
+                        {deal.builder}{deal.city ? ` | ${deal.city}` : ""}{deal.state ? `, ${deal.state}` : ""}
+                        <span className="ml-2 text-[#555]">0 photos</span>
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 shrink-0 ml-4">
+                  {!isEditing && (
+                    <button
+                      onClick={() => setEditing({ id: deal.id, name: deal.name, builder: deal.builder })}
+                      className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+                    >
+                      Rename
+                    </button>
+                  )}
+                  {deal.client_assets && (
+                    <a
+                      href={deal.client_assets}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#A8A2D0] hover:text-[#6A5ACD]"
+                    >
+                      Source &rarr;
+                    </a>
+                  )}
+                  <button
+                    onClick={() => setExpanded((prev) => { const n = new Set(prev); isOpen ? n.delete(deal.id) : n.add(deal.id); return n; })}
+                    className="rounded-full bg-[#6A5ACD] px-3 py-1.5 text-[10px] font-semibold text-white hover:bg-[#5848B5]"
+                  >
+                    {isOpen ? "Close" : "Upload Photos"}
+                  </button>
+                </div>
+              </div>
+              {isOpen && (
+                <div className="border-t border-[#6A5ACD]/20 px-4 pb-4">
+                  <DealUploadZone
+                    deal={deal}
+                    onSuccess={() => {
+                      setExpanded((prev) => { const n = new Set(prev); n.delete(deal.id); return n; });
+                      fetchEmpty();
+                      onUploaded();
                     }}
                   />
                 </div>
@@ -464,7 +606,9 @@ export default function AdminMediaPage() {
   } | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
-  const [attnKey, setAttnKey] = useState(0); // increment to force Attn refresh
+  const [attnKey, setAttnKey] = useState(0);
+  const [renamingProject, setRenamingProject] = useState<string | null>(null); // project.path being renamed
+  const [renameValues, setRenameValues] = useState<{ name: string; builder: string }>({ name: "", builder: "" });
 
   const fetchFiles = useCallback(async () => {
     setLoading(true);
@@ -643,6 +787,9 @@ export default function AdminMediaPage() {
         </div>
       )}
 
+      {/* Empty library slots — moved to library, awaiting manual photo upload */}
+      <EmptyLibrarySection onUploaded={() => fetchFiles()} />
+
       {/* Attn section — deals that failed auto-import */}
       <AttnSection key={attnKey} onResolved={() => { setAttnKey((k) => k + 1); fetchFiles(); }} />
 
@@ -668,37 +815,99 @@ export default function AdminMediaPage() {
                     className="flex flex-1 items-center gap-4 text-left"
                   >
                     <div>
-                      <p className="text-sm font-medium text-[#F5F5F5]">{project.deal.replace(/-/g, " ")}</p>
-                      <p className="mt-0.5 text-xs text-[#A8A2D0]">
-                        {project.builder.replace(/-/g, " ")} | {project.images.length} images | {formatSize(project.images.reduce((s, f) => s + f.size, 0))}
-                      </p>
+                      {renamingProject === project.path ? (
+                        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                          <input
+                            value={renameValues.name}
+                            onChange={(e) => setRenameValues({ ...renameValues, name: e.target.value })}
+                            placeholder="Project name"
+                            className="rounded border border-[#6A5ACD] bg-[#121212] px-2 py-1 text-sm text-[#F5F5F5] outline-none w-56"
+                          />
+                          <input
+                            value={renameValues.builder}
+                            onChange={(e) => setRenameValues({ ...renameValues, builder: e.target.value })}
+                            placeholder="Builder"
+                            className="rounded border border-[#6A5ACD] bg-[#121212] px-2 py-1 text-sm text-[#F5F5F5] outline-none w-40"
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <p className="text-sm font-medium text-[#F5F5F5]">{project.deal.replace(/-/g, " ")}</p>
+                          <p className="mt-0.5 text-xs text-[#A8A2D0]">
+                            {project.builder.replace(/-/g, " ")} | {project.images.length} images | {formatSize(project.images.reduce((s, f) => s + f.size, 0))}
+                          </p>
+                        </>
+                      )}
                     </div>
                   </button>
                   <div className="flex items-center gap-2">
-                    <div className="hidden gap-1 sm:flex">
-                      {(project.thumbs.length > 0 ? project.thumbs : project.images).slice(0, 4).map((f) => (
-                        <div key={f.pathname} className="relative h-10 w-14 overflow-hidden rounded bg-[#2C2C2C]">
-                          <Image src={f.url} alt="" fill className="object-cover" sizes="56px" />
+                    {renamingProject === project.path ? (
+                      <>
+                        <button
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            // Find dealId via search and update metadata
+                            const res = await fetch(`/api/deals/status?search=${encodeURIComponent(project.deal.replace(/-/g, " "))}`);
+                            const data = await res.json();
+                            const dealId = data.deals?.[0]?.id;
+                            if (dealId) {
+                              await fetch("/api/media/metadata", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ dealId, fields: { name: renameValues.name, builder: renameValues.builder } }),
+                              });
+                            }
+                            setRenamingProject(null);
+                          }}
+                          className="rounded-full bg-[#6A5ACD] px-3 py-1.5 text-[10px] font-semibold text-white hover:bg-[#5848B5]"
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setRenamingProject(null); }}
+                          className="text-[10px] text-[#666] hover:text-[#F5F5F5]"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <div className="hidden gap-1 sm:flex">
+                          {(project.thumbs.length > 0 ? project.thumbs : project.images).slice(0, 4).map((f) => (
+                            <div key={f.pathname} className="relative h-10 w-14 overflow-hidden rounded bg-[#2C2C2C]">
+                              <Image src={f.url} alt="" fill className="object-cover" sizes="56px" />
+                            </div>
+                          ))}
+                          {project.images.length > 4 && (
+                            <div className="flex h-10 w-14 items-center justify-center rounded bg-[#2C2C2C] text-[10px] text-[#666]">+{project.images.length - 4}</div>
+                          )}
                         </div>
-                      ))}
-                      {project.images.length > 4 && (
-                        <div className="flex h-10 w-14 items-center justify-center rounded bg-[#2C2C2C] text-[10px] text-[#666]">+{project.images.length - 4}</div>
-                      )}
-                    </div>
-                    <OriginalDownloadButton projectPath={project.path} />
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setMetadataPanel(project.path); }}
-                      className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
-                    >
-                      Metadata
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); deleteProject(project.dealId, project.path, project.deal.replace(/-/g, " "), project.images.length); }}
-                      disabled={deleting === (project.dealId || project.path)}
-                      className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373] disabled:opacity-40"
-                    >
-                      {deleting === (project.dealId || project.path) ? "Deleting…" : "Delete"}
-                    </button>
+                        <OriginalDownloadButton projectPath={project.path} />
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setRenamingProject(project.path);
+                            setRenameValues({ name: project.deal.replace(/-/g, " "), builder: project.builder.replace(/-/g, " ") });
+                          }}
+                          className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+                        >
+                          Rename
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setMetadataPanel(project.path); }}
+                          className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+                        >
+                          Metadata
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); deleteProject(project.dealId, project.path, project.deal.replace(/-/g, " "), project.images.length); }}
+                          disabled={deleting === (project.dealId || project.path)}
+                          className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373] disabled:opacity-40"
+                        >
+                          {deleting === (project.dealId || project.path) ? "Deleting…" : "Delete"}
+                        </button>
+                      </>
+                    )}
                     <svg
                       className={`h-4 w-4 text-[#666] transition-transform ${isExpanded ? "rotate-180" : ""}`}
                       fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"

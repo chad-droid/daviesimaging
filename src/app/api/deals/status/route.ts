@@ -101,6 +101,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ deals: rows.rows });
     }
 
+    // Move one or many deals to library as empty slots (no photo import)
+    if (action === "moveToLibrary") {
+      const targetIds = ids || (id ? [id] : []);
+      if (targetIds.length === 0) return NextResponse.json({ error: "ids required" }, { status: 400 });
+      for (const did of targetIds) {
+        await sql`
+          UPDATE deals SET imported = TRUE, imported_at = NOW(), updated_at = NOW()
+          WHERE id = ${did}
+        `;
+      }
+      return NextResponse.json({ moved: targetIds.length });
+    }
+
+    // Return deals that are imported=true but have no photos in media_files yet
+    if (action === "emptyLibrary") {
+      const rows = await sql`
+        SELECT d.id, d.name, d.builder, d.city, d.state, d.client_assets, d.imported_at
+        FROM deals d
+        LEFT JOIN media_files mf ON d.id = mf.deal_id
+        WHERE d.imported = TRUE
+        GROUP BY d.id, d.name, d.builder, d.city, d.state, d.client_assets, d.imported_at
+        HAVING COUNT(mf.id) = 0
+        ORDER BY d.imported_at DESC NULLS LAST
+      `;
+      return NextResponse.json({ deals: rows.rows });
+    }
+
     if (id && status) {
       await updateDealStatus(id, status);
     }
