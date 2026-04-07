@@ -2,7 +2,17 @@ const ZOHO_ACCOUNTS_URL = "https://accounts.zoho.com/oauth/v2/token";
 const WORKDRIVE_API = "https://www.zohoapis.com/workdrive/api/v1";
 const FINISHED_ASSETS_FOLDER_ID = "u44ek0f42259fc4cf436ca4b82563089aad11";
 
+// ── Token cache — reuse access tokens across requests (valid for 1 hour) ──
+let _cachedToken: string | null = null;
+let _tokenExpiresAt = 0; // epoch ms
+
 async function getAccessToken(): Promise<string> {
+  const now = Date.now();
+  // Return cached token if it has more than 5 minutes left
+  if (_cachedToken && _tokenExpiresAt - now > 5 * 60 * 1000) {
+    return _cachedToken;
+  }
+
   const res = await fetch(ZOHO_ACCOUNTS_URL, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -15,7 +25,11 @@ async function getAccessToken(): Promise<string> {
   });
   const data = await res.json();
   if (!data.access_token) throw new Error(`Zoho auth failed: ${JSON.stringify(data)}`);
-  return data.access_token;
+
+  _cachedToken = data.access_token;
+  // Zoho tokens last 3600s; cache for 55 minutes to be safe
+  _tokenExpiresAt = now + 55 * 60 * 1000;
+  return _cachedToken;
 }
 
 interface WDFile {

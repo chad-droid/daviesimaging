@@ -279,6 +279,8 @@ export default function AdminAssetsPage() {
     for (let i = 0; i < ids.length; i++) {
       const deal = deals.find((d) => d.id === ids[i]);
       setBatchProgress({ current: i + 1, total: ids.length, currentName: deal?.name || "" });
+      // Small delay between requests to avoid Zoho rate limiting
+      if (i > 0) await new Promise((r) => setTimeout(r, 1500));
       try {
         const res = await fetch("/api/media/import", {
           method: "POST",
