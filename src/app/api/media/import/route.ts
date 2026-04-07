@@ -1,3 +1,5 @@
+export const maxDuration = 60; // Vercel Hobby plan max — prevents 504 timeouts on large imports
+
 import { NextRequest, NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { sql } from "@vercel/postgres";
@@ -162,39 +164,58 @@ interface DropboxEntry {
 
 async function listDropboxFiles(sharedLinkUrl: string, token: string): Promise<DropboxEntry[]> {
   const allFiles: DropboxEntry[] = [];
-  let hasMore = true;
-  let cursor: string | undefined;
 
-  while (hasMore) {
-    let res: Response;
-    if (cursor) {
-      res = await fetch("https://api.dropboxapi.com/2/files/list_folder/continue", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ cursor }),
-      });
-    } else {
-      res = await fetch("https://api.dropboxapi.com/2/files/list_folder", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          path: "",
-          shared_link: { url: sharedLinkUrl },
-          recursive: true,
-          include_non_downloadable_files: false,
-        }),
-      });
+  // Dropbox does NOT support recursive:true for shared links.
+  // Strategy: list root level, then list each subfolder one level deep.
+  async function listPath(path: string) {
+    let hasMore = true;
+    let cursor: string | undefined;
+    const subfolders: DropboxEntry[] = [];
+
+    while (hasMore) {
+      let res: Response;
+      if (cursor) {
+        res = await fetch("https://api.dropboxapi.com/2/files/list_folder/continue", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ cursor }),
+        });
+      } else {
+        res = await fetch("https://api.dropboxapi.com/2/files/list_folder", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            path,
+            shared_link: { url: sharedLinkUrl },
+            recursive: false,
+            include_non_downloadable_files: false,
+          }),
+        });
+      }
+      if (!res.ok) throw new Error(`Dropbox list error: ${await res.text()}`);
+      const data = await res.json();
+      const entries = data.entries as DropboxEntry[];
+
+      for (const e of entries) {
+        if (e[".tag"] === "file" && /\.(jpe?g|png|webp|tiff?)$/i.test(e.name)) {
+          allFiles.push(e);
+        } else if (e[".tag"] === "folder" && path === "") {
+          // Only collect subfolders from the root level to avoid deep recursion
+          subfolders.push(e);
+        }
+      }
+
+      hasMore = data.has_more || false;
+      cursor = data.cursor;
     }
-    if (!res.ok) throw new Error(`Dropbox list error: ${await res.text()}`);
-    const data = await res.json();
 
-    const images = (data.entries as DropboxEntry[]).filter(
-      (e) => e[".tag"] === "file" && /\.(jpe?g|png|webp|tiff?)$/i.test(e.name),
-    );
-    allFiles.push(...images);
-    hasMore = data.has_more || false;
-    cursor = data.cursor;
+    // Recurse one level into subfolders found at root
+    for (const folder of subfolders) {
+      await listPath(folder.path_display);
+    }
   }
+
+  await listPath("");
   return allFiles;
 }
 
