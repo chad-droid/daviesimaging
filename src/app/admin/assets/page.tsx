@@ -175,6 +175,7 @@ export default function AdminAssetsPage() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [batchImporting, setBatchImporting] = useState(false);
   const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; currentName: string } | null>(null);
+  const [importFailures, setImportFailures] = useState<{ name: string; error: string }[] | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const fetchDeals = useCallback(async () => {
@@ -273,24 +274,32 @@ export default function AdminAssetsPage() {
 
     setBatchImporting(true);
     setBatchProgress({ current: 0, total: ids.length, currentName: "" });
+    const failures: { name: string; error: string }[] = [];
 
     for (let i = 0; i < ids.length; i++) {
       const deal = deals.find((d) => d.id === ids[i]);
       setBatchProgress({ current: i + 1, total: ids.length, currentName: deal?.name || "" });
       try {
-        await fetch("/api/media/import", {
+        const res = await fetch("/api/media/import", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ dealId: ids[i] }),
         });
-      } catch {
-        // Continue with next deal even if one fails
+        const data = await res.json();
+        if (data.error) {
+          failures.push({ name: deal?.name || ids[i], error: data.error });
+        } else if (data.errors?.length > 0) {
+          failures.push({ name: deal?.name || ids[i], error: `${data.errors.length} file(s) failed: ${data.errors.slice(0, 2).join("; ")}` });
+        }
+      } catch (e) {
+        failures.push({ name: deal?.name || ids[i], error: String(e) });
       }
     }
 
     setBatchImporting(false);
     setBatchProgress(null);
     setSelected(new Set());
+    if (failures.length > 0) setImportFailures(failures);
     fetchDeals();
     fetchStats();
   }
@@ -316,7 +325,7 @@ export default function AdminAssetsPage() {
 
   const tabs: { key: TabView; label: string; count: string }[] = [
     { key: "pending", label: "Pending", count: String(stats.pending || 0) },
-    { key: "approved", label: "Media Pending", count: String(stats.approved || 0) },
+    { key: "approved", label: "Approved", count: String(stats.approved || 0) },
     { key: "imported", label: "In Library", count: String(stats.imported || 0) },
     { key: "archived", label: "Archive", count: String(stats.denied || 0) },
   ];
@@ -423,7 +432,7 @@ export default function AdminAssetsPage() {
               >
                 {batchImporting
                   ? `Importing ${batchProgress?.current}/${batchProgress?.total}...`
-                  : `Send ${selected.size} to Media`}
+                  : `Send ${selected.size} to Library`}
               </button>
             </div>
           )}
@@ -489,56 +498,51 @@ export default function AdminAssetsPage() {
                       className="h-4 w-4 shrink-0 cursor-pointer accent-[#6A5ACD]"
                     />
                   )}
-                  {/* Actions */}
-                  <div className="flex shrink-0 gap-1.5">
-                    {tab === "pending" && (
-                      <>
-                        <button
-                          onClick={() => setDealStatus(deal.id, "approved")}
-                          className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
-                        >
-                          Approve
-                        </button>
-                        <button
-                          onClick={() => setDealStatus(deal.id, "denied")}
-                          className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373]"
-                        >
-                          Skip
-                        </button>
-                      </>
-                    )}
-                    {tab === "approved" && (
-                      <>
-                        <button
-                          onClick={() => setDealStatus(deal.id, "pending")}
-                          className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#A8A2D0] hover:text-[#A8A2D0]"
-                        >
-                          ← Pending
-                        </button>
-                        <button
-                          onClick={() => setDealStatus(deal.id, "denied")}
-                          className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373]"
-                        >
-                          Remove
-                        </button>
-                      </>
-                    )}
-                    {tab === "imported" && (
-                      <button
-                        onClick={() => setDealStatus(deal.id, "archived")}
-                        className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373]"
-                      >
-                        Archive
-                      </button>
-                    )}
-                    {tab === "archived" && (
-                      <button
-                        onClick={() => setDealStatus(deal.id, "pending")}
-                        className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#A8A2D0] hover:text-[#A8A2D0]"
-                      >
-                        Restore
-                      </button>
-                    )}
+                  {/* Status pills — click any to move deal to that state */}
+                  <div className="flex shrink-0 gap-1">
+                    {/* Pend. */}
+                    <button
+                      onClick={() => !deal.imported && deal.status !== "pending" && setDealStatus(deal.id, "pending")}
+                      className={`rounded-full px-2 py-1 text-[10px] font-semibold transition-colors ${
+                        deal.status === "pending" && !deal.imported
+                          ? "bg-[#555] text-white cursor-default"
+                          : "border border-[#2C2C2C] text-[#555] hover:border-[#888] hover:text-[#ccc]"
+                      }`}
+                    >
+                      Pend.
+                    </button>
+                    {/* Appr. */}
+                    <button
+                      onClick={() => !deal.imported && deal.status !== "approved" && setDealStatus(deal.id, "approved")}
+                      className={`rounded-full px-2 py-1 text-[10px] font-semibold transition-colors ${
+                        deal.status === "approved" && !deal.imported
+                          ? "bg-[#6A5ACD] text-white cursor-default"
+                          : "border border-[#2C2C2C] text-[#555] hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+                      }`}
+                    >
+                      Appr.
+                    </button>
+                    {/* Libr. — read-only, set by import process */}
+                    <span
+                      className={`rounded-full px-2 py-1 text-[10px] font-semibold ${
+                        deal.imported
+                          ? "bg-[#4CAF50] text-white"
+                          : "border border-[#2C2C2C] text-[#333]"
+                      }`}
+                    >
+                      Libr.
+                    </span>
+                    {/* Arcv. */}
+                    <button
+                      onClick={() => deal.status !== "denied" && setDealStatus(deal.id, "denied")}
+                      className={`rounded-full px-2 py-1 text-[10px] font-semibold transition-colors ${
+                        deal.status === "denied"
+                          ? "bg-[#E57373]/30 text-[#E57373] cursor-default"
+                          : "border border-[#2C2C2C] text-[#555] hover:border-[#E57373] hover:text-[#E57373]"
+                      }`}
+                    >
+                      Arcv.
+                    </button>
                   </div>
 
                   {/* Info */}
@@ -639,6 +643,39 @@ export default function AdminAssetsPage() {
           })}
         </div>
       </div>
+
+      {/* Import failures dialog */}
+      {importFailures && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+          <div className="w-full max-w-lg rounded-xl border border-[#E57373]/40 bg-[#1E1E1E] p-6">
+            <div className="mb-4 flex items-center gap-3">
+              <svg className="h-5 w-5 shrink-0 text-[#E57373]" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+              <h2 className="text-sm font-semibold text-[#E57373]">
+                {importFailures.length} project{importFailures.length !== 1 ? "s" : ""} failed to import
+              </h2>
+            </div>
+            <div className="max-h-64 space-y-2 overflow-y-auto pr-1">
+              {importFailures.map((f, i) => (
+                <div key={i} className="rounded-lg border border-[#2C2C2C] bg-[#121212] p-3">
+                  <p className="text-xs font-medium text-[#F5F5F5]">{f.name}</p>
+                  <p className="mt-1 text-[10px] leading-relaxed text-[#E57373]">{f.error}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-[10px] text-[#666]">
+              Check that the Google Drive folder link is correct and accessible. Use the &ldquo;Client Assets&rdquo; link on each deal to verify the URL, then retry individual imports from the expanded deal view.
+            </p>
+            <button
+              onClick={() => setImportFailures(null)}
+              className="mt-4 rounded-full bg-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0] hover:bg-[#333]"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
