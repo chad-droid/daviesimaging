@@ -223,7 +223,7 @@ async function optimizeAndUpload(
 
 export async function POST(req: NextRequest) {
   try {
-    const { dealId, maxImages, overrideUrl } = (await req.json()) as { dealId: string; maxImages?: number; overrideUrl?: string };
+    const { dealId, maxImages, overrideUrl, zohoToken: providedZohoToken } = (await req.json()) as { dealId: string; maxImages?: number; overrideUrl?: string; zohoToken?: string };
 
     if (!dealId) return NextResponse.json({ error: "dealId required" }, { status: 400 });
 
@@ -291,7 +291,7 @@ export async function POST(req: NextRequest) {
             }
           }
         } else if (source === "workdrive") {
-          const zToken = await getZohoToken();
+          const zToken = providedZohoToken || await getZohoToken();
           let wdFolderId = extractWorkDriveFolderId(tryUrl);
 
           if (!wdFolderId) {

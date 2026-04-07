@@ -276,16 +276,26 @@ export default function AdminAssetsPage() {
     setBatchProgress({ current: 0, total: ids.length, currentName: "" });
     const failures: { name: string; error: string }[] = [];
 
+    // Fetch a single Zoho token before the batch — passed to every import request
+    // so each serverless function invocation reuses it instead of fetching its own.
+    let zohoToken: string | undefined;
+    try {
+      const tokenRes = await fetch("/api/workdrive/token");
+      const tokenData = await tokenRes.json();
+      if (tokenData.token) zohoToken = tokenData.token;
+    } catch { /* proceed without pre-fetched token — imports will self-authenticate */ }
+
     for (let i = 0; i < ids.length; i++) {
       const deal = deals.find((d) => d.id === ids[i]);
       setBatchProgress({ current: i + 1, total: ids.length, currentName: deal?.name || "" });
-      // Small delay between requests to avoid Zoho rate limiting
-      if (i > 0) await new Promise((r) => setTimeout(r, 1500));
+      // 3s delay between requests — WorkDrive API rate limits apply to file listing
+      // and download calls, not just token refreshes
+      if (i > 0) await new Promise((r) => setTimeout(r, 3000));
       try {
         const res = await fetch("/api/media/import", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ dealId: ids[i] }),
+          body: JSON.stringify({ dealId: ids[i], zohoToken }),
         });
         const data = await res.json();
         if (data.error) {
