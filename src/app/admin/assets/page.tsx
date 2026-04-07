@@ -229,6 +229,9 @@ export default function AdminAssetsPage() {
   const [batchProgress, setBatchProgress] = useState<{ current: number; total: number; currentName: string } | null>(null);
   const [importFailures, setImportFailures] = useState<{ name: string; error: string }[] | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [showCreateDeal, setShowCreateDeal] = useState(false);
+  const [newDeal, setNewDeal] = useState({ name: "", builder: "", city: "", state: "", modelName: "", address: "", clientAssets: "" });
+  const [creatingDeal, setCreatingDeal] = useState(false);
 
   const fetchDeals = useCallback(async () => {
     setLoading(true);
@@ -368,16 +371,32 @@ export default function AdminAssetsPage() {
           // Vercel timeout or server crash returned non-JSON (HTML error page)
           data = { error: `Server error (${res.status}) — request may have timed out` };
         }
+        let errorMsg: string | null = null;
         if (data.status === "candidates") {
           const candidateCount = Array.isArray(data.candidates) ? (data.candidates as unknown[]).length : 0;
-          failures.push({ name: deal?.name || ids[i], error: `${candidateCount} matching folders found — open this deal to select which to import` });
+          errorMsg = `${candidateCount} matching folders found — open this deal to select which to import`;
         } else if (data.error) {
-          failures.push({ name: deal?.name || ids[i], error: data.error as string });
+          errorMsg = data.error as string;
         } else if (Array.isArray(data.errors) && data.errors.length > 0) {
-          failures.push({ name: deal?.name || ids[i], error: `${data.errors.length} file(s) failed: ${(data.errors as string[]).slice(0, 2).join("; ")}` });
+          errorMsg = `${data.errors.length} file(s) failed: ${(data.errors as string[]).slice(0, 2).join("; ")}`;
+        }
+        if (errorMsg) {
+          failures.push({ name: deal?.name || ids[i], error: errorMsg });
+          // Mark deal as failed in DB so it appears in Attn queue
+          await fetch("/api/deals/status", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "markFailed", id: ids[i], importError: errorMsg }),
+          });
         }
       } catch (e) {
-        failures.push({ name: deal?.name || ids[i], error: String(e) });
+        const errorMsg = String(e);
+        failures.push({ name: deal?.name || ids[i], error: errorMsg });
+        await fetch("/api/deals/status", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "markFailed", id: ids[i], importError: errorMsg }),
+        });
       }
     }
 
@@ -387,6 +406,26 @@ export default function AdminAssetsPage() {
     if (failures.length > 0) setImportFailures(failures);
     fetchDeals();
     fetchStats();
+  }
+
+  async function createDealManually() {
+    if (!newDeal.name || !newDeal.builder) return;
+    setCreatingDeal(true);
+    try {
+      const res = await fetch("/api/deals/status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "createDeal", ...newDeal }),
+      });
+      const data = await res.json();
+      if (data.error) { alert("Error: " + data.error); return; }
+      setShowCreateDeal(false);
+      setNewDeal({ name: "", builder: "", city: "", state: "", modelName: "", address: "", clientAssets: "" });
+      fetchDeals();
+      fetchStats();
+    } finally {
+      setCreatingDeal(false);
+    }
   }
 
   async function syncFromZoho() {
@@ -435,6 +474,12 @@ export default function AdminAssetsPage() {
               </span>
             )}
             <button
+              onClick={() => setShowCreateDeal(!showCreateDeal)}
+              className="rounded-full border border-[#6A5ACD] px-4 py-2 text-xs font-semibold text-[#6A5ACD] transition-colors hover:bg-[#6A5ACD] hover:text-white"
+            >
+              + Add Deal
+            </button>
+            <button
               onClick={syncFromZoho}
               disabled={syncing}
               className="rounded-full border border-[#4CAF50] px-4 py-2 text-xs font-semibold text-[#4CAF50] transition-colors hover:bg-[#4CAF50] hover:text-white disabled:opacity-50"
@@ -449,6 +494,52 @@ export default function AdminAssetsPage() {
           </p>
         )}
       </div>
+
+      {/* Create Deal Form */}
+      {showCreateDeal && (
+        <div className="border-b border-[#6A5ACD]/30 bg-[#1E1E1E] px-6 py-5">
+          <div className="mx-auto max-w-7xl">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.15em] text-[#6A5ACD]">Add Deal Manually</p>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {[
+                { key: "name", label: "Deal / Project Name *", placeholder: "Mirabella Models" },
+                { key: "builder", label: "Builder *", placeholder: "Toll Brothers" },
+                { key: "city", label: "City", placeholder: "Phoenix" },
+                { key: "state", label: "State", placeholder: "AZ" },
+                { key: "modelName", label: "Model Name", placeholder: "The Aspen" },
+                { key: "address", label: "Address", placeholder: "123 Main St" },
+                { key: "clientAssets", label: "Asset URL (optional)", placeholder: "https://..." },
+              ].map((f) => (
+                <div key={f.key} className={f.key === "clientAssets" ? "col-span-2" : ""}>
+                  <label className="mb-1 block text-[10px] uppercase tracking-widest text-[#666]">{f.label}</label>
+                  <input
+                    type="text"
+                    placeholder={f.placeholder}
+                    value={newDeal[f.key as keyof typeof newDeal]}
+                    onChange={(e) => setNewDeal({ ...newDeal, [f.key]: e.target.value })}
+                    className="w-full rounded border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5] outline-none focus:border-[#6A5ACD]"
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 flex gap-2">
+              <button
+                onClick={createDealManually}
+                disabled={creatingDeal || !newDeal.name || !newDeal.builder}
+                className="rounded-full bg-[#6A5ACD] px-5 py-2 text-xs font-semibold text-white hover:bg-[#5848B5] disabled:opacity-40"
+              >
+                {creatingDeal ? "Creating..." : "Create Deal"}
+              </button>
+              <button
+                onClick={() => setShowCreateDeal(false)}
+                className="rounded-full border border-[#2C2C2C] px-5 py-2 text-xs font-semibold text-[#666] hover:text-[#F5F5F5]"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Tabs */}
       <div className="border-b border-[#2C2C2C] bg-[#1E1E1E]">

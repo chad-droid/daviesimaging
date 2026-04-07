@@ -44,6 +44,16 @@ interface DealMeta {
   project_website: string;
 }
 
+interface AttnDeal {
+  id: string;
+  name: string;
+  builder: string;
+  city: string;
+  state: string;
+  client_assets: string;
+  import_error: string;
+}
+
 interface ProjectGroup {
   builder: string;
   deal: string;
@@ -59,6 +69,180 @@ function formatSize(bytes: number): string {
   return (bytes / 1024 / 1024).toFixed(1) + " MB";
 }
 
+// ── Per-deal upload zone used in Attn section ─────────────────────────────────
+function DealUploadZone({ deal, onSuccess }: { deal: AttnDeal; onSuccess: () => void }) {
+  const [dragOver, setDragOver] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [result, setResult] = useState<{ imported: number; errors: string[] } | null>(null);
+
+  async function handleFiles(files: File[]) {
+    const images = files.filter((f) => f.type.startsWith("image/"));
+    if (!images.length) return;
+    setUploading(true);
+    setResult(null);
+    const fd = new FormData();
+    fd.set("dealId", deal.id);
+    images.forEach((f) => fd.append("files", f));
+    try {
+      const res = await fetch("/api/media/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      setResult({ imported: data.imported || 0, errors: data.errors || [] });
+      if (data.imported > 0) onSuccess();
+    } catch (e) {
+      setResult({ imported: 0, errors: [String(e)] });
+    }
+    setUploading(false);
+  }
+
+  return (
+    <div className="mt-3">
+      <div
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={async (e) => {
+          e.preventDefault();
+          setDragOver(false);
+          if (uploading) return;
+          handleFiles(Array.from(e.dataTransfer.files));
+        }}
+        onClick={() => {
+          const input = document.createElement("input");
+          input.type = "file";
+          input.accept = "image/*";
+          input.multiple = true;
+          input.onchange = () => { if (input.files) handleFiles(Array.from(input.files)); };
+          input.click();
+        }}
+        className={`cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors ${
+          dragOver ? "border-[#F9A825] bg-[#F9A825]/10" : "border-[#F9A825]/40 hover:border-[#F9A825]/70"
+        }`}
+      >
+        {uploading ? (
+          <p className="text-xs text-[#F9A825]">Optimizing and uploading...</p>
+        ) : (
+          <>
+            <p className="text-xs text-[#F9A825]">Drag images here or click to browse</p>
+            <p className="mt-0.5 text-[10px] text-[#F9A825]/60">Auto-optimized to WebP</p>
+          </>
+        )}
+      </div>
+      {result && (
+        <p className={`mt-2 text-xs ${result.imported > 0 ? "text-[#4CAF50]" : "text-[#E57373]"}`}>
+          {result.imported > 0 ? `${result.imported} image${result.imported !== 1 ? "s" : ""} uploaded successfully` : ""}
+          {result.errors.length > 0 ? ` ${result.errors.slice(0, 2).join("; ")}` : ""}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ── Attn Section ──────────────────────────────────────────────────────────────
+function AttnSection({ onResolved }: { onResolved: () => void }) {
+  const [deals, setDeals] = useState<AttnDeal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  const fetchAttn = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/deals/status", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "getAttn" }) });
+      const data = await res.json();
+      setDeals(data.deals || []);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { fetchAttn(); }, [fetchAttn]);
+
+  async function dismiss(dealId: string) {
+    await fetch("/api/deals/status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "clearFailed", id: dealId }),
+    });
+    fetchAttn();
+  }
+
+  if (loading) return null;
+  if (deals.length === 0) return null;
+
+  return (
+    <div className="mx-auto max-w-7xl px-6 pt-6">
+      <div className="mb-2 flex items-center gap-2">
+        <span className="inline-block h-2 w-2 rounded-full bg-[#F9A825]" />
+        <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#F9A825]">
+          Attn — {deals.length} deal{deals.length !== 1 ? "s" : ""} need manual upload
+        </p>
+      </div>
+      <div className="space-y-2">
+        {deals.map((deal) => {
+          const isOpen = expanded.has(deal.id);
+          return (
+            <div key={deal.id} className="rounded-lg border border-[#F9A825]/30 bg-[#F9A825]/5">
+              <div className="flex items-center justify-between px-4 py-3">
+                <button
+                  onClick={() => setExpanded((prev) => { const n = new Set(prev); isOpen ? n.delete(deal.id) : n.add(deal.id); return n; })}
+                  className="flex flex-1 items-start gap-3 text-left"
+                >
+                  <div>
+                    <p className="text-sm font-medium text-[#F5F5F5]">{deal.name}</p>
+                    <p className="mt-0.5 text-xs text-[#A8A2D0]">
+                      {deal.builder}{deal.city ? ` | ${deal.city}` : ""}{deal.state ? `, ${deal.state}` : ""}
+                    </p>
+                    {deal.import_error && (
+                      <p className="mt-1 text-[10px] text-[#F9A825]/70 leading-relaxed max-w-2xl">{deal.import_error}</p>
+                    )}
+                  </div>
+                </button>
+                <div className="flex items-center gap-2 shrink-0 ml-4">
+                  {deal.client_assets && (
+                    <a
+                      href={deal.client_assets}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="rounded-full border border-[#F9A825]/40 px-3 py-1.5 text-[10px] font-semibold text-[#F9A825] hover:bg-[#F9A825]/10"
+                    >
+                      Open Source
+                    </a>
+                  )}
+                  <button
+                    onClick={() => setExpanded((prev) => { const n = new Set(prev); isOpen ? n.delete(deal.id) : n.add(deal.id); return n; })}
+                    className="rounded-full bg-[#F9A825] px-3 py-1.5 text-[10px] font-semibold text-[#121212] hover:bg-[#F9A825]/80"
+                  >
+                    {isOpen ? "Close" : "Upload Images"}
+                  </button>
+                  <button
+                    onClick={() => dismiss(deal.id)}
+                    className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] hover:text-[#E57373]"
+                    title="Dismiss from Attn queue"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+              {isOpen && (
+                <div className="border-t border-[#F9A825]/20 px-4 pb-4">
+                  <DealUploadZone
+                    deal={deal}
+                    onSuccess={() => {
+                      setExpanded((prev) => { const n = new Set(prev); n.delete(deal.id); return n; });
+                      fetchAttn();
+                      onResolved();
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── Metadata panel ────────────────────────────────────────────────────────────
 function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => void }) {
   const [deal, setDeal] = useState<DealMeta | null>(null);
   const [files, setFiles] = useState<MediaFile[]>([]);
@@ -86,7 +270,6 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
     });
     setSaving(false);
     setEditing({});
-    // Refresh
     const res = await fetch(`/api/media/metadata?dealId=${dealId}`);
     const data = await res.json();
     setDeal(data.deal);
@@ -103,7 +286,6 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
       });
       const data = await res.json();
       setDescribeResult(`${data.described} images described${data.failed > 0 ? `, ${data.failed} failed` : ""}`);
-      // Refresh files
       const meta = await fetch(`/api/media/metadata?dealId=${dealId}`);
       const metaData = await meta.json();
       setFiles(metaData.files || []);
@@ -129,10 +311,7 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
 
   return (
     <div className="fixed inset-0 z-50 flex">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
-
-      {/* Panel */}
       <div className="relative ml-auto h-full w-full max-w-2xl overflow-y-auto bg-[#1E1E1E] shadow-2xl">
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#2C2C2C] bg-[#1E1E1E] px-6 py-4">
           <div>
@@ -147,9 +326,7 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
             </svg>
           </button>
         </div>
-
         <div className="p-6">
-          {/* Deal metadata */}
           <div className="mb-6">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#A8A2D0]">Project Info</p>
@@ -166,9 +343,7 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
             <div className="space-y-3">
               {editableFields.map((field) => (
                 <div key={field.key}>
-                  <label className="mb-1 block text-[10px] uppercase tracking-widest text-[#666]">
-                    {field.label}
-                  </label>
+                  <label className="mb-1 block text-[10px] uppercase tracking-widest text-[#666]">{field.label}</label>
                   <input
                     type="text"
                     value={editing[field.key] ?? (deal as unknown as Record<string, string>)[field.key] ?? ""}
@@ -178,15 +353,11 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
                 </div>
               ))}
             </div>
-
-            {/* Read-only fields */}
             <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
               {deal.pipeline && <div><span className="text-[#666]">Pipeline:</span> <span className="text-[#F5F5F5]">{deal.pipeline}</span></div>}
               {deal.production_date && <div><span className="text-[#666]">Produced:</span> <span className="text-[#F5F5F5]">{deal.production_date}</span></div>}
               {deal.amount > 0 && <div><span className="text-[#666]">Amount:</span> <span className="text-[#F5F5F5]">${Number(deal.amount).toLocaleString()}</span></div>}
             </div>
-
-            {/* Links */}
             <div className="mt-4 flex flex-wrap gap-3">
               {deal.client_assets && <a href={deal.client_assets} target="_blank" rel="noopener noreferrer" className="text-xs text-[#6A5ACD] hover:underline">Client Assets &rarr;</a>}
               {deal.internal_assets && <a href={deal.internal_assets} target="_blank" rel="noopener noreferrer" className="text-xs text-[#A8A2D0] hover:underline">Internal &rarr;</a>}
@@ -194,8 +365,6 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
               {deal.project_website && <a href={deal.project_website} target="_blank" rel="noopener noreferrer" className="text-xs text-[#A8A2D0] hover:underline">Website &rarr;</a>}
             </div>
           </div>
-
-          {/* AI Descriptions */}
           <div className="mb-6 border-t border-[#2C2C2C] pt-6">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#A8A2D0]">
@@ -215,25 +384,15 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
               </p>
             )}
           </div>
-
-          {/* File list with descriptions */}
           <div className="space-y-3">
             {files.map((file) => (
               <div key={file.id} className="flex gap-3 rounded-lg border border-[#2C2C2C] bg-[#121212] p-3">
                 <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded bg-[#2C2C2C]">
-                  <Image
-                    src={file.thumb_url || file.url}
-                    alt={file.description || file.filename}
-                    fill
-                    className="object-cover"
-                    sizes="96px"
-                  />
+                  <Image src={file.thumb_url || file.url} alt={file.description || file.filename} fill className="object-cover" sizes="96px" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-xs font-medium text-[#F5F5F5]">{file.filename}</p>
-                  <p className="text-[10px] text-[#666]">
-                    {file.width}x{file.height} | {formatSize(file.size_bytes)}
-                  </p>
+                  <p className="text-[10px] text-[#666]">{file.width}x{file.height} | {formatSize(file.size_bytes)}</p>
                   {file.description ? (
                     <p className="mt-1 text-xs leading-relaxed text-[#A8A2D0]">{file.description}</p>
                   ) : (
@@ -284,6 +443,7 @@ function OriginalDownloadButton({ projectPath }: { projectPath: string }) {
   );
 }
 
+// ── Main page ─────────────────────────────────────────────────────────────────
 export default function AdminMediaPage() {
   const [files, setFiles] = useState<BlobFile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -303,7 +463,8 @@ export default function AdminMediaPage() {
     errors: string[];
   } | null>(null);
   const [dragOver, setDragOver] = useState(false);
-  const [deleting, setDeleting] = useState<string | null>(null); // dealId being deleted
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const [attnKey, setAttnKey] = useState(0); // increment to force Attn refresh
 
   const fetchFiles = useCallback(async () => {
     setLoading(true);
@@ -330,9 +491,7 @@ export default function AdminMediaPage() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchFiles();
-  }, [fetchFiles]);
+  useEffect(() => { fetchFiles(); }, [fetchFiles]);
 
   async function deleteProject(dealId: string, pathPrefix: string, projectName: string, imageCount: number) {
     if (!confirm(`Delete all ${imageCount} images for "${projectName}"? This removes them from Vercel Blob and the media library and cannot be undone.`)) return;
@@ -349,7 +508,7 @@ export default function AdminMediaPage() {
       });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
-      await fetchFiles(); // refresh list
+      await fetchFiles();
     } catch (e) {
       alert("Delete failed: " + String(e));
     } finally {
@@ -378,7 +537,6 @@ export default function AdminMediaPage() {
     return Object.values(groups).sort((a, b) => a.builder.localeCompare(b.builder));
   })();
 
-  // Filter by search
   const filteredProjects = search
     ? projects.filter(
         (p) =>
@@ -427,10 +585,11 @@ export default function AdminMediaPage() {
         </div>
       </div>
 
-      {/* Upload Panel */}
+      {/* General Upload Panel */}
       {showUpload && (
         <div className="border-b border-[#2C2C2C] bg-[#1E1E1E] px-6 py-6">
           <div className="mx-auto max-w-7xl">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-[#A8A2D0]">Upload to Folder</p>
             <div className="mb-4">
               <label className="mb-1.5 block text-xs text-[#666]">Folder path</label>
               <input
@@ -471,7 +630,7 @@ export default function AdminMediaPage() {
               ) : (
                 <>
                   <p className="text-sm text-[#A8A2D0]">Drag and drop images here</p>
-                  <p className="mt-1 text-xs text-[#666]">Auto-optimized to WebP (max 2400px, 82% quality)</p>
+                  <p className="mt-1 text-xs text-[#666]">Auto-optimized to WebP (max 2400px)</p>
                 </>
               )}
             </div>
@@ -483,6 +642,9 @@ export default function AdminMediaPage() {
           </div>
         </div>
       )}
+
+      {/* Attn section — deals that failed auto-import */}
+      <AttnSection key={attnKey} onResolved={() => { setAttnKey((k) => k + 1); fetchFiles(); }} />
 
       {/* Project list */}
       <div className="mx-auto max-w-7xl px-6 py-6">
@@ -513,7 +675,6 @@ export default function AdminMediaPage() {
                     </div>
                   </button>
                   <div className="flex items-center gap-2">
-                    {/* Preview thumbs */}
                     <div className="hidden gap-1 sm:flex">
                       {(project.thumbs.length > 0 ? project.thumbs : project.images).slice(0, 4).map((f) => (
                         <div key={f.pathname} className="relative h-10 w-14 overflow-hidden rounded bg-[#2C2C2C]">
@@ -524,24 +685,15 @@ export default function AdminMediaPage() {
                         <div className="flex h-10 w-14 items-center justify-center rounded bg-[#2C2C2C] text-[10px] text-[#666]">+{project.images.length - 4}</div>
                       )}
                     </div>
-                    {/* Download originals for social */}
                     <OriginalDownloadButton projectPath={project.path} />
-                    {/* Metadata button */}
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setMetadataPanel(project.path);
-                      }}
+                      onClick={(e) => { e.stopPropagation(); setMetadataPanel(project.path); }}
                       className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#A8A2D0] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
                     >
                       Metadata
                     </button>
-                    {/* Delete project */}
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteProject(project.dealId, project.path, project.deal.replace(/-/g, " "), project.images.length);
-                      }}
+                      onClick={(e) => { e.stopPropagation(); deleteProject(project.dealId, project.path, project.deal.replace(/-/g, " "), project.images.length); }}
                       disabled={deleting === (project.dealId || project.path)}
                       className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373] disabled:opacity-40"
                     >
@@ -604,33 +756,30 @@ export default function AdminMediaPage() {
 
       {/* Metadata Panel */}
       {metadataPanel && (
-        <MetadataPanelLoader
-          projectPath={metadataPanel}
-          onClose={() => setMetadataPanel(null)}
-        />
+        <MetadataPanelLoader projectPath={metadataPanel} onClose={() => setMetadataPanel(null)} />
       )}
     </div>
   );
 }
 
-// Resolves project path to deal ID, then opens MetadataPanel
 function MetadataPanelLoader({ projectPath, onClose }: { projectPath: string; onClose: () => void }) {
   const [dealId, setDealId] = useState<string | null>(null);
 
   useEffect(() => {
-    // Search for the deal by matching builder and deal name slugs
-    const [builderSlug, dealSlug] = projectPath.split("/");
+    const [, dealSlug] = projectPath.split("/");
     const searchTerm = dealSlug.replace(/-/g, " ");
     fetch(`/api/deals/status?search=${encodeURIComponent(searchTerm)}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.deals && data.deals.length > 0) {
-          setDealId(data.deals[0].id);
-        }
+        if (data.deals && data.deals.length > 0) setDealId(data.deals[0].id);
       });
   }, [projectPath]);
 
-  if (!dealId) return <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"><p className="text-sm text-[#A8A2D0]">Finding deal...</p></div>;
+  if (!dealId) return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+      <p className="text-sm text-[#A8A2D0]">Finding deal...</p>
+    </div>
+  );
 
   return <MetadataPanel dealId={dealId} onClose={onClose} />;
 }

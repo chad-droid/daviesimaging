@@ -5,6 +5,8 @@ export async function POST() {
   try {
     await sql`ALTER TABLE media_files ADD COLUMN IF NOT EXISTS description TEXT`;
     await sql`ALTER TABLE deals ADD COLUMN IF NOT EXISTS scope TEXT`;
+    await sql`ALTER TABLE deals ADD COLUMN IF NOT EXISTS import_failed BOOLEAN DEFAULT FALSE`;
+    await sql`ALTER TABLE deals ADD COLUMN IF NOT EXISTS import_error TEXT`;
 
     // Gallery curation columns
     await sql`ALTER TABLE gallery_assignments ADD COLUMN IF NOT EXISTS cover_image_id INTEGER`;
