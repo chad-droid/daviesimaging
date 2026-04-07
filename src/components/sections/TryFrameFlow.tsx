@@ -7,11 +7,11 @@ import { EditableContent } from "@/components/EditableContent";
 import { DarkSection } from "@/components/DarkSection";
 
 const fields = [
-  { key: "eyebrow", label: "Eyebrow", type: "text" as const, defaultValue: "FrameFlow Challenge" },
+  { key: "eyebrow", label: "Eyebrow", type: "text" as const, defaultValue: "Spec+ Challenge" },
   { key: "headline", label: "Headline", type: "text" as const, defaultValue: "Before you overhaul everything, *test* it." },
-  { key: "body", label: "Body", type: "textarea" as const, defaultValue: "The FrameFlow Challenge lets you see how strategic visual sequencing increases engagement and drives faster buyer decisions. Risk-free, built for builders." },
-  { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "Start the challenge" },
-  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/campaigns/frameflow-sell-faster" },
+  { key: "body", label: "Body", type: "textarea" as const, defaultValue: "The Spec+ Challenge lets you see how complete marketing media increases engagement and drives faster buyer decisions. Risk-free, built for builders." },
+  { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "Start the Spec+ Challenge" },
+  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/programs/spec-plus" },
 ];
 
 export function TryFrameFlow() {

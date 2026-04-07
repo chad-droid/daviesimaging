@@ -19,14 +19,6 @@ const TAB_STATIC = [
     imageSlot: "explorer-spec-plus",
   },
   {
-    id: "listing",
-    label: "Listing",
-    tagColor: "bg-green-600 text-white",
-    ctaHref: "/contact",
-    secondaryHref: "/services/listing",
-    imageSlot: "explorer-listing",
-  },
-  {
     id: "virtual-staging",
     label: "Virtual Staging",
     tagColor: "bg-accent-secondary/20 text-accent",
@@ -43,12 +35,20 @@ const TAB_STATIC = [
     imageSlot: "explorer-virtual-video",
   },
   {
-    id: "premium",
-    label: "Premium",
+    id: "model-home",
+    label: "Model Home",
     tagColor: "bg-bg-dark text-text-light",
     ctaHref: "/services/premium",
     secondaryHref: "/gallery/models",
-    imageSlot: "explorer-premium",
+    imageSlot: "explorer-model-home",
+  },
+  {
+    id: "amenity",
+    label: "Amenity",
+    tagColor: "bg-green-100 text-green-700",
+    ctaHref: "/services/premium",
+    secondaryHref: "/gallery/amenities",
+    imageSlot: "explorer-amenity",
   },
 ];
 
@@ -59,24 +59,12 @@ const TAB_DEFAULTS = [
     tag: "$600 flat — all sizes",
     badge: "Best Value",
     headline: "Every spec home. Complete package.",
-    body: "25 listing photos, 8 ModelMatch-staged images, and 1 virtual video. Photography plus FrameFlow digital production in one package. 72-hour delivery, flat $600 pricing regardless of home size.",
+    body: "25 listing photos, 8 ModelMatch-staged images, and 1 virtual video. Photography plus digital production in one package. 72-hour delivery, flat $600 pricing regardless of home size.",
     detail1: "25 MLS-ready listing images",
     detail2: "8 ModelMatch virtually staged images",
-    detail3: "1 wide FrameFlow virtual video",
+    detail3: "1 wide virtual listing video",
     detail4: "72-hour delivery after photography",
-    cta: "Order via FrameFlow",
-    secondaryCta: "Learn more",
-  },
-  {
-    tag: "From $400",
-    badge: "",
-    headline: "Spec homes, MLS-ready in 24 hours.",
-    body: "25 HDR listing photos for vacant spec and QMI homes. Fast-turn, professionally retouched, and delivered within 24 hours of the shoot.",
-    detail1: "25 MLS-ready images",
-    detail2: "24-hour delivery",
-    detail3: "Sky replacement + retouching",
-    detail4: "Add drone, Matterport, or staging",
-    cta: "Book a Listing Shoot",
+    cta: "Order via digDesk",
     secondaryCta: "Learn more",
   },
   {
@@ -88,7 +76,7 @@ const TAB_DEFAULTS = [
     detail2: "Matches your builder's design palette",
     detail3: "Works on existing listing photos",
     detail4: "Order standalone or bundle in Spec+",
-    cta: "Explore ModelMatch",
+    cta: "Explore Virtual Staging",
     secondaryCta: "See examples",
   },
   {
@@ -99,8 +87,8 @@ const TAB_DEFAULTS = [
     detail1: "No on-site shoot required",
     detail2: "Built from existing photos",
     detail3: "Wide or portrait formats available",
-    detail4: "Order standalone via FrameFlow",
-    cta: "Order via FrameFlow",
+    detail4: "Order standalone via digDesk",
+    cta: "Order via digDesk",
     secondaryCta: "Learn more",
   },
   {
@@ -111,9 +99,21 @@ const TAB_DEFAULTS = [
     detail1: "15 curated images, unlimited retouching",
     detail2: "7-day delivery",
     detail3: "Sky replacement + digital fence removal",
-    detail4: "Lifestyle, amenity, and sales center shoots",
-    cta: "Explore Premium",
+    detail4: "Lifestyle and sales center shoots available",
+    cta: "Explore Model Home",
     secondaryCta: "View results",
+  },
+  {
+    tag: "Pools, clubhouses, trails",
+    badge: "",
+    headline: "Community spaces that sell the lifestyle.",
+    body: "Amenity photography showcases the shared spaces that buyers fall in love with. Scheduled independently from model home shoots to capture each space at its best.",
+    detail1: "Pools, clubhouses, and fitness centers",
+    detail2: "Trails, parks, and community amenities",
+    detail3: "Twilight and golden-hour options",
+    detail4: "Complements model home photography",
+    cta: "Book Amenity Photography",
+    secondaryCta: "View examples",
   },
 ];
 
@@ -133,7 +133,7 @@ const tabFields = (defaults: (typeof TAB_DEFAULTS)[number]) => [
 const metaFields = [
   { key: "eyebrow",  label: "Eyebrow",  type: "text"     as const, defaultValue: "Services" },
   { key: "headline", label: "Headline", type: "textarea" as const, defaultValue: "Everything your marketing team needs. **One platform to order it.**" },
-  { key: "subhead",  label: "Subhead",  type: "textarea" as const, defaultValue: "From flagship model home photography to 72-hour spec bundles. Digital services like virtual staging and video are powered by FrameFlow Studio inside digDesk." },
+  { key: "subhead",  label: "Subhead",  type: "textarea" as const, defaultValue: "From flagship model home photography to 72-hour spec bundles. Digital services like virtual staging and video are ordered through digDesk." },
 ];
 
 // ─── Animation ────────────────────────────────────────────────────────────────

@@ -11,8 +11,8 @@ const fields = [
   { key: "body", label: "Body", type: "textarea" as const, defaultValue: "If your content isn\u2019t driving momentum, it\u2019s time to rethink the strategy." },
   { key: "cta1Text", label: "CTA 1 Text", type: "text" as const, defaultValue: "Book a Strategy Call" },
   { key: "cta1Url", label: "CTA 1 URL", type: "url" as const, defaultValue: "/contact" },
-  { key: "cta2Text", label: "CTA 2 Text", type: "text" as const, defaultValue: "Explore FrameFlow" },
-  { key: "cta2Url", label: "CTA 2 URL", type: "url" as const, defaultValue: "/programs/frameflow" },
+  { key: "cta2Text", label: "CTA 2 Text", type: "text" as const, defaultValue: "Explore Spec+" },
+  { key: "cta2Url", label: "CTA 2 URL", type: "url" as const, defaultValue: "/programs/spec-plus" },
 ];
 
 export function FinalCta() {

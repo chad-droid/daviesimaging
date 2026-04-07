@@ -6,13 +6,13 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { EditableContent } from "./EditableContent";
 
 const heroFields = [
-  { key: "headline1", label: "Headline (line 1)", type: "text" as const, defaultValue: "Homebuilder media that wins" },
-  { key: "headline2", label: "Headline (line 2)", type: "text" as const, defaultValue: "hearts and earns clicks." },
-  { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "One shoot. Multiple outcomes. Photography, staging, and video designed to convert across every channel." },
-  { key: "cta1Text", label: "Primary CTA Text", type: "text" as const, defaultValue: "Book a Strategy Call" },
+  { key: "headline1", label: "Headline (line 1)", type: "text" as const, defaultValue: "Sell Your Specs Faster." },
+  { key: "headline2", label: "Headline (line 2 — optional)", type: "text" as const, defaultValue: "" },
+  { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "Turn your inventory into high-converting marketing media in as little as 48 hours." },
+  { key: "cta1Text", label: "Primary CTA Text", type: "text" as const, defaultValue: "Get Your Spec Marketing Plan" },
   { key: "cta1Url", label: "Primary CTA URL", type: "url" as const, defaultValue: "/contact" },
-  { key: "cta2Text", label: "Secondary CTA Text", type: "text" as const, defaultValue: "See Our Work" },
-  { key: "cta2Url", label: "Secondary CTA URL", type: "url" as const, defaultValue: "/gallery" },
+  { key: "cta2Text", label: "Secondary CTA Text", type: "text" as const, defaultValue: "" },
+  { key: "cta2Url", label: "Secondary CTA URL", type: "url" as const, defaultValue: "" },
   { key: "videoUrl", label: "Background Video (YouTube URL)", type: "url" as const, defaultValue: "" },
 ];
 

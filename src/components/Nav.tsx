@@ -22,35 +22,16 @@ interface NavGroup {
 
 const navGroups: NavGroup[] = [
   {
-    label: "Gallery",
-    basePath: "/gallery",
-    items: [
-      { label: "Models", href: "/gallery/models", description: "Furnished interiors and architectural detail" },
-      { label: "Amenities", href: "/gallery/amenities", description: "Clubhouses, pools, and community spaces" },
-      { label: "Listings", href: "/gallery/listings", description: "Listing photography and virtual staging" },
-      { label: "Lifestyle", href: "/gallery/lifestyle", description: "People, community, and brand storytelling" },
-    ],
-  },
-  {
     label: "Solutions",
     basePath: "/services",
     items: [
+      { label: "Spec+", href: "/programs/spec-plus", description: "Photography, staging, and video — $600 flat" },
       { label: "Premium Photography", href: "/services/premium", description: "Full-service model home and lifestyle shoots" },
-      { label: "Listing Photography", href: "/services/listing", description: "HDR spec photography, 24-hour delivery" },
-      { label: "Video Production", href: "/services/video-production", description: "Crew-based community and lifestyle video" },
       { label: "Virtual Staging", href: "/services/virtual-staging", description: "Reference-based staging, no shoot required" },
       { label: "Virtual Video", href: "/services/virtual-video", description: "Digital listing video from existing photos" },
+      { label: "Video Production", href: "/services/video-production", description: "Crew-based community and lifestyle video" },
+      { label: "Listing Photography", href: "/services/listing", description: "HDR spec photography, 24-hour delivery" },
       { label: "Matterport", href: "/services/matterport", description: "3D virtual tour scanning" },
-    ],
-  },
-  {
-    label: "Programs",
-    basePath: "/programs",
-    items: [
-      { label: "digDesk", href: "/programs/digdesk", description: "One portal for orders, delivery, and brand assets" },
-      { label: "FrameFlow Studio", href: "/programs/frameflow", description: "Virtual staging + video inside digDesk" },
-      { label: "Spec+", href: "/programs/spec-plus", description: "Photography + staging + video, $600 flat" },
-      { label: "Regional Partnerships", href: "/programs/regional-partnerships", description: "Volume pricing for 300+ home builders" },
     ],
   },
   {
@@ -63,6 +44,11 @@ const navGroups: NavGroup[] = [
       { label: "Blog", href: "/blog", description: "Photography, strategy, and builder insights" },
     ],
   },
+];
+
+// Links that appear BEFORE the dropdown groups in the desktop nav
+const leadLinks: NavItem[] = [
+  { label: "digDesk", href: "/programs/digdesk" },
 ];
 
 const standaloneLinks: NavItem[] = [
@@ -244,10 +230,26 @@ function MobileDrawer({
 
             {/* Nav items */}
             <div className="flex-1 overflow-y-auto px-4 py-4">
+              {/* Lead links (digDesk) */}
+              {leadLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={onClose}
+                  className={`flex items-center py-3 text-sm font-medium transition-colors hover:text-accent ${
+                    pathname === link.href || pathname.startsWith(link.href + "/") ? "text-accent" : "text-text-body"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+
+              {/* Dropdown groups */}
               {navGroups.map((group) => (
                 <MobileGroup key={group.label} group={group} pathname={pathname} onNavigate={onClose} />
               ))}
 
+              {/* Trailing standalone links (Contact) */}
               {standaloneLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -375,6 +377,28 @@ export function Nav() {
 
           {/* Desktop nav */}
           <div className="hidden items-center gap-5 lg:flex xl:gap-7">
+            {/* Lead links (digDesk) */}
+            {leadLinks.map((link) => {
+              const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative text-[13px] font-medium tracking-wide transition-colors 2xl:text-[14px] ${
+                    isActive
+                      ? "text-text-dark"
+                      : "text-text-body hover:text-text-dark"
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-accent" />
+                  )}
+                </Link>
+              );
+            })}
+
+            {/* Dropdown groups (Solutions | About) */}
             {navGroups.map((group) => {
               const isActive = group.basePath
                 ? pathname.startsWith(group.basePath)
@@ -390,6 +414,7 @@ export function Nav() {
               );
             })}
 
+            {/* Trailing standalone links (Contact) */}
             {standaloneLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
