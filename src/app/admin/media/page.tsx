@@ -288,6 +288,73 @@ function AttnSection({ onResolved }: { onResolved: () => void }) {
   );
 }
 
+// ── Deal search — find any deal and move it to library ────────────────────────
+function DealSearchBox() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<{ id: string; name: string; builder: string; imported: boolean }[]>([]);
+  const [open, setOpen] = useState(false);
+  const [moving, setMoving] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (query.length < 2) { setResults([]); return; }
+    const timer = setTimeout(async () => {
+      const res = await fetch(`/api/deals/status?search=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      setResults((data.deals || []).slice(0, 12));
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  async function moveToLibrary(id: string) {
+    setMoving(id);
+    await fetch("/api/deals/status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "moveToLibrary", id }),
+    });
+    setMoving(null);
+    setResults((prev) => prev.map((d) => d.id === id ? { ...d, imported: true } : d));
+  }
+
+  return (
+    <div className="relative">
+      <input
+        type="text"
+        placeholder="Find deal..."
+        value={query}
+        onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 200)}
+        className="w-48 rounded-lg border border-[#2C2C2C] bg-[#121212] px-4 py-2.5 text-sm text-[#F5F5F5] outline-none placeholder:text-[#666] focus:border-[#6A5ACD]"
+      />
+      {open && results.length > 0 && (
+        <div className="absolute right-0 top-full z-50 mt-1 w-96 overflow-hidden rounded-lg border border-[#2C2C2C] bg-[#1E1E1E] shadow-xl">
+          {results.map((deal) => (
+            <div key={deal.id} className="flex items-center justify-between gap-3 border-b border-[#2C2C2C] px-3 py-2 last:border-0">
+              <div className="min-w-0">
+                <p className="truncate text-xs font-medium text-[#F5F5F5]">{deal.name}</p>
+                <p className="truncate text-[10px] text-[#666]">{deal.builder}</p>
+              </div>
+              {deal.imported
+                ? <span className="shrink-0 rounded bg-[#4CAF50]/15 px-2 py-0.5 text-[10px] text-[#4CAF50]">In Library</span>
+                : (
+                  <button
+                    onClick={() => moveToLibrary(deal.id)}
+                    disabled={moving === deal.id}
+                    className="shrink-0 rounded-full bg-[#6A5ACD] px-3 py-1 text-[10px] font-semibold text-white hover:bg-[#5848B5] disabled:opacity-50"
+                  >
+                    {moving === deal.id ? "Moving…" : "Add to Library"}
+                  </button>
+                )
+              }
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Empty library slots — deals moved to library with no photos yet ───────────
 function EmptyLibrarySection({ onUploaded }: { onUploaded: () => void }) {
   const [deals, setDeals] = useState<EmptyLibraryDeal[]>([]);
@@ -397,6 +464,20 @@ function EmptyLibrarySection({ onUploaded }: { onUploaded: () => void }) {
                     className="rounded-full bg-[#6A5ACD] px-3 py-1.5 text-[10px] font-semibold text-white hover:bg-[#5848B5]"
                   >
                     {isOpen ? "Close" : "Upload Photos"}
+                  </button>
+                  <button
+                    onClick={async () => {
+                      await fetch("/api/deals/status", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id: deal.id, imported: false }),
+                      });
+                      fetchEmpty();
+                    }}
+                    className="rounded-full border border-[#2C2C2C] px-3 py-1.5 text-[10px] font-semibold text-[#666] hover:border-[#E57373] hover:text-[#E57373]"
+                    title="Move back to pipeline (removes from library)"
+                  >
+                    Remove
                   </button>
                 </div>
               </div>
@@ -756,14 +837,15 @@ export default function AdminMediaPage() {
 
       {/* Search bar */}
       <div className="border-b border-[#2C2C2C] bg-[#1E1E1E] px-6 py-3">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl flex gap-2">
           <input
             type="text"
-            placeholder="Search projects by builder or deal name..."
+            placeholder="Search library by project or builder name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-lg border border-[#2C2C2C] bg-[#121212] px-4 py-2.5 text-sm text-[#F5F5F5] outline-none placeholder:text-[#666] focus:border-[#6A5ACD]"
+            className="flex-1 rounded-lg border border-[#2C2C2C] bg-[#121212] px-4 py-2.5 text-sm text-[#F5F5F5] outline-none placeholder:text-[#666] focus:border-[#6A5ACD]"
           />
+          <DealSearchBox />
         </div>
       </div>
 
