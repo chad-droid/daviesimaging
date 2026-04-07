@@ -491,29 +491,53 @@ export default function AdminAssetsPage() {
                   )}
                   {/* Actions */}
                   <div className="flex shrink-0 gap-1.5">
-                    {tab !== "imported" && (
+                    {tab === "pending" && (
                       <>
                         <button
                           onClick={() => setDealStatus(deal.id, "approved")}
-                          className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                            deal.status === "approved"
-                              ? "bg-[#6A5ACD] text-white"
-                              : "border border-[#2C2C2C] text-[#666] hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
-                          }`}
+                          className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
                         >
-                          Yes
+                          Approve
                         </button>
                         <button
                           onClick={() => setDealStatus(deal.id, "denied")}
-                          className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                            deal.status === "denied"
-                              ? "bg-[#E57373]/20 text-[#E57373]"
-                              : "border border-[#2C2C2C] text-[#666] hover:border-[#E57373] hover:text-[#E57373]"
-                          }`}
+                          className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373]"
                         >
-                          No
+                          Skip
                         </button>
                       </>
+                    )}
+                    {tab === "approved" && (
+                      <>
+                        <button
+                          onClick={() => setDealStatus(deal.id, "pending")}
+                          className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#A8A2D0] hover:text-[#A8A2D0]"
+                        >
+                          ← Pending
+                        </button>
+                        <button
+                          onClick={() => setDealStatus(deal.id, "denied")}
+                          className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373]"
+                        >
+                          Remove
+                        </button>
+                      </>
+                    )}
+                    {tab === "imported" && (
+                      <button
+                        onClick={() => setDealStatus(deal.id, "archived")}
+                        className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#E57373] hover:text-[#E57373]"
+                      >
+                        Archive
+                      </button>
+                    )}
+                    {tab === "archived" && (
+                      <button
+                        onClick={() => setDealStatus(deal.id, "pending")}
+                        className="rounded-full border border-[#2C2C2C] px-3 py-1 text-xs font-medium text-[#666] transition-colors hover:border-[#A8A2D0] hover:text-[#A8A2D0]"
+                      >
+                        Restore
+                      </button>
                     )}
                   </div>
 
