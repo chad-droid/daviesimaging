@@ -8,11 +8,13 @@ const WORKDRIVE_API = "https://www.zohoapis.com/workdrive/api/v1";
 const FINISHED_ASSETS_FOLDER_ID = "u44ek0f42259fc4cf436ca4b82563089aad11";
 const CRM_ACCOUNTS_FOLDER_ID    = "2alade364a3a42eda4cbba0efd0e02a6606dd";
 
+const WEB_FOLDER_RE = /^(web|web[\s_-]*jpe?g|web[\s_-]*res|lo[\s_-]*res|low[\s_-]*res|compressed|client[\s_-]*web|deliver)/i;
+
 // ── Token cache — reuse access tokens across requests (valid for 1 hour) ──
 let _cachedToken: string | null = null;
 let _tokenExpiresAt = 0; // epoch ms
 
-async function getAccessToken(): Promise<string> {
+export async function getAccessToken(): Promise<string> {
   const now = Date.now();
   if (_cachedToken && _tokenExpiresAt - now > 5 * 60 * 1000) {
     return _cachedToken;
@@ -39,6 +41,19 @@ async function getAccessToken(): Promise<string> {
   return _cachedToken as string;
 }
 
+export interface FolderCandidate {
+  id: string;
+  name: string;
+  path: string;
+}
+
+export interface SearchDiagnostic {
+  rootsSearched: string[];
+  builderFoldersFound: string[];
+  crmLinkedFolders: string[];
+  candidates: FolderCandidate[];
+}
+
 interface WDFile {
   id: string;
   name: string;
@@ -47,7 +62,7 @@ interface WDFile {
   size?: number;
 }
 
-async function listFiles(
+export async function listFiles(
   folderId: string,
   accessToken: string,
   limit = 50,
@@ -120,91 +135,145 @@ function fuzzyMatch(folderName: string, candidates: string[]): boolean {
 
 // ── Folder search ──
 
-async function findDealFolder(
+// Returns ALL matching folder candidates + diagnostic info for UI selection and debugging
+export async function findDealFolders(
+  zohoRecordId: string | null,
   builderName: string,
   dealName: string,
   accessToken: string,
-): Promise<string | null> {
+): Promise<{ candidates: FolderCandidate[]; diagnostic: SearchDiagnostic }> {
+  const candidates: FolderCandidate[] = [];
+  const diagnostic: SearchDiagnostic = {
+    rootsSearched: [],
+    builderFoldersFound: [],
+    crmLinkedFolders: [],
+    candidates: [],
+  };
+
+  // Step 0: CRM-linked folders via WorkDrive ↔ CRM integration (most reliable)
+  if (zohoRecordId) {
+    try {
+      const res = await fetch(
+        `${WORKDRIVE_API}/crm/record/${zohoRecordId}/folders`,
+        { headers: { Authorization: `Zoho-oauthtoken ${accessToken}` } },
+      );
+      if (res.ok) {
+        const data = await res.json();
+        for (const item of (data.data || [])) {
+          const folderName = (item.attributes?.name as string) || item.id;
+          candidates.push({ id: item.id, name: folderName, path: `CRM Linked / ${folderName}` });
+          diagnostic.crmLinkedFolders.push(folderName);
+        }
+      }
+    } catch { /* non-fatal */ }
+  }
+
+  // Step 1: Name-based search across both root folders
   const builderCandidates = normalizeBuilder(builderName);
   const dealCandidates = normalizeDealName(dealName);
+  const roots = [
+    { id: FINISHED_ASSETS_FOLDER_ID, label: "FINISHED_ASSETS" },
+    { id: CRM_ACCOUNTS_FOLDER_ID,    label: "CRM_ACCOUNTS" },
+  ];
 
-  // Search both root folders — Finished Assets (A–J) and CRM Accounts (K–Z + regional variants)
-  const rootIds = [FINISHED_ASSETS_FOLDER_ID, CRM_ACCOUNTS_FOLDER_ID];
+  for (const root of roots) {
+    diagnostic.rootsSearched.push(root.label);
+    let topLevel: WDFile[] = [];
+    try { topLevel = await listFiles(root.id, accessToken, 200); } catch { continue; }
 
-  for (const rootId of rootIds) {
-    let allFolders: WDFile[] = [];
-    try {
-      allFolders = await listFiles(rootId, accessToken, 200);
-    } catch {
-      continue; // skip this root if inaccessible
-    }
-
-    const builderFolders = allFolders.filter(
+    const builderFolders = topLevel.filter(
       (f) => f.type === "folder" && builderCandidates.some(
-        (c) => f.name.toLowerCase().includes(c) || c.includes(f.name.toLowerCase())
+        (c) => f.name.toLowerCase().includes(c) || c.includes(f.name.toLowerCase()),
       ),
     );
 
-    for (const builderFolder of builderFolders) {
-      const found = await searchDeep(builderFolder.id, dealCandidates, accessToken, 6);
-      if (found) return found;
-    }
-  }
-
-  return null;
-}
-
-async function searchDeep(
-  folderId: string,
-  candidates: string[],
-  accessToken: string,
-  maxDepth: number,
-): Promise<string | null> {
-  if (maxDepth <= 0) return null;
-
-  const items = await listFiles(folderId, accessToken, 200);
-
-  // Direct match first
-  for (const item of items) {
-    if (item.type === "folder" && fuzzyMatch(item.name, candidates)) {
-      return item.id;
-    }
-  }
-
-  // Recurse into year/region intermediate folders
-  for (const item of items) {
-    if (item.type === "folder") {
-      const found = await searchDeep(item.id, candidates, accessToken, maxDepth - 1);
-      if (found) return found;
-    }
-  }
-
-  return null;
-}
-
-async function getImageFiles(folderId: string, accessToken: string): Promise<WDFile[]> {
-  const allFiles: WDFile[] = [];
-
-  async function collectImages(parentId: string, depth: number) {
-    if (depth > 6) return;
-    const items = await listFiles(parentId, accessToken, 200);
-    for (const item of items) {
-      if (item.type === "folder") {
-        await collectImages(item.id, depth + 1);
-      } else if (
-        item.mimeType?.startsWith("image/") ||
-        /\.(jpg|jpeg|png|tiff|webp)$/i.test(item.name)
-      ) {
-        allFiles.push(item);
+    for (const bf of builderFolders) {
+      if (!diagnostic.builderFoldersFound.includes(bf.name)) {
+        diagnostic.builderFoldersFound.push(bf.name);
+      }
+      const found = await collectMatchingFolders(bf.id, dealCandidates, accessToken, 6, bf.name);
+      for (const f of found) {
+        if (!candidates.find((c) => c.id === f.id)) candidates.push(f);
       }
     }
   }
 
-  await collectImages(folderId, 0);
-  return allFiles;
+  diagnostic.candidates = candidates;
+  return { candidates, diagnostic };
 }
 
-async function downloadFile(fileId: string, accessToken: string): Promise<Buffer> {
+// Backward-compat wrapper — returns first candidate only
+export async function findDealFolder(
+  builderName: string,
+  dealName: string,
+  accessToken: string,
+): Promise<string | null> {
+  const { candidates } = await findDealFolders(null, builderName, dealName, accessToken);
+  return candidates[0]?.id ?? null;
+}
+
+async function collectMatchingFolders(
+  folderId: string,
+  candidates: string[],
+  accessToken: string,
+  maxDepth: number,
+  pathPrefix: string,
+): Promise<FolderCandidate[]> {
+  if (maxDepth <= 0) return [];
+  const items = await listFiles(folderId, accessToken, 200);
+  const matches: FolderCandidate[] = [];
+
+  for (const item of items) {
+    if (item.type === "folder" && fuzzyMatch(item.name, candidates)) {
+      matches.push({ id: item.id, name: item.name, path: `${pathPrefix} / ${item.name}` });
+    }
+  }
+  // Recurse into non-matching subfolders (year folders, region folders, etc.)
+  for (const item of items) {
+    if (item.type === "folder" && !fuzzyMatch(item.name, candidates)) {
+      const sub = await collectMatchingFolders(item.id, candidates, accessToken, maxDepth - 1, `${pathPrefix} / ${item.name}`);
+      matches.push(...sub);
+    }
+  }
+  return matches;
+}
+
+// JPEG-only image collection. Prefers subfolders named "web", "web jpeg", "lo-res", etc.
+// over high-res/raw subfolders. Falls back to all JPEGs in the folder.
+export async function getWebPreferredImageFiles(folderId: string, accessToken: string): Promise<WDFile[]> {
+  const items = await listFiles(folderId, accessToken, 200);
+
+  // Look for a "web" subfolder at the top level
+  const webFolder = items.find((i) => i.type === "folder" && WEB_FOLDER_RE.test(i.name));
+  if (webFolder) {
+    const webItems = await listFiles(webFolder.id, accessToken, 200);
+    const jpegs = webItems.filter((i) => i.type !== "folder" && /\.(jpe?g)$/i.test(i.name));
+    if (jpegs.length > 0) return jpegs;
+  }
+
+  // No web folder — collect all JPEGs recursively (skip video/raw/tiff subfolders by name)
+  const allJpegs: WDFile[] = [];
+  const SKIP_FOLDER_RE = /^(video|raw|cr2|tiff|dng|bts|behind[\s_-]*the[\s_-]*scenes|4k|drone[\s_-]*raw)/i;
+
+  async function collect(parentId: string, depth: number) {
+    if (depth > 4) return;
+    const children = await listFiles(parentId, accessToken, 200);
+    for (const child of children) {
+      if (child.type === "folder") {
+        if (!SKIP_FOLDER_RE.test(child.name)) await collect(child.id, depth + 1);
+      } else if (/\.(jpe?g)$/i.test(child.name)) {
+        allJpegs.push(child);
+      }
+    }
+  }
+  await collect(folderId, 0);
+  return allJpegs;
+}
+
+// Keep old name exported for any remaining callers
+export { getWebPreferredImageFiles as getImageFiles };
+
+export async function downloadFile(fileId: string, accessToken: string): Promise<Buffer> {
   const res = await fetch(
     `https://workdrive.zoho.com/api/v1/download/${fileId}`,
     { headers: { Authorization: `Zoho-oauthtoken ${accessToken}` } },
@@ -213,10 +282,3 @@ async function downloadFile(fileId: string, accessToken: string): Promise<Buffer
   return Buffer.from(await res.arrayBuffer());
 }
 
-export {
-  getAccessToken,
-  listFiles,
-  findDealFolder,
-  getImageFiles,
-  downloadFile,
-};

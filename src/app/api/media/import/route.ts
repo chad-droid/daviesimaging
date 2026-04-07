@@ -8,8 +8,8 @@ import sharp from "sharp";
 import Anthropic from "@anthropic-ai/sdk";
 import {
   getAccessToken as getZohoToken,
-  findDealFolder,
-  getImageFiles,
+  findDealFolders,
+  getWebPreferredImageFiles,
   downloadFile as downloadWorkDriveFile,
 } from "@/lib/workdrive";
 
@@ -45,6 +45,8 @@ function extractGDriveFolderId(url: string): string | null {
 
 interface GDriveFile { id: string; name: string; mimeType: string; size: string; }
 
+const GDRIVE_WEB_FOLDER_RE = /^(web|web[\s_-]*jpe?g|web[\s_-]*res|lo[\s_-]*res|low[\s_-]*res|compressed|client[\s_-]*web|deliver)/i;
+
 async function listGDriveFiles(folderId: string, token: string, depth = 0): Promise<GDriveFile[]> {
   if (depth > 10) return [];
   const allFiles: GDriveFile[] = [];
@@ -68,7 +70,7 @@ async function listGDriveFiles(folderId: string, token: string, depth = 0): Prom
         // Recurse into subfolders
         const subFiles = await listGDriveFiles(file.id, token, depth + 1);
         allFiles.push(...subFiles);
-      } else if (file.mimeType?.startsWith("image/")) {
+      } else if (file.mimeType === "image/jpeg") {
         allFiles.push(file);
       }
     }
@@ -76,6 +78,33 @@ async function listGDriveFiles(folderId: string, token: string, depth = 0): Prom
   } while (pageToken);
 
   return allFiles;
+}
+
+// Prefers "web" subfolders; falls back to all JPEGs in the folder (top-level subfolders only)
+async function getGDriveWebFiles(folderId: string, token: string): Promise<GDriveFile[]> {
+  const params = new URLSearchParams({
+    q: `'${folderId}' in parents`,
+    fields: "nextPageToken, files(id, name, mimeType, size)",
+    pageSize: "100",
+  });
+  const res = await fetch(`https://www.googleapis.com/drive/v3/files?${params}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error(`Drive API: ${await res.text()}`);
+  const data = await res.json();
+  const items: GDriveFile[] = data.files || [];
+
+  // Look for a web subfolder
+  const webFolder = items.find(
+    (f) => f.mimeType === "application/vnd.google-apps.folder" && GDRIVE_WEB_FOLDER_RE.test(f.name),
+  );
+  if (webFolder) {
+    const webFiles = await listGDriveFiles(webFolder.id, token, 0);
+    if (webFiles.length > 0) return webFiles;
+  }
+
+  // Fallback: all JPEGs from folder (recursively through subfolders)
+  return await listGDriveFiles(folderId, token, 0);
 }
 
 async function downloadGDriveFile(fileId: string, token: string): Promise<Buffer> {
@@ -197,7 +226,7 @@ async function listDropboxFiles(sharedLinkUrl: string, token: string): Promise<D
       const entries = data.entries as DropboxEntry[];
 
       for (const e of entries) {
-        if (e[".tag"] === "file" && /\.(jpe?g|png|webp|tiff?)$/i.test(e.name)) {
+        if (e[".tag"] === "file" && /\.(jpe?g)$/i.test(e.name)) {
           allFiles.push(e);
         } else if (e[".tag"] === "folder" && path === "") {
           // Only collect subfolders from the root level to avoid deep recursion
@@ -336,7 +365,13 @@ async function optimizeAndUpload(
 
 export async function POST(req: NextRequest) {
   try {
-    const { dealId, maxImages, overrideUrl, zohoToken: providedZohoToken } = (await req.json()) as { dealId: string; maxImages?: number; overrideUrl?: string; zohoToken?: string };
+    const { dealId, maxImages, overrideUrl, selectedFolderIds, zohoToken: providedZohoToken } = (await req.json()) as {
+      dealId: string;
+      maxImages?: number;
+      overrideUrl?: string;
+      selectedFolderIds?: string[];
+      zohoToken?: string;
+    };
 
     if (!dealId) return NextResponse.json({ error: "dealId required" }, { status: 400 });
 
@@ -388,7 +423,7 @@ export async function POST(req: NextRequest) {
           const folderId = extractGDriveFolderId(tryUrl);
           if (!folderId) { lastError = "Could not extract Google Drive folder ID"; continue; }
 
-          let files = await listGDriveFiles(folderId, gToken);
+          let files = await getGDriveWebFiles(folderId, gToken);
           if (files.length === 0) { lastError = `Google Drive folder empty (${folderId})`; continue; }
 
           files.sort((a, b) => parseInt(b.size || "0") - parseInt(a.size || "0"));
@@ -405,27 +440,55 @@ export async function POST(req: NextRequest) {
           }
         } else if (source === "workdrive") {
           const zToken = providedZohoToken || await getZohoToken();
-          let wdFolderId = extractWorkDriveFolderId(tryUrl);
+          let folderIds: string[] = [];
 
-          if (!wdFolderId) {
-            wdFolderId = await findDealFolder(deal.builder || "", deal.name || "", zToken);
+          if (extractWorkDriveFolderId(tryUrl)) {
+            // Direct URL provided — use it
+            folderIds = [extractWorkDriveFolderId(tryUrl)!];
+          } else if (selectedFolderIds && selectedFolderIds.length > 0) {
+            // User already selected specific folders from a previous candidates response
+            folderIds = selectedFolderIds;
+          } else {
+            // Search by name across both root folders + CRM integration
+            const zohoRecordId = dealId.startsWith("zcrm_") ? dealId.slice(5) : null;
+            const { candidates, diagnostic } = await findDealFolders(
+              zohoRecordId, deal.builder || "", deal.name || "", zToken
+            );
+
+            if (candidates.length === 0) {
+              lastError = `Could not find folder for "${deal.name}" under "${deal.builder}". Searched: ${diagnostic.rootsSearched.join(", ")}. Builder folders found: ${diagnostic.builderFoldersFound.join(", ") || "none"}`;
+              continue;
+            }
+
+            if (candidates.length > 1) {
+              // Multiple matches — return them for user selection
+              return NextResponse.json({
+                status: "candidates",
+                dealId,
+                dealName: deal.name,
+                candidates,
+                diagnostic,
+              });
+            }
+
+            folderIds = [candidates[0].id];
           }
 
-          if (!wdFolderId) { lastError = `Could not find WorkDrive folder for "${deal.name}" under "${deal.builder}"`; continue; }
+          for (const wdFolderId of folderIds) {
+            let imageFiles = await getWebPreferredImageFiles(wdFolderId, zToken);
+            if (imageFiles.length === 0) { errors.push(`Folder ${wdFolderId}: no JPEG images found`); continue; }
 
-          let imageFiles = await getImageFiles(wdFolderId, zToken);
-          if (imageFiles.length === 0) { lastError = `WorkDrive folder empty (${wdFolderId})`; continue; }
+            imageFiles.sort((a, b) => (b.size || 0) - (a.size || 0));
+            if (imageFiles.length > limit) imageFiles = imageFiles.slice(0, limit);
 
-          imageFiles.sort((a, b) => (b.size || 0) - (a.size || 0));
-          if (imageFiles.length > limit) imageFiles = imageFiles.slice(0, limit);
-
-          for (const file of imageFiles) {
-            try {
-              const raw = await downloadWorkDriveFile(file.id, zToken);
-              const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
-              if (result) results.push(result);
-            } catch (e) {
-              errors.push(`${file.name}: ${e}`);
+            for (const file of imageFiles) {
+              try {
+                const raw = await downloadWorkDriveFile(file.id, zToken);
+                const result = await optimizeAndUpload(raw, file.name, folder, dealId, dealContext);
+                if (result) results.push(result);
+              } catch (e) {
+                errors.push(`${file.name}: ${e}`);
+              }
             }
           }
         } else if (source === "dropbox") {
@@ -460,7 +523,8 @@ export async function POST(req: NextRequest) {
 
     if (results.length === 0 && lastError) {
       return NextResponse.json({
-        error: `${lastError}. Try providing a direct workdrive.zoho.com/folder/ or Google Drive URL.`,
+        error: lastError,
+        hint: "Paste a direct WorkDrive, Google Drive, or Dropbox URL into the override field to retry.",
         triedUrls: candidateUrls,
       }, { status: 404 });
     }

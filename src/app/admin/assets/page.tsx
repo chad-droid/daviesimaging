@@ -70,21 +70,28 @@ function ImportButton({ dealId, dealName, onComplete }: { dealId: string; dealNa
   const [error, setError] = useState<string | null>(null);
   const [overrideUrl, setOverrideUrl] = useState("");
   const [showOverride, setShowOverride] = useState(false);
+  const [candidates, setCandidates] = useState<{ id: string; name: string; path: string }[] | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-  async function handleImport(url?: string) {
+  async function handleImport(url?: string, folderIds?: string[]) {
     setImporting(true);
     setError(null);
     setResult(null);
+    setCandidates(null);
     try {
-      const body: Record<string, string | number> = { dealId };
+      const body: Record<string, unknown> = { dealId };
       if (url) body.overrideUrl = url;
+      if (folderIds && folderIds.length > 0) body.selectedFolderIds = folderIds;
       const res = await fetch("/api/media/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (data.error) {
+      if (data.status === "candidates") {
+        setCandidates(data.candidates);
+        setSelectedIds(new Set(data.candidates.map((c: { id: string }) => c.id)));
+      } else if (data.error) {
         setError(data.error);
         setShowOverride(true);
       } else {
@@ -99,9 +106,12 @@ function ImportButton({ dealId, dealName, onComplete }: { dealId: string; dealNa
     setImporting(false);
   }
 
+  // dealName is used in aria context; suppress unused warning
+  void dealName;
+
   return (
     <div className="rounded-lg border border-[#6A5ACD]/30 bg-[#6A5ACD]/5 px-4 py-3">
-      {!result && !showOverride && (
+      {!result && !showOverride && !candidates && (
         <>
           <p className="text-xs text-[#A8A2D0]">
             Ready to import. Images will be pulled, optimized, and uploaded to the media library.
@@ -120,6 +130,48 @@ function ImportButton({ dealId, dealName, onComplete }: { dealId: string; dealNa
           Imported {result.imported} images | {result.originalMB}MB &rarr; {result.optimizedMB}MB ({result.savings} smaller)
           {result.errors.length > 0 && <span className="text-[#E57373]"> | {result.errors.length} failed</span>}
         </p>
+      )}
+      {candidates && (
+        <div className="space-y-2">
+          <p className="text-xs text-[#F5C842] font-medium">
+            {candidates.length} matching folders found. Select which to import:
+          </p>
+          <div className="max-h-48 space-y-1 overflow-y-auto">
+            {candidates.map((c) => (
+              <label key={c.id} className="flex cursor-pointer items-start gap-2 rounded border border-[#2C2C2C] bg-[#121212] p-2 hover:border-[#6A5ACD]/50">
+                <input
+                  type="checkbox"
+                  checked={selectedIds.has(c.id)}
+                  onChange={(e) => {
+                    const next = new Set(selectedIds);
+                    if (e.target.checked) next.add(c.id); else next.delete(c.id);
+                    setSelectedIds(next);
+                  }}
+                  className="mt-0.5 accent-[#6A5ACD]"
+                />
+                <div className="min-w-0">
+                  <p className="text-xs font-medium text-[#F5F5F5] truncate">{c.name}</p>
+                  <p className="text-[10px] text-[#666] truncate">{c.path}</p>
+                </div>
+              </label>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleImport(undefined, Array.from(selectedIds))}
+              disabled={importing || selectedIds.size === 0}
+              className="rounded-full bg-[#6A5ACD] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#5848B5] disabled:opacity-50"
+            >
+              {importing ? "Importing..." : `Import ${selectedIds.size} folder${selectedIds.size !== 1 ? "s" : ""}`}
+            </button>
+            <button
+              onClick={() => { setCandidates(null); setShowOverride(true); }}
+              className="text-xs text-[#666] hover:text-[#A8A2D0]"
+            >
+              Use URL instead
+            </button>
+          </div>
+        </div>
       )}
       {showOverride && (
         <div>
@@ -316,7 +368,10 @@ export default function AdminAssetsPage() {
           // Vercel timeout or server crash returned non-JSON (HTML error page)
           data = { error: `Server error (${res.status}) — request may have timed out` };
         }
-        if (data.error) {
+        if (data.status === "candidates") {
+          const candidateCount = Array.isArray(data.candidates) ? (data.candidates as unknown[]).length : 0;
+          failures.push({ name: deal?.name || ids[i], error: `${candidateCount} matching folders found — open this deal to select which to import` });
+        } else if (data.error) {
           failures.push({ name: deal?.name || ids[i], error: data.error as string });
         } else if (Array.isArray(data.errors) && data.errors.length > 0) {
           failures.push({ name: deal?.name || ids[i], error: `${data.errors.length} file(s) failed: ${(data.errors as string[]).slice(0, 2).join("; ")}` });
