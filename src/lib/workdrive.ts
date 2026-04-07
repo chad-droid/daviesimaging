@@ -29,7 +29,7 @@ async function getAccessToken(): Promise<string> {
   _cachedToken = data.access_token;
   // Zoho tokens last 3600s; cache for 55 minutes to be safe
   _tokenExpiresAt = now + 55 * 60 * 1000;
-  return _cachedToken;
+  return _cachedToken as string;
 }
 
 interface WDFile {
