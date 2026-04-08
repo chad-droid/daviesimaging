@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
@@ -74,21 +74,42 @@ function ModuleCard({ index }: { index: number }) {
 
 // ─── Stylized digDesk UI mockup (structural) ──────────────────────────────────
 
+const MOCKUP_DESIGN_W = 560;
+const MOCKUP_DESIGN_H = 376;
+
 function DigDeskMockup() {
-  // Render the mockup at a fixed 560px design width and scale it to fit
-  // whatever column width we're in. This keeps every child's typography
-  // and spacing exactly proportional instead of cramming narrow text into
-  // sm breakpoints. The outer wrapper preserves layout height via aspect.
+  // Render the mockup at a fixed 560px design width and scale it to the
+  // column width via a ResizeObserver. Container-query units were leaving
+  // the inner 560px layout box past the parent's right edge on mobile,
+  // which then leaked past the viewport. This approach constrains the
+  // outer wrapper to the parent width and clips any overflow explicitly.
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const measure = () => {
+      const w = el.clientWidth;
+      if (w > 0) setScale(Math.min(1, w / MOCKUP_DESIGN_W));
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
-      className="w-full"
-      style={{ aspectRatio: "560 / 376", containerType: "inline-size" }}
+      ref={wrapperRef}
+      className="w-full max-w-full overflow-hidden"
+      style={{ height: MOCKUP_DESIGN_H * scale }}
     >
       <div
         className="origin-top-left"
         style={{
-          width: 560,
-          transform: "scale(calc(100cqw / 560))",
+          width: MOCKUP_DESIGN_W,
+          transform: `scale(${scale})`,
         }}
       >
         <div className="overflow-hidden rounded-2xl border border-border-light bg-bg-dark shadow-2xl shadow-black/20">
