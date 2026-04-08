@@ -24,7 +24,7 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<"newest" | "az">("newest");
   const [mode, setMode] = useState<"single" | "before-after">("single");
-  const [tab, setTab] = useState<"library" | "upload">("library");
+  const [tab, setTab] = useState<"library" | "upload">("upload");
   const [selectedImage, setSelectedImage] = useState<MediaFile | null>(null);
   const [selectedBefore, setSelectedBefore] = useState<MediaFile | null>(null);
   const [saving, setSaving] = useState(false);
@@ -52,30 +52,34 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
     setUploading(true);
     setUploadError(null);
     const { upload } = await import("@vercel/blob/client");
-    const errors: string[] = [];
-    for (const file of imageFiles) {
-      try {
-        const blob = await upload(`site-assets/${file.name}`, file, {
-          access: "public",
-          handleUploadUrl: "/api/media/upload",
-        });
-        const res = await fetch("/api/media/process", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ dealId: "site-assets", blobUrl: blob.url, filename: file.name }),
-        });
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          errors.push(`${file.name}: ${err.error || res.statusText}`);
-        }
-      } catch (e) {
-        errors.push(`${file.name}: ${e}`);
+    try {
+      const file = imageFiles[0]; // take first image
+      const blob = await upload(`site-assets/${file.name}`, file, {
+        access: "public",
+        handleUploadUrl: "/api/media/upload",
+      });
+      const res = await fetch("/api/media/process", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dealId: "site-assets", blobUrl: blob.url, filename: file.name }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || res.statusText);
       }
+      const { fullUrl, thumbUrl } = await res.json();
+      // Auto-assign directly to the slot and close
+      await fetch("/api/site-assets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slotId, imageUrl: fullUrl, thumbUrl, altText: file.name, dealId: "site-assets" }),
+      });
+      onSave();
+      onClose();
+    } catch (e) {
+      setUploadError(String(e));
+      setUploading(false);
     }
-    if (errors.length) setUploadError(errors.join(" | "));
-    loadFiles();
-    setTab("library");
-    setUploading(false);
   }
 
   const urlName = (f: MediaFile) => f.url.split("/").pop()?.split("?")[0] || "";
