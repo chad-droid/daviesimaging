@@ -135,7 +135,7 @@ function PackageBreakdown({ animate }: { animate: boolean }) {
 
       {/* Savings badge */}
       <div
-        className="mt-1 flex items-center justify-center gap-2 rounded-full border border-accent/25 bg-accent/8 px-4 py-2.5 transition-all duration-500"
+        className="mt-3 flex items-center gap-1.5 transition-opacity duration-500"
         style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? "480ms" : "0s" }}
       >
         <svg viewBox="0 0 12 12" className="h-3 w-3 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -335,7 +335,7 @@ function FeaturedStatCell() {
       {/* Explore Spec+ CTA */}
       <Link
         href="/programs/spec-plus"
-        className="mt-7 inline-flex items-center justify-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 font-sans text-[11px] font-semibold text-accent transition-all hover:border-accent hover:bg-accent/20"
+        className="mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3 font-sans text-sm font-semibold text-white transition-colors hover:bg-accent/90"
         style={{ opacity: active ? 1 : 0, transition: active ? "opacity 0.5s ease 1.2s" : "none" }}
       >
         Explore Spec+
