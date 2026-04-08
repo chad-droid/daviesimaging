@@ -22,6 +22,7 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
   const [files, setFiles] = useState<MediaFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<"newest" | "az">("newest");
   const [mode, setMode] = useState<"single" | "before-after">("single");
   const [tab, setTab] = useState<"library" | "upload">("library");
   const [selectedImage, setSelectedImage] = useState<MediaFile | null>(null);
@@ -59,13 +60,22 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
     setUploading(false);
   }
 
-  const filtered = search
-    ? files.filter(
-        (f) =>
-          f.filename.toLowerCase().includes(search.toLowerCase()) ||
-          (f.description || "").toLowerCase().includes(search.toLowerCase()),
-      )
-    : files;
+  const urlName = (f: MediaFile) => f.url.split("/").pop()?.split("?")[0] || "";
+  const filtered = files
+    .filter((f) => {
+      if (!search) return true;
+      const q = search.toLowerCase();
+      return (
+        (f.filename || "").toLowerCase().includes(q) ||
+        (f.description || "").toLowerCase().includes(q) ||
+        urlName(f).toLowerCase().includes(q)
+      );
+    })
+    .sort((a, b) =>
+      sort === "az"
+        ? (a.filename || urlName(a)).localeCompare(b.filename || urlName(b))
+        : 0, // "newest" uses server order (created_at DESC)
+    );
 
   async function handleSave() {
     if (mode === "single" && !selectedImage) return;
@@ -216,14 +226,20 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
         {tab === "library" && (
         <>
         <div className="border-b border-[#2C2C2C] px-6 py-3">
-          <input
-            type="text"
-            placeholder="Search by filename or description..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            autoFocus
-            className="w-full rounded-lg border border-[#2C2C2C] bg-[#121212] px-4 py-2 text-sm text-[#F5F5F5] outline-none placeholder:text-[#666] focus:border-[#6A5ACD]"
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search by filename..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              autoFocus
+              className="flex-1 rounded-lg border border-[#2C2C2C] bg-[#121212] px-4 py-2 text-sm text-[#F5F5F5] outline-none placeholder:text-[#666] focus:border-[#6A5ACD]"
+            />
+            <div className="flex rounded-lg border border-[#2C2C2C]">
+              <button onClick={() => setSort("newest")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${sort === "newest" ? "bg-[#6A5ACD] text-white" : "text-[#666] hover:text-[#F5F5F5]"}`}>Newest</button>
+              <button onClick={() => setSort("az")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${sort === "az" ? "bg-[#6A5ACD] text-white" : "text-[#666] hover:text-[#F5F5F5]"}`}>A–Z</button>
+            </div>
+          </div>
           {mode === "before-after" && (
             <p className="mt-2 text-[10px] text-[#A8A2D0]">
               {!selectedBefore ? "Step 1: Select the BEFORE image (original photo)" : "Step 2: Select the AFTER image (finished asset)"}
