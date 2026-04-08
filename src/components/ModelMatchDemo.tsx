@@ -212,8 +212,8 @@ export function ModelMatchDemo() {
                         : "ring-1 ring-border-light hover:shadow-md"
                     }`}
                   >
-                    {/* Image area — fixed height so cards stay aligned */}
-                    <div className={`relative h-52 lg:h-64 w-full overflow-hidden ${stage.tint}`}>
+                    {/* Image area — aspect-ratio based so height scales with column width */}
+                    <div className={`relative aspect-[4/3] w-full overflow-hidden ${stage.tint}`}>
                       <DynamicImage
                         slotId={stage.slotId}
                         className="absolute inset-0 h-full w-full"
