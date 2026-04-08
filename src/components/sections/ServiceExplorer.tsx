@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Eyebrow } from "@/components/Eyebrow";
@@ -241,8 +241,19 @@ function TabPanel({
 export function ServiceExplorer() {
   const [active, setActive] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const pillRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const inView = useInView(sectionRef, { once: true, amount: 0.1 });
   const { v: meta, editOverlay: metaEditOverlay } = useEditableSlot("service-explorer-meta", metaFields);
+
+  // Keep the active pill in view as the user swipes/taps through tabs —
+  // otherwise on mobile the scrollable pill row can fall out of sync with
+  // the card below and users lose track of which service they're looking at.
+  useEffect(() => {
+    const el = pillRefs.current[active];
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
+  }, [active]);
 
   return (
     <section ref={sectionRef} className="bg-bg-light py-24">
@@ -270,6 +281,7 @@ export function ServiceExplorer() {
           {TAB_STATIC.map((t, i) => (
             <button
               key={t.id}
+              ref={(el) => { pillRefs.current[i] = el; }}
               onClick={() => setActive(i)}
               className={`flex-shrink-0 rounded-full px-5 py-2 text-sm font-medium transition-all duration-200 ${
                 active === i
@@ -282,8 +294,32 @@ export function ServiceExplorer() {
           ))}
         </motion.div>
 
+        {/* Mobile-only connector: labels what the user is looking at
+            and visually ties the active pill to the card below */}
+        <div className="relative mt-5 flex flex-col items-center lg:hidden">
+          <svg
+            className="h-3 w-3 text-bg-dark"
+            viewBox="0 0 12 12"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M6 10 L0 0 L12 0 Z" />
+          </svg>
+          <div className="mt-1 flex items-baseline gap-1.5">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-text-muted">
+              Viewing
+            </span>
+            <span className="text-sm font-semibold text-text-dark">
+              {TAB_STATIC[active].label}
+            </span>
+            <span className="text-[10px] text-text-muted">
+              ({active + 1} of {TAB_STATIC.length})
+            </span>
+          </div>
+        </div>
+
         {/* Content panel with side-arrow navigation */}
-        <div className="relative mt-10 min-h-[420px] lg:px-14">
+        <div className="relative mt-6 min-h-[420px] lg:mt-10 lg:px-14">
 
           {/* ← Prev arrow */}
           <button
@@ -321,13 +357,8 @@ export function ServiceExplorer() {
 
         </div>
 
-        {/* Mobile swipe hint */}
-        <p className="mt-6 text-center text-[11px] font-medium text-text-muted lg:hidden">
-          Swipe to explore
-        </p>
-
         {/* Dot indicators */}
-        <div className="mt-4 flex justify-center gap-1.5 lg:mt-8">
+        <div className="mt-8 flex justify-center gap-1.5">
           {TAB_STATIC.map((_, i) => (
             <button
               key={i}
