@@ -122,15 +122,12 @@ export default function SpecPlusPage() {
                 </ul>
               </div>
 
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light lg:aspect-auto">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-bg-surface to-border-light lg:aspect-auto">
                 <DynamicImage
                   slotId="offerings-spec-plus-img"
-                  className="h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full"
                   fallbackClass="h-full w-full"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-bg-surface to-border-light [&:has(img)]:hidden">
-                  <span className="text-xs font-medium uppercase tracking-widest text-text-muted">Spec+ Example</span>
-                </div>
               </div>
             </div>
           </RevealOnScroll>
