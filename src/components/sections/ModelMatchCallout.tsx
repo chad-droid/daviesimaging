@@ -92,10 +92,8 @@ export function ModelMatchCallout() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border-light bg-bg-surface">
               <DynamicImage
                 slotId="modelmatch-callout-img"
-                alt="ModelMatch virtual staging example"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="absolute inset-0 h-full w-full"
+                aspectRatio="4/3"
               />
             </div>
 

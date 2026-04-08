@@ -195,10 +195,8 @@ export function ModelMatchDemo() {
                       {/* Real image slot */}
                       <DynamicImage
                         slotId={stage.slotId}
-                        alt={stage.label}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 1024px) 100vw, 33vw"
+                        className="absolute inset-0 h-full w-full"
+                        aspectRatio="4/3"
                       />
                       {/* Placeholder overlay — sits below the image when assigned */}
                       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 [&:has(~*_img)]:hidden">
