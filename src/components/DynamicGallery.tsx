@@ -8,6 +8,9 @@ const regions = ["All", "West", "Mountain", "Central", "East"] as const;
 type Region = (typeof regions)[number];
 
 const stateToRegion: Record<string, string> = {
+  // Direct region tags (set via Media Library region picker)
+  West: "West", Mountain: "Mountain", Central: "Central", East: "East",
+  // State codes
   WA: "West", OR: "West", CA: "West", NV: "West", HI: "West",
   MT: "Mountain", ID: "Mountain", WY: "Mountain", UT: "Mountain", CO: "Mountain", AZ: "Mountain", NM: "Mountain",
   TX: "Central", OK: "Central", KS: "Central", MO: "Central", MN: "Central", IA: "Central", WI: "Central", IL: "Central", AR: "Central", LA: "Central", MS: "Central", AL: "Central", TN: "Central",
@@ -41,6 +44,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
   const [projects, setProjects] = useState<GalleryProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<Region>("All");
+  const showRegionFilter = pageSlug === "/gallery/models";
   const [lightbox, setLightbox] = useState<{ dealId: string; imageIndex: number } | null>(null);
 
   useEffect(() => {
@@ -117,7 +121,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
     });
 
   const filtered =
-    active === "All"
+    !showRegionFilter || active === "All"
       ? projectCovers
       : projectCovers.filter((p) => p.region === active);
 
@@ -139,7 +143,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
             <p className="mx-auto mt-4 max-w-2xl text-text-body">{description}</p>
           )}
 
-          {hasData && (
+          {hasData && showRegionFilter && (
             <div className="mt-8 flex flex-wrap justify-center gap-2">
               {regions.map((region) => (
                 <button

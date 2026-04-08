@@ -724,6 +724,45 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
                 </div>
               ))}
             </div>
+            {/* Region Tag — for Models gallery filtering */}
+            <div className="mt-4 rounded-lg border border-[#2C2C2C] bg-[#121212] p-4">
+              <label className="mb-1 block text-[10px] uppercase tracking-widest text-[#6A5ACD]">Region Tag</label>
+              <p className="mb-3 text-[10px] leading-relaxed text-[#555]">
+                Controls which region filter this project appears under in the Models gallery. Overrides the State field for region filtering.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {(["West", "Mountain", "Central", "East"] as const).map((region) => {
+                  const currentState = editing.state ?? deal.state ?? "";
+                  const isActive = currentState === region;
+                  return (
+                    <button
+                      key={region}
+                      type="button"
+                      onClick={() => setEditing({ ...editing, state: isActive ? "" : region })}
+                      className={`rounded-full px-4 py-1.5 text-[11px] font-semibold transition-colors ${
+                        isActive
+                          ? "bg-[#6A5ACD] text-white"
+                          : "border border-[#2C2C2C] text-[#A8A2D0] hover:border-[#6A5ACD] hover:text-[#6A5ACD]"
+                      }`}
+                    >
+                      {region}
+                    </button>
+                  );
+                })}
+              </div>
+              {(() => {
+                const stateVal = editing.state ?? deal.state ?? "";
+                const REGIONS = ["West", "Mountain", "Central", "East"];
+                if (!REGIONS.includes(stateVal) && stateVal) {
+                  return (
+                    <p className="mt-2 text-[10px] text-[#555]">
+                      Current state <span className="text-[#A8A2D0]">{stateVal}</span> maps via state code (auto-detected). Click a button above to override.
+                    </p>
+                  );
+                }
+                return null;
+              })()}
+            </div>
             <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
               {deal.pipeline && <div><span className="text-[#666]">Pipeline:</span> <span className="text-[#F5F5F5]">{deal.pipeline}</span></div>}
               {deal.production_date && <div><span className="text-[#666]">Produced:</span> <span className="text-[#F5F5F5]">{deal.production_date}</span></div>}
