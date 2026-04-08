@@ -116,17 +116,16 @@ async function handleFormDataUpload(req: NextRequest): Promise<NextResponse> {
           allowOverwrite: true,
         });
 
-        if (dealId) {
-          await sql`
-            INSERT INTO media_files (deal_id, url, thumb_url, filename, description, size_bytes, width, height)
-            VALUES (${dealId}, ${fullBlob.url}, ${thumbBlob.url}, ${file.name}, '', ${full.length}, ${meta.width || 0}, ${meta.height || 0})
-            ON CONFLICT (deal_id, url) DO UPDATE SET
-              thumb_url = EXCLUDED.thumb_url,
-              size_bytes = EXCLUDED.size_bytes,
-              width = EXCLUDED.width,
-              height = EXCLUDED.height
-          `;
-        }
+        const dbDealId = dealId || "site-assets";
+        await sql`
+          INSERT INTO media_files (deal_id, url, thumb_url, filename, description, size_bytes, width, height)
+          VALUES (${dbDealId}, ${fullBlob.url}, ${thumbBlob.url}, ${file.name}, '', ${full.length}, ${meta.width || 0}, ${meta.height || 0})
+          ON CONFLICT (deal_id, url) DO UPDATE SET
+            thumb_url = EXCLUDED.thumb_url,
+            size_bytes = EXCLUDED.size_bytes,
+            width = EXCLUDED.width,
+            height = EXCLUDED.height
+        `;
 
         results.push({ filename: file.name, fullUrl: fullBlob.url, thumbUrl: thumbBlob.url, originalSize, optimizedSize: full.length });
       } catch (e) {
@@ -136,9 +135,7 @@ async function handleFormDataUpload(req: NextRequest): Promise<NextResponse> {
 
     if (dealId && results.length > 0) {
       await sql`
-        UPDATE deals
-        SET imported = TRUE, imported_at = NOW(), import_failed = FALSE, import_error = NULL, updated_at = NOW()
-        WHERE id = ${dealId}
+        UPDATE deals SET imported = TRUE, imported_at = NOW(), updated_at = NOW() WHERE id = ${dealId}
       `;
     }
 
