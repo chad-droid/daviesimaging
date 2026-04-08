@@ -180,6 +180,7 @@ function TabPanel({
         if (info.offset.x < -threshold || info.velocity.x < -400) onSwipeNext();
         else if (info.offset.x > threshold || info.velocity.x > 400) onSwipePrev();
       }}
+      style={{ touchAction: "pan-y" }}
       className="relative grid cursor-grab items-center gap-8 active:cursor-grabbing lg:cursor-default lg:grid-cols-2 lg:gap-12"
     >
       {editOverlay}

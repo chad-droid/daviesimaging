@@ -58,6 +58,15 @@
 
 /* ── Base type styles (in @layer base so utilities always win) ── */
 @layer base {
+  html,
+  body {
+    /* Prevent any element that overflows the viewport (marquees, drag
+       gestures, full-bleed mockups) from producing horizontal page
+       scroll or letting users pan the whole page left/right on touch.
+       overflow-x: clip is the modern equivalent of hidden that doesn't
+       create a new scroll container so sticky positioning still works. */
+    overflow-x: clip;
+  }
   body {
     font-family: var(--font-body);
     font-size: 1rem;
