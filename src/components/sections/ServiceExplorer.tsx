@@ -146,7 +146,17 @@ const contentVariants = {
 
 // ─── Tab content panel with its own slot ─────────────────────────────────────
 
-function TabPanel({ tabIndex, tabStatic }: { tabIndex: number; tabStatic: (typeof TAB_STATIC)[number] }) {
+function TabPanel({
+  tabIndex,
+  tabStatic,
+  onSwipeNext,
+  onSwipePrev,
+}: {
+  tabIndex: number;
+  tabStatic: (typeof TAB_STATIC)[number];
+  onSwipeNext: () => void;
+  onSwipePrev: () => void;
+}) {
   const defaults = TAB_DEFAULTS[tabIndex];
   const { v, editOverlay } = useEditableSlot(
     `service-explorer-tab-${tabStatic.id}`,
@@ -162,11 +172,29 @@ function TabPanel({ tabIndex, tabStatic }: { tabIndex: number; tabStatic: (typeo
       initial="enter"
       animate="center"
       exit="exit"
-      className="relative grid items-center gap-12 lg:grid-cols-2"
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.25}
+      onDragEnd={(_, info) => {
+        const threshold = 60;
+        if (info.offset.x < -threshold || info.velocity.x < -400) onSwipeNext();
+        else if (info.offset.x > threshold || info.velocity.x > 400) onSwipePrev();
+      }}
+      className="relative grid cursor-grab items-center gap-8 active:cursor-grabbing lg:cursor-default lg:grid-cols-2 lg:gap-12"
     >
       {editOverlay}
 
-      {/* Left: copy */}
+      {/* Image — shows first on mobile (flex order), right column on desktop */}
+      <div className="group relative order-first aspect-[4/3] overflow-hidden rounded-2xl bg-bg-surface lg:order-last">
+        <DynamicImage
+          slotId={tabStatic.imageSlot}
+          className="h-full w-full"
+          fallbackClass="h-full w-full bg-gradient-to-br from-bg-surface to-border-light"
+          aspectRatio="4/3"
+        />
+      </div>
+
+      {/* Copy — below image on mobile, left column on desktop */}
       <div>
         <div className="flex items-center gap-2">
           <span className={`inline-flex rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest ${tabStatic.tagColor}`}>
@@ -202,14 +230,6 @@ function TabPanel({ tabIndex, tabStatic }: { tabIndex: number; tabStatic: (typeo
           <Link href={tabStatic.secondaryHref} className="text-sm font-medium text-text-muted underline decoration-dotted underline-offset-4 hover:text-accent">
             {v.secondaryCta} →
           </Link>
-        </div>
-      </div>
-
-      {/* Right: image */}
-      <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-surface">
-        <DynamicImage slotId={tabStatic.imageSlot} className="h-full w-full object-cover" fallbackClass="h-full w-full" />
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-bg-surface to-border-light group-has-[img]:hidden">
-          <span className="text-xs font-medium uppercase tracking-widest text-text-muted">{tabStatic.label}</span>
         </div>
       </div>
     </motion.div>
@@ -278,7 +298,13 @@ export function ServiceExplorer() {
           </button>
 
           <AnimatePresence mode="wait">
-            <TabPanel key={active} tabIndex={active} tabStatic={TAB_STATIC[active]} />
+            <TabPanel
+              key={active}
+              tabIndex={active}
+              tabStatic={TAB_STATIC[active]}
+              onSwipeNext={() => setActive((a) => Math.min(TAB_STATIC.length - 1, a + 1))}
+              onSwipePrev={() => setActive((a) => Math.max(0, a - 1))}
+            />
           </AnimatePresence>
 
           {/* → Next arrow */}
@@ -295,8 +321,13 @@ export function ServiceExplorer() {
 
         </div>
 
+        {/* Mobile swipe hint */}
+        <p className="mt-6 text-center text-[11px] font-medium text-text-muted lg:hidden">
+          Swipe to explore
+        </p>
+
         {/* Dot indicators */}
-        <div className="mt-8 flex justify-center gap-1.5">
+        <div className="mt-4 flex justify-center gap-1.5 lg:mt-8">
           {TAB_STATIC.map((_, i) => (
             <button
               key={i}
