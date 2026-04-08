@@ -7,9 +7,9 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const footerLinks = {
   Gallery: [
-    { label: "Model Homes", href: "/gallery/models" },
+    { label: "Models", href: "/gallery/models" },
     { label: "Amenities", href: "/gallery/amenities" },
-    { label: "Spec Homes", href: "/gallery/listings" },
+    { label: "Listings", href: "/gallery/listings" },
     { label: "Lifestyle", href: "/gallery/lifestyle" },
   ],
   Solutions: [
@@ -118,9 +118,9 @@ export function Footer() {
   return (
     <footer className="border-t border-border-light bg-bg-light">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-0 sm:gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-12">
-          {/* Brand column */}
-          <div className="mb-8 border-b border-border-light pb-6 sm:mb-0 sm:border-none sm:pb-0">
+        <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
+          {/* Brand column — fixed width, doesn't compete with link column spacing */}
+          <div className="mb-2 border-b border-border-light pb-6 sm:mb-0 sm:border-none sm:pb-0 lg:w-52 lg:flex-shrink-0">
             <Image
               src="/dig-logo-dark.png"
               alt="Davies Imaging Group"
@@ -151,10 +151,12 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Link columns — accordion on mobile, static on desktop */}
-          {Object.entries(footerLinks).map(([heading, links]) => (
-            <FooterAccordion key={heading} heading={heading} links={links} />
-          ))}
+          {/* Link columns — 4 equal columns */}
+          <div className="flex-1 grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-0">
+            {Object.entries(footerLinks).map(([heading, links]) => (
+              <FooterAccordion key={heading} heading={heading} links={links} />
+            ))}
+          </div>
         </div>
 
         {/* Newsletter signup */}
