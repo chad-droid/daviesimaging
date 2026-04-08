@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { DynamicImage } from "@/components/DynamicImage";
 
@@ -124,6 +124,13 @@ const rooms = [
   },
 ];
 
+function getGridCols(activeStage: number | null): string {
+  if (activeStage === null) return "1fr 32px 1fr 32px 1fr";
+  const cols = ["0.45fr", "0.45fr", "0.45fr"];
+  cols[activeStage] = "4fr";
+  return `${cols[0]} 32px ${cols[1]} 32px ${cols[2]}`;
+}
+
 const ArrowIcon = () => (
   <svg
     className="h-5 w-5 text-border-light"
@@ -140,8 +147,17 @@ const ArrowIcon = () => (
 export function ModelMatchDemo() {
   const [activeRoom, setActiveRoom] = useState(0);
   const [activeStage, setActiveStage] = useState<number | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const room = rooms[activeRoom];
+  const isCompressed = (i: number) => isDesktop && activeStage !== null && activeStage !== i;
 
   return (
     <div>
@@ -176,43 +192,52 @@ export function ModelMatchDemo() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_32px_1fr_32px_1fr] lg:items-start lg:gap-0">
+          <div
+            className="grid grid-cols-1 gap-4 lg:gap-0 lg:items-start"
+            style={isDesktop ? {
+              gridTemplateColumns: getGridCols(activeStage),
+              transition: "grid-template-columns 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
+            } : undefined}
+          >
             {room.stages.map((stage, i) => (
               <Fragment key={stage.step}>
                 {/* Card */}
-                <div className="flex flex-col">
+                <div className="flex flex-col min-w-0">
                   <button
                     type="button"
                     onClick={() => setActiveStage(activeStage === i ? null : i)}
-                    className={`group w-full overflow-hidden rounded-2xl text-left transition-all duration-200 focus:outline-none ${
+                    className={`group w-full overflow-hidden rounded-2xl text-left transition-shadow duration-200 focus:outline-none ${
                       activeStage === i
                         ? "ring-2 ring-accent shadow-lg"
-                        : "ring-1 ring-border-light hover:-translate-y-0.5 hover:shadow-md"
+                        : "ring-1 ring-border-light hover:shadow-md"
                     }`}
                   >
-                    {/* Image area — real photo via DynamicImage, placeholder as fallback */}
-                    <div className={`relative aspect-[4/3] w-full overflow-hidden ${stage.tint}`}>
-                      {/* Real image slot */}
+                    {/* Image area — fixed height so cards stay aligned */}
+                    <div className={`relative h-52 lg:h-64 w-full overflow-hidden ${stage.tint}`}>
                       <DynamicImage
                         slotId={stage.slotId}
                         className="absolute inset-0 h-full w-full"
                         aspectRatio="4/3"
                       />
-                      {/* Placeholder overlay — sits below the image when assigned */}
+                      {/* Placeholder overlay */}
                       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 [&:has(~*_img)]:hidden">
                         <span
-                          className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold ${stage.numBg} ${stage.numText}`}
+                          className={`inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold ${stage.numBg} ${stage.numText}`}
                         >
                           {stage.step}
                         </span>
-                        <span
-                          className={`text-[11px] font-semibold uppercase tracking-widest ${
-                            stage.accent ? "text-accent" : "text-text-muted"
-                          }`}
-                        >
-                          {stage.label}
-                        </span>
-                        <span className="mt-1 font-mono text-[9px] text-text-muted/50">{stage.slotId}</span>
+                        {!isCompressed(i) && (
+                          <>
+                            <span
+                              className={`text-[11px] font-semibold uppercase tracking-widest ${
+                                stage.accent ? "text-accent" : "text-text-muted"
+                              }`}
+                            >
+                              {stage.label}
+                            </span>
+                            <span className="mt-1 font-mono text-[9px] text-text-muted/50">{stage.slotId}</span>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -224,30 +249,34 @@ export function ModelMatchDemo() {
                           : "border-border-light bg-bg-surface"
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="min-w-0">
+                      <div className="flex items-start justify-between gap-2 overflow-hidden">
+                        <div className="min-w-0 overflow-hidden">
                           <p
-                            className={`text-[10px] font-bold uppercase tracking-widest ${
+                            className={`truncate text-[10px] font-bold uppercase tracking-widest ${
                               stage.accent ? "text-accent" : "text-text-muted"
                             }`}
                           >
                             {stage.label}
                           </p>
-                          <p className="mt-0.5 text-sm font-medium leading-snug text-text-dark">
-                            {stage.caption}
-                          </p>
+                          {!isCompressed(i) && (
+                            <p className="mt-0.5 text-sm font-medium leading-snug text-text-dark">
+                              {stage.caption}
+                            </p>
+                          )}
                         </div>
-                        <svg
-                          className={`mt-0.5 h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
-                            activeStage === i ? "rotate-180 text-accent" : "text-text-muted"
-                          }`}
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
-                          stroke="currentColor"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
+                        {!isCompressed(i) && (
+                          <svg
+                            className={`mt-0.5 h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
+                              activeStage === i ? "rotate-180 text-accent" : "text-text-muted"
+                            }`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                          </svg>
+                        )}
                       </div>
                     </div>
                   </button>
@@ -272,7 +301,7 @@ export function ModelMatchDemo() {
 
                 {/* Arrow between cards */}
                 {i < room.stages.length - 1 && (
-                  <div className="hidden items-center justify-center pt-[calc(50%-22px)] lg:flex">
+                  <div className="hidden items-center justify-center lg:flex" style={{ paddingTop: "calc(3.25rem)" }}>
                     <ArrowIcon />
                   </div>
                 )}
@@ -281,7 +310,7 @@ export function ModelMatchDemo() {
           </div>
 
           <p className="mt-6 text-center text-xs text-text-muted">
-            Tap any panel to learn more about that stage.
+            Click any panel to expand it.
           </p>
         </motion.div>
       </AnimatePresence>
