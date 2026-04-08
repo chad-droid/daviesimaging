@@ -218,6 +218,7 @@ export function ModelMatchDemo() {
                         slotId={stage.slotId}
                         className="absolute inset-0 h-full w-full"
                         aspectRatio="4/3"
+                        disableLightbox
                       />
                       {/* Placeholder overlay */}
                       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 [&:has(~*_img)]:hidden">

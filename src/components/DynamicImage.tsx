@@ -8,6 +8,7 @@ interface DynamicImageProps {
   fallbackClass?: string;
   className?: string;
   aspectRatio?: string;
+  disableLightbox?: boolean;
 }
 
 // Cache site assets to avoid refetching per component
@@ -35,6 +36,7 @@ export function DynamicImage({
   fallbackClass = "bg-gradient-to-br from-bg-light to-border-light",
   className = "",
   aspectRatio = "4/3",
+  disableLightbox = false,
 }: DynamicImageProps) {
   const [asset, setAsset] = useState<{
     image_url: string;
@@ -84,9 +86,9 @@ export function DynamicImage({
     <>
       <div
         data-slot={slotId}
-        className={`relative cursor-zoom-in overflow-hidden ${className}`}
+        className={`relative overflow-hidden ${disableLightbox ? "" : "cursor-zoom-in"} ${className}`}
         style={{ aspectRatio }}
-        onClick={() => setLightbox(true)}
+        onClick={disableLightbox ? undefined : () => setLightbox(true)}
         onMouseEnter={() => hasBefore && setShowBefore(true)}
         onMouseLeave={() => hasBefore && setShowBefore(false)}
       >
@@ -108,7 +110,7 @@ export function DynamicImage({
       </div>
 
       {/* Fullscreen lightbox */}
-      {lightbox && (
+      {lightbox && !disableLightbox && (
         <div
           className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 p-4"
           onClick={() => setLightbox(false)}
