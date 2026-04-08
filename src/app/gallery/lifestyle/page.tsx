@@ -36,6 +36,10 @@ export default function LifestylePage() {
 
       {/* Gallery */}
       <section className="py-16">
+        <div className="mx-auto max-w-7xl px-6 pb-10 text-center">
+          <p className="text-sm font-medium uppercase tracking-widest text-accent">Coming Soon</p>
+          <p className="mt-2 text-text-body">Lifestyle galleries are being curated and will be available shortly.</p>
+        </div>
         <DynamicGallery
           pageSlug="/gallery/lifestyle"
           heading=""

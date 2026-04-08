@@ -36,6 +36,10 @@ export default function AmenitiesPage() {
 
       {/* Gallery */}
       <section className="py-16">
+        <div className="mx-auto max-w-7xl px-6 pb-10 text-center">
+          <p className="text-sm font-medium uppercase tracking-widest text-accent">Coming Soon</p>
+          <p className="mt-2 text-text-body">Amenity galleries are being curated and will be available shortly.</p>
+        </div>
         <DynamicGallery
           pageSlug="/gallery/amenities"
           heading=""
