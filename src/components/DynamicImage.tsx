@@ -10,6 +10,7 @@ interface DynamicImageProps {
   aspectRatio?: string;
   disableLightbox?: boolean;
   disableBeforeAfter?: boolean;
+  objectFit?: "cover" | "contain";
 }
 
 // Cache site assets to avoid refetching per component
@@ -39,6 +40,7 @@ export function DynamicImage({
   aspectRatio = "4/3",
   disableLightbox = false,
   disableBeforeAfter = false,
+  objectFit = "cover",
 }: DynamicImageProps) {
   const [asset, setAsset] = useState<{
     image_url: string;
@@ -98,7 +100,7 @@ export function DynamicImage({
           src={showBefore ? beforeUrl : afterUrl}
           alt={asset.alt_text || ""}
           fill
-          className="object-cover transition-opacity duration-300"
+          className={`${objectFit === "contain" ? "object-contain" : "object-cover"} transition-opacity duration-300`}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
           quality={90}
         />
