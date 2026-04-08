@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
@@ -53,9 +52,9 @@ export default function RegionalPartnershipsPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Programs / Regional Partnerships</Eyebrow>
             <EditableHero
               slotId="programs-regional-partnerships-hero"
+              eyebrowDefault="Programs / Regional Partnerships"
               headlineDefault="One partner, every <strong>market</strong>."
               subheadDefault="DIG's regional partnership model gives national and regional builders a single point of contact for photography, staging, and video across all four U.S. regions. Volume pricing. Dedicated capacity. Brand consistency enforced."
             />
@@ -83,9 +82,9 @@ export default function RegionalPartnershipsPage() {
           <RevealOnScroll>
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>Built For Scale</Eyebrow>
                 <EditableTextContent
                   slotId="programs-regional-partnerships-scale"
+                  eyebrowDefault="Built For Scale"
                   headlineDefault="Volume pricing without quality <strong>compromise</strong>."
                   bodyDefault=""
                 />
@@ -119,9 +118,9 @@ export default function RegionalPartnershipsPage() {
                 </div>
               </div>
               <div>
-                <Eyebrow>Four Regions</Eyebrow>
                 <EditableTextContent
                   slotId="programs-regional-partnerships-regions"
+                  eyebrowDefault="Four Regions"
                   headlineDefault="Consistent quality from West to <strong>East</strong>."
                   bodyDefault=""
                 />
@@ -152,9 +151,9 @@ export default function RegionalPartnershipsPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>What You Get</Eyebrow>
               <EditableTextContent
                 slotId="programs-regional-partnerships-benefits"
+                eyebrowDefault="What You Get"
                 headlineDefault="Six things that change when you partner <strong>at scale</strong>."
                 bodyDefault=""
               />
@@ -180,9 +179,9 @@ export default function RegionalPartnershipsPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow dark>FrameFlow Powered</Eyebrow>
                 <EditableTextContent
                   slotId="programs-regional-partnerships-frameflow"
+                  eyebrowDefault="FrameFlow Powered"
                   headlineDefault="Centralized ordering across every <strong>region</strong>."
                   bodyDefault=""
                   dark={true}
@@ -213,9 +212,9 @@ export default function RegionalPartnershipsPage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Start the Conversation</Eyebrow>
             <EditableTextContent
               slotId="programs-regional-partnerships-cta"
+              eyebrowDefault="Start the Conversation"
               headlineDefault="Ready to build a partnership that <strong>scales</strong>?"
               bodyDefault="Regional partnership pricing and structure is negotiated directly with the DIG team. The conversation starts with a strategy call to understand your volume, markets, and brand requirements."
               dark={true}

@@ -9,7 +9,6 @@ import { DigDeskPlatform } from "@/components/sections/DigDeskPlatform";
 import { BuiltForBuilders } from "@/components/sections/BuiltForBuilders";
 import { MarketingEcosystem } from "@/components/sections/MarketingEcosystem";
 import { PremiumGallery } from "@/components/sections/PremiumGallery";
-import { TryFrameFlow } from "@/components/sections/TryFrameFlow";
 import { FinalCta } from "@/components/sections/FinalCta";
 
 export default function Home() {
@@ -26,7 +25,8 @@ export default function Home() {
       <BuiltForBuilders />
       <MarketingEcosystem />
       <PremiumGallery />
-      <TryFrameFlow />
+      {/* TODO: Add carousel/sliding hero section here that includes the Spec+ Challenge
+          (content lives in src/components/sections/TryFrameFlow.tsx) */}
       <FinalCta />
     </>
   );

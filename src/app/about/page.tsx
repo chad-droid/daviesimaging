@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
@@ -41,9 +40,9 @@ export default function AboutPage() {
       <DarkSection className="min-h-[65vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>About / Why We Exist</Eyebrow>
             <EditableHero
               slotId="about-main-hero"
+              eyebrowDefault="About / Why We Exist"
               headlineDefault="We don't just capture homes. We help builders <strong>win</strong>."
               subheadDefault="Davies Imaging Group was built inside the homebuilding industry, not outside of it. That distinction changes everything about how we work."
             />
@@ -57,9 +56,9 @@ export default function AboutPage() {
           <RevealOnScroll>
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>Origin</Eyebrow>
                 <EditableTextContent
                   slotId="about-origin"
+                  eyebrowDefault="Origin"
                   headlineDefault="Founded on a clear <strong>conviction</strong>."
                   bodyDefault=""
                 />
@@ -99,9 +98,9 @@ export default function AboutPage() {
           <RevealOnScroll>
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>Perspective</Eyebrow>
                 <EditableTextContent
                   slotId="about-perspective"
+                  eyebrowDefault="Perspective"
                   headlineDefault="We understand your world <strong>from the inside</strong>."
                   bodyDefault=""
                 />
@@ -124,9 +123,9 @@ export default function AboutPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow dark>Our Approach</Eyebrow>
               <EditableTextContent
                 slotId="about-approach"
+                eyebrowDefault="Our Approach"
                 headlineDefault="Three things we think about that most photographers <strong>don't</strong>."
                 bodyDefault=""
                 dark={true}
@@ -156,9 +155,9 @@ export default function AboutPage() {
           <RevealOnScroll>
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>How We Work</Eyebrow>
                 <EditableTextContent
                   slotId="about-how-we-work"
+                  eyebrowDefault="How We Work"
                   headlineDefault="From alignment to <strong>delivery</strong>."
                   bodyDefault=""
                 />
@@ -188,9 +187,9 @@ export default function AboutPage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Let&apos;s Work Together</Eyebrow>
             <EditableTextContent
               slotId="about-cta"
+              eyebrowDefault="Let's Work Together"
               headlineDefault="Let's build assets that move <strong>homes</strong>."
               bodyDefault="If you're looking for a vendor, there are plenty. If you're looking for a partner who understands how builder marketing actually works, let's talk."
               dark={true}

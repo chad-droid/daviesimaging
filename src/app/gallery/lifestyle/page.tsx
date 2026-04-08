@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
@@ -25,9 +24,9 @@ export default function LifestylePage() {
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Gallery / Lifestyle</Eyebrow>
             <EditableHero
               slotId="gallery-lifestyle-hero"
+              eyebrowDefault="Gallery / Lifestyle"
               headlineDefault="Buyers buy feelings. <strong>Give them something to feel</strong>."
               subheadDefault="Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit."
             />
@@ -62,9 +61,9 @@ export default function LifestylePage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Lifestyle and Video</Eyebrow>
             <EditableTextContent
               slotId="gallery-lifestyle-cta"
+              eyebrowDefault="Lifestyle and Video"
               headlineDefault="DIG Premium includes lifestyle photography. DIG Video Production captures the full community <strong>story on film</strong>."
               bodyDefault="Both are delivered to your marketing team, ready to deploy across website, paid media, email, and sales center."
               dark={true}

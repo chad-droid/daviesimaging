@@ -96,9 +96,9 @@ export default function ByRolePage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>Scale</Eyebrow>
               <EditableTextContent
                 slotId="markets-role-scale"
+                eyebrowDefault="Scale"
                 headlineDefault="Need coverage across multiple <strong>markets</strong>?"
                 bodyDefault="DIG's Regional Partnerships program gives national builders one partner, volume pricing, and consistent quality across every region."
               />

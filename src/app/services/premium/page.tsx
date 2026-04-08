@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
@@ -69,9 +68,9 @@ export default function PremiumPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Solutions / Premium Photography</Eyebrow>
             <EditableHero
               slotId="services-premium-hero"
+              eyebrowDefault="Solutions / Premium Photography"
               headlineDefault="Full-service photography for builders who demand the <strong>best</strong>."
               subheadDefault="Slow, methodical, full-setup photography for model homes, amenity spaces, and lifestyle shoots. DIG's signature service across 28 markets nationwide."
             />
@@ -105,9 +104,9 @@ export default function PremiumPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
-                <Eyebrow>Signature Service</Eyebrow>
                 <EditableTextContent
                   slotId="services-premium-signature"
+                  eyebrowDefault="Signature Service"
                   headlineDefault="Every detail, every <strong>angle</strong>."
                   bodyDefault="Premium Photography is DIG's umbrella for high-craft, full-service shoots. It covers three distinct engagement types: model home photography, amenity photography, and lifestyle photography. Builders order each as a separate shoot, not as a single combined package."
                 />
@@ -135,9 +134,9 @@ export default function PremiumPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>What You&apos;re Booking</Eyebrow>
               <EditableTextContent
                 slotId="services-premium-shoot-types"
+                eyebrowDefault="What You're Booking"
                 headlineDefault="Three shoot types. <strong>One standard of quality</strong>."
                 bodyDefault="Premium Photography is an umbrella. Builders order model home, amenity, and lifestyle shoots as separate engagements — each scoped and scheduled for its specific subject."
               />
@@ -166,9 +165,9 @@ export default function PremiumPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>How Builders Use It</Eyebrow>
               <EditableTextContent
                 slotId="services-premium-use-cases"
+                eyebrowDefault="How Builders Use It"
                 headlineDefault="From model home launches to <strong>community reveals</strong>."
                 bodyDefault=""
               />
@@ -206,9 +205,9 @@ export default function PremiumPage() {
               </div>
               {/* Copy */}
               <div>
-                <Eyebrow>Amenity Photography</Eyebrow>
                 <EditableTextContent
                   slotId="services-premium-amenities"
+                  eyebrowDefault="Amenity Photography"
                   headlineDefault="The amenity is the <strong>differentiator</strong>."
                   bodyDefault="In a competitive market, buyers choose communities as much as they choose floor plans. The pool deck, the clubhouse, the trail system, the fitness center: these are the assets that close the gap between interest and decision."
                 />
@@ -240,9 +239,9 @@ export default function PremiumPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="rounded-2xl border border-border-light bg-bg-surface p-8 lg:p-12">
-              <Eyebrow>Lifestyle Photography</Eyebrow>
               <EditableTextContent
                 slotId="services-premium-lifestyle"
+                eyebrowDefault="Lifestyle Photography"
                 headlineDefault="Buyers buy feelings. <strong>Premium delivers them</strong>."
                 bodyDefault="Lifestyle photography is a primary output of DIG Premium. Talent, styling, and real-moment storytelling that connects buyers emotionally to your community before they ever visit. This is the work that makes your brand stand apart on Instagram, on your website hero, and in the sales center."
               />
@@ -271,9 +270,9 @@ export default function PremiumPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow dark>Regional Coverage</Eyebrow>
                 <EditableTextContent
                   slotId="services-premium-regional"
+                  eyebrowDefault="Regional Coverage"
                   headlineDefault="One standard across every <strong>market</strong>."
                   bodyDefault=""
                   dark={true}
@@ -311,9 +310,9 @@ export default function PremiumPage() {
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <div className="text-center">
-              <Eyebrow dark>Browse the Work</Eyebrow>
               <EditableTextContent
                 slotId="services-premium-cta"
+                eyebrowDefault="Browse the Work"
                 headlineDefault="See what Premium looks like <strong>in the field</strong>."
                 bodyDefault="Browse gallery examples across all four Premium output types, then book a call to scope your shoot."
                 dark={true}

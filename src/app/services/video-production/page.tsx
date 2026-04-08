@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
@@ -38,9 +37,9 @@ export default function VideoProductionPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Solutions / Video Production</Eyebrow>
             <EditableHero
               slotId="services-video-production-hero"
+              eyebrowDefault="Solutions / Video Production"
               headlineDefault="Video that moves buyers to <strong>action</strong>."
               subheadDefault="On-site, crew-based video production for community walkthroughs, lifestyle campaigns, and builder brand films. DIG's highest-craft video output."
             />
@@ -68,9 +67,9 @@ export default function VideoProductionPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
-                <Eyebrow>Premium Video</Eyebrow>
                 <EditableTextContent
                   slotId="services-video-production-what-it-is"
+                  eyebrowDefault="Premium Video"
                   headlineDefault="One shoot. Every <strong>platform</strong>."
                   bodyDefault="DIG video production delivers assets formatted for website hero loops, social media cuts, email embeds, and sales center displays. One production day, multiple outputs across every channel your team uses."
                 />
@@ -112,9 +111,9 @@ export default function VideoProductionPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>Use Cases</Eyebrow>
               <EditableTextContent
                 slotId="services-video-production-use-cases"
+                eyebrowDefault="Use Cases"
                 headlineDefault="Four ways builders use <strong>DIG video</strong>."
                 bodyDefault=""
               />
@@ -139,9 +138,9 @@ export default function VideoProductionPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="text-center">
-              <Eyebrow>Which Video Is Right?</Eyebrow>
               <EditableTextContent
                 slotId="services-video-production-which-video"
+                eyebrowDefault="Which Video Is Right?"
                 headlineDefault="Know which service <strong>fits your need</strong>."
                 bodyDefault=""
               />

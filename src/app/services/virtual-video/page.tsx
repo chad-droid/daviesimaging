@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
@@ -38,9 +37,9 @@ export default function VirtualVideoPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Solutions / Virtual Video</Eyebrow>
             <EditableHero
               slotId="services-virtual-video-hero"
+              eyebrowDefault="Solutions / Virtual Video"
               headlineDefault="Listing video without the <strong>crew</strong>."
               subheadDefault="DIG virtual video transforms existing photography into smooth, cinematic walkthroughs. No shoot day, no scheduling overhead, fast delivery through FrameFlow."
             />
@@ -70,9 +69,9 @@ export default function VirtualVideoPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
-                <Eyebrow>From Photos to Video</Eyebrow>
                 <EditableTextContent
                   slotId="services-virtual-video-what-it-is"
+                  eyebrowDefault="From Photos to Video"
                   headlineDefault="Turn stills into buyer <strong>experience</strong>."
                   bodyDefault="Virtual video is DIG's digital production service for listing and spec home video. We take your existing photography, apply professional motion and transitions, and deliver a finished walkthrough video ready for MLS and social."
                 />
@@ -114,9 +113,9 @@ export default function VirtualVideoPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>Why It Works</Eyebrow>
               <EditableTextContent
                 slotId="services-virtual-video-why"
+                eyebrowDefault="Why It Works"
                 headlineDefault="Fast video for every listing. <strong>No exceptions</strong>."
                 bodyDefault=""
               />
@@ -138,9 +137,9 @@ export default function VirtualVideoPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="text-center">
-              <Eyebrow>How to Order</Eyebrow>
               <EditableTextContent
                 slotId="services-virtual-video-how-to-order"
+                eyebrowDefault="How to Order"
                 headlineDefault="Standalone or <strong>bundled in Spec+</strong>."
                 bodyDefault="Order virtual video by itself through FrameFlow, or bundle it with listing photography and virtual staging inside a Spec+ package."
               />

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
@@ -27,9 +26,9 @@ export default function ListingPhotoPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Solutions / Listing Photography</Eyebrow>
             <EditableHero
               slotId="services-listing-hero"
+              eyebrowDefault="Solutions / Listing Photography"
               headlineDefault="Photography built for homes that need to <strong>move</strong>."
               subheadDefault="Fast turnaround, consistent quality, and assets ready to deploy across MLS, website, email, and paid channels. Built for spec homes and standing inventory."
             />
@@ -57,9 +56,9 @@ export default function ListingPhotoPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
-                <Eyebrow>What You Get</Eyebrow>
                 <EditableTextContent
                   slotId="services-listing-what-you-get"
+                  eyebrowDefault="What You Get"
                   headlineDefault="Every listing, same <strong>standard</strong>."
                   bodyDefault="Whether it's the first home in a community or the fiftieth, DIG listing photography delivers brand-consistent visuals that perform across every channel."
                 />
@@ -107,9 +106,9 @@ export default function ListingPhotoPage() {
                   <div className="mb-3 inline-flex rounded-full bg-accent/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-accent">
                     Recommended
                   </div>
-                  <Eyebrow>Spec+ Bundle</Eyebrow>
                   <EditableTextContent
                     slotId="services-listing-spec-upsell"
+                    eyebrowDefault="Spec+ Bundle"
                     headlineDefault="Add staging and video for <strong>one flat price</strong>."
                     bodyDefault="Spec+ combines listing photography, 8 ModelMatch-staged images, and a virtual video walkthrough into a single order. Everything your spec home needs to compete, delivered within 72 hours of the shoot."
                   />
@@ -152,9 +151,9 @@ export default function ListingPhotoPage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Book a Shoot</Eyebrow>
             <EditableTextContent
               slotId="services-listing-cta"
+              eyebrowDefault="Book a Shoot"
               headlineDefault="Ready to get your listings <strong>photography-ready</strong>?"
               bodyDefault=""
               dark={true}

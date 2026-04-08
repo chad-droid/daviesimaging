@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
@@ -43,9 +42,9 @@ export default function FrameFlowPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Programs / FrameFlow Studio</Eyebrow>
             <EditableHero
               slotId="programs-frameflow-hero"
+              eyebrowDefault="Programs / FrameFlow Studio"
               headlineDefault="Virtual staging and video. <strong>No shoot required</strong>."
               subheadDefault="FrameFlow Studio is the digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer."
             />
@@ -74,9 +73,9 @@ export default function FrameFlowPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>What FrameFlow Does</Eyebrow>
               <EditableTextContent
                 slotId="programs-frameflow-what-it-does"
+                eyebrowDefault="What FrameFlow Does"
                 headlineDefault="Digital production from <strong>photos you already have</strong>."
                 bodyDefault="FrameFlow Studio handles two things: virtual staging and virtual video. Both are digital services that work from existing photography. No new shoot required."
               />
@@ -118,9 +117,9 @@ export default function FrameFlowPage() {
                 </div>
               </div>
               <div>
-                <Eyebrow>Inside digDesk</Eyebrow>
                 <EditableTextContent
                   slotId="programs-frameflow-inside-digdesk"
+                  eyebrowDefault="Inside digDesk"
                   headlineDefault="FrameFlow Studio lives <strong>inside your digDesk portal</strong>."
                   bodyDefault="digDesk is the DIG client portal. FrameFlow Studio is one of its modules, dedicated to digital production. Log in to digDesk to place FrameFlow orders, track progress, and download assets."
                 />
@@ -154,9 +153,9 @@ export default function FrameFlowPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>Why It Works</Eyebrow>
               <EditableTextContent
                 slotId="programs-frameflow-why"
+                eyebrowDefault="Why It Works"
                 headlineDefault="Four reasons builders use <strong>FrameFlow Studio</strong>."
                 bodyDefault=""
               />
@@ -178,9 +177,9 @@ export default function FrameFlowPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>Pricing</Eyebrow>
               <EditableTextContent
                 slotId="programs-frameflow-pricing"
+                eyebrowDefault="Pricing"
                 headlineDefault="No subscription. No commitment. <strong>Pay as you go</strong>."
                 bodyDefault="digDesk is built for flexibility. Order when you need it, pay per transaction, and scale up when your volume demands it."
               />
@@ -243,9 +242,9 @@ export default function FrameFlowPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>FrameFlow + Photography</Eyebrow>
               <EditableTextContent
                 slotId="programs-frameflow-spec-plus"
+                eyebrowDefault="FrameFlow + Photography"
                 headlineDefault="Bundle it with a shoot. <strong>That's Spec+</strong>."
                 bodyDefault="Spec+ combines DIG listing photography with FrameFlow Studio production. One coordinated package, 72-hour delivery, $600 flat. The most efficient way to get standing inventory market-ready."
               />

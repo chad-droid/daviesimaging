@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
@@ -25,9 +24,9 @@ export default function SpecHomesPage() {
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Gallery / Listings</Eyebrow>
             <EditableHero
               slotId="gallery-spec-homes-hero"
+              eyebrowDefault="Gallery / Listings"
               headlineDefault="Slow moving inventory? <strong>Increases your sales pace.</strong>"
               subheadDefault="Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete."
             />
@@ -62,9 +61,9 @@ export default function SpecHomesPage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Spec+</Eyebrow>
             <EditableTextContent
               slotId="gallery-listings-cta"
+              eyebrowDefault="Spec+"
               headlineDefault="One order. Listing photo, staging, and video <strong>delivered</strong>."
               bodyDefault="$600 flat. 72 hours after the shoot. Stop managing multiple vendors and start moving homes faster."
               dark={true}

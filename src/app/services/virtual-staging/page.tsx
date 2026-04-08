@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { ModelMatchDemo } from "@/components/ModelMatchDemo";
 import { EditableHero } from "@/components/EditableHero";
@@ -62,9 +61,9 @@ export default function VirtualStagingPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Solutions / Virtual Staging</Eyebrow>
             <EditableHero
               slotId="services-virtual-staging-hero"
+              eyebrowDefault="Solutions / Virtual Staging"
               headlineDefault="Staging that looks like your community. Because <strong>it is</strong>."
               subheadDefault="DIG virtual staging uses your builder's own model home photography as the design reference. Every staged image is branded and on-spec, not a generic template."
             />
@@ -94,9 +93,9 @@ export default function VirtualStagingPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
-                <Eyebrow>The ModelMatch Difference</Eyebrow>
                 <EditableTextContent
                   slotId="services-virtual-staging-modelmatch"
+                  eyebrowDefault="The ModelMatch Difference"
                   headlineDefault="Not furniture swaps. <strong>Brand-matched staging</strong>."
                   bodyDefault="Most virtual staging services drop generic furniture into empty rooms. DIG builds a permanent staging reference library from your actual model home photography. Every staged image reflects your builder's design identity."
                 />
@@ -138,9 +137,9 @@ export default function VirtualStagingPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-14 text-center">
-              <Eyebrow dark>How It Works</Eyebrow>
               <EditableTextContent
                 slotId="services-virtual-staging-how-it-works"
+                eyebrowDefault="How It Works"
                 headlineDefault="Four steps to <strong>on-brand staging</strong>."
                 bodyDefault="ModelMatch is built around your account. Once your reference library is set up, every future order uses it automatically."
                 dark={true}
@@ -164,9 +163,9 @@ export default function VirtualStagingPage() {
         <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>See the Progression</Eyebrow>
               <EditableTextContent
                 slotId="services-virtual-staging-progression"
+                eyebrowDefault="See the Progression"
                 headlineDefault="Reference. Vacant. <strong>Result</strong>."
                 bodyDefault="Each room below shows the three-stage ModelMatch process: source reference images, the vacant listing photo, and the finished staged output. Select a room to explore the difference."
               />
@@ -183,9 +182,9 @@ export default function VirtualStagingPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>Why Builders Choose ModelMatch</Eyebrow>
               <EditableTextContent
                 slotId="services-virtual-staging-why"
+                eyebrowDefault="Why Builders Choose ModelMatch"
                 headlineDefault="Every listing. <strong>Same brand</strong>."
                 bodyDefault=""
               />
@@ -207,9 +206,9 @@ export default function VirtualStagingPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="text-center">
-              <Eyebrow>Pricing</Eyebrow>
               <EditableTextContent
                 slotId="services-virtual-staging-pricing"
+                eyebrowDefault="Pricing"
                 headlineDefault="Standalone or <strong>bundled in Spec+</strong>."
                 bodyDefault="Order virtual staging by itself through FrameFlow Studio, or bundle it with listing photography and virtual video inside Spec+ for one flat price."
               />

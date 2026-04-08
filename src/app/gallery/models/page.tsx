@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
@@ -25,9 +24,9 @@ export default function ModelHomesPage() {
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Gallery / Model Homes</Eyebrow>
             <EditableHero
               slotId="gallery-model-homes-hero"
+              eyebrowDefault="Gallery / Model Homes"
               headlineDefault="Model home photography built to <strong>earn attention</strong>."
               subheadDefault="Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package."
             />
@@ -62,9 +61,9 @@ export default function ModelHomesPage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Premium Photography</Eyebrow>
             <EditableTextContent
               slotId="gallery-models-cta"
+              eyebrowDefault="Premium Photography"
               headlineDefault="Your model home deserves photography that <strong>earns attention</strong>."
               bodyDefault="DIG Premium delivers full-service lifestyle and model home photography, from pre-shoot planning to final asset delivery. 28 markets, one standard."
               dark={true}

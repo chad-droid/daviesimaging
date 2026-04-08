@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
@@ -38,9 +37,9 @@ export default function MatterportPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Solutions / Matterport</Eyebrow>
             <EditableHero
               slotId="services-matterport-hero"
+              eyebrowDefault="Solutions / Matterport"
               headlineDefault="Let buyers walk through before they <strong>visit</strong>."
               subheadDefault="Matterport 3D virtual tours give buyers an immersive, room-by-room experience of your model homes. Built for remote buyers, sales centers, and digital campaigns."
             />
@@ -68,9 +67,9 @@ export default function MatterportPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
-                <Eyebrow>The Experience</Eyebrow>
                 <EditableTextContent
                   slotId="services-matterport-experience"
+                  eyebrowDefault="The Experience"
                   headlineDefault="The next best thing to being <strong>there</strong>."
                   bodyDefault="Matterport captures the complete geometry of a space and delivers an interactive 3D model buyers can navigate room by room. It's the immersive experience that photography alone can't provide."
                 />
@@ -106,9 +105,9 @@ export default function MatterportPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>How Builders Use It</Eyebrow>
               <EditableTextContent
                 slotId="services-matterport-use-cases"
+                eyebrowDefault="How Builders Use It"
                 headlineDefault="Four ways Matterport earns its <strong>keep</strong>."
                 bodyDefault=""
               />
@@ -130,9 +129,9 @@ export default function MatterportPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="rounded-2xl border border-border-light bg-bg-light p-8">
-              <Eyebrow>Matterport vs. FrameFlow</Eyebrow>
               <EditableTextContent
                 slotId="services-matterport-vs-frameflow"
+                eyebrowDefault="Matterport vs. FrameFlow"
                 headlineDefault="Different tools for different <strong>needs</strong>."
                 bodyDefault="Matterport and FrameFlow are not competitors. They serve different purposes, and many builders use both."
               />

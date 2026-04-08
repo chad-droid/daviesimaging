@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
@@ -69,9 +68,9 @@ export default function DigDeskPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Programs / digDesk</Eyebrow>
             <EditableHero
               slotId="programs-digdesk-hero"
+              eyebrowDefault="Programs / digDesk"
               headlineDefault="One portal for your <strong>entire visual pipeline</strong>."
               subheadDefault="digDesk is the DIG client portal. Order every service, track every job, manage your ModelMatch brand library, and download finished assets from a single dashboard."
             />
@@ -101,9 +100,9 @@ export default function DigDeskPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
-                <Eyebrow>The DIG Client Portal</Eyebrow>
                 <EditableTextContent
                   slotId="programs-digdesk-portal"
+                  eyebrowDefault="The DIG Client Portal"
                   headlineDefault="Every DIG service. <strong>One dashboard</strong>."
                   bodyDefault="digDesk replaces the back-and-forth of email-based ordering. From your portal, you can place new orders, upload shoot details, choose your ModelMatch reference gallery, track production, and download finished assets — all without a single email to your account team."
                 />
@@ -213,9 +212,9 @@ export default function DigDeskPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-14 text-center">
-              <Eyebrow dark>What's Inside</Eyebrow>
               <EditableTextContent
                 slotId="programs-digdesk-modules"
+                eyebrowDefault="What's Inside"
                 headlineDefault="Four modules. <strong>Every DIG service covered</strong>."
                 bodyDefault="digDesk is organized around the services your team actually uses. Each module has its own ordering flow, tracking view, and delivery destination."
                 dark={true}
@@ -245,9 +244,9 @@ export default function DigDeskPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow>Why It Matters</Eyebrow>
               <EditableTextContent
                 slotId="programs-digdesk-why"
+                eyebrowDefault="Why It Matters"
                 headlineDefault="Less coordination. <strong>More velocity</strong>."
                 bodyDefault=""
               />
@@ -270,9 +269,9 @@ export default function DigDeskPage() {
           <RevealOnScroll>
             <div className="grid gap-10 lg:grid-cols-2">
               <div className="rounded-xl border border-border-light bg-bg-surface p-8">
-                <Eyebrow>Existing DIG Clients</Eyebrow>
                 <EditableTextContent
                   slotId="programs-digdesk-existing-clients"
+                  eyebrowDefault="Existing DIG Clients"
                   headlineDefault="Already working <strong>with DIG</strong>?"
                   bodyDefault="If your team already orders photography or digital services through DIG, your digDesk account is either active or ready to be set up. Log in with your existing credentials or reach out and we will get your account activated."
                   headingLevel="h3"
@@ -295,9 +294,9 @@ export default function DigDeskPage() {
                 </div>
               </div>
               <div className="rounded-xl border border-border-light bg-bg-surface p-8">
-                <Eyebrow>New to DIG</Eyebrow>
                 <EditableTextContent
                   slotId="programs-digdesk-new-clients"
+                  eyebrowDefault="New to DIG"
                   headlineDefault="Ready to get <strong>started</strong>?"
                   bodyDefault="New accounts are reviewed by our team and activated within one business day. Start with a 15-minute demo to see digDesk in action, or submit your account request directly and start ordering right away."
                   headingLevel="h3"

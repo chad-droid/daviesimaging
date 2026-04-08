@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { SpecFaq } from "@/components/SpecFaq";
 import { EditableHero } from "@/components/EditableHero";
@@ -35,9 +34,9 @@ export default function SpecPlusPage() {
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Programs / Spec+</Eyebrow>
             <EditableHero
               slotId="programs-spec-plus-hero"
+              eyebrowDefault="Programs / Spec+"
               headlineDefault="Your inventory needs to move. Spec+ delivers <strong>everything</strong>."
               subheadDefault="DIG listing photography combined with FrameFlow Studio digital production. $600 flat, regardless of home size. Delivered in 72 hours."
             />
@@ -94,9 +93,9 @@ export default function SpecPlusPage() {
           <RevealOnScroll>
             <div className="grid gap-12 lg:grid-cols-2">
               <div>
-                <Eyebrow>Package Contents</Eyebrow>
                 <EditableTextContent
                   slotId="programs-spec-plus-package"
+                  eyebrowDefault="Package Contents"
                   headlineDefault="Everything your listing needs. <strong>Nothing it doesn't</strong>."
                   bodyDefault="Spec+ was built for one purpose: get standing inventory listed, marketed, and sold faster. Every element in the package earns its place."
                 />
@@ -143,9 +142,9 @@ export default function SpecPlusPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="text-center">
-              <Eyebrow>How It Works</Eyebrow>
               <EditableTextContent
                 slotId="programs-spec-plus-how-it-works"
+                eyebrowDefault="How It Works"
                 headlineDefault="Order today. Assets in <strong>72 hours</strong>."
                 bodyDefault=""
               />
@@ -170,9 +169,9 @@ export default function SpecPlusPage() {
             <div className="rounded-2xl border border-border-light bg-bg-surface p-8 lg:p-12">
               <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
                 <div>
-                  <Eyebrow>ModelMatch Virtual Staging</Eyebrow>
                   <EditableTextContent
                     slotId="programs-spec-plus-modelmatch"
+                    eyebrowDefault="ModelMatch Virtual Staging"
                     headlineDefault="Not generic furniture. <strong>Your builder's design palette</strong>."
                     bodyDefault="Spec+ virtual staging uses your model home photography as the design reference. The result looks branded and on-spec, because it is. No mismatched styles, no generic staging templates."
                     headingLevel="h3"
@@ -210,9 +209,9 @@ export default function SpecPlusPage() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <div className="mb-10 text-center">
-              <Eyebrow>Common Questions</Eyebrow>
               <EditableTextContent
                 slotId="programs-spec-plus-faq"
+                eyebrowDefault="Common Questions"
                 headlineDefault="Everything you need to <strong>know before ordering</strong>."
                 bodyDefault=""
               />
@@ -226,9 +225,9 @@ export default function SpecPlusPage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Ready to Order</Eyebrow>
             <EditableTextContent
               slotId="programs-spec-plus-cta"
+              eyebrowDefault="Ready to Order"
               headlineDefault="$600. 72 hours. <strong>Move faster</strong>."
               bodyDefault="Stop managing vendors. Stop waiting on turnarounds. Order Spec+ through digDesk and get photography, staging, and video in one coordinated delivery."
               dark={true}

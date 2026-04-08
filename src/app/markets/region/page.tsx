@@ -34,9 +34,9 @@ export default function ByRegionPage() {
 
         <RevealOnScroll>
           <div className="mt-14 rounded-lg border border-border-light bg-bg-light p-8 text-center">
-            <Eyebrow>Partnerships</Eyebrow>
             <EditableTextContent
               slotId="markets-region-partnerships"
+              eyebrowDefault="Partnerships"
               headlineDefault="One partner across every <strong>region</strong>."
               bodyDefault="Volume pricing, dedicated capacity, and brand consistency enforced from West to East. Built for builders doing 300+ homes annually."
               headingLevel="h3"

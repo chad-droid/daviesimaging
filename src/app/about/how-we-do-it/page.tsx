@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
@@ -44,9 +43,9 @@ export default function HowWeDoItPage() {
       <DarkSection className="min-h-[65vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>About / How We Do It</Eyebrow>
             <EditableHero
               slotId="about-how-we-do-it-hero"
+              eyebrowDefault="About / How We Do It"
               headlineDefault="The traditional approach to builder photography <strong>is broken</strong>."
               subheadDefault="We believe specialization is the answer. And it is why working with DIG feels different."
             />
@@ -60,9 +59,9 @@ export default function HowWeDoItPage() {
           <RevealOnScroll>
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>The Problem</Eyebrow>
                 <EditableTextContent
                   slotId="about-how-we-do-it-problem"
+                  eyebrowDefault="The Problem"
                   headlineDefault="One person cannot carry the whole <strong>weight</strong>."
                   bodyDefault=""
                 />
@@ -89,9 +88,9 @@ export default function HowWeDoItPage() {
           <RevealOnScroll>
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>The Answer</Eyebrow>
                 <EditableTextContent
                   slotId="about-how-we-do-it-answer"
+                  eyebrowDefault="The Answer"
                   headlineDefault="Specialization at <strong>every level</strong>."
                   bodyDefault=""
                 />
@@ -117,9 +116,9 @@ export default function HowWeDoItPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-12 text-center">
-              <Eyebrow dark>The Team</Eyebrow>
               <EditableTextContent
                 slotId="about-how-we-do-it-team"
+                eyebrowDefault="The Team"
                 headlineDefault="Four disciplines. <strong>One roof</strong>."
                 bodyDefault="Photography, editing, virtual staging, and video production are separate disciplines staffed by separate specialists."
                 dark={true}
@@ -151,9 +150,9 @@ export default function HowWeDoItPage() {
           <RevealOnScroll>
             <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
               <div className="pt-1">
-                <Eyebrow>Your Advantage</Eyebrow>
                 <EditableTextContent
                   slotId="about-how-we-do-it-advantage"
+                  eyebrowDefault="Your Advantage"
                   headlineDefault="One team. Every <strong>specialty</strong>."
                   bodyDefault=""
                 />
@@ -195,9 +194,9 @@ export default function HowWeDoItPage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Home Building Experts</Eyebrow>
             <EditableTextContent
               slotId="about-how-we-do-it-cta"
+              eyebrowDefault="Home Building Experts"
               headlineDefault="We understand your standards. We know your expectations. <strong>We help you raise the bar.</strong>"
               bodyDefault=""
               dark={true}

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { DynamicGallery } from "@/components/DynamicGallery";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { Eyebrow } from "@/components/Eyebrow";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
@@ -25,9 +24,9 @@ export default function AmenitiesPage() {
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <Eyebrow dark>Gallery / Amenities</Eyebrow>
             <EditableHero
               slotId="gallery-amenities-hero"
+              eyebrowDefault="Gallery / Amenities"
               headlineDefault="Buyers choose communities. Give them a reason to choose <strong>yours</strong>."
               subheadDefault="Pools, clubhouses, fitness centers, trails, and parks. DIG captures every amenity the way it deserves: with context, with light, and with buyers in mind."
             />
@@ -62,9 +61,9 @@ export default function AmenitiesPage() {
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
-            <Eyebrow dark>Book an Amenity Shoot</Eyebrow>
             <EditableTextContent
               slotId="gallery-amenities-cta"
+              eyebrowDefault="Book an Amenity Shoot"
               headlineDefault="Ready to showcase what makes your community <strong>worth choosing</strong>?"
               bodyDefault="Amenity photography is part of DIG Premium. Coordinate it alongside your model home shoot or book it as a standalone engagement."
               dark={true}
