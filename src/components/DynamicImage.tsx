@@ -9,6 +9,7 @@ interface DynamicImageProps {
   className?: string;
   aspectRatio?: string;
   disableLightbox?: boolean;
+  disableBeforeAfter?: boolean;
 }
 
 // Cache site assets to avoid refetching per component
@@ -37,6 +38,7 @@ export function DynamicImage({
   className = "",
   aspectRatio = "4/3",
   disableLightbox = false,
+  disableBeforeAfter = false,
 }: DynamicImageProps) {
   const [asset, setAsset] = useState<{
     image_url: string;
@@ -78,7 +80,7 @@ export function DynamicImage({
     );
   }
 
-  const hasBefore = !!asset.before_url;
+  const hasBefore = !disableBeforeAfter && !!asset.before_url;
   const afterUrl = asset.thumb_url || asset.image_url;
   const beforeUrl = asset.before_thumb_url || asset.before_url || "";
 

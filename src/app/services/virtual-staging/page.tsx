@@ -122,6 +122,8 @@ export default function VirtualStagingPage() {
                   slotId="services-virtual-staging-img"
                   className="h-full w-full object-cover"
                   fallbackClass="h-full w-full"
+                  disableLightbox
+                  disableBeforeAfter
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-bg-surface to-border-light [&:has(img)]:hidden">
                   <span className="text-xs font-medium uppercase tracking-widest text-text-muted">ModelMatch Example</span>
