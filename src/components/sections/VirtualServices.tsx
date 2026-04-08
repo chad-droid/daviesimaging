@@ -10,8 +10,8 @@ const fields = [
   { key: "eyebrow", label: "Eyebrow", type: "text" as const, defaultValue: "Virtual Staging + Virtual Video" },
   { key: "headline", label: "Headline", type: "text" as const, defaultValue: "Already have photos? We can work with *that*." },
   { key: "body", label: "Body", type: "textarea" as const, defaultValue: "DIG\u2019s virtual staging and virtual video services are available without photography. No shoot required, fast turnaround, assets ready to deploy." },
-  { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "Get started in FrameFlow" },
-  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/programs/frameflow" },
+  { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "Order via digDesk" },
+  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/programs/digdesk" },
 ];
 
 export function VirtualServices() {

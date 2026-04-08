@@ -12,10 +12,10 @@ import { DarkSectionBg } from "@/components/DarkSectionBg";
 const metaFields = [
   { key: "eyebrow",  label: "Eyebrow",     type: "text"     as const, defaultValue: "How It Works" },
   { key: "headline", label: "Headline",    type: "textarea" as const, defaultValue: "Order complete. Assets live. **24 hours.**" },
-  { key: "subhead",  label: "Subhead",     type: "textarea" as const, defaultValue: "FrameFlow Studio handles the workflow. You focus on moving homes." },
-  { key: "ctaText",  label: "CTA Button",  type: "text"     as const, defaultValue: "Start your first order in FrameFlow" },
-  { key: "ctaHref",  label: "CTA URL",     type: "url"      as const, defaultValue: "/programs/frameflow" },
-  { key: "ctaNote",  label: "CTA Note",    type: "text"     as const, defaultValue: "No setup fee. First Spec+ order includes a risk-free FrameFlow video." },
+  { key: "subhead",  label: "Subhead",     type: "textarea" as const, defaultValue: "digDesk handles the workflow. You focus on moving homes." },
+  { key: "ctaText",  label: "CTA Button",  type: "text"     as const, defaultValue: "Order via digDesk" },
+  { key: "ctaHref",  label: "CTA URL",     type: "url"      as const, defaultValue: "/programs/digdesk" },
+  { key: "ctaNote",  label: "CTA Note",    type: "text"     as const, defaultValue: "No setup fee. First Spec+ order includes a risk-free virtual video." },
 ];
 
 const stepFields = (n: number) => [
@@ -30,7 +30,7 @@ const STEP_DEFAULTS = [
   {
     number: "01",
     title: "Upload your photos",
-    body: "Drop listing photos into FrameFlow Studio from any photographer, any shoot. The dashboard organizes your jobs, tracks delivery status, and stores every asset you've ever ordered.",
+    body: "Drop listing photos into digDesk from any photographer, any shoot. The dashboard organizes your jobs, tracks delivery status, and stores every asset you've ever ordered.",
     proof: "Works with photos you already have",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-6 w-6" stroke="currentColor" strokeWidth={1.5}>
@@ -58,7 +58,7 @@ const STEP_DEFAULTS = [
   {
     number: "03",
     title: "Assets in your dashboard. 24 hours.",
-    body: "Finished photos, staged images, and videos appear in your FrameFlow dashboard within 24 hours. Download and deploy to MLS, your website, email campaigns, and paid media from one folder.",
+    body: "Finished photos, staged images, and videos appear in your digDesk dashboard within 24 hours. Download and deploy to MLS, your website, email campaigns, and paid media from one folder.",
     proof: "One order. Multiple outputs. Every channel covered.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-6 w-6" stroke="currentColor" strokeWidth={1.5}>
@@ -80,7 +80,7 @@ function UIPreview({ step }: { step: number }) {
           <span className="h-2 w-2 rounded-full bg-white/15" />
           <span className="h-2 w-2 rounded-full bg-white/15" />
           <span className="h-2 w-2 rounded-full bg-white/15" />
-          <span className="ml-2 text-[10px] text-white/25">FrameFlow Studio — New Job</span>
+          <span className="ml-2 text-[10px] text-white/25">digDesk — New Job</span>
         </div>
         <div className="p-4">
           <div className="mb-3 flex items-center gap-2">
@@ -281,7 +281,7 @@ export function HowItWorks() {
           className="mt-14 flex flex-col items-center gap-3"
         >
           <Link
-            href={v.ctaHref || "/programs/frameflow"}
+            href={v.ctaHref || "/programs/digdesk"}
             className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-medium text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent-hover hover:shadow-accent/30"
           >
             {v.ctaText}

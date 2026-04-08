@@ -8,7 +8,7 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Regional Partnerships | Davies Imaging Group",
-  description: "One visual partner across every market. Volume pricing, brand consistency, and FrameFlow ordering for national and regional builders.",
+  description: "One visual partner across every market. Volume pricing, brand consistency, and digDesk ordering for national and regional builders.",
 };
 
 const benefits = [
@@ -181,7 +181,7 @@ export default function RegionalPartnershipsPage() {
               <div className="pt-1">
                 <EditableTextContent
                   slotId="programs-regional-partnerships-frameflow"
-                  eyebrowDefault="FrameFlow Powered"
+                  eyebrowDefault="digDesk Powered"
                   headlineDefault="Centralized ordering across every <strong>region</strong>."
                   bodyDefault=""
                   dark={true}
@@ -189,7 +189,7 @@ export default function RegionalPartnershipsPage() {
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-muted">
                 <p>
-                  Your marketing team orders through digDesk regardless of which market you&apos;re working in. FrameFlow Studio handles virtual staging and virtual video. Photography is coordinated by your dedicated account team. One platform, one process.
+                  Your marketing team orders through digDesk regardless of which market you&apos;re working in. digDesk handles virtual staging and virtual video via FrameFlow Studio, as well as photography coordinated by your dedicated account team. One platform, one process.
                 </p>
                 <p>
                   Billing, asset delivery, and order tracking are all centralized. No chasing down individual photographers in different states. No disconnected vendor invoices. Everything runs through the same account.

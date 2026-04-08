@@ -202,10 +202,10 @@ export default function AboutPage() {
                 Book a Strategy Call
               </Link>
               <Link
-                href="/programs/frameflow"
+                href="/programs/digdesk"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
-                Explore FrameFlow Studio &rarr;
+                Explore digDesk &rarr;
               </Link>
             </div>
           </RevealOnScroll>

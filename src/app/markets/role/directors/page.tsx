@@ -19,7 +19,7 @@ export default function DirectorsPage() {
         headline={<>Your marketing deserves assets that actually <strong>perform</strong>.</>}
         subheadline="DIG partners with marketing directors at regional and national builders to deliver photography, staging, and video that drives conversion across every channel."
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
-        secondaryCta={{ label: "Explore FrameFlow", href: "/programs/frameflow" }}
+        secondaryCta={{ label: "Explore digDesk", href: "/programs/digdesk" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
       <PainPoints
@@ -36,7 +36,7 @@ export default function DirectorsPage() {
         headline={<>Complete asset packages, built for <strong>consistency</strong>.</>}
         description="From pre-shoot alignment to post-production delivery, every asset is designed to work across your website, email campaigns, paid media, and sales center."
         ctaLabel="See how it works"
-        ctaHref="/programs/frameflow"
+        ctaHref="/programs/digdesk"
       />
       <Proof
         eyebrow="Results"

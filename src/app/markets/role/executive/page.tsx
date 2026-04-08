@@ -54,7 +54,7 @@ export default function ExecutivePage() {
       <LPCta
         headline={<>Ready to simplify your marketing <strong>operations</strong>?</>}
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
-        secondaryCta={{ label: "Explore FrameFlow", href: "/programs/frameflow" }}
+        secondaryCta={{ label: "Explore digDesk", href: "/programs/digdesk" }}
       />
     </>
   );

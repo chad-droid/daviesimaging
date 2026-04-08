@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const roles = [
   {
     title: "Coordinators",
-    description: "You schedule shoots, submit orders, and manage assets day to day. FrameFlow Studio and digDesk are built to make your workflow faster and your deliveries more predictable.",
+    description: "You schedule shoots, submit orders, and manage assets day to day. digDesk is built to make your workflow faster and your deliveries more predictable.",
     pain: "Chasing vendors, missed deadlines, inconsistent output",
     solution: "One platform, one team, 95% first-delivery success rate",
     href: "/markets/role/coordinators",

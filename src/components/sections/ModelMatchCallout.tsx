@@ -16,9 +16,9 @@ const fields = [
   { key: "feature1",   label: "Feature 1",    type: "text"     as const, defaultValue: "Reference your own model home photos, not stock furniture" },
   { key: "feature2",   label: "Feature 2",    type: "text"     as const, defaultValue: "Brand-consistent results across every community and region" },
   { key: "feature3",   label: "Feature 3",    type: "text"     as const, defaultValue: "Available on every Spec+ and standalone staging order" },
-  { key: "feature4",   label: "Feature 4",    type: "text"     as const, defaultValue: "Gallery lives in your FrameFlow account — reuse on every job" },
-  { key: "ctaText",    label: "CTA Button",   type: "text"     as const, defaultValue: "Try ModelMatch in FrameFlow" },
-  { key: "ctaHref",    label: "CTA URL",      type: "url"      as const, defaultValue: "/programs/frameflow" },
+  { key: "feature4",   label: "Feature 4",    type: "text"     as const, defaultValue: "Gallery lives in your digDesk account — reuse on every job" },
+  { key: "ctaText",    label: "CTA Button",   type: "text"     as const, defaultValue: "Try ModelMatch in digDesk" },
+  { key: "ctaHref",    label: "CTA URL",      type: "url"      as const, defaultValue: "/programs/digdesk" },
   { key: "stat1Value", label: "Stat 1 Value", type: "text"     as const, defaultValue: "24hrs" },
   { key: "stat1Label", label: "Stat 1 Label", type: "text"     as const, defaultValue: "Avg. delivery time per order" },
   { key: "stat2Value", label: "Stat 2 Value", type: "text"     as const, defaultValue: "81%" },
@@ -136,7 +136,7 @@ export function ModelMatchCallout() {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                href={v.ctaHref || "/programs/frameflow"}
+                href={v.ctaHref || "/programs/digdesk"}
                 className="inline-flex items-center gap-1.5 rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
               >
                 {v.ctaText}

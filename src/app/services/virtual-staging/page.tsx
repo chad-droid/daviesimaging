@@ -21,7 +21,7 @@ const steps = [
   {
     number: "02",
     title: "Create a virtual staging order",
-    body: "Place a new order in FrameFlow Studio. Upload the vacant listing photos you want staged.",
+    body: "Place a new order in digDesk. Upload the vacant listing photos you want staged.",
   },
   {
     number: "03",
@@ -50,7 +50,7 @@ const differentiators = [
   },
   {
     title: "Fast turnaround, bulk-friendly",
-    body: "Order standalone through FrameFlow Studio or bundle inside Spec+ for photography, staging, and video in one delivery.",
+    body: "Order standalone through digDesk or bundle inside Spec+ for photography, staging, and video in one delivery.",
   },
 ];
 
@@ -74,7 +74,7 @@ export default function VirtualStagingPage() {
                 rel="noopener noreferrer"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Order via FrameFlow Studio
+                Order via digDesk
               </a>
               <Link
                 href="/gallery/listings"
@@ -210,13 +210,13 @@ export default function VirtualStagingPage() {
                 slotId="services-virtual-staging-pricing"
                 eyebrowDefault="Pricing"
                 headlineDefault="Standalone or <strong>bundled in Spec+</strong>."
-                bodyDefault="Order virtual staging by itself through FrameFlow Studio, or bundle it with listing photography and virtual video inside Spec+ for one flat price."
+                bodyDefault="Order virtual staging by itself through digDesk, or bundle it with listing photography and virtual video inside Spec+ for one flat price."
               />
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border border-border-light p-6">
                 <h4 className="text-base font-semibold text-text-dark">Standalone Virtual Staging</h4>
-                <p className="mt-2 text-sm text-text-body">Already have photos? Upload them through FrameFlow Studio and receive ModelMatch-staged images ready to publish.</p>
+                <p className="mt-2 text-sm text-text-body">Already have photos? Upload them through digDesk and receive ModelMatch-staged images ready to publish.</p>
                 <p className="mt-4 font-serif text-2xl font-semibold text-text-dark">
                   Starting at $25
                   <span className="ml-1 text-sm font-sans font-normal text-text-muted">/ image</span>

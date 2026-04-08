@@ -55,7 +55,7 @@ export default function CSuitePage() {
         headline={<>Let&rsquo;s talk about <strong>growth</strong>.</>}
         description="Strategic partnerships start with a conversation."
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
-        secondaryCta={{ label: "Explore FrameFlow", href: "/programs/frameflow" }}
+        secondaryCta={{ label: "Explore digDesk", href: "/programs/digdesk" }}
       />
     </>
   );

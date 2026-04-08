@@ -8,7 +8,7 @@ import { LPCta } from "@/components/lp/LPCta";
 
 export const metadata: Metadata = {
   title: "For Coordinators | Davies Imaging Group",
-  description: "DIG and FrameFlow make scheduling, ordering, and asset management faster for marketing coordinators.",
+  description: "DIG and digDesk make scheduling, ordering, and asset management faster for marketing coordinators.",
 };
 
 export default function CoordinatorsPage() {
@@ -17,8 +17,8 @@ export default function CoordinatorsPage() {
       <LPHero
         eyebrow="For Coordinators"
         headline={<>One platform to manage every <strong>order</strong>.</>}
-        subheadline="FrameFlow replaces the email chains, spreadsheets, and vendor juggling. Schedule shoots, order staging, track delivery, all in one place."
-        primaryCta={{ label: "See FrameFlow", href: "/programs/frameflow" }}
+        subheadline="digDesk replaces the email chains, spreadsheets, and vendor juggling. Schedule shoots, order staging, track delivery, all in one place."
+        primaryCta={{ label: "Open digDesk", href: "/programs/digdesk" }}
         secondaryCta={{ label: "Book a Demo", href: "/contact" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
@@ -32,11 +32,11 @@ export default function CoordinatorsPage() {
         ]}
       />
       <Solution
-        eyebrow="FrameFlow"
+        eyebrow="digDesk"
         headline={<>Order, track, and receive in one <strong>app</strong>.</>}
-        description="FrameFlow centralizes ordering for photography, virtual staging, virtual video, and Spec+ packages. One login, one dashboard, every asset delivered and organized."
-        ctaLabel="Explore FrameFlow"
-        ctaHref="/programs/frameflow"
+        description="digDesk centralizes ordering for photography, virtual staging, virtual video, and Spec+ packages. One login, one dashboard, every asset delivered and organized."
+        ctaLabel="Explore digDesk"
+        ctaHref="/programs/digdesk"
       />
       <Proof
         eyebrow="Impact"
@@ -50,7 +50,7 @@ export default function CoordinatorsPage() {
       <LPCta
         headline={<>Ready to simplify your <strong>workflow</strong>?</>}
         primaryCta={{ label: "Book a Demo", href: "/contact" }}
-        secondaryCta={{ label: "Explore FrameFlow", href: "/programs/frameflow" }}
+        secondaryCta={{ label: "Explore digDesk", href: "/programs/digdesk" }}
       />
     </>
   );

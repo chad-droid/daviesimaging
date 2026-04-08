@@ -49,7 +49,7 @@ export default function GetStartedPage() {
 
               <ul className="mt-6 space-y-2.5">
                 {[
-                  "See FrameFlow Studio and virtual staging live",
+                  "See digDesk and virtual staging live",
                   "Watch a Spec+ order from submission to delivery",
                   "Ask about your specific markets and volume",
                   "15 minutes, no commitment required",
@@ -100,7 +100,7 @@ export default function GetStartedPage() {
                 {[
                   "Submit your account info in under 5 minutes",
                   "Admin review and activation within 1 business day",
-                  "Instant access to FrameFlow Studio on activation",
+                  "Instant access to digDesk on activation",
                   "Order Spec+ and standalone digital services right away",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-text-body">

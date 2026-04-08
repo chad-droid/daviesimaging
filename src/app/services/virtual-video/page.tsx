@@ -8,7 +8,7 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Virtual Video | Davies Imaging Group",
-  description: "Digital listing video built from your existing photography. No shoot day, no crew. Fast delivery through FrameFlow.",
+  description: "Digital listing video built from your existing photography. No shoot day, no crew. Fast delivery through digDesk.",
 };
 
 const differentiators = [
@@ -41,7 +41,7 @@ export default function VirtualVideoPage() {
               slotId="services-virtual-video-hero"
               eyebrowDefault="Solutions / Virtual Video"
               headlineDefault="Listing video without the <strong>crew</strong>."
-              subheadDefault="DIG virtual video transforms existing photography into smooth, cinematic walkthroughs. No shoot day, no scheduling overhead, fast delivery through FrameFlow."
+              subheadDefault="DIG virtual video transforms existing photography into smooth, cinematic walkthroughs. No shoot day, no scheduling overhead, fast delivery through digDesk."
             />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
@@ -50,7 +50,7 @@ export default function VirtualVideoPage() {
                 rel="noopener noreferrer"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Order via FrameFlow
+                Order via digDesk
               </a>
               <Link
                 href="/gallery/lifestyle"
@@ -141,14 +141,14 @@ export default function VirtualVideoPage() {
                 slotId="services-virtual-video-how-to-order"
                 eyebrowDefault="How to Order"
                 headlineDefault="Standalone or <strong>bundled in Spec+</strong>."
-                bodyDefault="Order virtual video by itself through FrameFlow, or bundle it with listing photography and virtual staging inside a Spec+ package."
+                bodyDefault="Order virtual video by itself through digDesk, or bundle it with listing photography and virtual staging inside a Spec+ package."
               />
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border border-border-light p-6">
                 <h4 className="text-base font-semibold text-text-dark">Standalone Virtual Video</h4>
                 <p className="mt-2 text-sm text-text-body">
-                  Already have photos? Upload them through FrameFlow and receive a finished walkthrough video. No shoot required.
+                  Already have photos? Upload them through digDesk and receive a finished walkthrough video. No shoot required.
                 </p>
                 <p className="mt-4 font-serif text-2xl font-semibold text-text-dark">
                   Starting at $150
