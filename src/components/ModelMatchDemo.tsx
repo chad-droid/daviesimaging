@@ -220,26 +220,6 @@ export function ModelMatchDemo() {
                         aspectRatio="4/3"
                         disableLightbox
                       />
-                      {/* Placeholder overlay */}
-                      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 [&:has(~*_img)]:hidden">
-                        <span
-                          className={`inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold ${stage.numBg} ${stage.numText}`}
-                        >
-                          {stage.step}
-                        </span>
-                        {!isCompressed(i) && (
-                          <>
-                            <span
-                              className={`text-[11px] font-semibold uppercase tracking-widest ${
-                                stage.accent ? "text-accent" : "text-text-muted"
-                              }`}
-                            >
-                              {stage.label}
-                            </span>
-                            <span className="mt-1 font-mono text-[9px] text-text-muted/50">{stage.slotId}</span>
-                          </>
-                        )}
-                      </div>
                     </div>
 
                     {/* Label bar */}
@@ -250,17 +230,17 @@ export function ModelMatchDemo() {
                           : "border-border-light bg-bg-surface"
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-2 overflow-hidden">
-                        <div className="min-w-0 overflow-hidden">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
                           <p
-                            className={`truncate text-[10px] font-bold uppercase tracking-widest ${
+                            className={`text-[10px] font-bold uppercase tracking-widest ${
                               stage.accent ? "text-accent" : "text-text-muted"
                             }`}
                           >
                             {stage.label}
                           </p>
                           {!isCompressed(i) && (
-                            <p className="mt-0.5 text-sm font-medium leading-snug text-text-dark">
+                            <p className="mt-0.5 break-words pr-1 text-sm font-medium leading-snug text-text-dark">
                               {stage.caption}
                             </p>
                           )}
