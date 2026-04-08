@@ -53,27 +53,18 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
     setUploadError(null);
     const { upload } = await import("@vercel/blob/client");
     try {
-      const file = imageFiles[0]; // take first image
+      const file = imageFiles[0];
       const blob = await upload(`site-assets/${file.name}`, file, {
         access: "public",
         handleUploadUrl: "/api/media/upload",
       });
-      const res = await fetch("/api/media/process", {
+      // Assign blob URL directly to the slot — no server-side processing needed
+      const res = await fetch("/api/site-assets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dealId: "site-assets", blobUrl: blob.url, filename: file.name }),
+        body: JSON.stringify({ slotId, imageUrl: blob.url, thumbUrl: blob.url, altText: file.name }),
       });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || res.statusText);
-      }
-      const { fullUrl, thumbUrl } = await res.json();
-      // Auto-assign directly to the slot and close
-      await fetch("/api/site-assets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slotId, imageUrl: fullUrl, thumbUrl, altText: file.name, dealId: "site-assets" }),
-      });
+      if (!res.ok) throw new Error("Failed to assign image to slot");
       onSave();
       onClose();
     } catch (e) {
