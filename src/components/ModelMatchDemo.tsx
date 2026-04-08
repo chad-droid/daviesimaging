@@ -126,8 +126,8 @@ const rooms = [
 
 function getGridCols(activeStage: number | null): string {
   if (activeStage === null) return "1fr 32px 1fr 32px 1fr";
-  const cols = ["0.45fr", "0.45fr", "0.45fr"];
-  cols[activeStage] = "4fr";
+  const cols = ["0.8fr", "0.8fr", "0.8fr"];
+  cols[activeStage] = "1.4fr";
   return `${cols[0]} 32px ${cols[1]} 32px ${cols[2]}`;
 }
 
@@ -224,7 +224,7 @@ export function ModelMatchDemo() {
 
                     {/* Label bar */}
                     <div
-                      className={`border-t px-4 py-3 transition-colors ${
+                      className={`border-t px-6 py-3 transition-colors ${
                         activeStage === i
                           ? "border-accent/30 bg-accent/5"
                           : "border-border-light bg-bg-surface"
