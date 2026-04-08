@@ -15,9 +15,9 @@ const THUMB_QUALITY = 100;
 // Called by @vercel/blob's upload() on the client to:
 //   1) generate a signed token for direct-to-blob upload
 //   2) receive an upload-completed notification (we use /api/media/process for processing)
-async function handleClientUpload(req: NextRequest): Promise<Response> {
+async function handleClientUpload(req: NextRequest): Promise<NextResponse> {
   const body = (await req.json()) as HandleUploadBody;
-  return await handleUpload({
+  const result = await handleUpload({
     body,
     request: req,
     onBeforeGenerateToken: async (_pathname: string) => ({
@@ -38,6 +38,7 @@ async function handleClientUpload(req: NextRequest): Promise<Response> {
       // after the client receives the blob URL from upload()
     },
   });
+  return NextResponse.json(result);
 }
 
 // ── Legacy FormData upload path (kept for Media Library, Assets, AdminMediaPicker) ──
