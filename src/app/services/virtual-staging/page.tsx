@@ -117,17 +117,15 @@ export default function VirtualStagingPage() {
                   </Link>
                 </div>
               </div>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-light">
+              <div className="overflow-hidden rounded-2xl bg-bg-light">
                 <DynamicImage
                   slotId="services-virtual-staging-img"
-                  className="h-full w-full object-cover"
-                  fallbackClass="h-full w-full"
+                  className="h-full w-full"
+                  fallbackClass="h-full w-full bg-gradient-to-br from-bg-surface to-border-light"
+                  aspectRatio="4/3"
                   disableLightbox
                   disableBeforeAfter
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-bg-surface to-border-light [&:has(img)]:hidden">
-                  <span className="text-xs font-medium uppercase tracking-widest text-text-muted">ModelMatch Example</span>
-                </div>
               </div>
             </div>
           </RevealOnScroll>
