@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const faqs = [
   {
     q: "What exactly is included in Spec+?",
-    a: "Every Spec+ order includes 25 HDR listing photos, 8 ModelMatch virtually staged images, and 1 wide-format virtual video. Photography is handled on-site by a DIG photographer. Virtual staging and video are produced digitally through FrameFlow Studio. All three are delivered together within 72 hours of the shoot.",
+    a: "Every Spec+ order includes 25 HDR listing photos, 8 ModelMatch virtually staged images, and 1 wide-format virtual video. Photography is handled on-site by a DIG photographer. Virtual staging and video are produced digitally through digDesk. All three are delivered together within 72 hours of the shoot.",
   },
   {
     q: "How is Spec+ different from just ordering listing photos?",
@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: "What if I already have photos and just need staging or video?",
-    a: "You can order standalone virtual staging or virtual video through FrameFlow Studio inside digDesk. Upload your existing listing photos and our team handles the rest. Spec+ includes the photography, but FrameFlow Studio digital services are available without a new shoot.",
+    a: "You can order standalone virtual staging or virtual video through digDesk. Upload your existing listing photos and our team handles the rest. Spec+ includes the photography, but digDesk digital services are available without a new shoot.",
   },
   {
     q: "How do I receive my finished assets?",

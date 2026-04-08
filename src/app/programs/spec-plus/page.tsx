@@ -9,13 +9,13 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Spec+ | Davies Imaging Group",
-  description: "The complete spec home asset package: 25 listing photos, 8 virtually staged images, and 1 virtual video. $600 flat, 72-hour delivery via FrameFlow.",
+  description: "The complete spec home asset package: 25 listing photos, 8 virtually staged images, and 1 virtual video. $600 flat, 72-hour delivery via digDesk.",
 };
 
 const included = [
   { label: "25 MLS-ready listing images", detail: "HDR photography, professionally retouched" },
   { label: "8 ModelMatch virtually staged images", detail: "Branded to your model home, not generic furniture" },
-  { label: "1 FrameFlow virtual video", detail: "Built from your photos, wide format, ready to deploy" },
+  { label: "1 virtual video via digDesk", detail: "Built from your photos, wide format, ready to deploy" },
   { label: "72-hour delivery after photography", detail: "From shoot to delivery, no waiting" },
   { label: "Sky replacement + exterior retouching", detail: "Every exterior looks its best" },
   { label: "Coordinated through digDesk", detail: "Photography + FrameFlow production managed in one place" },
@@ -38,7 +38,7 @@ export default function SpecPlusPage() {
               slotId="programs-spec-plus-hero"
               eyebrowDefault="Programs / Spec+"
               headlineDefault="Your inventory needs to move. Spec+ delivers <strong>everything</strong>."
-              subheadDefault="DIG listing photography combined with FrameFlow Studio digital production. $600 flat, regardless of home size. Delivered in 72 hours."
+              subheadDefault="DIG listing photography combined with digDesk digital production. $600 flat, regardless of home size. Delivered in 72 hours."
             />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a

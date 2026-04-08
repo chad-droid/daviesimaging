@@ -157,7 +157,7 @@ export default function VideoProductionPage() {
               </div>
               <div className="rounded-xl border border-border-light p-6">
                 <h4 className="text-base font-semibold text-text-dark">Virtual Video</h4>
-                <p className="mt-2 text-sm text-text-body">Digital production from existing photos. No shoot day, no crew. Priced per property, delivered fast through FrameFlow.</p>
+                <p className="mt-2 text-sm text-text-body">Digital production from existing photos. No shoot day, no crew. Priced per property, delivered fast through digDesk.</p>
                 <p className="mt-3 text-xs text-text-muted">Best for: spec home listings, standing inventory, MLS video at scale</p>
                 <Link href="/services/virtual-video" className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline">
                   See virtual video &rarr;

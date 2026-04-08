@@ -40,8 +40,8 @@ const types = [
   },
   {
     title: "Multifamily",
-    description: "Apartment and condo communities. Virtual staging and video for lease-up and pre-sale campaigns. FrameFlow Studio handles digital production at scale without a shoot day for every unit.",
-    services: ["Virtual Staging", "Virtual Video", "FrameFlow Studio"],
+    description: "Apartment and condo communities. Virtual staging and video for lease-up and pre-sale campaigns. digDesk handles digital production at scale without a shoot day for every unit.",
+    services: ["Virtual Staging", "Virtual Video", "digDesk"],
     href: "/services/virtual-staging",
     cta: "Explore Virtual Staging",
   },
