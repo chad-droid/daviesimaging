@@ -6,12 +6,6 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
 const footerLinks = {
-  Gallery: [
-    { label: "Models", href: "/gallery/models" },
-    { label: "Amenities", href: "/gallery/amenities" },
-    { label: "Listings", href: "/gallery/listings" },
-    { label: "Lifestyle", href: "/gallery/lifestyle" },
-  ],
   Solutions: [
     { label: "Premium Photography", href: "/services/premium" },
     { label: "Listing Photography", href: "/services/listing" },
@@ -36,6 +30,12 @@ const footerLinks = {
     { label: "FAQ", href: "/faq" },
     { label: "Legal", href: "/legal" },
     { label: "Copyright & Usage", href: "/copyright" },
+  ],
+  Gallery: [
+    { label: "Models", href: "/gallery/models" },
+    { label: "Amenities", href: "/gallery/amenities" },
+    { label: "Listings", href: "/gallery/listings" },
+    { label: "Lifestyle", href: "/gallery/lifestyle" },
   ],
 };
 
