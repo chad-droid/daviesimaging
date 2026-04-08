@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { DynamicImage } from "@/components/DynamicImage";
 
 const rooms = [
   {
@@ -145,7 +146,7 @@ export function ModelMatchDemo() {
   return (
     <div>
       {/* Room selector pills */}
-      <div className="mb-10 flex flex-wrap items-center gap-2">
+      <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
         <span className="mr-1 text-xs font-medium uppercase tracking-widest text-text-muted">Room:</span>
         {rooms.map((r, i) => (
           <button
@@ -166,7 +167,7 @@ export function ModelMatchDemo() {
         ))}
       </div>
 
-      {/* Stage panels — animate on room switch */}
+      {/* Stage panels */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeRoom}
@@ -175,11 +176,10 @@ export function ModelMatchDemo() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* 3-column grid with arrow columns in between */}
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_32px_1fr_32px_1fr] lg:gap-0 lg:items-start">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_32px_1fr_32px_1fr] lg:items-start lg:gap-0">
             {room.stages.map((stage, i) => (
               <Fragment key={stage.step}>
-                {/* Card column */}
+                {/* Card */}
                 <div className="flex flex-col">
                   <button
                     type="button"
@@ -187,12 +187,21 @@ export function ModelMatchDemo() {
                     className={`group w-full overflow-hidden rounded-2xl text-left transition-all duration-200 focus:outline-none ${
                       activeStage === i
                         ? "ring-2 ring-accent shadow-lg"
-                        : "ring-1 ring-border-light hover:shadow-md hover:-translate-y-0.5"
+                        : "ring-1 ring-border-light hover:-translate-y-0.5 hover:shadow-md"
                     }`}
                   >
-                    {/* Image placeholder */}
+                    {/* Image area — real photo via DynamicImage, placeholder as fallback */}
                     <div className={`relative aspect-[4/3] w-full overflow-hidden ${stage.tint}`}>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6">
+                      {/* Real image slot */}
+                      <DynamicImage
+                        slotId={stage.slotId}
+                        alt={stage.label}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 33vw"
+                      />
+                      {/* Placeholder overlay — sits below the image when assigned */}
+                      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 [&:has(~*_img)]:hidden">
                         <span
                           className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-sm font-bold ${stage.numBg} ${stage.numText}`}
                         >
@@ -217,7 +226,7 @@ export function ModelMatchDemo() {
                           : "border-border-light bg-bg-surface"
                       }`}
                     >
-                      <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
                           <p
                             className={`text-[10px] font-bold uppercase tracking-widest ${
@@ -226,12 +235,12 @@ export function ModelMatchDemo() {
                           >
                             {stage.label}
                           </p>
-                          <p className="mt-0.5 truncate text-sm font-medium text-text-dark">
+                          <p className="mt-0.5 text-sm font-medium leading-snug text-text-dark">
                             {stage.caption}
                           </p>
                         </div>
                         <svg
-                          className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
+                          className={`mt-0.5 h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
                             activeStage === i ? "rotate-180 text-accent" : "text-text-muted"
                           }`}
                           fill="none"
@@ -245,7 +254,7 @@ export function ModelMatchDemo() {
                     </div>
                   </button>
 
-                  {/* Expandable detail panel */}
+                  {/* Expandable detail */}
                   <AnimatePresence initial={false}>
                     {activeStage === i && (
                       <motion.div
@@ -256,18 +265,16 @@ export function ModelMatchDemo() {
                         className="overflow-hidden"
                       >
                         <div className="rounded-b-xl border border-t-0 border-accent/30 bg-accent/5 px-4 py-4">
-                          <p className="text-sm leading-relaxed text-text-body">
-                            {stage.detail}
-                          </p>
+                          <p className="text-sm leading-relaxed text-text-body">{stage.detail}</p>
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                {/* Arrow column — only between cards, not after last */}
+                {/* Arrow between cards */}
                 {i < room.stages.length - 1 && (
-                  <div className="hidden lg:flex items-center justify-center pt-[calc((50%-22px))]">
+                  <div className="hidden items-center justify-center pt-[calc(50%-22px)] lg:flex">
                     <ArrowIcon />
                   </div>
                 )}

@@ -48,49 +48,11 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
   const [lightbox, setLightbox] = useState<{ dealId: string; imageIndex: number } | null>(null);
 
   useEffect(() => {
-    fetch(`/api/gallery?action=assignments&page=${encodeURIComponent(pageSlug)}`)
+    // Single batch request — 2 DB queries server-side instead of N×2 client waterfalls
+    fetch(`/api/gallery/batch?page=${encodeURIComponent(pageSlug)}`)
       .then((r) => r.json())
-      .then(async (data) => {
-        const assignments = data.assignments || [];
-        if (assignments.length === 0) {
-          setLoading(false);
-          return;
-        }
-
-        // Fetch media files + curation data for each assigned project
-        const projectsWithImages: GalleryProject[] = [];
-        for (const a of assignments) {
-          try {
-            const [metaRes, curateRes] = await Promise.all([
-              fetch(`/api/media/metadata?dealId=${a.deal_id}`),
-              fetch(`/api/gallery/curate?dealId=${a.deal_id}&page=${encodeURIComponent(pageSlug)}`),
-            ]);
-            const meta = await metaRes.json();
-            const curate = await curateRes.json();
-            const hiddenSet = new Set<number>(curate.hiddenIds || []);
-            const allFiles = meta.files || [];
-            const visibleFiles = allFiles.filter((f: { id: number }) => !hiddenSet.has(f.id));
-
-            // Use cover image if set, otherwise first visible
-            const coverId = curate.coverId;
-            const coverFile = coverId ? allFiles.find((f: { id: number }) => f.id === coverId) : null;
-            const orderedFiles = coverFile
-              ? [coverFile, ...visibleFiles.filter((f: { id: number }) => f.id !== coverId)]
-              : visibleFiles;
-
-            projectsWithImages.push({
-              deal_id: a.deal_id,
-              deal_name: a.deal_name || meta.deal?.name || "",
-              builder: a.builder || meta.deal?.builder || "",
-              city: a.city || meta.deal?.city || "",
-              state: a.state || meta.deal?.state || "",
-              pipeline: a.pipeline || meta.deal?.pipeline || "",
-              youtube: meta.deal?.youtube || "",
-              images: orderedFiles,
-            });
-          } catch { /* skip failed fetches */ }
-        }
-        setProjects(projectsWithImages);
+      .then((data) => {
+        setProjects(data.projects || []);
         setLoading(false);
       })
       .catch(() => setLoading(false));
