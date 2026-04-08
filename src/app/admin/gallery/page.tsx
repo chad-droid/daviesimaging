@@ -67,28 +67,35 @@ function ImageCurationPanel({
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadResult, setUploadResult] = useState<string | null>(null);
-  const [dragOver, setDragOver] = useState(false);
+  const [fileDropOver, setFileDropOver] = useState(false);
   const [localCover, setLocalCover] = useState<number | null>(coverId);
   const [localHidden, setLocalHidden] = useState<Set<number>>(new Set(hiddenIds));
+  const [orderChanged, setOrderChanged] = useState(false);
+
+  // Drag-to-reorder state
+  const dragIdx = useRef<number | null>(null);
+  const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
 
   useEffect(() => {
     setLocalCover(coverId);
     setLocalHidden(new Set(hiddenIds));
   }, [coverId, hiddenIds]);
 
-  function loadImages() {
+  const loadImages = useCallback(() => {
     setLoading(true);
     fetch(`/api/gallery/curate?dealId=${dealId}&page=${encodeURIComponent(pageSlug)}`)
       .then((r) => r.json())
       .then((data) => {
         setImages(data.files || []);
+        setOrderChanged(false);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }
+  }, [dealId, pageSlug]);
 
-  useEffect(() => { loadImages(); }, [dealId, pageSlug]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { loadImages(); }, [loadImages]);
 
+  // ── File upload ──────────────────────────────────────────────────────────────
   async function handleUpload(files: FileList | File[]) {
     const imageFiles = Array.from(files).filter((f) => f.type.startsWith("image/"));
     if (!imageFiles.length) return;
@@ -109,6 +116,36 @@ function ImageCurationPanel({
     setUploading(false);
   }
 
+  // ── Image drag-to-reorder handlers ──────────────────────────────────────────
+  function handleImageDragStart(e: React.DragEvent, i: number) {
+    dragIdx.current = i;
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", String(i)); // marks as internal sort drag
+  }
+
+  function handleImageDragEnter(i: number) {
+    if (dragIdx.current !== null) setDragOverIdx(i);
+  }
+
+  function handleImageDrop(e: React.DragEvent, targetIdx: number) {
+    e.preventDefault();
+    const from = dragIdx.current;
+    if (from === null || from === targetIdx) { setDragOverIdx(null); return; }
+    const reordered = [...images];
+    const [moved] = reordered.splice(from, 1);
+    reordered.splice(targetIdx, 0, moved);
+    setImages(reordered);
+    setOrderChanged(true);
+    setDragOverIdx(null);
+    dragIdx.current = null;
+  }
+
+  function handleImageDragEnd() {
+    setDragOverIdx(null);
+    dragIdx.current = null;
+  }
+
+  // ── Save ─────────────────────────────────────────────────────────────────────
   async function save() {
     setSaving(true);
     await fetch("/api/gallery/curate", {
@@ -119,9 +156,11 @@ function ImageCurationPanel({
         dealId,
         coverId: localCover,
         hiddenIds: Array.from(localHidden),
+        imageOrder: images.map((img) => img.id),
       }),
     });
     setSaving(false);
+    setOrderChanged(false);
     onUpdate(localCover, Array.from(localHidden));
   }
 
@@ -135,6 +174,7 @@ function ImageCurationPanel({
   }
 
   const hasChanges =
+    orderChanged ||
     localCover !== coverId ||
     JSON.stringify(Array.from(localHidden).sort()) !== JSON.stringify([...hiddenIds].sort());
 
@@ -145,7 +185,7 @@ function ImageCurationPanel({
           Image Curation — {images.length} images
         </p>
         <div className="flex items-center gap-3">
-          <p className="text-[10px] text-[#555]">★ = cover &nbsp; 👁 = visible / hidden</p>
+          <p className="text-[10px] text-[#555]">drag to reorder &nbsp;·&nbsp; ★ cover &nbsp;·&nbsp; 👁 show/hide</p>
           {hasChanges && (
             <button
               onClick={save}
@@ -158,20 +198,39 @@ function ImageCurationPanel({
         </div>
       </div>
 
-      {/* Upload zone */}
+      {/* File upload zone — only responds to external file drops, not sort drags */}
       <div
-        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-        onDragLeave={() => setDragOver(false)}
-        onDrop={(e) => { e.preventDefault(); setDragOver(false); if (!uploading) handleUpload(e.dataTransfer.files); }}
-        onClick={() => { const i = document.createElement("input"); i.type = "file"; i.accept = "image/*"; i.multiple = true; i.onchange = () => { if (i.files) handleUpload(i.files); }; i.click(); }}
-        className={`mb-3 cursor-pointer rounded-lg border-2 border-dashed p-4 text-center transition-colors ${
-          dragOver ? "border-[#6A5ACD] bg-[#6A5ACD]/10" : "border-[#2C2C2C] hover:border-[#6A5ACD]/50"
+        onDragOver={(e) => {
+          // Only highlight for external file drops
+          if (dragIdx.current === null && e.dataTransfer.types.includes("Files")) {
+            e.preventDefault();
+            setFileDropOver(true);
+          }
+        }}
+        onDragLeave={() => setFileDropOver(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setFileDropOver(false);
+          if (dragIdx.current === null && e.dataTransfer.files.length > 0) {
+            handleUpload(e.dataTransfer.files);
+          }
+        }}
+        onClick={() => {
+          const input = document.createElement("input");
+          input.type = "file";
+          input.accept = "image/*";
+          input.multiple = true;
+          input.onchange = () => { if (input.files) handleUpload(input.files); };
+          input.click();
+        }}
+        className={`mb-3 cursor-pointer rounded-lg border-2 border-dashed p-3 text-center transition-colors ${
+          fileDropOver ? "border-[#6A5ACD] bg-[#6A5ACD]/10" : "border-[#2C2C2C] hover:border-[#6A5ACD]/50"
         }`}
       >
         {uploading ? (
           <p className="text-[11px] text-[#A8A2D0]">Uploading and optimizing...</p>
         ) : (
-          <p className="text-[11px] text-[#555] hover:text-[#A8A2D0]">
+          <p className="text-[11px] text-[#555]">
             {images.length === 0 ? "Drop images here or click to upload" : "Upload more images"}
           </p>
         )}
@@ -190,28 +249,41 @@ function ImageCurationPanel({
         </div>
       ) : (
         <div className="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-8">
-          {images.map((img) => {
+          {images.map((img, i) => {
             const isCover = localCover === img.id;
             const isHidden = localHidden.has(img.id);
+            const isDragTarget = dragOverIdx === i;
             return (
               <div
                 key={img.id}
-                className={`group relative aspect-[4/3] overflow-hidden rounded transition-all ${
+                draggable
+                onDragStart={(e) => handleImageDragStart(e, i)}
+                onDragEnter={() => handleImageDragEnter(i)}
+                onDragOver={(e) => { e.preventDefault(); }}
+                onDrop={(e) => handleImageDrop(e, i)}
+                onDragEnd={handleImageDragEnd}
+                className={`group relative aspect-[4/3] cursor-grab overflow-hidden rounded transition-all active:cursor-grabbing active:opacity-50 ${
                   isHidden ? "opacity-30" : ""
-                } ${isCover ? "ring-2 ring-[#6A5ACD] ring-offset-1 ring-offset-[#0f0f0f]" : ""}`}
+                } ${isCover ? "ring-2 ring-[#6A5ACD] ring-offset-1 ring-offset-[#0f0f0f]" : ""}
+                ${isDragTarget ? "ring-2 ring-[#F9A825] ring-offset-1 ring-offset-[#0f0f0f]" : ""}`}
               >
                 <Image
                   src={img.thumb_url || img.url}
                   alt={img.description || img.filename}
                   fill
-                  className="object-cover"
+                  className="pointer-events-none object-cover"
                   sizes="80px"
                 />
-                {/* Controls overlay */}
+
+                {/* Position badge — visible at rest, hidden on hover */}
+                <span className="absolute bottom-1 right-1 rounded bg-black/60 px-1 py-0.5 text-[8px] font-bold text-white/70 group-hover:hidden">
+                  {i + 1}
+                </span>
+
+                {/* Controls overlay — hover only */}
                 <div className="absolute inset-0 flex items-center justify-center gap-1 bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
-                  {/* Set cover */}
                   <button
-                    onClick={() => setLocalCover(isCover ? null : img.id)}
+                    onClick={(e) => { e.stopPropagation(); setLocalCover(isCover ? null : img.id); }}
                     title={isCover ? "Remove cover" : "Set as cover"}
                     className={`rounded p-1.5 text-xs transition-colors ${
                       isCover ? "bg-[#6A5ACD] text-white" : "bg-black/70 text-white/70 hover:text-white"
@@ -219,15 +291,15 @@ function ImageCurationPanel({
                   >
                     ★
                   </button>
-                  {/* Toggle visibility */}
                   <button
-                    onClick={() => toggleHide(img.id)}
+                    onClick={(e) => { e.stopPropagation(); toggleHide(img.id); }}
                     title={isHidden ? "Show image" : "Hide image"}
                     className="rounded bg-black/70 p-1.5 text-xs text-white/70 transition-colors hover:text-white"
                   >
                     {isHidden ? "👁‍🗨" : "👁"}
                   </button>
                 </div>
+
                 {isCover && (
                   <span className="absolute left-1 top-1 rounded bg-[#6A5ACD] px-1.5 py-0.5 text-[9px] font-bold text-white">
                     COVER
