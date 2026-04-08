@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
     // Mark deal as successfully imported
     await sql`
       UPDATE deals
-      SET imported = TRUE, imported_at = NOW(), import_failed = FALSE, import_error = NULL, updated_at = NOW()
+      SET imported = TRUE, imported_at = NOW(), updated_at = NOW()
       WHERE id = ${dealId}
     `;
 
