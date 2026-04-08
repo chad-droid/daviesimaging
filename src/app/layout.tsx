@@ -6,6 +6,7 @@ import { EmailCaptureModal } from "@/components/EmailCaptureModal";
 import { PageTransition } from "@/components/PageTransition";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { AdminSiteOverlay } from "@/components/AdminSiteOverlay";
 import "./globals.css";
 
@@ -79,6 +80,7 @@ export default function RootLayout({
         <AdminSiteOverlay />
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics gaId="G-TK4943YBZM" />
       </body>
     </html>
   );
