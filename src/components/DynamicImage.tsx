@@ -45,6 +45,7 @@ export function DynamicImage({
   } | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [showBefore, setShowBefore] = useState(false);
+  const [lightbox, setLightbox] = useState(false);
 
   useEffect(() => {
     loadAssets().then(() => {
@@ -80,32 +81,54 @@ export function DynamicImage({
   const beforeUrl = asset.before_thumb_url || asset.before_url || "";
 
   return (
-    <div
-      data-slot={slotId}
-      className={`relative overflow-hidden ${className}`}
-      style={{ aspectRatio }}
-      onMouseEnter={() => hasBefore && setShowBefore(true)}
-      onMouseLeave={() => hasBefore && setShowBefore(false)}
-    >
-      <Image
-        src={showBefore ? beforeUrl : afterUrl}
-        alt={asset.alt_text || ""}
-        fill
-        className="object-cover transition-opacity duration-300"
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
-        quality={90}
-      />
+    <>
+      <div
+        data-slot={slotId}
+        className={`relative cursor-zoom-in overflow-hidden ${className}`}
+        style={{ aspectRatio }}
+        onClick={() => setLightbox(true)}
+        onMouseEnter={() => hasBefore && setShowBefore(true)}
+        onMouseLeave={() => hasBefore && setShowBefore(false)}
+      >
+        <Image
+          src={showBefore ? beforeUrl : afterUrl}
+          alt={asset.alt_text || ""}
+          fill
+          className="object-cover transition-opacity duration-300"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 50vw"
+          quality={90}
+        />
+        {hasBefore && (
+          <div className="absolute bottom-3 left-3 z-10">
+            <span className="rounded-full bg-[#6A5ACD] px-3 py-1.5 text-[10px] font-semibold text-white shadow-lg">
+              {showBefore ? "Before" : "After"}
+            </span>
+          </div>
+        )}
+      </div>
 
-      {/* Before/After label */}
-      {hasBefore && (
-        <div className="absolute bottom-3 left-3 z-10">
-          <span className={`rounded-full px-3 py-1.5 text-[10px] font-semibold text-white shadow-lg transition-colors ${
-            showBefore ? "bg-[#6A5ACD]" : "bg-[#6A5ACD]"
-          }`}>
-            {showBefore ? "Before" : "After"}
-          </span>
+      {/* Fullscreen lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 p-4"
+          onClick={() => setLightbox(false)}
+        >
+          <img
+            src={asset.image_url}
+            alt={asset.alt_text || ""}
+            className="max-h-full max-w-full object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+            onClick={() => setLightbox(false)}
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
       )}
-    </div>
+    </>
   );
 }

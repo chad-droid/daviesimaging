@@ -18,6 +18,26 @@ interface PickerProps {
   onSave: () => void;
 }
 
+async function compressImage(file: File, maxWidth: number): Promise<File> {
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const scale = Math.min(1, maxWidth / img.width);
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob((blob) => {
+        resolve(blob ? new File([blob], file.name, { type: "image/jpeg" }) : file);
+      }, "image/jpeg", 0.92);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
 export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
   const [files, setFiles] = useState<MediaFile[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,9 +74,12 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
     const { upload } = await import("@vercel/blob/client");
     try {
       const file = imageFiles[0];
-      const blob = await upload(`site-assets/${file.name}`, file, {
+      // Compress large images client-side before upload
+      const compressed = await compressImage(file, 2400);
+      const blob = await upload(`site-assets/${file.name}`, compressed, {
         access: "public",
         handleUploadUrl: "/api/media/upload",
+        addRandomSuffix: true,
       });
       // Assign blob URL directly to the slot — no server-side processing needed
       const res = await fetch("/api/site-assets", {
