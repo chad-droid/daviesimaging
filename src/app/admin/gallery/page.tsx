@@ -71,6 +71,8 @@ function ImageCurationPanel({
   const [localCover, setLocalCover] = useState<number | null>(coverId);
   const [localHidden, setLocalHidden] = useState<Set<number>>(new Set(hiddenIds));
   const [orderChanged, setOrderChanged] = useState(false);
+  const [localGroups, setLocalGroups] = useState<Record<number, "vs" | "hdr">>({});
+  const [groupsChanged, setGroupsChanged] = useState(false);
 
   // Drag-to-reorder state
   const dragIdx = useRef<number | null>(null);
@@ -87,7 +89,9 @@ function ImageCurationPanel({
       .then((r) => r.json())
       .then((data) => {
         setImages(data.files || []);
+        setLocalGroups(data.imageGroups || {});
         setOrderChanged(false);
+        setGroupsChanged(false);
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -106,12 +110,26 @@ function ImageCurationPanel({
     imageFiles.forEach((f) => fd.append("files", f));
     try {
       const res = await fetch("/api/media/upload", { method: "POST", body: fd });
-      const data = await res.json();
-      const count = data.imported || 0;
-      setUploadResult(count > 0 ? `${count} image${count !== 1 ? "s" : ""} uploaded` : "Upload failed");
+      // Read raw text first so we can show actual error if JSON parse fails
+      const text = await res.text();
+      let data: Record<string, unknown>;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        setUploadResult(`Server error ${res.status}: ${text.slice(0, 120)}`);
+        setUploading(false);
+        return;
+      }
+      if (!res.ok) {
+        setUploadResult(`Error: ${data.error || res.statusText}`);
+        setUploading(false);
+        return;
+      }
+      const count = (data.imported as number) || 0;
+      setUploadResult(count > 0 ? `${count} image${count !== 1 ? "s" : ""} uploaded` : `Upload failed${data.errors ? `: ${(data.errors as string[])[0]}` : ""}`);
       if (count > 0) loadImages();
-    } catch {
-      setUploadResult("Upload error");
+    } catch (err) {
+      setUploadResult(`Network error: ${err instanceof Error ? err.message : String(err)}`);
     }
     setUploading(false);
   }
@@ -157,10 +175,12 @@ function ImageCurationPanel({
         coverId: localCover,
         hiddenIds: Array.from(localHidden),
         imageOrder: images.map((img) => img.id),
+        imageGroups: localGroups,
       }),
     });
     setSaving(false);
     setOrderChanged(false);
+    setGroupsChanged(false);
     onUpdate(localCover, Array.from(localHidden));
   }
 
@@ -173,8 +193,19 @@ function ImageCurationPanel({
     });
   }
 
+  function toggleGroup(id: number, group: "vs" | "hdr") {
+    setLocalGroups((prev) => {
+      const next = { ...prev };
+      if (next[id] === group) delete next[id];
+      else next[id] = group;
+      return next;
+    });
+    setGroupsChanged(true);
+  }
+
   const hasChanges =
     orderChanged ||
+    groupsChanged ||
     localCover !== coverId ||
     JSON.stringify(Array.from(localHidden).sort()) !== JSON.stringify([...hiddenIds].sort());
 
@@ -185,7 +216,7 @@ function ImageCurationPanel({
           Image Curation — {images.length} images
         </p>
         <div className="flex items-center gap-3">
-          <p className="text-[10px] text-[#555]">drag to reorder &nbsp;·&nbsp; ★ cover &nbsp;·&nbsp; 👁 show/hide</p>
+          <p className="text-[10px] text-[#555]">drag to reorder &nbsp;·&nbsp; ★ cover &nbsp;·&nbsp; 👁 show/hide &nbsp;·&nbsp; <span className="text-[#A8A2D0]">VS</span> / <span className="text-[#F9A825]">HDR</span> group</p>
           {hasChanges && (
             <button
               onClick={save}
@@ -253,6 +284,7 @@ function ImageCurationPanel({
             const isCover = localCover === img.id;
             const isHidden = localHidden.has(img.id);
             const isDragTarget = dragOverIdx === i;
+            const imgGroup = localGroups[img.id];
             return (
               <div
                 key={img.id}
@@ -281,27 +313,58 @@ function ImageCurationPanel({
                 </span>
 
                 {/* Controls overlay — hover only */}
-                <div className="absolute inset-0 flex items-center justify-center gap-1 bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setLocalCover(isCover ? null : img.id); }}
-                    title={isCover ? "Remove cover" : "Set as cover"}
-                    className={`rounded p-1.5 text-xs transition-colors ${
-                      isCover ? "bg-[#6A5ACD] text-white" : "bg-black/70 text-white/70 hover:text-white"
-                    }`}
-                  >
-                    ★
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); toggleHide(img.id); }}
-                    title={isHidden ? "Show image" : "Hide image"}
-                    className="rounded bg-black/70 p-1.5 text-xs text-white/70 transition-colors hover:text-white"
-                  >
-                    {isHidden ? "👁‍🗨" : "👁"}
-                  </button>
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
+                  <div className="flex gap-1">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setLocalCover(isCover ? null : img.id); }}
+                      title={isCover ? "Remove cover" : "Set as cover"}
+                      className={`rounded p-1.5 text-xs transition-colors ${
+                        isCover ? "bg-[#6A5ACD] text-white" : "bg-black/70 text-white/70 hover:text-white"
+                      }`}
+                    >
+                      ★
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); toggleHide(img.id); }}
+                      title={isHidden ? "Show image" : "Hide image"}
+                      className="rounded bg-black/70 p-1.5 text-xs text-white/70 transition-colors hover:text-white"
+                    >
+                      {isHidden ? "👁‍🗨" : "👁"}
+                    </button>
+                  </div>
+                  <div className="flex gap-1">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); toggleGroup(img.id, "vs"); }}
+                      title="Virtual Staging"
+                      className={`rounded px-1.5 py-0.5 text-[9px] font-bold transition-colors ${
+                        imgGroup === "vs" ? "bg-[#6A5ACD] text-white" : "bg-black/70 text-white/50 hover:text-white"
+                      }`}
+                    >
+                      VS
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); toggleGroup(img.id, "hdr"); }}
+                      title="HDR Photo"
+                      className={`rounded px-1.5 py-0.5 text-[9px] font-bold transition-colors ${
+                        imgGroup === "hdr" ? "bg-[#F9A825] text-black" : "bg-black/70 text-white/50 hover:text-white"
+                      }`}
+                    >
+                      HDR
+                    </button>
+                  </div>
                 </div>
 
+                {/* Group badge — always visible when assigned */}
+                {imgGroup && (
+                  <span className={`absolute right-1 top-1 rounded px-1 py-0.5 text-[8px] font-bold group-hover:hidden ${
+                    imgGroup === "vs" ? "bg-[#6A5ACD] text-white" : "bg-[#F9A825] text-black"
+                  }`}>
+                    {imgGroup === "vs" ? "VS" : "HDR"}
+                  </span>
+                )}
+
                 {isCover && (
-                  <span className="absolute left-1 top-1 rounded bg-[#6A5ACD] px-1.5 py-0.5 text-[9px] font-bold text-white">
+                  <span className="absolute left-1 top-1 rounded bg-[#6A5ACD] px-1.5 py-0.5 text-[9px] font-bold text-white group-hover:hidden">
                     COVER
                   </span>
                 )}

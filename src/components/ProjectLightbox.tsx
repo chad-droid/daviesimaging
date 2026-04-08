@@ -49,6 +49,7 @@ interface ProjectLightboxProps {
 
 export function ProjectLightbox({ dealId, pageSlug, initialImageIndex = 0, onClose }: ProjectLightboxProps) {
   const [images, setImages] = useState<LightboxImage[]>([]);
+  const [imageGroups, setImageGroups] = useState<Record<number, "vs" | "hdr">>({});
   const [project, setProject] = useState<ProjectInfo | null>(null);
   const [currentIndex, setCurrentIndex] = useState(initialImageIndex);
   const [loading, setLoading] = useState(true);
@@ -63,22 +64,33 @@ export function ProjectLightbox({ dealId, pageSlug, initialImageIndex = 0, onClo
     const metaFetch = fetch(`/api/media/metadata?dealId=${dealId}`).then((r) => r.json());
     const curateFetch = pageSlug
       ? fetch(`/api/gallery/curate?dealId=${dealId}&page=${encodeURIComponent(pageSlug)}`).then((r) => r.json())
-      : Promise.resolve({ hiddenIds: [], coverId: null });
+      : Promise.resolve({ hiddenIds: [], coverId: null, imageGroups: {} });
 
     Promise.all([metaFetch, curateFetch])
       .then(([data, curate]) => {
         const hiddenSet = new Set<number>(curate.hiddenIds || []);
         const coverId: number | null = curate.coverId ?? null;
+        const groups: Record<number, "vs" | "hdr"> = curate.imageGroups || {};
 
         // Filter out hidden images
         const allFiles: LightboxImage[] = data.files || [];
         const visibleFiles = allFiles.filter((f) => typeof f.id === "number" && !hiddenSet.has(f.id as number));
 
-        // Put cover first
-        const coverFile = coverId ? visibleFiles.find((f) => f.id === coverId) : null;
-        const orderedFiles = coverFile
-          ? [coverFile, ...visibleFiles.filter((f) => f.id !== coverId)]
-          : visibleFiles;
+        // If groups are defined, sort: VS first, then HDR, then ungrouped
+        const hasGroups = Object.keys(groups).length > 0;
+        let orderedFiles: LightboxImage[];
+        if (hasGroups) {
+          const vsFiles = visibleFiles.filter((f) => groups[f.id as number] === "vs");
+          const hdrFiles = visibleFiles.filter((f) => groups[f.id as number] === "hdr");
+          const ungrouped = visibleFiles.filter((f) => !groups[f.id as number]);
+          orderedFiles = [...vsFiles, ...hdrFiles, ...ungrouped];
+        } else {
+          // Fall back to cover-first ordering
+          const coverFile = coverId ? visibleFiles.find((f) => f.id === coverId) : null;
+          orderedFiles = coverFile
+            ? [coverFile, ...visibleFiles.filter((f) => f.id !== coverId)]
+            : visibleFiles;
+        }
 
         const youtubeId = extractYoutubeId(data.deal?.youtube || "");
         const items: LightboxImage[] = youtubeId
@@ -95,6 +107,7 @@ export function ProjectLightbox({ dealId, pageSlug, initialImageIndex = 0, onClo
             ]
           : orderedFiles;
         setImages(items);
+        setImageGroups(groups);
         setProject(data.deal || null);
         setLoading(false);
       })
@@ -144,6 +157,16 @@ export function ProjectLightbox({ dealId, pageSlug, initialImageIndex = 0, onClo
           <span className="text-xs text-[#999]">
             {currentIndex + 1} / {images.length}
           </span>
+          {/* Group label for current image */}
+          {current && typeof current.id === "number" && imageGroups[current.id as number] && (
+            <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+              imageGroups[current.id as number] === "vs"
+                ? "bg-[#6A5ACD]/20 text-[#A8A2D0]"
+                : "bg-[#F9A825]/20 text-[#F9A825]"
+            }`}>
+              {imageGroups[current.id as number] === "vs" ? "Virtual Staging" : "HDR Photo"}
+            </span>
+          )}
           <button
             onClick={() => setInfoOpen(!infoOpen)}
             className={`rounded-full px-3 py-1 text-[10px] font-semibold transition-colors ${
@@ -290,33 +313,65 @@ export function ProjectLightbox({ dealId, pageSlug, initialImageIndex = 0, onClo
       {/* Filmstrip */}
       {images.length > 1 && (
         <div className="border-t border-[#1E1E1E] bg-[#0a0a0a] px-4 py-3">
-          <div className="flex gap-1.5 overflow-x-auto">
-            {images.map((img, i) => (
-              <button
-                key={String(img.id)}
-                onClick={() => setCurrentIndex(i)}
-                className={`relative h-14 w-20 shrink-0 overflow-hidden rounded transition-all ${
-                  i === currentIndex
-                    ? "ring-2 ring-[#6A5ACD] ring-offset-1 ring-offset-[#0a0a0a]"
-                    : "opacity-50 hover:opacity-80"
-                }`}
-              >
-                <Image
-                  src={img.thumb_url || img.url}
-                  alt=""
-                  fill
-                  className="object-cover"
-                  sizes="80px"
-                />
-                {img.youtubeId && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                    <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                )}
-              </button>
-            ))}
+          <div className="flex items-center gap-1.5 overflow-x-auto">
+            {(() => {
+              const hasGroups = Object.keys(imageGroups).length > 0;
+              const items: React.ReactNode[] = [];
+              let lastGroup: string | null = null;
+
+              images.forEach((img, i) => {
+                const group = img.id === "video" ? null : (imageGroups[img.id as number] || null);
+
+                // Insert divider when transitioning into a new named group
+                if (hasGroups && group !== lastGroup) {
+                  if (group === "vs") {
+                    items.push(
+                      <div key={`div-vs`} className="flex shrink-0 flex-col items-center justify-center gap-0.5 px-2">
+                        <div className="h-10 w-px bg-[#6A5ACD]/40" />
+                        <span className="whitespace-nowrap text-[8px] font-bold uppercase tracking-wider text-[#A8A2D0]">VS</span>
+                      </div>
+                    );
+                  } else if (group === "hdr") {
+                    items.push(
+                      <div key={`div-hdr`} className="flex shrink-0 flex-col items-center justify-center gap-0.5 px-2">
+                        <div className="h-10 w-px bg-[#F9A825]/40" />
+                        <span className="whitespace-nowrap text-[8px] font-bold uppercase tracking-wider text-[#F9A825]">HDR</span>
+                      </div>
+                    );
+                  }
+                  lastGroup = group;
+                }
+
+                items.push(
+                  <button
+                    key={String(img.id)}
+                    onClick={() => setCurrentIndex(i)}
+                    className={`relative h-14 w-20 shrink-0 overflow-hidden rounded transition-all ${
+                      i === currentIndex
+                        ? "ring-2 ring-[#6A5ACD] ring-offset-1 ring-offset-[#0a0a0a]"
+                        : "opacity-50 hover:opacity-80"
+                    }`}
+                  >
+                    <Image
+                      src={img.thumb_url || img.url}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                    {img.youtubeId && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                        <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    )}
+                  </button>
+                );
+              });
+
+              return items;
+            })()}
           </div>
         </div>
       )}
