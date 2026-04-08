@@ -128,8 +128,8 @@ function PackageBreakdown({ animate }: { animate: boolean }) {
           className="flex items-center justify-between border-b border-white/6 pb-2.5 transition-opacity duration-300"
           style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? `${i * 120 + 80}ms` : "0s" }}
         >
-          <span className="text-xs text-white/50">{item.label}</span>
-          <span className="text-xs font-mono text-white/30 line-through">{item.price}</span>
+          <span className="text-xs text-white/85">{item.label}</span>
+          <span className="text-xs font-mono text-white/55 line-through">{item.price}</span>
         </div>
       ))}
 
@@ -255,7 +255,7 @@ function SupportStatCell({ slotIndex }: { slotIndex: number }) {
       <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-text-light">
         {v.label}
       </p>
-      <p className="mt-2 text-sm leading-snug text-text-muted">{v.sublabel}</p>
+      <p className="mt-2 text-sm leading-snug text-white/75">{v.sublabel}</p>
     </div>
   );
 }
@@ -293,7 +293,7 @@ function FeaturedStatCell() {
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           <span className="text-[10px] font-bold uppercase tracking-widest text-accent">Spec+ Bundle</span>
         </span>
-        <span className="text-[10px] text-text-muted">All home sizes</span>
+        <span className="text-[10px] text-white/75">All home sizes</span>
       </div>
 
       {/* Package breakdown */}
@@ -330,7 +330,7 @@ function FeaturedStatCell() {
       <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-text-light">
         {v.label}
       </p>
-      <p className="mt-2 text-sm leading-snug text-text-muted">{v.sublabel}</p>
+      <p className="mt-2 text-sm leading-snug text-white/75">{v.sublabel}</p>
 
       {/* Explore Spec+ CTA */}
       <Link
@@ -369,7 +369,7 @@ export function StatsStrip() {
           Best Value in Homebuilding
         </p>
         <h2 className="mt-3 text-text-light">Spec+ Listing Media Package</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm text-text-muted/60">
+        <p className="mx-auto mt-3 max-w-md text-sm text-white/80">
           The Spec+ bundle combines photography, virtual staging, and virtual video into one flat-rate order — not a la carte pricing.
         </p>
       </div>

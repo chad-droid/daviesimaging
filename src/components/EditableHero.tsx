@@ -37,7 +37,7 @@ export function EditableHero({ slotId, headlineDefault, subheadDefault, dark = t
             className={dark ? "text-text-light" : undefined}
             dangerouslySetInnerHTML={{ __html: v.headline }}
           />
-          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">{v.subhead}</p>
+          <p className={`mt-6 max-w-2xl text-xl leading-relaxed ${dark ? "text-white/80" : "text-text-muted"}`}>{v.subhead}</p>
         </>
       )}
     </EditableContent>

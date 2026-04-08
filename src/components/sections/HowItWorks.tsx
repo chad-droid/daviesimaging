@@ -228,7 +228,7 @@ function StepCard({ index, staticData }: { index: number; staticData: (typeof ST
       <h3 className="mt-5 text-[1.1rem] font-medium leading-snug text-text-light"
         dangerouslySetInnerHTML={{ __html: v.title || staticData.title }}
       />
-      <p className="mt-2.5 text-sm leading-relaxed text-text-muted">
+      <p className="mt-2.5 text-sm leading-relaxed text-white/80">
         {v.body || staticData.body}
       </p>
       <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.12em] text-accent/70">
@@ -257,7 +257,7 @@ export function HowItWorks() {
           {editOverlay}
           <Eyebrow dark>{v.eyebrow}</Eyebrow>
           <h2 className="mt-2 text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-          <p className="mt-4 text-text-muted">{v.subhead}</p>
+          <p className="mt-4 text-white/80">{v.subhead}</p>
         </div>
 
         {/* Step cards */}
@@ -287,7 +287,7 @@ export function HowItWorks() {
             {v.ctaText}
             <span aria-hidden="true">→</span>
           </Link>
-          <p className="text-xs text-text-muted">{v.ctaNote}</p>
+          <p className="text-xs text-white/70">{v.ctaNote}</p>
         </motion.div>
       </div>
     </section>

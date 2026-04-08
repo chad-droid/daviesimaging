@@ -25,7 +25,7 @@ export function TryFrameFlow() {
                 <>
                   <Eyebrow dark>{v.eyebrow}</Eyebrow>
                   <h2 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-5 text-text-muted" dangerouslySetInnerHTML={{ __html: v.body }} />
+                  <p className="mt-5 text-white/80" dangerouslySetInnerHTML={{ __html: v.body }} />
                   {v.ctaText && (
                     <Link
                       href={v.ctaUrl || "/"}

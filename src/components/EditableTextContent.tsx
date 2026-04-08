@@ -46,7 +46,7 @@ export function EditableTextContent({
 
   const headlineClass = dark ? "text-text-light" : "";
   const bodyClass = dark
-    ? "mt-4 leading-relaxed text-text-muted"
+    ? "mt-4 leading-relaxed text-white/80"
     : "mt-4 leading-relaxed text-text-body";
 
   return (

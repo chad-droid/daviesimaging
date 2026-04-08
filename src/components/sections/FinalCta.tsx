@@ -26,7 +26,7 @@ export function FinalCta() {
                 <>
                   <Eyebrow dark>Ready?</Eyebrow>
                   <h2 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-                  <p className="mt-5 text-text-muted" dangerouslySetInnerHTML={{ __html: v.body }} />
+                  <p className="mt-5 text-white/80" dangerouslySetInnerHTML={{ __html: v.body }} />
                   <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                     {v.cta1Text && (
                       <Link

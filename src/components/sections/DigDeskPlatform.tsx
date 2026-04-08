@@ -67,7 +67,7 @@ function ModuleCard({ index }: { index: number }) {
       {editOverlay}
       <div className="text-accent">{MODULE_ICONS[index]}</div>
       <p className="mt-2 text-xs font-semibold text-text-light">{v.label}</p>
-      <p className="mt-1 text-[11px] leading-snug text-text-muted">{v.description}</p>
+      <p className="mt-1 text-[11px] leading-snug text-white/75">{v.description}</p>
     </div>
   );
 }
@@ -191,7 +191,7 @@ export function DigDeskPlatform() {
             {editOverlay}
             <Eyebrow dark>{v.eyebrow}</Eyebrow>
             <h2 className="text-text-light" dangerouslySetInnerHTML={{ __html: v.headline }} />
-            <p className="mt-5 text-text-muted">{v.body}</p>
+            <p className="mt-5 text-white/80">{v.body}</p>
 
             <div className="mt-8 grid grid-cols-2 gap-3">
               {MODULE_DEFAULTS.map((_, i) => (
@@ -214,7 +214,7 @@ export function DigDeskPlatform() {
               </Link>
             </div>
 
-            <p className="mt-4 text-xs text-text-muted">{v.ctaNote}</p>
+            <p className="mt-4 text-xs text-white/70">{v.ctaNote}</p>
           </motion.div>
 
           {/* Mockup */}
