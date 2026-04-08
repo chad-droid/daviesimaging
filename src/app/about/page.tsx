@@ -37,7 +37,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <DarkSection className="min-h-[65vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <EditableHero
