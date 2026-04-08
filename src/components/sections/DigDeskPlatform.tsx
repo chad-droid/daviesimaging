@@ -75,91 +75,108 @@ function ModuleCard({ index }: { index: number }) {
 // ─── Stylized digDesk UI mockup (structural) ──────────────────────────────────
 
 function DigDeskMockup() {
+  // Render the mockup at a fixed 560px design width and scale it to fit
+  // whatever column width we're in. This keeps every child's typography
+  // and spacing exactly proportional instead of cramming narrow text into
+  // sm breakpoints. The outer wrapper preserves layout height via aspect.
   return (
-    <div className="overflow-hidden rounded-2xl border border-border-light bg-bg-dark shadow-2xl shadow-black/20">
-      <div className="flex items-center justify-between border-b border-white/8 bg-black/20 px-5 py-3">
-        <div className="flex gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
-        </div>
-        <div className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1">
-          <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-          <span className="text-[10px] text-white/30">digDesk — Grand Homes</span>
-        </div>
-        <div className="flex gap-2">
-          <div className="h-4 w-4 rounded bg-white/8" />
-        </div>
-      </div>
-
-      <div className="flex h-[320px]">
-        <div className="w-44 border-r border-white/6 bg-black/10 p-3">
-          <div className="mb-4 flex items-center gap-2 px-2">
-            <div className="h-6 w-6 rounded-full bg-accent/20" />
-            <div className="h-2 w-20 rounded bg-white/15" />
-          </div>
-          {[
-            { label: "Dashboard", active: false },
-            { label: "New Order",  active: true  },
-            { label: "My Jobs",    active: false },
-            { label: "ModelMatch", active: false },
-            { label: "Analytics",  active: false },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className={`mb-0.5 flex items-center gap-2 rounded-lg px-2 py-1.5 ${item.active ? "bg-accent/15 text-accent" : "text-white/30"}`}
-            >
-              <div className={`h-1.5 w-1.5 rounded-full ${item.active ? "bg-accent" : "bg-white/20"}`} />
-              <span className="text-[10px]">{item.label}</span>
+    <div
+      className="w-full"
+      style={{ aspectRatio: "560 / 376", containerType: "inline-size" }}
+    >
+      <div
+        className="origin-top-left"
+        style={{
+          width: 560,
+          transform: "scale(calc(100cqw / 560))",
+        }}
+      >
+        <div className="overflow-hidden rounded-2xl border border-border-light bg-bg-dark shadow-2xl shadow-black/20">
+          <div className="flex items-center justify-between border-b border-white/8 bg-black/20 px-5 py-3">
+            <div className="flex gap-1.5">
+              <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
+              <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
+              <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
             </div>
-          ))}
-          <div className="mt-4 border-t border-white/6 pt-3">
-            <div className="mb-2 px-2 text-[9px] uppercase tracking-widest text-white/20">Services</div>
-            {["FrameFlow Studio", "Listing Photo", "Premium Photo"].map((s) => (
-              <div key={s} className="mb-0.5 flex items-center gap-2 rounded-lg px-2 py-1 text-white/25">
-                <div className="h-1 w-1 rounded-full bg-white/15" />
-                <span className="text-[9px]">{s}</span>
+            <div className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1">
+              <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
+              <span className="text-[10px] text-white/60">digDesk — Grand Homes</span>
+            </div>
+            <div className="flex gap-2">
+              <div className="h-4 w-4 rounded bg-white/8" />
+            </div>
+          </div>
+
+          <div className="flex h-[320px]">
+            <div className="w-44 border-r border-white/6 bg-black/10 p-3">
+              <div className="mb-4 flex items-center gap-2 px-2">
+                <div className="h-6 w-6 rounded-full bg-accent/20" />
+                <div className="h-2 w-20 rounded bg-white/15" />
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex-1 p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <div className="text-[11px] font-semibold text-white/70">New Order</div>
-              <div className="mt-0.5 text-[9px] text-white/30">Select a service to get started</div>
-            </div>
-            <div className="rounded-full bg-accent/20 px-3 py-1 text-[9px] text-accent">Step 1 of 5</div>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {[
-              { name: "Spec+ Bundle",    price: "$600",        tag: "Best Value", active: true  },
-              { name: "Listing Photo",   price: "From $400",   tag: "24hr",       active: false },
-              { name: "Virtual Staging", price: "From $25/img",tag: "No Shoot",   active: false },
-              { name: "Premium Photo",   price: "From $4,000", tag: "Flagship",   active: false },
-            ].map((card) => (
-              <div
-                key={card.name}
-                className={`rounded-xl p-3 ${card.active ? "border border-accent/40 bg-accent/10" : "border border-white/6 bg-white/3"}`}
-              >
-                <div className="flex items-start justify-between">
-                  <span className="text-[10px] font-medium text-white/70">{card.name}</span>
-                  <span className={`rounded-full px-1.5 py-0.5 text-[8px] font-bold ${card.active ? "bg-accent text-white" : "bg-white/10 text-white/30"}`}>
-                    {card.tag}
-                  </span>
+              {[
+                { label: "Dashboard", active: false },
+                { label: "New Order",  active: true  },
+                { label: "My Jobs",    active: false },
+                { label: "ModelMatch", active: false },
+                { label: "Analytics",  active: false },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className={`mb-0.5 flex items-center gap-2 rounded-lg px-2 py-1.5 ${item.active ? "bg-accent/15 text-accent" : "text-white/45"}`}
+                >
+                  <div className={`h-1.5 w-1.5 rounded-full ${item.active ? "bg-accent" : "bg-white/30"}`} />
+                  <span className="text-[10px]">{item.label}</span>
                 </div>
-                <div className="mt-1 text-[11px] font-semibold text-white/50">{card.price}</div>
+              ))}
+              <div className="mt-4 border-t border-white/6 pt-3">
+                <div className="mb-2 px-2 text-[9px] uppercase tracking-widest text-white/30">Services</div>
+                {["FrameFlow Studio", "Listing Photo", "Premium Photo"].map((s) => (
+                  <div key={s} className="mb-0.5 flex items-center gap-2 rounded-lg px-2 py-1 text-white/40">
+                    <div className="h-1 w-1 rounded-full bg-white/25" />
+                    <span className="text-[9px]">{s}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="mt-4 flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              <div className="h-1.5 w-1.5 rounded-full bg-green-400/60" />
-              <span className="text-[9px] text-white/30">128 pts remaining</span>
             </div>
-            <div className="rounded-full bg-accent px-4 py-1.5 text-[10px] font-semibold text-white">
-              Continue →
+
+            <div className="flex-1 p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <div className="text-[11px] font-semibold text-white/80">New Order</div>
+                  <div className="mt-0.5 text-[9px] text-white/55">Select a service to get started</div>
+                </div>
+                <div className="flex-shrink-0 rounded-full bg-accent/20 px-3 py-1 text-[9px] text-accent">Step 1 of 5</div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { name: "Spec+ Bundle",    price: "$600",        tag: "Best Value", active: true  },
+                  { name: "Listing Photo",   price: "From $400",   tag: "24hr",       active: false },
+                  { name: "Virtual Staging", price: "From $25/img",tag: "No Shoot",   active: false },
+                  { name: "Premium Photo",   price: "From $4,000", tag: "Flagship",   active: false },
+                ].map((card) => (
+                  <div
+                    key={card.name}
+                    className={`rounded-xl p-3 ${card.active ? "border border-accent/40 bg-accent/10" : "border border-white/6 bg-white/3"}`}
+                  >
+                    <div className="flex items-start justify-between gap-1">
+                      <span className="text-[10px] font-medium text-white/80">{card.name}</span>
+                      <span className={`flex-shrink-0 rounded-full px-1.5 py-0.5 text-[8px] font-bold ${card.active ? "bg-accent text-white" : "bg-white/10 text-white/55"}`}>
+                        {card.tag}
+                      </span>
+                    </div>
+                    <div className="mt-1 text-[11px] font-semibold text-white/65">{card.price}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-1.5 w-1.5 rounded-full bg-green-400/60" />
+                  <span className="text-[9px] text-white/55">128 pts remaining</span>
+                </div>
+                <div className="rounded-full bg-accent px-4 py-1.5 text-[10px] font-semibold text-white">
+                  Continue →
+                </div>
+              </div>
             </div>
           </div>
         </div>
