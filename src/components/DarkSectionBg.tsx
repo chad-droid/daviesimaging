@@ -106,7 +106,13 @@ export function DarkSectionBg({
             y: yDrift,
           }}
         >
-          {/* Inner motion.div: continuous pulse */}
+          {/* Inner motion.div: continuous pulse. The glow is painted as a
+              radial-gradient that fades to fully transparent at ~70% of
+              the radius — this eliminates the visible hard edge / "band"
+              that a solid circle + CSS blur produced when the sized
+              circle was larger than the section and got clipped by
+              overflow-hidden. Gradients fade to alpha 0 naturally, so
+              clipping happens at transparent pixels and is invisible. */}
           <motion.div
             animate={{ scale: [0.75, 1.3, 0.75] }}
             transition={{
@@ -116,13 +122,13 @@ export function DarkSectionBg({
               delay: pulseDelay,
             }}
             style={{
-              width: glowSize,
-              height: glowSize,
+              width: glowSize * 1.4,
+              height: glowSize * 1.4,
               borderRadius: "50%",
               translateX: "-50%",
               translateY: "-50%",
-              backgroundColor: `color-mix(in srgb, var(--accent) ${glowIntensity}%, transparent)`,
-              filter: `blur(${glowBlur}px)`,
+              backgroundImage: `radial-gradient(circle, color-mix(in srgb, var(--accent) ${glowIntensity}%, transparent) 0%, color-mix(in srgb, var(--accent) ${Math.round(glowIntensity * 0.4)}%, transparent) 28%, transparent 68%)`,
+              filter: `blur(${Math.round(glowBlur * 0.4)}px)`,
             }}
           />
         </motion.div>
