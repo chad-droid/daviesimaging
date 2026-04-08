@@ -201,16 +201,18 @@ export function ModelMatchDemo() {
           >
             {room.stages.map((stage, i) => (
               <Fragment key={stage.step}>
-                {/* Card */}
-                <div className="flex flex-col min-w-0">
+                {/* Card — single wrapper so button and detail read as one surface */}
+                <div
+                  className={`flex min-w-0 flex-col overflow-hidden rounded-2xl bg-white transition-shadow duration-200 ${
+                    activeStage === i
+                      ? "ring-2 ring-accent shadow-lg"
+                      : "ring-1 ring-border-light hover:shadow-md"
+                  }`}
+                >
                   <button
                     type="button"
                     onClick={() => setActiveStage(activeStage === i ? null : i)}
-                    className={`group w-full overflow-hidden rounded-2xl text-left transition-shadow duration-200 focus:outline-none ${
-                      activeStage === i
-                        ? "ring-2 ring-accent shadow-lg"
-                        : "ring-1 ring-border-light hover:shadow-md"
-                    }`}
+                    className="group w-full text-left focus:outline-none"
                   >
                     {/* Image area — fixed height; width grows on expand, height stays constant */}
                     <div className={`relative h-56 lg:h-72 w-full overflow-hidden ${stage.tint}`}>
@@ -248,7 +250,7 @@ export function ModelMatchDemo() {
                         </div>
                         {!isCompressed(i) && (
                           <svg
-                            className={`mt-0.5 h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
+                            className={`mt-1 h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
                               activeStage === i ? "rotate-180 text-accent" : "text-text-muted"
                             }`}
                             fill="none"
@@ -263,7 +265,7 @@ export function ModelMatchDemo() {
                     </div>
                   </button>
 
-                  {/* Expandable detail */}
+                  {/* Expandable detail — sits inside the same rounded wrapper */}
                   <AnimatePresence initial={false}>
                     {activeStage === i && (
                       <motion.div
@@ -273,7 +275,7 @@ export function ModelMatchDemo() {
                         transition={{ duration: 0.22, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
-                        <div className="rounded-b-xl border border-t-0 border-accent/30 bg-accent/5 px-4 py-4">
+                        <div className="border-t border-accent/20 bg-accent/5 px-6 py-5">
                           <p className="text-sm leading-relaxed text-text-body">{stage.detail}</p>
                         </div>
                       </motion.div>
@@ -281,9 +283,12 @@ export function ModelMatchDemo() {
                   </AnimatePresence>
                 </div>
 
-                {/* Arrow between cards */}
+                {/* Arrow between cards — aligned to the vertical center of the image area */}
                 {i < room.stages.length - 1 && (
-                  <div className="hidden items-center justify-center lg:flex" style={{ paddingTop: "calc(3.25rem)" }}>
+                  <div
+                    className="hidden items-start justify-center lg:flex"
+                    style={{ paddingTop: "calc(9rem - 0.625rem)" }}
+                  >
                     <ArrowIcon />
                   </div>
                 )}
