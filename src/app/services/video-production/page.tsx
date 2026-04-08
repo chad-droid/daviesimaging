@@ -91,15 +91,13 @@ export default function VideoProductionPage() {
                   </Link>
                 </div>
               </div>
-              <div className="relative aspect-video overflow-hidden rounded-2xl bg-bg-light">
+              <div className="overflow-hidden rounded-2xl bg-bg-light">
                 <DynamicImage
                   slotId="services-video-production-img"
-                  className="h-full w-full object-cover"
-                  fallbackClass="h-full w-full"
+                  className="h-full w-full"
+                  fallbackClass="h-full w-full bg-gradient-to-br from-bg-surface to-border-light"
+                  aspectRatio="16/9"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-bg-surface to-border-light [&:has(img)]:hidden">
-                  <span className="text-xs font-medium uppercase tracking-widest text-text-muted">Video Production</span>
-                </div>
               </div>
             </div>
           </RevealOnScroll>
