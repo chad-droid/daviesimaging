@@ -43,8 +43,16 @@ type LogoEntry = { name: string; file: string; h: number; maxW: number };
 
 function LogoItem({ name, file, h, maxW }: LogoEntry) {
   const src = `${LOGOS}/${encodeURIComponent(file)}`;
+  // Fixed cell width (logo maxW + horizontal padding) so the flex track
+  // has a predictable total width BEFORE images load. Without this, the
+  // w-max parent gets a wrong width at mount and translateX(-50%) lands
+  // in the wrong place, leaving the track sparse or empty mid-loop.
+  const cellW = maxW + 56; // 56px = px-7 (28px × 2)
   return (
-    <div className="flex flex-shrink-0 items-center justify-center px-7 py-1">
+    <div
+      className="flex flex-shrink-0 items-center justify-center px-7 py-1"
+      style={{ width: cellW, height: h + 16 }}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
