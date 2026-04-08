@@ -206,9 +206,9 @@ function TabPanel({ tabIndex, tabStatic }: { tabIndex: number; tabStatic: (typeo
       </div>
 
       {/* Right: image */}
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-surface">
+      <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-surface">
         <DynamicImage slotId={tabStatic.imageSlot} className="h-full w-full object-cover" fallbackClass="h-full w-full" />
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-bg-surface to-border-light [&:has(img)]:hidden">
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-bg-surface to-border-light group-has-[img]:hidden">
           <span className="text-xs font-medium uppercase tracking-widest text-text-muted">{tabStatic.label}</span>
         </div>
       </div>

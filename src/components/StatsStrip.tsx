@@ -9,10 +9,10 @@ import { DarkSectionBg } from "@/components/DarkSectionBg";
 // Clock — compact, used as right-side accent in the 48-hr cell
 // ─────────────────────────────────────────────────────────────────────────────
 function ClockGraphic({ animate }: { animate: boolean }) {
-  const cx = 28, cy = 28, r = 24;
+  const cx = 48, cy = 48, r = 40;
   return (
     <svg
-      width="56" height="56" viewBox="0 0 56 56"
+      width="96" height="96" viewBox="0 0 96 96"
       className="text-accent flex-shrink-0"
       aria-hidden="true"
     >
@@ -20,14 +20,14 @@ function ClockGraphic({ animate }: { animate: boolean }) {
       {Array.from({ length: 12 }, (_, i) => {
         const angle = (i * 30 - 90) * (Math.PI / 180);
         const isMain = i % 3 === 0;
-        const inner = r - (isMain ? 6 : 3);
+        const inner = r - (isMain ? 10 : 5);
         return (
           <line
             key={i}
             x1={cx + inner * Math.cos(angle)} y1={cy + inner * Math.sin(angle)}
             x2={cx + (r - 1) * Math.cos(angle)} y2={cy + (r - 1) * Math.sin(angle)}
             stroke={isMain ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.08)"}
-            strokeWidth={isMain ? 1.5 : 1}
+            strokeWidth={isMain ? 2 : 1}
             strokeLinecap="round"
           />
         );
@@ -35,7 +35,7 @@ function ClockGraphic({ animate }: { animate: boolean }) {
       {/* Hour hand — rotates to 60° (2 o'clock = 48 hrs) */}
       <line
         x1={cx} y1={cy} x2={cx} y2={cy - r * 0.54}
-        stroke="rgba(255,255,255,0.40)" strokeWidth="2" strokeLinecap="round"
+        stroke="rgba(255,255,255,0.40)" strokeWidth="3" strokeLinecap="round"
         style={{
           transformOrigin: `${cx}px ${cy}px`,
           transform: animate ? "rotate(60deg)" : "rotate(0deg)",
@@ -45,14 +45,14 @@ function ClockGraphic({ animate }: { animate: boolean }) {
       {/* Minute hand — sweeps 360° */}
       <line
         x1={cx} y1={cy} x2={cx} y2={cy - r * 0.76}
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+        stroke="currentColor" strokeWidth="2" strokeLinecap="round"
         style={{
           transformOrigin: `${cx}px ${cy}px`,
           transform: animate ? "rotate(360deg)" : "rotate(0deg)",
           transition: animate ? "transform 1.8s cubic-bezier(0.22,1,0.36,1) 0s" : "none",
         }}
       />
-      <circle cx={cx} cy={cy} r="2" fill="currentColor" />
+      <circle cx={cx} cy={cy} r="3" fill="currentColor" />
     </svg>
   );
 }
@@ -62,26 +62,26 @@ function ClockGraphic({ animate }: { animate: boolean }) {
 // ─────────────────────────────────────────────────────────────────────────────
 function CalendarGraphic({ animate }: { animate: boolean }) {
   const DAYS = Array.from({ length: 14 }, (_, i) => 14 - i);
-  const DELAY = 100;
+  const DELAY = 80;
   return (
-    <div className="flex flex-col items-center gap-1 flex-shrink-0">
-      <div className="flex h-4 w-full items-center justify-center rounded-t bg-accent/20 px-1.5">
-        <span className="text-[7px] font-bold uppercase tracking-widest text-accent/70">Days</span>
+    <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+      <div className="flex h-6 w-full items-center justify-center rounded-t bg-accent/20 px-2">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-accent/80">Days</span>
       </div>
-      <div className="grid grid-cols-7 gap-[2px]">
+      <div className="grid grid-cols-7 gap-[3px]">
         {DAYS.map((day, i) => (
           <div
             key={day}
-            className="relative flex h-5 w-5 items-center justify-center rounded"
+            className="relative flex h-7 w-7 items-center justify-center rounded"
             style={{
               backgroundColor: animate ? "rgba(106,90,205,0.15)" : "rgba(255,255,255,0.04)",
               transitionDelay: animate ? `${i * DELAY}ms` : "0s",
             }}
           >
             <span
-              className="relative text-[7px] font-semibold"
+              className="relative text-[10px] font-semibold"
               style={{
-                color: animate ? "rgba(106,90,205,0.55)" : "rgba(255,255,255,0.18)",
+                color: animate ? "rgba(106,90,205,0.65)" : "rgba(255,255,255,0.22)",
                 transitionDelay: animate ? `${i * DELAY}ms` : "0s",
               }}
             >
@@ -91,7 +91,7 @@ function CalendarGraphic({ animate }: { animate: boolean }) {
               <span
                 className="block h-px bg-accent/40 origin-left"
                 style={{
-                  width: animate ? "12px" : "0px",
+                  width: animate ? "16px" : "0px",
                   transition: animate ? `width 0.18s ease ${i * DELAY + 100}ms` : "none",
                 }}
               />
@@ -108,47 +108,33 @@ function CalendarGraphic({ animate }: { animate: boolean }) {
 // ─────────────────────────────────────────────────────────────────────────────
 function PackageBreakdown({ animate }: { animate: boolean }) {
   const items = [
-    { label: "Photography",     price: "$450", pct: 0.72 },
-    { label: "Virtual Staging", price: "$250", pct: 0.50 },
-    { label: "Virtual Video",   price: "$200", pct: 0.40 },
+    { label: "Photography",     price: "$450" },
+    { label: "Virtual Staging", price: "$250" },
+    { label: "Virtual Video",   price: "$200" },
   ];
 
   return (
-    <div className="w-full space-y-3">
+    <div className="w-full space-y-2.5">
       {items.map((item, i) => (
-        <div key={item.label} className="flex items-center gap-3">
-          {/* Bar track */}
-          <div className="relative h-[4px] flex-1 overflow-hidden rounded-full bg-white/6">
-            <div
-              className="absolute inset-y-0 left-0 rounded-full bg-accent/45 origin-left"
-              style={{
-                transform: animate ? "scaleX(1)" : "scaleX(0)",
-                transition: animate
-                  ? `transform 0.5s cubic-bezier(0.22,1,0.36,1) ${i * 130 + 80}ms`
-                  : "none",
-              }}
-            />
-          </div>
-          {/* Label + price */}
-          <div
-            className="flex w-[128px] shrink-0 items-center justify-between transition-opacity duration-300"
-            style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? `${i * 130 + 120}ms` : "0s" }}
-          >
-            <span className="text-[9px] uppercase tracking-widest text-white/28">{item.label}</span>
-            <span className="text-[9px] font-mono text-white/28 line-through">{item.price}</span>
-          </div>
+        <div
+          key={item.label}
+          className="flex items-center justify-between border-b border-white/6 pb-2.5 transition-opacity duration-300"
+          style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? `${i * 120 + 80}ms` : "0s" }}
+        >
+          <span className="text-xs text-white/50">{item.label}</span>
+          <span className="text-xs font-mono text-white/30 line-through">{item.price}</span>
         </div>
       ))}
 
       {/* Savings badge */}
       <div
-        className="mt-2 flex items-center justify-center gap-2 rounded-full border border-accent/25 bg-accent/8 px-4 py-2 transition-all duration-500"
-        style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? "580ms" : "0s" }}
+        className="mt-1 flex items-center justify-center gap-2 rounded-full border border-accent/25 bg-accent/8 px-4 py-2.5 transition-all duration-500"
+        style={{ opacity: animate ? 1 : 0, transitionDelay: animate ? "480ms" : "0s" }}
       >
         <svg viewBox="0 0 12 12" className="h-3 w-3 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
           <path d="M1.5 10.5l9-9M4.5 1.5h-3v3M10.5 7.5v3h-3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <span className="text-[10px] font-bold tracking-widest text-accent">SAVE $300</span>
+        <span className="text-xs font-bold tracking-widest text-accent">SAVE $300</span>
       </div>
     </div>
   );
@@ -259,10 +245,10 @@ function SupportStatCell({ slotIndex }: { slotIndex: number }) {
       />
 
       {/* Label + sublabel */}
-      <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.15em] text-text-light">
+      <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-text-light">
         {v.label}
       </p>
-      <p className="mt-1.5 text-xs leading-snug text-text-muted">{v.sublabel}</p>
+      <p className="mt-2 text-sm leading-snug text-text-muted">{v.sublabel}</p>
     </div>
   );
 }
@@ -334,10 +320,10 @@ function FeaturedStatCell() {
       />
 
       {/* Label + sublabel */}
-      <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.15em] text-text-light">
+      <p className="mt-4 text-xs font-bold uppercase tracking-[0.15em] text-text-light">
         {v.label}
       </p>
-      <p className="mt-1.5 text-xs leading-snug text-text-muted">{v.sublabel}</p>
+      <p className="mt-2 text-sm leading-snug text-text-muted">{v.sublabel}</p>
 
       {/* Explore Spec+ CTA */}
       <Link
