@@ -214,14 +214,13 @@ export function ModelMatchDemo() {
                     onClick={() => setActiveStage(activeStage === i ? null : i)}
                     className="group w-full text-left focus:outline-none"
                   >
-                    {/* Image area — fixed height; width grows on expand, height stays constant */}
+                    {/* Image area — fixed height; image fills vertically and reveals more width on expand */}
                     <div className={`relative h-56 lg:h-72 w-full overflow-hidden ${stage.tint}`}>
                       <DynamicImage
                         slotId={stage.slotId}
                         className="absolute inset-0 h-full w-full"
                         aspectRatio="4/3"
                         disableLightbox
-                        objectFit="contain"
                       />
                     </div>
 
