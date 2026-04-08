@@ -37,12 +37,21 @@ export const metadata: Metadata = {
     title: "Davies Imaging Group | Marketing Assets That Move Homes",
     description:
       "Photography, staging, and video designed for homebuilder marketing teams that need to sell faster.",
+    images: [
+      {
+        url: "https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com/site-assets/shawood-aspen-v2-8.webp",
+        width: 1200,
+        height: 630,
+        alt: "Davies Imaging Group — Premium homebuilder photography",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Davies Imaging Group",
     description:
       "Photography, staging, and video designed for homebuilder marketing teams that need to sell faster.",
+    images: ["https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com/site-assets/shawood-aspen-v2-8.webp"],
   },
   robots: {
     index: true,
