@@ -1,14 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
 import { put } from "@vercel/blob";
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { sql } from "@vercel/postgres";
 import sharp from "sharp";
+
+export const maxDuration = 60;
 
 const MAX_WIDTH = 2400;
 const QUALITY = 100;
 const THUMB_WIDTH = 800;
 const THUMB_QUALITY = 100;
 
-export async function POST(req: NextRequest) {
+// ── Client-side upload token handler (bypasses 4.5MB serverless body limit) ──
+// Called by @vercel/blob's upload() on the client to:
+//   1) generate a signed token for direct-to-blob upload
+//   2) receive an upload-completed notification (we use /api/media/process for processing)
+async function handleClientUpload(req: NextRequest): Promise<Response> {
+  const body = (await req.json()) as HandleUploadBody;
+  return await handleUpload({
+    body,
+    request: req,
+    onBeforeGenerateToken: async (_pathname: string) => ({
+      allowedContentTypes: [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+        "image/tiff",
+        "image/heic",
+        "image/heif",
+      ],
+      maximumSizeInBytes: 100 * 1024 * 1024, // 100 MB
+      addRandomSuffix: false,
+    }),
+    onUploadCompleted: async () => {
+      // Processing (Sharp optimization + DB) is handled separately by /api/media/process
+      // after the client receives the blob URL from upload()
+    },
+  });
+}
+
+// ── Legacy FormData upload path (kept for Media Library, Assets, AdminMediaPicker) ──
+// NOTE: This path will 413 for files > 4.5 MB. Those callers should be migrated
+// to the client-side upload pattern used by the Gallery Curation panel.
+async function handleFormDataUpload(req: NextRequest): Promise<NextResponse> {
   try {
     const formData = await req.formData();
     const dealId = (formData.get("dealId") as string) || "";
@@ -19,7 +54,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No files provided" }, { status: 400 });
     }
 
-    // If dealId provided, derive folder from the deal record
     if (dealId && !folder) {
       const dealRes = await sql`SELECT name, builder FROM deals WHERE id = ${dealId}`;
       if (dealRes.rows.length > 0) {
@@ -29,7 +63,6 @@ export async function POST(req: NextRequest) {
         folder = `gallery/${builderSlug}/${dealSlug}`;
       }
     }
-
     if (!folder) folder = "gallery/unsorted";
 
     const results: {
@@ -82,7 +115,6 @@ export async function POST(req: NextRequest) {
           allowOverwrite: true,
         });
 
-        // Write to media_files DB if dealId provided
         if (dealId) {
           await sql`
             INSERT INTO media_files (deal_id, url, thumb_url, filename, description, size_bytes, width, height)
@@ -95,19 +127,12 @@ export async function POST(req: NextRequest) {
           `;
         }
 
-        results.push({
-          filename: file.name,
-          fullUrl: fullBlob.url,
-          thumbUrl: thumbBlob.url,
-          originalSize,
-          optimizedSize: full.length,
-        });
+        results.push({ filename: file.name, fullUrl: fullBlob.url, thumbUrl: thumbBlob.url, originalSize, optimizedSize: full.length });
       } catch (e) {
         errors.push(`Error: ${file.name} - ${e}`);
       }
     }
 
-    // If dealId and at least one image succeeded, mark the deal as imported + clear any failure flag
     if (dealId && results.length > 0) {
       await sql`
         UPDATE deals
@@ -131,4 +156,16 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     return NextResponse.json({ error: `Upload failed: ${e}` }, { status: 500 });
   }
+}
+
+export async function POST(req: NextRequest): Promise<Response> {
+  const contentType = req.headers.get("content-type") || "";
+
+  // Client-side upload protocol sends JSON (token request or completion notification)
+  if (contentType.includes("application/json")) {
+    return handleClientUpload(req);
+  }
+
+  // Legacy FormData path
+  return handleFormDataUpload(req);
 }

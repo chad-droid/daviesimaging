@@ -10,6 +10,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
+import { upload } from "@vercel/blob/client";
 
 const GALLERY_PAGES = [
   { label: "Listings",  slug: "/gallery/listings"  },
@@ -99,38 +100,47 @@ function ImageCurationPanel({
 
   useEffect(() => { loadImages(); }, [loadImages]);
 
-  // ── File upload ──────────────────────────────────────────────────────────────
+  // ── File upload — uses client-side direct blob upload to bypass 4.5 MB limit ─
   async function handleUpload(files: FileList | File[]) {
     const imageFiles = Array.from(files).filter((f) => f.type.startsWith("image/"));
     if (!imageFiles.length) return;
     setUploading(true);
     setUploadResult(null);
-    const fd = new FormData();
-    fd.set("dealId", dealId);
-    imageFiles.forEach((f) => fd.append("files", f));
-    try {
-      const res = await fetch("/api/media/upload", { method: "POST", body: fd });
-      // Read raw text first so we can show actual error if JSON parse fails
-      const text = await res.text();
-      let data: Record<string, unknown>;
+
+    let successCount = 0;
+    const errors: string[] = [];
+
+    for (const file of imageFiles) {
       try {
-        data = JSON.parse(text);
-      } catch {
-        setUploadResult(`Server error ${res.status}: ${text.slice(0, 120)}`);
-        setUploading(false);
-        return;
+        // Step 1: Upload raw file directly to Vercel Blob (no serverless body size limit)
+        const blob = await upload(`temp/${dealId}/${file.name}`, file, {
+          access: "public",
+          handleUploadUrl: "/api/media/upload",
+        });
+
+        // Step 2: Process with Sharp on the server (resize, WebP, thumbnail, DB record)
+        const res = await fetch("/api/media/process", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dealId, blobUrl: blob.url, filename: file.name }),
+        });
+        if (res.ok) {
+          successCount++;
+        } else {
+          const data = await res.json().catch(() => ({}));
+          errors.push(`${file.name}: ${(data as { error?: string }).error || "processing failed"}`);
+        }
+      } catch (err) {
+        errors.push(`${file.name}: ${err instanceof Error ? err.message : String(err)}`);
       }
-      if (!res.ok) {
-        setUploadResult(`Error: ${data.error || res.statusText}`);
-        setUploading(false);
-        return;
-      }
-      const count = (data.imported as number) || 0;
-      setUploadResult(count > 0 ? `${count} image${count !== 1 ? "s" : ""} uploaded` : `Upload failed${data.errors ? `: ${(data.errors as string[])[0]}` : ""}`);
-      if (count > 0) loadImages();
-    } catch (err) {
-      setUploadResult(`Network error: ${err instanceof Error ? err.message : String(err)}`);
     }
+
+    setUploadResult(
+      successCount > 0
+        ? `${successCount} image${successCount !== 1 ? "s" : ""} uploaded`
+        : `Upload failed: ${errors[0] || "unknown error"}`,
+    );
+    if (successCount > 0) loadImages();
     setUploading(false);
   }
 
@@ -259,7 +269,7 @@ function ImageCurationPanel({
         }`}
       >
         {uploading ? (
-          <p className="text-[11px] text-[#A8A2D0]">Uploading and optimizing...</p>
+          <p className="text-[11px] text-[#A8A2D0]">Uploading directly to storage, optimizing...</p>
         ) : (
           <p className="text-[11px] text-[#555]">
             {images.length === 0 ? "Drop images here or click to upload" : "Upload more images"}
