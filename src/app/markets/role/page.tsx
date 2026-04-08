@@ -84,9 +84,6 @@ export default function ByRolePage() {
                       <span><strong className="text-text-body">DIG answer:</strong> {role.solution}</span>
                     </div>
                   </div>
-                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors group-hover:text-accent">
-                    See this page <span aria-hidden="true">&rarr;</span>
-                  </span>
                 </Link>
               ))}
             </div>
