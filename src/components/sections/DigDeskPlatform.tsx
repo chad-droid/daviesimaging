@@ -221,8 +221,8 @@ export function DigDeskPlatform() {
         <div className="grid items-center gap-16 lg:grid-cols-2">
           {/* Copy */}
           <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
@@ -257,8 +257,8 @@ export function DigDeskPlatform() {
 
           {/* Mockup */}
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.65, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
           >
             <DigDeskMockup />
