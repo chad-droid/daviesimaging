@@ -61,43 +61,50 @@ function ClockGraphic({ animate }: { animate: boolean }) {
 // Calendar — compact 2×7 countdown, used as right-side accent in the 14-day cell
 // ─────────────────────────────────────────────────────────────────────────────
 function CalendarGraphic({ animate }: { animate: boolean }) {
-  const DAYS = Array.from({ length: 14 }, (_, i) => 14 - i);
-  const DELAY = 80;
+  const DAYS = Array.from({ length: 28 }, (_, i) => i + 1);
+  const DELAY = 40;
   return (
     <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
       <div className="flex h-6 w-full items-center justify-center rounded-t bg-accent/20 px-2">
         <span className="text-[10px] font-bold uppercase tracking-widest text-accent/80">Days</span>
       </div>
       <div className="grid grid-cols-7 gap-[3px]">
-        {DAYS.map((day, i) => (
-          <div
-            key={day}
-            className="relative flex h-7 w-7 items-center justify-center rounded"
-            style={{
-              backgroundColor: animate ? "rgba(106,90,205,0.15)" : "rgba(255,255,255,0.04)",
-              transitionDelay: animate ? `${i * DELAY}ms` : "0s",
-            }}
-          >
-            <span
-              className="relative text-[10px] font-semibold"
+        {DAYS.map((day, i) => {
+          const crossed = day <= 14;
+          return (
+            <div
+              key={day}
+              className="relative flex h-6 w-6 items-center justify-center rounded"
               style={{
-                color: animate ? "rgba(106,90,205,0.65)" : "rgba(255,255,255,0.22)",
-                transitionDelay: animate ? `${i * DELAY}ms` : "0s",
+                backgroundColor: crossed
+                  ? (animate ? "rgba(106,90,205,0.12)" : "rgba(255,255,255,0.03)")
+                  : (animate ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.04)"),
               }}
             >
-              {day}
-            </span>
-            <span className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
               <span
-                className="block h-px bg-accent/40 origin-left"
+                className="relative text-[9px] font-semibold"
                 style={{
-                  width: animate ? "16px" : "0px",
-                  transition: animate ? `width 0.18s ease ${i * DELAY + 100}ms` : "none",
+                  color: crossed
+                    ? (animate ? "rgba(106,90,205,0.50)" : "rgba(255,255,255,0.15)")
+                    : (animate ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.22)"),
                 }}
-              />
-            </span>
-          </div>
-        ))}
+              >
+                {day}
+              </span>
+              {crossed && (
+                <span className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
+                  <span
+                    className="block h-px bg-accent/45 origin-left"
+                    style={{
+                      width: animate ? "14px" : "0px",
+                      transition: animate ? `width 0.15s ease ${i * DELAY + 80}ms` : "none",
+                    }}
+                  />
+                </span>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -108,9 +115,9 @@ function CalendarGraphic({ animate }: { animate: boolean }) {
 // ─────────────────────────────────────────────────────────────────────────────
 function PackageBreakdown({ animate }: { animate: boolean }) {
   const items = [
-    { label: "Photography",     price: "$450" },
-    { label: "Virtual Staging", price: "$250" },
-    { label: "Virtual Video",   price: "$200" },
+    { label: "Photography",     price: "$350" },
+    { label: "Virtual Staging", price: "$240" },
+    { label: "Virtual Video",   price: "$180" },
   ];
 
   return (
@@ -134,7 +141,7 @@ function PackageBreakdown({ animate }: { animate: boolean }) {
         <svg viewBox="0 0 12 12" className="h-3 w-3 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
           <path d="M1.5 10.5l9-9M4.5 1.5h-3v3M10.5 7.5v3h-3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <span className="text-xs font-bold tracking-widest text-accent">SAVE $300</span>
+        <span className="text-xs font-bold tracking-widest text-accent">SAVE $220</span>
       </div>
     </div>
   );
@@ -328,7 +335,7 @@ function FeaturedStatCell() {
       {/* Explore Spec+ CTA */}
       <Link
         href="/programs/spec-plus"
-        className="mt-7 inline-flex items-center justify-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 text-[11px] font-semibold text-accent transition-all hover:border-accent hover:bg-accent/20"
+        className="mt-7 inline-flex items-center justify-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-5 py-2.5 font-sans text-[11px] font-semibold text-accent transition-all hover:border-accent hover:bg-accent/20"
         style={{ opacity: active ? 1 : 0, transition: active ? "opacity 0.5s ease 1.2s" : "none" }}
       >
         Explore Spec+
