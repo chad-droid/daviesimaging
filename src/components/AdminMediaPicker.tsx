@@ -29,6 +29,7 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
   const [selectedBefore, setSelectedBefore] = useState<MediaFile | null>(null);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
 
   function loadFiles() {
@@ -49,14 +50,31 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
     const imageFiles = uploadedFiles.filter((f) => f.type.startsWith("image/"));
     if (!imageFiles.length) return;
     setUploading(true);
-    const fd = new FormData();
-    fd.set("folder", `gallery/direct-uploads/${slotId.replace(/[^a-zA-Z0-9-]/g, "-")}`);
-    imageFiles.forEach((f) => fd.append("files", f));
-    try {
-      await fetch("/api/media/upload", { method: "POST", body: fd });
-      loadFiles();
-      setTab("library");
-    } catch { /* silent */ }
+    setUploadError(null);
+    const { upload } = await import("@vercel/blob/client");
+    const errors: string[] = [];
+    for (const file of imageFiles) {
+      try {
+        const blob = await upload(`site-assets/${file.name}`, file, {
+          access: "public",
+          handleUploadUrl: "/api/media/upload",
+        });
+        const res = await fetch("/api/media/process", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dealId: "site-assets", blobUrl: blob.url, filename: file.name }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          errors.push(`${file.name}: ${err.error || res.statusText}`);
+        }
+      } catch (e) {
+        errors.push(`${file.name}: ${e}`);
+      }
+    }
+    if (errors.length) setUploadError(errors.join(" | "));
+    loadFiles();
+    setTab("library");
     setUploading(false);
   }
 
@@ -216,6 +234,9 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
                 </>
               )}
             </div>
+            {uploadError && (
+              <p className="mt-3 max-w-md rounded bg-red-900/40 px-3 py-2 text-xs text-red-300">{uploadError}</p>
+            )}
             <p className="mt-4 text-xs text-[#666]">
               Uploaded images appear in the Library tab immediately.
             </p>
