@@ -119,14 +119,14 @@ export default function DigDeskPage() {
                   </Link>
                 </div>
               </div>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-dark">
+              <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-dark">
                 <DynamicImage
                   slotId="offerings-digdesk-portal"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover object-left-top"
                   fallbackClass="h-full w-full"
                 />
                 {/* CSS mockup fallback */}
-                <div className="absolute inset-0 [&:has(img)]:hidden">
+                <div className="absolute inset-0 group-has-[img]:hidden">
                   <div className="flex h-full flex-col">
                     {/* Window chrome */}
                     <div className="flex items-center justify-between border-b border-white/8 bg-black/30 px-5 py-3">
