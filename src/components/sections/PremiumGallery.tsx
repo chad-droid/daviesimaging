@@ -49,7 +49,7 @@ export function PremiumGallery() {
                     fallbackClass="bg-gradient-to-b from-border-light to-accent-secondary/30"
                     aspectRatio="16/9"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#121212]/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#121212]/60 to-transparent transition-opacity duration-500 group-hover:opacity-0" />
                   <div className="absolute bottom-0 left-0 p-6">
                     <span className="text-sm font-semibold uppercase tracking-widest text-text-light">
                       {region.name}
