@@ -250,6 +250,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       {lightbox && (
         <ProjectLightbox
           dealId={lightbox.dealId}
+          pageSlug={pageSlug}
           initialImageIndex={lightbox.imageIndex}
           onClose={() => setLightbox(null)}
         />

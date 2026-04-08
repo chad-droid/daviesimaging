@@ -39,3 +39,35 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: String(e) }, { status: 500 });
   }
 }
+
+// PATCH: update project metadata (name, builder, city, state, pipeline, youtube)
+export async function PATCH(req: NextRequest) {
+  try {
+    const { dealId, name, builder, city, state, pipeline, youtube } = (await req.json()) as {
+      dealId: string;
+      name: string;
+      builder: string;
+      city: string;
+      state: string;
+      pipeline: string;
+      youtube: string;
+    };
+
+    if (!dealId) return NextResponse.json({ error: "dealId required" }, { status: 400 });
+
+    await sql`
+      UPDATE deals
+      SET name     = ${name},
+          builder  = ${builder},
+          city     = ${city},
+          state    = ${state},
+          pipeline = ${pipeline},
+          youtube  = ${youtube}
+      WHERE id = ${dealId}
+    `;
+
+    return NextResponse.json({ success: true });
+  } catch (e) {
+    return NextResponse.json({ error: String(e) }, { status: 500 });
+  }
+}

@@ -42,11 +42,12 @@ function combineDescription(scope: string, deliverables: string): string {
 
 interface ProjectLightboxProps {
   dealId: string;
+  pageSlug?: string;
   initialImageIndex?: number;
   onClose: () => void;
 }
 
-export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: ProjectLightboxProps) {
+export function ProjectLightbox({ dealId, pageSlug, initialImageIndex = 0, onClose }: ProjectLightboxProps) {
   const [images, setImages] = useState<LightboxImage[]>([]);
   const [project, setProject] = useState<ProjectInfo | null>(null);
   const [currentIndex, setCurrentIndex] = useState(initialImageIndex);
@@ -59,31 +60,46 @@ export function ProjectLightbox({ dealId, initialImageIndex = 0, onClose }: Proj
   }
 
   useEffect(() => {
-    fetch(`/api/media/metadata?dealId=${dealId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        const files: LightboxImage[] = data.files || [];
+    const metaFetch = fetch(`/api/media/metadata?dealId=${dealId}`).then((r) => r.json());
+    const curateFetch = pageSlug
+      ? fetch(`/api/gallery/curate?dealId=${dealId}&page=${encodeURIComponent(pageSlug)}`).then((r) => r.json())
+      : Promise.resolve({ hiddenIds: [], coverId: null });
+
+    Promise.all([metaFetch, curateFetch])
+      .then(([data, curate]) => {
+        const hiddenSet = new Set<number>(curate.hiddenIds || []);
+        const coverId: number | null = curate.coverId ?? null;
+
+        // Filter out hidden images
+        const allFiles: LightboxImage[] = data.files || [];
+        const visibleFiles = allFiles.filter((f) => typeof f.id === "number" && !hiddenSet.has(f.id as number));
+
+        // Put cover first
+        const coverFile = coverId ? visibleFiles.find((f) => f.id === coverId) : null;
+        const orderedFiles = coverFile
+          ? [coverFile, ...visibleFiles.filter((f) => f.id !== coverId)]
+          : visibleFiles;
+
         const youtubeId = extractYoutubeId(data.deal?.youtube || "");
-        // Prepend video item if deal has a YouTube URL
         const items: LightboxImage[] = youtubeId
           ? [
               {
-                id: "video",
+                id: "video" as const,
                 youtubeId,
                 url: `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`,
                 thumb_url: `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`,
                 filename: "Video",
                 description: "Watch the video",
               },
-              ...files,
+              ...orderedFiles,
             ]
-          : files;
+          : orderedFiles;
         setImages(items);
         setProject(data.deal || null);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [dealId]);
+  }, [dealId, pageSlug]);
 
   // Keyboard navigation
   const handleKey = useCallback(

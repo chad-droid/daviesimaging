@@ -306,6 +306,114 @@ function CreateManualProjectModal({
   );
 }
 
+// ── Edit project modal ────────────────────────────────────────────────────────
+function EditProjectModal({
+  project,
+  onSaved,
+  onClose,
+}: {
+  project: AssignedProject;
+  onSaved: (updated: Partial<AssignedProject>) => void;
+  onClose: () => void;
+}) {
+  const PIPELINES = ["Premium", "Listing", "Video Production", "Virtual Staging", "Virtual Video", "Matterport", "Spec+", "Lifestyle", "Amenity"];
+  const [form, setForm] = useState({
+    name: project.deal_name,
+    builder: project.builder,
+    city: project.city,
+    state: project.state,
+    pipeline: project.pipeline,
+    youtube: "",
+  });
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function save() {
+    if (!form.name.trim() || !form.builder.trim()) { setError("Name and builder are required."); return; }
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/gallery/manual", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dealId: project.deal_id, ...form }),
+      });
+      const data = await res.json();
+      if (data.error) { setError(data.error); setSaving(false); return; }
+      onSaved({ deal_name: form.name, builder: form.builder, city: form.city, state: form.state, pipeline: form.pipeline });
+    } catch (e) {
+      setError(String(e));
+    }
+    setSaving(false);
+  }
+
+  function field(key: keyof typeof form, label: string, placeholder?: string) {
+    return (
+      <div>
+        <label className="mb-1 block text-[10px] uppercase tracking-widest text-[#666]">{label}</label>
+        <input
+          type="text"
+          value={form[key]}
+          onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+          placeholder={placeholder}
+          className="w-full rounded border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5] outline-none focus:border-[#6A5ACD]"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-black/80 p-4 pt-16" onClick={onClose}>
+      <div className="w-full max-w-md rounded-lg bg-[#1E1E1E] shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between border-b border-[#2C2C2C] px-6 py-4">
+          <div>
+            <p className="text-sm font-semibold text-[#F5F5F5]">Edit Project</p>
+            <p className="mt-0.5 text-[10px] text-[#555]">Updates name, builder, location, service, and region tag.</p>
+          </div>
+          <button onClick={onClose} className="text-[#666] hover:text-[#F5F5F5]">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="space-y-4 p-6">
+          {field("name", "Project Name *")}
+          {field("builder", "Builder *")}
+          <div className="grid grid-cols-2 gap-3">
+            {field("city", "City")}
+            {field("state", "State (2-letter)", "TX")}
+          </div>
+          <div>
+            <label className="mb-1 block text-[10px] uppercase tracking-widest text-[#666]">Service / Region Tag</label>
+            <select
+              value={form.pipeline}
+              onChange={(e) => setForm({ ...form, pipeline: e.target.value })}
+              className="w-full rounded border border-[#2C2C2C] bg-[#121212] px-3 py-2 text-sm text-[#F5F5F5] outline-none focus:border-[#6A5ACD]"
+            >
+              {PIPELINES.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </div>
+          {field("youtube", "YouTube URL (optional)", "https://youtu.be/...")}
+          <p className="text-[10px] leading-relaxed text-[#555]">
+            The State field controls which region filter this project appears under (e.g. TX = Central, CA = West, FL = East, CO = Mountain).
+          </p>
+          {error && <p className="text-xs text-[#E57373]">{error}</p>}
+        </div>
+        <div className="flex justify-end gap-2 border-t border-[#2C2C2C] px-6 py-4">
+          <button onClick={onClose} className="rounded-full border border-[#2C2C2C] px-4 py-2 text-xs font-semibold text-[#A8A2D0]">Cancel</button>
+          <button
+            onClick={save}
+            disabled={saving}
+            className="rounded-full bg-[#6A5ACD] px-5 py-2 text-xs font-semibold text-white hover:bg-[#5848B5] disabled:opacity-50"
+          >
+            {saving ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Add project modal ─────────────────────────────────────────────────────────
 function AddProjectModal({
   pageSlug,
@@ -420,6 +528,7 @@ export default function AdminGalleryPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editingProject, setEditingProject] = useState<AssignedProject | null>(null);
   const [saving, setSaving] = useState(false);
 
   // Drag state
@@ -648,6 +757,16 @@ export default function AdminGalleryPage() {
                   >
                     {isExpanded ? "Close" : "Curate Images"}
                   </button>
+                  {/* Edit metadata */}
+                  <button
+                    onClick={() => setEditingProject(project)}
+                    title="Edit project metadata"
+                    className="rounded p-1.5 text-[#555] transition-colors hover:text-[#A8A2D0]"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
+                    </svg>
+                  </button>
                   <button
                     onClick={() => removeProject(project.deal_id)}
                     title="Remove from gallery"
@@ -699,6 +818,22 @@ export default function AdminGalleryPage() {
             setShowCreateModal(false);
           }}
           onClose={() => setShowCreateModal(false)}
+        />
+      )}
+
+      {/* Edit project modal */}
+      {editingProject && (
+        <EditProjectModal
+          project={editingProject}
+          onSaved={(updated) => {
+            setProjects((prev) =>
+              prev.map((p) =>
+                p.deal_id === editingProject.deal_id ? { ...p, ...updated } : p
+              )
+            );
+            setEditingProject(null);
+          }}
+          onClose={() => setEditingProject(null)}
         />
       )}
 

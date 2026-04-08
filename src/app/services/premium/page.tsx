@@ -57,9 +57,9 @@ const useCases = [
 ];
 
 const galleryLinks = [
-  { label: "Model Homes", href: "/gallery/models" },
-  { label: "Amenities", href: "/gallery/amenities" },
-  { label: "Lifestyle", href: "/gallery/lifestyle" },
+  { label: "Model Gallery", href: "/gallery/models" },
+  { label: "Amenities Gallery", href: "/gallery/amenities" },
+  { label: "Lifestyle Gallery", href: "/gallery/lifestyle" },
 ];
 
 export default function PremiumPage() {
@@ -326,7 +326,7 @@ export default function PremiumPage() {
                     href={g.href}
                     className="rounded-full border border-white/20 px-5 py-2 text-sm font-medium text-white/70 transition-colors hover:border-white/60 hover:text-white"
                   >
-                    {g.label} gallery &rarr;
+                    {g.label} &rarr;
                   </Link>
                 ))}
               </div>
