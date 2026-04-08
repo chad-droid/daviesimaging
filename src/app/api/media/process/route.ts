@@ -103,23 +103,21 @@ export async function POST(req: NextRequest) {
       await del(blobUrl);
     } catch { /* non-fatal */ }
 
-    // Upsert into media_files
-    await sql`
-      INSERT INTO media_files (deal_id, url, thumb_url, filename, description, size_bytes, width, height)
-      VALUES (${dealId}, ${fullBlob.url}, ${thumbBlob.url}, ${filename}, '', ${full.length}, ${meta.width || 0}, ${meta.height || 0})
-      ON CONFLICT (deal_id, url) DO UPDATE SET
-        thumb_url = EXCLUDED.thumb_url,
-        size_bytes = EXCLUDED.size_bytes,
-        width = EXCLUDED.width,
-        height = EXCLUDED.height
-    `;
-
-    // Mark deal as successfully imported
-    await sql`
-      UPDATE deals
-      SET imported = TRUE, imported_at = NOW(), updated_at = NOW()
-      WHERE id = ${dealId}
-    `;
+    // Only write to media_files for real deals (not site-asset uploads)
+    if (dealId !== "site-assets") {
+      await sql`
+        INSERT INTO media_files (deal_id, url, thumb_url, filename, description, size_bytes, width, height)
+        VALUES (${dealId}, ${fullBlob.url}, ${thumbBlob.url}, ${filename}, '', ${full.length}, ${meta.width || 0}, ${meta.height || 0})
+        ON CONFLICT (deal_id, url) DO UPDATE SET
+          thumb_url = EXCLUDED.thumb_url,
+          size_bytes = EXCLUDED.size_bytes,
+          width = EXCLUDED.width,
+          height = EXCLUDED.height
+      `;
+      await sql`
+        UPDATE deals SET imported = TRUE, imported_at = NOW(), updated_at = NOW() WHERE id = ${dealId}
+      `;
+    }
 
     return NextResponse.json({
       success: true,
