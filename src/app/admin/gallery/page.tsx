@@ -65,6 +65,9 @@ function ImageCurationPanel({
   const [images, setImages] = useState<CurationImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadResult, setUploadResult] = useState<string | null>(null);
+  const [dragOver, setDragOver] = useState(false);
   const [localCover, setLocalCover] = useState<number | null>(coverId);
   const [localHidden, setLocalHidden] = useState<Set<number>>(new Set(hiddenIds));
 
@@ -73,7 +76,7 @@ function ImageCurationPanel({
     setLocalHidden(new Set(hiddenIds));
   }, [coverId, hiddenIds]);
 
-  useEffect(() => {
+  function loadImages() {
     setLoading(true);
     fetch(`/api/gallery/curate?dealId=${dealId}&page=${encodeURIComponent(pageSlug)}`)
       .then((r) => r.json())
@@ -82,7 +85,29 @@ function ImageCurationPanel({
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [dealId, pageSlug]);
+  }
+
+  useEffect(() => { loadImages(); }, [dealId, pageSlug]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function handleUpload(files: FileList | File[]) {
+    const imageFiles = Array.from(files).filter((f) => f.type.startsWith("image/"));
+    if (!imageFiles.length) return;
+    setUploading(true);
+    setUploadResult(null);
+    const fd = new FormData();
+    fd.set("dealId", dealId);
+    imageFiles.forEach((f) => fd.append("files", f));
+    try {
+      const res = await fetch("/api/media/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      const count = data.imported || 0;
+      setUploadResult(count > 0 ? `${count} image${count !== 1 ? "s" : ""} uploaded` : "Upload failed");
+      if (count > 0) loadImages();
+    } catch {
+      setUploadResult("Upload error");
+    }
+    setUploading(false);
+  }
 
   async function save() {
     setSaving(true);
@@ -131,6 +156,30 @@ function ImageCurationPanel({
             </button>
           )}
         </div>
+      </div>
+
+      {/* Upload zone */}
+      <div
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => { e.preventDefault(); setDragOver(false); if (!uploading) handleUpload(e.dataTransfer.files); }}
+        onClick={() => { const i = document.createElement("input"); i.type = "file"; i.accept = "image/*"; i.multiple = true; i.onchange = () => { if (i.files) handleUpload(i.files); }; i.click(); }}
+        className={`mb-3 cursor-pointer rounded-lg border-2 border-dashed p-4 text-center transition-colors ${
+          dragOver ? "border-[#6A5ACD] bg-[#6A5ACD]/10" : "border-[#2C2C2C] hover:border-[#6A5ACD]/50"
+        }`}
+      >
+        {uploading ? (
+          <p className="text-[11px] text-[#A8A2D0]">Uploading and optimizing...</p>
+        ) : (
+          <p className="text-[11px] text-[#555] hover:text-[#A8A2D0]">
+            {images.length === 0 ? "Drop images here or click to upload" : "Upload more images"}
+          </p>
+        )}
+        {uploadResult && (
+          <p className={`mt-1 text-[10px] ${uploadResult.includes("uploaded") ? "text-[#4CAF50]" : "text-[#E57373]"}`}>
+            {uploadResult}
+          </p>
+        )}
       </div>
 
       {loading ? (
