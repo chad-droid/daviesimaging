@@ -76,10 +76,13 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
       const file = imageFiles[0];
       // Compress large images client-side before upload
       const compressed = await compressImage(file, 2400);
-      const blob = await upload(`site-assets/${file.name}`, compressed, {
+      // Prefix pathname with a timestamp so repeated uploads of a file
+      // with the same name never collide in the blob store.
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+      const pathname = `site-assets/${Date.now()}-${safeName}`;
+      const blob = await upload(pathname, compressed, {
         access: "public",
         handleUploadUrl: "/api/media/upload",
-        addRandomSuffix: true,
       });
       // Assign blob URL directly to the slot — no server-side processing needed
       const res = await fetch("/api/site-assets", {

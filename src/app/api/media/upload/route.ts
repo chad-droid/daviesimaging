@@ -32,6 +32,10 @@ async function handleClientUpload(req: NextRequest): Promise<NextResponse> {
       ],
       maximumSizeInBytes: 100 * 1024 * 1024, // 100 MB
       addRandomSuffix: true,
+      // Safety net: if a pathname somehow collides (e.g. addRandomSuffix not
+      // propagating through the client token in @vercel/blob 2.x), allow the
+      // upload to overwrite rather than throwing the "blob already exists" error.
+      allowOverwrite: true,
     }),
     onUploadCompleted: async () => {
       // Processing (Sharp optimization + DB) is handled separately by /api/media/process
