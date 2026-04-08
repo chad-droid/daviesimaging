@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
     const mediaRes = await sql`
       SELECT id, deal_id, url, thumb_url, filename, description
       FROM media_files
-      WHERE deal_id = ANY(${dealIds as unknown as string[]})
+      WHERE deal_id = ANY(${dealIds as any})
       ORDER BY id ASC
     `;
 
