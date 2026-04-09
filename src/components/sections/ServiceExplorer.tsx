@@ -240,7 +240,7 @@ function TabPanel({
 // ─── Main export ──────────────────────────────────────────────────────────────
 
 export function ServiceExplorer() {
-  const [active, setActive] = useState(0);
+  const [active, setActiveRaw] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const pillRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const inView = useInView(sectionRef, { once: true, amount: 0.1 });
@@ -249,7 +249,15 @@ export function ServiceExplorer() {
   // Keep the active pill in view as the user swipes/taps through tabs —
   // otherwise on mobile the scrollable pill row can fall out of sync with
   // the card below and users lose track of which service they're looking at.
+  // Skip the initial mount (active === 0 on first render) to avoid scrolling
+  // the page down to this section on page load.
+  const hasInteracted = useRef(false);
+  const setActive: typeof setActiveRaw = (v) => {
+    hasInteracted.current = true;
+    setActiveRaw(v);
+  };
   useEffect(() => {
+    if (!hasInteracted.current) return;
     const el = pillRefs.current[active];
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
