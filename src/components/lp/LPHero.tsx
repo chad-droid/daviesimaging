@@ -18,7 +18,7 @@ export function LPHero({
   secondaryCta,
 }: LPHeroProps) {
   return (
-    <DarkSection className="flex -mt-16 min-h-screen items-center py-28 text-text-light">
+    <DarkSection className="min-h-[60vh] py-28 text-text-light">
       <div className="mx-auto max-w-4xl px-6">
         {eyebrow && <Eyebrow dark>{eyebrow}</Eyebrow>}
         <h1 className="text-text-light">{headline}</h1>

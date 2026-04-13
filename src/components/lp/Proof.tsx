@@ -26,7 +26,7 @@ export function Proof({
         <RevealOnScroll>
           <div className="text-center">
             <Eyebrow dark>{eyebrow}</Eyebrow>
-            <h2>{headline}</h2>
+            <h2 className="text-white">{headline}</h2>
           </div>
         </RevealOnScroll>
 
@@ -34,7 +34,7 @@ export function Proof({
           {stats.map((stat) => (
             <div key={stat.label} className="mt-6 first:mt-14 text-center">
               <p
-                className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight"
+                className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 {stat.value}
@@ -46,14 +46,14 @@ export function Proof({
 
         {testimonial && (
           <RevealOnScroll>
-            <blockquote className="mx-auto mt-16 max-w-2xl border-l-2 border-text-light/20 pl-6">
+            <blockquote className="mx-auto mt-16 max-w-2xl border-l-2 border-text-light/30 pl-6">
               <p
-                className="lead-text text-text-muted"
+                className="lead-text text-white"
                 style={{ fontStyle: "italic" }}
               >
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
-              <footer className="meta-text mt-4 text-text-muted">
+              <footer className="meta-text mt-4 text-white/70">
                 {testimonial.attribution}
               </footer>
             </blockquote>

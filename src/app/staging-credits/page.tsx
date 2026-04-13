@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { LPHero } from "@/components/lp/LPHero";
 import { LogoStrip } from "@/components/lp/LogoStrip";
 import { PainPoints } from "@/components/lp/PainPoints";
@@ -31,7 +32,13 @@ export default function StagingCreditsPage() {
 
       <LogoStrip
         heading="Trusted by builders nationwide"
-        logos={["Toll Brothers", "Beazer Homes", "K. Hovnanian", "Graham Hart", "Grand Homes"]}
+        logos={[
+          { name: "Beazer Homes", file: "beazer_logo-copy-1024x271.png", h: 30, maxW: 150 },
+          { name: "K. Hovnanian", file: "khov-logo-og.webp", h: 36, maxW: 140 },
+          { name: "Graham Hart", file: "graham-hart.png", h: 36, maxW: 160 },
+          { name: "Classic Homes", file: "classic-homes.png", h: 44, maxW: 120 },
+          { name: "Grand Homes", file: "grand homes.jpeg", h: 54, maxW: 140 },
+        ]}
       />
 
       {/* Before / After Section */}
@@ -39,9 +46,9 @@ export default function StagingCreditsPage() {
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="text-center">
-              <h2>See the Difference</h2>
+              <h2>Your Model Home Design, in Every Spec</h2>
               <p className="mt-4 text-text-body">
-                Same photo. Same room. ModelMatch stages it with your model home furniture. Not generic stock.
+                Same photo. Same room. ModelMatch stages it with your model home furniture — not generic stock.
               </p>
             </div>
           </RevealOnScroll>
@@ -49,16 +56,26 @@ export default function StagingCreditsPage() {
           <RevealOnScroll stagger={150}>
             <div className="mt-14 grid gap-6 sm:grid-cols-2">
               <div className="overflow-hidden rounded-lg border border-border-light">
-                <div className="flex aspect-[16/10] items-center justify-center bg-bg-surface text-sm text-text-muted">
-                  BEFORE: Empty spec home photo
-                </div>
-                <div className="px-4 py-3 text-sm text-text-muted">Before: Buyer scrolls past this</div>
+                <Image
+                  src="/email-assets/modelmatch-greatroom.gif"
+                  alt="Great room before and after ModelMatch virtual staging"
+                  width={800}
+                  height={500}
+                  className="w-full"
+                  unoptimized
+                />
+                <div className="px-4 py-3 text-sm font-medium text-accent">Great Room &mdash; ModelMatch, 48 hours, $25</div>
               </div>
               <div className="overflow-hidden rounded-lg border border-border-light">
-                <div className="flex aspect-[16/10] items-center justify-center bg-bg-surface text-sm text-text-muted">
-                  AFTER: ModelMatch staged
-                </div>
-                <div className="px-4 py-3 text-sm font-medium text-accent">After: ModelMatch, 48 hours, $25</div>
+                <Image
+                  src="/email-assets/modelmatch-bedroom.gif"
+                  alt="Bedroom before and after ModelMatch virtual staging"
+                  width={800}
+                  height={500}
+                  className="w-full"
+                  unoptimized
+                />
+                <div className="px-4 py-3 text-sm font-medium text-accent">Bedroom &mdash; ModelMatch, 48 hours, $25</div>
               </div>
             </div>
           </RevealOnScroll>
@@ -79,24 +96,25 @@ export default function StagingCreditsPage() {
         eyebrow="How It Works"
         headline={
           <>
-            Three steps. No calls. No <strong>contracts</strong>.
+            Upload. We match. You <strong>download</strong>.
           </>
         }
+        subtitle="No calls. No contracts. No project managers."
         points={[
           {
             title: "1. Upload Photos",
             description:
-              "Drag empty-room photos into digDesk. Any format. Phone photos work.",
+              "Drop empty-room photos into digDesk. Any format, any camera. Self-serve from day one.",
           },
           {
-            title: "2. We Match Your Brand",
+            title: "2. We Match Your Model Home",
             description:
-              "Our team stages using your model home design palette. Same furniture style, same scale, same feel.",
+              "Our team stages using your model home design palette — same furniture style, same scale, same feel. Not generic stock.",
           },
           {
             title: "3. Download in 48 Hours",
             description:
-              "Staged images ready for MLS, your website, social media, and paid ads.",
+              "MLS-ready images delivered to digDesk. Use on your website, social, paid ads, or print.",
           },
         ]}
       />
@@ -124,7 +142,7 @@ export default function StagingCreditsPage() {
       <section className="bg-bg-surface py-24">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll stagger={150}>
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-3">
               <blockquote className="rounded-lg border border-border-light bg-bg-surface p-6">
                 <p className="text-sm italic text-text-body">
                   &ldquo;We sold one of the 5 inventory homes over the weekend!&rdquo;
@@ -161,14 +179,13 @@ export default function StagingCreditsPage() {
 
               <ul className="mt-8 space-y-3 text-left text-sm text-text-body">
                 {[
+                  "$125 in free credits loaded in your account",
                   "Model home design matching (ModelMatch)",
                   "48-hour turnaround",
-                  "Self-serve portal (digDesk)",
-                  "Track, manage, edit, or cancel orders anytime",
-                  "Full billing and user administration built in",
-                  "$125 in free credits loaded in your account",
-                  "Use on MLS, website, social, ads",
-                  "No calls required to order",
+                  "Self-serve ordering via digDesk — no calls needed",
+                  "Manage orders, billing, and users in one place",
+                  "MLS, website, social, and ad-ready images",
+                  "No subscription. No minimums. Cancel anytime.",
                 ].map((feature) => (
                   <li key={feature} className="flex items-start gap-2 border-b border-border-light pb-3">
                     <span className="font-bold text-accent">&#10003;</span>
