@@ -59,6 +59,22 @@ const options = [
       </svg>
     ),
   },
+  // Hidden option reached only via /sarahpod's CTAs (?intent=sarah-podcast).
+  // Filtered out of the visible picker below; exists so selectedOpt resolves
+  // and the form submits with a distinct intent value that Chad can tag on
+  // in Slack / Resend.
+  {
+    id: "sarah-podcast",
+    title: "Just Make It Pretty Podcast",
+    description:
+      "You heard Chad on Just Make It Pretty with Sarah Haynes. Let's get your sample room staged.",
+    hidden: true,
+    icon: (
+      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+      </svg>
+    ),
+  },
 ];
 
 function ContactContent() {
@@ -100,6 +116,8 @@ function ContactContent() {
                     ? "We activate your digDesk account and send login details"
                     : selected === "demo"
                     ? "We reach out to book your 15-minute walkthrough"
+                    : selected === "sarah-podcast"
+                    ? "Chad reaches out within 1 business day to book your 20-minute call"
                     : "We reach out with a plan tailored to your homes"}
                 </li>
                 <li className="flex items-start gap-2">
@@ -140,7 +158,7 @@ function ContactContent() {
             </div>
 
             <div className="mt-12 space-y-3">
-              {options.map((opt) => (
+              {options.filter((opt) => !opt.hidden).map((opt) => (
                 <button
                   key={opt.id}
                   type="button"
@@ -213,10 +231,13 @@ function ContactContent() {
               {selected === "specs" && <>Tell us about your <strong>homes</strong>.</>}
               {selected === "strategy" && <>Tell us about your <strong>goals</strong>.</>}
               {selected === "other" && <>How can we <strong>help</strong>?</>}
+              {selected === "sarah-podcast" && <>Let&rsquo;s stage your <strong>sample room</strong>.</>}
             </h2>
             <p className="mt-4 text-text-body">
               {selected === "demo"
                 ? "Leave your details and we'll reach out within 1 business day to pick a time. 15 minutes, no deck, no pressure."
+                : selected === "sarah-podcast"
+                ? "Chad will reach out within 1 business day to book a 20-minute call. Bring a listing photo and a couple of model home references. He'll stage one room on us."
                 : "No long sales process. Just a quick conversation about what you need."}
             </p>
 
@@ -284,13 +305,19 @@ function ContactContent() {
 
               <div>
                 <label htmlFor="message" className="meta-text mb-1.5 block">
-                  {selected === "demo" ? "Anything we should know before the call?" : "Tell us about your homes"}
+                  {selected === "demo"
+                    ? "Anything we should know before the call?"
+                    : selected === "sarah-podcast"
+                    ? "Anything we should know before Chad calls?"
+                    : "Tell us about your homes"}
                 </label>
                 <textarea
                   id="message" name="message" rows={4}
                   placeholder={
                     selected === "demo"
                       ? "Markets, volume, specific questions about FrameFlow or Spec+..."
+                      : selected === "sarah-podcast"
+                      ? "Which episode hit? How many specs are you staging right now? Which model home would you want to reference first?"
                       : "How many specs are you sitting on? What markets? What's your biggest challenge right now?"
                   }
                   className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-dark placeholder:text-text-muted outline-none transition-colors focus:border-accent"
@@ -304,7 +331,13 @@ function ContactContent() {
                 disabled={loading}
                 className="cta-button w-full rounded-full bg-accent px-8 py-3.5 text-text-light transition-colors hover:bg-accent-hover disabled:opacity-50"
               >
-                {loading ? "Sending..." : selected === "demo" ? "Request a Demo" : "Send Message"}
+                {loading
+                  ? "Sending..."
+                  : selected === "demo"
+                  ? "Request a Demo"
+                  : selected === "sarah-podcast"
+                  ? "Book the Call"
+                  : "Send Message"}
               </button>
             </form>
 
