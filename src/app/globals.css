@@ -58,13 +58,15 @@
 
 /* ── Base type styles (in @layer base so utilities always win) ── */
 @layer base {
-  html,
   body {
     /* Prevent any element that overflows the viewport (marquees, drag
        gestures, full-bleed mockups) from producing horizontal page
        scroll or letting users pan the whole page left/right on touch.
-       overflow-x: clip is the modern equivalent of hidden that doesn't
-       create a new scroll container so sticky positioning still works. */
+       Applied to body ONLY — setting overflow-x on <html> breaks the
+       browser's scroll restoration on iOS Safari (page loads below
+       the fold instead of at the top on fresh navigation). clip is
+       the modern equivalent of hidden that doesn't create a new
+       scroll container so sticky positioning keeps working. */
     overflow-x: clip;
   }
   body {

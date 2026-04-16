@@ -23,6 +23,14 @@ interface Post {
 
 type Params = Promise<{ slug: string }>;
 
+// ISR — post pages regenerate every 60s so edits in Sanity Studio
+// show up on the live site without redeploying.
+export const revalidate = 60;
+
+// Allow new slugs published to Sanity after deploy to render on-demand
+// (otherwise Next.js 404s any slug not present at build time).
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const slugs: string[] = await client.fetch(postSlugsQuery);
   return slugs.map((slug) => ({ slug }));

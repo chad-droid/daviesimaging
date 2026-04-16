@@ -13,6 +13,12 @@ export const metadata: Metadata = {
     "Insights on homebuilder marketing, visual strategy, and asset performance from the DIG team.",
 };
 
+// ISR — regenerate every 60s so new Sanity posts appear on the live
+// site without a redeploy. Without this the Server Component caches
+// the Sanity fetch indefinitely and Nicole's published drafts are
+// invisible to visitors.
+export const revalidate = 60;
+
 interface Post {
   _id: string;
   title: string;

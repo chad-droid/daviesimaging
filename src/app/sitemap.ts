@@ -4,6 +4,10 @@ import { postSlugsQuery } from "@/sanity/queries";
 
 const BASE = "https://daviesimaging.com";
 
+// Regenerate the sitemap hourly so new Sanity blog posts get picked
+// up by Google without a redeploy. Matches the blog ISR cadence.
+export const revalidate = 3600;
+
 async function getBlogSlugs(): Promise<string[]> {
   try {
     return await client.fetch<string[]>(postSlugsQuery);
