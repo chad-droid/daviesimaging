@@ -60,15 +60,14 @@ const howItWorks = [
 const included = [
   "Reference-based staging pulled from your own model home imagery",
   "Brand-consistent results across every community and region",
-  "24-hour turnaround on standard orders",
+  "24-48 hour turnaround on standard orders",
   "Unlimited reuse of your ModelMatch reference library",
   "Your brand library stays yours if you ever leave",
 ];
 
 const stats = [
   { value: "28 days", label: "Avg. DOM reduction with DIG assets" },
-  { value: "72 hrs", label: "Delivery turnaround via digDesk" },
-  { value: "28", label: "National markets, same standard everywhere" },
+  { value: "24-48 hrs", label: "Delivery turnaround via digDesk" },
   { value: "10 yrs", label: "In the homebuilder space" },
 ];
 
@@ -83,7 +82,7 @@ const faqs = [
   },
   {
     q: "Our marketing team could just stage homes with an app in-house.",
-    a: "They could. Stage one. Count the hours. Then multiply by 500 homes a year across 12 markets with three product lines and brand standards that have to hold. That is not an app problem. That is an operation problem. DIG is the operation.",
+    a: "They could. Stage one. Count the hours. Then multiply by 100 homes a year with three product lines and brand standards that have to hold. That is not an app problem. That is an operation problem. DIG is the operation.",
   },
   {
     q: "Do you work with builders who already have a marketing agency?",
@@ -96,10 +95,6 @@ const faqs = [
   {
     q: "Who owns the reference library?",
     a: "You do. It lives in your digDesk account. If you stop working with DIG, the assets stay with you.",
-  },
-  {
-    q: "What happens on the 20-minute call?",
-    a: "Chad walks through your current staging workflow and stages one sample room on us so you can see your brand in action before committing. No pressure. If ModelMatch fits, he will tell you. If it does not, he will tell you what does.",
   },
 ];
 
@@ -114,7 +109,7 @@ export default function SarahPodcastPage() {
           <span className="font-semibold">Pretty isn&rsquo;t enough. It has to be yours.</span>
           <span className="hidden text-white/75 sm:inline">·</span>
           <span className="text-white/90">
-            Heard Chad on <em>Just Make It Pretty</em> with Sarah? This is the 20-minute version.
+            Heard Chad on <em>Just Make It Pretty</em> with Sarah? Your first 5 ModelMatch images are on us.
           </span>
         </div>
       </div>
@@ -135,30 +130,51 @@ export default function SarahPodcastPage() {
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href="/contact?intent=sarah-podcast"
+                href="/contact?intent=sarah-5-free"
                 className="rounded-full bg-accent px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Book a Call with Chad
+                Get 5 free ModelMatch images
               </Link>
               <Link
-                href="#see-it"
+                href="/contact?intent=sarah-podcast-call"
                 className="text-sm font-medium text-white/80 transition-colors hover:text-white"
               >
-                See ModelMatch in action &darr;
+                Or book a call with Chad &rarr;
               </Link>
             </div>
             <p className="mt-10 max-w-2xl text-sm italic leading-relaxed text-white/65">
               Chad Davies started shooting homes in 2009, at 17, during the
-              housing crash. Seventeen years, 28 markets, and one platform
-              later, DIG is how homebuilders ship brand-consistent listing
-              media at scale.
+              housing crash. Seventeen years and one platform later, DIG is how
+              homebuilders ship brand-consistent listing media at scale.
             </p>
           </RevealOnScroll>
         </div>
       </DarkSection>
 
+      {/* See it — ModelMatch Demo (moved up, first under fold) */}
+      <section id="see-it" className="bg-bg-light py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <RevealOnScroll>
+            <div className="mb-10 max-w-3xl">
+              <Eyebrow>See it</Eyebrow>
+              <h2>
+                Three rooms. <strong>Three stages</strong>.
+              </h2>
+              <p className="mt-5 text-text-body">
+                Each room below shows the three-stage ModelMatch process:
+                source reference imagery, the vacant listing photo, and the
+                finished staged output. Tap any panel to expand.
+              </p>
+            </div>
+          </RevealOnScroll>
+          <RevealOnScroll>
+            <ModelMatchDemo />
+          </RevealOnScroll>
+        </div>
+      </section>
+
       {/* Section 1 — The commodity trap / Three pillars */}
-      <section className="bg-bg-light py-24">
+      <section className="bg-bg-surface py-24">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-14 max-w-3xl">
@@ -209,14 +225,14 @@ export default function SarahPodcastPage() {
       </section>
 
       {/* Section 2 — How it works */}
-      <section className="bg-bg-surface py-24">
+      <section className="bg-bg-light py-24">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <div className="mb-14 max-w-3xl">
               <Eyebrow>How it works</Eyebrow>
               <h2>
-                You give us your model home photos. We match your virtual
-                staging <strong>to them</strong>.
+                You give us your model home photos.{" "}
+                <strong>We match your virtual staging to them.</strong>
               </h2>
               <p className="mt-5 text-text-body">
                 Your model home is where everything is perfect. The furniture
@@ -237,28 +253,6 @@ export default function SarahPodcastPage() {
                 </div>
               ))}
             </div>
-          </RevealOnScroll>
-        </div>
-      </section>
-
-      {/* See it — ModelMatch Demo */}
-      <section id="see-it" className="bg-bg-light py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <RevealOnScroll>
-            <div className="mb-10 max-w-3xl">
-              <Eyebrow>See it</Eyebrow>
-              <h2>
-                Three rooms. <strong>Three stages</strong>.
-              </h2>
-              <p className="mt-5 text-text-body">
-                Each room below shows the three-stage ModelMatch process:
-                source reference imagery, the vacant listing photo, and the
-                finished staged output. Tap any panel to expand.
-              </p>
-            </div>
-          </RevealOnScroll>
-          <RevealOnScroll>
-            <ModelMatchDemo />
           </RevealOnScroll>
         </div>
       </section>
@@ -288,7 +282,7 @@ export default function SarahPodcastPage() {
                 className="text-2xl font-medium leading-snug text-text-dark sm:text-3xl"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                &ldquo;Buyers see 20 homes on their phone before they visit 8
+                &ldquo;Buyers see 20 homes on their phone before they visit 1
                 in person. Your listing photos aren&rsquo;t marketing.
                 They&rsquo;re the audition.&rdquo;
               </blockquote>
@@ -356,36 +350,35 @@ export default function SarahPodcastPage() {
                     className="mt-5 text-5xl font-semibold tracking-tight text-text-dark"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
-                    $25 <span className="text-2xl text-text-muted">/ image</span>
+                    5 free <span className="text-2xl text-text-muted">images</span>
                   </p>
                   <p className="mt-2 text-sm text-text-body">
-                    Standalone virtual staging. No minimums. No contracts.
+                    Send us 5 listing photos and your model home references.
+                    We&rsquo;ll stage them in your brand and send them back.
                   </p>
                   <p className="mt-4 text-xs leading-relaxed text-text-muted">
-                    For context: physical staging averages $1,500 per room.
-                    ModelMatch stages a whole home for less.
-                  </p>
-                  <p className="mt-3 text-xs leading-relaxed text-text-muted">
-                    Bundled free inside the $600 Spec+ package (25 listing
-                    photos + 8 staged images + 1 virtual video, 72-hour
-                    delivery).
+                    No contract. No credit card. If ModelMatch fits, we&rsquo;ll
+                    talk pricing. If not, you still walk away with 5 staged
+                    images.
                   </p>
                   <Link
-                    href="/contact?intent=sarah-podcast"
+                    href="/contact?intent=sarah-5-free"
                     className="mt-6 block rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                   >
-                    Book a Call with Chad
+                    Claim my 5 free images
                   </Link>
-                  <p className="mt-3 text-center text-xs leading-relaxed text-text-muted">
-                    20 minutes. Bring a listing. Leave with one room staged on
-                    us.
-                  </p>
+                  <Link
+                    href="/contact?intent=sarah-podcast-call"
+                    className="mt-3 block text-center text-xs font-medium text-text-muted transition-colors hover:text-accent"
+                  >
+                    Got questions first? Book a call with Chad &rarr;
+                  </Link>
                 </div>
               </aside>
             </div>
 
             {/* Inline stats */}
-            <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-3">
               {stats.map((s) => (
                 <div
                   key={s.label}
@@ -417,7 +410,7 @@ export default function SarahPodcastPage() {
             <div className="mb-12">
               <Eyebrow>Objections, honestly addressed</Eyebrow>
               <h2>
-                Questions a podcast listener <strong>actually asks</strong>.
+                Smart questions <strong>you probably have</strong>.
               </h2>
             </div>
             <div className="divide-y divide-border-light">
@@ -463,27 +456,28 @@ export default function SarahPodcastPage() {
               <strong>start here</strong>.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-white/80">
-              Twenty minutes with Chad Davies. Bring one listing photo and a
-              couple of model home references. Leave with a free sample room
-              staged in your brand.
+              Send 5 listing photos and a few model home references. We&rsquo;ll
+              stage them in your brand and send them back, on us. If ModelMatch
+              fits your workflow, we&rsquo;ll talk. If not, you&rsquo;ve still
+              got 5 staged images.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/contact?intent=sarah-podcast"
+                href="/contact?intent=sarah-5-free"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Book a Strategy Call
+                Get 5 free ModelMatch images
               </Link>
               <Link
-                href="/services/virtual-staging"
+                href="/contact?intent=sarah-podcast-call"
                 className="text-sm font-medium text-white/80 transition-colors hover:text-white"
               >
-                Explore ModelMatch on your own &rarr;
+                Or book a call with Chad &rarr;
               </Link>
             </div>
             <p className="mt-6 text-xs text-white/65">
-              Mention Sarah&rsquo;s podcast on the call. We&rsquo;ll stage your
-              sample room first.
+              Mention Sarah&rsquo;s podcast. We&rsquo;ll prioritize your
+              delivery.
             </p>
           </RevealOnScroll>
         </div>
