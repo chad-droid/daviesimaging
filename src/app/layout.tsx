@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Noto_Sans } from "next/font/google";
-import { Footer } from "@/components/Footer";
-import { EmailCaptureModal } from "@/components/EmailCaptureModal";
 import { SiteShell } from "@/components/SiteShell";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -122,8 +120,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-bg-light text-text-body">
         <SiteShell>{children}</SiteShell>
-        <Footer />
-        <EmailCaptureModal />
         <AdminSiteOverlay />
         <Analytics />
         <SpeedInsights />
