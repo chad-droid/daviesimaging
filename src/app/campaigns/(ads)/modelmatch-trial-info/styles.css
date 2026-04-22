@@ -1,0 +1,58 @@
+/* ──────────────────────────────────────────────────────────────
+   ModelMatch Trial Info landing page — scoped tokens
+   Loaded only by /campaigns/modelmatch-trial-info. All styles
+   are scoped under `.mm-landing` so nothing leaks to the rest
+   of the site.
+   ────────────────────────────────────────────────────────────── */
+
+.mm-landing {
+  /* Brand accent */
+  --mm-accent: #6A5ACD;
+  --mm-accent-hover-light: #5848B5;
+  --mm-accent-hover-dark: #857AE0;
+
+  /* Light schema */
+  --mm-bg-light: #F8F6F3;
+  --mm-bg-surface: #FFFFFF;
+  --mm-text-dark: #1C1C1C;
+  --mm-text-body: #3A3A3A;
+  --mm-text-muted: #5C5C5C;
+  --mm-border-light: #DAD7D2;
+
+  /* Dark schema */
+  --mm-bg-dark: #121212;
+  --mm-text-light: #F5F5F5;
+
+  /* Type */
+  --font-heading: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body: "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Legacy aliases used by ported prototype code */
+  --accent: var(--mm-accent);
+  --text-body: var(--mm-text-body);
+  --text-muted: var(--mm-text-muted);
+  --border-light: var(--mm-border-light);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.06);
+
+  background: var(--mm-bg-light);
+  color: var(--mm-text-body);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mm-landing * { box-sizing: border-box; }
+
+/* Reset the few things the site's globals.css might inject */
+.mm-landing h1,
+.mm-landing h2,
+.mm-landing h3,
+.mm-landing p,
+.mm-landing button {
+  margin: 0;
+}
+
+.mm-landing img { display: block; max-width: 100%; }
