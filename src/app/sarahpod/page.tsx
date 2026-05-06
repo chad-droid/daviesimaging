@@ -130,13 +130,13 @@ export default function SarahPodcastPage() {
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href="/contact?intent=sarah-5-free"
+                href="/campaigns/modelmatch-trial-info"
                 className="rounded-full bg-accent px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 Get 5 free ModelMatch images
               </Link>
               <Link
-                href="/contact?intent=sarah-podcast-call"
+                href="mailto:chad@daviesimaging.com"
                 className="text-sm font-medium text-white/80 transition-colors hover:text-white"
               >
                 Or book a call with Chad &rarr;
@@ -362,13 +362,13 @@ export default function SarahPodcastPage() {
                     images.
                   </p>
                   <Link
-                    href="/contact?intent=sarah-5-free"
+                    href="/campaigns/modelmatch-trial-info"
                     className="mt-6 block rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                   >
                     Claim my 5 free images
                   </Link>
                   <Link
-                    href="/contact?intent=sarah-podcast-call"
+                    href="mailto:chad@daviesimaging.com"
                     className="mt-3 block text-center text-xs font-medium text-text-muted transition-colors hover:text-accent"
                   >
                     Got questions first? Book a call with Chad &rarr;
@@ -463,13 +463,13 @@ export default function SarahPodcastPage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/contact?intent=sarah-5-free"
+                href="/campaigns/modelmatch-trial-info"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 Get 5 free ModelMatch images
               </Link>
               <Link
-                href="/contact?intent=sarah-podcast-call"
+                href="mailto:chad@daviesimaging.com"
                 className="text-sm font-medium text-white/80 transition-colors hover:text-white"
               >
                 Or book a call with Chad &rarr;
