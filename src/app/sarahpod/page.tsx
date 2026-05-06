@@ -136,7 +136,9 @@ export default function SarahPodcastPage() {
                 Get 5 free ModelMatch images
               </Link>
               <Link
-                href="mailto:chad@daviesimaging.com"
+                href="https://calendly.com/chaddavies/dig-disco-with-chad"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm font-medium text-white/80 transition-colors hover:text-white"
               >
                 Or book a call with Chad &rarr;
@@ -368,7 +370,9 @@ export default function SarahPodcastPage() {
                     Claim my 5 free images
                   </Link>
                   <Link
-                    href="mailto:chad@daviesimaging.com"
+                    href="https://calendly.com/chaddavies/dig-disco-with-chad"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="mt-3 block text-center text-xs font-medium text-text-muted transition-colors hover:text-accent"
                   >
                     Got questions first? Book a call with Chad &rarr;
@@ -469,7 +473,9 @@ export default function SarahPodcastPage() {
                 Get 5 free ModelMatch images
               </Link>
               <Link
-                href="mailto:chad@daviesimaging.com"
+                href="https://calendly.com/chaddavies/dig-disco-with-chad"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm font-medium text-white/80 transition-colors hover:text-white"
               >
                 Or book a call with Chad &rarr;
