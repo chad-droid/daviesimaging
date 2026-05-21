@@ -544,6 +544,12 @@ function SiloDivider({
 function SlideCover() {
   return (
     <SlideShell dark>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/dig-logo-light.png"
+        alt="Davies Imaging Group"
+        className="mb-10 h-16 w-auto"
+      />
       <Eyebrow dark>Capabilities Overview</Eyebrow>
       <h1 className="font-heading text-[clamp(3rem,7vw,5.5rem)] font-semibold leading-[1.02] tracking-tight text-text-light">
         Marketing assets
@@ -868,8 +874,9 @@ function SlideModelMatchIntro() {
     <SlideShell>
       <Eyebrow>Listings / Virtual Staging</Eyebrow>
       <h1 className="font-heading text-[clamp(2.25rem,4.6vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
-        ModelMatch: virtual staging that looks like{" "}
-        <strong className="text-accent">your homes</strong>.
+        ModelMatch: virtual staging
+        <br />
+        that looks like <strong className="text-accent">your homes</strong>.
       </h1>
       <p className="lead-text mt-8 max-w-[70ch] text-text-body">
         Generic staging libraries don&apos;t match your brand. ModelMatch does. We pull design
@@ -1337,6 +1344,12 @@ function SlideRegionalPartnership() {
 function SlideCloser() {
   return (
     <SlideShell dark>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/dig-logo-light.png"
+        alt="Davies Imaging Group"
+        className="mb-10 h-16 w-auto"
+      />
       <Eyebrow dark>Ready?</Eyebrow>
       <h1 className="font-heading text-[clamp(2.75rem,6vw,5rem)] font-semibold leading-[1.02] tracking-tight text-text-light">
         Let&apos;s build assets
