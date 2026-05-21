@@ -10,9 +10,42 @@ import { RegionMap } from "@/components/RegionMap";
  * /capabilities — full-screen presentation deck.
  *
  * Mounted chromelessly via SiteShell (no Nav, no Footer, no email modal).
- * 27 slides, keyboard + button + touch navigation, URL hash deep links.
- * Typography and color tokens match the rest of daviesimaging.com.
+ * Typography, color tokens, and card patterns mirror the rest of daviesimaging.com.
+ *
+ * Editing tips:
+ *  - Swap photos by editing the SITE entries below.
+ *  - Drop in YouTube IDs for Video Content (slide 7) / Video Production (slide 20)
+ *    by filling YT.videoContent / YT.videoProduction.
  */
+
+// ─── Media sources (pulled from daviesimaging.com /api/site-assets) ──────────
+const BLOB = "https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com";
+const SITE = {
+  premium: `${BLOB}/site-assets/shawood-aspen-v2-8.webp`,
+  premiumAmenities: `${BLOB}/site-assets/regency_amenity_back-exterior_1.webp`,
+  modelHomeHero: `${BLOB}/gallery/cadence-homes/trinity-falls-model-photography/trinity-falls-camille-hires-14.webp`,
+  matterport: `${BLOB}/site-assets/04072026_200107.webp`,
+  listing: `${BLOB}/site-assets/1775674604579-Indio-Hills-Lot-174-vacant-01-9kDK7wf6vjIsVqUd6Xe90TkQFzFcuG.jpg`,
+  virtualVideoCover: `${BLOB}/site-assets/bolsena-plan-3366-web-2.webp`,
+  stagingVacant: `${BLOB}/site-assets/1775671026521-living-room-1424KirkhillLane-02a-jItfigI7QoAD9ucHry0F3taWJbe68d.jpg`,
+  stagingResult: `${BLOB}/site-assets/1775671035424-living-room-1424KirkhillLane-03-AZDTQiTFPd60vALdR7kjpXKUyEDQmW.jpg`,
+  specPlus: `${BLOB}/site-assets/living-room-1424kirkhilllane-08.webp`,
+  videoProduction: `${BLOB}/site-assets/screenshot-2026-04-07-at-7-55-33-pm.webp`,
+  amenity: `${BLOB}/site-assets/regency_amenity_back-exterior_1.webp`,
+  digDesk: `${BLOB}/site-assets/digdesk-screenshot.webp`,
+  regional: `${BLOB}/site-assets/heronbay_clubhouse_aerial.webp`,
+  siloModel: `${BLOB}/site-assets/ashbourne-merrick-web-15.webp`,
+  siloListings: `${BLOB}/site-assets/wayward-wind-7432-vacant-01.webp`,
+  siloCommunity: `${BLOB}/site-assets/santa-rita-ranch-aerials-web-1.webp`,
+};
+
+// Fill these with YouTube IDs to swap the photo placeholder for a video embed.
+// virtualVideo → Perry Homes FrameFlow promo (verified in src/data/deals.json).
+const YT = {
+  videoContent: "" as string,    // Slide 7 — Model Home Video. Paste an ID to enable.
+  virtualVideo: "4MYlfUOAdOk",   // Slide 14 — Perry Homes FrameFlow promo.
+  videoProduction: "" as string, // Slide 20 — Community Video. Paste an ID to enable.
+};
 
 const TOTAL_SLIDES = 27;
 
@@ -34,13 +67,11 @@ export function CapabilitiesDeck() {
     }
   }, []);
 
-  // Reset scroll within slide on change
   useEffect(() => {
     const el = slideRefs.current[current];
     if (el) el.scrollTop = 0;
   }, [current]);
 
-  // Keyboard nav
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       const target = e.target as HTMLElement | null;
@@ -62,7 +93,6 @@ export function CapabilitiesDeck() {
     return () => document.removeEventListener("keydown", onKey);
   }, [current, show]);
 
-  // Touch swipe
   useEffect(() => {
     let touchX: number | null = null;
     function onStart(e: TouchEvent) {
@@ -85,7 +115,6 @@ export function CapabilitiesDeck() {
     };
   }, [current, show]);
 
-  // Boot from URL hash + show hint briefly
   useEffect(() => {
     const hashN = parseInt(window.location.hash.slice(1), 10);
     if (!isNaN(hashN)) show(hashN - 1);
@@ -95,7 +124,6 @@ export function CapabilitiesDeck() {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
     };
-    // Intentional: boot once on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -155,7 +183,7 @@ export function CapabilitiesDeck() {
           type="button"
           onClick={() => show(current - 1)}
           disabled={current === 0}
-          className={`border px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
+          className={`rounded-full border px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
             slideIsDark
               ? "border-white/20 text-white/80 enabled:hover:border-accent-dark-hover enabled:hover:text-accent-dark-hover"
               : "border-border-light text-text-body enabled:hover:border-accent enabled:hover:text-accent"
@@ -178,7 +206,7 @@ export function CapabilitiesDeck() {
           type="button"
           onClick={() => show(current + 1)}
           disabled={current === TOTAL_SLIDES - 1}
-          className={`border px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
+          className={`rounded-full border px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
             slideIsDark
               ? "border-white/20 text-white/80 enabled:hover:border-accent-dark-hover enabled:hover:text-accent-dark-hover"
               : "border-border-light text-text-body enabled:hover:border-accent enabled:hover:text-accent"
@@ -204,12 +232,8 @@ export function CapabilitiesDeck() {
         }`}
       >
         Use{" "}
-        <kbd className="mx-0.5 rounded bg-accent px-1.5 py-0.5 text-[0.65rem] text-white">
-          &larr;
-        </kbd>{" "}
-        <kbd className="mx-0.5 rounded bg-accent px-1.5 py-0.5 text-[0.65rem] text-white">
-          &rarr;
-        </kbd>{" "}
+        <kbd className="mx-0.5 rounded bg-accent px-1.5 py-0.5 text-[0.65rem] text-white">&larr;</kbd>{" "}
+        <kbd className="mx-0.5 rounded bg-accent px-1.5 py-0.5 text-[0.65rem] text-white">&rarr;</kbd>{" "}
         to navigate
       </div>
     </div>
@@ -217,17 +241,18 @@ export function CapabilitiesDeck() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Slide building blocks
+// Reusable building blocks (styled to mirror /services and /programs pages)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function SlideShell({
   children,
   dark,
-  accentBar,
+  full,
 }: {
   children: React.ReactNode;
   dark?: boolean;
-  accentBar?: boolean;
+  /** Render edge-to-edge with no centered max-width wrapper. */
+  full?: boolean;
 }) {
   return (
     <div
@@ -236,74 +261,80 @@ function SlideShell({
       }`}
     >
       {dark && <DarkSectionBg glowIntensity={14} />}
-      {accentBar && (
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1.5 bg-accent" aria-hidden />
-      )}
-      <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
+      <div
+        className={`relative z-[1] flex min-h-[calc(100vh-12rem)] flex-col justify-center ${
+          full ? "" : "mx-auto max-w-6xl"
+        }`}
+      >
         {children}
       </div>
     </div>
   );
 }
 
-function AccentRule({ dark }: { dark?: boolean }) {
-  return <span className={`mt-5 mb-6 block h-[3px] w-24 ${dark ? "bg-accent-dark-hover" : "bg-accent"}`} />;
-}
-
-function ChannelChip({ children }: { children: React.ReactNode }) {
+function CheckIcon({ className = "" }: { className?: string }) {
   return (
-    <div className="relative border border-border-light bg-white px-3 py-4 text-center text-[0.65rem] font-bold uppercase tracking-[0.2em] text-text-dark">
-      <span className="absolute inset-x-0 top-0 h-[3px] bg-accent" aria-hidden />
-      {children}
-    </div>
+    <span
+      className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10 ${className}`}
+    >
+      <svg
+        viewBox="0 0 16 16"
+        className="h-3 w-3 text-accent"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2.5}
+      >
+        <path d="M3 8l3 3.5 7-7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
   );
 }
 
-function ShowChip({ children }: { children: React.ReactNode }) {
+function ChannelPill({ children, dark }: { children: React.ReactNode; dark?: boolean }) {
   return (
-    <div className="border border-border-light bg-white px-2 py-2.5 text-center text-[0.6rem] font-bold uppercase tracking-[0.18em] text-text-body">
+    <span
+      className={`rounded-full border px-3 py-1 text-[0.7rem] font-medium ${
+        dark ? "border-white/20 text-white/75" : "border-border-light text-text-muted"
+      }`}
+    >
       {children}
-    </div>
+    </span>
   );
 }
 
-function Placeholder({
-  variant,
-  label,
-  caption,
+function SlideMedia({
+  youtubeId,
+  imageSrc,
+  imageAlt,
 }: {
-  variant: "image" | "video" | "3d";
-  label: string;
-  caption: string;
+  youtubeId?: string;
+  imageSrc?: string;
+  imageAlt: string;
 }) {
+  if (youtubeId) {
+    return (
+      <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-bg-dark shadow-sm">
+        <iframe
+          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&modestbranding=1&playsinline=1&rel=0`}
+          className="pointer-events-none absolute inset-0 h-full w-full"
+          allow="autoplay; encrypted-media"
+          tabIndex={-1}
+          title={imageAlt}
+        />
+      </div>
+    );
+  }
   return (
-    <div className="flex min-h-[360px] flex-col items-center justify-center gap-3 border border-dashed border-border-light bg-white/60 px-6 py-12 text-center">
-      {variant === "image" && (
-        <div className="relative h-12 w-16 bg-accent">
-          <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-bg-light" aria-hidden />
-        </div>
-      )}
-      {variant === "video" && (
-        <div
-          aria-hidden
-          className="h-0 w-0"
-          style={{
-            borderLeft: "32px solid var(--accent)",
-            borderTop: "20px solid transparent",
-            borderBottom: "20px solid transparent",
-          }}
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
+      {imageSrc && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover"
         />
       )}
-      {variant === "3d" && (
-        <div className="relative h-14 w-14">
-          <span className="absolute right-0 top-0 h-10 w-10 bg-accent" aria-hidden />
-          <span className="absolute bottom-0 left-0 h-10 w-10 bg-accent-secondary" aria-hidden />
-        </div>
-      )}
-      <span className="mt-2 text-[0.7rem] font-bold uppercase tracking-[0.25em] text-text-dark">
-        {label}
-      </span>
-      <span className="max-w-[28ch] text-xs italic text-text-muted">{caption}</span>
     </div>
   );
 }
@@ -313,34 +344,37 @@ function ServiceShow({
   title,
   positioning,
   chips,
-  placeholder,
+  imageSrc,
+  imageAlt,
+  youtubeId,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   positioning: string;
   chips: string[];
-  placeholder: { variant: "image" | "video" | "3d"; label: string; caption: string };
+  imageSrc: string;
+  imageAlt: string;
+  youtubeId?: string;
 }) {
   return (
     <SlideShell>
-      <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+      <div className="grid items-center gap-10 lg:grid-cols-[5fr_6fr] lg:gap-14">
         <div>
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="font-heading text-[clamp(2.25rem,4.5vw,3.6rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+          <h1 className="font-heading text-[clamp(2.25rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
             {title}
           </h1>
-          <AccentRule />
-          <p className="lead-text mt-2 max-w-[32ch] text-text-body">{positioning}</p>
-          <p className="mt-8 text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
+          <p className="lead-text mt-6 max-w-[34ch] text-text-body">{positioning}</p>
+          <p className="mt-8 text-[0.65rem] font-bold uppercase tracking-[0.28em] text-accent">
             Where it lives
           </p>
-          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <div className="mt-3 flex flex-wrap gap-2">
             {chips.map((c) => (
-              <ShowChip key={c}>{c}</ShowChip>
+              <ChannelPill key={c}>{c}</ChannelPill>
             ))}
           </div>
         </div>
-        <Placeholder {...placeholder} />
+        <SlideMedia youtubeId={youtubeId} imageSrc={imageSrc} imageAlt={imageAlt} />
       </div>
     </SlideShell>
   );
@@ -364,19 +398,19 @@ function ServiceDetails({
   return (
     <SlideShell>
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="font-heading text-[clamp(1.8rem,3.6vw,2.8rem)] font-medium leading-[1.1] tracking-tight text-text-dark">
+      <h2 className="font-heading text-[clamp(1.75rem,3.4vw,2.6rem)] font-medium leading-[1.12] tracking-tight text-text-dark">
         {title}
       </h2>
-      <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-14">
+      <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-14">
         <div>
           <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
             What&apos;s included
           </h4>
-          <ul className="mt-5 space-y-1">
+          <ul className="mt-5 space-y-3">
             {included.map((line) => (
-              <li key={line} className="relative pl-6 text-[0.95rem] leading-[1.55] text-text-body">
-                <span className="absolute left-0 top-3 h-px w-3.5 bg-accent" aria-hidden />
-                {line}
+              <li key={line} className="flex items-start gap-3 text-[0.95rem] text-text-body">
+                <CheckIcon />
+                <span>{line}</span>
               </li>
             ))}
           </ul>
@@ -385,20 +419,20 @@ function ServiceDetails({
           <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
             {usesHeading}
           </h4>
-          <ol className="mt-5 space-y-1 [counter-reset:step]">
-            {uses.map((line) => (
-              <li
-                key={line}
-                className="relative pl-12 text-[0.95rem] leading-[1.55] text-text-body [counter-increment:step] before:absolute before:left-0 before:top-2 before:font-bold before:text-accent before:content-[counter(step,decimal-leading-zero)]"
-              >
-                {line}
+          <ol className="mt-5 space-y-3">
+            {uses.map((line, i) => (
+              <li key={line} className="flex items-start gap-3 text-[0.95rem] text-text-body">
+                <span className="mt-0.5 w-7 flex-shrink-0 font-mono text-[10px] text-text-muted">
+                  {pad(i + 1)}
+                </span>
+                <span>{line}</span>
               </li>
             ))}
           </ol>
         </div>
       </div>
       {statBand && (
-        <div className="mt-10 flex flex-col gap-2 bg-bg-dark px-6 py-4 text-text-light sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-2 rounded-xl bg-bg-dark px-6 py-5 text-text-light sm:flex-row sm:items-center sm:justify-between">
           <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-accent-dark-hover">
             {statBand.label}
           </span>
@@ -414,28 +448,43 @@ function SiloDivider({
   title,
   lede,
   services,
+  imageSrc,
+  imageAlt,
 }: {
   number: string;
   title: string;
   lede: string;
   services: { tag: string; name: string }[];
+  imageSrc: string;
+  imageAlt: string;
 }) {
   return (
-    <SlideShell accentBar>
-      <Eyebrow>{`Silo ${number}`}</Eyebrow>
-      <h1 className="font-heading text-[clamp(3rem,8vw,5.5rem)] font-semibold leading-[1.02] tracking-tight text-text-dark">
-        {title}
-      </h1>
-      <AccentRule />
-      <p className="lead-text max-w-[55ch] text-text-body">{lede}</p>
-      <div className="mt-12 flex flex-col gap-8 sm:flex-row sm:gap-12">
-        {services.map((s) => (
-          <div key={s.name} className="relative pt-5">
-            <span className="absolute left-0 top-0 block h-[3px] w-8 bg-accent" aria-hidden />
-            <p className="text-[0.65rem] font-bold uppercase tracking-[0.28em] text-accent">{s.tag}</p>
-            <p className="mt-1.5 font-heading text-2xl font-medium text-text-dark">{s.name}</p>
-          </div>
-        ))}
+    <SlideShell>
+      <div className="grid items-center gap-10 lg:grid-cols-[5fr_6fr] lg:gap-14">
+        <div>
+          <Eyebrow>{`Silo ${number}`}</Eyebrow>
+          <h1 className="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-[1.02] tracking-tight text-text-dark">
+            {title}
+          </h1>
+          <p className="lead-text mt-6 max-w-[40ch] text-text-body">{lede}</p>
+          <ul className="mt-10 space-y-5">
+            {services.map((s) => (
+              <li key={s.name} className="flex items-baseline gap-4">
+                <span className="font-mono text-[10px] text-text-muted">{s.tag}</span>
+                <span className="font-heading text-2xl font-medium text-text-dark">{s.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
       </div>
     </SlideShell>
   );
@@ -447,15 +496,14 @@ function SiloDivider({
 
 function SlideCover() {
   return (
-    <SlideShell accentBar>
-      <Eyebrow>Capabilities Overview</Eyebrow>
-      <h1 className="font-heading text-[clamp(3rem,8vw,6rem)] font-semibold leading-[1.02] tracking-tight text-text-dark">
+    <SlideShell dark>
+      <Eyebrow dark>Capabilities Overview</Eyebrow>
+      <h1 className="font-heading text-[clamp(3rem,7vw,5.5rem)] font-semibold leading-[1.02] tracking-tight text-text-light">
         Marketing assets
         <br />
         that move homes.
       </h1>
-      <AccentRule />
-      <p className="lead-text max-w-[60ch] text-text-body">
+      <p className="lead-text mt-8 max-w-[60ch] text-text-light-muted">
         Trusted by homebuilders across 28 markets.
       </p>
     </SlideShell>
@@ -466,19 +514,19 @@ function SlideDifference() {
   return (
     <SlideShell>
       <Eyebrow>The DIG Difference</Eyebrow>
-      <h1 className="font-heading text-[clamp(2.5rem,5.5vw,4.5rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+      <h1 className="font-heading text-[clamp(2.25rem,4.6vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
         Stop creating content.
         <br />
-        Start building assets.
+        Start building <strong className="text-accent">assets</strong>.
       </h1>
       <p className="lead-text mt-8 max-w-[70ch] text-text-body">
         Most builder marketing teams invest in photography that lives in one place. DIG builds
         assets designed for website conversion, paid media, sales centers, email, and listing
         refreshes.
       </p>
-      <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+      <div className="mt-12 flex flex-wrap gap-3">
         {["Website", "Paid Media", "Sales Center", "Email", "Listing Refreshes"].map((c) => (
-          <ChannelChip key={c}>{c}</ChannelChip>
+          <ChannelPill key={c}>{c}</ChannelPill>
         ))}
       </div>
     </SlideShell>
@@ -491,22 +539,25 @@ function SlideSilosOverview() {
       tag: "01",
       name: "Model Homes",
       items: ["Premium Photography", "Video Content", "Matterport 3D"],
+      img: SITE.siloModel,
     },
     {
       tag: "02",
       name: "Listings",
       items: ["Listing Photography", "Virtual Video", "Virtual Staging"],
+      img: SITE.siloListings,
     },
     {
       tag: "03",
       name: "Community Content",
       items: ["Video Production", "Amenity Photography"],
+      img: SITE.siloCommunity,
     },
   ];
   return (
     <SlideShell>
       <Eyebrow>Full Range of Services</Eyebrow>
-      <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+      <h1 className="font-heading text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
         Everything your marketing team needs.
         <br />
         One platform to order it.
@@ -515,19 +566,29 @@ function SlideSilosOverview() {
         {silos.map((s) => (
           <div
             key={s.tag}
-            className="relative border border-border-light bg-white px-6 py-7"
+            className="overflow-hidden rounded-xl border border-border-light bg-bg-surface"
           >
-            <span className="absolute inset-x-0 top-0 h-1 bg-accent" aria-hidden />
-            <p className="text-[0.7rem] font-bold uppercase tracking-[0.28em] text-accent">{s.tag}</p>
-            <h3 className="mt-2 font-heading text-xl font-medium text-text-dark">{s.name}</h3>
-            <ul className="mt-5 space-y-1">
-              {s.items.map((line) => (
-                <li key={line} className="relative pl-5 text-sm text-text-body">
-                  <span className="absolute left-0 top-2.5 h-px w-3 bg-accent" aria-hidden />
-                  {line}
-                </li>
-              ))}
-            </ul>
+            <div className="relative aspect-[16/10] w-full overflow-hidden bg-bg-light">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={s.img}
+                alt={s.name}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </div>
+            <div className="px-6 py-5">
+              <span className="font-mono text-[10px] text-text-muted">{s.tag}</span>
+              <h3 className="mt-1 font-heading text-xl font-medium text-text-dark">{s.name}</h3>
+              <ul className="mt-3 space-y-1.5">
+                {s.items.map((line) => (
+                  <li key={line} className="flex items-center gap-2 text-sm text-text-body">
+                    <span className="h-px w-3 flex-shrink-0 bg-accent" aria-hidden />
+                    {line}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))}
       </div>
@@ -549,6 +610,8 @@ function SlideSilo1Divider() {
         { tag: "02", name: "Video Content" },
         { tag: "03", name: "Matterport 3D" },
       ]}
+      imageSrc={SITE.siloModel}
+      imageAlt="DIG model home photography"
     />
   );
 }
@@ -573,11 +636,8 @@ function SlidePremiumShow() {
         "Design Center",
         "Brand PR",
       ]}
-      placeholder={{
-        variant: "image",
-        label: "Premium Photography",
-        caption: "Sample work appears here",
-      }}
+      imageSrc={SITE.premium}
+      imageAlt="Premium model home photography"
     />
   );
 }
@@ -621,11 +681,9 @@ function SlideVideoContentShow() {
       }
       positioning="Cinematic walkthrough video for website hero, sales center displays, and digital ads."
       chips={["Website Hero", "Paid Social", "YouTube", "Sales Center", "Email", "Agent Kits"]}
-      placeholder={{
-        variant: "video",
-        label: "Model Home Video",
-        caption: "Sample work appears here",
-      }}
+      imageSrc={SITE.modelHomeHero}
+      imageAlt="Model home video still"
+      youtubeId={YT.videoContent || undefined}
     />
   );
 }
@@ -666,11 +724,8 @@ function SlideMatterportShow() {
       }
       positioning="Let buyers walk through before they visit. Immersive room-by-room navigation, captured on-site."
       chips={["Website Embed", "Sales Center", "Email", "Remote Buyers", "Agent Tool", "Open House"]}
-      placeholder={{
-        variant: "3d",
-        label: "Matterport Scan",
-        caption: "Sample 3D tour appears here",
-      }}
+      imageSrc={SITE.matterport}
+      imageAlt="Matterport 3D scan preview"
     />
   );
 }
@@ -712,6 +767,8 @@ function SlideSilo2Divider() {
         { tag: "02", name: "Virtual Video" },
         { tag: "03", name: "Virtual Staging" },
       ]}
+      imageSrc={SITE.siloListings}
+      imageAlt="Spec home listing"
     />
   );
 }
@@ -729,11 +786,8 @@ function SlideListingPhotoShow() {
       }
       positioning="Every listing, exceptional standards. Fast turnaround, consistent quality, built for sales velocity."
       chips={["MLS", "Website", "Paid Media", "Email", "Agent", "Brochures"]}
-      placeholder={{
-        variant: "image",
-        label: "Listing Photography",
-        caption: "Sample work appears here",
-      }}
+      imageSrc={SITE.listing}
+      imageAlt="Listing photography example"
     />
   );
 }
@@ -773,11 +827,9 @@ function SlideVirtualVideoShow() {
       }
       positioning="Beautiful videos for less. No shoot day, no scheduling, fast delivery through digDesk."
       chips={["MLS", "Website", "Paid Social", "Email", "Vertical", "Landscape"]}
-      placeholder={{
-        variant: "video",
-        label: "Virtual Video",
-        caption: "Sample video appears here",
-      }}
+      imageSrc={SITE.virtualVideoCover}
+      imageAlt="Virtual video preview"
+      youtubeId={YT.virtualVideo || undefined}
     />
   );
 }
@@ -807,23 +859,56 @@ function SlideVirtualVideoDetails() {
 
 function SlideVirtualStagingShow() {
   return (
-    <ServiceShow
-      eyebrow="Listings / Virtual Staging"
-      title={
-        <>
-          Virtual
-          <br />
-          Staging.
-        </>
-      }
-      positioning="ModelMatch staging that actually looks like your homes. Brand-matched, not generic furniture."
-      chips={["MLS", "Website", "Paid Media", "Email", "Agent Kits", "Brochures"]}
-      placeholder={{
-        variant: "image",
-        label: "Vacant to Staged",
-        caption: "Before and after pair appears here",
-      }}
-    />
+    <SlideShell>
+      <div className="grid items-center gap-10 lg:grid-cols-[5fr_6fr] lg:gap-14">
+        <div>
+          <Eyebrow>Listings / Virtual Staging</Eyebrow>
+          <h1 className="font-heading text-[clamp(2.25rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+            Virtual
+            <br />
+            Staging.
+          </h1>
+          <p className="lead-text mt-6 max-w-[34ch] text-text-body">
+            ModelMatch staging that actually looks like your homes. Brand-matched, not generic
+            furniture.
+          </p>
+          <p className="mt-8 text-[0.65rem] font-bold uppercase tracking-[0.28em] text-accent">
+            Where it lives
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {["MLS", "Website", "Paid Media", "Email", "Agent Kits", "Brochures"].map((c) => (
+              <ChannelPill key={c}>{c}</ChannelPill>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-bg-dark/80 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white">
+              Vacant
+            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={SITE.stagingVacant}
+              alt="Vacant living room"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-accent px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white">
+              Staged
+            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={SITE.stagingResult}
+              alt="ModelMatch virtually staged living room"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </SlideShell>
   );
 }
 
@@ -855,25 +940,33 @@ function SlideVirtualStagingDetails() {
 }
 
 function SlideSpecPlus() {
-  const stats = [
-    { num: "$600", label: "Flat Price", sub: "All home sizes. Same price every time." },
-    { num: "72", label: "Hours", sub: "Shoot to published assets." },
-    { num: "$220", label: "Saved", sub: "Vs. ordering services à la carte." },
-  ];
   return (
     <SlideShell>
       <Eyebrow>Best Value in Homebuilding</Eyebrow>
-      <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+      <h1 className="font-heading text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
         Photography. Virtual staging.
         <br />
-        Virtual video. One $600 order.
+        Virtual video. One <strong className="text-accent">$600</strong> order.
       </h1>
-      <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.2fr]">
+
+      <div className="mt-10 grid gap-8 lg:grid-cols-[5fr_6fr]">
+        {/* Inset photo */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={SITE.specPlus}
+            alt="Spec+ delivery"
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+
+        {/* Included list */}
         <div>
-          <p className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
+          <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
             What&apos;s included
-          </p>
-          <ul className="mt-5 space-y-1">
+          </h4>
+          <ul className="mt-5 space-y-3">
             {[
               "25 MLS-ready listing images",
               "8 ModelMatch virtually staged images",
@@ -881,27 +974,27 @@ function SlideSpecPlus() {
               "72-hour delivery after photography",
               "Ordered via digDesk",
             ].map((line) => (
-              <li key={line} className="relative pl-6 text-[0.95rem] text-text-body">
-                <span className="absolute left-0 top-3 h-px w-3.5 bg-accent" aria-hidden />
-                {line}
+              <li key={line} className="flex items-start gap-3 text-[0.95rem] text-text-body">
+                <CheckIcon />
+                <span>{line}</span>
               </li>
             ))}
           </ul>
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          {stats.map((s) => (
-            <div
-              key={s.label}
-              className="flex flex-col items-center gap-3 bg-bg-dark px-4 py-6 text-center"
-            >
-              <span className="font-heading text-3xl font-semibold tracking-tight text-accent-dark-hover">
-                {s.num}
-              </span>
-              <span className="block h-0.5 w-7 bg-accent" aria-hidden />
-              <span className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-text-light">
-                {s.label}
-              </span>
-              <span className="text-xs italic leading-snug text-text-light-muted">{s.sub}</span>
+      </div>
+
+      {/* Pricing band — mirrors the live /programs/spec-plus pricing strip */}
+      <div className="mt-10 rounded-xl border border-border-light bg-bg-surface px-6 py-6">
+        <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-4">
+          {[
+            { v: "$600", l: "Flat rate, all home sizes" },
+            { v: "72 hrs", l: "Delivery after photography" },
+            { v: "3", l: "Asset types in one order" },
+            { v: "$220", l: "Saved vs. à la carte" },
+          ].map((s) => (
+            <div key={s.l} className="flex flex-col items-start sm:items-center sm:text-center">
+              <span className="font-heading text-4xl font-semibold text-text-dark">{s.v}</span>
+              <span className="mt-1 text-sm text-text-muted">{s.l}</span>
             </div>
           ))}
         </div>
@@ -920,6 +1013,8 @@ function SlideSilo3Divider() {
         { tag: "01", name: "Video Production" },
         { tag: "02", name: "Amenity Photography" },
       ]}
+      imageSrc={SITE.siloCommunity}
+      imageAlt="Community amenity"
     />
   );
 }
@@ -937,11 +1032,9 @@ function SlideVideoProductionShow() {
       }
       positioning="Cinematic video that moves buyers to action. On-site crew, talent, and high-craft storytelling."
       chips={["Website Hero", "Paid Social", "YouTube", "Sales Center", "Email", "Brand PR"]}
-      placeholder={{
-        variant: "video",
-        label: "Community Video",
-        caption: "Sample video appears here",
-      }}
+      imageSrc={SITE.videoProduction}
+      imageAlt="Community video still"
+      youtubeId={YT.videoProduction || undefined}
     />
   );
 }
@@ -981,11 +1074,8 @@ function SlideAmenityShow() {
       }
       positioning="Amenities are the differentiator. Pool decks, clubhouses, fitness centers, and trails, photographed with model-home care."
       chips={["Website", "Paid Social", "Sales Center", "Agent Kits", "Email", "PR"]}
-      placeholder={{
-        variant: "image",
-        label: "Amenity Photography",
-        caption: "Sample work appears here",
-      }}
+      imageSrc={SITE.amenity}
+      imageAlt="Amenity photography"
     />
   );
 }
@@ -1022,28 +1112,39 @@ function SlideDigDesk() {
   return (
     <SlideShell>
       <Eyebrow>digDesk: available now</Eyebrow>
-      <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+      <h1 className="font-heading text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
         One portal for your
         <br />
         entire visual pipeline.
       </h1>
-      <p className="lead-text mt-6 max-w-[70ch] text-text-body">
-        Order every service, track every job, manage your ModelMatch brand library, and download
-        finished assets, all from a single dashboard. Built for lean homebuilder marketing teams.
-      </p>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {modules.map((m) => (
-          <div
-            key={m.num}
-            className="relative border border-border-light bg-white px-5 py-6"
-          >
-            <span className="absolute inset-x-0 top-0 h-1 bg-accent" aria-hidden />
-            <p className="font-heading text-2xl font-semibold text-accent">{m.num}</p>
-            <span className="mt-3 block h-0.5 w-6 bg-accent" aria-hidden />
-            <h3 className="mt-4 font-heading text-lg font-medium text-text-dark">{m.title}</h3>
-            <p className="mt-2 text-sm text-text-body">{m.body}</p>
-          </div>
-        ))}
+
+      <div className="mt-10 grid gap-8 lg:grid-cols-[6fr_5fr]">
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border-light bg-bg-surface shadow-sm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={SITE.digDesk}
+            alt="digDesk dashboard"
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover object-top"
+          />
+        </div>
+        <div>
+          <p className="lead-text text-text-body">
+            Order every service, track every job, manage your ModelMatch brand library, and download
+            finished assets, all from a single dashboard.
+          </p>
+          <ul className="mt-6 space-y-4">
+            {modules.map((m) => (
+              <li key={m.num} className="flex items-start gap-4">
+                <span className="font-mono text-[10px] text-text-muted">{m.num}</span>
+                <div>
+                  <h3 className="font-heading text-lg font-medium text-text-dark">{m.title}</h3>
+                  <p className="text-sm text-text-body">{m.body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </SlideShell>
   );
@@ -1051,20 +1152,20 @@ function SlideDigDesk() {
 
 function SlideMarkets() {
   return (
-    <SlideShell>
-      <Eyebrow>Our Markets</Eyebrow>
-      <h2 className="font-heading text-[clamp(1.8rem,4vw,3rem)] font-medium leading-[1.1] tracking-tight text-text-dark">
-        One standard across every market.
-      </h2>
-      <p className="lead-text mt-2 max-w-[70ch] text-text-body">
-        28 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara.
-      </p>
-      <div className="mt-6 flex-1 overflow-hidden border border-border-light bg-white">
-        <div className="h-full min-h-[360px]">
-          <RegionMap />
-        </div>
+    <div className="relative flex min-h-full flex-col bg-bg-light px-6 pb-24 pt-24 sm:px-12 sm:pt-28">
+      <div className="mx-auto flex w-full max-w-6xl flex-col">
+        <Eyebrow>Our Markets</Eyebrow>
+        <h2 className="font-heading text-[clamp(1.75rem,3.6vw,2.8rem)] font-medium leading-[1.1] tracking-tight text-text-dark">
+          One standard across every market.
+        </h2>
+        <p className="lead-text mt-2 max-w-[70ch] text-text-body">
+          28 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara.
+        </p>
       </div>
-    </SlideShell>
+      <div className="relative mx-auto mt-6 w-full max-w-6xl flex-1">
+        <RegionMap />
+      </div>
+    </div>
   );
 }
 
@@ -1072,25 +1173,35 @@ function SlideRegionalPartnership() {
   return (
     <SlideShell>
       <Eyebrow>For National and Regional Builders</Eyebrow>
-      <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+      <h1 className="font-heading text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
         Dedicated capacity.
         <br />
-        Volume pricing.
-        <br />
-        One account team.
+        Volume pricing. One account team.
       </h1>
-      <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-12">
-        <p className="text-[1.0625rem] leading-relaxed text-text-body">
-          For builders running multiple launches simultaneously, DIG&apos;s Regional Partnerships
-          program provides dedicated production capacity, volume pricing, and a single account team
-          across all four U.S. regions. Same process, same quality checks, same delivery standard in
-          every market.
-        </p>
-        <div className="bg-bg-dark p-8 text-text-light">
+
+      <div className="mt-10 grid items-stretch gap-8 lg:grid-cols-[6fr_5fr]">
+        <div className="space-y-5">
+          <p className="text-[1.0625rem] leading-relaxed text-text-body">
+            For builders running multiple launches simultaneously, DIG&apos;s Regional Partnerships
+            program provides dedicated production capacity, volume pricing, and a single account
+            team across all four U.S. regions. Same process, same quality checks, same delivery
+            standard in every market.
+          </p>
+          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={SITE.regional}
+              alt="Heron Bay clubhouse aerial"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
+        </div>
+        <div className="rounded-2xl bg-bg-dark p-8 text-text-light">
           <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent-dark-hover">
             What partnership unlocks
           </h4>
-          <ul className="mt-5 space-y-2">
+          <ul className="mt-6 space-y-4">
             {[
               "Reserved production capacity for launch windows",
               "Volume pricing across photography, staging, and video",
@@ -1099,10 +1210,13 @@ function SlideRegionalPartnership() {
             ].map((line) => (
               <li
                 key={line}
-                className="relative pl-6 text-[0.95rem] leading-[1.55] text-text-light-muted"
+                className="flex items-start gap-3 text-[0.95rem] text-text-light-muted"
               >
-                <span className="absolute left-0 top-3 h-px w-3.5 bg-accent" aria-hidden />
-                {line}
+                <span
+                  className="mt-1 h-5 w-5 flex-shrink-0 rounded-full bg-accent/15 ring-1 ring-accent/40"
+                  aria-hidden
+                />
+                <span>{line}</span>
               </li>
             ))}
           </ul>
@@ -1114,18 +1228,17 @@ function SlideRegionalPartnership() {
 
 function SlideCloser() {
   return (
-    <SlideShell dark accentBar>
+    <SlideShell dark>
       <Eyebrow dark>Ready?</Eyebrow>
-      <h1 className="font-heading text-[clamp(3rem,7.5vw,5.5rem)] font-semibold leading-[1.02] tracking-tight text-text-light">
+      <h1 className="font-heading text-[clamp(2.75rem,6vw,5rem)] font-semibold leading-[1.02] tracking-tight text-text-light">
         Let&apos;s build assets
         <br />
         that move homes.
       </h1>
-      <AccentRule dark />
-      <p className="lead-text mt-2 max-w-[60ch] text-text-light-muted">
+      <p className="lead-text mt-8 max-w-[60ch] text-text-light-muted">
         If your content isn&apos;t driving momentum, it&apos;s time to rethink the strategy.
       </p>
-      <div className="mt-10 flex flex-wrap items-center gap-6">
+      <div className="mt-10 flex flex-wrap items-center gap-3">
         <Link
           href="/contact"
           className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
@@ -1134,15 +1247,15 @@ function SlideCloser() {
         </Link>
         <Link
           href="/programs/spec-plus"
-          className="border-b border-accent pb-1 text-sm font-bold uppercase tracking-[0.22em] text-accent-dark-hover transition-colors hover:text-text-light"
+          className="rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-text-light/80 transition-colors hover:border-white/50 hover:text-text-light"
         >
-          Explore Spec+
+          Explore Spec+ &rarr;
         </Link>
         <Link
           href="/"
-          className="border-b border-accent pb-1 text-sm font-bold uppercase tracking-[0.22em] text-accent-dark-hover transition-colors hover:text-text-light"
+          className="rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-text-light/80 transition-colors hover:border-white/50 hover:text-text-light"
         >
-          daviesimaging.com
+          daviesimaging.com &rarr;
         </Link>
       </div>
     </SlideShell>
