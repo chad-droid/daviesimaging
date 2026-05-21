@@ -27,8 +27,23 @@ const SITE = {
   matterport: `${BLOB}/site-assets/04072026_200107.webp`,
   listing: `${BLOB}/site-assets/1775674604579-Indio-Hills-Lot-174-vacant-01-9kDK7wf6vjIsVqUd6Xe90TkQFzFcuG.jpg`,
   virtualVideoCover: `${BLOB}/site-assets/bolsena-plan-3366-web-2.webp`,
-  stagingVacant: `${BLOB}/site-assets/1775671026521-living-room-1424KirkhillLane-02a-jItfigI7QoAD9ucHry0F3taWJbe68d.jpg`,
-  stagingResult: `${BLOB}/site-assets/1775671035424-living-room-1424KirkhillLane-03-AZDTQiTFPd60vALdR7kjpXKUyEDQmW.jpg`,
+  modelMatch: {
+    living: {
+      reference: `${BLOB}/site-assets/1775671014519-living-room-1424KirkhillLane-02-bCdPPCGkj4wkvMzDGkyrWPFqPzUJ2v.jpg`,
+      vacant: `${BLOB}/site-assets/1775671026521-living-room-1424KirkhillLane-02a-jItfigI7QoAD9ucHry0F3taWJbe68d.jpg`,
+      result: `${BLOB}/site-assets/1775671035424-living-room-1424KirkhillLane-03-AZDTQiTFPd60vALdR7kjpXKUyEDQmW.jpg`,
+    },
+    dining: {
+      reference: `${BLOB}/site-assets/1775671472528-dining-area-1424KirkhillLane-08-qtXIcAsqumTCteo8uw4sh49kHdfpir.jpg`,
+      vacant: `${BLOB}/site-assets/1775671512626-dining-area-1424KirkhillLane-08a-RhtvXNzR1SnjD6wyUDE6NbKft9AJoX.jpg`,
+      result: `${BLOB}/site-assets/1775671530144-dining-area-1424KirkhillLane-08b-HFQ3jmjaC8HOoq3OjWl3tMLB5ARuEc.jpg`,
+    },
+    primary: {
+      reference: `${BLOB}/site-assets/1775671434628-main-bedroom-1424KirkhillLane-12-3QmSWZSZisA7V0ZVZEJ74VesqCdjEw.jpg`,
+      vacant: `${BLOB}/site-assets/1775671445384-main-bedroom-1424KirkhillLane-15-2Qijaj7oU59B5TFW3kAKBpYpWzpIuX.jpg`,
+      result: `${BLOB}/site-assets/1775671455693-main-bedroom-1424KirkhillLane-16-9M3DwbLY2RoF8SbPAYbVSUi8nyKhi4.jpg`,
+    },
+  },
   specPlus: `${BLOB}/site-assets/living-room-1424kirkhilllane-08.webp`,
   videoProduction: `${BLOB}/site-assets/screenshot-2026-04-07-at-7-55-33-pm.webp`,
   amenity: `${BLOB}/site-assets/regency_amenity_back-exterior_1.webp`,
@@ -391,17 +406,22 @@ function ServiceDetails({
   eyebrow: string;
   title: string;
   included: string[];
-  uses: string[];
+  uses?: string[];
   usesHeading?: string;
   statBand?: { label: string; value: string };
 }) {
+  const hasUses = uses && uses.length > 0;
   return (
     <SlideShell>
       <Eyebrow>{eyebrow}</Eyebrow>
       <h2 className="font-heading text-[clamp(1.75rem,3.4vw,2.6rem)] font-medium leading-[1.12] tracking-tight text-text-dark">
         {title}
       </h2>
-      <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-14">
+      <div
+        className={`mt-10 grid gap-10 lg:gap-14 ${
+          hasUses ? "lg:grid-cols-2" : "mx-auto max-w-3xl"
+        }`}
+      >
         <div>
           <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
             What&apos;s included
@@ -415,21 +435,23 @@ function ServiceDetails({
             ))}
           </ul>
         </div>
-        <div>
-          <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
-            {usesHeading}
-          </h4>
-          <ol className="mt-5 space-y-3">
-            {uses.map((line, i) => (
-              <li key={line} className="flex items-start gap-3 text-[0.95rem] text-text-body">
-                <span className="mt-0.5 w-7 flex-shrink-0 font-mono text-[10px] text-text-muted">
-                  {pad(i + 1)}
-                </span>
-                <span>{line}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+        {hasUses && (
+          <div>
+            <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
+              {usesHeading}
+            </h4>
+            <ol className="mt-5 space-y-3">
+              {uses!.map((line, i) => (
+                <li key={line} className="flex items-start gap-3 text-[0.95rem] text-text-body">
+                  <span className="mt-0.5 w-7 flex-shrink-0 font-mono text-[10px] text-text-muted">
+                    {pad(i + 1)}
+                  </span>
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
       </div>
       {statBand && (
         <div className="mt-10 flex flex-col gap-2 rounded-xl bg-bg-dark px-6 py-5 text-text-light sm:flex-row sm:items-center sm:justify-between">
@@ -654,16 +676,6 @@ function SlidePremiumDetails() {
         "Planned in advance, executed at launch",
         "Delivered as a complete publish-ready package",
       ]}
-      uses={[
-        "Model home photography for grand openings",
-        "Amenity photography across pools, clubhouses, and parks",
-        "Lifestyle photography with talent and styling",
-        "Regional rollouts coordinated across markets",
-      ]}
-      statBand={{
-        label: "One umbrella",
-        value: "Model, Amenity, and Lifestyle ordered separately, scoped per subject.",
-      }}
     />
   );
 }
@@ -858,56 +870,95 @@ function SlideVirtualVideoDetails() {
 }
 
 function SlideVirtualStagingShow() {
+  const rooms = [
+    { name: "Living Room", trio: SITE.modelMatch.living },
+    { name: "Dining Area", trio: SITE.modelMatch.dining },
+    { name: "Primary Bedroom", trio: SITE.modelMatch.primary },
+  ];
+  const steps: Array<{ key: "reference" | "vacant" | "result"; label: string; caption: string }> = [
+    {
+      key: "reference",
+      label: "01 / Reference",
+      caption: "A finished room from the builder's model home, used as the design source.",
+    },
+    {
+      key: "vacant",
+      label: "02 / Vacant Listing",
+      caption: "The empty inventory home, photographed on the listing shoot.",
+    },
+    {
+      key: "result",
+      label: "03 / Staged Result",
+      caption: "ModelMatch staging applied. Same brand, same palette, every time.",
+    },
+  ];
   return (
     <SlideShell>
-      <div className="grid items-center gap-10 lg:grid-cols-[5fr_6fr] lg:gap-14">
-        <div>
-          <Eyebrow>Listings / Virtual Staging</Eyebrow>
-          <h1 className="font-heading text-[clamp(2.25rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
-            Virtual
-            <br />
-            Staging.
-          </h1>
-          <p className="lead-text mt-6 max-w-[34ch] text-text-body">
-            ModelMatch staging that actually looks like your homes. Brand-matched, not generic
-            furniture.
-          </p>
-          <p className="mt-8 text-[0.65rem] font-bold uppercase tracking-[0.28em] text-accent">
-            Where it lives
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {["MLS", "Website", "Paid Media", "Email", "Agent Kits", "Brochures"].map((c) => (
-              <ChannelPill key={c}>{c}</ChannelPill>
+      <Eyebrow>Listings / Virtual Staging</Eyebrow>
+      <h1 className="font-heading text-[clamp(2rem,4vw,3.2rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+        ModelMatch: virtual staging that looks like{" "}
+        <strong className="text-accent">your homes</strong>.
+      </h1>
+      <p className="lead-text mt-4 max-w-[68ch] text-text-body">
+        Pick a model home reference, apply it to a vacant listing, deliver a brand-matched staged
+        result. Repeat for every room, every listing.
+      </p>
+
+      {/* Column headers describing the 3 steps */}
+      <div className="mt-8 hidden grid-cols-[80px_1fr_1fr_1fr] gap-3 lg:grid">
+        <span />
+        {steps.map((s) => (
+          <div key={s.key}>
+            <p className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-accent">
+              {s.label}
+            </p>
+            <p className="mt-1.5 text-xs leading-snug text-text-muted">{s.caption}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* 3 rooms, each row shows reference → vacant → result */}
+      <div className="mt-4 space-y-3">
+        {rooms.map((room) => (
+          <div
+            key={room.name}
+            className="grid grid-cols-1 gap-3 lg:grid-cols-[80px_1fr_1fr_1fr]"
+          >
+            <div className="flex items-center lg:justify-end">
+              <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-text-muted lg:text-right">
+                {room.name}
+              </span>
+            </div>
+            {steps.map((s) => (
+              <div
+                key={s.key}
+                className="relative aspect-[4/3] overflow-hidden rounded-xl bg-bg-surface shadow-sm"
+              >
+                <span
+                  className={`absolute left-2.5 top-2.5 z-10 rounded-full px-2.5 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.18em] lg:hidden ${
+                    s.key === "result"
+                      ? "bg-accent text-white"
+                      : "bg-bg-dark/80 text-white"
+                  }`}
+                >
+                  {s.label.split(" / ")[1]}
+                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={room.trio[s.key]}
+                  alt={`${room.name}: ${s.label}`}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
             ))}
           </div>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
-            <span className="absolute left-3 top-3 z-10 rounded-full bg-bg-dark/80 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white">
-              Vacant
-            </span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={SITE.stagingVacant}
-              alt="Vacant living room"
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          </div>
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
-            <span className="absolute left-3 top-3 z-10 rounded-full bg-accent px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white">
-              Staged
-            </span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={SITE.stagingResult}
-              alt="ModelMatch virtually staged living room"
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          </div>
-        </div>
+        ))}
       </div>
+
+      <p className="mt-6 text-sm italic text-text-muted">
+        Same reference. Different listings. Brand-consistent results across every community.
+      </p>
     </SlideShell>
   );
 }
@@ -1104,10 +1155,26 @@ function SlideAmenityDetails() {
 
 function SlideDigDesk() {
   const modules = [
-    { num: "01", title: "FrameFlow Studio", body: "Virtual staging, virtual video, Spec+ bundles." },
-    { num: "02", title: "Listing Photography", body: "Spec home and QMI photography orders." },
-    { num: "03", title: "Premium Photography", body: "Model home and lifestyle shoot projects." },
-    { num: "04", title: "ModelMatch Gallery", body: "Brand-reference image library." },
+    {
+      num: "01",
+      title: "FrameFlow Studio",
+      body: "Order virtual staging, virtual video for your existing listings.",
+    },
+    {
+      num: "02",
+      title: "Listing Photography",
+      body: "MLS photography and bundles for your spec homes.",
+    },
+    {
+      num: "03",
+      title: "Premium Photography",
+      body: "Model home and amenity photography.",
+    },
+    {
+      num: "04",
+      title: "ModelMatch Gallery",
+      body: "Brand-reference image library for virtual staging.",
+    },
   ];
   return (
     <SlideShell>
@@ -1152,8 +1219,8 @@ function SlideDigDesk() {
 
 function SlideMarkets() {
   return (
-    <div className="relative flex min-h-full flex-col bg-bg-light px-6 pb-24 pt-24 sm:px-12 sm:pt-28">
-      <div className="mx-auto flex w-full max-w-6xl flex-col">
+    <div className="relative flex min-h-full flex-col items-center justify-center bg-bg-light px-6 pb-24 pt-24 sm:px-12 sm:pt-28">
+      <div className="mx-auto w-full max-w-3xl">
         <Eyebrow>Our Markets</Eyebrow>
         <h2 className="font-heading text-[clamp(1.75rem,3.6vw,2.8rem)] font-medium leading-[1.1] tracking-tight text-text-dark">
           One standard across every market.
@@ -1161,9 +1228,9 @@ function SlideMarkets() {
         <p className="lead-text mt-2 max-w-[70ch] text-text-body">
           28 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara.
         </p>
-      </div>
-      <div className="relative mx-auto mt-6 w-full max-w-6xl flex-1">
-        <RegionMap />
+        <div className="relative mt-4 w-full">
+          <RegionMap />
+        </div>
       </div>
     </div>
   );
@@ -1238,26 +1305,6 @@ function SlideCloser() {
       <p className="lead-text mt-8 max-w-[60ch] text-text-light-muted">
         If your content isn&apos;t driving momentum, it&apos;s time to rethink the strategy.
       </p>
-      <div className="mt-10 flex flex-wrap items-center gap-3">
-        <Link
-          href="/contact"
-          className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
-        >
-          Book a Strategy Call
-        </Link>
-        <Link
-          href="/programs/spec-plus"
-          className="rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-text-light/80 transition-colors hover:border-white/50 hover:text-text-light"
-        >
-          Explore Spec+ &rarr;
-        </Link>
-        <Link
-          href="/"
-          className="rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-text-light/80 transition-colors hover:border-white/50 hover:text-text-light"
-        >
-          daviesimaging.com &rarr;
-        </Link>
-      </div>
     </SlideShell>
   );
 }
