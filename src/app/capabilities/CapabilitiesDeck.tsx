@@ -548,7 +548,7 @@ function SlideCover() {
       <img
         src="/dig-logo-light.png"
         alt="Davies Imaging Group"
-        className="mb-10 h-16 w-auto"
+        className="mb-10 h-16 w-auto self-start"
       />
       <Eyebrow dark>Capabilities Overview</Eyebrow>
       <h1 className="font-heading text-[clamp(3rem,7vw,5.5rem)] font-semibold leading-[1.02] tracking-tight text-text-light">
@@ -1348,7 +1348,7 @@ function SlideCloser() {
       <img
         src="/dig-logo-light.png"
         alt="Davies Imaging Group"
-        className="mb-10 h-16 w-auto"
+        className="mb-10 h-16 w-auto self-start"
       />
       <Eyebrow dark>Ready?</Eyebrow>
       <h1 className="font-heading text-[clamp(2.75rem,6vw,5rem)] font-semibold leading-[1.02] tracking-tight text-text-light">
