@@ -14,8 +14,8 @@ import { RegionMap } from "@/components/RegionMap";
  *
  * Editing tips:
  *  - Swap photos by editing the SITE entries below.
- *  - Drop in YouTube IDs for Video Content (slide 7) / Video Production (slide 20)
- *    by filling YT.videoContent / YT.videoProduction.
+ *  - Drop in YouTube IDs in the YT object to swap a hero image for a video.
+ *  - FULL_BLEED_SLIDES (below) controls which slides paint chrome over an image.
  */
 
 // ─── Media sources (pulled from daviesimaging.com /api/site-assets) ──────────
@@ -54,15 +54,28 @@ const SITE = {
   siloCommunity: `${BLOB}/site-assets/santa-rita-ranch-aerials-web-1.webp`,
 };
 
-// Fill these with YouTube IDs to swap the photo placeholder for a video embed.
-// virtualVideo → Perry Homes FrameFlow promo (verified in src/data/deals.json).
 const YT = {
-  videoContent: "I14Qvzlja34",    // Slide 7 — Model Home Video.
-  virtualVideo: "4MYlfUOAdOk",    // Slide 14 — Perry Homes FrameFlow promo.
-  videoProduction: "dFI--iFGkNU", // Slide 20 — Community Video.
+  videoContent: "I14Qvzlja34",    // Model Home Video.
+  virtualVideo: "4MYlfUOAdOk",    // Perry Homes FrameFlow promo.
+  videoProduction: "dFI--iFGkNU", // Community Video.
 };
 
-const TOTAL_SLIDES = 27;
+const TOTAL_SLIDES = 31;
+
+// 0-indexed slide positions that render edge-to-edge image/video. Chrome
+// switches to light-on-dark with gradient overlays so it stays legible.
+const FULL_BLEED_SLIDES = new Set<number>([
+  4,  // Premium Show
+  6,  // Video Content Show
+  8,  // Matterport Show
+  11, // Listing Show
+  13, // Virtual Video Show
+  16, // ModelMatch — Reference
+  17, // ModelMatch — Vacant
+  18, // ModelMatch — Staged Result
+  23, // Video Production Show
+  25, // Amenity Show
+]);
 
 function pad(n: number): string {
   return String(n).padStart(2, "0");
@@ -143,22 +156,41 @@ export function CapabilitiesDeck() {
   }, []);
 
   const slideIsDark = current === 0 || current === TOTAL_SLIDES - 1;
+  const slideIsFullBleed = FULL_BLEED_SLIDES.has(current);
+  // Chrome treats full-bleed slides like dark slides (white text, white-on-dark borders).
+  const chromeOnDark = slideIsDark || slideIsFullBleed;
   const progressPct = ((current + 1) / TOTAL_SLIDES) * 100;
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-bg-light text-text-body">
+      {/* Chrome legibility gradients on full-bleed slides */}
+      {slideIsFullBleed && (
+        <>
+          <div
+            className="pointer-events-none fixed inset-x-0 top-0 z-[18] h-28"
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0))" }}
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none fixed inset-x-0 bottom-0 z-[18] h-28"
+            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0))" }}
+            aria-hidden
+          />
+        </>
+      )}
+
       {/* Top chrome */}
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 sm:px-10">
         <span
           className={`text-[0.65rem] font-bold uppercase tracking-[0.4em] transition-colors ${
-            slideIsDark ? "text-white/70" : "text-text-dark"
+            chromeOnDark ? "text-white/85" : "text-text-dark"
           }`}
         >
           Davies Imaging Group
         </span>
         <span
           className={`text-[0.65rem] font-medium uppercase tracking-[0.25em] tabular-nums transition-colors ${
-            slideIsDark ? "text-white/45" : "text-text-muted"
+            chromeOnDark ? "text-white/60" : "text-text-muted"
           }`}
         >
           {pad(current + 1)} / {pad(TOTAL_SLIDES)}
@@ -166,7 +198,7 @@ export function CapabilitiesDeck() {
       </header>
       <div
         className={`pointer-events-none fixed inset-x-6 top-[3.2rem] z-[19] h-px transition-colors sm:inset-x-10 ${
-          slideIsDark ? "bg-white/10" : "bg-border-light"
+          chromeOnDark ? "bg-white/20" : "bg-border-light"
         }`}
       />
 
@@ -191,7 +223,7 @@ export function CapabilitiesDeck() {
       {/* Bottom chrome */}
       <footer
         className={`fixed inset-x-0 bottom-0 z-20 flex items-center gap-4 px-6 py-4 sm:px-10 ${
-          slideIsDark ? "text-white" : "text-text-body"
+          chromeOnDark ? "text-white" : "text-text-body"
         }`}
       >
         <button
@@ -199,8 +231,8 @@ export function CapabilitiesDeck() {
           onClick={() => show(current - 1)}
           disabled={current === 0}
           className={`rounded-full border px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
-            slideIsDark
-              ? "border-white/20 text-white/80 enabled:hover:border-accent-dark-hover enabled:hover:text-accent-dark-hover"
+            chromeOnDark
+              ? "border-white/30 text-white/90 enabled:hover:border-accent-dark-hover enabled:hover:text-accent-dark-hover"
               : "border-border-light text-text-body enabled:hover:border-accent enabled:hover:text-accent"
           }`}
           aria-label="Previous slide"
@@ -209,7 +241,7 @@ export function CapabilitiesDeck() {
         </button>
         <div
           className={`relative h-px flex-1 overflow-hidden ${
-            slideIsDark ? "bg-white/15" : "bg-border-light"
+            chromeOnDark ? "bg-white/25" : "bg-border-light"
           }`}
         >
           <div
@@ -222,8 +254,8 @@ export function CapabilitiesDeck() {
           onClick={() => show(current + 1)}
           disabled={current === TOTAL_SLIDES - 1}
           className={`rounded-full border px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
-            slideIsDark
-              ? "border-white/20 text-white/80 enabled:hover:border-accent-dark-hover enabled:hover:text-accent-dark-hover"
+            chromeOnDark
+              ? "border-white/30 text-white/90 enabled:hover:border-accent-dark-hover enabled:hover:text-accent-dark-hover"
               : "border-border-light text-text-body enabled:hover:border-accent enabled:hover:text-accent"
           }`}
           aria-label="Next slide"
@@ -233,7 +265,7 @@ export function CapabilitiesDeck() {
         <Link
           href="/"
           className={`ml-2 hidden text-[0.65rem] font-medium uppercase tracking-[0.2em] transition-colors sm:inline-flex ${
-            slideIsDark ? "text-white/40 hover:text-white" : "text-text-muted hover:text-accent"
+            chromeOnDark ? "text-white/55 hover:text-white" : "text-text-muted hover:text-accent"
           }`}
         >
           daviesimaging.com
@@ -256,18 +288,15 @@ export function CapabilitiesDeck() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Reusable building blocks (styled to mirror /services and /programs pages)
+// Reusable building blocks
 // ─────────────────────────────────────────────────────────────────────────────
 
 function SlideShell({
   children,
   dark,
-  full,
 }: {
   children: React.ReactNode;
   dark?: boolean;
-  /** Render edge-to-edge with no centered max-width wrapper. */
-  full?: boolean;
 }) {
   return (
     <div
@@ -276,22 +305,16 @@ function SlideShell({
       }`}
     >
       {dark && <DarkSectionBg glowIntensity={14} />}
-      <div
-        className={`relative z-[1] flex min-h-[calc(100vh-12rem)] flex-col justify-center ${
-          full ? "" : "mx-auto max-w-6xl"
-        }`}
-      >
+      <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
         {children}
       </div>
     </div>
   );
 }
 
-function CheckIcon({ className = "" }: { className?: string }) {
+function CheckIcon() {
   return (
-    <span
-      className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10 ${className}`}
-    >
+    <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
       <svg
         viewBox="0 0 16 16"
         className="h-3 w-3 text-accent"
@@ -317,81 +340,92 @@ function ChannelPill({ children, dark }: { children: React.ReactNode; dark?: boo
   );
 }
 
-function SlideMedia({
-  youtubeId,
+/**
+ * FullBleedShow — image or YouTube fills the slide; text sits over a
+ * bottom-left dark gradient. Used for service "show" slides and the
+ * ModelMatch process steps.
+ */
+function FullBleedShow({
+  eyebrow,
+  title,
+  lede,
   imageSrc,
   imageAlt,
+  youtubeId,
+  badge,
+  objectPosition = "center",
 }: {
-  youtubeId?: string;
-  imageSrc?: string;
+  eyebrow: string;
+  title: React.ReactNode;
+  lede?: string;
+  imageSrc: string;
   imageAlt: string;
+  youtubeId?: string;
+  /** Small floating callout in top-right. */
+  badge?: { label: string; sublabel?: string };
+  objectPosition?: string;
 }) {
-  if (youtubeId) {
-    return (
-      <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-bg-dark shadow-sm">
+  return (
+    <div className="relative h-screen w-screen overflow-hidden bg-bg-dark text-text-light">
+      {/* Media layer */}
+      {youtubeId ? (
         <iframe
           src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&modestbranding=1&playsinline=1&rel=0`}
-          className="pointer-events-none absolute inset-0 h-full w-full"
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          style={{ width: "177.78vh", height: "56.25vw", minWidth: "100vw", minHeight: "100vh" }}
           allow="autoplay; encrypted-media"
           tabIndex={-1}
           title={imageAlt}
         />
-      </div>
-    );
-  }
-  return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
-      {imageSrc && (
+      ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={imageSrc}
           alt={imageAlt}
-          loading="lazy"
           className="absolute inset-0 h-full w-full object-cover"
+          style={{ objectPosition }}
         />
       )}
-    </div>
-  );
-}
 
-function ServiceShow({
-  eyebrow,
-  title,
-  positioning,
-  chips,
-  imageSrc,
-  imageAlt,
-  youtubeId,
-}: {
-  eyebrow: string;
-  title: React.ReactNode;
-  positioning: string;
-  chips: string[];
-  imageSrc: string;
-  imageAlt: string;
-  youtubeId?: string;
-}) {
-  return (
-    <SlideShell>
-      <div className="grid items-center gap-10 lg:grid-cols-[5fr_6fr] lg:gap-14">
-        <div>
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="font-heading text-[clamp(2.25rem,4.2vw,3.5rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+      {/* Bottom-left gradient anchoring text */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0) 100%)",
+        }}
+        aria-hidden
+      />
+
+      {/* Text block */}
+      <div className="absolute inset-x-0 bottom-24 px-6 sm:bottom-28 sm:px-12">
+        <div className="mx-auto max-w-6xl">
+          <Eyebrow dark>{eyebrow}</Eyebrow>
+          <h1 className="font-heading text-[clamp(2.5rem,5vw,4rem)] font-semibold leading-[1.04] tracking-tight text-text-light">
             {title}
           </h1>
-          <p className="lead-text mt-6 max-w-[34ch] text-text-body">{positioning}</p>
-          <p className="mt-8 text-[0.65rem] font-bold uppercase tracking-[0.28em] text-accent">
-            Where it lives
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {chips.map((c) => (
-              <ChannelPill key={c}>{c}</ChannelPill>
-            ))}
+          {lede && (
+            <p className="lead-text mt-4 max-w-[55ch] text-white/80">{lede}</p>
+          )}
+        </div>
+      </div>
+
+      {/* Optional top-right badge */}
+      {badge && (
+        <div className="absolute right-6 top-24 sm:right-12 sm:top-28">
+          <div className="flex flex-col items-end rounded-2xl bg-accent px-5 py-3 text-right shadow-lg">
+            <span className="font-heading text-2xl font-semibold leading-none text-white">
+              {badge.label}
+            </span>
+            {badge.sublabel && (
+              <span className="mt-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/80">
+                {badge.sublabel}
+              </span>
+            )}
           </div>
         </div>
-        <SlideMedia youtubeId={youtubeId} imageSrc={imageSrc} imageAlt={imageAlt} />
-      </div>
-    </SlideShell>
+      )}
+    </div>
   );
 }
 
@@ -401,14 +435,12 @@ function ServiceDetails({
   included,
   uses,
   usesHeading = "Use cases",
-  statBand,
 }: {
   eyebrow: string;
   title: string;
   included: string[];
   uses?: string[];
   usesHeading?: string;
-  statBand?: { label: string; value: string };
 }) {
   const hasUses = uses && uses.length > 0;
   return (
@@ -453,14 +485,6 @@ function ServiceDetails({
           </div>
         )}
       </div>
-      {statBand && (
-        <div className="mt-10 flex flex-col gap-2 rounded-xl bg-bg-dark px-6 py-5 text-text-light sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-accent-dark-hover">
-            {statBand.label}
-          </span>
-          <span className="text-sm text-text-light-muted">{statBand.value}</span>
-        </div>
-      )}
     </SlideShell>
   );
 }
@@ -513,9 +537,10 @@ function SiloDivider({
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Individual slides (27)
+// Individual slides (31)
 // ─────────────────────────────────────────────────────────────────────────────
 
+// 0
 function SlideCover() {
   return (
     <SlideShell dark>
@@ -532,6 +557,7 @@ function SlideCover() {
   );
 }
 
+// 1
 function SlideDifference() {
   return (
     <SlideShell>
@@ -555,6 +581,7 @@ function SlideDifference() {
   );
 }
 
+// 2
 function SlideSilosOverview() {
   const silos = [
     {
@@ -621,6 +648,7 @@ function SlideSilosOverview() {
   );
 }
 
+// 3
 function SlideSilo1Divider() {
   return (
     <SiloDivider
@@ -638,32 +666,20 @@ function SlideSilo1Divider() {
   );
 }
 
+// 4
 function SlidePremiumShow() {
   return (
-    <ServiceShow
+    <FullBleedShow
       eyebrow="Model Homes / Premium Photography"
-      title={
-        <>
-          Premium
-          <br />
-          Photography.
-        </>
-      }
-      positioning="DIG's signature service. Precise, methodical, architectural photography for the homes that matter most."
-      chips={[
-        "Website Hero",
-        "Sales Center",
-        "Agent Kits",
-        "Launch Campaign",
-        "Design Center",
-        "Brand PR",
-      ]}
+      title="Premium Photography."
+      lede="DIG's signature service. Precise, methodical, architectural photography for the homes that matter most."
       imageSrc={SITE.premium}
       imageAlt="Premium model home photography"
     />
   );
 }
 
+// 5
 function SlidePremiumDetails() {
   return (
     <ServiceDetails
@@ -680,26 +696,21 @@ function SlidePremiumDetails() {
   );
 }
 
+// 6
 function SlideVideoContentShow() {
   return (
-    <ServiceShow
+    <FullBleedShow
       eyebrow="Model Homes / Video Content"
-      title={
-        <>
-          Video
-          <br />
-          Content.
-        </>
-      }
-      positioning="Cinematic walkthrough video for website hero, sales center displays, and digital ads."
-      chips={["Website Hero", "Paid Social", "YouTube", "Sales Center", "Email", "Agent Kits"]}
+      title="Video Content."
+      lede="Cinematic walkthrough video for website hero, sales center displays, and digital ads."
       imageSrc={SITE.modelHomeHero}
-      imageAlt="Model home video still"
+      imageAlt="Model home video"
       youtubeId={YT.videoContent || undefined}
     />
   );
 }
 
+// 7
 function SlideVideoContentDetails() {
   return (
     <ServiceDetails
@@ -723,25 +734,20 @@ function SlideVideoContentDetails() {
   );
 }
 
+// 8
 function SlideMatterportShow() {
   return (
-    <ServiceShow
+    <FullBleedShow
       eyebrow="Model Homes / Matterport 3D"
-      title={
-        <>
-          Matterport
-          <br />
-          3D Tours.
-        </>
-      }
-      positioning="Let buyers walk through before they visit. Immersive room-by-room navigation, captured on-site."
-      chips={["Website Embed", "Sales Center", "Email", "Remote Buyers", "Agent Tool", "Open House"]}
+      title="Matterport 3D Tours."
+      lede="Let buyers walk through before they visit. Immersive room-by-room navigation, captured on-site."
       imageSrc={SITE.matterport}
       imageAlt="Matterport 3D scan preview"
     />
   );
 }
 
+// 9
 function SlideMatterportDetails() {
   return (
     <ServiceDetails
@@ -760,14 +766,11 @@ function SlideMatterportDetails() {
         "Remote-buyer tool for relocation markets",
         "Email and digital campaign driver",
       ]}
-      statBand={{
-        label: "Custom quoted",
-        value: "Priced by property size. Start with a strategy call.",
-      }}
     />
   );
 }
 
+// 10
 function SlideSilo2Divider() {
   return (
     <SiloDivider
@@ -785,25 +788,20 @@ function SlideSilo2Divider() {
   );
 }
 
+// 11
 function SlideListingPhotoShow() {
   return (
-    <ServiceShow
+    <FullBleedShow
       eyebrow="Listings / Listing Photography"
-      title={
-        <>
-          Listing
-          <br />
-          Photography.
-        </>
-      }
-      positioning="Every listing, exceptional standards. Fast turnaround, consistent quality, built for sales velocity."
-      chips={["MLS", "Website", "Paid Media", "Email", "Agent", "Brochures"]}
+      title="Listing Photography."
+      lede="Every listing, exceptional standards. Fast turnaround, consistent quality, built for sales velocity."
       imageSrc={SITE.listing}
       imageAlt="Listing photography example"
     />
   );
 }
 
+// 12
 function SlideListingPhotoDetails() {
   return (
     <ServiceDetails
@@ -826,19 +824,13 @@ function SlideListingPhotoDetails() {
   );
 }
 
+// 13
 function SlideVirtualVideoShow() {
   return (
-    <ServiceShow
+    <FullBleedShow
       eyebrow="Listings / Virtual Video"
-      title={
-        <>
-          Virtual
-          <br />
-          Video.
-        </>
-      }
-      positioning="Beautiful videos for less. No shoot day, no scheduling, fast delivery through digDesk."
-      chips={["MLS", "Website", "Paid Social", "Email", "Vertical", "Landscape"]}
+      title="Virtual Video."
+      lede="Beautiful videos for less. No shoot day, no scheduling, fast delivery through digDesk."
       imageSrc={SITE.virtualVideoCover}
       imageAlt="Virtual video preview"
       youtubeId={YT.virtualVideo || undefined}
@@ -846,6 +838,7 @@ function SlideVirtualVideoShow() {
   );
 }
 
+// 14
 function SlideVirtualVideoDetails() {
   return (
     <ServiceDetails
@@ -869,106 +862,165 @@ function SlideVirtualVideoDetails() {
   );
 }
 
-function SlideVirtualStagingShow() {
-  const rooms = [
-    { name: "Living Room", trio: SITE.modelMatch.living },
-    { name: "Dining Area", trio: SITE.modelMatch.dining },
-    { name: "Primary Bedroom", trio: SITE.modelMatch.primary },
-  ];
-  const steps: Array<{ key: "reference" | "vacant" | "result"; label: string; caption: string }> = [
+// 15 — ModelMatch Intro
+function SlideModelMatchIntro() {
+  return (
+    <SlideShell>
+      <Eyebrow>Listings / Virtual Staging</Eyebrow>
+      <h1 className="font-heading text-[clamp(2.25rem,4.6vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
+        ModelMatch: virtual staging that looks like{" "}
+        <strong className="text-accent">your homes</strong>.
+      </h1>
+      <p className="lead-text mt-8 max-w-[70ch] text-text-body">
+        Generic staging libraries don&apos;t match your brand. ModelMatch does. We pull design
+        references from your model homes, then apply them to vacant listings so every staged image
+        feels on-brand.
+      </p>
+
+      <div className="mt-12 grid gap-5 md:grid-cols-3">
+        {[
+          {
+            num: "01",
+            title: "Pick a Reference",
+            body: "A finished room from a builder's model home becomes the design source.",
+          },
+          {
+            num: "02",
+            title: "Photograph the Listing",
+            body: "DIG captures the vacant inventory on your listing shoot.",
+          },
+          {
+            num: "03",
+            title: "Deliver the Result",
+            body: "ModelMatch staging applied. Same brand, every time. $25 per image.",
+          },
+        ].map((step) => (
+          <div
+            key={step.num}
+            className="rounded-xl border border-border-light bg-bg-surface p-6"
+          >
+            <span className="font-mono text-[10px] text-text-muted">{step.num}</span>
+            <h3 className="mt-2 font-heading text-xl font-medium text-text-dark">{step.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-text-body">{step.body}</p>
+          </div>
+        ))}
+      </div>
+    </SlideShell>
+  );
+}
+
+// 16 — ModelMatch Reference (full-bleed)
+function SlideModelMatchReference() {
+  return (
+    <FullBleedShow
+      eyebrow="ModelMatch / Step 01"
+      title="The Reference."
+      lede="A finished room from the builder's model home. This becomes the design source ModelMatch uses on every future listing."
+      imageSrc={SITE.modelMatch.living.reference}
+      imageAlt="Model home reference photograph"
+    />
+  );
+}
+
+// 17 — ModelMatch Vacant (full-bleed)
+function SlideModelMatchVacant() {
+  return (
+    <FullBleedShow
+      eyebrow="ModelMatch / Step 02"
+      title="The Vacant Listing."
+      lede="The empty inventory home, photographed on the listing shoot. This is what buyers see today."
+      imageSrc={SITE.modelMatch.living.vacant}
+      imageAlt="Vacant listing photograph"
+    />
+  );
+}
+
+// 18 — ModelMatch Result (full-bleed + price badge)
+function SlideModelMatchResult() {
+  return (
+    <FullBleedShow
+      eyebrow="ModelMatch / Step 03"
+      title="The Staged Result."
+      lede="ModelMatch staging applied. Same reference, same brand, same palette, every time."
+      imageSrc={SITE.modelMatch.living.result}
+      imageAlt="ModelMatch virtually staged result"
+      badge={{ label: "$25", sublabel: "per staged image" }}
+    />
+  );
+}
+
+// 19 — ModelMatch More Examples
+function SlideModelMatchExamples() {
+  const pairs = [
     {
-      key: "reference",
-      label: "01 / Reference",
-      caption: "A finished room from the builder's model home, used as the design source.",
+      name: "Dining Area",
+      before: SITE.modelMatch.dining.vacant,
+      after: SITE.modelMatch.dining.result,
     },
     {
-      key: "vacant",
-      label: "02 / Vacant Listing",
-      caption: "The empty inventory home, photographed on the listing shoot.",
-    },
-    {
-      key: "result",
-      label: "03 / Staged Result",
-      caption: "ModelMatch staging applied. Same brand, same palette, every time.",
+      name: "Primary Bedroom",
+      before: SITE.modelMatch.primary.vacant,
+      after: SITE.modelMatch.primary.result,
     },
   ];
   return (
     <SlideShell>
       <Eyebrow>Listings / Virtual Staging</Eyebrow>
-      <h1 className="font-heading text-[clamp(2rem,4vw,3.2rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
-        ModelMatch: virtual staging that looks like{" "}
-        <strong className="text-accent">your homes</strong>.
-      </h1>
-      <p className="lead-text mt-4 max-w-[68ch] text-text-body">
-        Pick a model home reference, apply it to a vacant listing, deliver a brand-matched staged
-        result. Repeat for every room, every listing.
+      <h2 className="font-heading text-[clamp(1.75rem,3.4vw,2.6rem)] font-medium leading-[1.1] tracking-tight text-text-dark">
+        Same reference. Different rooms.{" "}
+        <strong className="text-accent">Brand-consistent results</strong>.
+      </h2>
+      <p className="lead-text mt-3 max-w-[68ch] text-text-body">
+        The ModelMatch reference applies across every room in the listing.
       </p>
 
-      {/* Column headers describing the 3 steps */}
-      <div className="mt-8 hidden grid-cols-[80px_1fr_1fr_1fr] gap-3 lg:grid">
-        <span />
-        {steps.map((s) => (
-          <div key={s.key}>
-            <p className="text-[0.65rem] font-bold uppercase tracking-[0.25em] text-accent">
-              {s.label}
+      <div className="mt-10 space-y-6">
+        {pairs.map((p) => (
+          <div key={p.name}>
+            <p className="mb-3 text-[0.65rem] font-bold uppercase tracking-[0.25em] text-text-muted">
+              {p.name}
             </p>
-            <p className="mt-1.5 text-xs leading-snug text-text-muted">{s.caption}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* 3 rooms, each row shows reference → vacant → result */}
-      <div className="mt-4 space-y-3">
-        {rooms.map((room) => (
-          <div
-            key={room.name}
-            className="grid grid-cols-1 gap-3 lg:grid-cols-[80px_1fr_1fr_1fr]"
-          >
-            <div className="flex items-center lg:justify-end">
-              <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-text-muted lg:text-right">
-                {room.name}
-              </span>
-            </div>
-            {steps.map((s) => (
-              <div
-                key={s.key}
-                className="relative aspect-[4/3] overflow-hidden rounded-xl bg-bg-surface shadow-sm"
-              >
-                <span
-                  className={`absolute left-2.5 top-2.5 z-10 rounded-full px-2.5 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.18em] lg:hidden ${
-                    s.key === "result"
-                      ? "bg-accent text-white"
-                      : "bg-bg-dark/80 text-white"
-                  }`}
-                >
-                  {s.label.split(" / ")[1]}
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-bg-surface shadow-sm">
+                <span className="absolute left-3 top-3 z-10 rounded-full bg-bg-dark/80 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white">
+                  Vacant
                 </span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={room.trio[s.key]}
-                  alt={`${room.name}: ${s.label}`}
+                  src={p.before}
+                  alt={`${p.name}: vacant`}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
               </div>
-            ))}
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-bg-surface shadow-sm">
+                <span className="absolute left-3 top-3 z-10 rounded-full bg-accent px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white">
+                  Staged
+                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={p.after}
+                  alt={`${p.name}: ModelMatch staged`}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         ))}
       </div>
-
-      <p className="mt-6 text-sm italic text-text-muted">
-        Same reference. Different listings. Brand-consistent results across every community.
-      </p>
     </SlideShell>
   );
 }
 
-function SlideVirtualStagingDetails() {
+// 20 — ModelMatch Details
+function SlideModelMatchDetails() {
   return (
     <ServiceDetails
       eyebrow="Listings / Virtual Staging"
-      title="Virtual Staging (ModelMatch). Details."
+      title="ModelMatch. Details."
       included={[
+        "$25 per staged image, billed through digDesk",
         "Uses your model home photos as the design reference",
         "Brand-consistent results across every community",
         "Matches your design palette and material selections",
@@ -982,26 +1034,22 @@ function SlideVirtualStagingDetails() {
         "Select the gallery that matches the community",
         "Receive polished, on-brand results within 24 hours",
       ]}
-      statBand={{
-        label: "Proven impact",
-        value: "24-hour delivery. 81% faster buyer decisions on staged homes.",
-      }}
     />
   );
 }
 
+// 21 — Spec+
 function SlideSpecPlus() {
   return (
     <SlideShell>
-      <Eyebrow>Best Value in Homebuilding</Eyebrow>
+      <Eyebrow>Programs / Spec+</Eyebrow>
       <h1 className="font-heading text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
-        Photography. Virtual staging.
+        <strong className="text-accent">Spec+</strong>: photography, virtual staging,
         <br />
-        Virtual video. One <strong className="text-accent">$600</strong> order.
+        and virtual video. One $600 order.
       </h1>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[5fr_6fr]">
-        {/* Inset photo */}
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-bg-surface shadow-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -1012,7 +1060,6 @@ function SlideSpecPlus() {
           />
         </div>
 
-        {/* Included list */}
         <div>
           <h4 className="text-[0.65rem] font-bold uppercase tracking-[0.3em] text-accent">
             What&apos;s included
@@ -1034,7 +1081,6 @@ function SlideSpecPlus() {
         </div>
       </div>
 
-      {/* Pricing band — mirrors the live /programs/spec-plus pricing strip */}
       <div className="mt-10 rounded-xl border border-border-light bg-bg-surface px-6 py-6">
         <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-4">
           {[
@@ -1054,6 +1100,7 @@ function SlideSpecPlus() {
   );
 }
 
+// 22
 function SlideSilo3Divider() {
   return (
     <SiloDivider
@@ -1070,26 +1117,21 @@ function SlideSilo3Divider() {
   );
 }
 
+// 23
 function SlideVideoProductionShow() {
   return (
-    <ServiceShow
+    <FullBleedShow
       eyebrow="Community Content / Video Production"
-      title={
-        <>
-          Video
-          <br />
-          Production.
-        </>
-      }
-      positioning="Cinematic video that moves buyers to action. On-site crew, talent, and high-craft storytelling."
-      chips={["Website Hero", "Paid Social", "YouTube", "Sales Center", "Email", "Brand PR"]}
+      title="Video Production."
+      lede="Cinematic video that moves buyers to action. On-site crew, talent, and high-craft storytelling."
       imageSrc={SITE.videoProduction}
-      imageAlt="Community video still"
+      imageAlt="Community video"
       youtubeId={YT.videoProduction || undefined}
     />
   );
 }
 
+// 24
 function SlideVideoProductionDetails() {
   return (
     <ServiceDetails
@@ -1112,25 +1154,20 @@ function SlideVideoProductionDetails() {
   );
 }
 
+// 25
 function SlideAmenityShow() {
   return (
-    <ServiceShow
+    <FullBleedShow
       eyebrow="Community Content / Amenity Photography"
-      title={
-        <>
-          Amenity
-          <br />
-          Photography.
-        </>
-      }
-      positioning="Amenities are the differentiator. Pool decks, clubhouses, fitness centers, and trails, photographed with model-home care."
-      chips={["Website", "Paid Social", "Sales Center", "Agent Kits", "Email", "PR"]}
+      title="Amenity Photography."
+      lede="Amenities are the differentiator. Pool decks, clubhouses, fitness centers, and trails, photographed with model-home care."
       imageSrc={SITE.amenity}
       imageAlt="Amenity photography"
     />
   );
 }
 
+// 26
 function SlideAmenityDetails() {
   return (
     <ServiceDetails
@@ -1153,6 +1190,7 @@ function SlideAmenityDetails() {
   );
 }
 
+// 27
 function SlideDigDesk() {
   const modules = [
     {
@@ -1217,6 +1255,7 @@ function SlideDigDesk() {
   );
 }
 
+// 28
 function SlideMarkets() {
   return (
     <div className="relative flex min-h-full flex-col items-center justify-center bg-bg-light px-6 pb-24 pt-24 sm:px-12 sm:pt-28">
@@ -1236,6 +1275,7 @@ function SlideMarkets() {
   );
 }
 
+// 29
 function SlideRegionalPartnership() {
   return (
     <SlideShell>
@@ -1293,6 +1333,7 @@ function SlideRegionalPartnership() {
   );
 }
 
+// 30
 function SlideCloser() {
   return (
     <SlideShell dark>
@@ -1310,35 +1351,39 @@ function SlideCloser() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Ordered slide list
+// Ordered slide list (31 total)
 // ─────────────────────────────────────────────────────────────────────────────
 
 const slides: Array<() => React.ReactElement> = [
-  SlideCover,
-  SlideDifference,
-  SlideSilosOverview,
-  SlideSilo1Divider,
-  SlidePremiumShow,
-  SlidePremiumDetails,
-  SlideVideoContentShow,
-  SlideVideoContentDetails,
-  SlideMatterportShow,
-  SlideMatterportDetails,
-  SlideSilo2Divider,
-  SlideListingPhotoShow,
-  SlideListingPhotoDetails,
-  SlideVirtualVideoShow,
-  SlideVirtualVideoDetails,
-  SlideVirtualStagingShow,
-  SlideVirtualStagingDetails,
-  SlideSpecPlus,
-  SlideSilo3Divider,
-  SlideVideoProductionShow,
-  SlideVideoProductionDetails,
-  SlideAmenityShow,
-  SlideAmenityDetails,
-  SlideDigDesk,
-  SlideMarkets,
-  SlideRegionalPartnership,
-  SlideCloser,
+  SlideCover,                  // 0
+  SlideDifference,             // 1
+  SlideSilosOverview,          // 2
+  SlideSilo1Divider,           // 3
+  SlidePremiumShow,            // 4  *full-bleed
+  SlidePremiumDetails,         // 5
+  SlideVideoContentShow,       // 6  *full-bleed
+  SlideVideoContentDetails,    // 7
+  SlideMatterportShow,         // 8  *full-bleed
+  SlideMatterportDetails,      // 9
+  SlideSilo2Divider,           // 10
+  SlideListingPhotoShow,       // 11 *full-bleed
+  SlideListingPhotoDetails,    // 12
+  SlideVirtualVideoShow,       // 13 *full-bleed
+  SlideVirtualVideoDetails,    // 14
+  SlideModelMatchIntro,        // 15
+  SlideModelMatchReference,    // 16 *full-bleed
+  SlideModelMatchVacant,       // 17 *full-bleed
+  SlideModelMatchResult,       // 18 *full-bleed
+  SlideModelMatchExamples,     // 19
+  SlideModelMatchDetails,      // 20
+  SlideSpecPlus,               // 21
+  SlideSilo3Divider,           // 22
+  SlideVideoProductionShow,    // 23 *full-bleed
+  SlideVideoProductionDetails, // 24
+  SlideAmenityShow,            // 25 *full-bleed
+  SlideAmenityDetails,         // 26
+  SlideDigDesk,                // 27
+  SlideMarkets,                // 28
+  SlideRegionalPartnership,    // 29
+  SlideCloser,                 // 30
 ];
