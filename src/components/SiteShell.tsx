@@ -9,7 +9,7 @@ import { PageTransition } from "./PageTransition";
 // Hides Nav but keeps Footer + EmailCaptureModal.
 const HIDE_NAV_PATHS = ["/sarahpod"];
 // Hides Nav, Footer, EmailCaptureModal, and the pt-16 gap under Nav.
-const CHROMELESS_PREFIXES = ["/campaigns/modelmatch-trial-info"];
+const CHROMELESS_PREFIXES = ["/campaigns/modelmatch-trial-info", "/capabilities"];
 
 function matchesPrefix(pathname: string, list: string[]): boolean {
   return list.some((p) => pathname === p || pathname.startsWith(p + "/"));
