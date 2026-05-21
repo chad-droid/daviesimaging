@@ -42,9 +42,9 @@ const SITE = {
 // Fill these with YouTube IDs to swap the photo placeholder for a video embed.
 // virtualVideo → Perry Homes FrameFlow promo (verified in src/data/deals.json).
 const YT = {
-  videoContent: "" as string,    // Slide 7 — Model Home Video. Paste an ID to enable.
-  virtualVideo: "4MYlfUOAdOk",   // Slide 14 — Perry Homes FrameFlow promo.
-  videoProduction: "" as string, // Slide 20 — Community Video. Paste an ID to enable.
+  videoContent: "I14Qvzlja34",    // Slide 7 — Model Home Video.
+  virtualVideo: "4MYlfUOAdOk",    // Slide 14 — Perry Homes FrameFlow promo.
+  videoProduction: "dFI--iFGkNU", // Slide 20 — Community Video.
 };
 
 const TOTAL_SLIDES = 27;
