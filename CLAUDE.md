@@ -41,6 +41,7 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 - StatsStrip — eyebrow is `text-accent`; H2 "Spec+ Listing Media Package" added
 - BuilderLogoStrip marquee — removed `loading="lazy"` to fix seam gap in looping animation
 - Sitemap — `src/app/sitemap.ts` generates `/sitemap.xml` at build time; static routes + dynamic Sanity blog posts
+- ModelMatch showcase — password-gated static app at `/modelmatch` (see ModelMatch Showcase section below)
 
 ### In Progress / Pending
 - Hero video tiles — placeholder gradients, needs real MP4 footage from DIG shoots
@@ -1240,6 +1241,26 @@ This is a Next.js project deployed on Vercel. There is no Webflow, no external C
 - `RESEND_API_KEY` — Transactional email via Resend (domain: `daviesimaging.com`)
 - `NOTIFICATION_EMAIL` — `info@daviesimaging.com`
 - `MAILCHIMP_API_KEY` / `MAILCHIMP_LIST_ID` / `MAILCHIMP_SERVER` — Audience `418d6a179b`, server `us17`
+- `MODELMATCH_PASSWORD` — Basic Auth password for the `/modelmatch` showcase (username `dig`); middleware fails closed if unset
+
+---
+
+## ModelMatch Showcase (`/modelmatch`)
+
+Self-contained static single-page app (Pretty / Powerful / Platform) served from `public/modelmatch/`,
+gated by HTTP Basic Auth in `src/middleware.ts` (username `dig`, password = `MODELMATCH_PASSWORD`).
+`/modelmatch` rewrites to `/modelmatch/index.html` in `next.config.ts`. Not in nav or sitemap.
+
+Source project: `/Users/chadh/Claude/Projects/ModelMatch Before & After Demonstration/` (see its
+`INTEGRATION_PLAN.md`). When re-copying a regenerated `_showcase-deploy/` build over `public/modelmatch/`,
+re-apply three local patches or images will 404 / load unscoped:
+1. `<base href="/modelmatch/">` tag in `index.html` head
+2. The `u()` URL encoder in `index.html` must also encode commas: `.replace(/,/g,"%2C")` (Next 404s raw commas in static paths)
+3. Filenames must not contain apostrophes or parens — rename on disk AND in `manifest.js` (Geneva/Myrtle and Beazer Stonewood files were normalized this way)
+
+The 8 landing-page before/after images used by `MMPrimitives.tsx` (`/sarahpod`, `/services/virtual-staging`)
+live at `public/mm/` — they were moved out of `public/modelmatch/` so the showcase could own that path.
+Do not put public assets under `public/modelmatch/`; everything there is behind the password gate.
 
 ---
 

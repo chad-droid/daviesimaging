@@ -18,6 +18,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      // ModelMatch showcase — static app served from public/modelmatch, gated by middleware
+      { source: "/modelmatch", destination: "/modelmatch/index.html" },
+    ];
+  },
   async redirects() {
     return [
       // ── Renamed/moved pages ─────────────────────────────────────────────────
