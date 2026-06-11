@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// HTTP Basic Auth gate for the ModelMatch showcase (static app in public/modelmatch).
+// HTTP Basic Auth gate for the ModelMatch showcase (static app in public/modelmatch-demo).
 // Username is "dig"; password comes from MODELMATCH_PASSWORD (Vercel env + .env.local).
 // Fails closed: if the env var is missing, the route stays locked.
 export const config = {
-  matcher: ["/modelmatch", "/modelmatch/:path*"],
+  matcher: ["/modelmatch-demo", "/modelmatch-demo/:path*"],
 };
 
 export function middleware(req: NextRequest) {
