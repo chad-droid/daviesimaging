@@ -278,11 +278,13 @@ function FullBleed({
 }) {
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-bg-dark text-text-light">
+      {/* On phones a wide desktop screenshot is shown contained (whole image,
+          pinned to top) instead of cover-cropped to an unreadable sliver. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageSrc}
         alt={imageAlt}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-contain object-top sm:object-cover"
         style={{ objectPosition }}
       />
       <div
@@ -411,7 +413,7 @@ function TileGrid({
               key={t.src}
               src={IMG(t.src)}
               alt={t.alt}
-              className="aspect-[16/10] w-full rounded-xl object-cover shadow-md"
+              className="aspect-[4/3] w-full rounded-xl object-cover shadow-md sm:aspect-[16/10]"
             />
           ))}
         </div>
@@ -553,9 +555,9 @@ const slides: Array<() => React.ReactElement> = [
           future order uses it automatically.
         </p>
       </div>
-      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
         {HOW_STEPS.map((s) => (
-          <div key={s.n} className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div key={s.n} className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
             <span className="font-heading text-3xl font-semibold text-accent-dark-hover">{s.n}</span>
             <h4 className="mt-3 text-text-light">{s.title}</h4>
             <p className="mt-2 text-sm leading-relaxed text-white/60">{s.body}</p>
