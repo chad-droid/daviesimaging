@@ -10,21 +10,19 @@ import MMSlider from "@/components/lp/MMSlider";
  * /modelmatch-deck — full-screen ModelMatch virtual-staging deck.
  *
  * Mounted chromelessly via SiteShell (no Nav, Footer, or email modal). Mirrors
- * the structure of the "ModelMatch VS Intro" PDF: positioning, how-it-works,
- * three builder samples (each with an interactive before/after slider), why,
- * pricing, and the digDesk platform walkthrough.
+ * the "ModelMatch VS Intro" PDF: positioning, how-it-works, three builder
+ * samples, why, pricing, digDesk walkthrough.
  *
- * Images live in /public/mm-deck (curated before/after pairs copied out of the
- * gated showcase library + digDesk screenshots). Public route, so assets must
- * NOT live under /modelmatch-demo (that path is password-gated).
+ * Each builder section runs: divider -> one large before/after slider -> a
+ * 4-image staged-result grid -> (where a film exists) a FrameFlow video sized
+ * to match the slider, autoplay/muted/looped with no controls.
+ *
+ * Images live in /public/mm-deck (curated before/after pairs + staged tiles
+ * copied out of the gated showcase library + digDesk screenshots). Public
+ * route, so assets must NOT live under /modelmatch-demo (password-gated).
  */
 
 const IMG = (f: string) => `/mm-deck/${f}`;
-
-// 0-indexed slides that paint chrome over an edge-to-edge image.
-const FULL_BLEED_SLIDES = new Set<number>([4, 8, 12, 18, 19, 20]);
-// 0-indexed slides with a dark background (chrome goes light-on-dark).
-const DARK_SLIDES = new Set<number>([0, 2, 17]);
 
 function pad(n: number): string {
   return String(n).padStart(2, "0");
@@ -73,8 +71,8 @@ export function ModelMatchDeck() {
     return () => document.removeEventListener("keydown", onKey);
   }, [current, show, total]);
 
-  // Touch swipe — but ignore gestures that start inside a before/after slider,
-  // so dragging the handle doesn't also flip the slide.
+  // Touch swipe — ignore gestures starting inside a before/after slider so
+  // dragging the handle doesn't also flip the slide.
   useEffect(() => {
     let touchX: number | null = null;
     let ignore = false;
@@ -308,7 +306,19 @@ function FullBleed({
   );
 }
 
-/** A centered before/after slider on a light slide, with eyebrow + caption. */
+/** Shared header for the large media slides (slider + video). */
+function MediaHead({ eyebrow, room }: { eyebrow: string; room: string }) {
+  return (
+    <>
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 className="mb-5 mt-1 font-heading text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-tight tracking-tight text-text-dark">
+        {room}
+      </h2>
+    </>
+  );
+}
+
+/** Large before/after slider — the dominant element on the slide. */
 function SliderSlide({
   eyebrow,
   room,
@@ -324,15 +334,87 @@ function SliderSlide({
 }) {
   return (
     <SlideShell>
-      <div className="mx-auto w-full max-w-5xl">
-        <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="mb-6 mt-1 font-heading text-[clamp(1.5rem,3vw,2.25rem)] font-medium leading-tight tracking-tight text-text-dark">
-          {room}
-        </h2>
+      <div className="mx-auto w-full max-w-[1400px]">
+        <MediaHead eyebrow={eyebrow} room={room} />
         <div data-mm-slider>
           <MMSlider before={IMG(before)} after={IMG(after)} />
         </div>
         {note && <p className="mt-5 max-w-[60ch] text-sm leading-relaxed text-text-muted">{note}</p>}
+      </div>
+    </SlideShell>
+  );
+}
+
+/** FrameFlow video sized to match the large slider. Muted, looped, autoplay,
+ *  no YouTube controls or title chrome. */
+function VideoSlide({
+  eyebrow,
+  room,
+  youtubeId,
+  note,
+}: {
+  eyebrow: string;
+  room: string;
+  youtubeId: string;
+  note?: string;
+}) {
+  const src =
+    `https://www.youtube.com/embed/${youtubeId}` +
+    `?autoplay=1&mute=1&loop=1&playlist=${youtubeId}` +
+    `&controls=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&disablekb=1`;
+  return (
+    <SlideShell>
+      <div className="mx-auto w-full max-w-[1400px]">
+        <MediaHead eyebrow={eyebrow} room={room} />
+        <div
+          className="relative w-full overflow-hidden rounded-2xl bg-black shadow-[0_30px_60px_rgba(0,0,0,0.18),0_10px_24px_rgba(0,0,0,0.08)]"
+          style={{ aspectRatio: "16 / 9" }}
+        >
+          {/* Uniform scale-up + clip pushes YouTube's title strip (top) and
+              control/logo bar (bottom) outside the frame. pointer-events-none
+              means hover never re-reveals the chrome. Scale lives on a wrapper
+              div (utility class) so it renders reliably. */}
+          <div className="absolute inset-0 origin-center scale-[1.3]">
+            <iframe
+              src={src}
+              title={`${room} — FrameFlow film`}
+              className="pointer-events-none h-full w-full"
+              allow="autoplay; encrypted-media"
+              tabIndex={-1}
+            />
+          </div>
+        </div>
+        {note && <p className="mt-5 max-w-[60ch] text-sm leading-relaxed text-text-muted">{note}</p>}
+      </div>
+    </SlideShell>
+  );
+}
+
+/** Four staged results tiled 2x2, filling the slide. */
+function TileGrid({
+  eyebrow,
+  heading,
+  tiles,
+}: {
+  eyebrow: string;
+  heading: string;
+  tiles: Array<{ src: string; alt: string }>;
+}) {
+  return (
+    <SlideShell>
+      <div className="mx-auto w-full max-w-[1400px]">
+        <MediaHead eyebrow={eyebrow} room={heading} />
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          {tiles.map((t) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={t.src}
+              src={IMG(t.src)}
+              alt={t.alt}
+              className="aspect-[16/10] w-full rounded-xl object-cover shadow-md"
+            />
+          ))}
+        </div>
       </div>
     </SlideShell>
   );
@@ -361,7 +443,7 @@ function BenefitCard({ title, body }: { title: string; body: string }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Slides
+// Data
 // ─────────────────────────────────────────────────────────────────────────────
 
 const HOW_STEPS = [
@@ -406,6 +488,10 @@ const WHY_CARDS = [
   },
 ];
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Slides
+// ─────────────────────────────────────────────────────────────────────────────
+
 const slides: Array<() => React.ReactElement> = [
   // 0 — Title (dark)
   () => (
@@ -425,7 +511,7 @@ const slides: Array<() => React.ReactElement> = [
     </SlideShell>
   ),
 
-  // 1 — The ModelMatch Difference (text + image)
+  // 1 — The ModelMatch Difference
   () => (
     <SlideShell>
       <div className="grid items-center gap-10 lg:grid-cols-2">
@@ -454,7 +540,7 @@ const slides: Array<() => React.ReactElement> = [
     </SlideShell>
   ),
 
-  // 2 — How it works (dark, 4 cards)
+  // 2 — How it works (dark)
   () => (
     <SlideShell dark>
       <div className="text-center">
@@ -479,21 +565,10 @@ const slides: Array<() => React.ReactElement> = [
     </SlideShell>
   ),
 
-  // 3 — Sample A divider
+  // ── Sample A — Perry Homes ──────────────────────────────────────────────
+  // 3 divider
   () => <SampleDivider letter="A" builder="Perry Homes" />,
-
-  // 4 — Perry staged reference (full-bleed)
-  () => (
-    <FullBleed
-      eyebrow="Sample A / Perry Homes"
-      title="Staged to match the model."
-      lede="Riley Street, Avondale. The finished ModelMatch result, pulled from Perry's own model home palette."
-      imageSrc={IMG("perry-living-after.jpg")}
-      imageAlt="Perry Homes staged living room"
-    />
-  ),
-
-  // 5 — Perry slider 1
+  // 4 large before/after
   () => (
     <SliderSlide
       eyebrow="Sample A / Perry Homes"
@@ -503,32 +578,33 @@ const slides: Array<() => React.ReactElement> = [
       note="Drag to compare. The vacant listing photo on the left, the ModelMatch-staged result on the right."
     />
   ),
-
-  // 6 — Perry slider 2
+  // 5 four staged tiles
   () => (
-    <SliderSlide
+    <TileGrid
       eyebrow="Sample A / Perry Homes"
-      room="Primary Bedroom"
-      before="perry-bed-before.jpg"
-      after="perry-bed-after.jpg"
+      heading="Staged across the home"
+      tiles={[
+        { src: "perry-tile1.jpg", alt: "Perry Homes staged living room" },
+        { src: "perry-tile2.jpg", alt: "Perry Homes staged dining room" },
+        { src: "perry-tile3.jpg", alt: "Perry Homes staged kitchen" },
+        { src: "perry-tile4.jpg", alt: "Perry Homes staged primary bedroom" },
+      ]}
     />
   ),
-
-  // 7 — Sample B divider
-  () => <SampleDivider letter="B" builder="Grand Homes" />,
-
-  // 8 — Grand staged reference (full-bleed)
+  // 6 FrameFlow video — Riley Street
   () => (
-    <FullBleed
-      eyebrow="Sample B / Grand Homes"
-      title="One open plan, fully furnished."
-      lede="Rivercrest. Living, kitchen, and dining staged as a single on-brand space."
-      imageSrc={IMG("grand-lkd-after.jpg")}
-      imageAlt="Grand Homes staged open plan"
+    <VideoSlide
+      eyebrow="Sample A / Perry Homes"
+      room="In motion"
+      youtubeId="7MjNBH20Er4"
+      note="The same listing as a FrameFlow walkthrough film, delivered alongside the staged stills."
     />
   ),
 
-  // 9 — Grand slider 1
+  // ── Sample B — Grand Homes ──────────────────────────────────────────────
+  // 7 divider
+  () => <SampleDivider letter="B" builder="Grand Homes" />,
+  // 8 large before/after
   () => (
     <SliderSlide
       eyebrow="Sample B / Grand Homes"
@@ -538,53 +614,57 @@ const slides: Array<() => React.ReactElement> = [
       note="Drag to compare. ModelMatch furnishes the full open-concept space in a single pass."
     />
   ),
-
-  // 10 — Grand slider 2
+  // 9 four staged tiles
   () => (
-    <SliderSlide
+    <TileGrid
       eyebrow="Sample B / Grand Homes"
-      room="Formal Dining"
-      before="grand-dining-before.jpg"
-      after="grand-dining-after.jpg"
+      heading="Staged across the home"
+      tiles={[
+        { src: "grand-tile1.jpg", alt: "Grand Homes staged living room" },
+        { src: "grand-tile2.jpg", alt: "Grand Homes staged kitchen" },
+        { src: "grand-tile3.jpg", alt: "Grand Homes staged master bedroom" },
+        { src: "grand-tile4.jpg", alt: "Grand Homes staged game room" },
+      ]}
     />
   ),
 
-  // 11 — Sample C divider
+  // ── Sample C — Beazer Homes ─────────────────────────────────────────────
+  // 10 divider
   () => <SampleDivider letter="C" builder="Beazer Homes" />,
-
-  // 12 — Beazer staged reference (full-bleed)
-  () => (
-    <FullBleed
-      eyebrow="Sample C / Beazer Homes"
-      title="Move-in ready, on screen."
-      lede="OAC Lot 59, Nashville. Staged bedrooms and baths that read as finished spaces."
-      imageSrc={IMG("beazer-bed-after.jpg")}
-      imageAlt="Beazer Homes staged bedroom"
-    />
-  ),
-
-  // 13 — Beazer slider 1
+  // 11 large before/after
   () => (
     <SliderSlide
       eyebrow="Sample C / Beazer Homes"
-      room="Bedroom"
-      before="beazer-bed-before.jpg"
-      after="beazer-bed-after.jpg"
-      note="Drag to compare. Empty room to staged, ready for the listing."
+      room="Living Room"
+      before="beazer-living-before.jpg"
+      after="beazer-living-after.jpg"
+      note="Drag to compare. Empty open-plan living to a fully staged, move-in-ready space."
     />
   ),
-
-  // 14 — Beazer slider 2
+  // 12 four staged tiles
   () => (
-    <SliderSlide
+    <TileGrid
       eyebrow="Sample C / Beazer Homes"
-      room="Bathroom"
-      before="beazer-bath-before.jpg"
-      after="beazer-bath-after.jpg"
+      heading="Staged across the home"
+      tiles={[
+        { src: "beazer-tile1.jpg", alt: "Beazer Homes staged living room" },
+        { src: "beazer-tile2.jpg", alt: "Beazer Homes staged kitchen and dining" },
+        { src: "beazer-tile3.jpg", alt: "Beazer Homes staged living and kitchen" },
+        { src: "beazer-tile4.jpg", alt: "Beazer Homes staged bedroom" },
+      ]}
+    />
+  ),
+  // 13 FrameFlow video — OAC Lot 59
+  () => (
+    <VideoSlide
+      eyebrow="Sample C / Beazer Homes"
+      room="In motion"
+      youtubeId="qphCAIJ3uYM"
+      note="The same listing as a FrameFlow walkthrough film, delivered alongside the staged stills."
     />
   ),
 
-  // 15 — Why builders choose ModelMatch
+  // 14 — Why builders choose ModelMatch
   () => (
     <SlideShell>
       <div className="text-center">
@@ -601,7 +681,7 @@ const slides: Array<() => React.ReactElement> = [
     </SlideShell>
   ),
 
-  // 16 — Pricing
+  // 15 — Pricing
   () => (
     <SlideShell>
       <div className="text-center">
@@ -614,7 +694,7 @@ const slides: Array<() => React.ReactElement> = [
           virtual video inside Spec+ for one flat price.
         </p>
       </div>
-      <div className="mx-auto mt-12 grid w-full max-w-4xl gap-6 md:grid-cols-2">
+      <div className="mx-auto mt-14 grid w-full max-w-4xl gap-6 md:grid-cols-2">
         <div className="rounded-2xl border border-border-light bg-bg-surface p-8">
           <h4 className="text-text-dark">Standalone Virtual Staging</h4>
           <p className="mt-2 text-sm leading-relaxed text-text-muted">
@@ -626,7 +706,7 @@ const slides: Array<() => React.ReactElement> = [
           </p>
         </div>
         <div className="relative rounded-2xl border-2 border-accent bg-bg-surface p-8">
-          <span className="absolute -top-3 left-8 rounded-full bg-accent/15 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-accent">
+          <span className="absolute -top-3 left-8 rounded-full bg-accent px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white shadow-sm">
             Best Value
           </span>
           <h4 className="text-text-dark">Spec+ Bundle</h4>
@@ -642,7 +722,7 @@ const slides: Array<() => React.ReactElement> = [
     </SlideShell>
   ),
 
-  // 17 — digDesk reveal (dark)
+  // 16 — digDesk reveal (dark)
   () => (
     <SlideShell dark>
       <div className="text-center">
@@ -657,7 +737,7 @@ const slides: Array<() => React.ReactElement> = [
     </SlideShell>
   ),
 
-  // 18 — digDesk dashboard (full-bleed)
+  // 17 — digDesk dashboard (full-bleed)
   () => (
     <FullBleed
       eyebrow="The Platform / digDesk"
@@ -669,7 +749,7 @@ const slides: Array<() => React.ReactElement> = [
     />
   ),
 
-  // 19 — digDesk delivery (full-bleed)
+  // 18 — digDesk delivery (full-bleed)
   () => (
     <FullBleed
       eyebrow="The Platform / digDesk"
@@ -681,7 +761,7 @@ const slides: Array<() => React.ReactElement> = [
     />
   ),
 
-  // 20 — digDesk gallery (full-bleed)
+  // 19 — digDesk gallery (full-bleed)
   () => (
     <FullBleed
       eyebrow="The Platform / digDesk"
@@ -693,15 +773,21 @@ const slides: Array<() => React.ReactElement> = [
     />
   ),
 
-  // 21 — Closing
+  // 20 — Closing: ModelMatch by [dig logo]
   () => (
     <SlideShell>
       <div className="text-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/dig-logo-original.png" alt="Davies Imaging Group" className="mx-auto h-12 w-auto" />
-        <h1 className="mt-8 font-heading text-[clamp(1.75rem,3.6vw,2.75rem)] font-medium leading-tight tracking-tight text-text-dark">
-          Branded virtual staging, built for homebuilders.
+        <h1 className="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-semibold leading-none tracking-tight text-text-dark">
+          ModelMatch
         </h1>
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <span className="text-sm font-medium uppercase tracking-[0.3em] text-text-muted">by</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/dig-logo-dark.png" alt="Davies Imaging Group" className="h-10 w-auto" />
+        </div>
+        <p className="mx-auto mt-8 max-w-[46ch] leading-relaxed text-text-body">
+          Branded virtual staging, built for homebuilders.
+        </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="/contact"
@@ -720,3 +806,8 @@ const slides: Array<() => React.ReactElement> = [
     </SlideShell>
   ),
 ];
+
+// 0-indexed slides that paint chrome over an edge-to-edge image.
+const FULL_BLEED_SLIDES = new Set<number>([17, 18, 19]);
+// 0-indexed slides with a dark background (chrome goes light-on-dark).
+const DARK_SLIDES = new Set<number>([0, 2, 16]);
