@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 // Constants
 // ──────────────────────────────────────────────────────────────
 export const TRIAL_URL = 'https://desk.daviesimaging.com/trial';
-export const IMG = (file: string) => `/modelmatch/${file}`;
+export const IMG = (file: string) => `/mm/${file}`;
 
 // ──────────────────────────────────────────────────────────────
 // Reveal — IntersectionObserver fade + translateY

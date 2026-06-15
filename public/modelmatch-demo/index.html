@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base href="/modelmatch-demo/">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ModelMatch — Pretty · Powerful · Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f8f6f3; --bg-2:#f0ede8; --tint:#eae8f5; --card:#ffffff;
+    --line:#dad7d2; --text:#3a3a3a; --ink:#1c1c1c; --muted:#6e675d;
+    --accent:#6a5acd; --accent-deep:#100c31; --dark:#121212;
+    --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --sans:"Noto Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    --shadow:0 18px 44px rgba(28,28,28,.12); --shadow-dark:0 22px 60px rgba(0,0,0,.6);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:18px;padding:13px 30px;
+    background:rgba(248,246,243,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;}
+  .brand img{height:34px;width:auto;}
+  .brand .div{width:1px;height:24px;background:var(--line);}
+  .brand .mm{font-family:var(--serif);font-size:21px;font-weight:400;color:var(--ink);line-height:1;}
+  .brand .mm em{font-style:normal;font-weight:600;color:var(--accent);}
+  .ptabs{display:flex;gap:6px;margin-left:6px;}
+  .ptab{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;background:transparent;border:1px solid transparent;
+    border-radius:10px;padding:7px 14px;color:var(--muted);transition:.18s;}
+  .ptab b{font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:.01em;}
+  .ptab span{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;}
+  .ptab:hover{background:var(--bg-2);}
+  .ptab.on{background:var(--accent);} .ptab.on b{color:#fff;} .ptab.on span{color:rgba(255,255,255,.8);}
+  .spacer{flex:1;}
+  .nav-btn{background:transparent;border:1px solid var(--line);color:var(--text);padding:9px 16px;border-radius:999px;
+    font-size:12.5px;letter-spacing:.02em;transition:.18s;white-space:nowrap;}
+  .nav-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .crumbs{width:100%;display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12.5px;flex-wrap:wrap;
+    padding-top:4px;}
+  .crumbs:empty{display:none;}
+  .crumbs .sep{opacity:.5;} .crumbs .here{color:var(--ink);font-weight:500;}
+  .crumbs span[onclick]{cursor:pointer;} .crumbs span[onclick]:hover{color:var(--accent);}
+
+  .screen{max-width:1240px;margin:0 auto;padding:42px 30px 100px;animation:fade .45s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  .hero{text-align:center;padding:40px 10px 26px;}
+  .hero .eyebrow{color:var(--accent);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;}
+  .hero h1{font-family:var(--serif);font-size:54px;font-weight:600;line-height:1.05;letter-spacing:-.01em;color:var(--ink);margin:14px 0 14px;}
+  .hero h1 em{font-style:normal;color:var(--accent);}
+  .hero p{color:var(--text);max-width:620px;margin:0 auto;font-size:16px;line-height:1.6;}
+
+  /* ---------- Intro 3-card ---------- */
+  .intro-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px;}
+  @media(max-width:820px){.intro-cards{grid-template-columns:1fr;}}
+  .icard{position:relative;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);
+    padding:30px 26px 26px;cursor:pointer;transition:.22s;overflow:hidden;box-shadow:var(--shadow);min-height:230px;
+    display:flex;flex-direction:column;}
+  .icard:hover{transform:translateY(-4px);border-color:var(--accent);}
+  .icard .k{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .icard h3{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--ink);margin:10px 0 8px;}
+  .icard p{color:var(--muted);font-size:13.5px;line-height:1.55;margin:0;flex:1;}
+  .icard .go{margin-top:16px;color:var(--accent);font-size:13px;font-weight:600;}
+  .icard .num{position:absolute;top:18px;right:22px;font-family:var(--serif);font-size:40px;color:var(--line);line-height:1;}
+
+  /* ---------- Tiles (galleries) ---------- */
+  .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:36px;}
+  .tiles.three{grid-template-columns:repeat(3,1fr);}
+  @media(max-width:820px){.tiles,.tiles.three{grid-template-columns:1fr;}}
+  .tile{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--ink);min-height:248px;
+    cursor:pointer;transition:.25s;box-shadow:var(--shadow);}
+  .tile.sm{min-height:210px;}
+  .tile:hover{transform:translateY(-4px);box-shadow:0 26px 60px rgba(28,28,28,.22);}
+  .tile .cover{position:absolute;inset:0;background-size:cover;background-position:center;transition:.5s;}
+  .tile:hover .cover{transform:scale(1.05);}
+  .tile .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,12,49,.12) 0%,rgba(16,12,49,.82) 100%);}
+  .tile .meta{position:absolute;left:0;right:0;bottom:0;padding:24px;color:#fff;}
+  .tile .meta .builder{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tint);opacity:.92;margin-bottom:5px;}
+  .tile .meta h3{font-family:var(--serif);margin:0;font-size:27px;font-weight:600;}
+  .tile .meta .sub{margin-top:6px;color:rgba(255,255,255,.82);font-size:12.5px;}
+  .tile .count{position:absolute;top:14px;right:14px;background:rgba(16,12,49,.5);border:1px solid rgba(255,255,255,.28);
+    border-radius:999px;padding:5px 12px;font-size:11.5px;color:#fff;}
+
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;margin-bottom:26px;flex-wrap:wrap;}
+  .sec-head .lead{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .sec-head h2{font-family:var(--serif);margin:8px 0 0;font-size:36px;font-weight:500;color:var(--ink);line-height:1.05;}
+  .sec-head h2 b{font-weight:600;}
+  .sec-head .hint{color:var(--muted);font-size:13.5px;max-width:420px;line-height:1.5;}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.grid{grid-template-columns:1fr;}}
+  .cell{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;background:var(--bg-2);
+    border:1px solid var(--line);aspect-ratio:4/3;transition:.22s;box-shadow:0 6px 18px rgba(28,28,28,.06);}
+  .cell:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+  .cell img{width:100%;height:100%;object-fit:cover;transition:.45s;}
+  .cell:hover img{transform:scale(1.05);}
+  .cell .lbl{position:absolute;left:0;right:0;bottom:0;padding:14px;color:#fff;font-size:13.5px;
+    background:linear-gradient(transparent,rgba(16,12,49,.72));}
+  .cell .pill{position:absolute;top:11px;left:11px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    font-weight:600;padding:5px 10px;border-radius:999px;color:#fff;}
+  .cell .pill.before{background:rgba(28,28,28,.62);} .cell .pill.after{background:var(--accent);}
+
+  .switch-wrap{display:inline-flex;align-items:center;background:var(--card);border:1px solid var(--line);
+    border-radius:999px;padding:4px;box-shadow:0 4px 12px rgba(28,28,28,.05);}
+  .switch-wrap button{border:none;background:transparent;color:var(--muted);padding:10px 22px;border-radius:999px;
+    font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;transition:.2s;}
+  .switch-wrap button.on{background:var(--accent);color:#fff;}
+
+  .stage-foot{margin-top:38px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .ghost{color:var(--muted);font-size:13px;}
+  .cta{background:var(--accent);color:#fff;border:none;padding:13px 26px;border-radius:999px;font-weight:600;
+    letter-spacing:.02em;font-size:13.5px;transition:.2s;}
+  .cta:hover{background:#5a4cc0;transform:translateY(-2px);box-shadow:0 10px 24px rgba(106,90,205,.32);}
+  .cta.secondary{background:transparent;color:var(--text);border:1px solid var(--line);font-weight:500;}
+  .cta.secondary:hover{border-color:var(--accent);color:var(--accent);box-shadow:none;}
+
+  /* ---------- Lightbox ---------- */
+  .lb{position:fixed;inset:0;z-index:90;background:rgba(12,10,22,.97);display:none;align-items:center;
+    justify-content:center;flex-direction:column;animation:fade .3s ease;}
+  .lb.open{display:flex;}
+  .lb-stage{position:relative;width:min(94vw,1500px);height:78vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .lb-stage img.single{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:var(--shadow-dark);}
+  .lb-close{position:absolute;top:20px;right:24px;z-index:95;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);
+    color:#fff;width:46px;height:46px;border-radius:50%;font-size:20px;line-height:1;}
+  .lb-close:hover{background:rgba(255,255,255,.2);}
+  .lb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:95;background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.22);color:#fff;width:58px;height:58px;border-radius:50%;font-size:24px;transition:.2s;}
+  .lb-arrow:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .lb-arrow.prev{left:18px;} .lb-arrow.next{right:18px;}
+  .lb-cap{margin-top:18px;color:rgba(255,255,255,.66);font-size:13.5px;letter-spacing:.04em;text-align:center;}
+  .lb-cap b{color:#fff;font-weight:600;}
+  .lb-dots{display:flex;gap:7px;justify-content:center;margin-top:13px;flex-wrap:wrap;max-width:80vw;}
+  .lb-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.28);transition:.2s;}
+  .lb-dots i.on{background:var(--accent);width:22px;border-radius:999px;}
+
+  .ba{position:relative;display:inline-block;line-height:0;max-width:min(94vw,1500px);max-height:78vh;
+    border-radius:8px;overflow:hidden;box-shadow:var(--shadow-dark);user-select:none;touch-action:none;background:#000;cursor:ew-resize;}
+  .ba .after-img{display:block;max-width:min(94vw,1500px);max-height:78vh;width:auto;height:auto;}
+  .ba .before-wrap{position:absolute;inset:0;z-index:2;overflow:hidden;clip-path:inset(0 50% 0 0);}
+  .ba .before-wrap img{position:absolute;inset:0;width:100%;height:100%;}
+  .ba .tag{position:absolute;top:16px;z-index:5;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    font-weight:600;padding:6px 13px;border-radius:999px;color:#fff;}
+  .ba .tag.l{left:16px;background:rgba(28,28,28,.62);} .ba .tag.r{right:16px;background:var(--accent);}
+  .ba .handle{position:absolute;top:0;bottom:0;z-index:6;width:2px;background:#fff;transform:translateX(-1px);
+    cursor:ew-resize;box-shadow:0 0 0 1px rgba(0,0,0,.25);}
+  .ba .drag-hint{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:7;background:rgba(16,12,49,.72);
+    color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 15px;border-radius:999px;
+    pointer-events:none;line-height:1;animation:hintfade 2.8s ease forwards;}
+  @keyframes hintfade{0%,55%{opacity:1;}100%{opacity:0;}}
+  .ba .knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;
+    background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;
+    box-shadow:0 6px 18px rgba(0,0,0,.5);}
+
+  /* ---------- Videos ---------- */
+  .vid-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:30px;}
+  @media(max-width:860px){.vid-grid{grid-template-columns:1fr;}}
+  .vid-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+  .vid-card video{width:100%;display:block;background:#000;aspect-ratio:16/9;object-fit:cover;}
+  .vid-card iframe{width:100%;display:block;aspect-ratio:16/9;border:0;background:#000;}
+  .vid-ph{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:var(--bg-2);color:var(--muted);font-size:13.5px;letter-spacing:.04em;}
+  .vid-card .vmeta{padding:18px 22px;}
+  .vid-card .vmeta h4{font-family:var(--serif);margin:0;font-size:21px;font-weight:600;color:var(--ink);}
+  .vid-card .vmeta p{margin:6px 0 0;color:var(--muted);font-size:13px;}
+
+  /* ---------- PROOF ---------- */
+  .proof-hero{background:var(--dark);color:#fff;border-radius:18px;padding:46px 44px;box-shadow:var(--shadow-dark);
+    background-image:radial-gradient(900px 400px at 80% -20%,rgba(106,90,205,.45),transparent 60%);}
+  .proof-hero .eyebrow{color:#c8c1f0;font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;}
+  .proof-hero h2{font-family:var(--serif);font-size:42px;font-weight:600;margin:12px 0 8px;line-height:1.05;}
+  .proof-hero h2 em{font-style:normal;color:#b9aef0;}
+  .proof-hero p{color:rgba(255,255,255,.78);max-width:680px;font-size:15.5px;line-height:1.6;margin:0;}
+  .bignums{display:flex;gap:30px;align-items:center;margin:30px 0 6px;flex-wrap:wrap;}
+  .bignum .n{font-family:var(--serif);font-size:74px;font-weight:600;line-height:.9;color:#fff;}
+  .bignum .l{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:8px;}
+  .bignum.accent .n{color:#b9aef0;}
+  .arrow{font-size:40px;color:rgba(255,255,255,.4);}
+  .proof-hero .foot{margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);
+    font-size:13px;color:rgba(255,255,255,.66);}
+  .proof-hero .foot b{color:#fff;font-weight:600;}
+
+  .cases{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:26px;}
+  @media(max-width:820px){.cases{grid-template-columns:1fr;}}
+  .case{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 24px 20px;
+    cursor:pointer;transition:.2s;box-shadow:0 6px 18px rgba(28,28,28,.06);}
+  .case:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent);}
+  .case .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .case .addr{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--ink);line-height:1.15;}
+  .case .meta{font-size:12.5px;color:var(--muted);margin-top:3px;}
+  .badge{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:5px 10px;border-radius:999px;white-space:nowrap;}
+  .badge.sold{background:#e7f3ea;color:#1f6b39;} .badge.pending{background:var(--tint);color:#4a3da8;}
+  .case .nums{display:flex;align-items:center;gap:18px;margin:18px 0 4px;}
+  .case .nums .u .n{font-family:var(--serif);font-size:40px;font-weight:600;color:var(--ink);line-height:.9;}
+  .case .nums .a .n{font-family:var(--serif);font-size:40px;font-weight:600;color:var(--accent);line-height:.9;}
+  .case .nums .l{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:6px;max-width:120px;}
+  .case .nums .ar{font-size:26px;color:var(--line);}
+  .case .q{font-style:italic;color:var(--ink);margin-top:14px;font-family:var(--serif);font-size:18px;line-height:1.3;}
+  .case .more{margin-top:14px;color:var(--accent);font-size:12.5px;font-weight:600;}
+
+  .disc{margin-top:30px;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:18px 22px;
+    font-size:12.5px;color:var(--muted);line-height:1.6;}
+  .disc b{color:var(--ink);font-weight:600;}
+
+  /* case detail */
+  .cd-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;margin-top:8px;}
+  @media(max-width:900px){.cd-grid{grid-template-columns:1fr;}}
+  .cd-nums{display:flex;align-items:center;gap:24px;margin:18px 0 8px;}
+  .cd-nums .n{font-family:var(--serif);font-size:64px;font-weight:600;line-height:.85;color:var(--ink);}
+  .cd-nums .a .n{color:var(--accent);}
+  .cd-nums .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:8px;max-width:150px;}
+  .cd-nums .ar{font-size:34px;color:var(--line);}
+  .tl{list-style:none;margin:10px 0 0;padding:0;}
+  .tl li{position:relative;padding:0 0 22px 28px;border-left:2px solid var(--line);}
+  .tl li:last-child{border-left-color:transparent;padding-bottom:0;}
+  .tl li .dot{position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--line);border:2px solid var(--bg);}
+  .tl li.mm .dot{background:var(--accent);} .tl li.end .dot{background:#1f6b39;}
+  .tl li.fail .dot{background:#c0392b;}
+  .tl .d{font-size:12px;color:var(--muted);letter-spacing:.02em;}
+  .tl .t{font-size:14.5px;color:var(--ink);font-weight:500;margin-top:1px;}
+  .tl .t span{color:var(--muted);font-weight:400;}
+  .cd-side .blk{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;}
+  .cd-side .blk h4{margin:0 0 8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;}
+  .cd-side .blk p{margin:0;font-size:13.5px;line-height:1.6;color:var(--text);}
+  .cd-quote{font-family:var(--serif);font-size:26px;font-weight:500;color:var(--ink);line-height:1.25;margin:6px 0 0;}
+
+  /* ---------- Platform ---------- */
+  .platform{max-width:820px;margin:30px auto 0;text-align:center;background:var(--dark);color:#fff;border-radius:18px;
+    padding:60px 44px;box-shadow:var(--shadow-dark);background-image:radial-gradient(800px 360px at 50% -10%,rgba(106,90,205,.4),transparent 60%);}
+  .platform .eyebrow{color:#c8c1f0;font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;}
+  .platform h2{font-family:var(--serif);font-size:46px;font-weight:600;margin:14px 0 12px;}
+  .platform p{color:rgba(255,255,255,.8);max-width:540px;margin:0 auto 28px;font-size:15.5px;line-height:1.6;}
+  .platform .cta{font-size:15px;padding:15px 32px;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px;}
+  @media(max-width:900px){.steps{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:520px){.steps{grid-template-columns:1fr;}}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px;box-shadow:0 6px 18px rgba(28,28,28,.06);}
+  .step .snum{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--accent);line-height:1;}
+  .step h4{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink);margin:10px 0 8px;}
+  .step p{font-size:13.5px;line-height:1.55;color:var(--muted);margin:0;}
+
+  /* ---------- enhancements ---------- */
+  .cine-hero{position:relative;border-radius:18px;overflow:hidden;color:#fff;padding:78px 44px 64px;text-align:center;
+    box-shadow:var(--shadow-dark);background-size:cover;background-position:center 62%;}
+  .cine-hero .eyebrow{color:#ddd7f7;position:relative;}
+  .cine-hero h1{font-family:var(--serif);color:#fff;font-size:64px;font-weight:600;margin:16px 0 16px;position:relative;text-shadow:0 2px 34px rgba(0,0,0,.55);}
+  .cine-hero h1 em{font-style:normal;color:#c2b6f5;}
+  .cine-hero p{color:rgba(255,255,255,.92);font-size:17px;max-width:600px;margin:0 auto;position:relative;text-shadow:0 1px 18px rgba(0,0,0,.6);}
+  .icard .stat{margin-top:14px;font-size:12px;letter-spacing:.04em;color:var(--accent);font-weight:600;
+    border-top:1px solid var(--line);padding-top:13px;}
+  .icard .go{margin-top:10px;}
+  .ratio{margin:26px 0 2px;max-width:580px;}
+  .ratio-row{display:flex;align-items:center;gap:14px;margin:10px 0;}
+  .ratio-row .rl{width:128px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.62);text-align:right;}
+  .ratio-row .rbar{flex:1;height:13px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;}
+  .ratio-row .rbar i{display:block;height:100%;border-radius:99px;background:rgba(255,255,255,.34);}
+  .ratio-row .rbar i.acc{background:#8c7fe0;}
+  .ratio-row .rv{width:104px;font-size:13.5px;font-weight:600;color:#fff;}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+  .chip{font-size:11.5px;letter-spacing:.03em;color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 13px;}
+  .case .cbar{display:flex;align-items:center;gap:10px;margin-top:16px;}
+  .case .cbar .track{flex:1;height:7px;background:var(--bg-2);border-radius:99px;overflow:hidden;display:flex;}
+  .case .cbar .track .stuck{height:100%;background:var(--line);}
+  .case .cbar .track .fast{height:100%;background:var(--accent);}
+  .case .cbar .cnote{font-size:10.5px;letter-spacing:.04em;color:var(--muted);white-space:nowrap;}
+  .tile:focus-visible,.cell:focus-visible,.case:focus-visible,.icard:focus-visible{outline:3px solid var(--accent);outline-offset:3px;}
+  .cta:focus-visible,.nav-btn:focus-visible,.ptab:focus-visible,.switch-wrap button:focus-visible,.lb-arrow:focus-visible,.lb-close:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}
+  @media(max-width:640px){.ptab span{display:none;}.ptab{padding:8px 12px;}.cine-hero h1{font-size:40px;}.hero h1{font-size:38px;}
+    .ratio-row .rl{width:84px;}.proof-hero,.cine-hero{padding-left:26px;padding-right:26px;}}
+  .setup{max-width:760px;margin:56px auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:36px 40px;box-shadow:var(--shadow);}
+  .setup h2{font-family:var(--serif);margin:0 0 12px;font-weight:600;font-size:30px;color:var(--ink);}
+  .hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand" onclick="App.goIntro()">
+    <img src="dig%20logo%20800px%20purple%202d265d.png" alt="Davies Imaging Group">
+    <span class="div"></span><span class="mm">Model<em>Match</em></span>
+  </div>
+  <div class="ptabs" id="ptabs">
+    <button class="ptab" data-s="pretty"   onclick="App.goSection('pretty')"><b>Pretty</b><span>The Work</span></button>
+    <button class="ptab" data-s="powerful" onclick="App.goSection('powerful')"><b>Powerful</b><span>The Proof</span></button>
+    <button class="ptab" data-s="platform" onclick="App.goSection('platform')"><b>Platform</b><span>digDesk</span></button>
+  </div>
+  <div class="spacer"></div>
+  <button class="nav-btn" id="videoNav" onclick="App.showVideos()">FrameFlow Films</button>
+  <div class="crumbs" id="crumbs"></div>
+</div>
+
+<div id="root"></div>
+
+<div class="lb" id="lb">
+  <button class="lb-close" onclick="App.closeLightbox()">&times;</button>
+  <button class="lb-arrow prev" onclick="App.lbStep(-1)">&#8249;</button>
+  <button class="lb-arrow next" onclick="App.lbStep(1)">&#8250;</button>
+  <div class="lb-stage" id="lbStage"></div>
+  <div class="lb-cap" id="lbCap"></div>
+  <div class="lb-dots" id="lbDots"></div>
+</div>
+
+<script src="manifest.js"></script>
+<script>
+/* ===== PROOF DATA (data as of June 7, 2026; builder-facing) ===== */
+const PROOF={
+  aggregate:{unstaged:285,after:35,
+    thesis:"The question was never quality — builders already said yes to that. The question was whether ModelMatch moves the only number that bleeds: days on market.",
+    line:"Five homes. Four metros. $400K to $1.1M. Every ModelMatch listing that has transacted since launch — no omissions, none cherry-picked.",
+    cap:"No transacted home took longer than 56 days after staging. Zero counterexamples — checked mechanically, twice.",
+    cohort:"Across all five communities, the unstaged 2025 vintage took 130–440 days to sell where it sold at all. Ours stopped waiting."},
+  cases:[
+    {n:1,addr:"282 Laurel Hike",city:"San Antonio, TX",builder:"Beazer Homes",community:"MLS 1923821",
+     status:"sold",statusNote:"Sold · the only one already closed",unstaged:196,after:43,afterLabel:"days to a buyer after ModelMatch",
+     listed:"09/23/2025 · $399,999",pricePath:"196 days unstaged · no buyer",
+     quote:"Six and a half months of silence. A buyer 43 days after staging.",
+     product:"ModelMatch + Cinematic",
+     events:[
+       {d:"Sep 23, 2025",t:"Listed — <span>$399,999</span>"},
+       {d:"196 days",t:"On market unstaged — no buyer",cls:""},
+       {d:"Apr 7, 2026",t:"ModelMatch staging",cls:"mm"},
+       {d:"May 20, 2026",t:"SOLD",cls:"end"}],
+     criteria:"Comp pull is a broker item — the street is too new for PropStream's index. Subject dates portal-sourced; broker verification open.",
+     cohort:"Texas is a non-disclosure state — this claim rides on days, not dollars."},
+    {n:2,addr:"3737 Selborne Dr",city:"Rockwall, TX",builder:"Grand Homes",community:"Somerset Park",
+     status:"pending",statusNote:"Pending · verified to the day",unstaged:357,after:14,afterLabel:"days to contract after ModelMatch",
+     listed:"04/21/2025 · $854,319",pricePath:"≈10 price cuts → $599,865",
+     quote:"Two buyers walked before staging. None after.",
+     product:"ModelMatch + Cinematic",
+     events:[
+       {d:"Apr 21, 2025",t:"Listed — <span>$854,319 · ~10 cuts to $599,865</span>"},
+       {d:"Nov 14, 2025",t:"Contract fell through",cls:"fail"},
+       {d:"Jan 20, 2026",t:"Second contract fell through",cls:"fail"},
+       {d:"Apr 13, 2026",t:"ModelMatch staging",cls:"mm"},
+       {d:"Apr 27, 2026",t:"PENDING",cls:"end"}],
+     criteria:"Comp pull: 14 returned · 1 qualified · under the 3-comp floor → no comparison claim. Printed caveat: the final price cut landed 14 days before staging — price shares the credit here.",
+     cohort:"Same-window neighbors that sold unstaged took 157–272 days. At any price, the spring-2025 vintage took 130–440."},
+    {n:3,addr:"511 San Angelo Dr",city:"Forney, TX",builder:"Grand Homes",community:"Park Trails",
+     status:"pending",statusNote:"Pending · verified · cleanest attribution",unstaged:368,after:18,afterLabel:"days to contract after ModelMatch",
+     listed:"04/13/2025 · $671,273",pricePath:"stepped → $644,273 · last move Feb 10",
+     quote:"83 days of nothing. One change. 18 days.",
+     product:"ModelMatch",
+     events:[
+       {d:"Apr 13, 2025",t:"Listed — <span>$671,273, stepped to $644,273</span>"},
+       {d:"Feb 10, 2026",t:"Last price move — then 83 days of nothing",cls:""},
+       {d:"Apr 16, 2026",t:"ModelMatch staging — only variable changed",cls:"mm"},
+       {d:"May 4, 2026",t:"PENDING",cls:"end"}],
+     criteria:"Comp pull: 7 returned · 1 qualified · under floor → no comparison claim. The one qualifier sits directly across the street: 305 days on market, unstaged.",
+     cohort:"In-window neighbors at lower price points needed 183–344 days unstaged. The cleanest attribution of the five — no price change in the final 83 days."},
+    {n:4,addr:"215 Prairie Clover Way",city:"Wylie, TX",builder:"Grand Homes",community:"Dominion of Pleasant Valley",
+     status:"pending",statusNote:"Pending · portal-dated",unstaged:193,after:56,afterLabel:"days to contract after ModelMatch",
+     listed:"09/29/2025 · $914,252",pricePath:"cuts → $818,557 · last cut 63 days pre-staging",
+     quote:"The honest page. The comp that outran us is on it.",
+     product:"ModelMatch",
+     events:[
+       {d:"Sep 29, 2025",t:"Listed — <span>$914,252, cut to $818,557</span>"},
+       {d:"~Feb 6, 2026",t:"Last price cut — 63 days before staging",cls:""},
+       {d:"Apr 10, 2026",t:"ModelMatch staging",cls:"mm"},
+       {d:"Jun 5, 2026",t:"PENDING",cls:"end"}],
+     criteria:"Comp pull: 5 returned · 1 qualified · under floor → no comparison claim. The qualifier sold in 58 days unstaged — faster than our subject. It's printed anyway.",
+     cohort:"Fresh 2026 listings nearby now pend in 31–86 days — the market warmed this spring. Logged against us."},
+    {n:5,addr:"2634 Shadybrook Dr",city:"Prosper, TX",builder:"Grand Homes",community:"Wellspring Estates",
+     status:"pending",statusNote:"Pending · portal-dated",unstaged:309,after:43,afterLabel:"days to contract after ModelMatch",
+     listed:"06/17/2025 · $1,148,647",pricePath:"nine cuts → $998,647",
+     quote:"Nine price cuts couldn't move it. One staging did — in six weeks.",
+     product:"ModelMatch",
+     events:[
+       {d:"Jun 17, 2025",t:"Listed — <span>$1,148,647 · nine cuts to $998,647</span>"},
+       {d:"309 days",t:"On market unstaged",cls:""},
+       {d:"Apr 22, 2026",t:"ModelMatch staging",cls:"mm"},
+       {d:"~Jun 4, 2026",t:"PENDING",cls:"end"}],
+     criteria:"Comp pull: 15 returned · 0 qualified · empty box → no comparison claim. Filters were not loosened.",
+     cohort:"The $900K+ vintage listed early-to-mid 2025 took 130–240 days unstaged. Even the million-dollar cohort was frozen."}
+  ],
+  disclaimer:"Proof-library entries. MLS listing histories pulled June 6–7, 2026. <b>Sequence, not causation.</b> Comparable pulls per methodology v1.2 — sets under the 3-comp floor make no comparison claim. Texas is a non-disclosure state: claims ride on days, never sale price. <b>We don't pick. We don't loosen. Check our dates.</b>"
+};
+
+const App=(function(){
+  const root=document.getElementById('root'),lb=document.getElementById('lb'),lbStage=document.getElementById('lbStage'),
+        lbCap=document.getElementById('lbCap'),lbDots=document.getElementById('lbDots'),crumbs=document.getElementById('crumbs'),
+        ptabs=document.getElementById('ptabs'),videoNav=document.getElementById('videoNav');
+  let DATA=window.MODELMATCH_DATA||null;
+  let _smv=null,_sup=null;   /* active slider window listeners (so they don't accumulate) */
+  const state={section:'intro',view:'home',bi:0,hi:0,stage:'reference',resultMode:'vacant',ci:0,lb:{open:false,type:null,items:[],index:0}};
+
+  const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const u=p=>encodeURI(p||'').replace(/'/g,"%27").replace(/\(/g,"%28").replace(/\)/g,"%29").replace(/,/g,"%2C");
+  const B=()=>DATA.builders[state.bi], H=()=>B().homes[state.hi];
+  const cover=h=>(h.reference&&h.reference[0])||(h.pairs[0]&&h.pairs[0].after)||'';
+
+  function chrome(){
+    ptabs.querySelectorAll('.ptab').forEach(t=>t.classList.toggle('on',t.dataset.s===state.section));
+    videoNav.classList.toggle('hidden',state.section!=='pretty');
+    setCrumbs();
+    root.querySelectorAll('.tile,.cell,.case,.icard').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');});
+  }
+  function setCrumbs(){
+    if(state.section!=='pretty'){crumbs.innerHTML='';return;}
+    if(state.view==='home'){crumbs.innerHTML='';return;}
+    if(state.view==='videos'){crumbs.innerHTML='<span onclick="App.goSection(\'pretty\')">The Work</span><span class="sep">/</span><span class="here">FrameFlow Films</span>';return;}
+    let h=`<span onclick="App.goSection('pretty')">The Work</span><span class="sep">/</span>`;
+    if(state.view==='builder'){h+=`<span class="here">${esc(B().name)}</span>`;crumbs.innerHTML=h;return;}
+    h+=`<span onclick="App.openBuilder(${state.bi})">${esc(B().name)}</span><span class="sep">/</span>`;
+    h+=`<span>${esc(H().name)}</span><span class="sep">/</span><span class="here">${state.stage==='reference'?'Reference':'Vacant / Result'}</span>`;
+    crumbs.innerHTML=h;
+  }
+
+  /* ---------- INTRO ---------- */
+  function renderIntro(){
+    state.section='intro';
+    const nHomes=DATA.builders.reduce((s,b)=>s+b.homes.length,0);
+    const nPairs=DATA.builders.reduce((s,b)=>s+b.homes.reduce((t,h)=>t+h.pairs.length,0),0);
+    const nVids=(DATA.videos||[]).length;
+    const heroImg="KHOV/Geneva - lot 2025, K. Hovnanian - Southern California/finished/Geneva_-_lot_2025-vs-01.jpg";
+    root.innerHTML=`<div class="screen">
+      <div class="cine-hero" style="background-image:linear-gradient(rgba(16,12,49,.5),rgba(16,12,49,.8)),url('${u(heroImg)}')">
+        <h1>Pretty. Powerful. <em>Platform</em>.</h1>
+        <p>Staging that looks like your brand — because it is.</p></div>
+      <div class="intro-cards">
+        <div class="icard" onclick="App.goSection('pretty')"><span class="num">01</span>
+          <div class="k">Pretty</div><h3>The Work</h3>
+          <p>Reference, vacant, result — four builders, ${nHomes} homes. Drag the slider and watch each space transform on-brand.</p>
+          <div class="go">Explore the galleries →</div>
+          <div class="stat">${nHomes} homes · ${nPairs} before/afters · ${nVids} films</div></div>
+        <div class="icard" onclick="App.goSection('powerful')"><span class="num">02</span>
+          <div class="k">Powerful</div><h3>The Proof</h3>
+          <p>Homes that sat months on the market, then found buyers within weeks of ModelMatch. Dated and checkable.</p>
+          <div class="go">See the case studies →</div>
+          <div class="stat">5 of 5 · 285 → 35 days</div></div>
+        <div class="icard" onclick="App.goSection('platform')"><span class="num">03</span>
+          <div class="k">Platform</div><h3>digDesk</h3>
+          <p>Where builders order, track, and receive every asset — one business day turnaround. We'll open it live.</p>
+          <div class="go">Open the platform →</div>
+          <div class="stat">Order in minutes · 1-day delivery</div></div>
+      </div></div>`;
+    chrome();
+  }
+
+  /* ---------- PRETTY: builder tiles ---------- */
+  function renderHome(){
+    state.section='pretty';state.view='home';
+    const tiles=DATA.builders.map((b,i)=>{
+      const homes=b.homes.length,pairs=b.homes.reduce((s,h)=>s+h.pairs.length,0);
+      return `<div class="tile" onclick="App.openBuilder(${i})">
+        <div class="cover" style="background-image:url('${u(cover(b.homes[0]))}')"></div><div class="veil"></div>
+        <div class="count">${homes} ${homes>1?'homes':'home'} · ${pairs} spaces</div>
+        <div class="meta"><h3>${esc(b.name)}</h3><div class="sub">Reference · Vacant · Result</div></div></div>`;}).join('');
+    root.innerHTML=`<div class="screen">
+      <div class="hero"><div class="eyebrow">Pretty · The Work</div>
+        <h1>Reference. Vacant. <em>Result</em>.</h1>
+        <p>Choose a builder, step into each home, and drag to reveal how the vacant space becomes an on-brand staged result.</p></div>
+      <div class="tiles">${tiles}</div></div>`;
+    chrome();
+  }
+  function renderBuilder(){
+    state.section='pretty';state.view='builder';const b=B();
+    const tiles=b.homes.map((h,j)=>{const refTxt=h.reference.length?`${h.reference.length} reference · `:'';
+      return `<div class="tile sm" onclick="App.openHome(${state.bi},${j})">
+        <div class="cover" style="background-image:url('${u(cover(h))}')"></div><div class="veil"></div>
+        <div class="count">${refTxt}${h.pairs.length} spaces</div>
+        <div class="meta"><div class="builder">${esc(b.name)}</div><h3>${esc(h.name)}</h3>
+          ${h.location?`<div class="sub">${esc(h.location)}</div>`:''}</div></div>`;}).join('');
+    root.innerHTML=`<div class="screen">
+      <div class="sec-head"><div><div class="lead">${esc(b.name)}</div><h2>Select a <b>home</b></h2></div>
+        <div class="hint">Each home shows its model-home reference, then the vacant space and the staged result.</div></div>
+      <div class="${b.homes.length>=3?'tiles three':'tiles'}">${tiles}</div>
+      <div class="stage-foot"><button class="cta secondary" onclick="App.goSection('pretty')">&#8249; All builders</button><span></span></div></div>`;
+    chrome();
+  }
+  function renderReference(){
+    state.section='pretty';state.view='homeflow';state.stage='reference';const b=B(),h=H();
+    const cells=h.reference.map((src,i)=>`<div class="cell" onclick="App.openImageLightbox(${i})">
+      <img src="${u(src)}" loading="lazy" alt="${esc(h.name)} model-home reference ${i+1}"><div class="lbl">Reference ${i+1}</div></div>`).join('');
+    root.innerHTML=`<div class="screen">
+      <div class="sec-head"><div><div class="lead">${esc(b.name)} · ${esc(h.name)} · Step 1</div><h2>Model Home <b>Reference</b></h2></div>
+        <div class="hint">The model-home gallery that sets the design standard. Click a photo to view full screen and advance.</div></div>
+      <div class="grid">${cells}</div>
+      <div class="stage-foot"><button class="cta secondary" onclick="App.openBuilder(${state.bi})">&#8249; ${esc(b.name)} homes</button>
+        <button class="cta" onclick="App.gotoResult()">Continue to Vacant / Result &#8250;</button></div></div>`;
+    chrome();
+  }
+  function renderResult(){
+    state.section='pretty';state.view='homeflow';state.stage='result';const b=B(),h=H(),mode=state.resultMode;
+    const cells=h.pairs.map((p,i)=>{const src=mode==='vacant'?p.before:p.after;
+      return `<div class="cell" onclick="App.openSliderLightbox(${i})"><img src="${u(src)}" loading="lazy" alt="${esc(p.name)} — ${mode==='vacant'?'vacant':'staged result'}">
+        <span class="pill ${mode==='vacant'?'before':'after'}">${mode==='vacant'?'Vacant':'Result'}</span>
+        <div class="lbl">${esc(p.name)}</div></div>`;}).join('');
+    const nxt=nextTarget();
+    root.innerHTML=`<div class="screen">
+      <div class="sec-head"><div><div class="lead">${esc(b.name)} · ${esc(h.name)}${h.reference.length?' · Step 2':''}</div><h2>Vacant &amp; <b>Result</b></h2></div>
+        <div class="switch-wrap"><button class="${mode==='vacant'?'on':''}" onclick="App.setMode('vacant')">Vacant</button>
+          <button class="${mode==='result'?'on':''}" onclick="App.setMode('result')">Result</button></div></div>
+      <div class="grid">${cells}</div>
+      <div class="stage-foot">
+        <button class="cta secondary" onclick="${h.reference.length?`App.gotoReference()`:`App.openBuilder(${state.bi})`}">&#8249; ${h.reference.length?'Back to reference':esc(b.name)+' homes'}</button>
+        <span class="ghost">Click a space to drag the before / after slider.</span>
+        <button class="cta" onclick="${nxt.action}">${nxt.label} &#8250;</button></div></div>`;
+    chrome();
+  }
+  function renderVideos(){
+    state.section='pretty';state.view='videos';
+    const ytId=v=>{if(!v)return'';const m=(''+v).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);return m?m[1]:(/^[\w-]{11}$/.test(v)?v:'');};
+    const cards=(DATA.videos||[]).map(v=>{const id=ytId(v.youtube);
+      const media=id?`<iframe src="https://www.youtube.com/embed/${id}" title="${esc(v.title||'')}" loading="lazy" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen></iframe>`
+        :(v.src?`<video controls preload="metadata" ${v.poster?`poster="${u(v.poster)}"`:''}><source src="${u(v.src)}"></video>`
+        :`<div class="vid-ph">Video coming soon</div>`);
+      return `<div class="vid-card">${media}<div class="vmeta"><h4>${esc(v.title||'FrameFlow Film')}</h4>${v.note?`<p>${esc(v.note)}</p>`:''}</div></div>`;}).join('');
+    root.innerHTML=`<div class="screen"><div class="hero" style="padding-top:18px"><div class="eyebrow">FrameFlow Studio</div>
+      <h1>Cinematic <em>Films</em></h1><p>Motion that makes a space feel lived-in before a single buyer walks through the door.</p></div>
+      ${(DATA.videos&&DATA.videos.length)?`<div class="vid-grid">${cards}</div>`:`<p class="ghost" style="text-align:center">No FrameFlow videos found.</p>`}
+      <div class="stage-foot"><button class="cta secondary" onclick="App.goSection('pretty')">&#8249; Back to the work</button><span></span></div></div>`;
+    chrome();
+  }
+  function nextTarget(){const b=B();
+    if(state.hi+1<b.homes.length)return{label:`Next home: ${esc(b.homes[state.hi+1].name)}`,action:`App.openHome(${state.bi},${state.hi+1})`};
+    if(state.bi+1<DATA.builders.length)return{label:`Next builder: ${esc(DATA.builders[state.bi+1].name)}`,action:`App.openBuilder(${state.bi+1})`};
+    return{label:`The Proof`,action:`App.goSection('powerful')`};}
+  function advancePastEnd(){const b=B();
+    if(state.hi+1<b.homes.length)openHome(state.bi,state.hi+1);
+    else if(state.bi+1<DATA.builders.length)openBuilder(state.bi+1);
+    else goSection('powerful');}
+
+  /* ---------- POWERFUL: proof ---------- */
+  function renderProof(){
+    state.section='powerful';const a=PROOF.aggregate;
+    const cards=PROOF.cases.map((c,i)=>{const tot=c.unstaged+c.after,st=Math.round(c.unstaged/tot*1000)/10,ft=Math.round(c.after/tot*1000)/10;
+      return `<div class="case" onclick="App.openCase(${i})">
+      <div class="top"><div><div class="addr">${esc(c.addr)}</div>
+        <div class="meta">${esc(c.city)} · ${esc(c.builder)}${c.community?' · '+esc(c.community):''}</div></div>
+        <span class="badge ${c.status}">${c.status==='sold'?'Sold':'Pending'}</span></div>
+      <div class="nums"><div class="u"><div class="n">${c.unstaged}</div><div class="l">days unstaged</div></div>
+        <div class="ar">→</div>
+        <div class="a"><div class="n">${c.after}</div><div class="l">${esc(c.afterLabel)}</div></div></div>
+      <div class="cbar"><div class="track"><div class="stuck" style="width:${st}%"></div><div class="fast" style="width:${ft}%"></div></div>
+        <div class="cnote">${c.after} days after staging</div></div>
+      <div class="q">“${esc(c.quote)}”</div><div class="more">See the verified timeline →</div></div>`;}).join('');
+    root.innerHTML=`<div class="screen">
+      <div class="proof-hero"><div class="eyebrow">Powerful · The Proof</div>
+        <h2>Five stuck homes <em>came unstuck</em>.</h2>
+        <p>${esc(a.thesis)}</p>
+        <div class="bignums">
+          <div class="bignum"><div class="n">${a.unstaged}</div><div class="l">avg days stuck unstaged</div></div>
+          <div class="arrow">→</div>
+          <div class="bignum accent"><div class="n">${a.after}</div><div class="l">avg days to a buyer after ModelMatch</div></div>
+        </div>
+        <div class="ratio">
+          <div class="ratio-row"><span class="rl">Stuck, unstaged</span><div class="rbar"><i style="width:100%"></i></div><span class="rv">avg ${a.unstaged} days</span></div>
+          <div class="ratio-row"><span class="rl">After ModelMatch</span><div class="rbar"><i class="acc" style="width:${Math.round(a.after/a.unstaged*1000)/10}%"></i></div><span class="rv">avg ${a.after} days</span></div>
+        </div>
+        <div class="chips"><span class="chip">5 of 5 transacted</span><span class="chip">4 metros</span><span class="chip">$400K–$1.1M</span><span class="chip">None over 56 days post-staging</span><span class="chip">Checkable to the day</span></div>
+        <div class="foot"><b>${esc(a.cap)}</b> ${esc(a.line)}</div></div>
+      <div class="sec-head" style="margin-top:34px"><div><div class="lead">The homes</div><h2>Five of five — <b>nobody left out</b></h2></div>
+        <div class="hint">Each home: its verified timeline, the comp criteria applied mechanically, and the cohort context — including where it cuts against us.</div></div>
+      <div class="cases">${cards}</div>
+      <div class="disc">${PROOF.disclaimer}<br><br><b>Cohort context.</b> ${esc(a.cohort)}</div>
+      <div class="stage-foot"><button class="cta secondary" onclick="App.goSection('pretty')">&#8249; The Work</button>
+        <button class="cta" onclick="App.goSection('platform')">The Platform &#8250;</button></div></div>`;
+    chrome();
+  }
+  function renderCase(i){
+    state.section='powerful';state.ci=i;const c=PROOF.cases[i];
+    const tl=c.events.map(e=>`<li class="${e.cls||''}"><span class="dot"></span>
+      <div class="d">${esc(e.d)}</div><div class="t">${e.t}</div></li>`).join('');
+    root.innerHTML=`<div class="screen">
+      <div class="sec-head"><div><div class="lead">Home ${c.n} of 5 · ${esc(c.statusNote)}</div>
+        <h2>${esc(c.addr)}</h2>
+        <div class="hint" style="color:var(--text)">${esc(c.city)} · ${esc(c.builder)}${c.community?' · '+esc(c.community):''} · ${esc(c.product)}</div></div>
+        <span class="badge ${c.status}" style="font-size:11px;padding:7px 14px">${c.status==='sold'?'Sold':'Pending'}</span></div>
+      <div class="cd-grid">
+        <div>
+          <div class="cd-nums"><div class="u"><div class="n">${c.unstaged}</div><div class="l">days unstaged</div></div>
+            <div class="ar">→</div>
+            <div class="a"><div class="n">${c.after}</div><div class="l">${esc(c.afterLabel)}</div></div></div>
+          <div class="cd-quote">“${esc(c.quote)}”</div>
+          <ul class="tl" style="margin-top:24px">${tl}</ul>
+        </div>
+        <div class="cd-side">
+          <div class="blk"><h4>Listed</h4><p>${esc(c.listed)}<br><span style="color:var(--muted)">${esc(c.pricePath)}</span></p></div>
+          <div class="blk"><h4>Criteria applied</h4><p>${esc(c.criteria)}</p></div>
+          <div class="blk"><h4>Cohort context</h4><p>${esc(c.cohort)}</p></div>
+        </div></div>
+      <div class="stage-foot">
+        <button class="cta secondary" onclick="App.goSection('powerful')">&#8249; All five homes</button>
+        ${i+1<PROOF.cases.length?`<button class="cta" onclick="App.openCase(${i+1})">Home ${i+2}: ${esc(PROOF.cases[i+1].addr)} &#8250;</button>`:`<button class="cta" onclick="App.goSection('platform')">The Platform &#8250;</button>`}</div></div>`;
+    chrome();window.scrollTo(0,0);
+  }
+
+  /* ---------- PLATFORM ---------- */
+  function renderPlatform(){
+    state.section='platform';
+    const steps=[
+      ["Build your ModelMatch gallery","Upload your existing model-home photography. Those images become your permanent design-reference library."],
+      ["Create a staging order","Place a new order in digDesk and upload the vacant listing photos you want staged."],
+      ["Select your ModelMatch gallery","Choose the model-home reference set that matches the community or floorplan — our team handles the rest."],
+      ["Receive on-brand results","Finished staged images are delivered to your digDesk portal within one business day, ready to publish everywhere."]
+    ].map((s,i)=>`<div class="step"><div class="snum">0${i+1}</div><h4>${esc(s[0])}</h4><p>${esc(s[1])}</p></div>`).join('');
+    root.innerHTML=`<div class="screen">
+      <div class="sec-head"><div><div class="lead">Platform · How it works</div><h2>Four steps to <b>on-brand staging</b></h2></div>
+        <div class="hint">ModelMatch is built around your account — once your reference library is set up, every future order uses it automatically.</div></div>
+      <div class="steps">${steps}</div>
+      <div class="platform" style="margin-top:42px">
+        <div class="eyebrow">digDesk</div>
+        <h2>Where it all gets ordered.</h2>
+        <p>Your account home base — order ModelMatch staging and Cinematic video, track every job, and receive finished assets within one business day. Let's open it live.</p>
+        <button class="cta" onclick="window.open('https://desk.daviesimaging.com','_blank')">Launch digDesk ↗</button></div>
+      <div class="stage-foot"><button class="cta secondary" onclick="App.goSection('powerful')">&#8249; The Proof</button><span></span></div></div>`;
+    chrome();
+  }
+
+  /* ---------- lightbox (galleries) ---------- */
+  function openImageLightbox(i){const h=H();
+    state.lb={open:true,type:'image',items:h.reference.map((s,ix)=>({src:s,cap:`Reference ${ix+1} of ${h.reference.length}`})),index:i};paintLightbox();}
+  function openSliderLightbox(i){state.lb={open:true,type:'slider',items:H().pairs.slice(),index:i};paintLightbox();}
+  function paintLightbox(){const {type,items,index}=state.lb;lb.classList.add('open');state.lb.open=true;
+    if(type==='image'){const it=items[index];lbStage.innerHTML=`<img class="single" src="${u(it.src)}" alt="${esc(it.cap||'Model-home reference')}">`;lbCap.innerHTML=it.cap||'';}
+    else{const p=items[index];lbStage.innerHTML=`<div class="ba" id="ba">
+      <img class="after-img" src="${u(p.after)}" alt="${esc(p.name)} — staged result">
+      <div class="before-wrap" id="baBefore"><img src="${u(p.before)}" alt="${esc(p.name)} — vacant"></div>
+      <span class="tag l">Vacant</span><span class="tag r">Result</span>
+      <div class="handle" id="baHandle"><div class="knob">&#8596;</div></div>
+      <div class="drag-hint">Drag to compare</div></div>`;
+      lbCap.innerHTML=`<b>${esc(p.name)}</b> &nbsp;·&nbsp; ${index+1} of ${items.length} &nbsp;·&nbsp; drag to reveal`;initSlider();}
+    lbDots.innerHTML=items.map((_,k)=>`<i class="${k===index?'on':''}"></i>`).join('');}
+  function initSlider(){const ba=document.getElementById('ba'),before=document.getElementById('baBefore'),handle=document.getElementById('baHandle');
+    let pos=50;const apply=p=>{pos=Math.max(0,Math.min(100,p));before.style.clipPath='inset(0 '+(100-pos)+'% 0 0)';handle.style.left=pos+'%';};
+    const ease=on=>{const t=on?'clip-path .28s ease':'none',h=on?'left .28s ease':'none';before.style.transition=t;handle.style.transition=h;};
+    ease(true);apply(50);
+    let drag=false;const fe=e=>{const r=ba.getBoundingClientRect();const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;apply(x/r.width*100);};
+    const dn=e=>{drag=true;ease(false);fe(e);e.preventDefault();},mv=e=>{if(drag)fe(e);},up=()=>{drag=false;};
+    if(_smv)window.removeEventListener('mousemove',_smv);if(_sup)window.removeEventListener('mouseup',_sup);
+    _smv=mv;_sup=up;
+    ba.addEventListener('mousedown',dn);window.addEventListener('mousemove',mv);window.addEventListener('mouseup',up);
+    ba.addEventListener('touchstart',dn,{passive:false});ba.addEventListener('touchmove',mv,{passive:false});ba.addEventListener('touchend',up);
+    /* one-time nudge so the drag affordance is obvious */
+    let seq=[64,38,50],k=0;const tick=()=>{if(drag)return;if(k<seq.length){apply(seq[k++]);setTimeout(tick,300);}else ease(false);};
+    setTimeout(tick,420);}
+  function lbStep(dir){const {items,index,type}=state.lb;const ni=index+dir;if(ni<0)return;
+    if(ni>=items.length){closeLightbox();if(type==='image')gotoResult();else advancePastEnd();return;}
+    state.lb.index=ni;paintLightbox();}
+  function closeLightbox(){lb.classList.remove('open');state.lb.open=false;lbStage.innerHTML='';}
+
+  /* ---------- transitions ---------- */
+  function goIntro(){closeLightbox();renderIntro();window.scrollTo(0,0);}
+  function goSection(s){closeLightbox();
+    if(s==='pretty')renderHome();else if(s==='powerful')renderProof();else if(s==='platform')renderPlatform();else renderIntro();
+    window.scrollTo(0,0);}
+  function openBuilder(i){closeLightbox();state.bi=i;renderBuilder();window.scrollTo(0,0);}
+  function openHome(bi,hi){closeLightbox();state.bi=bi;state.hi=hi;state.resultMode='vacant';
+    if(H().reference.length)renderReference();else renderResult();window.scrollTo(0,0);}
+  function gotoResult(){closeLightbox();renderResult();window.scrollTo(0,0);}
+  function gotoReference(){closeLightbox();renderReference();window.scrollTo(0,0);}
+  function setMode(m){state.resultMode=m;renderResult();}
+  function showVideos(){closeLightbox();renderVideos();window.scrollTo(0,0);}
+  function openCase(i){closeLightbox();renderCase(i);}
+
+  document.addEventListener('keydown',e=>{if(!state.lb.open)return;
+    if(e.key==='Escape')closeLightbox();else if(e.key==='ArrowRight')lbStep(1);else if(e.key==='ArrowLeft')lbStep(-1);});
+  lb.addEventListener('click',e=>{if(e.target===lb)closeLightbox();});
+  document.addEventListener('keydown',e=>{if(state.lb.open)return;
+    if(e.key==='Enter'||e.key===' '){const a=document.activeElement;
+      if(a&&/\b(tile|cell|case|icard)\b/.test(a.className||'')){e.preventDefault();a.click();}}});
+
+  function boot(){if(!DATA||!DATA.builders||!DATA.builders.length){
+      root.innerHTML='<div class="setup"><h2>Add your project files</h2><p style="color:var(--muted)">manifest.js is empty — re-run the build to scan your builder folders.</p></div>';return;}
+    renderIntro();}
+
+  return {boot,goIntro,goSection,openBuilder,openHome,gotoResult,gotoReference,setMode,showVideos,
+          openImageLightbox,openSliderLightbox,lbStep,closeLightbox,openCase};
+})();
+App.boot();
+</script>
+</body>
+</html>
