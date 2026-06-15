@@ -277,28 +277,32 @@ function FullBleed({
   objectPosition?: string;
 }) {
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-bg-dark text-text-light">
-      {/* On phones a wide desktop screenshot is shown contained (whole image,
-          pinned to top) instead of cover-cropped to an unreadable sliver. */}
+    // Mobile: a normal column — framed 16:9 image up top, caption directly
+    // below it (well clear of the Prev/Next footer). Desktop (sm+): the
+    // original full-bleed cover with a bottom-left text overlay.
+    <div className="relative flex min-h-screen w-screen flex-col overflow-hidden bg-bg-dark text-text-light sm:block sm:h-screen sm:min-h-0">
+      {/* The digDesk screenshots are exactly 16:9, so an aspect-video frame
+          shows the whole dashboard with no letterbox on mobile. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageSrc}
         alt={imageAlt}
-        className="absolute inset-0 h-full w-full object-contain object-top sm:object-cover"
+        className="mt-20 aspect-video w-full object-cover sm:absolute sm:inset-0 sm:mt-0 sm:aspect-auto sm:h-full"
         style={{ objectPosition }}
       />
+      {/* Desktop-only gradient anchoring the overlaid text. */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3"
+        className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-2/3 sm:block"
         style={{
           background:
             "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.55) 30%, rgba(0,0,0,0.15) 65%, rgba(0,0,0,0) 100%)",
         }}
         aria-hidden
       />
-      <div className="absolute inset-x-0 bottom-24 px-6 sm:bottom-28 sm:px-12">
+      <div className="px-6 pb-28 pt-8 sm:absolute sm:inset-x-0 sm:bottom-28 sm:px-12 sm:pb-0 sm:pt-0">
         <div className="mx-auto max-w-6xl">
           <Eyebrow dark>{eyebrow}</Eyebrow>
-          <h1 className="font-heading text-[clamp(2.5rem,5vw,4rem)] font-semibold leading-[1.04] tracking-tight text-text-light">
+          <h1 className="font-heading text-[clamp(1.9rem,5vw,4rem)] font-semibold leading-[1.06] tracking-tight text-text-light">
             {title}
           </h1>
           {lede && <p className="lead-text mt-4 max-w-[55ch] text-white/80">{lede}</p>}
