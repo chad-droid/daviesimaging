@@ -494,6 +494,18 @@ const WHY_CARDS = [
   },
 ];
 
+// Every ModelMatch listing transacted since launch. Days on market and list
+// details verified from MLS listing histories (DIG Proof Library, data as of
+// June 7, 2026). `before` = days unstaged on market; `after` = days to a buyer
+// after ModelMatch. Avg 285 -> ~35. Builder names intentionally omitted.
+const PROJECTS = [
+  { n: "01", addr: "282 Laurel Hike, San Antonio, TX", mls: "Listed Sep 23, 2025 · $399,999", before: 196, after: 43 },
+  { n: "02", addr: "3737 Selborne Dr, Rockwall, TX", mls: "Listed Apr 21, 2025 · $854,319", before: 357, after: 14 },
+  { n: "03", addr: "511 San Angelo Dr, Forney, TX", mls: "Listed Apr 13, 2025 · $671,273", before: 368, after: 18 },
+  { n: "04", addr: "215 Prairie Clover Way, Wylie, TX", mls: "Listed Sep 29, 2025 · $914,252", before: 193, after: 56 },
+  { n: "05", addr: "2634 Shadybrook Dr, Prosper, TX", mls: "Listed Jun 17, 2025 · $1,148,647", before: 309, after: 43 },
+];
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Slides
 // ─────────────────────────────────────────────────────────────────────────────
@@ -542,31 +554,6 @@ const slides: Array<() => React.ReactElement> = [
           alt="Brand-matched virtual staging"
           className="aspect-[4/3] w-full rounded-2xl object-cover shadow-xl"
         />
-      </div>
-    </SlideShell>
-  ),
-
-  // 2 — How it works (dark)
-  () => (
-    <SlideShell dark>
-      <div className="text-center">
-        <Eyebrow dark>How It Works</Eyebrow>
-        <h1 className="font-heading text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-tight tracking-tight text-text-light">
-          Four steps to <strong>on-brand staging.</strong>
-        </h1>
-        <p className="mx-auto mt-4 max-w-[60ch] text-white/70">
-          ModelMatch is built around your account. Once your reference library is set up, every
-          future order uses it automatically.
-        </p>
-      </div>
-      <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
-        {HOW_STEPS.map((s) => (
-          <div key={s.n} className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
-            <span className="font-heading text-3xl font-semibold text-accent-dark-hover">{s.n}</span>
-            <h4 className="mt-3 text-text-light">{s.title}</h4>
-            <p className="mt-2 text-sm leading-relaxed text-white/60">{s.body}</p>
-          </div>
-        ))}
       </div>
     </SlideShell>
   ),
@@ -670,7 +657,102 @@ const slides: Array<() => React.ReactElement> = [
     />
   ),
 
-  // 14 — Why builders choose ModelMatch
+  // ── Performance section ─────────────────────────────────────────────────
+  // Page 1 — section intro (dark)
+  () => (
+    <SlideShell dark>
+      <div className="text-center">
+        <Eyebrow dark>The Power of Presentation</Eyebrow>
+        <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-light">
+          How does it perform?
+        </h1>
+        <div className="mt-10 flex items-center justify-center gap-5 sm:gap-12">
+          <div>
+            <p className="font-heading text-[clamp(3.5rem,11vw,7rem)] font-semibold leading-none text-white/40">
+              285
+            </p>
+            <p className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white/40 sm:text-[0.65rem]">
+              Avg days unstaged
+            </p>
+          </div>
+          <span className="font-heading text-3xl text-white/35 sm:text-5xl">&rarr;</span>
+          <div>
+            <p className="font-heading text-[clamp(3.5rem,11vw,7rem)] font-semibold leading-none text-accent-dark-hover">
+              35
+            </p>
+            <p className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-accent-dark-hover sm:text-[0.65rem]">
+              After ModelMatch
+            </p>
+          </div>
+        </div>
+        <p className="mx-auto mt-8 max-w-[58ch] text-sm leading-relaxed text-white/60">
+          Five homes, four builders, $400K to $1.1M. Days on market verified from MLS listing
+          histories. Sequence, not causation.
+        </p>
+      </div>
+    </SlideShell>
+  ),
+
+  // Page 2 — five projects (light)
+  () => (
+    <SlideShell>
+      <div className="mx-auto w-full max-w-4xl">
+        <Eyebrow>Results</Eyebrow>
+        <h1 className="font-heading text-[clamp(2rem,4.4vw,3.4rem)] font-semibold leading-tight tracking-tight text-text-dark">
+          Stuck for months. <strong>A buyer in weeks.</strong>
+        </h1>
+        <p className="mt-3 text-sm text-text-muted">
+          Days unstaged on market &rarr; ModelMatch &rarr; days to a buyer.
+        </p>
+        <ul className="mt-8 divide-y divide-border-light border-y border-border-light">
+          {PROJECTS.map((p) => (
+            <li key={p.addr} className="flex items-center gap-3 py-4 sm:gap-6">
+              <span className="font-heading text-xl font-semibold text-accent sm:text-2xl">{p.n}</span>
+              <div className="min-w-0 flex-1">
+                <p className="font-heading text-base font-medium text-text-dark sm:text-xl">{p.addr}</p>
+                <p className="text-xs text-text-muted sm:text-sm">{p.mls}</p>
+              </div>
+              <span className="flex flex-shrink-0 items-baseline gap-1 sm:gap-2">
+                <span className="font-heading text-lg font-semibold text-text-muted sm:text-2xl">{p.before}</span>
+                <span className="text-text-muted">&rarr;</span>
+                <span className="font-heading text-sm font-semibold uppercase tracking-wide text-accent sm:text-base">MM</span>
+                <span className="text-text-muted">&rarr;</span>
+                <span className="font-heading text-lg font-semibold text-accent sm:text-2xl">{p.after}</span>
+                <span className="ml-0.5 text-xs text-text-muted sm:ml-1">days</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </SlideShell>
+  ),
+
+  // ── How it works (dark) — moved here, after the proof ───────────────────
+  () => (
+    <SlideShell dark>
+      <div className="text-center">
+        <Eyebrow dark>How It Works</Eyebrow>
+        <h1 className="font-heading text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-tight tracking-tight text-text-light">
+          Four steps to <strong>on-brand staging.</strong>
+        </h1>
+        <p className="mx-auto mt-4 max-w-[60ch] text-white/70">
+          ModelMatch is built around your account. Once your reference library is set up, every
+          future order uses it automatically.
+        </p>
+      </div>
+      <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
+        {HOW_STEPS.map((s) => (
+          <div key={s.n} className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+            <span className="font-heading text-3xl font-semibold text-accent-dark-hover">{s.n}</span>
+            <h4 className="mt-3 text-text-light">{s.title}</h4>
+            <p className="mt-2 text-sm leading-relaxed text-white/60">{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </SlideShell>
+  ),
+
+  // — Why builders choose ModelMatch
   () => (
     <SlideShell>
       <div className="text-center">
@@ -814,6 +896,7 @@ const slides: Array<() => React.ReactElement> = [
 ];
 
 // 0-indexed slides that paint chrome over an edge-to-edge image.
-const FULL_BLEED_SLIDES = new Set<number>([17, 18, 19]);
+const FULL_BLEED_SLIDES = new Set<number>([19, 20, 21]);
 // 0-indexed slides with a dark background (chrome goes light-on-dark).
-const DARK_SLIDES = new Set<number>([0, 2, 16]);
+// 0 Title, 13 Performance intro, 15 How-it-works, 18 digDesk reveal.
+const DARK_SLIDES = new Set<number>([0, 13, 15, 18]);
