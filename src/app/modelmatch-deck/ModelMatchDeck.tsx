@@ -494,14 +494,16 @@ const WHY_CARDS = [
   },
 ];
 
-// Five real ModelMatch projects (room counts are actual before/after pair
-// counts from the showcase library; Perry Homes builds only in Texas).
+// The First Five — every ModelMatch listing transacted since launch. Days on
+// market verified from MLS listing histories (DIG Proof Library, data as of
+// June 7, 2026). `before` = days unstaged on market; `after` = days to a buyer
+// after ModelMatch. Avg 285 -> ~35.
 const PROJECTS = [
-  { n: "01", name: "Riley Street", builder: "Perry Homes", loc: "Texas", rooms: 7 },
-  { n: "02", name: "M3 Ranch", builder: "Perry Homes", loc: "Texas", rooms: 7 },
-  { n: "03", name: "Star Trail", builder: "Perry Homes", loc: "Texas", rooms: 7 },
-  { n: "04", name: "Vetrina Way", builder: "Beazer Homes", loc: "Raleigh, NC", rooms: 6 },
-  { n: "05", name: "OAC Lot 59", builder: "Beazer Homes", loc: "Nashville, TN", rooms: 11 },
+  { n: "01", name: "282 Laurel Hike", builder: "Beazer Homes", loc: "San Antonio, TX", before: 196, after: 43 },
+  { n: "02", name: "3737 Selborne Dr", builder: "Grand Homes", loc: "Rockwall, TX", before: 357, after: 14 },
+  { n: "03", name: "511 San Angelo Dr", builder: "Grand Homes", loc: "Forney, TX", before: 368, after: 18 },
+  { n: "04", name: "215 Prairie Clover Way", builder: "Grand Homes", loc: "Wylie, TX", before: 193, after: 56 },
+  { n: "05", name: "2634 Shadybrook Dr", builder: "Grand Homes", loc: "Prosper, TX", before: 309, after: 43 },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -661,12 +663,31 @@ const slides: Array<() => React.ReactElement> = [
     <SlideShell dark>
       <div className="text-center">
         <Eyebrow dark>The Power of Presentation</Eyebrow>
-        <h1 className="font-heading text-[clamp(2.5rem,6vw,4.75rem)] font-semibold leading-[1.05] tracking-tight text-text-light">
+        <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-light">
           How does it perform?
         </h1>
-        <p className="mx-auto mt-6 max-w-[55ch] text-white/70">
-          Five ModelMatch projects. 38 rooms staged and listing-ready in as little as 48 hours, each
-          matched to the builder&rsquo;s own model home.
+        <div className="mt-10 flex items-center justify-center gap-5 sm:gap-12">
+          <div>
+            <p className="font-heading text-[clamp(3.5rem,11vw,7rem)] font-semibold leading-none text-white/40">
+              285
+            </p>
+            <p className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-white/40 sm:text-[0.65rem]">
+              Avg days unstaged
+            </p>
+          </div>
+          <span className="font-heading text-3xl text-white/35 sm:text-5xl">&rarr;</span>
+          <div>
+            <p className="font-heading text-[clamp(3.5rem,11vw,7rem)] font-semibold leading-none text-accent-dark-hover">
+              35
+            </p>
+            <p className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.18em] text-accent-dark-hover sm:text-[0.65rem]">
+              After ModelMatch
+            </p>
+          </div>
+        </div>
+        <p className="mx-auto mt-8 max-w-[58ch] text-sm leading-relaxed text-white/60">
+          Five homes, four builders, $400K to $1.1M. Days on market verified from MLS listing
+          histories. Sequence, not causation.
         </p>
       </div>
     </SlideShell>
@@ -676,22 +697,28 @@ const slides: Array<() => React.ReactElement> = [
   () => (
     <SlideShell>
       <div className="mx-auto w-full max-w-4xl">
-        <Eyebrow>Results / ModelMatch Projects</Eyebrow>
+        <Eyebrow>Results / The First Five</Eyebrow>
         <h1 className="font-heading text-[clamp(2rem,4.4vw,3.4rem)] font-semibold leading-tight tracking-tight text-text-dark">
-          Five projects, <strong>staged to sell.</strong>
+          Stuck for months. <strong>A buyer in weeks.</strong>
         </h1>
-        <ul className="mt-10 divide-y divide-border-light border-y border-border-light">
+        <p className="mt-3 text-sm text-text-muted">
+          Days unstaged on market &rarr; days to a buyer after ModelMatch.
+        </p>
+        <ul className="mt-8 divide-y divide-border-light border-y border-border-light">
           {PROJECTS.map((p) => (
-            <li key={p.name} className="flex items-center gap-4 py-4 sm:gap-6 sm:py-5">
+            <li key={p.name} className="flex items-center gap-4 py-4 sm:gap-6">
               <span className="font-heading text-xl font-semibold text-accent sm:text-2xl">{p.n}</span>
               <div className="min-w-0 flex-1">
-                <p className="font-heading text-lg font-medium text-text-dark sm:text-xl">{p.name}</p>
+                <p className="font-heading text-base font-medium text-text-dark sm:text-xl">{p.name}</p>
                 <p className="text-xs text-text-muted sm:text-sm">
                   {p.builder} &middot; {p.loc}
                 </p>
               </div>
-              <span className="flex-shrink-0 rounded-full border border-border-light px-3 py-1 text-xs font-medium text-text-muted sm:text-sm">
-                {p.rooms} rooms staged
+              <span className="flex flex-shrink-0 items-baseline gap-1.5 sm:gap-2">
+                <span className="font-heading text-lg font-semibold text-text-muted sm:text-2xl">{p.before}</span>
+                <span className="text-text-muted">&rarr;</span>
+                <span className="font-heading text-lg font-semibold text-accent sm:text-2xl">{p.after}</span>
+                <span className="ml-0.5 text-xs text-text-muted sm:ml-1">days</span>
               </span>
             </li>
           ))}
