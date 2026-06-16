@@ -494,16 +494,16 @@ const WHY_CARDS = [
   },
 ];
 
-// The First Five — every ModelMatch listing transacted since launch. Days on
-// market verified from MLS listing histories (DIG Proof Library, data as of
+// Every ModelMatch listing transacted since launch. Days on market and list
+// details verified from MLS listing histories (DIG Proof Library, data as of
 // June 7, 2026). `before` = days unstaged on market; `after` = days to a buyer
-// after ModelMatch. Avg 285 -> ~35.
+// after ModelMatch. Avg 285 -> ~35. Builder names intentionally omitted.
 const PROJECTS = [
-  { n: "01", name: "282 Laurel Hike", builder: "Beazer Homes", loc: "San Antonio, TX", before: 196, after: 43 },
-  { n: "02", name: "3737 Selborne Dr", builder: "Grand Homes", loc: "Rockwall, TX", before: 357, after: 14 },
-  { n: "03", name: "511 San Angelo Dr", builder: "Grand Homes", loc: "Forney, TX", before: 368, after: 18 },
-  { n: "04", name: "215 Prairie Clover Way", builder: "Grand Homes", loc: "Wylie, TX", before: 193, after: 56 },
-  { n: "05", name: "2634 Shadybrook Dr", builder: "Grand Homes", loc: "Prosper, TX", before: 309, after: 43 },
+  { n: "01", addr: "282 Laurel Hike, San Antonio, TX", mls: "Listed Sep 23, 2025 · $399,999", before: 196, after: 43 },
+  { n: "02", addr: "3737 Selborne Dr, Rockwall, TX", mls: "Listed Apr 21, 2025 · $854,319", before: 357, after: 14 },
+  { n: "03", addr: "511 San Angelo Dr, Forney, TX", mls: "Listed Apr 13, 2025 · $671,273", before: 368, after: 18 },
+  { n: "04", addr: "215 Prairie Clover Way, Wylie, TX", mls: "Listed Sep 29, 2025 · $914,252", before: 193, after: 56 },
+  { n: "05", addr: "2634 Shadybrook Dr, Prosper, TX", mls: "Listed Jun 17, 2025 · $1,148,647", before: 309, after: 43 },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -697,25 +697,25 @@ const slides: Array<() => React.ReactElement> = [
   () => (
     <SlideShell>
       <div className="mx-auto w-full max-w-4xl">
-        <Eyebrow>Results / The First Five</Eyebrow>
+        <Eyebrow>Results</Eyebrow>
         <h1 className="font-heading text-[clamp(2rem,4.4vw,3.4rem)] font-semibold leading-tight tracking-tight text-text-dark">
           Stuck for months. <strong>A buyer in weeks.</strong>
         </h1>
         <p className="mt-3 text-sm text-text-muted">
-          Days unstaged on market &rarr; days to a buyer after ModelMatch.
+          Days unstaged on market &rarr; ModelMatch &rarr; days to a buyer.
         </p>
         <ul className="mt-8 divide-y divide-border-light border-y border-border-light">
           {PROJECTS.map((p) => (
-            <li key={p.name} className="flex items-center gap-4 py-4 sm:gap-6">
+            <li key={p.addr} className="flex items-center gap-3 py-4 sm:gap-6">
               <span className="font-heading text-xl font-semibold text-accent sm:text-2xl">{p.n}</span>
               <div className="min-w-0 flex-1">
-                <p className="font-heading text-base font-medium text-text-dark sm:text-xl">{p.name}</p>
-                <p className="text-xs text-text-muted sm:text-sm">
-                  {p.builder} &middot; {p.loc}
-                </p>
+                <p className="font-heading text-base font-medium text-text-dark sm:text-xl">{p.addr}</p>
+                <p className="text-xs text-text-muted sm:text-sm">{p.mls}</p>
               </div>
-              <span className="flex flex-shrink-0 items-baseline gap-1.5 sm:gap-2">
+              <span className="flex flex-shrink-0 items-baseline gap-1 sm:gap-2">
                 <span className="font-heading text-lg font-semibold text-text-muted sm:text-2xl">{p.before}</span>
+                <span className="text-text-muted">&rarr;</span>
+                <span className="font-heading text-sm font-semibold uppercase tracking-wide text-accent sm:text-base">MM</span>
                 <span className="text-text-muted">&rarr;</span>
                 <span className="font-heading text-lg font-semibold text-accent sm:text-2xl">{p.after}</span>
                 <span className="ml-0.5 text-xs text-text-muted sm:ml-1">days</span>
