@@ -137,8 +137,8 @@ export function ModelMatchDeck() {
       {/* Top chrome */}
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 sm:px-10">
         <span
-          className={`text-[0.65rem] font-bold uppercase tracking-[0.4em] transition-colors ${
-            chromeOnDark ? "text-white/85" : "text-text-dark"
+          className={`font-heading text-lg font-semibold tracking-tight transition-colors ${
+            chromeOnDark ? "text-white/90" : "text-text-dark"
           }`}
         >
           ModelMatch
@@ -517,11 +517,11 @@ const slides: Array<() => React.ReactElement> = [
       <div>
         <Eyebrow dark>Virtual Staging</Eyebrow>
         <h1 className="font-heading text-[clamp(2.5rem,6vw,4.75rem)] font-semibold leading-[1.04] tracking-tight text-text-light">
-          ModelMatch is virtual staging built for Homebuilders.
+          ModelMatch is branded virtual staging, built for Homebuilders.
         </h1>
         <p className="lead-text mt-6 max-w-[55ch] text-white/80">
-          Virtual staging that uses your model home photography as art direction. Every staged image
-          is on-brand, not a generic template.
+          Virtual staging that helps unstick aging inventory by using your model home photography as
+          art direction.
         </p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/dig-logo-light.png" alt="Davies Imaging Group" className="mt-12 h-9 w-auto" />
@@ -686,8 +686,8 @@ const slides: Array<() => React.ReactElement> = [
           </div>
         </div>
         <p className="mx-auto mt-8 max-w-[58ch] text-sm leading-relaxed text-white/60">
-          Five homes, four builders, $400K to $1.1M. Days on market verified from MLS listing
-          histories. Sequence, not causation.
+          ModelMatch helps reactivate demand for aging inventory across all price points. $400K to
+          $1.1M. Days on market verified from MLS listing histories.
         </p>
       </div>
     </SlideShell>
@@ -699,7 +699,7 @@ const slides: Array<() => React.ReactElement> = [
       <div className="mx-auto w-full max-w-4xl">
         <Eyebrow>Results</Eyebrow>
         <h1 className="font-heading text-[clamp(2rem,4.4vw,3.4rem)] font-semibold leading-tight tracking-tight text-text-dark">
-          Stuck for months. <strong>A buyer in weeks.</strong>
+          Stuck for months. <strong>In contract after weeks.</strong>
         </h1>
         <p className="mt-3 text-sm text-text-muted">
           Days unstaged on market &rarr; ModelMatch &rarr; days to a buyer.
@@ -736,7 +736,7 @@ const slides: Array<() => React.ReactElement> = [
           Four steps to <strong>on-brand staging.</strong>
         </h1>
         <p className="mx-auto mt-4 max-w-[60ch] text-white/70">
-          ModelMatch is built around your account. Once your reference library is set up, every
+          ModelMatch is built around your specific brand. Once your reference library is set up, every
           future order uses it automatically.
         </p>
       </div>
@@ -758,7 +758,7 @@ const slides: Array<() => React.ReactElement> = [
       <div className="text-center">
         <Eyebrow>Why Builders Choose ModelMatch</Eyebrow>
         <h1 className="font-heading text-[clamp(2rem,4.4vw,3.4rem)] font-semibold leading-tight tracking-tight text-text-dark">
-          Every listing. <strong>Same brand.</strong>
+          Takes minutes to <strong>get started.</strong>
         </h1>
       </div>
       <div className="mt-12 grid gap-5 sm:grid-cols-2">
@@ -799,8 +799,8 @@ const slides: Array<() => React.ReactElement> = [
           </span>
           <h4 className="text-text-dark">Spec+ Bundle</h4>
           <p className="mt-2 text-sm leading-relaxed text-text-muted">
-            Photography, staging, and virtual video in one $600 order. 72-hour delivery after the
-            shoot.
+            Listing photography by DIG, 8 ModelMatch virtually staged photos, and 1 FrameFlow video
+            in one $600 order. 72-hour delivery after the shoot.
           </p>
           <p className="mt-6 font-heading text-4xl font-semibold text-text-dark">
             $600 flat <span className="text-base font-normal text-text-muted">/ property</span>
@@ -814,10 +814,12 @@ const slides: Array<() => React.ReactElement> = [
   () => (
     <SlideShell dark>
       <div className="text-center">
-        <span className="font-heading text-[clamp(3rem,8vw,6rem)] font-bold tracking-tight">
-          <span className="text-white">dig</span>
-          <span className="text-accent-dark-hover">Desk</span>
-        </span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={IMG("digdesk-logo.png")}
+          alt="digDesk"
+          className="mx-auto h-16 w-auto sm:h-20"
+        />
         <p className="mx-auto mt-6 max-w-[50ch] text-white/70">
           Order ModelMatch, track every job, and download finished assets from one portal.
         </p>
