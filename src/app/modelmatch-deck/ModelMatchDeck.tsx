@@ -494,6 +494,16 @@ const WHY_CARDS = [
   },
 ];
 
+// Five real ModelMatch projects (room counts are actual before/after pair
+// counts from the showcase library; Perry Homes builds only in Texas).
+const PROJECTS = [
+  { n: "01", name: "Riley Street", builder: "Perry Homes", loc: "Texas", rooms: 7 },
+  { n: "02", name: "M3 Ranch", builder: "Perry Homes", loc: "Texas", rooms: 7 },
+  { n: "03", name: "Star Trail", builder: "Perry Homes", loc: "Texas", rooms: 7 },
+  { n: "04", name: "Vetrina Way", builder: "Beazer Homes", loc: "Raleigh, NC", rooms: 6 },
+  { n: "05", name: "OAC Lot 59", builder: "Beazer Homes", loc: "Nashville, TN", rooms: 11 },
+];
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Slides
 // ─────────────────────────────────────────────────────────────────────────────
@@ -542,31 +552,6 @@ const slides: Array<() => React.ReactElement> = [
           alt="Brand-matched virtual staging"
           className="aspect-[4/3] w-full rounded-2xl object-cover shadow-xl"
         />
-      </div>
-    </SlideShell>
-  ),
-
-  // 2 — How it works (dark)
-  () => (
-    <SlideShell dark>
-      <div className="text-center">
-        <Eyebrow dark>How It Works</Eyebrow>
-        <h1 className="font-heading text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-tight tracking-tight text-text-light">
-          Four steps to <strong>on-brand staging.</strong>
-        </h1>
-        <p className="mx-auto mt-4 max-w-[60ch] text-white/70">
-          ModelMatch is built around your account. Once your reference library is set up, every
-          future order uses it automatically.
-        </p>
-      </div>
-      <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
-        {HOW_STEPS.map((s) => (
-          <div key={s.n} className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
-            <span className="font-heading text-3xl font-semibold text-accent-dark-hover">{s.n}</span>
-            <h4 className="mt-3 text-text-light">{s.title}</h4>
-            <p className="mt-2 text-sm leading-relaxed text-white/60">{s.body}</p>
-          </div>
-        ))}
       </div>
     </SlideShell>
   ),
@@ -670,7 +655,77 @@ const slides: Array<() => React.ReactElement> = [
     />
   ),
 
-  // 14 — Why builders choose ModelMatch
+  // ── Performance section ─────────────────────────────────────────────────
+  // Page 1 — section intro (dark)
+  () => (
+    <SlideShell dark>
+      <div className="text-center">
+        <Eyebrow dark>The Power of Presentation</Eyebrow>
+        <h1 className="font-heading text-[clamp(2.5rem,6vw,4.75rem)] font-semibold leading-[1.05] tracking-tight text-text-light">
+          How does it perform?
+        </h1>
+        <p className="mx-auto mt-6 max-w-[55ch] text-white/70">
+          Five ModelMatch projects. 38 rooms staged and listing-ready in as little as 48 hours, each
+          matched to the builder&rsquo;s own model home.
+        </p>
+      </div>
+    </SlideShell>
+  ),
+
+  // Page 2 — five projects (light)
+  () => (
+    <SlideShell>
+      <div className="mx-auto w-full max-w-4xl">
+        <Eyebrow>Results / ModelMatch Projects</Eyebrow>
+        <h1 className="font-heading text-[clamp(2rem,4.4vw,3.4rem)] font-semibold leading-tight tracking-tight text-text-dark">
+          Five projects, <strong>staged to sell.</strong>
+        </h1>
+        <ul className="mt-10 divide-y divide-border-light border-y border-border-light">
+          {PROJECTS.map((p) => (
+            <li key={p.name} className="flex items-center gap-4 py-4 sm:gap-6 sm:py-5">
+              <span className="font-heading text-xl font-semibold text-accent sm:text-2xl">{p.n}</span>
+              <div className="min-w-0 flex-1">
+                <p className="font-heading text-lg font-medium text-text-dark sm:text-xl">{p.name}</p>
+                <p className="text-xs text-text-muted sm:text-sm">
+                  {p.builder} &middot; {p.loc}
+                </p>
+              </div>
+              <span className="flex-shrink-0 rounded-full border border-border-light px-3 py-1 text-xs font-medium text-text-muted sm:text-sm">
+                {p.rooms} rooms staged
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </SlideShell>
+  ),
+
+  // ── How it works (dark) — moved here, after the proof ───────────────────
+  () => (
+    <SlideShell dark>
+      <div className="text-center">
+        <Eyebrow dark>How It Works</Eyebrow>
+        <h1 className="font-heading text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-tight tracking-tight text-text-light">
+          Four steps to <strong>on-brand staging.</strong>
+        </h1>
+        <p className="mx-auto mt-4 max-w-[60ch] text-white/70">
+          ModelMatch is built around your account. Once your reference library is set up, every
+          future order uses it automatically.
+        </p>
+      </div>
+      <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-5 lg:grid-cols-4">
+        {HOW_STEPS.map((s) => (
+          <div key={s.n} className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+            <span className="font-heading text-3xl font-semibold text-accent-dark-hover">{s.n}</span>
+            <h4 className="mt-3 text-text-light">{s.title}</h4>
+            <p className="mt-2 text-sm leading-relaxed text-white/60">{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </SlideShell>
+  ),
+
+  // — Why builders choose ModelMatch
   () => (
     <SlideShell>
       <div className="text-center">
@@ -814,6 +869,7 @@ const slides: Array<() => React.ReactElement> = [
 ];
 
 // 0-indexed slides that paint chrome over an edge-to-edge image.
-const FULL_BLEED_SLIDES = new Set<number>([17, 18, 19]);
+const FULL_BLEED_SLIDES = new Set<number>([19, 20, 21]);
 // 0-indexed slides with a dark background (chrome goes light-on-dark).
-const DARK_SLIDES = new Set<number>([0, 2, 16]);
+// 0 Title, 13 Performance intro, 15 How-it-works, 18 digDesk reveal.
+const DARK_SLIDES = new Set<number>([0, 13, 15, 18]);
