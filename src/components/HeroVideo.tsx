@@ -8,7 +8,7 @@ import { EditableContent } from "./EditableContent";
 const heroFields = [
   { key: "headline1", label: "Headline (line 1)", type: "text" as const, defaultValue: "Slow sales? Update your presentation." },
   { key: "headline2", label: "Headline (line 2 — optional)", type: "text" as const, defaultValue: "" },
-  { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "Stop cutting price, and give your listings a second chance at success." },
+  { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "Stop cutting price, and give your new homes a second chance at success." },
   { key: "cta1Text", label: "Primary CTA Text", type: "text" as const, defaultValue: "Get Your Spec Marketing Plan" },
   { key: "cta1Url", label: "Primary CTA URL", type: "url" as const, defaultValue: "/contact" },
   { key: "cta2Text", label: "Secondary CTA Text", type: "text" as const, defaultValue: "" },
