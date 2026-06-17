@@ -1,14 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { EditableContent } from "./EditableContent";
 
 const heroFields = [
-  { key: "headline1", label: "Headline (line 1)", type: "text" as const, defaultValue: "Sell Your Specs Faster." },
+  { key: "headline1", label: "Headline (line 1)", type: "text" as const, defaultValue: "Slow sales? Update your presentation." },
   { key: "headline2", label: "Headline (line 2 — optional)", type: "text" as const, defaultValue: "" },
-  { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "Turn your inventory into high-converting marketing media in as little as 48 hours." },
+  { key: "subheadline", label: "Subheadline", type: "textarea" as const, defaultValue: "Stop cutting price, and give your listings a second chance at success." },
   { key: "cta1Text", label: "Primary CTA Text", type: "text" as const, defaultValue: "Get Your Spec Marketing Plan" },
   { key: "cta1Url", label: "Primary CTA URL", type: "url" as const, defaultValue: "/contact" },
   { key: "cta2Text", label: "Secondary CTA Text", type: "text" as const, defaultValue: "" },
@@ -21,18 +21,17 @@ function extractYoutubeId(url: string): string | null {
   return match ? match[1] : null;
 }
 
-const placeholderTiles = [
-  { label: "Lifestyle", gradient: "from-bg-dark to-bg-dark-surface" },
-  { label: "FrameFlow", gradient: "from-bg-dark-surface to-accent-secondary/30" },
-  { label: "Model Home", gradient: "from-bg-dark to-bg-dark-surface" },
-  { label: "Community", gradient: "from-bg-dark-surface to-accent-secondary/40" },
-  { label: "Aerial", gradient: "from-bg-dark to-accent-secondary/30" },
-  { label: "Staging", gradient: "from-bg-dark-surface to-bg-dark" },
-];
+// Still frame from the hero video (its own first frame). Paints instantly and
+// stays on top of the iframe until the video has had time to start playing, so
+// the viewer never sees YouTube's loading poster or play button.
+const POSTER = "/hero-poster.jpg";
 
 export function HeroVideo() {
   // Ref lives on the outermost div (renders synchronously, not inside async EditableContent)
   const containerRef = useRef<HTMLDivElement>(null);
+  // Once the embed has loaded + a short buffer, fade the poster out to reveal
+  // the already-playing video.
+  const [revealVideo, setRevealVideo] = useState(false);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -53,34 +52,37 @@ export function HeroVideo() {
 
           return (
             <>
-              {/* Background: YouTube video or placeholder tiles */}
-              {ytId ? (
+              {/* Video layer (behind the poster) */}
+              {ytId && (
                 <div className="absolute inset-0 overflow-hidden">
                   <iframe
-                    src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&playsinline=1`}
+                    src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0`}
                     className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
                     style={{ width: "177.78vh", height: "56.25vw", minWidth: "100vw", minHeight: "100vh" }}
                     allow="autoplay; encrypted-media"
                     tabIndex={-1}
+                    onLoad={() => window.setTimeout(() => setRevealVideo(true), 1600)}
                   />
                 </div>
-              ) : (
-                <motion.div
-                  className="absolute inset-0 grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3"
-                  style={{ y: gridY, scale: gridScale }}
-                >
-                  {placeholderTiles.map((tile) => (
-                    <div
-                      key={tile.label}
-                      className={`bg-gradient-to-br ${tile.gradient} flex items-center justify-center`}
-                    >
-                      <span className="text-xs font-medium uppercase tracking-widest text-accent-secondary/30">
-                        {tile.label}
-                      </span>
-                    </div>
-                  ))}
-                </motion.div>
               )}
+
+              {/* Poster: instant still frame, parallaxed. Sits on top of the
+                  video and fades out once the video is playing. With no video
+                  configured it simply stays as the background. */}
+              <motion.div
+                className="absolute inset-0 overflow-hidden"
+                style={{ y: gridY, scale: gridScale }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={POSTER}
+                  alt=""
+                  aria-hidden
+                  className={`h-full w-full object-cover transition-opacity duration-1000 ease-out ${
+                    ytId && revealVideo ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+              </motion.div>
 
               {/* Dark overlay */}
               <motion.div
