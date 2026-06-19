@@ -61,8 +61,8 @@ export function DataLibrary() {
           <strong>In contract after weeks.</strong>
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed text-text-body">
-          Explore the power of on-brand virtual staging, and how it is moving the needle for aging
-          inventory for builders everywhere.
+          Explore the power of on-brand virtual staging, and how it reactivates demand for aging
+          inventory.
         </p>
         <TrialButton className="mt-7" />
       </section>
