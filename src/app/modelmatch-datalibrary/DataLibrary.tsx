@@ -155,7 +155,7 @@ export function DataLibrary() {
       <section className="mx-auto w-full max-w-7xl flex-1 px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
         <div className="mb-9 flex flex-wrap items-end justify-between gap-4 border-b border-border-light pb-5">
           <h2 className="font-heading text-3xl font-medium tracking-tight text-text-dark sm:text-4xl">
-            Every verified win
+            Some of our latest wins
           </h2>
           <p className="max-w-xs text-sm leading-relaxed text-text-muted">
             Each home found a buyer after modelMatch, with verified MLS timelines and on-brand
