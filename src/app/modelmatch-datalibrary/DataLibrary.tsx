@@ -42,7 +42,7 @@ export function DataLibrary() {
   }, []);
 
   return (
-    <div className="bg-bg-light">
+    <div className="flex min-h-[100dvh] flex-col bg-bg-light">
       {/* Minimal landing header — logo + single conversion action */}
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border-light bg-bg-light/90 px-6 py-3.5 backdrop-blur sm:px-10">
         <Link href="/" aria-label="Davies Imaging Group">
@@ -68,7 +68,7 @@ export function DataLibrary() {
       </section>
 
       {/* Grid */}
-      <section className="mx-auto max-w-7xl px-6 pb-20 sm:px-10">
+      <section className="mx-auto w-full max-w-7xl flex-1 px-6 pb-20 sm:px-10">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {CASE_STUDIES.map((c) => (
             <TileCard key={c.slug} c={c} onOpen={() => openStudy(c.slug)} />
