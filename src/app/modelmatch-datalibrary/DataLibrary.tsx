@@ -217,28 +217,29 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm sm:p-8"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
     >
-      <div className="flex min-h-full items-start justify-center p-4 sm:p-8">
-        <div
-          className="relative w-full max-w-4xl rounded-2xl bg-bg-light shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
+      <div
+        className="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-bg-light shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close */}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-bg-dark/80 text-white transition-colors hover:bg-accent"
         >
-          {/* Close */}
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-bg-dark/80 text-white transition-colors hover:bg-accent"
-          >
-            <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path d="M5 5l10 10M15 5L5 15" strokeLinecap="round" />
-            </svg>
-          </button>
+          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path d="M5 5l10 10M15 5L5 15" strokeLinecap="round" />
+          </svg>
+        </button>
 
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto">
           {/* Header */}
           <div className="border-b border-border-light px-6 pb-6 pt-7 sm:px-10">
             <div className="flex flex-wrap items-center gap-2">
@@ -353,16 +354,20 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
               ))}
             </div>
           </div>
+          {/* end scrollable content */}
+        </div>
 
-          {/* CTA */}
-          <div className="border-t border-border-light px-6 py-6 text-center sm:px-10">
-            <a
-              href={TRIAL_URL}
-              className="inline-block rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
-            >
-              Start your free trial
-            </a>
-          </div>
+        {/* Persistent CTA footer — always visible while the study is open */}
+        <div className="flex shrink-0 items-center justify-between gap-4 border-t border-border-light bg-bg-light px-6 py-4 sm:px-10">
+          <p className="hidden text-sm text-text-muted sm:block">
+            See it on your own listing, free.
+          </p>
+          <a
+            href={TRIAL_URL}
+            className="w-full rounded-full bg-accent px-7 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover sm:w-auto"
+          >
+            Start your free trial
+          </a>
         </div>
       </div>
 
