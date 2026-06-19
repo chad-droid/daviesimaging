@@ -478,12 +478,6 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
               <blockquote className="border-l-2 border-accent pl-4 font-heading text-xl font-medium italic leading-snug text-text-dark">
                 {c.subhead}
               </blockquote>
-              <div>
-                <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
-                  Verification
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-body">{c.verification}</p>
-              </div>
               {c.price && (
                 <div>
                   <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
@@ -492,15 +486,6 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
                   <p className="mt-2 text-sm leading-relaxed text-text-body">{c.price}</p>
                 </div>
               )}
-              {c.disclosure && (
-                <div>
-                  <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
-                    Disclosure
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-text-body">{c.disclosure}</p>
-                </div>
-              )}
-              <p className="text-xs leading-relaxed text-text-muted">{c.micro}</p>
             </div>
           </div>
 
