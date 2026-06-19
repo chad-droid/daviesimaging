@@ -1,34 +1,30 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import MMSlider from "@/components/lp/MMSlider";
 
 /**
  * /modelmatch-cinematic — full-screen "Cinematic FrameFlow" deck.
  *
- * Mounted chromelessly via SiteShell (no Nav/Footer/email modal). Layout matches
- * the Cinematic FrameFlow (design) PDF: dark/light alternating editorial slides,
- * Cormorant headings + Noto eyebrows, accent-purple labels, full-bleed media with
- * bottom-left captions, dig logo top-left on the title/step/closing slides.
+ * Mounted chromelessly via SiteShell. Layout matches the Cinematic FrameFlow
+ * (design) PDF: dark/light alternating editorial slides, Cormorant headings +
+ * Noto eyebrows, accent-purple labels, full-bleed media with bottom-left
+ * captions, dig logo on the title/step/closing slides.
  *
- * The 5 media slides are ASSET SLOTS. Until a file is set in MEDIA below they
- * render the design's "Drop …" placeholder. To wire real assets: drop files into
- * /public/mm-cinematic and fill the matching MEDIA value (image path, or a
- * YouTube id / .mp4 path for the FrameFlow film + its poster).
+ * Assets live in /public/mm-cinematic. Videos are YouTube ids in MEDIA.
  */
 
 const ASSET = (f: string) => `/mm-cinematic/${f}`;
 
-// ── Asset slots (empty => styled placeholder). Fill once Chad provides files. ──
 const MEDIA = {
-  empty: "", // Step One — empty room photograph (full-bleed)
-  stagedBefore: "", // Step Two — vacant photo (left of before/after compare)
-  stagedAfter: "", // Step Two — ModelMatch staged photo (right of compare)
-  vignette: "", // Step Three — detail / vignette shot (full-bleed)
-  frameflowVideo: "", // Step Four — YouTube id OR /mm-cinematic/xxx.mp4
-  frameflowPoster: "", // Step Four — poster frame behind the play button
-  result: "", // The Result — finished staged photo (full-bleed)
+  problem1: "problem-1.webp", // slide 2 — stacked square lifestyle shot
+  problem2: "problem-2.webp", // slide 2 — stacked square lifestyle shot
+  methodVideo: "Tj8etWlzzPE", // slide 4 — ambient background film
+  empty: "empty.webp", // slide 5 — empty great room
+  staged: "staged.webp", // slide 6 — same room, ModelMatch staged
+  vignette: "vignette.webp", // slide 7 — detail / vignette
+  frameflowVideo: "Ic6SsLNUqJw", // slide 8 — FrameFlow immersion clip (ambient)
+  resultVideo: "MeedB0E38e4", // slide 9 — finished film, with sound
 };
 
 export function ModelMatchCinematic() {
@@ -68,12 +64,11 @@ export function ModelMatchCinematic() {
     return () => document.removeEventListener("keydown", onKey);
   }, [current, show, total]);
 
-  // Touch swipe — ignore gestures starting inside a before/after slider.
   useEffect(() => {
     let touchX: number | null = null;
     let ignore = false;
     function onStart(e: TouchEvent) {
-      ignore = !!(e.target as HTMLElement | null)?.closest("[data-mm-slider]");
+      ignore = !!(e.target as HTMLElement | null)?.closest("[data-no-swipe]");
       touchX = e.changedTouches[0].clientX;
     }
     function onEnd(e: TouchEvent) {
@@ -139,7 +134,7 @@ export function ModelMatchCinematic() {
           <span />
         )}
         {current === 0 && (
-          <span className="text-[0.62rem] font-bold uppercase tracking-[0.28em] text-accent-dark-hover sm:text-[0.7rem]">
+          <span className="text-[0.72rem] font-bold uppercase tracking-[0.28em] text-accent-dark-hover sm:text-[0.85rem]">
             Cinematic FrameFlow
           </span>
         )}
@@ -155,7 +150,7 @@ export function ModelMatchCinematic() {
             }`}
             aria-hidden={i !== current}
           >
-            <Slide />
+            <Slide active={i === current} />
           </div>
         ))}
       </main>
@@ -224,8 +219,7 @@ export function ModelMatchCinematic() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function Glow({ pos }: { pos: "tr" | "bl" }) {
-  const place =
-    pos === "tr" ? "right-[-10%] top-[-15%]" : "bottom-[-15%] left-[-10%]";
+  const place = pos === "tr" ? "right-[-10%] top-[-15%]" : "bottom-[-15%] left-[-10%]";
   return (
     <div
       aria-hidden
@@ -240,161 +234,116 @@ function Glow({ pos }: { pos: "tr" | "bl" }) {
 
 function Eyebrow({ children, tone = "accent" }: { children: React.ReactNode; tone?: "accent" | "muted" | "onDark" }) {
   const color =
-    tone === "muted"
-      ? "text-text-muted"
-      : tone === "onDark"
-        ? "text-accent-dark-hover"
-        : "text-accent";
+    tone === "muted" ? "text-text-muted" : tone === "onDark" ? "text-accent-dark-hover" : "text-accent";
   return (
-    <p className={`text-[0.7rem] font-bold uppercase tracking-[0.28em] sm:text-[0.78rem] ${color}`}>
+    <p className={`text-[0.85rem] font-bold uppercase tracking-[0.26em] sm:text-base ${color}`}>
       {children}
     </p>
   );
 }
 
-/** Editorial text slide — left-justified, vertically centered. */
-function TextSlide({
-  dark,
-  glow,
-  eyebrow,
-  eyebrowTone,
-  children,
-}: {
-  dark?: boolean;
-  glow?: "tr" | "bl";
-  eyebrow: string;
-  eyebrowTone?: "accent" | "onDark";
-  children: React.ReactNode;
-}) {
+/** Ambient YouTube background — autoplay, muted, looped, cropped, no chrome. */
+function AmbientVideo({ id, active }: { id: string; active: boolean }) {
+  // Only mount the iframe on the active slide so off-screen slides don't all
+  // autoplay at once.
+  if (!active) return <div className="absolute inset-0 bg-bg-dark" />;
+  const src =
+    `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}` +
+    `&controls=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&disablekb=1`;
   return (
-    <div
-      className={`relative min-h-full px-8 pb-24 pt-24 sm:px-[7%] ${
-        dark ? "bg-bg-dark text-text-light" : "bg-bg-light text-text-body"
-      }`}
-    >
-      {dark && glow && <Glow pos={glow} />}
-      <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
-        <Eyebrow tone={eyebrowTone ?? (dark ? "onDark" : "accent")}>{eyebrow}</Eyebrow>
-        <div className="mt-6">{children}</div>
+    <div className="absolute inset-0 overflow-hidden bg-bg-dark">
+      <div className="absolute inset-0 origin-center scale-[1.35]">
+        <iframe
+          src={src}
+          title="Background film"
+          className="pointer-events-none h-full w-full"
+          allow="autoplay; encrypted-media"
+          tabIndex={-1}
+        />
       </div>
     </div>
   );
 }
 
-/** Full-bleed media slot. Image / before-after / video, or a styled placeholder
- *  when its asset is empty. Caption (eyebrow + headline) overlays bottom-left. */
+/** Finished film — click to play with sound. */
+function ResultVideo({ id, active }: { id: string; active: boolean }) {
+  const [play, setPlay] = useState(false);
+  useEffect(() => {
+    if (!active) setPlay(false);
+  }, [active]);
+
+  if (play && active) {
+    return (
+      <iframe
+        src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+        title="Finished film"
+        className="absolute inset-0 h-full w-full"
+        allow="autoplay; encrypted-media; fullscreen"
+      />
+    );
+  }
+  return (
+    <button
+      type="button"
+      data-no-swipe
+      onClick={() => setPlay(true)}
+      className="group absolute inset-0 h-full w-full"
+      aria-label="Play finished film"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}
+        alt="Finished film"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-black/30 transition-colors group-hover:bg-black/20" />
+      <span className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/30 backdrop-blur transition-transform group-hover:scale-105">
+        <svg viewBox="0 0 24 24" className="ml-1.5 h-10 w-10 text-white" fill="currentColor">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </span>
+    </button>
+  );
+}
+
+function BleedImage({ src, alt }: { src: string; alt: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={ASSET(src)} alt={alt} className="absolute inset-0 h-full w-full object-cover" />
+  );
+}
+
+/** Full-bleed media slide with a bottom-left caption + optional pill. */
 function MediaSlide({
   step,
   title,
-  kind,
-  placeholder,
+  pill,
+  children,
 }: {
   step: string;
   title: string;
-  kind: "image" | "beforeAfter" | "video";
-  placeholder: string;
+  pill?: string;
+  children: React.ReactNode;
 }) {
-  let body: React.ReactNode;
-
-  if (kind === "image") {
-    const src = step.includes("EMPTY") ? MEDIA.empty : step.includes("RESULT") ? MEDIA.result : MEDIA.vignette;
-    body = src ? (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={ASSET(src)} alt={title} className="absolute inset-0 h-full w-full object-cover" />
-    ) : (
-      <Placeholder label={placeholder} />
-    );
-  } else if (kind === "beforeAfter") {
-    body =
-      MEDIA.stagedBefore && MEDIA.stagedAfter ? (
-        <div data-mm-slider className="absolute inset-0 flex items-center justify-center p-6 sm:p-12">
-          <div className="w-full max-w-[1500px]">
-            <MMSlider before={ASSET(MEDIA.stagedBefore)} after={ASSET(MEDIA.stagedAfter)} />
-          </div>
-        </div>
-      ) : (
-        <Placeholder label={placeholder} />
-      );
-  } else {
-    // video
-    if (MEDIA.frameflowVideo) {
-      const yt = !MEDIA.frameflowVideo.includes("/") && !MEDIA.frameflowVideo.includes(".");
-      body = yt ? (
-        <div className="absolute inset-0 origin-center scale-[1.3]">
-          <iframe
-            src={`https://www.youtube.com/embed/${MEDIA.frameflowVideo}?autoplay=1&mute=1&loop=1&playlist=${MEDIA.frameflowVideo}&controls=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&disablekb=1`}
-            title={title}
-            className="pointer-events-none h-full w-full"
-            allow="autoplay; encrypted-media"
-            tabIndex={-1}
-          />
-        </div>
-      ) : (
-        <video
-          src={ASSET(MEDIA.frameflowVideo)}
-          poster={MEDIA.frameflowPoster ? ASSET(MEDIA.frameflowPoster) : undefined}
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      );
-    } else {
-      body = (
-        <Placeholder label={placeholder}>
-          <PlayButton />
-        </Placeholder>
-      );
-    }
-  }
-
   return (
     <div className="relative h-full w-full overflow-hidden bg-bg-dark">
-      {body}
+      {children}
 
-      {/* Before / After pill (ModelMatch step) */}
-      {kind === "beforeAfter" && !(MEDIA.stagedBefore && MEDIA.stagedAfter) && (
-        <span className="absolute right-6 top-6 z-[2] inline-flex items-center gap-2 rounded-full bg-black/60 px-3.5 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-white backdrop-blur sm:right-10 sm:top-7">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent-dark-hover" /> Before / After
+      {pill && (
+        <span className="absolute right-6 top-6 z-[2] inline-flex items-center gap-2 rounded-full bg-black/55 px-3.5 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.16em] text-white backdrop-blur sm:right-10 sm:top-7">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent-dark-hover" /> {pill}
         </span>
       )}
 
-      {/* Caption */}
-      <div className="absolute inset-x-0 bottom-0 z-[2] px-8 pb-24 sm:px-[7%]">
-        <div className="mx-auto max-w-6xl [text-shadow:0_2px_14px_rgba(0,0,0,0.6)]">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] px-8 pb-24 sm:px-[7%]">
+        <div className="mx-auto max-w-6xl [text-shadow:0_2px_16px_rgba(0,0,0,0.7)]">
           <Eyebrow tone="onDark">{step}</Eyebrow>
-          <h2 className="mt-2 font-heading text-[clamp(1.9rem,4.4vw,3.4rem)] font-medium leading-[1.08] tracking-tight text-text-light">
+          <h2 className="mt-2.5 max-w-[26ch] font-heading text-[clamp(1.9rem,4.4vw,3.4rem)] font-medium leading-[1.08] tracking-tight text-text-light">
             {title}
           </h2>
         </div>
       </div>
     </div>
-  );
-}
-
-function Placeholder({ label, children }: { label: string; children?: React.ReactNode }) {
-  return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-white/20">
-      {children ?? (
-        <svg viewBox="0 0 24 24" className="h-9 w-9" fill="none" stroke="currentColor" strokeWidth={1.4}>
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <circle cx="8.5" cy="8.5" r="1.6" />
-          <path d="M21 15l-5-5L5 21" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )}
-      <span className="text-[0.7rem] font-medium uppercase tracking-[0.2em]">{label}</span>
-    </div>
-  );
-}
-
-function PlayButton() {
-  return (
-    <span className="flex h-20 w-20 items-center justify-center rounded-full border border-white/30 bg-black/20 backdrop-blur">
-      <svg viewBox="0 0 24 24" className="ml-1 h-8 w-8 text-white/80" fill="currentColor">
-        <path d="M8 5v14l11-7z" />
-      </svg>
-    </span>
   );
 }
 
@@ -419,7 +368,9 @@ const PRICING = [
 // Slides
 // ─────────────────────────────────────────────────────────────────────────────
 
-const slides: Array<() => React.ReactElement> = [
+type SlideProps = { active: boolean };
+
+const slides: Array<(p: SlideProps) => React.ReactElement> = [
   // 0 — Title (dark)
   () => (
     <div className="relative min-h-full overflow-hidden bg-bg-dark px-8 pb-24 pt-28 text-text-light sm:px-[7%]">
@@ -434,92 +385,114 @@ const slides: Array<() => React.ReactElement> = [
     </div>
   ),
 
-  // 1 — The Problem (light)
+  // 1 — The Problem (light) + two stacked square lifestyle shots
   () => (
-    <TextSlide eyebrow="The Problem">
-      <h1 className="max-w-[20ch] font-heading text-[clamp(2.1rem,4.8vw,3.9rem)] font-normal leading-[1.1] tracking-tight text-text-dark">
-        Luxury buyers want lifestyle inspiration. A vacant property gives them no way to see a future
-        designed around their needs.
-      </h1>
-    </TextSlide>
+    <div className="relative min-h-full bg-bg-light px-8 pb-24 pt-24 text-text-body sm:px-[7%]">
+      <div className="mx-auto grid min-h-[calc(100vh-12rem)] max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div>
+          <Eyebrow>The Problem</Eyebrow>
+          <h1 className="mt-6 max-w-[20ch] font-heading text-[clamp(2rem,4.4vw,3.6rem)] font-normal leading-[1.1] tracking-tight text-text-dark">
+            Luxury buyers want lifestyle inspiration. A vacant property gives them no way to see a
+            future designed around their needs.
+          </h1>
+        </div>
+        <div className="mx-auto grid w-full max-w-[19rem] grid-cols-2 gap-4 lg:max-w-[20rem] lg:grid-cols-1 lg:gap-5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={ASSET(MEDIA.problem1)}
+            alt="Luxury lifestyle detail"
+            className="aspect-square w-full rounded-xl object-cover shadow-lg"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={ASSET(MEDIA.problem2)}
+            alt="Luxury lifestyle detail"
+            className="aspect-square w-full rounded-xl object-cover shadow-lg"
+          />
+        </div>
+      </div>
+    </div>
   ),
 
   // 2 — Our Approach (light, numbered list)
   () => (
-    <TextSlide eyebrow="Our Approach">
-      <h1 className="max-w-[24ch] font-heading text-[clamp(1.9rem,4.2vw,3.4rem)] font-normal leading-[1.1] tracking-tight text-text-dark">
-        We combine our architectural photography expertise with groundbreaking virtual staging and
-        video generation.
-      </h1>
-      <ul className="mt-10 border-t border-border-light">
-        {APPROACH.map((a) => (
-          <li key={a.n} className="flex items-center gap-6 border-b border-border-light py-4 sm:gap-8 sm:py-5">
-            <span className="font-heading text-2xl font-medium text-accent sm:text-3xl">{a.n}</span>
-            <span className="text-base font-semibold text-text-dark sm:text-xl">{a.label}</span>
-          </li>
-        ))}
-      </ul>
-    </TextSlide>
+    <div className="relative min-h-full bg-bg-light px-8 pb-24 pt-24 text-text-body sm:px-[7%]">
+      <div className="mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
+        <Eyebrow>Our Approach</Eyebrow>
+        <h1 className="mt-6 max-w-[24ch] font-heading text-[clamp(1.9rem,4.2vw,3.4rem)] font-normal leading-[1.1] tracking-tight text-text-dark">
+          We combine our architectural photography expertise with groundbreaking virtual staging and
+          video generation.
+        </h1>
+        <ul className="mt-10 border-t border-border-light">
+          {APPROACH.map((a) => (
+            <li key={a.n} className="flex items-center gap-6 border-b border-border-light py-4 sm:gap-8 sm:py-5">
+              <span className="font-heading text-2xl font-medium text-accent sm:text-3xl">{a.n}</span>
+              <span className="text-base font-semibold text-text-dark sm:text-xl">{a.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   ),
 
-  // 3 — The Method (dark, italic)
+  // 3 — The Method (dark, ambient background film, italic question)
+  ({ active }) => (
+    <div className="relative min-h-full overflow-hidden bg-bg-dark px-8 pb-24 pt-24 text-text-light sm:px-[7%]">
+      <AmbientVideo id={MEDIA.methodVideo} active={active} />
+      <div className="absolute inset-0 bg-black/60" aria-hidden />
+      <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
+        <Eyebrow tone="onDark">The Method</Eyebrow>
+        <h1 className="mt-6 max-w-[22ch] font-heading text-[clamp(2rem,4.6vw,3.7rem)] font-medium italic leading-[1.12] tracking-tight text-text-light">
+          How do we create this feeling, without the time and expense of physical staging and
+          traditional video production?
+        </h1>
+      </div>
+    </div>
+  ),
+
+  // 4 — Step One · Empty
   () => (
-    <TextSlide dark glow="bl" eyebrow="The Method">
-      <h1 className="max-w-[22ch] font-heading text-[clamp(2rem,4.6vw,3.7rem)] font-medium italic leading-[1.12] tracking-tight text-text-light">
-        How do we create this feeling, without the time and expense of physical staging and
-        traditional video production?
-      </h1>
-    </TextSlide>
+    <MediaSlide step="Step One · Empty" title="Start with an empty room.">
+      <BleedImage src={MEDIA.empty} alt="Empty great room" />
+    </MediaSlide>
   ),
 
-  // 4 — Step One · Empty (media)
-  () => (
-    <MediaSlide
-      step="Step One · Empty"
-      title="Start with an empty room."
-      kind="image"
-      placeholder="Drop empty room photograph"
-    />
-  ),
-
-  // 5 — Step Two · ModelMatch (before/after media)
+  // 5 — Step Two · ModelMatch (staged, before/after pill)
   () => (
     <MediaSlide
       step="Step Two · ModelMatch"
       title="Create on-brand virtual staging using your show homes as art direction."
-      kind="beforeAfter"
-      placeholder="Drop before / after pair"
-    />
+      pill="Before / After"
+    >
+      <BleedImage src={MEDIA.staged} alt="ModelMatch staged great room" />
+    </MediaSlide>
   ),
 
-  // 6 — Step Three · Virtual Vignette (media)
+  // 6 — Step Three · Virtual Vignette
   () => (
     <MediaSlide
       step="Step Three · Virtual Vignette"
       title="Create secondary shots that emphasize materials and mood."
-      kind="image"
-      placeholder="Drop detail / vignette shot"
-    />
+    >
+      <BleedImage src={MEDIA.vignette} alt="Virtual vignette detail" />
+    </MediaSlide>
   ),
 
-  // 7 — Step Four · Cinematic FrameFlow (video media)
-  () => (
+  // 7 — Step Four · Cinematic FrameFlow (ambient film)
+  ({ active }) => (
     <MediaSlide
       step="Step Four · Cinematic FrameFlow"
       title="Generate motion using our FrameFlow video generation process."
-      kind="video"
-      placeholder="Drop FrameFlow film"
-    />
+    >
+      <AmbientVideo id={MEDIA.frameflowVideo} active={active} />
+    </MediaSlide>
   ),
 
-  // 8 — The Result (media)
-  () => (
-    <MediaSlide
-      step="The Result"
-      title="Compile the results, add music to enhance the emotional response."
-      kind="image"
-      placeholder="Drop finished result"
-    />
+  // 8 — The Result (finished film, with sound)
+  ({ active }) => (
+    <MediaSlide step="The Result" title="Compile the results, add music to enhance the emotional response.">
+      <ResultVideo id={MEDIA.resultVideo} active={active} />
+    </MediaSlide>
   ),
 
   // 9 — Pricing (light)
@@ -532,10 +505,7 @@ const slides: Array<() => React.ReactElement> = [
         </h1>
         <dl className="mt-12 border-t border-border-light">
           {PRICING.map((row) => (
-            <div
-              key={row.label}
-              className="flex items-baseline justify-between border-b border-border-light py-5"
-            >
+            <div key={row.label} className="flex items-baseline justify-between border-b border-border-light py-5">
               <dt className="text-lg text-text-dark sm:text-xl">{row.label}</dt>
               <dd className="font-heading text-xl text-text-dark sm:text-2xl">{row.price}</dd>
             </div>
@@ -572,9 +542,8 @@ const slides: Array<() => React.ReactElement> = [
           <div>
             <div className="mb-6 h-px w-full bg-accent/60" />
             <Eyebrow tone="onDark">Order Management</Eyebrow>
-            <p className="mt-4 font-heading text-[clamp(2.25rem,5vw,3.5rem)] font-medium leading-none text-text-light">
-              via digDesk
-            </p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={ASSET("digdesk-logo.png")} alt="digDesk" className="mt-5 h-9 w-auto sm:h-11" />
             <p className="mt-4 max-w-[36ch] text-sm text-white/55 sm:text-base">
               One portal for ordering, tracking, and asset delivery.
             </p>
@@ -584,10 +553,7 @@ const slides: Array<() => React.ReactElement> = [
           <p className="font-heading text-base italic text-white/70 sm:text-lg">
             Photography built for Homebuilders.
           </p>
-          <Link
-            href="/"
-            className="text-sm text-white/45 transition-colors hover:text-white"
-          >
+          <Link href="/" className="text-sm text-white/45 transition-colors hover:text-white">
             daviesimaging.com
           </Link>
         </div>
@@ -598,5 +564,5 @@ const slides: Array<() => React.ReactElement> = [
 
 // Slide index sets (0-based).
 const LIGHT_SLIDES = new Set<number>([1, 2, 9]); // problem, approach, pricing
-const FULL_BLEED_SLIDES = new Set<number>([4, 5, 6, 7, 8]); // the 5 media slots
+const FULL_BLEED_SLIDES = new Set<number>([3, 4, 5, 6, 7, 8]); // method film + 5 media
 const LOGO_SLIDES = new Set<number>([0, 4, 6, 10]); // title, empty, vignette, closing
