@@ -161,15 +161,16 @@ function TileCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
       onClick={onOpen}
       className="group relative flex aspect-[4/3] w-full flex-col justify-end overflow-hidden rounded-2xl bg-bg-dark p-6 text-left text-text-light"
     >
-      {/* Staged photo revealed on hover */}
+      {/* Staged photo. On touch (no hover) it's shown by default; on desktop
+          it stays hidden and reveals on hover. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={IMG(c.images[0])}
         alt={`${c.addr} staged by ModelMatch`}
-        className="absolute inset-0 h-full w-full scale-105 object-cover opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
+        className="absolute inset-0 h-full w-full object-cover opacity-100 transition-all duration-500 ease-out sm:scale-105 sm:opacity-0 sm:group-hover:scale-100 sm:group-hover:opacity-100"
         loading="lazy"
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10 opacity-100 transition-opacity duration-500 sm:via-black/25 sm:to-transparent sm:opacity-0 sm:group-hover:opacity-100" />
 
       {/* The contrast: long stuck (big) → fast after staging (small) */}
       <div className="relative z-[1]">
@@ -262,7 +263,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
             </p>
 
             {/* Big stat */}
-            <div className="mt-6 flex items-baseline gap-2 sm:gap-3">
+            <div className="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1 sm:gap-x-3">
               <span className="font-heading text-4xl font-semibold text-text-muted sm:text-5xl">
                 {c.unstaged}
               </span>
@@ -272,7 +273,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
               </span>
               <span className="text-text-muted">&rarr;</span>
               <span className="font-heading text-4xl font-semibold text-accent sm:text-5xl">{c.after}</span>
-              <span className="ml-1 text-sm text-text-muted">{c.afterLabel}</span>
+              <span className="w-full text-sm text-text-muted sm:ml-1 sm:w-auto">{c.afterLabel}</span>
             </div>
             <p className="mt-2 text-sm text-text-muted">
               {c.listed} &middot; {c.pricePath}
