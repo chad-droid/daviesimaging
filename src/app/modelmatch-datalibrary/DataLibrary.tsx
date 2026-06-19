@@ -177,10 +177,12 @@ export function DataLibrary() {
         />
         <div className="relative mx-auto max-w-2xl">
           <h2 className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-tight tracking-tight text-text-light">
-            Put your stuck inventory <span className="text-accent-dark-hover">back in motion.</span>
+            Get your aging inventory
+            <br />
+            <span className="text-accent-dark-hover">back on track.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-white/70">
-            Try ModelMatch on your own listing, free. See the staged result before you commit.
+            Try ModelMatch on your first listing, free.
           </p>
           <TrialButton className="mt-9 px-8 py-3.5 text-base" />
         </div>
