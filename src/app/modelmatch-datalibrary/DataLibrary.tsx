@@ -6,6 +6,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { AGGREGATE, CASE_STUDIES, type CaseStudy } from "./caseStudies";
 
 const IMG = (f: string) => `/mm-library/${f}`;
+const TRIAL_URL = "https://desk.daviesimaging.com/trial";
 
 export function DataLibrary() {
   const [market, setMarket] = useState<string>("All");
@@ -41,8 +42,22 @@ export function DataLibrary() {
 
   return (
     <div className="bg-bg-light">
+      {/* Minimal landing header — logo + single conversion action */}
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border-light bg-bg-light/90 px-6 py-3.5 backdrop-blur sm:px-10">
+        <Link href="/" aria-label="Davies Imaging Group">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/dig-logo-dark.png" alt="Davies Imaging Group" className="h-7 w-auto" />
+        </Link>
+        <a
+          href={TRIAL_URL}
+          className="rounded-full bg-accent px-5 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:bg-accent-dark-hover sm:text-sm"
+        >
+          Start Free Trial
+        </a>
+      </header>
+
       {/* Hero */}
-      <section className="mx-auto max-w-7xl px-6 pb-10 pt-16 sm:px-10 sm:pt-20">
+      <section className="mx-auto max-w-7xl px-6 pb-10 pt-12 sm:px-10 sm:pt-16">
         <Eyebrow>ModelMatch / Data Library</Eyebrow>
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
@@ -53,6 +68,12 @@ export function DataLibrary() {
               Every ModelMatch listing that has transacted since launch, with its verified MLS
               timeline. {AGGREGATE.line}
             </p>
+            <a
+              href={TRIAL_URL}
+              className="mt-7 inline-block rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
+            >
+              Start your free trial
+            </a>
           </div>
           {/* Aggregate stat */}
           <div className="flex items-center gap-4 sm:gap-6">
@@ -108,6 +129,22 @@ export function DataLibrary() {
         <p className="mt-10 max-w-3xl text-xs leading-relaxed text-text-muted">{AGGREGATE.disclaimer}</p>
       </section>
 
+      {/* Closing CTA (page has no footer) */}
+      <section className="bg-bg-dark px-6 py-20 text-center text-text-light sm:px-10">
+        <h2 className="mx-auto max-w-2xl font-heading text-[clamp(1.9rem,4vw,3rem)] font-semibold leading-tight tracking-tight text-text-light">
+          Put your stuck inventory <strong>back in motion.</strong>
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-white/70">
+          Try ModelMatch on your own listing, free. See the staged result before you commit.
+        </p>
+        <a
+          href={TRIAL_URL}
+          className="mt-8 inline-block rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
+        >
+          Start your free trial
+        </a>
+      </section>
+
       {open && <StudyModal c={open} onClose={closeStudy} />}
     </div>
   );
@@ -122,7 +159,7 @@ function TileCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
     <button
       type="button"
       onClick={onOpen}
-      className="group relative flex aspect-[4/3] w-full flex-col justify-between overflow-hidden rounded-2xl bg-bg-dark p-6 text-left text-text-light"
+      className="group relative flex aspect-[4/3] w-full flex-col justify-end overflow-hidden rounded-2xl bg-bg-dark p-6 text-left text-text-light"
     >
       {/* Staged photo revealed on hover */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -132,39 +169,25 @@ function TileCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
         className="absolute inset-0 h-full w-full scale-105 object-cover opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100"
         loading="lazy"
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/40 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-      {/* Top row: market + status */}
-      <div className="relative z-[1] flex items-center justify-between">
-        <span className="rounded-full bg-white/10 px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white/80 backdrop-blur-sm">
-          {c.market}
-        </span>
-        <span
-          className={`rounded-full px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] ${
-            c.status === "sold" ? "bg-accent text-white" : "bg-white/10 text-white/80 backdrop-blur-sm"
-          }`}
-        >
-          {c.status}
-        </span>
-      </div>
-
-      {/* Bottom: the DOM hook + address */}
+      {/* The contrast: long stuck (big) → fast after staging (small) */}
       <div className="relative z-[1]">
-        <div className="flex items-baseline gap-2">
-          <span className="font-heading text-3xl font-semibold text-white/55 sm:text-4xl">
+        <div className="flex items-baseline gap-2.5">
+          <span className="font-heading text-[3.75rem] font-semibold leading-none text-white/55 sm:text-[4.5rem]">
             {c.unstaged}
           </span>
-          <span className="text-sm font-semibold uppercase tracking-wide text-accent-dark-hover">MM</span>
-          <span className="font-heading text-3xl font-semibold text-accent-dark-hover sm:text-4xl">
+          <span className="font-heading text-2xl font-medium text-white/30">&rarr;</span>
+          <span className="font-heading text-3xl font-semibold leading-none text-accent-dark-hover">
             {c.after}
           </span>
-          <span className="text-xs text-white/60">days</span>
         </div>
-        <p className="mt-2 font-heading text-lg font-medium leading-tight text-white">{c.addr}</p>
-        <p className="text-sm text-white/65">{c.city}</p>
-        <span className="mt-3 inline-block text-[0.7rem] font-bold uppercase tracking-[0.15em] text-white/0 transition-colors duration-300 group-hover:text-accent-dark-hover">
-          View case study &rarr;
-        </span>
+        <p className="mt-3 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/45">
+          Days on market &middot; after ModelMatch
+        </p>
+        <p className="mt-3 text-sm text-white/80">
+          {c.addr}, {c.city}
+        </p>
       </div>
     </button>
   );
@@ -333,12 +356,12 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
 
           {/* CTA */}
           <div className="border-t border-border-light px-6 py-6 text-center sm:px-10">
-            <Link
-              href="/contact"
+            <a
+              href={TRIAL_URL}
               className="inline-block rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
             >
-              Get this for your inventory
-            </Link>
+              Start your free trial
+            </a>
           </div>
         </div>
       </div>
