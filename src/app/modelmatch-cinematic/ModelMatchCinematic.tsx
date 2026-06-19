@@ -19,12 +19,12 @@ const ASSET = (f: string) => `/mm-cinematic/${f}`;
 const MEDIA = {
   problem1: "problem-1.webp", // slide 2 — stacked square lifestyle shot
   problem2: "problem-2.webp", // slide 2 — stacked square lifestyle shot
-  methodVideo: "Tj8etWlzzPE", // slide 4 — ambient background film
+  methodVideo: "method.mp4", // slide 4 — ambient background film (self-hosted)
   empty: "empty.webp", // slide 5 — empty great room
   staged: "staged.webp", // slide 6 — same room, ModelMatch staged
   vignette: "vignette.webp", // slide 7 — detail / vignette
-  frameflowVideo: "Ic6SsLNUqJw", // slide 8 — FrameFlow immersion clip (ambient)
-  resultVideo: "MeedB0E38e4", // slide 9 — finished film, with sound
+  frameflowVideo: "frameflow.mp4", // slide 8 — FrameFlow immersion clip
+  resultVideo: "result.mp4", // slide 9 — finished film
 };
 
 export function ModelMatchCinematic() {
@@ -242,26 +242,21 @@ function Eyebrow({ children, tone = "accent" }: { children: React.ReactNode; ton
   );
 }
 
-/** Ambient YouTube background — autoplay, muted, looped, cropped, no chrome. */
-function AmbientVideo({ id, active }: { id: string; active: boolean }) {
-  // Only mount the iframe on the active slide so off-screen slides don't all
-  // autoplay at once.
+/** Self-hosted ambient video — native autoplay, muted, looped, no controls,
+ *  so there are zero YouTube/player artifacts. Mounted only on the active
+ *  slide so off-screen clips don't all play at once. */
+function AmbientVideo({ src, active }: { src: string; active: boolean }) {
   if (!active) return <div className="absolute inset-0 bg-bg-dark" />;
-  const src =
-    `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}` +
-    `&controls=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&disablekb=1`;
   return (
-    <div className="absolute inset-0 overflow-hidden bg-bg-dark">
-      <div className="absolute inset-0 origin-center scale-[1.35]">
-        <iframe
-          src={src}
-          title="Background film"
-          className="pointer-events-none h-full w-full"
-          allow="autoplay; encrypted-media"
-          tabIndex={-1}
-        />
-      </div>
-    </div>
+    <video
+      src={ASSET(src)}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+    />
   );
 }
 
@@ -287,6 +282,16 @@ function MediaSlide({
   return (
     <div className="relative h-full w-full overflow-hidden bg-bg-dark">
       {children}
+
+      {/* Caption legibility scrim — strong enough for bright video frames. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[64%]"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.66) 32%, rgba(0,0,0,0.2) 66%, rgba(0,0,0,0) 100%)",
+        }}
+        aria-hidden
+      />
 
       {pill && (
         <span className="absolute right-6 top-6 z-[2] inline-flex items-center gap-2 rounded-full bg-black/55 px-3.5 py-1.5 text-[0.66rem] font-bold uppercase tracking-[0.16em] text-white backdrop-blur sm:right-10 sm:top-7">
@@ -397,7 +402,7 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
   // 3 — The Method (dark, ambient background film, italic question)
   ({ active }) => (
     <div className="relative min-h-full overflow-hidden bg-bg-dark px-8 pb-24 pt-24 text-text-light sm:px-[7%]">
-      <AmbientVideo id={MEDIA.methodVideo} active={active} />
+      <AmbientVideo src={MEDIA.methodVideo} active={active} />
       <div className="absolute inset-0 bg-black/60" aria-hidden />
       <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
         <Eyebrow tone="onDark">The Method</Eyebrow>
@@ -443,14 +448,14 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
       step="Step Four · Cinematic FrameFlow"
       title="Generate motion using our FrameFlow video generation process."
     >
-      <AmbientVideo id={MEDIA.frameflowVideo} active={active} />
+      <AmbientVideo src={MEDIA.frameflowVideo} active={active} />
     </MediaSlide>
   ),
 
   // 8 — The Result (finished film, with sound)
   ({ active }) => (
     <MediaSlide step="The Result" title="Compile the results, add music to enhance the emotional response.">
-      <AmbientVideo id={MEDIA.resultVideo} active={active} />
+      <AmbientVideo src={MEDIA.resultVideo} active={active} />
     </MediaSlide>
   ),
 
