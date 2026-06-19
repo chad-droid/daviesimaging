@@ -138,8 +138,8 @@ export function DataLibrary() {
               <span className="text-accent">In contract after weeks.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-text-body">
-              Explore the power of on-brand virtual staging, and how it reactivates demand for
-              aging inventory, one real home at a time.
+              On-brand virtual staging that puts aging inventory back in motion. Real homes, real
+              timelines, below.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3">
               <TrialButton />
@@ -158,8 +158,7 @@ export function DataLibrary() {
             Some of our latest wins
           </h2>
           <p className="max-w-xs text-sm leading-relaxed text-text-muted">
-            Each home found a buyer after modelMatch, with verified MLS timelines and on-brand
-            virtual staging.
+            Real homes that found a buyer after ModelMatch staging.
           </p>
         </div>
 
@@ -196,68 +195,19 @@ export function DataLibrary() {
 // Featured spread — large always-visible photo with the stat overlaid.
 // ─────────────────────────────────────────────────────────────────────────────
 
-function StatBlock({
-  c,
-  inView,
-  size = "md",
-  onDark = false,
-}: {
-  c: CaseStudy;
-  inView: boolean;
-  size?: "md" | "lg";
-  onDark?: boolean;
-}) {
-  const unstaged = useCountUp(c.unstaged ?? 0, inView);
-  const after = useCountUp(c.after, inView, 1400);
-
-  const big = size === "lg" ? "text-[3.25rem] sm:text-[4.5rem]" : "text-[2.75rem] sm:text-[3.25rem]";
-  const small = size === "lg" ? "text-[2.5rem] sm:text-[3.5rem]" : "text-[2.25rem] sm:text-[2.75rem]";
-  const shadow = onDark ? "drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]" : "";
-  const beforeColor = `${onDark ? "text-white" : "text-text-dark"} ${shadow}`;
-  const afterColor = `${onDark ? "text-accent-dark-hover" : "text-accent"} ${shadow}`;
-  const arrowColor = onDark ? "text-white/45" : "text-text-muted/50";
-
-  return (
-    <div className="flex items-baseline gap-2.5">
-      {c.story === "rescue" ? (
-        <>
-          <span className={`font-heading font-semibold leading-none ${big} ${beforeColor}`}>
-            {unstaged}
-          </span>
-          <span className={`font-heading text-2xl font-medium sm:text-3xl ${arrowColor}`}>&rarr;</span>
-          <span className={`font-heading font-semibold leading-none ${small} ${afterColor}`}>
-            {after}
-          </span>
-        </>
-      ) : (
-        <>
-          <span className={`font-heading font-semibold leading-none ${big} ${afterColor}`}>
-            {afterText(c, after)}
-          </span>
-          <span
-            className={`font-heading text-xl font-medium sm:text-2xl ${onDark ? "text-white/65" : "text-text-muted"}`}
-          >
-            days
-          </span>
-        </>
-      )}
-    </div>
-  );
-}
-
-function metricLabel(c: CaseStudy) {
-  if (c.story === "rescue") return "Days on market, after ModelMatch";
-  return c.closed ? "From ModelMatch photos to a closed sale" : "Days to a buyer, after ModelMatch photos";
+function contextLine(c: CaseStudy) {
+  return c.story === "rescue" ? `After ${c.unstaged} days on the market` : "Brand-new listing";
 }
 
 function FeatureCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
   const { ref, inView } = useInView<HTMLButtonElement>(0.1);
+  const days = useCountUp(c.after, inView, 1400);
   return (
     <button
       ref={ref}
       type="button"
       onClick={onOpen}
-      className="group relative block w-full overflow-hidden rounded-[1.75rem] text-left shadow-[0_30px_60px_-25px_rgba(0,0,0,0.45)] ring-1 ring-black/5"
+      className="group relative block w-full overflow-hidden rounded-2xl text-left shadow-[0_30px_60px_-25px_rgba(0,0,0,0.45)] ring-1 ring-black/5"
     >
       <div className="relative aspect-[4/3] sm:aspect-[3/2]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -269,21 +219,21 @@ function FeatureCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
-        <span className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-text-dark backdrop-blur">
-          {statusLabel(c)}
-        </span>
-
         <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
-          <StatBlock c={c} inView={inView} size="lg" onDark />
-          <p className="mt-3 text-[0.66rem] font-bold uppercase tracking-[0.16em] text-white/65">
-            {metricLabel(c)}
+          <p className="text-[0.66rem] font-bold uppercase tracking-[0.16em] text-white/70">
+            {statusLabel(c)} &middot; after ModelMatch
           </p>
-          <p className="mt-3 font-heading text-2xl font-medium leading-tight text-white sm:text-3xl">
+          <p className="mt-1.5 flex items-baseline gap-2">
+            <span className="font-heading text-[3.5rem] font-semibold leading-none text-accent-dark-hover drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-[4.75rem]">
+              {afterText(c, days)}
+            </span>
+            <span className="font-heading text-2xl font-medium text-white/70 sm:text-3xl">days</span>
+          </p>
+          <p className="mt-3 text-sm text-white/80">{contextLine(c)}</p>
+          <p className="mt-4 font-heading text-2xl font-medium leading-tight text-white sm:text-3xl">
             {c.addr}
           </p>
-          <p className="mt-0.5 text-sm text-white/70">
-            {c.city} &middot; {c.builder}
-          </p>
+          <p className="mt-0.5 text-sm text-white/70">{c.city}</p>
         </div>
       </div>
     </button>
@@ -291,18 +241,19 @@ function FeatureCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Editorial card — light listing card, photo always visible, stat in caption.
+// Editorial card — light listing card, photo always visible, one clear stat.
 // ─────────────────────────────────────────────────────────────────────────────
 
 function EditorialCard({ c, i, onOpen }: { c: CaseStudy; i: number; onOpen: () => void }) {
   const { ref, inView } = useInView<HTMLButtonElement>(0.15);
+  const days = useCountUp(c.after, inView, 1300);
   return (
     <button
       ref={ref}
       type="button"
       onClick={onOpen}
       style={{ transitionDelay: `${Math.min(i, 6) * 70}ms` }}
-      className={`group flex flex-col overflow-hidden rounded-2xl bg-bg-surface text-left ring-1 ring-border-light/70 transition-[opacity,transform,box-shadow] duration-700 ease-out hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-24px_rgba(0,0,0,0.4)] ${
+      className={`group flex flex-col overflow-hidden rounded-xl bg-bg-surface text-left ring-1 ring-border-light/70 transition-[opacity,transform,box-shadow] duration-700 ease-out hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-24px_rgba(0,0,0,0.4)] ${
         inView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
       }`}
     >
@@ -314,21 +265,19 @@ function EditorialCard({ c, i, onOpen }: { c: CaseStudy; i: number; onOpen: () =
           className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-        <span
-          className={`absolute left-4 top-4 rounded-full px-2.5 py-1 text-[0.58rem] font-bold uppercase tracking-[0.14em] backdrop-blur ${
-            c.closed ? "bg-accent text-white" : "bg-white/90 text-text-dark"
-          }`}
-        >
-          {statusLabel(c)}
-        </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <StatBlock c={c} inView={inView} />
-        <p className="mt-2.5 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-text-muted">
-          {metricLabel(c)}
+        <p className="text-[0.6rem] font-bold uppercase tracking-[0.16em] text-text-muted">
+          {statusLabel(c)} &middot; after ModelMatch
         </p>
+        <p className="mt-1.5 flex items-baseline gap-1.5">
+          <span className="font-heading text-[3rem] font-semibold leading-none text-accent">
+            {afterText(c, days)}
+          </span>
+          <span className="font-heading text-xl font-medium text-text-muted">days</span>
+        </p>
+        <p className="mt-2 text-sm text-text-muted">{contextLine(c)}</p>
         <div className="mt-auto flex items-end justify-between gap-3 pt-5">
           <div>
             <p className="font-heading text-lg font-medium leading-tight text-text-dark">{c.addr}</p>
@@ -388,7 +337,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
       aria-modal="true"
     >
       <div
-        className="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-bg-light shadow-2xl"
+        className="relative flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-xl bg-bg-light shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -427,33 +376,16 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
             </h2>
             <p className="mt-1 text-sm text-text-muted">{c.builder}</p>
 
-            {c.story === "rescue" ? (
-              <div className="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1 sm:gap-x-3">
-                <span className="font-heading text-4xl font-semibold text-text-muted sm:text-5xl">
-                  {c.unstaged}
-                </span>
-                <span className="text-text-muted">&rarr;</span>
-                <span className="font-heading text-sm font-semibold uppercase tracking-wide text-accent sm:text-base">
-                  MM
-                </span>
-                <span className="text-text-muted">&rarr;</span>
-                <span className="font-heading text-4xl font-semibold text-accent sm:text-5xl">
-                  {afterDisp}
-                </span>
-                <span className="w-full text-sm text-text-muted sm:ml-1 sm:w-auto">
-                  days on market
-                </span>
-              </div>
-            ) : (
-              <div className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="font-heading text-5xl font-semibold text-accent sm:text-6xl">
-                  {afterDisp}
-                </span>
-                <span className="text-sm text-text-muted">
-                  days from ModelMatch photos to {c.closed ? "a closed sale" : "a buyer"}
-                </span>
-              </div>
-            )}
+            <div className="mt-6 flex items-baseline gap-2">
+              <span className="font-heading text-5xl font-semibold text-accent sm:text-6xl">
+                {afterDisp}
+              </span>
+              <span className="font-heading text-xl font-medium text-text-muted">days</span>
+            </div>
+            <p className="mt-1 text-sm text-text-muted">
+              {statusLabel(c).toLowerCase()} after ModelMatch
+              {c.story === "rescue" ? `, after ${c.unstaged} days on the market` : ""}
+            </p>
             <p className="mt-5 max-w-2xl font-heading text-xl font-medium italic leading-snug text-text-dark">
               {c.subhead}
             </p>
@@ -489,7 +421,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
               </ul>
             </div>
 
-            <div className="h-fit rounded-2xl bg-bg-surface p-6 ring-1 ring-border-light">
+            <div className="h-fit rounded-xl bg-bg-surface p-6 ring-1 ring-border-light">
               <dl className="divide-y divide-border-light/70 text-sm">
                 <Fact label="Result" value={c.result} />
                 <Fact label="Durability" value={c.durability} />
@@ -510,7 +442,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
                   key={img}
                   type="button"
                   onClick={() => setLightbox(i)}
-                  className="group relative aspect-[4/3] overflow-hidden rounded-xl ring-1 ring-border-light"
+                  className="group relative aspect-[4/3] overflow-hidden rounded-lg ring-1 ring-border-light"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
