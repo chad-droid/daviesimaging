@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { CASE_STUDIES, type CaseStudy } from "./caseStudies";
@@ -346,6 +347,17 @@ function EditorialCard({ c, i, onOpen }: { c: CaseStudy; i: number; onOpen: () =
 // Detail modal — clock + verification + staged-image gallery.
 // ─────────────────────────────────────────────────────────────────────────────
 
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4 py-3 first:pt-0 last:pb-0">
+      <dt className="shrink-0 text-[0.62rem] font-bold uppercase tracking-[0.14em] text-text-muted">
+        {label}
+      </dt>
+      <dd className="text-right text-sm font-medium text-text-dark">{value}</dd>
+    </div>
+  );
+}
+
 function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
   const [lightbox, setLightbox] = useState<number | null>(null);
 
@@ -366,7 +378,9 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
 
   const afterDisp = afterText(c, c.after);
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm sm:p-8"
       onClick={onClose}
@@ -440,18 +454,19 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
                 </span>
               </div>
             )}
-            <p className="mt-3 text-sm font-medium text-text-dark">{c.result}</p>
-            <p className="mt-0.5 text-sm text-text-muted">{c.durability}</p>
+            <p className="mt-5 max-w-2xl font-heading text-xl font-medium italic leading-snug text-text-dark">
+              {c.subhead}
+            </p>
           </div>
 
           {/* Body */}
-          <div className="grid gap-8 px-6 py-7 sm:px-10 lg:grid-cols-2">
+          <div className="grid gap-8 px-6 py-7 sm:px-10 lg:grid-cols-[1.5fr_1fr] lg:gap-12">
             <div>
               <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-accent">
                 The clock
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-text-body">{c.clock}</p>
-              <ul className="mt-5 space-y-4">
+              <ul className="mt-6 space-y-4">
                 {c.events.map((e, i) => (
                   <li key={i} className="flex gap-3">
                     <span
@@ -474,18 +489,13 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
               </ul>
             </div>
 
-            <div className="space-y-5">
-              <blockquote className="border-l-2 border-accent pl-4 font-heading text-xl font-medium italic leading-snug text-text-dark">
-                {c.subhead}
-              </blockquote>
-              {c.price && (
-                <div>
-                  <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
-                    Price
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-text-body">{c.price}</p>
-                </div>
-              )}
+            <div className="h-fit rounded-2xl bg-bg-surface p-6 ring-1 ring-border-light">
+              <dl className="divide-y divide-border-light/70 text-sm">
+                <Fact label="Result" value={c.result} />
+                <Fact label="Durability" value={c.durability} />
+                <Fact label="Builder" value={c.builder} />
+                {c.price && <Fact label="Price" value={c.price} />}
+              </dl>
             </div>
           </div>
 
@@ -547,6 +557,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
           </button>
         </div>
       )}
-    </div>
+    </div>,
+    document.body,
   );
 }
