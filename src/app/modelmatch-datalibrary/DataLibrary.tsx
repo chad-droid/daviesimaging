@@ -141,9 +141,8 @@ export function DataLibrary() {
               On-brand virtual staging that puts aging inventory back in motion. Real homes, real
               timelines, below.
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <div className="mt-9">
               <TrialButton />
-              <span className="text-sm text-text-muted">Free on your first listing.</span>
             </div>
           </div>
 
@@ -177,10 +176,12 @@ export function DataLibrary() {
         />
         <div className="relative mx-auto max-w-2xl">
           <h2 className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-tight tracking-tight text-text-light">
-            Put your stuck inventory <span className="text-accent-dark-hover">back in motion.</span>
+            Get your aging inventory
+            <br />
+            <span className="text-accent-dark-hover">back on track.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-white/70">
-            Try ModelMatch on your own listing, free. See the staged result before you commit.
+            Try ModelMatch on your first listing, free.
           </p>
           <TrialButton className="mt-9 px-8 py-3.5 text-base" />
         </div>
@@ -217,23 +218,29 @@ function FeatureCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.72) 30%, rgba(0,0,0,0.3) 58%, transparent 82%)",
+          }}
+        />
 
-        <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
-          <p className="text-[0.66rem] font-bold uppercase tracking-[0.16em] text-white/70">
+        <div className="absolute inset-x-0 bottom-0 p-6 text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.7)] sm:p-8">
+          <p className="text-[0.66rem] font-bold uppercase tracking-[0.16em] text-white/85">
             {statusLabel(c)} &middot; after ModelMatch
           </p>
           <p className="mt-1.5 flex items-baseline gap-2">
-            <span className="font-heading text-[3.5rem] font-semibold leading-none text-accent-dark-hover drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-[4.75rem]">
+            <span className="font-heading text-[3.5rem] font-semibold leading-none text-accent-dark-hover sm:text-[4.75rem]">
               {afterText(c, days)}
             </span>
-            <span className="font-heading text-2xl font-medium text-white/70 sm:text-3xl">days</span>
+            <span className="font-heading text-2xl font-medium text-white/80 sm:text-3xl">days</span>
           </p>
-          <p className="mt-3 text-sm text-white/80">{contextLine(c)}</p>
+          <p className="mt-3 text-sm font-medium text-white/90">{contextLine(c)}</p>
           <p className="mt-4 font-heading text-2xl font-medium leading-tight text-white sm:text-3xl">
             {c.addr}
           </p>
-          <p className="mt-0.5 text-sm text-white/70">{c.city}</p>
+          <p className="mt-0.5 text-sm text-white/80">{c.city}</p>
         </div>
       </div>
     </button>
