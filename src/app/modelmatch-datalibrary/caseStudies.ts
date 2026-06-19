@@ -96,9 +96,9 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     disclosure: "Two prior failed contracts — part of the stuck story.",
     images: [
+      "3737-selborne-dr-3.webp",
       "3737-selborne-dr-1.webp",
       "3737-selborne-dr-2.webp",
-      "3737-selborne-dr-3.webp",
       "3737-selborne-dr-4.webp",
       "3737-selborne-dr-5.webp",
       "3737-selborne-dr-6.webp",
