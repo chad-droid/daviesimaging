@@ -118,11 +118,11 @@ function TileCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
       {/* The contrast: long stuck (big) → fast after staging (small) */}
       <div className="relative z-[1]">
         <div className="flex items-baseline gap-2.5">
-          <span className="origin-bottom-left font-heading text-[3.5rem] font-semibold leading-none text-white/55 transition-transform duration-500 ease-out group-hover:scale-[0.72] sm:text-[4.25rem]">
+          <span className="origin-bottom-left font-heading text-[3.5rem] font-semibold leading-none text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] transition-transform duration-500 ease-out group-hover:scale-[0.72] sm:text-[4.25rem] sm:text-white/55 sm:drop-shadow-none">
             {c.unstaged}
           </span>
           <span className="font-heading text-2xl font-medium text-white/30">&rarr;</span>
-          <span className="origin-bottom-left font-heading text-[2.75rem] font-semibold leading-none text-accent-dark-hover transition-transform duration-500 ease-out group-hover:scale-[1.28] sm:text-[3.5rem]">
+          <span className="origin-bottom-left font-heading text-[2.75rem] font-semibold leading-none text-accent-dark-hover drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] transition-transform duration-500 ease-out group-hover:scale-[1.28] sm:text-[3.5rem] sm:drop-shadow-none">
             {c.after}
           </span>
         </div>
