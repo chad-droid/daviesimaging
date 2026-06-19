@@ -265,47 +265,6 @@ function AmbientVideo({ id, active }: { id: string; active: boolean }) {
   );
 }
 
-/** Finished film — click to play with sound. */
-function ResultVideo({ id, active }: { id: string; active: boolean }) {
-  const [play, setPlay] = useState(false);
-  useEffect(() => {
-    if (!active) setPlay(false);
-  }, [active]);
-
-  if (play && active) {
-    return (
-      <iframe
-        src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-        title="Finished film"
-        className="absolute inset-0 h-full w-full"
-        allow="autoplay; encrypted-media; fullscreen"
-      />
-    );
-  }
-  return (
-    <button
-      type="button"
-      data-no-swipe
-      onClick={() => setPlay(true)}
-      className="group absolute inset-0 h-full w-full"
-      aria-label="Play finished film"
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`https://img.youtube.com/vi/${id}/maxresdefault.jpg`}
-        alt="Finished film"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      <div className="absolute inset-0 bg-black/30 transition-colors group-hover:bg-black/20" />
-      <span className="absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/30 backdrop-blur transition-transform group-hover:scale-105">
-        <svg viewBox="0 0 24 24" className="ml-1.5 h-10 w-10 text-white" fill="currentColor">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      </span>
-    </button>
-  );
-}
-
 function BleedImage({ src, alt }: { src: string; alt: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -491,7 +450,7 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
   // 8 — The Result (finished film, with sound)
   ({ active }) => (
     <MediaSlide step="The Result" title="Compile the results, add music to enhance the emotional response.">
-      <ResultVideo id={MEDIA.resultVideo} active={active} />
+      <AmbientVideo id={MEDIA.resultVideo} active={active} />
     </MediaSlide>
   ),
 
