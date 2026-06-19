@@ -50,7 +50,7 @@ export const AGGREGATE = {
   line: "Five homes. Four metros. $400K to $1.1M. Every ModelMatch listing that has transacted since launch, no omissions.",
   cap: "No transacted home took longer than 56 days after staging.",
   disclaimer:
-    "MLS listing histories pulled June 6–7, 2026. Sequence, not causation. Texas is a non-disclosure state: claims ride on days, never sale price.",
+    "MLS histories pulled June 2026 · Sequence, not causation · Texas non-disclosure: claims ride on days, not price.",
 };
 
 export const CASE_STUDIES: CaseStudy[] = [

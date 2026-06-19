@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { AGGREGATE, CASE_STUDIES, type CaseStudy } from "./caseStudies";
@@ -8,19 +8,20 @@ import { AGGREGATE, CASE_STUDIES, type CaseStudy } from "./caseStudies";
 const IMG = (f: string) => `/mm-library/${f}`;
 const TRIAL_URL = "https://desk.daviesimaging.com/trial";
 
-export function DataLibrary() {
-  const [market, setMarket] = useState<string>("All");
-  const [openSlug, setOpenSlug] = useState<string | null>(null);
-
-  const markets = useMemo(() => {
-    const set = Array.from(new Set(CASE_STUDIES.map((c) => c.market)));
-    return ["All", ...set];
-  }, []);
-
-  const filtered = useMemo(
-    () => (market === "All" ? CASE_STUDIES : CASE_STUDIES.filter((c) => c.market === market)),
-    [market],
+/** One consistent trial button used everywhere on the page. */
+function TrialButton({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={TRIAL_URL}
+      className={`inline-block rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover ${className}`}
+    >
+      Start your free trial
+    </a>
   );
+}
+
+export function DataLibrary() {
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
 
   const open = openSlug ? CASE_STUDIES.find((c) => c.slug === openSlug) ?? null : null;
 
@@ -48,85 +49,32 @@ export function DataLibrary() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/dig-logo-dark.png" alt="Davies Imaging Group" className="h-7 w-auto" />
         </Link>
-        <a
-          href={TRIAL_URL}
-          className="rounded-full bg-accent px-5 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:bg-accent-dark-hover sm:text-sm"
-        >
-          Start Free Trial
-        </a>
+        <TrialButton />
       </header>
 
       {/* Hero */}
       <section className="mx-auto max-w-7xl px-6 pb-10 pt-12 sm:px-10 sm:pt-16">
         <Eyebrow>ModelMatch / Data Library</Eyebrow>
-        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.05] tracking-tight text-text-dark">
-              Stuck for months. <strong>In contract after weeks.</strong>
-            </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-text-body">
-              Every ModelMatch listing that has transacted since launch, with its verified MLS
-              timeline. {AGGREGATE.line}
-            </p>
-            <a
-              href={TRIAL_URL}
-              className="mt-7 inline-block rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
-            >
-              Start your free trial
-            </a>
-          </div>
-          {/* Aggregate stat */}
-          <div className="flex items-center gap-4 sm:gap-6">
-            <div>
-              <p className="font-heading text-[clamp(2.5rem,6vw,4rem)] font-semibold leading-none text-text-muted">
-                {AGGREGATE.unstaged}
-              </p>
-              <p className="mt-1 text-[0.6rem] font-bold uppercase tracking-[0.15em] text-text-muted">
-                Avg days unstaged
-              </p>
-            </div>
-            <span className="font-heading text-2xl text-text-muted sm:text-4xl">&rarr;</span>
-            <div>
-              <p className="font-heading text-[clamp(2.5rem,6vw,4rem)] font-semibold leading-none text-accent">
-                {AGGREGATE.after}
-              </p>
-              <p className="mt-1 text-[0.6rem] font-bold uppercase tracking-[0.15em] text-accent">
-                After ModelMatch
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Market filter */}
-        <div className="mt-10 flex flex-wrap items-center gap-2">
-          {markets.map((m) => (
-            <button
-              key={m}
-              type="button"
-              onClick={() => setMarket(m)}
-              className={`rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
-                market === m
-                  ? "border-accent bg-accent text-white"
-                  : "border-border-light text-text-muted hover:border-accent hover:text-accent"
-              }`}
-            >
-              {m}
-            </button>
-          ))}
-          <span className="ml-1 text-xs text-text-muted">
-            {filtered.length} {filtered.length === 1 ? "listing" : "listings"}
-          </span>
-        </div>
+        <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.08] tracking-tight text-text-dark">
+          Stuck for months.
+          <br />
+          <strong>In contract after weeks.</strong>
+        </h1>
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-text-body">
+          Every ModelMatch listing that has transacted since launch, with its verified MLS timeline.{" "}
+          {AGGREGATE.line}
+        </p>
+        <TrialButton className="mt-7" />
       </section>
 
       {/* Grid */}
       <section className="mx-auto max-w-7xl px-6 pb-20 sm:px-10">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((c) => (
+          {CASE_STUDIES.map((c) => (
             <TileCard key={c.slug} c={c} onOpen={() => openStudy(c.slug)} />
           ))}
         </div>
-        <p className="mt-10 max-w-3xl text-xs leading-relaxed text-text-muted">{AGGREGATE.disclaimer}</p>
+        <p className="mt-10 text-xs leading-relaxed text-text-muted">{AGGREGATE.disclaimer}</p>
       </section>
 
       {/* Closing CTA (page has no footer) */}
@@ -137,12 +85,7 @@ export function DataLibrary() {
         <p className="mx-auto mt-4 max-w-xl text-white/70">
           Try ModelMatch on your own listing, free. See the staged result before you commit.
         </p>
-        <a
-          href={TRIAL_URL}
-          className="mt-8 inline-block rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
-        >
-          Start your free trial
-        </a>
+        <TrialButton className="mt-8" />
       </section>
 
       {open && <StudyModal c={open} onClose={closeStudy} />}
@@ -363,12 +306,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
           <p className="hidden text-sm text-text-muted sm:block">
             See it on your own listing, free.
           </p>
-          <a
-            href={TRIAL_URL}
-            className="w-full rounded-full bg-accent px-7 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover sm:w-auto"
-          >
-            Start your free trial
-          </a>
+          <TrialButton className="w-full text-center sm:w-auto" />
         </div>
       </div>
 
