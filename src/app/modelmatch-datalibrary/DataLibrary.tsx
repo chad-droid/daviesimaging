@@ -174,11 +174,11 @@ function TileCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
       {/* The contrast: long stuck (big) → fast after staging (small) */}
       <div className="relative z-[1]">
         <div className="flex items-baseline gap-2.5">
-          <span className="font-heading text-[3.75rem] font-semibold leading-none text-white/55 sm:text-[4.5rem]">
+          <span className="origin-bottom-left font-heading text-[3.5rem] font-semibold leading-none text-white/55 transition-transform duration-500 ease-out group-hover:scale-[0.72] sm:text-[4.25rem]">
             {c.unstaged}
           </span>
           <span className="font-heading text-2xl font-medium text-white/30">&rarr;</span>
-          <span className="font-heading text-3xl font-semibold leading-none text-accent-dark-hover">
+          <span className="origin-bottom-left font-heading text-[2.75rem] font-semibold leading-none text-accent-dark-hover transition-transform duration-500 ease-out group-hover:scale-[1.28] sm:text-[3.5rem]">
             {c.after}
           </span>
         </div>
@@ -313,7 +313,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
             {/* Criteria + cohort + quote */}
             <div className="space-y-5">
               <blockquote className="border-l-2 border-accent pl-4 font-heading text-xl font-medium italic leading-snug text-text-dark">
-                &ldquo;{c.quote}&rdquo;
+                {c.quote}
               </blockquote>
               <div>
                 <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
