@@ -194,3 +194,15 @@
     letter-spacing: 0.1em;
   }
 }
+
+/* ModelMatch Win Library — tile entrance.
+   Transform-only (no opacity) so a tile is never left invisible if the
+   animation is paused/throttled; worst case it sits a few px lower. */
+@keyframes mm-rise {
+  from {
+    transform: translateY(28px) scale(0.985);
+  }
+  to {
+    transform: none;
+  }
+}

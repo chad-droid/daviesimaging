@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
-import { AGGREGATE, CASE_STUDIES, type CaseStudy } from "./caseStudies";
+import { META, CASE_STUDIES, type CaseStudy } from "./caseStudies";
 
 const IMG = (f: string) => `/mm-library/${f}`;
 const TRIAL_URL = "https://desk.daviesimaging.com/trial";
@@ -18,6 +18,45 @@ function TrialButton({ className = "" }: { className?: string }) {
       Start your free trial
     </a>
   );
+}
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+/** Eased count-up that runs once on mount, after an optional start delay.
+ *  Initializes to the target value (so SSR / no-JS / reduced-motion always
+ *  shows the real number) and animates up from 0 only when motion is allowed. */
+function useCountUp(target: number, delay = 0, duration = 1100) {
+  const [n, setN] = useState(target);
+  useEffect(() => {
+    if (prefersReducedMotion()) {
+      setN(target);
+      return;
+    }
+    setN(0);
+    let raf = 0;
+    let startTs = 0;
+    const tick = (ts: number) => {
+      if (!startTs) startTs = ts + delay;
+      if (ts < startTs) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      const p = Math.min(1, (ts - startTs) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setN(Math.round(target * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    // Failsafe: if rAF is throttled (backgrounded tab), still land on target.
+    const safety = window.setTimeout(() => setN(target), delay + duration + 400);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(safety);
+    };
+  }, [target, delay, duration]);
+  return n;
 }
 
 export function DataLibrary() {
@@ -53,8 +92,8 @@ export function DataLibrary() {
       </header>
 
       {/* Hero */}
-      <section className="mx-auto max-w-7xl px-6 pb-10 pt-12 sm:px-10 sm:pt-16">
-        <Eyebrow>ModelMatch / Data Library</Eyebrow>
+      <section className="mx-auto w-full max-w-7xl px-6 pb-10 pt-12 sm:px-10 sm:pt-16">
+        <Eyebrow>ModelMatch / Win Library</Eyebrow>
         <h1 className="font-heading text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.08] tracking-tight text-text-dark">
           Stuck for months.
           <br />
@@ -69,12 +108,12 @@ export function DataLibrary() {
 
       {/* Grid */}
       <section className="mx-auto w-full max-w-7xl flex-1 px-6 pb-20 sm:px-10">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {CASE_STUDIES.map((c) => (
-            <TileCard key={c.slug} c={c} onOpen={() => openStudy(c.slug)} />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {CASE_STUDIES.map((c, i) => (
+            <TileCard key={c.slug} c={c} i={i} featured={i === 0} onOpen={() => openStudy(c.slug)} />
           ))}
         </div>
-        <p className="mt-10 text-xs leading-relaxed text-text-muted">{AGGREGATE.disclaimer}</p>
+        <p className="mt-10 text-xs leading-relaxed text-text-muted">{META.disclaimer}</p>
       </section>
 
       {/* Closing CTA (page has no footer) */}
@@ -94,42 +133,105 @@ export function DataLibrary() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Tile — data-forward card; hover reveals a staged photo.
+// Tile — data-forward card; the staged photo carries the story.
 // ─────────────────────────────────────────────────────────────────────────────
 
-function TileCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
+function afterText(c: CaseStudy, n: number) {
+  return c.afterApprox ? `~${n}` : `${n}`;
+}
+
+function TileCard({
+  c,
+  i,
+  featured,
+  onOpen,
+}: {
+  c: CaseStudy;
+  i: number;
+  featured: boolean;
+  onOpen: () => void;
+}) {
+  const delay = Math.min(i, 8) * 70;
+  const unstaged = useCountUp(c.unstaged ?? 0, delay);
+  const after = useCountUp(c.after, delay + 150, 1300);
+
+  const aspect = featured
+    ? "aspect-[4/5] sm:aspect-[21/9]"
+    : "aspect-[4/3]";
+
+  // Number scales — featured is dramatically larger.
+  const bigSize = featured
+    ? "text-[4.5rem] sm:text-[7rem]"
+    : "text-[3.5rem] sm:text-[4.25rem]";
+  const smallSize = featured
+    ? "text-[3.5rem] sm:text-[5.5rem]"
+    : "text-[2.75rem] sm:text-[3.5rem]";
+  const freshSize = featured
+    ? "text-[5rem] sm:text-[8rem]"
+    : "text-[4rem] sm:text-[5rem]";
+
   return (
     <button
       type="button"
       onClick={onOpen}
-      className="group relative flex aspect-[4/3] w-full flex-col justify-end overflow-hidden rounded-2xl bg-bg-dark p-6 text-left text-text-light"
+      style={{ animationDelay: `${delay}ms` }}
+      className={`group relative flex w-full flex-col justify-end overflow-hidden rounded-2xl bg-bg-dark p-6 text-left text-text-light motion-safe:animate-[mm-rise_0.6s_ease-out_both] ${aspect} ${
+        featured ? "col-span-full" : ""
+      }`}
     >
-      {/* Staged photo. On touch (no hover) it's shown by default; on desktop
-          it stays hidden and reveals on hover. */}
+      {/* Staged photo. On touch (no hover) shown by default; on desktop reveals on hover. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={IMG(c.images[0])}
         alt={`${c.addr} staged by ModelMatch`}
-        className="absolute inset-0 h-full w-full object-cover opacity-100 transition-all duration-500 ease-out sm:scale-105 sm:opacity-0 sm:group-hover:scale-100 sm:group-hover:opacity-100"
-        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover opacity-100 transition-all duration-700 ease-out sm:scale-105 sm:opacity-0 sm:group-hover:scale-100 sm:group-hover:opacity-100"
+        loading={featured ? "eager" : "lazy"}
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10 opacity-100 transition-opacity duration-500 sm:via-black/25 sm:to-transparent sm:opacity-0 sm:group-hover:opacity-100" />
 
-      {/* The contrast: long stuck (big) → fast after staging (small) */}
+      {/* Status accent for closed sales */}
+      {c.closed && (
+        <span className="absolute right-3 top-3 z-[1] rounded-full bg-accent px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white shadow-lg">
+          Sold
+        </span>
+      )}
+
       <div className="relative z-[1]">
-        <div className="flex items-baseline gap-2.5">
-          <span className="origin-bottom-left font-heading text-[3.5rem] font-semibold leading-none text-white/55 transition-transform duration-500 ease-out group-hover:scale-[0.72] sm:text-[4.25rem]">
-            {c.unstaged}
-          </span>
-          <span className="font-heading text-2xl font-medium text-white/30">&rarr;</span>
-          <span className="origin-bottom-left font-heading text-[2.75rem] font-semibold leading-none text-accent-dark-hover transition-transform duration-500 ease-out group-hover:scale-[1.28] sm:text-[3.5rem]">
-            {c.after}
-          </span>
-        </div>
-        <p className="mt-3 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/45">
-          Days on market &middot; after ModelMatch
+        {c.story === "rescue" ? (
+          <div className="flex items-baseline gap-2.5">
+            <span
+              className={`origin-bottom-left font-heading font-semibold leading-none text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] transition-transform duration-500 ease-out group-hover:scale-[0.72] sm:text-white/55 sm:drop-shadow-none ${bigSize}`}
+            >
+              {unstaged}
+            </span>
+            <span className="font-heading text-2xl font-medium text-white/40 sm:text-3xl">&rarr;</span>
+            <span
+              className={`origin-bottom-left font-heading font-semibold leading-none text-accent-dark-hover drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] transition-transform duration-500 ease-out group-hover:scale-[1.28] sm:drop-shadow-none ${smallSize}`}
+            >
+              {after}
+            </span>
+          </div>
+        ) : (
+          <div className="flex items-baseline gap-2">
+            <span
+              className={`font-heading font-semibold leading-none text-accent-dark-hover drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] sm:drop-shadow-none ${freshSize}`}
+            >
+              {afterText(c, after)}
+            </span>
+            <span className="font-heading text-2xl font-medium text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] sm:text-3xl sm:text-white/60 sm:drop-shadow-none">
+              days
+            </span>
+          </div>
+        )}
+
+        <p className="mt-3 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/55 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)] sm:text-white/45 sm:drop-shadow-none">
+          {c.story === "rescue"
+            ? "Days on market · after ModelMatch"
+            : c.closed
+              ? "From ModelMatch photos to a closed sale"
+              : "To a buyer · after ModelMatch photos"}
         </p>
-        <p className="mt-3 text-sm text-white/80">
+        <p className="mt-3 text-sm font-medium text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)] sm:font-normal sm:text-white/80 sm:drop-shadow-none">
           {c.addr}, {c.city}
         </p>
       </div>
@@ -138,7 +240,7 @@ function TileCard({ c, onOpen }: { c: CaseStudy; onOpen: () => void }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Detail modal — full timeline + staged-image gallery.
+// Detail modal — clock + verification + staged-image gallery.
 // ─────────────────────────────────────────────────────────────────────────────
 
 function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
@@ -158,6 +260,8 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
       document.body.style.overflow = "";
     };
   }, [onClose, lightbox]);
+
+  const afterDisp = afterText(c, c.after);
 
   return (
     <div
@@ -188,47 +292,67 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
           <div className="border-b border-border-light px-6 pb-6 pt-7 sm:px-10">
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-full bg-bg-surface px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-text-muted">
-                {c.market}
+                {c.story === "rescue" ? "Rescue" : "Fresh listing"}
               </span>
               <span
                 className={`rounded-full px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] ${
-                  c.status === "sold" ? "bg-accent text-white" : "bg-accent/10 text-accent"
+                  c.closed ? "bg-accent text-white" : "bg-accent/10 text-accent"
                 }`}
               >
-                {c.statusNote}
+                {c.closed ? "Sold" : "Under contract"}
               </span>
+              {c.noCut && (
+                <span className="rounded-full bg-bg-surface px-3 py-1 text-[0.6rem] font-bold uppercase tracking-[0.12em] text-text-muted">
+                  No price cut
+                </span>
+              )}
             </div>
             <h2 className="mt-3 font-heading text-[clamp(1.75rem,4vw,2.75rem)] font-semibold leading-tight tracking-tight text-text-dark">
               {c.addr}, {c.city}
             </h2>
-            <p className="mt-1 text-sm text-text-muted">
-              {c.builder} &middot; {c.product}
-            </p>
+            <p className="mt-1 text-sm text-text-muted">{c.builder}</p>
 
             {/* Big stat */}
-            <div className="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1 sm:gap-x-3">
-              <span className="font-heading text-4xl font-semibold text-text-muted sm:text-5xl">
-                {c.unstaged}
-              </span>
-              <span className="text-text-muted">&rarr;</span>
-              <span className="font-heading text-sm font-semibold uppercase tracking-wide text-accent sm:text-base">
-                MM
-              </span>
-              <span className="text-text-muted">&rarr;</span>
-              <span className="font-heading text-4xl font-semibold text-accent sm:text-5xl">{c.after}</span>
-              <span className="w-full text-sm text-text-muted sm:ml-1 sm:w-auto">{c.afterLabel}</span>
-            </div>
-            <p className="mt-2 text-sm text-text-muted">
-              {c.listed} &middot; {c.pricePath}
-            </p>
+            {c.story === "rescue" ? (
+              <div className="mt-6 flex flex-wrap items-baseline gap-x-2 gap-y-1 sm:gap-x-3">
+                <span className="font-heading text-4xl font-semibold text-text-muted sm:text-5xl">
+                  {c.unstaged}
+                </span>
+                <span className="text-text-muted">&rarr;</span>
+                <span className="font-heading text-sm font-semibold uppercase tracking-wide text-accent sm:text-base">
+                  MM
+                </span>
+                <span className="text-text-muted">&rarr;</span>
+                <span className="font-heading text-4xl font-semibold text-accent sm:text-5xl">
+                  {afterDisp}
+                </span>
+                <span className="w-full text-sm text-text-muted sm:ml-1 sm:w-auto">
+                  days on market
+                </span>
+              </div>
+            ) : (
+              <div className="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="font-heading text-5xl font-semibold text-accent sm:text-6xl">
+                  {afterDisp}
+                </span>
+                <span className="text-sm text-text-muted">
+                  days from ModelMatch photos to {c.closed ? "a closed sale" : "a buyer"}
+                </span>
+              </div>
+            )}
+            <p className="mt-3 text-sm font-medium text-text-dark">{c.result}</p>
+            <p className="mt-0.5 text-sm text-text-muted">{c.durability}</p>
           </div>
 
           {/* Body */}
           <div className="grid gap-8 px-6 py-7 sm:px-10 lg:grid-cols-2">
             {/* Timeline */}
             <div>
-              <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-accent">Timeline</h3>
-              <ul className="mt-4 space-y-4">
+              <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-accent">
+                The clock
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-text-body">{c.clock}</p>
+              <ul className="mt-5 space-y-4">
                 {c.events.map((e, i) => (
                   <li key={i} className="flex gap-3">
                     <span
@@ -237,40 +361,48 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
                           ? "bg-accent ring-4 ring-accent/15"
                           : e.cls === "end"
                             ? "bg-text-dark"
-                            : e.cls === "fail"
-                              ? "bg-border-light"
-                              : "bg-border-light"
+                            : "bg-border-light"
                       }`}
                     />
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">{e.d}</p>
-                      <p
-                        className="text-sm leading-snug text-text-body [&_span]:font-semibold [&_span]:text-text-dark"
-                        dangerouslySetInnerHTML={{ __html: e.t }}
-                      />
+                      <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+                        {e.d}
+                      </p>
+                      <p className="text-sm leading-snug text-text-body">{e.t}</p>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Criteria + cohort + quote */}
+            {/* Verification + disclosure + sequence note */}
             <div className="space-y-5">
               <blockquote className="border-l-2 border-accent pl-4 font-heading text-xl font-medium italic leading-snug text-text-dark">
-                {c.quote}
+                {c.subhead}
               </blockquote>
               <div>
                 <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
-                  Criteria applied
+                  Verification
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-body">{c.criteria}</p>
+                <p className="mt-2 text-sm leading-relaxed text-text-body">{c.verification}</p>
               </div>
-              <div>
-                <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
-                  Cohort context
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-body">{c.cohort}</p>
-              </div>
+              {c.price && (
+                <div>
+                  <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+                    Price
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-text-body">{c.price}</p>
+                </div>
+              )}
+              {c.disclosure && (
+                <div>
+                  <h3 className="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+                    Disclosure
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-text-body">{c.disclosure}</p>
+                </div>
+              )}
+              <p className="text-xs leading-relaxed text-text-muted">{c.micro}</p>
             </div>
           </div>
 

@@ -1,22 +1,31 @@
-// ModelMatch Data Library — micro-case studies.
+// ModelMatch Win Library — micro-case studies.
 //
-// Each entry is one transacted ModelMatch listing with its verified MLS
-// timeline plus a selection of virtually staged images. Designed to grow to
-// dozens of studies across markets: add objects to CASE_STUDIES and drop the
-// matching images into /public/mm-library.
+// Each entry is one verified win: a home that found a buyer after modelMatch
+// entered its marketing. Two story shapes:
+//   - "rescue": sat unstaged for a long time, then found a buyer N days after
+//     modelMatch. Tile shows the days-on-market contrast (big -> small).
+//   - "fresh": brand-new listing that went under contract N days after the
+//     modelMatch photos went live. Tile shows the single fast number.
 //
-// DOM / timeline data is the DIG Proof Library set (data as of June 7, 2026).
-// NOTE: the staged images currently attached are builder-matched stand-ins
-// from the showcase library (real DIG staging, different address) until each
-// project's own finished photos are loaded. Swap `images` per study as the
-// real assets arrive.
+// CLAIM RULES (from the June 19 2026 Win-Library source sheet — non-optional):
+//   - Sequence, not causation. "found a buyer after modelMatch", never "sold it".
+//   - Texas is a non-disclosure state: TX claims lead with DAYS, never price.
+//     TX dollar figures are internal-only and are NOT rendered here. Non-TX
+//     homes (e.g. PA) may show price.
+//   - Banned words: stunning, transform, proven, guaranteed.
+//   - No comparison/"comp" claims. Story stays home-vs-its-own-history.
+//
+// Gallery images are genuine modelMatch virtually-staged interiors (the
+// disclaimer-watermarked deliverables), never the vacant MLS shots. Optimized
+// to webp under /public/mm-library. To add a property: append an object and
+// drop its {slug}-{n}.webp images in that folder.
 
 export type TimelineEvent = {
-  /** Date or duration label, e.g. "Sep 23, 2025" or "196 days". */
+  /** Date or duration label, e.g. "May 19, 2026" or "357 days". */
   d: string;
-  /** Event text. May contain a <span> for emphasis (trusted static content). */
+  /** Event text (trusted static content). */
   t: string;
-  /** "mm" = ModelMatch event, "end" = transaction, "fail" = fell through. */
+  /** "mm" = modelMatch event, "end" = transaction, "fail" = fell through. */
   cls?: "mm" | "end" | "fail" | "";
 };
 
@@ -24,202 +33,325 @@ export type CaseStudy = {
   slug: string;
   addr: string;
   city: string;
-  market: string;
   builder: string;
-  status: "sold" | "pending";
-  statusNote: string;
-  /** Days unstaged on market before ModelMatch. */
-  unstaged: number;
-  /** Days to a buyer / contract after ModelMatch. */
+  story: "rescue" | "fresh";
+  /** Days unstaged on market before modelMatch (rescue only). */
+  unstaged?: number;
+  /** Days to a buyer / contract after modelMatch. */
   after: number;
-  afterLabel: string;
-  listed: string;
-  pricePath: string;
-  quote: string;
-  product: string;
+  /** Render the after number as "~N" (approximate). */
+  afterApprox?: boolean;
+  /** Win closed (sold), vs. under contract / pending. */
+  closed?: boolean;
+  /** Short result line for the detail view. */
+  result: string;
+  /** Durability note (option window cleared, closed, etc.). */
+  durability: string;
+  /** Audit-approved one-line subhead. */
+  subhead: string;
+  /** Audit-approved microcopy (verification + sequence-not-cause). */
+  micro: string;
+  /** Verification source label. */
+  verification: string;
+  /** "The clock" narrative. */
+  clock: string;
   events: TimelineEvent[];
-  criteria: string;
-  cohort: string;
-  /** Staged image filenames under /public/mm-library. First is the tile preview. */
+  /** Disclosure required by the source sheet, if any. */
+  disclosure?: string;
+  /** Public price — non-TX homes only (TX is non-disclosure). */
+  price?: string;
+  /** Sold/contracted at full list with no price cut. */
+  noCut?: boolean;
+  /** Staged image filenames under /public/mm-library. First is the tile. */
   images: string[];
 };
 
-export const AGGREGATE = {
-  unstaged: 285,
-  after: 35,
-  line: "Five homes. Four metros. $400K to $1.1M. Every ModelMatch listing that has transacted since launch, no omissions.",
-  cap: "No transacted home took longer than 56 days after staging.",
+export const META = {
   disclaimer:
-    "MLS histories pulled June 2026 · Sequence, not causation · Texas non-disclosure: claims ride on days, not price.",
+    "Every home here found a buyer after modelMatch entered its marketing. Sequence, not causation. Texas is a non-disclosure state, so Texas claims lead with days on market, not price. MLS and portal histories verified June 2026.",
 };
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
-    slug: "282-laurel-hike",
-    addr: "282 Laurel Hike",
-    city: "San Antonio, TX",
-    market: "San Antonio",
-    builder: "Beazer Homes",
-    status: "sold",
-    statusNote: "Sold · the only one already closed",
-    unstaged: 196,
-    after: 43,
-    afterLabel: "days to a buyer after ModelMatch",
-    listed: "Listed Sep 23, 2025 · $399,999",
-    pricePath: "196 days unstaged · no buyer",
-    quote: "Six and a half months of silence. A buyer 43 days after staging.",
-    product: "ModelMatch + Cinematic",
-    events: [
-      { d: "Sep 23, 2025", t: "Listed — <span>$399,999</span>" },
-      { d: "196 days", t: "On market unstaged, no buyer", cls: "" },
-      { d: "Apr 7, 2026", t: "ModelMatch staging", cls: "mm" },
-      { d: "May 20, 2026", t: "SOLD", cls: "end" },
-    ],
-    criteria:
-      "Comp pull is a broker item, the street is too new for PropStream's index. Subject dates portal-sourced; broker verification open.",
-    cohort: "Texas is a non-disclosure state, this claim rides on days, not dollars.",
-    images: [
-      "282-laurel-hike-1.jpg",
-      "282-laurel-hike-2.jpg",
-      "282-laurel-hike-3.jpg",
-      "282-laurel-hike-4.jpg",
-      "282-laurel-hike-5.jpg",
-      "282-laurel-hike-6.jpg",
-    ],
-  },
-  {
     slug: "3737-selborne-dr",
     addr: "3737 Selborne Dr",
     city: "Rockwall, TX",
-    market: "Dallas–Fort Worth",
     builder: "Grand Homes",
-    status: "pending",
-    statusNote: "Pending · verified to the day",
+    story: "rescue",
     unstaged: 357,
     after: 14,
-    afterLabel: "days to contract after ModelMatch",
-    listed: "Listed Apr 21, 2025 · $854,319",
-    pricePath: "≈10 price cuts → $599,865",
-    quote: "Two buyers walked before staging. None after.",
-    product: "ModelMatch + Cinematic",
+    result: "Under contract Apr 27, 2026",
+    durability: "Durable — cleared the option window",
+    subhead:
+      "3737 Selborne sat 357 days through two dead contracts. A buyer came 14 days after modelMatch.",
+    micro: "PropStream-verified, Rockwall TX. Re-opened demand: we report the sequence, not causation.",
+    verification: "PropStream day-level",
+    clock:
+      "357 days and two failed contracts before modelMatch, then under contract 14 days after.",
     events: [
-      { d: "Apr 21, 2025", t: "Listed — <span>$854,319, ~10 cuts to $599,865</span>" },
-      { d: "Nov 14, 2025", t: "Contract fell through", cls: "fail" },
-      { d: "Jan 20, 2026", t: "Second contract fell through", cls: "fail" },
-      { d: "Apr 13, 2026", t: "ModelMatch staging", cls: "mm" },
-      { d: "Apr 27, 2026", t: "PENDING", cls: "end" },
+      { d: "Listed", t: "On market, Rockwall TX" },
+      { d: "357 days", t: "Two contracts fell through", cls: "fail" },
+      { d: "Apr 13, 2026", t: "modelMatch staging", cls: "mm" },
+      { d: "Apr 27, 2026", t: "Under contract", cls: "end" },
     ],
-    criteria:
-      "Comp pull: 14 returned · 1 qualified · under the 3-comp floor → no comparison claim. The final price cut landed 14 days before staging; price shares the credit here.",
-    cohort:
-      "Same-window neighbors that sold unstaged took 157–272 days. At any price, the spring-2025 vintage took 130–440.",
+    disclosure: "Two prior failed contracts — part of the stuck story.",
     images: [
-      "3737-selborne-dr-1.jpg",
-      "3737-selborne-dr-2.jpg",
-      "3737-selborne-dr-3.jpg",
-      "3737-selborne-dr-4.jpg",
-      "3737-selborne-dr-5.jpg",
-      "3737-selborne-dr-6.jpg",
+      "3737-selborne-dr-1.webp",
+      "3737-selborne-dr-2.webp",
+      "3737-selborne-dr-3.webp",
+      "3737-selborne-dr-4.webp",
+      "3737-selborne-dr-5.webp",
+      "3737-selborne-dr-6.webp",
+      "3737-selborne-dr-7.webp",
+      "3737-selborne-dr-8.webp",
+    ],
+  },
+  {
+    slug: "3511-riley-st",
+    addr: "3511 Riley St",
+    city: "Rockwall, TX",
+    builder: "Perry Homes",
+    story: "fresh",
+    after: 3,
+    result: "Under contract Jun 4, 2026",
+    durability: "Durable — held past the option window",
+    subhead:
+      "3511 Riley found a buyer 3 days after modelMatch photos went live, and the contract held.",
+    micro: "PropStream-verified, Rockwall TX. Fastest fresh contract in the set.",
+    verification: "PropStream day-level",
+    clock:
+      "Photos live June 1, then under contract 3 days later (June 4); held past the option window.",
+    events: [
+      { d: "Jun 1, 2026", t: "modelMatch photos go live", cls: "mm" },
+      { d: "3 days", t: "Under contract", cls: "end" },
+      { d: "~Jun 14, 2026", t: "Held past the option window" },
+    ],
+    disclosure: "Pre-photos price history is record-only.",
+    images: [
+      "3511-riley-st-1.webp",
+      "3511-riley-st-2.webp",
+      "3511-riley-st-3.webp",
+      "3511-riley-st-4.webp",
+      "3511-riley-st-5.webp",
+      "3511-riley-st-6.webp",
+      "3511-riley-st-7.webp",
+      "3511-riley-st-8.webp",
+    ],
+  },
+  {
+    slug: "2634-shadybrook-dr",
+    addr: "2634 Shadybrook Dr",
+    city: "Celina, TX",
+    builder: "Grand Homes",
+    story: "rescue",
+    unstaged: 309,
+    after: 43,
+    result: "Under contract Jun 3, 2026",
+    durability: "Durable — cleared the option window",
+    subhead:
+      "2634 Shadybrook took nine price cuts over 309 days. A buyer came 43 days after modelMatch, no further cut.",
+    micro: "PropStream-verified, Celina TX. The cuts are the stuck story, not the cause of the sale.",
+    verification: "PropStream day-level",
+    clock:
+      "309 days and nine price cuts, then under contract 43 days after modelMatch; final price flat since before staging.",
+    events: [
+      { d: "Listed", t: "On market, Celina TX" },
+      { d: "309 days", t: "Nine price cuts, still no buyer", cls: "fail" },
+      { d: "Apr 22, 2026", t: "modelMatch staging", cls: "mm" },
+      { d: "Jun 3, 2026", t: "Under contract", cls: "end" },
+    ],
+    disclosure: "Nine prior price cuts (the stuck history); price flat through the staging window.",
+    images: [
+      "2634-shadybrook-dr-1.webp",
+      "2634-shadybrook-dr-2.webp",
+      "2634-shadybrook-dr-3.webp",
+      "2634-shadybrook-dr-4.webp",
+      "2634-shadybrook-dr-5.webp",
+      "2634-shadybrook-dr-6.webp",
+      "2634-shadybrook-dr-7.webp",
+      "2634-shadybrook-dr-8.webp",
+    ],
+  },
+  {
+    slug: "10433-wyatts-run-rd",
+    addr: "10433 Wyatts Run Rd",
+    city: "Fort Worth, TX",
+    builder: "Perry Homes",
+    story: "fresh",
+    after: 11,
+    result: "Under contract May 30, 2026",
+    durability: "Durable — cleared the option window",
+    subhead: "10433 Wyatts Run found a buyer 11 days after modelMatch photos went live.",
+    micro: "PropStream-verified, Fort Worth TX. The clock starts at photos-live.",
+    verification: "PropStream day-level",
+    clock: "modelMatch photos went live May 19, then under contract 11 days later (May 30).",
+    events: [
+      { d: "May 19, 2026", t: "modelMatch photos go live", cls: "mm" },
+      { d: "11 days", t: "Under contract", cls: "end" },
+      { d: "~Jun 9, 2026", t: "Cleared the option window" },
+    ],
+    disclosure: "Pre-photos price history is record-only (a cut 35 days before photos).",
+    images: [
+      "10433-wyatts-run-rd-1.webp",
+      "10433-wyatts-run-rd-2.webp",
+      "10433-wyatts-run-rd-3.webp",
+      "10433-wyatts-run-rd-4.webp",
+      "10433-wyatts-run-rd-5.webp",
+      "10433-wyatts-run-rd-6.webp",
+      "10433-wyatts-run-rd-7.webp",
+      "10433-wyatts-run-rd-8.webp",
     ],
   },
   {
     slug: "511-san-angelo-dr",
     addr: "511 San Angelo Dr",
     city: "Forney, TX",
-    market: "Dallas–Fort Worth",
     builder: "Grand Homes",
-    status: "pending",
-    statusNote: "Pending · cleanest attribution",
+    story: "rescue",
     unstaged: 368,
     after: 18,
-    afterLabel: "days to contract after ModelMatch",
-    listed: "Listed Apr 13, 2025 · $671,273",
-    pricePath: "stepped → $644,273 · last move Feb 10",
-    quote: "83 days of nothing. One change. 18 days.",
-    product: "ModelMatch",
+    result: "Under contract May 4, 2026 (builder site shows Sold)",
+    durability: "Durable — cleared the option window",
+    subhead: "511 San Angelo held flat for 65 days, then found a buyer 18 days after modelMatch.",
+    micro: "PropStream-verified, Forney TX. The cleanest of the original five: no price move during the window.",
+    verification: "PropStream day-level",
+    clock:
+      "368 days, price held flat the final 65 days, then under contract 18 days after modelMatch.",
     events: [
-      { d: "Apr 13, 2025", t: "Listed — <span>$671,273, stepped to $644,273</span>" },
-      { d: "Feb 10, 2026", t: "Last price move, then 83 days of nothing", cls: "" },
-      { d: "Apr 16, 2026", t: "ModelMatch staging, only variable changed", cls: "mm" },
-      { d: "May 4, 2026", t: "PENDING", cls: "end" },
+      { d: "Listed", t: "On market, Forney TX" },
+      { d: "368 days", t: "65 days price-flat before staging" },
+      { d: "Apr 16, 2026", t: "modelMatch staging — only variable changed", cls: "mm" },
+      { d: "May 4, 2026", t: "Under contract", cls: "end" },
     ],
-    criteria:
-      "Comp pull: 7 returned · 1 qualified · under floor → no comparison claim. The one qualifier sits directly across the street: 305 days on market, unstaged.",
-    cohort:
-      "In-window neighbors at lower price points needed 183–344 days unstaged. The cleanest attribution of the five, no price change in the final 83 days.",
     images: [
-      "511-san-angelo-dr-1.jpg",
-      "511-san-angelo-dr-2.jpg",
-      "511-san-angelo-dr-3.jpg",
-      "511-san-angelo-dr-4.jpg",
-      "511-san-angelo-dr-5.jpg",
+      "511-san-angelo-dr-1.webp",
+      "511-san-angelo-dr-2.webp",
+      "511-san-angelo-dr-3.webp",
+      "511-san-angelo-dr-4.webp",
+      "511-san-angelo-dr-5.webp",
+      "511-san-angelo-dr-6.webp",
+      "511-san-angelo-dr-7.webp",
+    ],
+  },
+  {
+    slug: "104-enclave-dr",
+    addr: "104 Enclave Dr",
+    city: "Lakewood Village, TX",
+    builder: "Perry Homes",
+    story: "fresh",
+    after: 12,
+    afterApprox: true,
+    closed: true,
+    result: "Sold / closed Jun 17, 2026",
+    durability: "Closed — held through the option window",
+    subhead:
+      "104 Enclave went from modelMatch photos to a closed sale in about 12 days, with the price moving up, not down.",
+    micro: "NTREIS-verified, Lakewood Village TX. Newest win, closed June 17.",
+    verification: "Day-level NTREIS",
+    clock:
+      "Photos live June 5, under contract about June 12, then closed June 17. No cut at contract — the last move was a price raise.",
+    noCut: true,
+    events: [
+      { d: "Jun 5, 2026", t: "modelMatch photos go live", cls: "mm" },
+      { d: "~Jun 12, 2026", t: "Under contract" },
+      { d: "Jun 17, 2026", t: "Sold / closed", cls: "end" },
+    ],
+    images: [
+      "104-enclave-dr-1.webp",
+      "104-enclave-dr-2.webp",
+      "104-enclave-dr-3.webp",
+      "104-enclave-dr-4.webp",
+      "104-enclave-dr-5.webp",
+      "104-enclave-dr-6.webp",
+      "104-enclave-dr-7.webp",
+      "104-enclave-dr-8.webp",
     ],
   },
   {
     slug: "215-prairie-clover-way",
     addr: "215 Prairie Clover Way",
     city: "Wylie, TX",
-    market: "Dallas–Fort Worth",
     builder: "Grand Homes",
-    status: "pending",
-    statusNote: "Pending · portal-dated",
+    story: "rescue",
     unstaged: 193,
     after: 56,
-    afterLabel: "days to contract after ModelMatch",
-    listed: "Listed Sep 29, 2025 · $914,252",
-    pricePath: "cuts → $818,557 · last cut 63 days pre-staging",
-    quote: "The honest page. The comp that outran us is on it.",
-    product: "ModelMatch",
+    result: "Under contract Jun 4, 2026",
+    durability: "Durable — cleared the option window",
+    subhead:
+      "215 Prairie Clover sat 193 days. A buyer came 56 days after modelMatch, at a price unchanged since before staging.",
+    micro: "PropStream-verified, Wylie TX. Re-opened demand.",
+    verification: "PropStream day-level",
+    clock:
+      "193 days unstaged, then under contract 56 days after modelMatch; price flat since February, before staging.",
     events: [
-      { d: "Sep 29, 2025", t: "Listed — <span>$914,252, cut to $818,557</span>" },
-      { d: "~Feb 6, 2026", t: "Last price cut, 63 days before staging", cls: "" },
-      { d: "Apr 10, 2026", t: "ModelMatch staging", cls: "mm" },
-      { d: "Jun 5, 2026", t: "PENDING", cls: "end" },
+      { d: "Listed", t: "On market, Wylie TX" },
+      { d: "193 days", t: "On market unstaged" },
+      { d: "Apr 10, 2026", t: "modelMatch staging", cls: "mm" },
+      { d: "Jun 4, 2026", t: "Under contract", cls: "end" },
     ],
-    criteria:
-      "Comp pull: 5 returned · 1 qualified · under floor → no comparison claim. The qualifier sold in 58 days unstaged, faster than our subject. It's printed anyway.",
-    cohort:
-      "Fresh 2026 listings nearby now pend in 31–86 days, the market warmed this spring. Logged against us.",
     images: [
-      "215-prairie-clover-way-1.jpg",
-      "215-prairie-clover-way-2.jpg",
-      "215-prairie-clover-way-3.jpg",
-      "215-prairie-clover-way-4.jpg",
-      "215-prairie-clover-way-5.jpg",
-      "215-prairie-clover-way-6.jpg",
+      "215-prairie-clover-way-1.webp",
+      "215-prairie-clover-way-2.webp",
+      "215-prairie-clover-way-3.webp",
+      "215-prairie-clover-way-4.webp",
+      "215-prairie-clover-way-5.webp",
+      "215-prairie-clover-way-6.webp",
+      "215-prairie-clover-way-7.webp",
+      "215-prairie-clover-way-8.webp",
     ],
   },
   {
-    slug: "2634-shadybrook-dr",
-    addr: "2634 Shadybrook Dr",
-    city: "Prosper, TX",
-    market: "Dallas–Fort Worth",
-    builder: "Grand Homes",
-    status: "pending",
-    statusNote: "Pending · portal-dated",
-    unstaged: 309,
-    after: 43,
-    afterLabel: "days to contract after ModelMatch",
-    listed: "Listed Jun 17, 2025 · $1,148,647",
-    pricePath: "nine cuts → $998,647",
-    quote: "Nine price cuts couldn't move it. One staging did, in six weeks.",
-    product: "ModelMatch",
+    slug: "712-country-club-dr",
+    addr: "712 Country Club Dr",
+    city: "Bloomsburg, PA",
+    builder: "Berks Homes",
+    story: "fresh",
+    after: 15,
+    result: "Under contract Jun 3, 2026 — $409,990",
+    durability: "Confirming durability",
+    subhead: "712 Country Club found a buyer 15 days after modelMatch photos went live.",
+    micro: "Portal-verified, Bloomsburg PA. Re-opened demand.",
+    verification: "Portal (Zillow / Berks Home Realty)",
+    clock:
+      "Photos live May 19, then under contract 15 days later (June 3). The one price cut, May 13, was before photos.",
+    price: "$409,990",
     events: [
-      { d: "Jun 17, 2025", t: "Listed — <span>$1,148,647 · nine cuts to $998,647</span>" },
-      { d: "309 days", t: "On market unstaged", cls: "" },
-      { d: "Apr 22, 2026", t: "ModelMatch staging", cls: "mm" },
-      { d: "~Jun 4, 2026", t: "PENDING", cls: "end" },
+      { d: "May 19, 2026", t: "modelMatch photos go live", cls: "mm" },
+      { d: "15 days", t: "Under contract — $409,990", cls: "end" },
     ],
-    criteria:
-      "Comp pull: 15 returned · 0 qualified · empty box → no comparison claim. Filters were not loosened.",
-    cohort:
-      "The $900K+ vintage listed early-to-mid 2025 took 130–240 days unstaged. Even the million-dollar cohort was frozen.",
+    disclosure: "The one price cut (May 13) was before photos — clean separation.",
     images: [
-      "2634-shadybrook-dr-1.jpg",
-      "2634-shadybrook-dr-2.jpg",
-      "2634-shadybrook-dr-3.jpg",
-      "2634-shadybrook-dr-4.jpg",
-      "2634-shadybrook-dr-5.jpg",
+      "712-country-club-dr-1.webp",
+      "712-country-club-dr-2.webp",
+      "712-country-club-dr-3.webp",
+      "712-country-club-dr-4.webp",
+      "712-country-club-dr-5.webp",
+      "712-country-club-dr-6.webp",
+      "712-country-club-dr-7.webp",
     ],
+  },
+  {
+    slug: "282-laurel-hike",
+    addr: "282 Laurel Hike",
+    city: "San Antonio, TX",
+    builder: "Beazer Homes",
+    story: "rescue",
+    unstaged: 196,
+    after: 43,
+    closed: true,
+    result: "Sold May 20, 2026",
+    durability: "Closed sale",
+    subhead: "282 Laurel Hike sat about 196 days. A buyer showed up roughly 43 days after modelMatch.",
+    micro: "Verified, San Antonio TX. Sequence, not cause: modelMatch re-opened demand; we don't claim it sold the home.",
+    verification: "Portal / broker (Homes.com / SABOR)",
+    clock:
+      "Sat about 196 days unstaged, then found a buyer about 43 days after modelMatch entered the marketing process.",
+    events: [
+      { d: "Listed", t: "On market, San Antonio TX" },
+      { d: "~196 days", t: "On market unstaged, no buyer" },
+      { d: "Apr 2026", t: "modelMatch enters the marketing process", cls: "mm" },
+      { d: "May 20, 2026", t: "Sold", cls: "end" },
+    ],
+    images: ["282-laurel-hike-1.webp", "282-laurel-hike-2.webp"],
   },
 ];
