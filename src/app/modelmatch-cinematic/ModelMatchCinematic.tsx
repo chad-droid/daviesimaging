@@ -141,11 +141,11 @@ export function ModelMatchCinematic() {
       </header>
 
       {/* Slide stage */}
-      <main className="relative h-full w-full">
+      <main className="relative h-[100dvh] w-full">
         {slides.map((Slide, i) => (
           <div
             key={i}
-            className={`absolute inset-0 overflow-auto transition-opacity duration-500 ease-out ${
+            className={`absolute inset-0 overflow-hidden transition-opacity duration-500 ease-out ${
               i === current ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
             }`}
             aria-hidden={i !== current}
@@ -337,9 +337,9 @@ type SlideProps = { active: boolean };
 const slides: Array<(p: SlideProps) => React.ReactElement> = [
   // 0 — Title (dark)
   () => (
-    <div className="relative min-h-full overflow-hidden bg-bg-dark px-8 pb-24 pt-28 text-text-light sm:px-[7%]">
+    <div className="relative flex h-full flex-col justify-center overflow-hidden bg-bg-dark px-8 py-16 text-text-light sm:px-[7%] sm:py-20">
       <Glow pos="tr" />
-      <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
+      <div className="relative z-[1] mx-auto w-full max-w-6xl">
         <Eyebrow tone="muted">Luxury Spec Home Presentation</Eyebrow>
         <h1 className="mt-6 max-w-[18ch] font-heading text-[clamp(2.6rem,6vw,5rem)] font-semibold leading-[1.04] tracking-tight text-text-light">
           Setting the new standard for spec home presentation for luxury properties.
@@ -351,11 +351,11 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
 
   // 1 — The Problem (light) + two stacked square lifestyle shots
   () => (
-    <div className="relative min-h-full bg-bg-light px-8 pb-24 pt-24 text-text-body sm:px-[7%]">
-      <div className="mx-auto grid min-h-[calc(100vh-12rem)] max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+    <div className="relative flex h-full flex-col justify-center overflow-hidden bg-bg-light px-8 py-16 text-text-body sm:px-[7%] sm:py-20">
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div>
           <Eyebrow>The Problem</Eyebrow>
-          <h1 className="mt-6 max-w-[20ch] font-heading text-[clamp(2rem,4.4vw,3.6rem)] font-normal leading-[1.1] tracking-tight text-text-dark">
+          <h1 className="mt-5 max-w-[20ch] font-heading text-[clamp(1.85rem,4.2vw,3.6rem)] font-normal leading-[1.1] tracking-tight text-text-dark">
             Luxury buyers want lifestyle inspiration. A vacant property gives them no way to see a
             future designed around their needs.
           </h1>
@@ -380,16 +380,16 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
 
   // 2 — Our Approach (light, numbered list)
   () => (
-    <div className="relative min-h-full bg-bg-light px-8 pb-24 pt-24 text-text-body sm:px-[7%]">
-      <div className="mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
+    <div className="relative flex h-full flex-col justify-center overflow-hidden bg-bg-light px-8 py-16 text-text-body sm:px-[7%] sm:py-20">
+      <div className="mx-auto w-full max-w-6xl">
         <Eyebrow>Our Approach</Eyebrow>
-        <h1 className="mt-6 max-w-[24ch] font-heading text-[clamp(1.9rem,4.2vw,3.4rem)] font-normal leading-[1.1] tracking-tight text-text-dark">
+        <h1 className="mt-5 max-w-[24ch] font-heading text-[clamp(1.8rem,4vw,3.4rem)] font-normal leading-[1.1] tracking-tight text-text-dark">
           We combine our architectural photography expertise with groundbreaking virtual staging and
           video generation.
         </h1>
-        <ul className="mt-10 border-t border-border-light">
+        <ul className="mt-8 border-t border-border-light">
           {APPROACH.map((a) => (
-            <li key={a.n} className="flex items-center gap-6 border-b border-border-light py-4 sm:gap-8 sm:py-5">
+            <li key={a.n} className="flex items-center gap-6 border-b border-border-light py-3.5 sm:gap-8 sm:py-5">
               <span className="font-heading text-2xl font-medium text-accent sm:text-3xl">{a.n}</span>
               <span className="text-base font-semibold text-text-dark sm:text-xl">{a.label}</span>
             </li>
@@ -401,10 +401,10 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
 
   // 3 — The Method (dark, ambient background film, italic question)
   ({ active }) => (
-    <div className="relative min-h-full overflow-hidden bg-bg-dark px-8 pb-24 pt-24 text-text-light sm:px-[7%]">
+    <div className="relative flex h-full flex-col justify-center overflow-hidden bg-bg-dark px-8 py-16 text-text-light sm:px-[7%] sm:py-20">
       <AmbientVideo src={MEDIA.methodVideo} active={active} />
       <div className="absolute inset-0 bg-black/60" aria-hidden />
-      <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
+      <div className="relative z-[1] mx-auto w-full max-w-6xl [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
         <Eyebrow tone="onDark">The Method</Eyebrow>
         <h1 className="mt-6 max-w-[22ch] font-heading text-[clamp(2rem,4.6vw,3.7rem)] font-medium italic leading-[1.12] tracking-tight text-text-light">
           How do we create this feeling, without the time and expense of physical staging and
@@ -461,27 +461,27 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
 
   // 9 — Pricing (light)
   () => (
-    <div className="relative min-h-full bg-bg-light px-8 pb-24 pt-24 text-text-body sm:px-[7%]">
-      <div className="mx-auto flex min-h-[calc(100vh-12rem)] max-w-5xl flex-col justify-center">
+    <div className="relative flex h-full flex-col justify-center overflow-hidden bg-bg-light px-8 py-16 text-text-body sm:px-[7%] sm:py-20">
+      <div className="mx-auto w-full max-w-5xl">
         <Eyebrow>Unparalleled Value</Eyebrow>
-        <h1 className="mt-5 font-heading text-[clamp(2rem,4.2vw,3.4rem)] font-semibold leading-tight tracking-tight text-text-dark">
+        <h1 className="mt-5 font-heading text-[clamp(1.9rem,4vw,3.4rem)] font-semibold leading-tight tracking-tight text-text-dark">
           One package. Every asset.
         </h1>
-        <dl className="mt-12 border-t border-border-light">
+        <dl className="mt-8 border-t border-border-light sm:mt-10">
           {PRICING.map((row) => (
-            <div key={row.label} className="flex items-baseline justify-between border-b border-border-light py-5">
+            <div key={row.label} className="flex items-baseline justify-between border-b border-border-light py-3.5 sm:py-5">
               <dt className="text-lg text-text-dark sm:text-xl">{row.label}</dt>
               <dd className="font-heading text-xl text-text-dark sm:text-2xl">{row.price}</dd>
             </div>
           ))}
-          <div className="flex items-baseline justify-between border-b-2 border-text-dark py-6">
+          <div className="flex items-baseline justify-between border-b-2 border-text-dark py-4 sm:py-6">
             <dt className="text-sm font-bold uppercase tracking-[0.2em] text-accent">Total</dt>
             <dd className="font-heading text-[clamp(2.5rem,6vw,4rem)] font-semibold leading-none text-accent">
               $1,500
             </dd>
           </div>
         </dl>
-        <div className="mt-4 flex items-center justify-between rounded-xl bg-black/[0.04] px-5 py-4">
+        <div className="mt-4 flex items-center justify-between rounded-xl bg-black/[0.04] px-5 py-3.5 sm:py-4">
           <span className="text-sm text-text-muted sm:text-base">Optional Vertical Edit</span>
           <span className="text-sm font-medium text-text-muted sm:text-base">+ $500</span>
         </div>
@@ -491,10 +491,10 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
 
   // 10 — Turnaround + digDesk (dark)
   () => (
-    <div className="relative min-h-full overflow-hidden bg-bg-dark px-8 pb-24 pt-28 text-text-light sm:px-[7%]">
+    <div className="relative flex h-full flex-col justify-center overflow-hidden bg-bg-dark px-8 py-16 text-text-light sm:px-[7%] sm:py-20">
       <Glow pos="tr" />
-      <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
-        <div className="grid gap-12 sm:grid-cols-2 sm:gap-16">
+      <div className="relative z-[1] mx-auto w-full max-w-6xl">
+        <div className="grid gap-10 sm:grid-cols-2 sm:gap-16">
           <div>
             <div className="mb-6 h-px w-full bg-accent/60" />
             <Eyebrow tone="onDark">Turnaround Time</Eyebrow>
@@ -513,7 +513,7 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
             </p>
           </div>
         </div>
-        <div className="mt-16 flex items-end justify-between gap-4">
+        <div className="mt-12 flex items-end justify-between gap-4 sm:mt-16">
           <p className="font-heading text-base italic text-white/70 sm:text-lg">
             Photography built for Homebuilders.
           </p>
