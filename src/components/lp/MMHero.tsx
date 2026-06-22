@@ -1,13 +1,36 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Reveal, TRIAL_URL, IMG } from './MMPrimitives';
 import MMSlider from './MMSlider';
+
+// Optional copy overrides. When `subhead` is set, the hero renders the
+// single-column "offer" layout (used by the Win Library clone); otherwise it
+// renders the default two-column trial-info hero.
+export type HeroCopy = {
+  eyebrow?: string;
+  headline?: ReactNode;
+  subhead?: ReactNode;
+  ctaLabel?: string;
+  reassurance?: ReactNode;
+  /** Render the single-column hero (one column, full-width slider + stat row). */
+  singleColumn?: boolean;
+};
+
+const DEFAULT_CTA = 'Claim My Five Free Images';
+
+function CtaArrow({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 12 12" fill="none">
+      <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 // ──────────────────────────────────────────────────────────────
 // Sticky header — fades in after scroll, CTA pill on right
 // ──────────────────────────────────────────────────────────────
-function MMHeader() {
+function MMHeader({ ctaLabel = DEFAULT_CTA }: { ctaLabel?: string }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -87,16 +110,153 @@ function MMHeader() {
           alignItems: 'center',
         }}
       >
-        Claim My Five Free Images
+        {ctaLabel}
       </a>
     </header>
   );
 }
 
 // ──────────────────────────────────────────────────────────────
+// Single-column "offer" hero — Win Library clone (copy-driven)
+// ──────────────────────────────────────────────────────────────
+function MMHeroSingle({ copy }: { copy: HeroCopy }) {
+  const ctaLabel = copy.ctaLabel ?? DEFAULT_CTA;
+  return (
+    <section style={{ position: 'relative', padding: '140px 40px 80px', background: '#F8F6F3' }}>
+      {/* One column, full width: eyebrow, headline, CTA, slider, stat row. */}
+      <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+        <Reveal>
+          <p
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 14,
+              fontWeight: 700,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#6A5ACD',
+              margin: '0 0 24px',
+            }}
+          >
+            {copy.eyebrow ?? 'For Homebuilders, Not Realtors'}
+          </p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h1
+            style={{
+              fontFamily: 'var(--font-heading)',
+              color: '#1C1C1C',
+              fontSize: 'clamp(40px, 5.6vw, 80px)',
+              lineHeight: 1.02,
+              letterSpacing: '-0.02em',
+              fontWeight: 500,
+              margin: 0,
+              maxWidth: 1000,
+              textWrap: 'balance',
+            }}
+          >
+            {copy.headline}
+          </h1>
+        </Reveal>
+        {copy.subhead && (
+          <Reveal delay={0.18}>
+            <p
+              style={{
+                margin: '26px 0 0',
+                maxWidth: 680,
+                fontFamily: 'var(--font-body)',
+                fontSize: 19,
+                lineHeight: 1.6,
+                color: 'var(--text-body)',
+              }}
+            >
+              {copy.subhead}
+            </p>
+          </Reveal>
+        )}
+        <Reveal delay={0.26}>
+          <div style={{ marginTop: 34 }}>
+            <a
+              href={TRIAL_URL}
+              style={{
+                background: '#6A5ACD',
+                color: '#fff',
+                textDecoration: 'none',
+                padding: '22px 38px',
+                borderRadius: 999,
+                fontFamily: 'var(--font-body)',
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                boxShadow: '0 12px 34px rgba(106,90,205,0.32)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {ctaLabel}
+              <CtaArrow />
+            </a>
+            <p
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontStyle: 'italic',
+                fontSize: 19,
+                lineHeight: 1.45,
+                color: 'var(--text-body)',
+                margin: '16px 0 0',
+              }}
+            >
+              {copy.reassurance ?? 'Takes 60 seconds to submit.'}
+            </p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.4} style={{ marginTop: 44 }}>
+          <MMSlider before={IMG('shane-before.jpg')} after={IMG('shane-after.jpg')} />
+        </Reveal>
+        <Reveal delay={0.5}>
+          <div
+            style={{
+              marginTop: 36,
+              display: 'flex',
+              alignItems: 'baseline',
+              gap: 40,
+              flexWrap: 'wrap',
+              fontFamily: 'var(--font-heading)',
+            }}
+          >
+            <div>
+              <p style={{ margin: 0, fontWeight: 600, color: '#1C1C1C', lineHeight: 1, letterSpacing: '-0.02em', fontSize: 32 }}>
+                24 hr
+              </p>
+              <p style={{ margin: '6px 0 0', fontSize: 12, color: 'var(--text-muted)', fontFamily: 'var(--font-body)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
+                Next-day turnaround
+              </p>
+            </div>
+            <div>
+              <p style={{ margin: 0, fontSize: 32, fontWeight: 600, color: '#1C1C1C', lineHeight: 1, letterSpacing: '-0.02em', display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                <span style={{ fontWeight: 400, color: 'var(--text-muted)', textDecoration: 'line-through', textDecorationColor: 'rgba(0,0,0,0.45)', fontSize: 24 }}>$125</span>
+                <span style={{ color: '#6A5ACD' }}>Free</span>
+              </p>
+              <p style={{ margin: '6px 0 0', fontSize: 12, color: 'var(--text-muted)', fontFamily: 'var(--font-body)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
+                First five images
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────
 // Hero — eyebrow + headline + CTA + slider + stat row
 // ──────────────────────────────────────────────────────────────
-function MMHero() {
+function MMHero({ copy }: { copy?: HeroCopy }) {
+  if (copy?.singleColumn) return <MMHeroSingle copy={copy} />;
+  const ctaLabel = copy?.ctaLabel ?? DEFAULT_CTA;
   return (
     <section
       style={{
@@ -110,7 +270,7 @@ function MMHero() {
           <p
             style={{
               fontFamily: 'var(--font-body)',
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 700,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
@@ -118,7 +278,7 @@ function MMHero() {
               margin: '0 0 24px',
             }}
           >
-            FOR BRAND-FOCUSED HOMEBUILDERS
+            {copy?.eyebrow ?? 'For Brand-Focused Homebuilders'}
           </p>
         </Reveal>
 
@@ -136,8 +296,12 @@ function MMHero() {
                 textWrap: 'balance',
               }}
             >
-              Virtual staging for Builders,{' '}
-              <strong style={{ fontWeight: 700 }}>not realtors.</strong>
+              {copy?.headline ?? (
+                <>
+                  Virtual staging for Builders,{' '}
+                  <strong style={{ fontWeight: 700 }}>not realtors.</strong>
+                </>
+              )}
             </h1>
             <div className="mm-hero-cta">
               <a
@@ -161,7 +325,7 @@ function MMHero() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                Claim My Five Free Images
+                {ctaLabel}
                 <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
                   <path
                     d="M2 6h8M7 3l3 3-3 3"
@@ -185,7 +349,7 @@ function MMHero() {
                   textAlign: 'center',
                 }}
               >
-                Takes 60 seconds to submit.
+                {copy?.reassurance ?? 'Takes 60 seconds to submit.'}
               </p>
             </div>
           </div>
@@ -228,7 +392,7 @@ function MMHero() {
                 gap: 10,
               }}
             >
-              Claim My Five Free Images
+              {ctaLabel}
               <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
                 <path
                   d="M2 6h8M7 3l3 3-3 3"
@@ -297,7 +461,7 @@ function MMHero() {
                       fontSize: 24,
                     }}
                   >
-                    $25
+                    $125
                   </span>
                   <span style={{ color: '#6A5ACD' }}>Free</span>
                 </p>
@@ -323,11 +487,11 @@ function MMHero() {
   );
 }
 
-export default function MMHeroSection() {
+export default function MMHeroSection({ copy }: { copy?: HeroCopy }) {
   return (
     <>
-      <MMHeader />
-      <MMHero />
+      <MMHeader ctaLabel={copy?.ctaLabel} />
+      <MMHero copy={copy} />
     </>
   );
 }

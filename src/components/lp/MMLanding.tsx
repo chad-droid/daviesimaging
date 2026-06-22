@@ -1,6 +1,7 @@
 'use client';
 
-import MMHeroSection from './MMHero';
+import type { ReactElement } from 'react';
+import MMHeroSection, { type HeroCopy } from './MMHero';
 import MMTabbed from './MMTabbed';
 import MMFooterCTA from './MMFooterCTA';
 
@@ -74,13 +75,21 @@ const responsiveCSS = `
 }
 `;
 
-export default function MMLanding() {
+export default function MMLanding({
+  winsPane,
+  screenLabel = 'ModelMatch Trial Info',
+  copy,
+}: {
+  winsPane?: () => ReactElement;
+  screenLabel?: string;
+  copy?: HeroCopy;
+}) {
   return (
-    <div className="mm-landing" data-screen-label="ModelMatch Trial Info">
+    <div className="mm-landing" data-screen-label={screenLabel}>
       <style dangerouslySetInnerHTML={{ __html: responsiveCSS }} />
-      <MMHeroSection />
-      <MMTabbed />
-      <MMFooterCTA />
+      <MMHeroSection copy={copy} />
+      <MMTabbed winsPane={winsPane} />
+      <MMFooterCTA ctaLabel={copy?.ctaLabel} />
     </div>
   );
 }

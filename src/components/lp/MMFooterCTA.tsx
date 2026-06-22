@@ -5,7 +5,7 @@ import { Reveal, TRIAL_URL, IMG } from './MMPrimitives';
 // ──────────────────────────────────────────────────────────────
 // Final CTA — dark editorial section
 // ──────────────────────────────────────────────────────────────
-function MMFinalCTA() {
+function MMFinalCTA({ ctaLabel = 'Claim My Five Free Images' }: { ctaLabel?: string }) {
   return (
     <section
       style={{
@@ -108,7 +108,7 @@ function MMFinalCTA() {
               gap: 12,
             }}
           >
-            Claim My Five Free Images
+            {ctaLabel}
             <svg width="16" height="16" viewBox="0 0 12 12" fill="none">
               <path
                 d="M2 6h8M7 3l3 3-3 3"
@@ -169,10 +169,10 @@ function MMFooter() {
   );
 }
 
-export default function MMFooterCTA() {
+export default function MMFooterCTA({ ctaLabel }: { ctaLabel?: string }) {
   return (
     <>
-      <MMFinalCTA />
+      <MMFinalCTA ctaLabel={ctaLabel} />
       <MMFooter />
     </>
   );
