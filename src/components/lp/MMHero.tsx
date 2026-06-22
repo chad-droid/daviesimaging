@@ -122,130 +122,135 @@ function MMHeroSingle({ copy }: { copy: HeroCopy }) {
   const chips = ['5 free images · $125 value', '24-hour delivery', 'No obligation'];
   return (
     <section style={{ position: 'relative', padding: '140px 40px 80px', background: '#F8F6F3' }}>
-      <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-        <Reveal>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#6A5ACD',
-              margin: '0 0 24px',
-            }}
-          >
-            {copy.eyebrow ?? 'For Homebuilders, Not Realtors'}
-          </p>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h1
-            style={{
-              fontFamily: 'var(--font-heading)',
-              color: '#1C1C1C',
-              fontSize: 'clamp(40px, 5.6vw, 80px)',
-              lineHeight: 1.02,
-              letterSpacing: '-0.02em',
-              fontWeight: 500,
-              margin: 0,
-              maxWidth: 900,
-              textWrap: 'balance',
-            }}
-          >
-            {copy.headline}
-          </h1>
-        </Reveal>
-        {copy.subhead && (
-          <Reveal delay={0.18}>
-            <p
-              style={{
-                margin: '28px 0 0',
-                maxWidth: 620,
-                fontFamily: 'var(--font-body)',
-                fontSize: 19,
-                lineHeight: 1.6,
-                color: 'var(--text-body)',
-              }}
-            >
-              {copy.subhead}
-            </p>
-          </Reveal>
-        )}
-        <Reveal delay={0.26}>
-          <div style={{ marginTop: 36 }}>
-            <a
-              href={TRIAL_URL}
-              style={{
-                background: '#6A5ACD',
-                color: '#fff',
-                textDecoration: 'none',
-                padding: '22px 38px',
-                borderRadius: 999,
-                fontFamily: 'var(--font-body)',
-                fontSize: 14,
-                fontWeight: 700,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-                boxShadow: '0 12px 34px rgba(106,90,205,0.32)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 10,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {ctaLabel}
-              <CtaArrow />
-            </a>
-            {copy.reassurance && (
+      <div style={{ maxWidth: 1320, margin: '0 auto' }}>
+        {/* Two-column: copy left, before/after slider right — fills the width. */}
+        <div className="mm-hero-grid">
+          <div>
+            <Reveal>
               <p
                 style={{
-                  margin: '16px 0 0',
                   fontFamily: 'var(--font-body)',
-                  fontSize: 15,
-                  lineHeight: 1.5,
-                  color: 'var(--text-muted)',
-                  maxWidth: 560,
+                  fontSize: 12,
+                  fontWeight: 700,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  color: '#6A5ACD',
+                  margin: '0 0 24px',
                 }}
               >
-                {copy.reassurance}
+                {copy.eyebrow ?? 'For Homebuilders, Not Realtors'}
               </p>
-            )}
-          </div>
-        </Reveal>
-        <Reveal delay={0.32}>
-          <ul
-            style={{
-              listStyle: 'none',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 10,
-              margin: '28px 0 0',
-              padding: 0,
-            }}
-          >
-            {chips.map((c) => (
-              <li
-                key={c}
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h1
                 style={{
-                  border: '1px solid var(--border-light)',
-                  background: '#fff',
-                  borderRadius: 999,
-                  padding: '8px 16px',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 13,
+                  fontFamily: 'var(--font-heading)',
+                  color: '#1C1C1C',
+                  fontSize: 'clamp(40px, 4.6vw, 72px)',
+                  lineHeight: 1.03,
+                  letterSpacing: '-0.02em',
                   fontWeight: 500,
-                  color: 'var(--text-body)',
+                  margin: 0,
+                  textWrap: 'balance',
                 }}
               >
-                {c}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-        <Reveal delay={0.4} style={{ marginTop: 44 }}>
-          <MMSlider before={IMG('shane-before.jpg')} after={IMG('shane-after.jpg')} />
-        </Reveal>
+                {copy.headline}
+              </h1>
+            </Reveal>
+            {copy.subhead && (
+              <Reveal delay={0.18}>
+                <p
+                  style={{
+                    margin: '26px 0 0',
+                    maxWidth: 540,
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 18,
+                    lineHeight: 1.6,
+                    color: 'var(--text-body)',
+                  }}
+                >
+                  {copy.subhead}
+                </p>
+              </Reveal>
+            )}
+            <Reveal delay={0.26}>
+              <div style={{ marginTop: 34 }}>
+                <a
+                  href={TRIAL_URL}
+                  style={{
+                    background: '#6A5ACD',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    padding: '22px 38px',
+                    borderRadius: 999,
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    cursor: 'pointer',
+                    boxShadow: '0 12px 34px rgba(106,90,205,0.32)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {ctaLabel}
+                  <CtaArrow />
+                </a>
+                {copy.reassurance && (
+                  <p
+                    style={{
+                      margin: '16px 0 0',
+                      fontFamily: 'var(--font-body)',
+                      fontSize: 15,
+                      lineHeight: 1.5,
+                      color: 'var(--text-muted)',
+                      maxWidth: 480,
+                    }}
+                  >
+                    {copy.reassurance}
+                  </p>
+                )}
+              </div>
+            </Reveal>
+            <Reveal delay={0.32}>
+              <ul
+                style={{
+                  listStyle: 'none',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 10,
+                  margin: '28px 0 0',
+                  padding: 0,
+                }}
+              >
+                {chips.map((c) => (
+                  <li
+                    key={c}
+                    style={{
+                      border: '1px solid var(--border-light)',
+                      background: '#fff',
+                      borderRadius: 999,
+                      padding: '8px 16px',
+                      fontFamily: 'var(--font-body)',
+                      fontSize: 13,
+                      fontWeight: 500,
+                      color: 'var(--text-body)',
+                    }}
+                  >
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.3}>
+            <MMSlider before={IMG('shane-before.jpg')} after={IMG('shane-after.jpg')} />
+          </Reveal>
+        </div>
       </div>
     </section>
   );
