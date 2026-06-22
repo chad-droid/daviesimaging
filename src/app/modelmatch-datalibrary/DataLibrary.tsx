@@ -13,12 +13,13 @@ import MMWinsPane from "@/components/lp/MMWinsPane";
 // stat row) with the Win Library's language. Line break after "months."
 const WIN_COPY = {
   eyebrow: "For Homebuilders, Not Realtors",
+  // Sized to keep "In contract after weeks." on one line beside the CTA.
   headline: (
-    <>
+    <span style={{ fontSize: "clamp(40px, 4.6vw, 64px)" }}>
       Stuck for months.
       <br />
       <strong style={{ fontWeight: 700, color: "#6A5ACD" }}>In contract after weeks.</strong>
-    </>
+    </span>
   ),
   ctaLabel: "Claim My 5 Free Images",
 };
