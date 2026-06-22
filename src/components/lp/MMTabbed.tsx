@@ -363,10 +363,15 @@ function FAQs() {
 // ──────────────────────────────────────────────────────────────
 // Tabbed section — How It Works / More Examples / FAQs
 // ──────────────────────────────────────────────────────────────
-export default function MMTabbed() {
+export default function MMTabbed({ winsPane }: { winsPane?: () => ReactElement }) {
+  // When a proof pane is provided (Win Library clone), it takes the middle slot
+  // in place of the generic before/after "More Examples" tab.
+  const middle = winsPane
+    ? { id: 'proof', label: 'The Proof', Pane: winsPane }
+    : { id: 'examples', label: 'More Examples', Pane: MoreExamples };
   const tabs = [
     { id: 'how', label: 'How It Works', Pane: HowItWorks },
-    { id: 'examples', label: 'More Examples', Pane: MoreExamples },
+    middle,
     { id: 'faqs', label: 'FAQs', Pane: FAQs },
   ];
   const [active, setActive] = useState('how');

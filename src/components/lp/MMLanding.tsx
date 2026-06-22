@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactElement } from 'react';
 import MMHeroSection from './MMHero';
 import MMTabbed from './MMTabbed';
 import MMFooterCTA from './MMFooterCTA';
@@ -74,12 +75,18 @@ const responsiveCSS = `
 }
 `;
 
-export default function MMLanding() {
+export default function MMLanding({
+  winsPane,
+  screenLabel = 'ModelMatch Trial Info',
+}: {
+  winsPane?: () => ReactElement;
+  screenLabel?: string;
+}) {
   return (
-    <div className="mm-landing" data-screen-label="ModelMatch Trial Info">
+    <div className="mm-landing" data-screen-label={screenLabel}>
       <style dangerouslySetInnerHTML={{ __html: responsiveCSS }} />
       <MMHeroSection />
-      <MMTabbed />
+      <MMTabbed winsPane={winsPane} />
       <MMFooterCTA />
     </div>
   );

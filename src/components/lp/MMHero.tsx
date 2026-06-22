@@ -297,7 +297,7 @@ function MMHero() {
                       fontSize: 24,
                     }}
                   >
-                    $25
+                    $150
                   </span>
                   <span style={{ color: '#6A5ACD' }}>Free</span>
                 </p>
