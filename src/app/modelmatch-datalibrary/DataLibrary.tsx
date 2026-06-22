@@ -9,14 +9,14 @@
 import MMLanding from "@/components/lp/MMLanding";
 import MMWinsPane from "@/components/lp/MMWinsPane";
 
-// Single-column hero (one column, full-width slider + stat row) with the Win
-// Library's language.
+// Trial-info hero formatting (headline left, CTA top-right, full-width slider,
+// stat row) with the Win Library's language. Line break after "months."
 const WIN_COPY = {
-  singleColumn: true,
   eyebrow: "For Homebuilders, Not Realtors",
   headline: (
     <>
-      Stuck for months.{" "}
+      Stuck for months.
+      <br />
       <strong style={{ fontWeight: 700, color: "#6A5ACD" }}>In contract after weeks.</strong>
     </>
   ),
