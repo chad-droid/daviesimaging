@@ -1,13 +1,34 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Reveal, TRIAL_URL, IMG } from './MMPrimitives';
 import MMSlider from './MMSlider';
+
+// Optional copy overrides. When `subhead` is set, the hero renders the
+// single-column "offer" layout (used by the Win Library clone); otherwise it
+// renders the default two-column trial-info hero.
+export type HeroCopy = {
+  eyebrow?: string;
+  headline?: ReactNode;
+  subhead?: ReactNode;
+  ctaLabel?: string;
+  reassurance?: ReactNode;
+};
+
+const DEFAULT_CTA = 'Claim My Five Free Images';
+
+function CtaArrow({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 12 12" fill="none">
+      <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 // ──────────────────────────────────────────────────────────────
 // Sticky header — fades in after scroll, CTA pill on right
 // ──────────────────────────────────────────────────────────────
-function MMHeader() {
+function MMHeader({ ctaLabel = DEFAULT_CTA }: { ctaLabel?: string }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -87,16 +108,154 @@ function MMHeader() {
           alignItems: 'center',
         }}
       >
-        Claim My Five Free Images
+        {ctaLabel}
       </a>
     </header>
   );
 }
 
 // ──────────────────────────────────────────────────────────────
+// Single-column "offer" hero — Win Library clone (copy-driven)
+// ──────────────────────────────────────────────────────────────
+function MMHeroSingle({ copy }: { copy: HeroCopy }) {
+  const ctaLabel = copy.ctaLabel ?? DEFAULT_CTA;
+  const chips = ['5 free images · $150 value', '24-hour delivery', 'No obligation'];
+  return (
+    <section style={{ position: 'relative', padding: '140px 40px 80px', background: '#F8F6F3' }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto' }}>
+        <Reveal>
+          <p
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#6A5ACD',
+              margin: '0 0 24px',
+            }}
+          >
+            {copy.eyebrow ?? 'For Homebuilders, Not Realtors'}
+          </p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h1
+            style={{
+              fontFamily: 'var(--font-heading)',
+              color: '#1C1C1C',
+              fontSize: 'clamp(40px, 5.6vw, 80px)',
+              lineHeight: 1.02,
+              letterSpacing: '-0.02em',
+              fontWeight: 500,
+              margin: 0,
+              maxWidth: 900,
+              textWrap: 'balance',
+            }}
+          >
+            {copy.headline}
+          </h1>
+        </Reveal>
+        {copy.subhead && (
+          <Reveal delay={0.18}>
+            <p
+              style={{
+                margin: '28px 0 0',
+                maxWidth: 620,
+                fontFamily: 'var(--font-body)',
+                fontSize: 19,
+                lineHeight: 1.6,
+                color: 'var(--text-body)',
+              }}
+            >
+              {copy.subhead}
+            </p>
+          </Reveal>
+        )}
+        <Reveal delay={0.26}>
+          <div style={{ marginTop: 36 }}>
+            <a
+              href={TRIAL_URL}
+              style={{
+                background: '#6A5ACD',
+                color: '#fff',
+                textDecoration: 'none',
+                padding: '22px 38px',
+                borderRadius: 999,
+                fontFamily: 'var(--font-body)',
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                boxShadow: '0 12px 34px rgba(106,90,205,0.32)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 10,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {ctaLabel}
+              <CtaArrow />
+            </a>
+            {copy.reassurance && (
+              <p
+                style={{
+                  margin: '16px 0 0',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 15,
+                  lineHeight: 1.5,
+                  color: 'var(--text-muted)',
+                  maxWidth: 560,
+                }}
+              >
+                {copy.reassurance}
+              </p>
+            )}
+          </div>
+        </Reveal>
+        <Reveal delay={0.32}>
+          <ul
+            style={{
+              listStyle: 'none',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 10,
+              margin: '28px 0 0',
+              padding: 0,
+            }}
+          >
+            {chips.map((c) => (
+              <li
+                key={c}
+                style={{
+                  border: '1px solid var(--border-light)',
+                  background: '#fff',
+                  borderRadius: 999,
+                  padding: '8px 16px',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: 'var(--text-body)',
+                }}
+              >
+                {c}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+        <Reveal delay={0.4} style={{ marginTop: 44 }}>
+          <MMSlider before={IMG('shane-before.jpg')} after={IMG('shane-after.jpg')} />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ──────────────────────────────────────────────────────────────
 // Hero — eyebrow + headline + CTA + slider + stat row
 // ──────────────────────────────────────────────────────────────
-function MMHero() {
+function MMHero({ copy }: { copy?: HeroCopy }) {
+  if (copy?.subhead) return <MMHeroSingle copy={copy} />;
   return (
     <section
       style={{
@@ -323,11 +482,11 @@ function MMHero() {
   );
 }
 
-export default function MMHeroSection() {
+export default function MMHeroSection({ copy }: { copy?: HeroCopy }) {
   return (
     <>
-      <MMHeader />
-      <MMHero />
+      <MMHeader ctaLabel={copy?.ctaLabel} />
+      <MMHero copy={copy} />
     </>
   );
 }
