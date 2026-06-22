@@ -9,20 +9,18 @@
 import MMLanding from "@/components/lp/MMLanding";
 import MMWinsPane from "@/components/lp/MMWinsPane";
 
+// Uses the proven trial-info hero format (headline left, CTA right, full-width
+// slider, stat row) with the Win Library's language. No `subhead`, so the
+// default two-column hero renders (not the single-column variant).
 const WIN_COPY = {
   eyebrow: "For Homebuilders, Not Realtors",
   headline: (
     <>
-      Stuck for months.
-      <br />
-      <span style={{ color: "#6A5ACD" }}>In contract after weeks.</span>
+      Stuck for months.{" "}
+      <strong style={{ fontWeight: 700, color: "#6A5ACD" }}>In contract after weeks.</strong>
     </>
   ),
-  subhead:
-    "On-brand virtual staging that puts stuck inventory back in motion. See the proof below, then try it on your own listing. Your first 5 staged images are free.",
   ctaLabel: "Claim My 5 Free Images",
-  reassurance:
-    "Your first 5 staged images are free. Delivered in 24 hours. 60 seconds to submit, no obligation.",
 };
 
 export function DataLibrary() {

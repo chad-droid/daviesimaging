@@ -261,6 +261,7 @@ function MMHeroSingle({ copy }: { copy: HeroCopy }) {
 // ──────────────────────────────────────────────────────────────
 function MMHero({ copy }: { copy?: HeroCopy }) {
   if (copy?.subhead) return <MMHeroSingle copy={copy} />;
+  const ctaLabel = copy?.ctaLabel ?? DEFAULT_CTA;
   return (
     <section
       style={{
@@ -282,7 +283,7 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
               margin: '0 0 24px',
             }}
           >
-            FOR BRAND-FOCUSED HOMEBUILDERS
+            {copy?.eyebrow ?? 'For Brand-Focused Homebuilders'}
           </p>
         </Reveal>
 
@@ -300,8 +301,12 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
                 textWrap: 'balance',
               }}
             >
-              Virtual staging for Builders,{' '}
-              <strong style={{ fontWeight: 700 }}>not realtors.</strong>
+              {copy?.headline ?? (
+                <>
+                  Virtual staging for Builders,{' '}
+                  <strong style={{ fontWeight: 700 }}>not realtors.</strong>
+                </>
+              )}
             </h1>
             <div className="mm-hero-cta">
               <a
@@ -325,7 +330,7 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
                   whiteSpace: 'nowrap',
                 }}
               >
-                Claim My Five Free Images
+                {ctaLabel}
                 <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
                   <path
                     d="M2 6h8M7 3l3 3-3 3"
@@ -349,7 +354,7 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
                   textAlign: 'center',
                 }}
               >
-                Takes 60 seconds to submit.
+                {copy?.reassurance ?? 'Takes 60 seconds to submit.'}
               </p>
             </div>
           </div>
@@ -392,7 +397,7 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
                 gap: 10,
               }}
             >
-              Claim My Five Free Images
+              {ctaLabel}
               <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
                 <path
                   d="M2 6h8M7 3l3 3-3 3"
