@@ -129,7 +129,7 @@ function MMHeroSingle({ copy }: { copy: HeroCopy }) {
           <p
             style={{
               fontFamily: 'var(--font-body)',
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 700,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
@@ -270,7 +270,7 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
           <p
             style={{
               fontFamily: 'var(--font-body)',
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: 700,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
