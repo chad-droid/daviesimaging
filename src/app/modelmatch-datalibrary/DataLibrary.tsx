@@ -9,10 +9,10 @@
 import MMLanding from "@/components/lp/MMLanding";
 import MMWinsPane from "@/components/lp/MMWinsPane";
 
-// Uses the proven trial-info hero format (headline left, CTA right, full-width
-// slider, stat row) with the Win Library's language. No `subhead`, so the
-// default two-column hero renders (not the single-column variant).
+// Single-column hero (one column, full-width slider + stat row) with the Win
+// Library's language.
 const WIN_COPY = {
+  singleColumn: true,
   eyebrow: "For Homebuilders, Not Realtors",
   headline: (
     <>
