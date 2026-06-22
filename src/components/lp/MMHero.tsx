@@ -119,7 +119,7 @@ function MMHeader({ ctaLabel = DEFAULT_CTA }: { ctaLabel?: string }) {
 // ──────────────────────────────────────────────────────────────
 function MMHeroSingle({ copy }: { copy: HeroCopy }) {
   const ctaLabel = copy.ctaLabel ?? DEFAULT_CTA;
-  const chips = ['5 free images · $150 value', '24-hour delivery', 'No obligation'];
+  const chips = ['5 free images · $125 value', '24-hour delivery', 'No obligation'];
   return (
     <section style={{ position: 'relative', padding: '140px 40px 80px', background: '#F8F6F3' }}>
       <div style={{ maxWidth: 1240, margin: '0 auto' }}>
@@ -456,7 +456,7 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
                       fontSize: 24,
                     }}
                   >
-                    $150
+                    $125
                   </span>
                   <span style={{ color: '#6A5ACD' }}>Free</span>
                 </p>
