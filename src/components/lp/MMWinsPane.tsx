@@ -9,7 +9,7 @@ import { CASE_STUDIES, type CaseStudy } from '@/app/modelmatch-datalibrary/caseS
 // /public/mm-library (the Win Library asset set).
 
 const LIB_IMG = (f: string) => `/mm-library/${f}`;
-const WINS = CASE_STUDIES.slice(0, 6);
+const WINS = CASE_STUDIES.slice(0, 8);
 
 function statusLabel(c: CaseStudy) {
   return c.closed ? 'Sold' : 'Under contract';
