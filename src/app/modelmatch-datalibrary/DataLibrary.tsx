@@ -9,15 +9,52 @@ import { CASE_STUDIES, type CaseStudy } from "./caseStudies";
 const IMG = (f: string) => `/mm-library/${f}`;
 const TRIAL_URL = "https://desk.daviesimaging.com/trial";
 
-/** One consistent trial button used everywhere on the page. */
-function TrialButton({ className = "" }: { className?: string }) {
+// The same offer that converts on /campaigns/modelmatch-trial-info: the page
+// sells the free-images offer, not a vague "trial". CTA copy is value-based and
+// repeated verbatim down the page (one call to value).
+const CTA_LABEL = "Claim My 5 Free Images";
+
+/** One consistent, value-based CTA used everywhere on the page. */
+function TrialButton({ className = "", label = CTA_LABEL }: { className?: string; label?: string }) {
   return (
     <a
       href={TRIAL_URL}
-      className={`inline-flex items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-hover ${className}`}
+      className={`inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-hover ${className}`}
     >
-      Start your free trial
+      {label}
+      <svg width="13" height="13" viewBox="0 0 12 12" fill="none" aria-hidden>
+        <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
     </a>
+  );
+}
+
+/** Risk-reversal microcopy under the CTA. */
+function OfferNote({ onDark = false }: { onDark?: boolean }) {
+  return (
+    <p className={`mt-3 text-sm ${onDark ? "text-white/60" : "text-text-muted"}`}>
+      Your first 5 staged images are free. Delivered in 24 hours. 60 seconds to submit, no obligation.
+    </p>
+  );
+}
+
+/** Value-stack chips — the offer broken into scannable proof of value. */
+function ValueChips({ onDark = false }: { onDark?: boolean }) {
+  const items = ["5 free images · $25 value", "24-hour delivery", "No obligation"];
+  const base = onDark
+    ? "border-white/15 bg-white/5 text-white/80"
+    : "border-border-light bg-bg-surface text-text-body";
+  return (
+    <ul className="flex flex-wrap gap-2.5">
+      {items.map((t) => (
+        <li
+          key={t}
+          className={`rounded-full border px-3.5 py-1.5 text-xs font-medium ${base}`}
+        >
+          {t}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -120,7 +157,7 @@ export function DataLibrary() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/dig-logo-dark.png" alt="Davies Imaging Group" className="h-7 w-auto" />
         </Link>
-        <TrialButton className="px-6 py-2.5" />
+        <TrialButton className="px-5 py-2.5" label="Claim 5 Free Images" />
       </header>
 
       {/* Hero + featured spread */}
@@ -131,18 +168,22 @@ export function DataLibrary() {
         />
         <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[1fr_1.08fr] lg:gap-16">
           <div>
-            <Eyebrow>ModelMatch / Win Library</Eyebrow>
+            <Eyebrow>ModelMatch / For Homebuilders, Not Realtors</Eyebrow>
             <h1 className="mt-4 font-heading text-[clamp(2.6rem,5.5vw,4.5rem)] font-semibold leading-[1.04] tracking-tight text-text-dark">
               Stuck for months.
               <br />
               <span className="text-accent">In contract after weeks.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-text-body">
-              On-brand virtual staging that puts aging inventory back in motion. Real homes, real
-              timelines, below.
+              On-brand virtual staging that puts stuck inventory back in motion. See the proof below,
+              then try it on your own listing. Your first 5 staged images are free.
             </p>
-            <div className="mt-9">
-              <TrialButton />
+            <div className="mt-8">
+              <TrialButton className="px-8 py-3.5 text-base" />
+              <OfferNote />
+            </div>
+            <div className="mt-7">
+              <ValueChips />
             </div>
           </div>
 
@@ -174,16 +215,20 @@ export function DataLibrary() {
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-[150px]"
         />
-        <div className="relative mx-auto max-w-2xl">
+        <div className="relative mx-auto flex max-w-2xl flex-col items-center">
           <h2 className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-tight tracking-tight text-text-light">
             Get your aging inventory
             <br />
             <span className="text-accent-dark-hover">back on track.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-white/70">
-            Try ModelMatch on your first listing, free.
+            See it on your own listing. Your first 5 staged images are free, delivered in 24 hours.
           </p>
-          <TrialButton className="mt-9 px-8 py-3.5 text-base" />
+          <div className="mt-8 flex justify-center">
+            <ValueChips onDark />
+          </div>
+          <TrialButton className="mt-8 px-8 py-3.5 text-base" />
+          <OfferNote onDark />
         </div>
       </section>
 
@@ -466,7 +511,7 @@ function StudyModal({ c, onClose }: { c: CaseStudy; onClose: () => void }) {
 
         <div className="flex shrink-0 items-center justify-between gap-4 border-t border-border-light bg-bg-light px-6 py-4 sm:px-10">
           <p className="hidden text-sm text-text-muted sm:block">
-            See it on your own listing, free.
+            Your first 5 staged images are free. 24-hour delivery.
           </p>
           <TrialButton className="w-full text-center sm:w-auto" />
         </div>
