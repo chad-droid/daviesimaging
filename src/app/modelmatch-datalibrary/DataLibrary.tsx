@@ -200,7 +200,7 @@ function Hero() {
     <section style={{ position: "relative", padding: "140px 40px 80px", background: CREAM }}>
       <div style={{ maxWidth: 1240, margin: "0 auto" }}>
         <Reveal>
-          <Eyebrow>For Homebuilders, Not Realtors</Eyebrow>
+          <Eyebrow>Shrink Your Sales Cycle</Eyebrow>
         </Reveal>
         <Reveal delay={0.1}>
           <h1
