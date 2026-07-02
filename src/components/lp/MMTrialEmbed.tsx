@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 // contract with desk.daviesimaging.com/trial/embed:
 //   parent <- { type: 'dig-trial-embed-height', height }     (resize the iframe)
 //   parent <- { type: 'dig-trial-embed-converted', email? }  (a signup happened)
+//   parent <- { type: 'trial_email_captured' | 'trial_step_2'
+//             | 'trial_step_3' | 'trial_submitted' }         (funnel steps)
 const EMBED_SRC = 'https://desk.daviesimaging.com/trial/embed';
 const EMBED_ORIGIN = 'https://desk.daviesimaging.com';
 
@@ -21,12 +23,26 @@ type TrackWindow = Window & {
   lintrk?: (action: string, data?: Record<string, unknown>) => void;
   fbq?: (action: string, event?: string, params?: Record<string, unknown>) => void;
   gtag?: (command: string, event: string, params?: Record<string, unknown>) => void;
+  clarity?: (action: string, ...args: unknown[]) => void;
 };
+
+// Granular funnel steps relayed by the embed. Each fires an analytics event
+// (GA4 + Clarity) once, so drop-off is measurable per step. trial_submitted
+// additionally fires the ad-tag conversion, same as the legacy converted
+// message.
+const FUNNEL_EVENTS = [
+  'trial_email_captured',
+  'trial_step_2',
+  'trial_step_3',
+  'trial_submitted',
+] as const;
+type FunnelEvent = (typeof FUNNEL_EVENTS)[number];
 
 export default function MMTrialEmbed() {
   const ref = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(640);
   const converted = useRef(false);
+  const seenSteps = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     // Fire the trial-signup conversion across every installed ad tag, exactly
@@ -57,6 +73,19 @@ export default function MMTrialEmbed() {
         if (Number.isFinite(h) && h > 0) setHeight(h);
       } else if (data.type === 'dig-trial-embed-converted') {
         fireConversion();
+      } else if (FUNNEL_EVENTS.includes(data.type as FunnelEvent)) {
+        const step = data.type as FunnelEvent;
+        if (!seenSteps.current.has(step)) {
+          seenSteps.current.add(step);
+          const w = window as TrackWindow;
+          try {
+            w.gtag?.('event', step, { method: 'modelmatch_trial' });
+            w.clarity?.('event', step);
+          } catch {
+            // A blocked tag shouldn't break the page.
+          }
+        }
+        if (step === 'trial_submitted') fireConversion();
       }
     }
 

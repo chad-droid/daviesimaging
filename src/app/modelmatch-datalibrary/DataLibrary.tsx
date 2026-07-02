@@ -200,7 +200,7 @@ function Hero() {
     <section style={{ position: "relative", padding: "140px 40px 80px", background: CREAM }}>
       <div style={{ maxWidth: 1240, margin: "0 auto" }}>
         <Reveal>
-          <Eyebrow>Shrink Your Sales Cycle</Eyebrow>
+          <Eyebrow>For high-performing homebuilder teams</Eyebrow>
         </Reveal>
         <Reveal delay={0.1}>
           <h1
@@ -216,9 +216,9 @@ function Hero() {
               textWrap: "balance",
             }}
           >
-            Stuck for months.
+            357 days on the market.
             <br />
-            <strong style={{ fontWeight: 700, color: ACCENT }}>In contract after weeks.</strong>
+            <strong style={{ fontWeight: 700, color: ACCENT }}>Under contract in 14.</strong>
           </h1>
         </Reveal>
         <Reveal delay={0.18}>
@@ -341,6 +341,22 @@ function Problem() {
             The home is finished. <strong style={{ fontWeight: 700 }}>The marketing isn&apos;t.</strong>
           </h2>
         </Reveal>
+        <Reveal delay={0.14}>
+          <p
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontStyle: "italic",
+              fontSize: 20,
+              lineHeight: 1.5,
+              color: "var(--text-body)",
+              margin: "-32px 0 56px",
+              maxWidth: 640,
+            }}
+          >
+            A price cut treats the symptom. The buyer didn&apos;t reject the price. They rejected the
+            empty photos.
+          </p>
+        </Reveal>
         <div className="mm-steps-grid">
           {points.map((p, i) => (
             <Reveal key={i} delay={0.15 + i * 0.1}>
@@ -415,9 +431,152 @@ function Proof() {
     <section style={{ background: "#FFFFFF", padding: "100px 40px", borderTop: "1px solid rgba(0,0,0,0.04)" }}>
       <div style={{ maxWidth: 1240, margin: "0 auto" }}>
         <MMWinsPane />
+        <Reveal delay={0.15}>
+          <p
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontStyle: "italic",
+              fontSize: 20,
+              lineHeight: 1.55,
+              color: "var(--text-body)",
+              margin: "52px auto 0",
+              maxWidth: 620,
+              textAlign: "center",
+            }}
+          >
+            That home sat 357 days before staging. Carry cost runs about $1 a day for every $4,000
+            of home value. On a $400,000 home, that&apos;s more than $35,000 burned while it waited.
+          </p>
+        </Reveal>
         <Reveal delay={0.2}>
-          <div style={{ marginTop: 56, display: "flex", justifyContent: "center" }}>
+          <div style={{ marginTop: 44, display: "flex", justifyContent: "center" }}>
             <CtaButton>Claim My 5 Free Images</CtaButton>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ── 5b. Testimonial — Jordan Brown, iMessage style ───────────────
+// Written permission on file (July 2026). Built in CSS, not a raster
+// screenshot, so it stays crisp and editable.
+function Testimonial() {
+  return (
+    <section style={{ background: CREAM, padding: "90px 40px" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto" }}>
+        <Reveal>
+          <div
+            style={{
+              background: "#FFFFFF",
+              borderRadius: 24,
+              border: "1px solid rgba(0,0,0,0.06)",
+              boxShadow: "0 24px 50px rgba(0,0,0,0.07)",
+              padding: "28px 28px 24px",
+            }}
+          >
+            <p
+              style={{
+                margin: "0 0 14px",
+                textAlign: "center",
+                fontFamily: "var(--font-body)",
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: "0.02em",
+                color: "rgba(0,0,0,0.35)",
+              }}
+            >
+              Text Message
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+              <p
+                style={{
+                  margin: 0,
+                  maxWidth: "85%",
+                  background: "#E9E9EB",
+                  color: "#111",
+                  borderRadius: 20,
+                  borderBottomLeftRadius: 6,
+                  padding: "12px 16px",
+                  fontFamily:
+                    "-apple-system, BlinkMacSystemFont, 'Segoe UI', var(--font-body), sans-serif",
+                  fontSize: 17,
+                  lineHeight: 1.35,
+                }}
+              >
+                Brother, the last two weeks of sales have been the best we have had in over a year.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.12}>
+          <p
+            style={{
+              margin: "20px 0 0",
+              textAlign: "center",
+              fontFamily: "var(--font-body)",
+              fontSize: 14,
+              lineHeight: 1.5,
+              color: "var(--text-body)",
+            }}
+          >
+            <strong style={{ fontWeight: 700, color: INK }}>Jordan Brown</strong>, Director of Sales
+            and Marketing, Graham Hart Home Builder
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ── 5c. Founder note ─────────────────────────────────────────────
+function FounderNote() {
+  return (
+    <section style={{ background: "#FFFFFF", padding: "90px 40px", borderTop: "1px solid rgba(0,0,0,0.04)" }}>
+      <div style={{ maxWidth: 860, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "center", gap: 32, flexWrap: "wrap" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/mm-library/chad-davies-founder.webp"
+              alt="Chad Davies photographing a model home"
+              style={{
+                width: 132,
+                height: 132,
+                objectFit: "cover",
+                borderRadius: 999,
+                border: "3px solid rgba(106,90,205,0.25)",
+                flexShrink: 0,
+              }}
+            />
+            <div style={{ flex: 1, minWidth: 280 }}>
+              <p
+                style={{
+                  margin: 0,
+                  fontFamily: "var(--font-heading)",
+                  fontSize: "clamp(20px, 2.4vw, 26px)",
+                  lineHeight: 1.45,
+                  color: INK,
+                }}
+              >
+                &ldquo;I&apos;m Chad Davies. My team photographs model homes for builders like Perry,
+                Beazer, and Kolter across 24 markets. ModelMatch stages your vacant specs with
+                furniture from those same models.&rdquo;
+              </p>
+              <p
+                style={{
+                  margin: "16px 0 0",
+                  fontFamily: "var(--font-body)",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                }}
+              >
+                Chad Davies · CEO &amp; Founder, Davies Imaging Group
+              </p>
+            </div>
           </div>
         </Reveal>
       </div>
@@ -488,6 +647,7 @@ function OfferStack() {
     "Delivered in 24 hours on business days",
     "Licensed for MLS, paid ads, email, and web",
     "No contract and no card to start",
+    "Bonus: the Sales Cycle Shrinkage report, 18 verified wins across 5 states",
   ];
   return (
     <section style={{ background: "#121212", color: "#F5F5F5", padding: "110px 40px", position: "relative", overflow: "hidden" }}>
@@ -545,8 +705,9 @@ function OfferStack() {
         </Reveal>
         <Reveal delay={0.32}>
           <CtaButton onDark>Claim My 5 Free Images</CtaButton>
-          <p style={{ margin: "20px 0 0", fontSize: 12.5, color: "rgba(245,245,245,0.5)", letterSpacing: "0.04em" }}>
-            After the trial, staging is $25 per image. Cancel any time.
+          <p style={{ margin: "20px auto 0", fontSize: 12.5, color: "rgba(245,245,245,0.5)", letterSpacing: "0.04em", maxWidth: 460, lineHeight: 1.6 }}>
+            After the trial, staging is $25 per image. Physical staging runs $1,000 or more per room
+            and takes weeks to install. This takes 24 hours. Cancel any time.
           </p>
         </Reveal>
       </div>
@@ -586,6 +747,39 @@ function TrialSection() {
             <MMTrialEmbed />
           </div>
         </Reveal>
+        <Reveal delay={0.2}>
+          <p
+            style={{
+              margin: "32px auto 0",
+              maxWidth: 560,
+              textAlign: "center",
+              fontFamily: "var(--font-body)",
+              fontSize: 15,
+              lineHeight: 1.6,
+              color: "var(--text-body)",
+            }}
+          >
+            <strong style={{ fontWeight: 700, color: INK }}>
+              If the staging doesn&apos;t look like it came from your model home, don&apos;t use it.
+              You owe nothing either way.
+            </strong>
+          </p>
+          <p
+            style={{
+              margin: "18px auto 0",
+              maxWidth: 560,
+              textAlign: "center",
+              fontFamily: "var(--font-heading)",
+              fontStyle: "italic",
+              fontSize: 18,
+              lineHeight: 1.55,
+              color: "var(--text-body)",
+            }}
+          >
+            Why free? Because once you see your own spec staged with your own model&apos;s furniture,
+            we don&apos;t have to sell you anything. That&apos;s the bet.
+          </p>
+        </Reveal>
       </div>
     </section>
   );
@@ -599,7 +793,8 @@ function FAQs() {
     { q: "What exactly do I send you?", a: "Photos of one of your model homes so we can match your furniture, plus photos of the empty spec home you want staged. Existing listing photos work. No new shoot required." },
     { q: "What's the turnaround?", a: "24 hours from upload on business days. Submit on Friday, you'll have the staged images Monday. The only thing holding up faster delivery is our designers reviewing every frame by hand." },
     { q: "What do I get back?", a: "Five fully-staged photos, delivered as high-resolution files licensed for MLS, paid ads, email, and web." },
-    { q: "What happens after the trial?", a: "After the trial, staging is $25 per image. No contract, no monthly minimum, cancel any time." },
+    { q: "What happens after the trial?", a: "After the trial, staging is $25 per image. Physical staging runs $1,000 or more per room and takes weeks to install. This takes 24 hours. No contract, no monthly minimum, cancel any time." },
+    { q: "What if the staging doesn't look right?", a: "If the staging doesn't look like it came from your model home, don't use it. You owe nothing either way." },
     { q: "Will the staging actually match my brand?", a: "That's the whole point. We pull furniture, finishes, and styling from your actual model home catalog, not a generic stock library. The staged spec home looks like the model, because it is the model." },
   ];
   return (
@@ -691,6 +886,8 @@ export function DataLibrary() {
       <Problem />
       <Solution />
       <Proof />
+      <Testimonial />
+      <FounderNote />
       <HowItWorks />
       <OfferStack />
       <TrialSection />
