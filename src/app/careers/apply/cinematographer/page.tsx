@@ -4,11 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { useSpamGuard } from "@/components/SpamGuard";
 
 export default function CinematographerApplyPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { HoneypotField, getSpamFields } = useSpamGuard();
 
   if (submitted) {
     return (
@@ -63,6 +65,7 @@ export default function CinematographerApplyPage() {
                   company: fd.get("markets"),
                   message: `Markets: ${fd.get("markets")}\nExperience: ${fd.get("experience")}\nSpecialties: ${fd.get("specialties")}\nPortfolio/Reel: ${fd.get("portfolio")}\n\n${fd.get("message")}`,
                   intent: "Career Application — Cinematographer",
+                  ...getSpamFields(fd),
                 }),
               });
               if (!res.ok) throw new Error();
@@ -75,6 +78,7 @@ export default function CinematographerApplyPage() {
           }}
           className="mt-10 space-y-6"
         >
+          <HoneypotField />
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
               <label htmlFor="firstName" className="meta-text mb-1.5 block">First Name</label>

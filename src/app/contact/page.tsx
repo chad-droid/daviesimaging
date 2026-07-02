@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { useSpamGuard } from "@/components/SpamGuard";
 
 const options = [
   {
@@ -85,6 +86,7 @@ function ContactContent() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { HoneypotField, getSpamFields } = useSpamGuard();
 
   // If intent=demo pre-selected from URL, scroll past option list
   useEffect(() => {
@@ -258,6 +260,7 @@ function ContactContent() {
                       company: fd.get("company"),
                       message: fd.get("message"),
                       intent: selectedOpt.title,
+                      ...getSpamFields(fd),
                     }),
                   });
                   if (!res.ok) throw new Error("Submission failed");
@@ -270,6 +273,7 @@ function ContactContent() {
               }}
               className="mt-10 space-y-6"
             >
+              <HoneypotField />
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <label htmlFor="firstName" className="meta-text mb-1.5 block">First Name</label>

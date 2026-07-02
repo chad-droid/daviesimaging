@@ -2,7 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { firstName, lastName, email, company, message, intent } = body;
+  const { firstName, lastName, email, company, message, intent, hp, elapsedMs } = body;
+
+  // Anti-spam layer 1: honeypot. `hp` is a hidden field no human ever sees.
+  // Bots that auto-fill every input trip it. We return a fake success so the
+  // bot thinks it worked and never fires the Slack/email/Mailchimp pipeline.
+  if (typeof hp === "string" && hp.trim() !== "") {
+    return NextResponse.json({ success: true, results: {} });
+  }
+
+  // Anti-spam layer 2: submit-timing. A real person cannot read the form,
+  // fill it out, and submit in under ~3 seconds. Scripts do it instantly.
+  if (typeof elapsedMs === "number" && elapsedMs >= 0 && elapsedMs < 3000) {
+    return NextResponse.json({ success: true, results: {} });
+  }
 
   if (!email || !firstName) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
