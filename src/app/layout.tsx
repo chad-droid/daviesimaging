@@ -117,6 +117,15 @@ export default function RootLayout({
             alt=""
           />
         </noscript>
+        <Script id="ms-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "xg4gxg4dal");
+          `}
+        </Script>
       </head>
       <body className="min-h-full flex flex-col bg-bg-light text-text-body">
         <SiteShell>{children}</SiteShell>
