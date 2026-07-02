@@ -28,7 +28,7 @@ const BUILDERS = Array.from(new Set(CASE_STUDIES.map((c) => c.builder)));
 // Scoped responsive rules (mirrors the shared MMLanding CSS the reused panes
 // expect: .mm-steps-grid, plus smooth-scroll to #start and mobile padding).
 const pageCSS = `
-.mm-lib { scroll-behavior: smooth; }
+.mm-lib { scroll-behavior: smooth; overflow-x: hidden; }
 .mm-lib .mm-steps-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -46,9 +46,27 @@ const pageCSS = `
 }
 @media (max-width: 600px) {
   .mm-lib section { padding-left: 20px !important; padding-right: 20px !important; }
-  .mm-lib header { padding-left: 20px !important; padding-right: 20px !important; }
-  .mm-lib footer { padding-left: 20px !important; padding-right: 20px !important; }
+  .mm-lib header { padding: 14px 20px !important; }
+  .mm-lib footer {
+    padding: 28px 20px 36px !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    text-align: left;
+  }
   .mm-lib .mm-header-tagline { display: none; }
+  /* Keep the message-matched CTA on one line inside a phone viewport. */
+  .mm-lib .mm-cta {
+    font-size: 12px !important;
+    letter-spacing: 0.06em !important;
+    padding: 18px 24px !important;
+  }
+  .mm-lib .mm-cta-hdr {
+    font-size: 11px !important;
+    letter-spacing: 0.04em !important;
+    padding: 11px 16px !important;
+  }
+  /* Pull the big hero headline down a notch so it never clips on small type. */
+  .mm-lib h1 { font-size: clamp(34px, 9vw, 52px) !important; }
 }
 `;
 
@@ -57,16 +75,19 @@ function CtaButton({
   children,
   size = "lg",
   onDark = false,
+  className = "",
 }: {
   children: ReactNode;
   size?: "lg" | "sm";
   onDark?: boolean;
+  className?: string;
 }) {
   const pad = size === "lg" ? "22px 40px" : "12px 22px";
   const fs = size === "lg" ? 14 : 12;
   return (
     <a
       href="#start"
+      className={`mm-cta ${className}`.trim()}
       style={{
         background: ACCENT,
         color: "#fff",
@@ -167,7 +188,7 @@ function Header() {
           transition: "all .3s var(--ease-soft)",
         }}
       >
-        <CtaButton size="sm">Claim My 5 Free Images</CtaButton>
+        <CtaButton size="sm" className="mm-cta-hdr">Claim My 5 Free Images</CtaButton>
       </div>
     </header>
   );

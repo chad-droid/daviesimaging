@@ -3,26 +3,63 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Inline ModelMatch trial wizard. Embeds the digDesk trial flow so ad traffic
-// can start the trial without leaving the landing page. The wizard posts its
-// height on every step change; we resize the iframe to match so there is no
-// inner scrollbar.
+// can start the trial without leaving the landing page. Two-way postMessage
+// contract with desk.daviesimaging.com/trial/embed:
+//   parent <- { type: 'dig-trial-embed-height', height }     (resize the iframe)
+//   parent <- { type: 'dig-trial-embed-converted', email? }  (a signup happened)
 const EMBED_SRC = 'https://desk.daviesimaging.com/trial/embed';
 const EMBED_ORIGIN = 'https://desk.daviesimaging.com';
+
+// LinkedIn conversion id from Campaign Manager (Analyze -> Conversion tracking).
+// Stays null until the CM conversion is created; lintrk is skipped while null,
+// so nothing fires against an undefined id. Swap in the number once Chad has it.
+const LINKEDIN_CONVERSION_ID: number | null = null;
+
+// The ad-tag globals installed in src/app/layout.tsx. Optional because a tag
+// may be blocked by an ad blocker; every call below is null-guarded.
+type TrackWindow = Window & {
+  lintrk?: (action: string, data?: Record<string, unknown>) => void;
+  fbq?: (action: string, event?: string, params?: Record<string, unknown>) => void;
+  gtag?: (command: string, event: string, params?: Record<string, unknown>) => void;
+};
 
 export default function MMTrialEmbed() {
   const ref = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(640);
+  const converted = useRef(false);
 
   useEffect(() => {
-    function onMessage(e: MessageEvent) {
-      // Only trust height messages from the digDesk origin.
-      if (e.origin !== EMBED_ORIGIN) return;
-      const data = e.data;
-      if (data && data.type === 'dig-trial-embed-height' && data.height) {
-        const h = Number(data.height);
-        if (Number.isFinite(h) && h > 0) setHeight(h);
+    // Fire the trial-signup conversion across every installed ad tag, exactly
+    // once. Guarded so a repeated message can't double-count.
+    function fireConversion() {
+      if (converted.current) return;
+      converted.current = true;
+      const w = window as TrackWindow;
+      try {
+        if (LINKEDIN_CONVERSION_ID != null) {
+          w.lintrk?.('track', { conversion_id: LINKEDIN_CONVERSION_ID });
+        }
+        w.fbq?.('track', 'Lead');
+        w.gtag?.('event', 'generate_lead', { method: 'modelmatch_trial' });
+      } catch {
+        // A blocked tag shouldn't break the page.
       }
     }
+
+    function onMessage(e: MessageEvent) {
+      // Only trust messages from the digDesk origin.
+      if (e.origin !== EMBED_ORIGIN) return;
+      const data = e.data;
+      if (!data || typeof data !== 'object') return;
+
+      if (data.type === 'dig-trial-embed-height' && data.height) {
+        const h = Number(data.height);
+        if (Number.isFinite(h) && h > 0) setHeight(h);
+      } else if (data.type === 'dig-trial-embed-converted') {
+        fireConversion();
+      }
+    }
+
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
   }, []);
