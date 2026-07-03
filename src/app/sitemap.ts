@@ -77,6 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ── Support ───────────────────────────────────────────────────────────────
     { url: `${BASE}/faq`,       changeFrequency: "monthly", priority: 0.50 },
     { url: `${BASE}/legal`,     changeFrequency: "yearly",  priority: 0.30 },
+    { url: `${BASE}/privacy`,   changeFrequency: "yearly",  priority: 0.30 },
     { url: `${BASE}/copyright`, changeFrequency: "yearly",  priority: 0.30 },
   ];
 
