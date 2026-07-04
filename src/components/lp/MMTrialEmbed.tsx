@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from 'react';
 // contract with desk.daviesimaging.com/trial/embed:
 //   parent <- { type: 'dig-trial-embed-height', height }     (resize the iframe)
 //   parent <- { type: 'dig-trial-embed-converted', email? }  (a signup happened)
-//   parent <- { type: 'trial_email_captured' | 'trial_step_2'
-//             | 'trial_step_3' | 'trial_submitted' }         (funnel steps)
+//   parent <- { type: 'trial_link_submitted' | 'trial_upload_fallback_opened'
+//             | 'trial_submitted' | 'trial_email_only' }     (funnel steps)
 const EMBED_SRC = 'https://desk.daviesimaging.com/trial/embed';
 const EMBED_ORIGIN = 'https://desk.daviesimaging.com';
 
@@ -26,17 +26,24 @@ type TrackWindow = Window & {
   clarity?: (action: string, ...args: unknown[]) => void;
 };
 
-// Granular funnel steps relayed by the embed. Each fires an analytics event
-// (GA4 + Clarity) once, so drop-off is measurable per step. trial_submitted
-// additionally fires the ad-tag conversion, same as the legacy converted
-// message.
+// Granular funnel steps relayed by the link-first embed (brief v2.2 D2). Each
+// fires an analytics event (GA4 + Clarity) once, so drop-off is measurable per
+// step. The completed-signup steps additionally fire the ad-tag conversion,
+// same as the legacy converted message.
 const FUNNEL_EVENTS = [
-  'trial_email_captured',
-  'trial_step_2',
-  'trial_step_3',
+  'trial_link_submitted',
+  'trial_upload_fallback_opened',
   'trial_submitted',
+  'trial_email_only',
 ] as const;
 type FunnelEvent = (typeof FUNNEL_EVENTS)[number];
+
+// Which milestones count as a completed trial signup and fire the ad-tag
+// conversion (once, guarded). A no-link email (trial_email_only) enrolls in
+// nurture and is tracked as analytics, but is deliberately NOT counted as the
+// paid conversion so LinkedIn keeps optimizing toward real link submits.
+// Opening the legacy upload fallback is a step, not a conversion.
+const CONVERSION_EVENTS: readonly FunnelEvent[] = ['trial_link_submitted', 'trial_submitted'];
 
 export default function MMTrialEmbed() {
   const ref = useRef<HTMLIFrameElement>(null);
@@ -85,7 +92,7 @@ export default function MMTrialEmbed() {
             // A blocked tag shouldn't break the page.
           }
         }
-        if (step === 'trial_submitted') fireConversion();
+        if (CONVERSION_EVENTS.includes(step)) fireConversion();
       }
     }
 

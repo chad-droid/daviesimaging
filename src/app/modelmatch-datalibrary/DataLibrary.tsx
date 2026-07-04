@@ -188,7 +188,7 @@ function Header() {
           transition: "all .3s var(--ease-soft)",
         }}
       >
-        <CtaButton size="sm" className="mm-cta-hdr">Claim My 5 Free Images</CtaButton>
+        <CtaButton size="sm" className="mm-cta-hdr">Claim My 8 Free Images</CtaButton>
       </div>
     </header>
   );
@@ -232,13 +232,13 @@ function Hero() {
               color: "var(--text-body)",
             }}
           >
-            ModelMatch stages your empty spec homes with furniture pulled from your own model homes.
-            Your first five images are free, delivered in 24 hours.
+            ModelMatch stages your vacant spec homes with furniture from your own model homes.
+            Your first eight images are free, delivered in 1 business day.
           </p>
         </Reveal>
         <Reveal delay={0.26}>
           <div style={{ marginTop: 34 }}>
-            <CtaButton>Claim My 5 Free Images</CtaButton>
+            <CtaButton>Claim My 8 Free Images</CtaButton>
             <p
               style={{
                 fontFamily: "var(--font-heading)",
@@ -259,18 +259,18 @@ function Hero() {
         <Reveal delay={0.5}>
           <div style={{ marginTop: 36, display: "flex", alignItems: "baseline", gap: 40, flexWrap: "wrap", fontFamily: "var(--font-heading)" }}>
             <div>
-              <p style={{ margin: 0, fontWeight: 600, color: INK, lineHeight: 1, letterSpacing: "-0.02em", fontSize: 32 }}>24 hr</p>
+              <p style={{ margin: 0, fontWeight: 600, color: INK, lineHeight: 1, letterSpacing: "-0.02em", fontSize: 32 }}>1 day</p>
               <p style={{ margin: "6px 0 0", fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--font-body)", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>
-                Next-day turnaround
+                Business-day delivery
               </p>
             </div>
             <div>
               <p style={{ margin: 0, fontSize: 32, fontWeight: 600, color: INK, lineHeight: 1, letterSpacing: "-0.02em", display: "flex", alignItems: "baseline", gap: 8 }}>
-                <span style={{ fontWeight: 400, color: "var(--text-muted)", textDecoration: "line-through", textDecorationColor: "rgba(0,0,0,0.45)", fontSize: 24 }}>$125</span>
+                <span style={{ fontWeight: 400, color: "var(--text-muted)", textDecoration: "line-through", textDecorationColor: "rgba(0,0,0,0.45)", fontSize: 24 }}>$200</span>
                 <span style={{ color: ACCENT }}>Free</span>
               </p>
               <p style={{ margin: "6px 0 0", fontSize: 12, color: "var(--text-muted)", fontFamily: "var(--font-body)", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>
-                First five images
+                First eight images
               </p>
             </div>
           </div>
@@ -412,7 +412,7 @@ function Solution() {
             </Reveal>
             <Reveal delay={0.26}>
               <div style={{ marginTop: 30 }}>
-                <CtaButton>Claim My 5 Free Images</CtaButton>
+                <CtaButton>Claim My 8 Free Images</CtaButton>
               </div>
             </Reveal>
           </div>
@@ -444,13 +444,13 @@ function Proof() {
               textAlign: "center",
             }}
           >
-            That home sat 357 days before staging. Carry cost runs about $1 a day for every $4,000
-            of home value. On a $400,000 home, that&apos;s more than $35,000 burned while it waited.
+            A sitting $400,000 home carries about $100 a day. This one waited 357 of them before a
+            buyer came, 14 days after ModelMatch.
           </p>
         </Reveal>
         <Reveal delay={0.2}>
           <div style={{ marginTop: 44, display: "flex", justifyContent: "center" }}>
-            <CtaButton>Claim My 5 Free Images</CtaButton>
+            <CtaButton>Claim My 8 Free Images</CtaButton>
           </div>
         </Reveal>
       </div>
@@ -458,78 +458,7 @@ function Proof() {
   );
 }
 
-// ── 5b. Testimonial — Jordan Brown, iMessage style ───────────────
-// Written permission on file (July 2026). Built in CSS, not a raster
-// screenshot, so it stays crisp and editable.
-function Testimonial() {
-  return (
-    <section style={{ background: CREAM, padding: "90px 40px" }}>
-      <div style={{ maxWidth: 640, margin: "0 auto" }}>
-        <Reveal>
-          <div
-            style={{
-              background: "#FFFFFF",
-              borderRadius: 24,
-              border: "1px solid rgba(0,0,0,0.06)",
-              boxShadow: "0 24px 50px rgba(0,0,0,0.07)",
-              padding: "28px 28px 24px",
-            }}
-          >
-            <p
-              style={{
-                margin: "0 0 14px",
-                textAlign: "center",
-                fontFamily: "var(--font-body)",
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.02em",
-                color: "rgba(0,0,0,0.35)",
-              }}
-            >
-              Text Message
-            </p>
-            <div style={{ display: "flex", justifyContent: "flex-start" }}>
-              <p
-                style={{
-                  margin: 0,
-                  maxWidth: "85%",
-                  background: "#E9E9EB",
-                  color: "#111",
-                  borderRadius: 20,
-                  borderBottomLeftRadius: 6,
-                  padding: "12px 16px",
-                  fontFamily:
-                    "-apple-system, BlinkMacSystemFont, 'Segoe UI', var(--font-body), sans-serif",
-                  fontSize: 17,
-                  lineHeight: 1.35,
-                }}
-              >
-                Brother, the last two weeks of sales have been the best we have had in over a year.
-              </p>
-            </div>
-          </div>
-        </Reveal>
-        <Reveal delay={0.12}>
-          <p
-            style={{
-              margin: "20px 0 0",
-              textAlign: "center",
-              fontFamily: "var(--font-body)",
-              fontSize: 14,
-              lineHeight: 1.5,
-              color: "var(--text-body)",
-            }}
-          >
-            <strong style={{ fontWeight: 700, color: INK }}>Jordan Brown</strong>, Director of Sales
-            and Marketing, Graham Hart Home Builder
-          </p>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-// ── 5c. Founder note ─────────────────────────────────────────────
+// ── 5b. Founder note ─────────────────────────────────────────────
 function FounderNote() {
   return (
     <section style={{ background: "#FFFFFF", padding: "90px 40px", borderTop: "1px solid rgba(0,0,0,0.04)" }}>
@@ -587,9 +516,9 @@ function FounderNote() {
 // ── 6. How it works ──────────────────────────────────────────────
 function HowItWorks() {
   const steps = [
-    { label: "Step One", title: "Show us your model home.", desc: "Send a full gallery of one finished model so we can match your furniture." },
-    { label: "Step Two", title: "Upload your spec photos.", desc: "Drag in photos of the empty spec you want staged. Existing listing shots work." },
-    { label: "Step Three", title: "Receive staged results.", desc: "Five high-res images, delivered in 24 hours, licensed for MLS, ads, email, and web." },
+    { label: "Step One", title: "Paste your listing link.", desc: "Drop the URL of any vacant listing. No uploads and no new shoot." },
+    { label: "Step Two", title: "We pull and match.", desc: "We pull the photos and match your model home's furniture, finishes, and styling." },
+    { label: "Step Three", title: "Eight images, 1 business day.", desc: "Your staged photos land in your inbox, licensed for MLS, ads, email, and web." },
   ];
   return (
     <section style={{ background: CREAM, padding: "100px 40px" }}>
@@ -642,12 +571,12 @@ function HowItWorks() {
 // ── 7. Offer stack — Grand Slam framing ──────────────────────────
 function OfferStack() {
   const items = [
-    "Five fully-staged photos of your spec home",
+    "Eight fully-staged photos of your spec home",
     "Furniture matched to your actual model home",
-    "Delivered in 24 hours on business days",
+    "Delivered in 1 business day",
     "Licensed for MLS, paid ads, email, and web",
     "No contract and no card to start",
-    "Bonus: the Sales Cycle Shrinkage report, 18 verified wins across 5 states",
+    "Bonus: the Sales Cycle Shrinkage report",
   ];
   return (
     <section style={{ background: "#121212", color: "#F5F5F5", padding: "110px 40px", position: "relative", overflow: "hidden" }}>
@@ -681,13 +610,13 @@ function OfferStack() {
               textWrap: "balance",
             }}
           >
-            A $125 staging package.{" "}
+            A $200 staging package.{" "}
             <strong style={{ fontWeight: 700, color: "#857AE0" }}>Yours free.</strong>
           </h2>
         </Reveal>
         <Reveal delay={0.18}>
           <p style={{ fontFamily: "var(--font-heading)", fontStyle: "italic", fontSize: 20, lineHeight: 1.5, color: "rgba(245,245,245,0.75)", margin: "0 auto 40px", maxWidth: 560 }}>
-            One model home and one vacant spec is all it takes to start.
+            One listing link is all it takes to start.
           </p>
         </Reveal>
         <Reveal delay={0.24}>
@@ -704,10 +633,11 @@ function OfferStack() {
           </ul>
         </Reveal>
         <Reveal delay={0.32}>
-          <CtaButton onDark>Claim My 5 Free Images</CtaButton>
-          <p style={{ margin: "20px auto 0", fontSize: 12.5, color: "rgba(245,245,245,0.5)", letterSpacing: "0.04em", maxWidth: 460, lineHeight: 1.6 }}>
-            After the trial, staging is $25 per image. Physical staging runs $1,000 or more per room
-            and takes weeks to install. This takes 24 hours. Cancel any time.
+          <CtaButton onDark>Claim My 8 Free Images</CtaButton>
+          <p style={{ margin: "20px auto 0", fontSize: 12.5, color: "rgba(245,245,245,0.5)", letterSpacing: "0.04em", maxWidth: 480, lineHeight: 1.6 }}>
+            After the trial, staging is $25 per image. A typical home runs about $200 and repays itself
+            in about two days of carry. Physical staging runs $1,000 or more per room and takes weeks to
+            install. This takes 1 business day. Cancel any time.
           </p>
         </Reveal>
       </div>
@@ -735,10 +665,11 @@ function TrialSection() {
                 textWrap: "balance",
               }}
             >
-              Five staged photos. <strong style={{ fontWeight: 700 }}>Right here.</strong>
+              Eight staged photos. <strong style={{ fontWeight: 700 }}>Zero uploads.</strong>
             </h2>
-            <p style={{ margin: "0 auto", maxWidth: 520, fontFamily: "var(--font-body)", fontSize: 17, lineHeight: 1.6, color: "var(--text-body)" }}>
-              Send one model home and one vacant spec. Your first five staged images come back in 24 hours.
+            <p style={{ margin: "0 auto", maxWidth: 540, fontFamily: "var(--font-body)", fontSize: 17, lineHeight: 1.6, color: "var(--text-body)" }}>
+              Paste the link to any vacant listing. We pull the photos ourselves. Your first eight staged
+              images come back in 1 business day.
             </p>
           </div>
         </Reveal>
@@ -790,10 +721,10 @@ function FAQs() {
   const [open, setOpen] = useState(0);
   const faqs = [
     { q: "What if I'm not a homebuilder?", a: "ModelMatch was designed for builders and developers that have existing model home images. Without that base to work from, ModelMatch can't work properly. If you aren't sure if you qualify, message us at support@daviesimaging.com." },
-    { q: "What exactly do I send you?", a: "Photos of one of your model homes so we can match your furniture, plus photos of the empty spec home you want staged. Existing listing photos work. No new shoot required." },
-    { q: "What's the turnaround?", a: "24 hours from upload on business days. Submit on Friday, you'll have the staged images Monday. The only thing holding up faster delivery is our designers reviewing every frame by hand." },
-    { q: "What do I get back?", a: "Five fully-staged photos, delivered as high-resolution files licensed for MLS, paid ads, email, and web." },
-    { q: "What happens after the trial?", a: "After the trial, staging is $25 per image. Physical staging runs $1,000 or more per room and takes weeks to install. This takes 24 hours. No contract, no monthly minimum, cancel any time." },
+    { q: "How do you get the photos?", a: "You paste a link to your vacant listing and we pull the photos from your listing and community pages. No uploads and no new shoot. Prefer to send your own photos? You can do that too." },
+    { q: "What's the turnaround?", a: "1 business day. Send your link on Friday and you'll have the staged images by Monday. The only thing holding up faster delivery is our designers reviewing every frame by hand." },
+    { q: "What do I get back?", a: "Eight fully-staged photos, delivered as high-resolution files licensed for MLS, paid ads, email, and web." },
+    { q: "What happens after the trial?", a: "After the trial, staging is $25 per image. A typical home runs about $200 and repays itself in about two days of carry. Physical staging runs $1,000 or more per room and takes weeks to install. This takes 1 business day. No contract, no monthly minimum, cancel any time." },
     { q: "What if the staging doesn't look right?", a: "If the staging doesn't look like it came from your model home, don't use it. You owe nothing either way." },
     { q: "Will the staging actually match my brand?", a: "That's the whole point. We pull furniture, finishes, and styling from your actual model home catalog, not a generic stock library. The staged spec home looks like the model, because it is the model." },
   ];
@@ -843,7 +774,7 @@ function FAQs() {
         </div>
         <Reveal delay={0.2}>
           <div style={{ marginTop: 52, display: "flex", justifyContent: "center" }}>
-            <CtaButton>Claim My 5 Free Images</CtaButton>
+            <CtaButton>Claim My 8 Free Images</CtaButton>
           </div>
         </Reveal>
       </div>
@@ -886,7 +817,6 @@ export function DataLibrary() {
       <Problem />
       <Solution />
       <Proof />
-      <Testimonial />
       <FounderNote />
       <HowItWorks />
       <OfferStack />
