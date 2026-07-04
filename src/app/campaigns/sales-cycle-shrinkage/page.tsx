@@ -144,8 +144,8 @@ export default function SalesCycleShrinkagePage() {
           </h2>
           <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: "rgba(245,245,245,0.82)" }}>
             Email a listing link to{" "}
-            <a href="mailto:trials@daviesimaging.com?subject=ModelMatch%20free%20trial" style={{ color: "#857AE0", fontWeight: 700, textDecoration: "none" }}>
-              trials@daviesimaging.com
+            <a href="mailto:trial@daviesimaging.com?subject=ModelMatch%20free%20trial" style={{ color: "#857AE0", fontWeight: 700, textDecoration: "none" }}>
+              trial@daviesimaging.com
             </a>{" "}
             and we&apos;ll stage your first eight photos, free, in 1 business day.
           </p>
