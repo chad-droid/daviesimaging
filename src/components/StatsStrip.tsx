@@ -21,11 +21,15 @@ function ClockGraphic({ animate }: { animate: boolean }) {
         const angle = (i * 30 - 90) * (Math.PI / 180);
         const isMain = i % 3 === 0;
         const inner = r - (isMain ? 10 : 5);
+        // Round so the server (Node) and client (browser) serialize identical
+        // coordinate strings; full-precision trig floats otherwise diverge in
+        // the last digit and trip a React hydration mismatch.
+        const rnd = (n: number) => Number(n.toFixed(3));
         return (
           <line
             key={i}
-            x1={cx + inner * Math.cos(angle)} y1={cy + inner * Math.sin(angle)}
-            x2={cx + (r - 1) * Math.cos(angle)} y2={cy + (r - 1) * Math.sin(angle)}
+            x1={rnd(cx + inner * Math.cos(angle))} y1={rnd(cy + inner * Math.sin(angle))}
+            x2={rnd(cx + (r - 1) * Math.cos(angle))} y2={rnd(cy + (r - 1) * Math.sin(angle))}
             stroke={isMain ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.08)"}
             strokeWidth={isMain ? 2 : 1}
             strokeLinecap="round"
