@@ -307,7 +307,7 @@ function Problem() {
   const points = [
     {
       title: "An empty room hides the plan.",
-      body: "Buyers walk into a bare spec and can't picture the space. The flow, the scale, and the lifestyle are all left to their imagination.",
+      body: "Buyers walk into a vacant spec and can't picture the space. The flow, the scale, and the lifestyle are all left to their imagination.",
     },
     {
       title: "Physical staging is slow and costly.",
@@ -354,7 +354,7 @@ function Problem() {
             }}
           >
             A price cut treats the symptom. The buyer didn&apos;t reject the price. They rejected the
-            empty photos.
+            presentation.
           </p>
         </Reveal>
         <div className="mm-steps-grid">
@@ -405,7 +405,7 @@ function Solution() {
             </Reveal>
             <Reveal delay={0.18}>
               <p style={{ margin: "22px 0 0", fontFamily: "var(--font-body)", fontSize: 18, lineHeight: 1.65, color: "var(--text-body)", maxWidth: 480 }}>
-                We pull the furniture, finishes, and styling from your finished model, then place them in
+                We pull the furniture and styling from your finished model, then place them in
                 your vacant spec. The staged home looks like your model, because it is your model. No new
                 shoot. No generic stock furniture.
               </p>
@@ -488,9 +488,11 @@ function FounderNote() {
                   color: INK,
                 }}
               >
-                &ldquo;I&apos;m Chad Davies. My team photographs model homes for builders like Perry,
-                Beazer, and Kolter across 24 markets. ModelMatch stages your vacant specs with
-                furniture from those same models.&rdquo;
+                &ldquo;My team photographs model homes for builders like Toll Brothers, Perry Homes,
+                Coventry Homes, Beazer, K. Hovnanian, and Kolter. Using that experience, we built a
+                better way to virtually stage your vacant inventory with real model home furniture,
+                without the hassle of traditional methods. You will love the results, or you
+                don&apos;t pay anything.&rdquo;
               </p>
               <p
                 style={{
@@ -517,7 +519,7 @@ function FounderNote() {
 function HowItWorks() {
   const steps = [
     { label: "Step One", title: "Paste your listing link.", desc: "Drop the URL of any vacant listing. No uploads and no new shoot." },
-    { label: "Step Two", title: "We pull and match.", desc: "We pull the photos and match your model home's furniture, finishes, and styling." },
+    { label: "Step Two", title: "We pull and match.", desc: "We pull the photos and match your model home's furniture and styling." },
     { label: "Step Three", title: "Eight images, 1 business day.", desc: "Your staged photos land in your inbox, licensed for MLS, ads, email, and web." },
   ];
   return (
@@ -726,7 +728,7 @@ function FAQs() {
     { q: "What do I get back?", a: "Eight fully-staged photos, delivered as high-resolution files licensed for MLS, paid ads, email, and web." },
     { q: "What happens after the trial?", a: "After the trial, staging is $25 per image. A typical home runs about $200 and repays itself in about two days of carry. Physical staging runs $1,000 or more per room and takes weeks to install. This takes 1 business day. No contract, no monthly minimum, cancel any time." },
     { q: "What if the staging doesn't look right?", a: "If the staging doesn't look like it came from your model home, don't use it. You owe nothing either way." },
-    { q: "Will the staging actually match my brand?", a: "That's the whole point. We pull furniture, finishes, and styling from your actual model home catalog, not a generic stock library. The staged spec home looks like the model, because it is the model." },
+    { q: "Will the staging actually match my brand?", a: "That's the whole point. We pull furniture and styling from your actual model home catalog, not a generic stock library. The staged spec home looks like the model, because it is the model." },
   ];
   return (
     <section style={{ background: CREAM, padding: "100px 40px" }}>
