@@ -240,7 +240,6 @@ export const CASE_STUDIES: CaseStudy[] = [
     builder: "Perry Homes",
     story: "fresh",
     after: 12,
-    afterApprox: true,
     closed: true,
     result: "Sold / closed Jun 17, 2026",
     durability: "Closed — held through the option window",
