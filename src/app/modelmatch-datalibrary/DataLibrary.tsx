@@ -669,10 +669,6 @@ function TrialSection() {
             >
               Eight staged photos. <strong style={{ fontWeight: 700 }}>Zero uploads.</strong>
             </h2>
-            <p style={{ margin: "0 auto", maxWidth: 540, fontFamily: "var(--font-body)", fontSize: 17, lineHeight: 1.6, color: "var(--text-body)" }}>
-              Paste the link to any vacant listing. We pull the photos ourselves. Your first eight staged
-              images come back in 1 business day.
-            </p>
           </div>
         </Reveal>
         <Reveal delay={0.15}>
@@ -683,23 +679,7 @@ function TrialSection() {
         <Reveal delay={0.2}>
           <p
             style={{
-              margin: "32px auto 0",
-              maxWidth: 560,
-              textAlign: "center",
-              fontFamily: "var(--font-body)",
-              fontSize: 15,
-              lineHeight: 1.6,
-              color: "var(--text-body)",
-            }}
-          >
-            <strong style={{ fontWeight: 700, color: INK }}>
-              If the staging doesn&apos;t look like it came from your model home, don&apos;t use it.
-              You owe nothing either way.
-            </strong>
-          </p>
-          <p
-            style={{
-              margin: "18px auto 0",
+              margin: "36px auto 0",
               maxWidth: 560,
               textAlign: "center",
               fontFamily: "var(--font-heading)",
