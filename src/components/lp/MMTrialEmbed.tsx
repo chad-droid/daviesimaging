@@ -108,9 +108,12 @@ export default function MMTrialEmbed() {
       scrolling="no"
       allow="clipboard-write"
       style={{
+        // No min-height: a CSS minimum overrides the posted inline height and
+        // leaves an empty void when the form is shorter than the fallback. The
+        // `height` state (default 640 as a pre-load placeholder) is the single
+        // source of truth once desk posts dig-trial-embed-height.
         width: '100%',
         border: 0,
-        minHeight: 640,
         height,
         display: 'block',
       }}
