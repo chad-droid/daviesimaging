@@ -23,14 +23,13 @@ const ACCENT = "#6A5ACD";
 const INK = "#1C1C1C";
 const CREAM = "#F8F6F3";
 
-// Shore Summit details. Booth and session are placeholders until Chad confirms
-// the actual booth number and the session title / day / time.
+// Shore Summit details (confirmed).
 const SHORE = {
   name: "Shore Sales and Marketing Leadership Summit",
   dates: "July 15 to 17, 2026",
   place: "Gaylord Pacific Resort, San Diego",
-  booth: "Booth [TBD]",
-  session: "[Session title, day and time TBD]",
+  booth: "Booth 507",
+  session: "Zonda Innovation Stage",
 };
 
 // Real builders behind the verified wins — identity proof, in the buyer's world.
@@ -241,7 +240,7 @@ function Hero() {
           <SummitPill />
         </Reveal>
         <Reveal delay={0.06} style={{ marginTop: 22 }}>
-          <Eyebrow>For Shore sales and marketing leaders</Eyebrow>
+          <Eyebrow>Homebuilding sales and marketing leaders</Eyebrow>
         </Reveal>
         <Reveal delay={0.1}>
           <h1
@@ -326,7 +325,7 @@ function Hero() {
 function SummitPresence() {
   const cards = [
     { label: "Come say hello", head: SHORE.booth, sub: "Ask for a live ModelMatch on one of your own vacant specs." },
-    { label: "Catch our session", head: SHORE.session, sub: "How builder teams shorten the time a finished spec sits." },
+    { label: "Catch our session", head: SHORE.session, sub: "Thursday, July 16 at 2:45pm." },
   ];
   return (
     <section style={{ background: ACCENT, color: "#fff", padding: "26px 40px" }}>
