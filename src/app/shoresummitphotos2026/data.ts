@@ -20,6 +20,22 @@ export async function getGalleryImages(slug: string): Promise<EventImage[]> {
   }
 }
 
+// First image of a gallery (by sort order) — used for the social share image.
+export async function getFirstImage(slug: string): Promise<EventImage | null> {
+  try {
+    const { rows } = await sql`
+      SELECT id, thumb_url, display_url, download_url, filename, width, height
+      FROM event_gallery_images
+      WHERE gallery_slug = ${slug}
+      ORDER BY sort_order ASC, id ASC
+      LIMIT 1
+    `;
+    return (rows[0] as EventImage) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export type GalleryCover = { thumb_url: string; count: number };
 
 export async function getCovers(): Promise<Record<string, GalleryCover>> {

@@ -2,13 +2,37 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ShoreSummitBar } from "@/components/shore/ShoreSummitBar";
 import { SHORE_GALLERIES } from "./galleries";
-import { getCovers } from "./data";
+import { getCovers, getFirstImage } from "./data";
 
-export const metadata: Metadata = {
-  title: "Shore Summit 2026 Photos",
-  description:
-    "Event photos from the Shore Sales and Marketing Summit 2026, captured by Davies Imaging Group. Browse and download images from each session.",
-};
+const OG_TITLE = "Shore Summit Event Photos - by Davies Imaging Group";
+const OG_DESCRIPTION =
+  "Event photos from the Shore Sales and Marketing Summit 2026, captured by Davies Imaging Group.";
+
+// Share preview (iMessage / social): custom title + the first Tiki Island Welcome
+// Party photo as the image. Runs at request time, so it picks up the latest photo.
+export async function generateMetadata(): Promise<Metadata> {
+  const cover = await getFirstImage("welcome-celebration");
+  const images = cover
+    ? [{ url: cover.display_url, width: cover.width ?? 1600, height: cover.height ?? 1067, alt: OG_TITLE }]
+    : undefined;
+  return {
+    title: "Shore Summit 2026 Photos",
+    description: OG_DESCRIPTION,
+    openGraph: {
+      title: OG_TITLE,
+      description: OG_DESCRIPTION,
+      url: "https://www.daviesimaging.com/shoresummitphotos2026",
+      type: "website",
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: OG_TITLE,
+      description: OG_DESCRIPTION,
+      images: cover ? [cover.display_url] : undefined,
+    },
+  };
+}
 
 // Queried at request time so new uploads appear without a rebuild.
 export const dynamic = "force-dynamic";
