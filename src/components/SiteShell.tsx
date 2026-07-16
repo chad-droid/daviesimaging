@@ -3,12 +3,11 @@
 import { usePathname } from "next/navigation";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
-import { EmailCaptureModal } from "./EmailCaptureModal";
 import { PageTransition } from "./PageTransition";
 
-// Hides Nav but keeps Footer + EmailCaptureModal.
+// Hides Nav but keeps Footer.
 const HIDE_NAV_PATHS = ["/sarahpod"];
-// Hides Nav, Footer, EmailCaptureModal, and the pt-16 gap under Nav.
+// Hides Nav, Footer, and the pt-16 gap under Nav.
 const CHROMELESS_PREFIXES = ["/campaigns/modelmatch-trial-info", "/campaigns/sales-cycle-shrinkage", "/capabilities", "/modelmatch-deck", "/modelmatch-datalibrary", "/modelmatch-cinematic", "/shore2026"];
 
 function matchesPrefix(pathname: string, list: string[]): boolean {
@@ -27,7 +26,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         <PageTransition>{children}</PageTransition>
       </main>
       {!chromeless && <Footer />}
-      {!chromeless && <EmailCaptureModal />}
     </>
   );
 }
