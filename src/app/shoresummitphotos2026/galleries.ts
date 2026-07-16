@@ -4,7 +4,7 @@
 export const SHORE_GALLERIES = [
   { slug: "welcome-celebration", title: "Tiki Island Welcome Party" },
   { slug: "shore-summit-day-1", title: "Shore Summit Day 1" },
-  { slug: "rilla-sunset-cruise", title: "Rilla Sunset Cruise" },
+  { slug: "rilla-sunset-cruise", title: "Sunset Cruise" },
   { slug: "shore-summit-day-2", title: "Shore Summit Day 2" },
 ] as const;
 
