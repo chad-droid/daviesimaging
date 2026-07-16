@@ -9,7 +9,8 @@ export function EmailCaptureModal() {
     const dismissed = sessionStorage.getItem("dig-modal-dismissed");
     if (dismissed) return;
 
-    const timer = setTimeout(() => setOpen(true), 30000);
+    // Wait 45s of engagement before interrupting (was 30s, felt too fast).
+    const timer = setTimeout(() => setOpen(true), 45000);
     return () => clearTimeout(timer);
   }, []);
 
