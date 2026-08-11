@@ -6,7 +6,7 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   title: "Careers | Davies Imaging Group",
-  description: "Join the DIG team. We're looking for listing photographers, cinematographers, and digital production specialists across our markets.",
+  description: "Join the DIG team. We're looking for listing photographers and cinematographers across our markets.",
 };
 
 const values = [
@@ -42,13 +42,6 @@ const openRoles = [
     markets: "Any U.S. market",
     description: "DIG is building out its video production network for community walkthroughs, lifestyle campaigns, and builder brand films. If you shoot real estate or homebuilder video and want consistent work, we want to hear from you.",
     applyHref: "/careers/apply/cinematographer",
-  },
-  {
-    title: "Digital Production Specialist",
-    type: "Full-time",
-    markets: "Guadalajara",
-    description: "Produce ModelMatch virtual staging and FrameFlow virtual video from builder photography. Attention to detail, consistency, and speed are the job. Experience with digital staging tools preferred.",
-    applyHref: "/careers/apply/digital-production-specialist",
   },
 ];
 
