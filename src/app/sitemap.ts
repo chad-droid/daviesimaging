@@ -1,23 +1,30 @@
 import { MetadataRoute } from "next";
 import { client } from "@/sanity/client";
-import { postSlugsQuery } from "@/sanity/queries";
+import { postSitemapQuery } from "@/sanity/queries";
+import { SITE_URL } from "@/lib/seo";
 
-const BASE = "https://daviesimaging.com";
+const BASE = SITE_URL;
 
 // Regenerate the sitemap hourly so new Sanity blog posts get picked
 // up by Google without a redeploy. Matches the blog ISR cadence.
 export const revalidate = 3600;
 
-async function getBlogSlugs(): Promise<string[]> {
+interface SitemapPost {
+  slug: string;
+  publishedAt: string;
+  _updatedAt: string;
+}
+
+async function getBlogPosts(): Promise<SitemapPost[]> {
   try {
-    return await client.fetch<string[]>(postSlugsQuery);
+    return await client.fetch<SitemapPost[]>(postSitemapQuery);
   } catch {
     return [];
   }
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogSlugs = await getBlogSlugs();
+  const blogPosts = await getBlogPosts();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     // ── Homepage ──────────────────────────────────────────────────────────────
@@ -72,7 +79,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/careers`,                                        changeFrequency: "monthly", priority: 0.60 },
     { url: `${BASE}/careers/apply/listing-photographer`,             changeFrequency: "monthly", priority: 0.55 },
     { url: `${BASE}/careers/apply/cinematographer`,                  changeFrequency: "monthly", priority: 0.55 },
-    { url: `${BASE}/careers/apply/digital-production-specialist`,    changeFrequency: "monthly", priority: 0.55 },
 
     // ── Support ───────────────────────────────────────────────────────────────
     { url: `${BASE}/faq`,       changeFrequency: "monthly", priority: 0.50 },
@@ -82,8 +88,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // ── Blog posts (dynamic — fetched from Sanity at build time) ────────────────
-  const blogRoutes: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
-    url: `${BASE}/blog/${slug}`,
+  // lastModified comes from Sanity's _updatedAt so re-edited posts get
+  // re-crawled; falls back to publishedAt for anything without one.
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${BASE}/blog/${post.slug}`,
+    lastModified: new Date(post._updatedAt || post.publishedAt),
     changeFrequency: "monthly" as const,
     priority: 0.60,
   }));
