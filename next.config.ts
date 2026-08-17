@@ -26,6 +26,29 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // ── builderphoto.com → the Builder Photo Blog ───────────────────────────
+      // The blog is branded "Builder Photo Blog" and lives at /blog on the main
+      // site. builderphoto.com is a vanity domain that funnels straight to it.
+      //
+      // These rules are inert until the domain is added to the Vercel project
+      // and its DNS points at Vercel. Host matching keeps them scoped, so they
+      // can ship ahead of the DNS work.
+      //
+      // Domain hardcoded because next.config.ts cannot resolve the "@/" alias
+      // used by SITE_URL in src/lib/seo.ts.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "builderphoto.com" }],
+        destination: "https://www.daviesimaging.com/blog",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.builderphoto.com" }],
+        destination: "https://www.daviesimaging.com/blog",
+        permanent: true,
+      },
+
       // ── Renamed/moved pages ─────────────────────────────────────────────────
       { source: "/contact-page",  destination: "/contact",              permanent: true },
       { source: "/about-us",      destination: "/about",                permanent: true },

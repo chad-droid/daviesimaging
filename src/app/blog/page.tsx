@@ -7,15 +7,15 @@ import { JsonLd } from "@/components/JsonLd";
 import { client } from "@/sanity/client";
 import { postsQuery } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
-import { SITE_URL, SITE_NAME, ORG_ID, authorNode } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, BLOG_NAME, ORG_ID, authorNode } from "@/lib/seo";
 
 const DESCRIPTION =
-  "Insights on homebuilder marketing, visual strategy, and asset performance from the DIG team.";
+  "The Builder Photo Blog: photography, virtual staging, and marketing strategy for homebuilder teams, from the DIG team.";
 
 export const metadata: Metadata = {
   // absolute: the root layout's "%s | Davies Imaging Group" template would
   // otherwise append the brand a second time.
-  title: { absolute: `Blog | ${SITE_NAME}` },
+  title: { absolute: `${BLOG_NAME} | ${SITE_NAME}` },
   description: DESCRIPTION,
   alternates: {
     canonical: "/blog",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${SITE_URL}/blog`,
-    title: `Blog | ${SITE_NAME}`,
+    title: `${BLOG_NAME} | ${SITE_NAME}`,
     description: DESCRIPTION,
     siteName: SITE_NAME,
   },
@@ -76,7 +76,7 @@ export default async function BlogPage() {
     "@type": "Blog",
     "@id": `${SITE_URL}/blog#blog`,
     url: `${SITE_URL}/blog`,
-    name: `${SITE_NAME} Blog`,
+    name: BLOG_NAME,
     description: DESCRIPTION,
     publisher: { "@id": ORG_ID },
     inLanguage: "en-US",
@@ -97,12 +97,12 @@ export default async function BlogPage() {
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="mb-16 text-center">
-            <Eyebrow>Blog</Eyebrow>
+            <Eyebrow>Builder Photo Blog</Eyebrow>
             <h1>
               Insights for builder marketing <strong>teams</strong>.
             </h1>
             <p className="mt-5 text-text-body">
-              Strategy, trends, and case studies from the DIG team.
+              Photography, strategy, and case studies for homebuilder marketing teams. Also reachable at builderphoto.com.
             </p>
           </div>
         </RevealOnScroll>

@@ -1,6 +1,6 @@
 import { client } from "@/sanity/client";
 import { postsFeedQuery } from "@/sanity/queries";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, BLOG_NAME } from "@/lib/seo";
 
 // RSS 2.0 feed for /blog. Static segment wins over the sibling [slug] route,
 // so this handler owns /blog/rss.xml.
@@ -55,9 +55,9 @@ ${post.excerpt ? `      <description>${escapeXml(post.excerpt)}</description>\n`
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>${escapeXml(SITE_NAME)} Blog</title>
+    <title>${escapeXml(BLOG_NAME)}</title>
     <link>${SITE_URL}/blog</link>
-    <description>Insights on homebuilder marketing, visual strategy, and asset performance from the DIG team.</description>
+    <description>The Builder Photo Blog: photography, virtual staging, and marketing strategy for homebuilder teams, from Davies Imaging Group.</description>
     <language>en-us</language>
     <lastBuildDate>${lastBuild}</lastBuildDate>
     <atom:link href="${SITE_URL}/blog/rss.xml" rel="self" type="application/rss+xml" />

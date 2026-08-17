@@ -1,6 +1,6 @@
 import { client } from "@/sanity/client";
 import { postsFeedQuery } from "@/sanity/queries";
-import { SITE_URL } from "@/lib/seo";
+import { SITE_URL, BLOG_NAME } from "@/lib/seo";
 
 // /llms.txt — an emerging convention (llmstxt.org) giving AI crawlers a
 // curated, plain-markdown map of the site instead of making them infer
@@ -60,7 +60,7 @@ export async function GET() {
   }
 
   const blogSection = posts.length
-    ? `\n## Blog\n\nInsights on homebuilder marketing, visual strategy, and asset performance.\n\n- [Blog index](${SITE_URL}/blog)\n${posts
+    ? `\n## ${BLOG_NAME}\n\nInsights on homebuilder marketing, visual strategy, and asset performance. Also reachable at builderphoto.com.\n\n- [${BLOG_NAME} index](${SITE_URL}/blog)\n${posts
         .map(
           (post) =>
             `- [${post.title}](${SITE_URL}/blog/${post.slug})${
@@ -68,7 +68,7 @@ export async function GET() {
             }`,
         )
         .join("\n")}\n`
-    : `\n## Blog\n\n- [Blog index](${SITE_URL}/blog)\n`;
+    : `\n## ${BLOG_NAME}\n\n- [${BLOG_NAME} index](${SITE_URL}/blog)\n`;
 
   const body = `# Davies Imaging Group (DIG)
 

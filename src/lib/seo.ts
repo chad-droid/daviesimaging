@@ -10,6 +10,11 @@
 export const SITE_URL = "https://www.daviesimaging.com";
 export const SITE_NAME = "Davies Imaging Group";
 
+// Public-facing name of the blog. It lives at /blog on the main site and is
+// also the destination for the builderphoto.com domain redirect. Use this
+// constant for every user-visible reference so the two cannot drift.
+export const BLOG_NAME = "Builder Photo Blog";
+
 export const ORG_ID = `${SITE_URL}/#organization`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 
