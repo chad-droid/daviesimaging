@@ -4,7 +4,8 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 
 export const metadata: Metadata = {
-  title: "Get Started | Davies Imaging Group",
+  alternates: { canonical: "/get-started" },
+  title: "Get Started",
   description: "Schedule a demo of digDesk and FrameFlow Studio, or create an account and start ordering today.",
 };
 

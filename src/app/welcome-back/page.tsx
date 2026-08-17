@@ -10,7 +10,8 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Welcome Back | We Rebuilt Everything | Davies Imaging Group",
+  alternates: { canonical: "/welcome-back" },
+  title: "Welcome Back | We Rebuilt Everything",
   description:
     "New pricing. New portal. New quality. Same team, completely different experience. $125 in comeback credits loaded in your account.",
 };

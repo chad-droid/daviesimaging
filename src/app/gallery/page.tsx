@@ -6,7 +6,8 @@ import { DynamicGallery } from "@/components/DynamicGallery";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Our Work | Davies Imaging Group",
+  alternates: { canonical: "/gallery" },
+  title: "Our Work",
   description: "Browse the full DIG portfolio across model homes, amenities, spec homes, and lifestyle photography and video.",
 };
 

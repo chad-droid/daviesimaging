@@ -5,9 +5,12 @@ import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
+import { JsonLd } from "@/components/JsonLd";
+import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Listing Photography | Davies Imaging Group",
+  alternates: { canonical: "/services/listing" },
+  title: "Listing Photography",
   description: "Professional listing photography for spec homes and standing inventory. Fast turnaround, MLS-ready, consistent across communities.",
 };
 
@@ -22,6 +25,21 @@ const deliverables = [
 export default function ListingPhotoPage() {
   return (
     <>
+      <JsonLd
+        data={buildServiceSchema({
+          name: "Listing Photography",
+          description:
+            "HDR photography for spec homes and active inventory. Fast turnaround, MLS-ready, built for standing inventory that needs to move.",
+          path: "/services/listing",
+          serviceType: "Photography",
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: "Solutions", path: "/services" },
+          { name: "Listing Photography", path: "/services/listing" },
+        ])}
+      />
       {/* Hero */}
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">

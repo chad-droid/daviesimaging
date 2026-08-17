@@ -6,7 +6,8 @@ import { RegionMap } from "@/components/RegionMap";
 import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
-  title: "Markets by Region | Davies Imaging Group",
+  alternates: { canonical: "/markets/region" },
+  title: "Markets by Region",
   description: "DIG operates across 28 U.S. markets in four regions, with offices in Sacramento, Dallas, and Guadalajara.",
 };
 

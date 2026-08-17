@@ -9,7 +9,8 @@ import { LPCta } from "@/components/lp/LPCta";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 
 export const metadata: Metadata = {
-  title: "ModelMatch Virtual Staging | $125 Free Credits | Davies Imaging Group",
+  alternates: { canonical: "/staging-credits" },
+  title: "ModelMatch Virtual Staging | $125 Free Credits",
   description:
     "Virtual staging built for home builders. Your model home furniture, recreated in 3D, placed in your spec listings. $25/image, 48-hour turnaround. $125 in free credits loaded.",
 };

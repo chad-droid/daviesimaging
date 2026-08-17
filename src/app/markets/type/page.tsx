@@ -5,7 +5,8 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Markets by Type | Davies Imaging Group",
+  alternates: { canonical: "/markets/type" },
+  title: "Markets by Type",
   description: "DIG serves detached, attached, luxury, build-to-rent, and multifamily builders. Find the asset strategy built for how you operate.",
 };
 

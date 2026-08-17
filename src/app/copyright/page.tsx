@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Copyright & Usage | Davies Imaging Group",
+  alternates: { canonical: "/copyright" },
+  title: "Copyright & Usage",
   description: "Copyright and usage terms governing all photographs, videos, and media created by Davies Imaging Group LLC in connection with Premium photography and video production services.",
 };
 

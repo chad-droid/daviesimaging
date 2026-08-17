@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Davies Imaging Group",
+  alternates: { canonical: "/privacy" },
+  title: "Privacy Policy",
   description:
     "How Davies Imaging Group LLC collects, uses, and protects your information when you visit our sites, submit a form, or respond to an advertisement.",
 };

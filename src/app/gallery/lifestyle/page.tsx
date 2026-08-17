@@ -7,7 +7,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Lifestyle | Davies Imaging Group",
+  alternates: { canonical: "/gallery/lifestyle" },
+  title: "Lifestyle",
   description: "Lifestyle photography that captures how buyers actually live in a home. Talent, styling, and storytelling built for builder marketing.",
 };
 

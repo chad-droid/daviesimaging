@@ -5,9 +5,12 @@ import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
+import { JsonLd } from "@/components/JsonLd";
+import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Premium Photography | Davies Imaging Group",
+  alternates: { canonical: "/services/premium" },
+  title: "Premium Photography",
   description: "Full-service model home, amenity, and lifestyle photography for homebuilders. DIG's signature service across 28 U.S. markets.",
 };
 
@@ -64,6 +67,21 @@ const galleryLinks = [
 export default function PremiumPage() {
   return (
     <>
+      <JsonLd
+        data={buildServiceSchema({
+          name: "Premium Photography",
+          description:
+            "Full-service model home, amenity, and lifestyle photography for homebuilders. Slow, methodical, full-setup shoots across 28 U.S. markets.",
+          path: "/services/premium",
+          serviceType: "Photography",
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: "Solutions", path: "/services" },
+          { name: "Premium Photography", path: "/services/premium" },
+        ])}
+      />
       {/* Hero */}
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">

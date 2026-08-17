@@ -5,9 +5,12 @@ import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
+import { JsonLd } from "@/components/JsonLd";
+import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Video Production | Davies Imaging Group",
+  alternates: { canonical: "/services/video-production" },
+  title: "Video Production",
   description: "On-site, crew-based video production for homebuilder marketing. Community walkthroughs, lifestyle video, and brand films.",
 };
 
@@ -33,6 +36,21 @@ const useCases = [
 export default function VideoProductionPage() {
   return (
     <>
+      <JsonLd
+        data={buildServiceSchema({
+          name: "Video Production",
+          description:
+            "Crew-based video for homebuilders: community walkthroughs, lifestyle films, amenity showcases, and brand films.",
+          path: "/services/video-production",
+          serviceType: "Video Production",
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: "Solutions", path: "/services" },
+          { name: "Video Production", path: "/services/video-production" },
+        ])}
+      />
       {/* Hero */}
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">

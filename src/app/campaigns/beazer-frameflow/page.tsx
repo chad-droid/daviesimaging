@@ -6,7 +6,8 @@ import { Proof } from "@/components/lp/Proof";
 import { LPCta } from "@/components/lp/LPCta";
 
 export const metadata: Metadata = {
-  title: "Beazer x FrameFlow | Davies Imaging Group",
+  alternates: { canonical: "/campaigns/beazer-frameflow" },
+  title: "Beazer x FrameFlow",
   description: "How Beazer Homes uses FrameFlow to scale marketing assets across markets.",
 };
 

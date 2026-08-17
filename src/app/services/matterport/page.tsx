@@ -5,9 +5,12 @@ import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
+import { JsonLd } from "@/components/JsonLd";
+import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Matterport 3D Tours | Davies Imaging Group",
+  alternates: { canonical: "/services/matterport" },
+  title: "Matterport 3D Tours",
   description: "Matterport 3D virtual tours for model homes and communities. Immersive buyer experiences for out-of-market buyers.",
 };
 
@@ -33,6 +36,21 @@ const useCases = [
 export default function MatterportPage() {
   return (
     <>
+      <JsonLd
+        data={buildServiceSchema({
+          name: "Matterport 3D Tours",
+          description:
+            "Matterport 3D scanning for immersive virtual walkthroughs of model and spec homes.",
+          path: "/services/matterport",
+          serviceType: "3D Virtual Tour",
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: "Solutions", path: "/services" },
+          { name: "Matterport 3D Tours", path: "/services/matterport" },
+        ])}
+      />
       {/* Hero */}
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">

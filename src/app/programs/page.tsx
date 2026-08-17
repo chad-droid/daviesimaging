@@ -5,7 +5,8 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Programs | Davies Imaging Group",
+  alternates: { canonical: "/programs" },
+  title: "Programs",
   description: "digDesk, FrameFlow Studio, Spec+, and Regional Partnerships. How builders purchase and manage DIG services.",
 };
 

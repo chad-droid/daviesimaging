@@ -5,7 +5,8 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Services | Davies Imaging Group",
+  alternates: { canonical: "/services" },
+  title: "Services",
   description: "Photography, video, virtual staging, and 3D tours. Explore the full range of DIG services for homebuilder marketing teams.",
 };
 

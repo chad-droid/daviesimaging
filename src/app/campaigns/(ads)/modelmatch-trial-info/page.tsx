@@ -3,6 +3,7 @@ import './styles.css';
 import MMLanding from '@/components/lp/MMLanding';
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/campaigns/modelmatch-trial-info" },
   title: 'ModelMatch — Virtual Staging for Homebuilders',
   description:
     'Virtual staging for Builders, not realtors. Claim your first five free staged images. Delivered in 24 hours.',

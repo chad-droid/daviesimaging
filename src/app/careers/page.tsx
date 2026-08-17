@@ -5,7 +5,8 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Careers | Davies Imaging Group",
+  alternates: { canonical: "/careers" },
+  title: "Careers",
   description: "Join the DIG team. We're looking for listing photographers and cinematographers across our markets.",
 };
 

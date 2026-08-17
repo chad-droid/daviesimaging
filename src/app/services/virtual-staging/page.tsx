@@ -6,9 +6,12 @@ import { ModelMatchDemo } from "@/components/ModelMatchDemo";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
+import { JsonLd } from "@/components/JsonLd";
+import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Virtual Staging | Davies Imaging Group",
+  alternates: { canonical: "/services/virtual-staging" },
+  title: "Virtual Staging",
   description: "ModelMatch virtual staging uses your builder's own model home photography as the design reference. Branded, on-spec results for every listing.",
 };
 
@@ -57,6 +60,21 @@ const differentiators = [
 export default function VirtualStagingPage() {
   return (
     <>
+      <JsonLd
+        data={buildServiceSchema({
+          name: "Virtual Staging",
+          description:
+            "Reference-based virtual staging using a builder's approved model home photography as the design reference, so staged rooms match the community's actual style.",
+          path: "/services/virtual-staging",
+          serviceType: "Virtual Staging",
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: "Solutions", path: "/services" },
+          { name: "Virtual Staging", path: "/services/virtual-staging" },
+        ])}
+      />
       {/* Hero */}
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">

@@ -6,7 +6,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "How We Do It | Davies Imaging Group",
+  alternates: { canonical: "/about/how-we-do-it" },
+  title: "How We Do It",
   description: "DIG's specialization model: why the traditional solo-photographer approach breaks at scale, and how a team of specialists delivers better work, faster.",
 };
 

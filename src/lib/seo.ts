@@ -34,6 +34,72 @@ export function authorNode(author?: string) {
   return { "@type": "Person", name: author };
 }
 
+/**
+ * FAQPage schema. The answers must also be present in the rendered HTML —
+ * schema describing content a user cannot see is a structured-data violation.
+ */
+export function buildFaqSchema(items: { q: string; a: string }[], pageUrl: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: items.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  };
+}
+
+/**
+ * BreadcrumbList for a nested page. Pass the trail without the home crumb,
+ * which is prepended automatically.
+ * e.g. buildBreadcrumbSchema([{ name: "Solutions", path: "/services" },
+ *                             { name: "Premium Photography", path: "/services/premium" }])
+ */
+export function buildBreadcrumbSchema(trail: { name: string; path: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      ...trail.map((crumb, i) => ({
+        "@type": "ListItem",
+        position: i + 2,
+        name: crumb.name,
+        item: `${SITE_URL}${crumb.path}`,
+      })),
+    ],
+  };
+}
+
+/**
+ * Service schema for the seven service pages. `priceFrom` is omitted until a
+ * published starting price exists — never emit a price the page does not show.
+ */
+export function buildServiceSchema(opts: {
+  name: string;
+  description: string;
+  path: string;
+  serviceType: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${SITE_URL}${opts.path}#service`,
+    name: opts.name,
+    description: opts.description,
+    serviceType: opts.serviceType,
+    url: `${SITE_URL}${opts.path}`,
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "United States" },
+    audience: {
+      "@type": "BusinessAudience",
+      name: "Homebuilders and residential developers",
+    },
+  };
+}
+
 export const organizationSchema = {
   "@context": "https://schema.org",
   "@graph": [

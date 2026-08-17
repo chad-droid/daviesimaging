@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Shore2026 } from "./Shore2026";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/shore2026" },
   // Root layout applies the "%s | Davies Imaging Group" template, so no suffix here.
   title: "ModelMatch for Shore Summit Attendees",
   description:
