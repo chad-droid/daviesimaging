@@ -6,6 +6,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import { AdminSiteOverlay } from "@/components/AdminSiteOverlay";
+import { JsonLd } from "@/components/JsonLd";
+import { organizationSchema, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -28,7 +30,7 @@ export const metadata: Metadata = {
   },
   description:
     "DIG builds revenue-driving marketing assets designed for website conversion, sales center storytelling, paid media performance, and buyer connection.",
-  metadataBase: new URL("https://daviesimaging.com"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -52,9 +54,19 @@ export const metadata: Metadata = {
       "Photography, staging, and video designed for homebuilder marketing teams that need to sell faster.",
     images: ["https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com/site-assets/shawood-aspen-v2-8.webp"],
   },
+  // NOTE: do NOT set alternates.canonical here. Next merges metadata down into
+  // child segments, so a root canonical would make every page that does not
+  // define its own canonicalize to "/". Canonicals are set per page.
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -128,6 +140,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="min-h-full flex flex-col bg-bg-light text-text-body">
+        <JsonLd data={organizationSchema} />
         <SiteShell>{children}</SiteShell>
         <AdminSiteOverlay />
         <Analytics />

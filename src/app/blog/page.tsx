@@ -3,14 +3,31 @@ import Link from "next/link";
 import Image from "next/image";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { JsonLd } from "@/components/JsonLd";
 import { client } from "@/sanity/client";
 import { postsQuery } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
+import { SITE_URL, SITE_NAME, ORG_ID, authorNode } from "@/lib/seo";
+
+const DESCRIPTION =
+  "Insights on homebuilder marketing, visual strategy, and asset performance from the DIG team.";
 
 export const metadata: Metadata = {
-  title: "Blog | Davies Imaging Group",
-  description:
-    "Insights on homebuilder marketing, visual strategy, and asset performance from the DIG team.",
+  // absolute: the root layout's "%s | Davies Imaging Group" template would
+  // otherwise append the brand a second time.
+  title: { absolute: `Blog | ${SITE_NAME}` },
+  description: DESCRIPTION,
+  alternates: {
+    canonical: "/blog",
+    types: { "application/rss+xml": `${SITE_URL}/blog/rss.xml` },
+  },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/blog`,
+    title: `Blog | ${SITE_NAME}`,
+    description: DESCRIPTION,
+    siteName: SITE_NAME,
+  },
 };
 
 // ISR — regenerate every 60s so new Sanity posts appear on the live
@@ -52,8 +69,31 @@ function categoryLabel(value: string) {
 export default async function BlogPage() {
   const posts: Post[] = await client.fetch(postsQuery);
 
+  // Blog + blogPost list. Gives crawlers and AI retrievers the full post
+  // inventory from one page, independent of the sitemap.
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": `${SITE_URL}/blog#blog`,
+    url: `${SITE_URL}/blog`,
+    name: `${SITE_NAME} Blog`,
+    description: DESCRIPTION,
+    publisher: { "@id": ORG_ID },
+    inLanguage: "en-US",
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      "@id": `${SITE_URL}/blog/${post.slug.current}#article`,
+      url: `${SITE_URL}/blog/${post.slug.current}`,
+      headline: post.title,
+      ...(post.excerpt ? { description: post.excerpt } : {}),
+      datePublished: post.publishedAt,
+      author: authorNode(post.author),
+    })),
+  };
+
   return (
     <section className="min-h-screen bg-bg-surface py-24">
+      <JsonLd data={blogSchema} />
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="mb-16 text-center">

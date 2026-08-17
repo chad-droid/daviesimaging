@@ -5,9 +5,11 @@
 
 ## Project Overview
 
-Davies Imaging Group (DIG) is rebuilding `daviesimaging.com` from scratch as a Next.js site deployed on Vercel. This is a complete clean-slate build — nothing is carried over from the existing Webflow site structurally. All decisions, architecture, copy direction, and design patterns are documented in this file.
+Davies Imaging Group (DIG) rebuilt `daviesimaging.com` from scratch as a Next.js site deployed on Vercel. This was a complete clean-slate build — nothing was carried over from the old Webflow site structurally. All decisions, architecture, copy direction, and design patterns are documented in this file.
 
-The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stays untouched until the new site is ready. DNS moves to Vercel only when Chad explicitly approves.
+**This site is LIVE in production.** The Next.js/Vercel build serves `daviesimaging.com` today. Webflow is no longer in the picture. Changes merged to `main` deploy straight to the production site, so treat every merge as a public change.
+
+**Canonical host is `https://www.daviesimaging.com`.** The apex (`daviesimaging.com`) 307-redirects to `www` at the Vercel domain layer. Anything that emits an absolute URL must use the `www` host or it will point at a redirect. `SITE_URL` in `src/lib/seo.ts` is the single source of truth and `metadataBase` derives from it — never hardcode the domain anywhere else.
 
 **Platform:** Next.js 14+ (App Router) + Tailwind CSS + Framer Motion + Vercel
 **Builder:** Claude Code — sole implementer, no other developer involved
@@ -15,7 +17,11 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 
 ---
 
-## Current Build Status (as of April 2026)
+## Current Build Status
+
+> Most entries below were written in April 2026 and describe the state at that
+> time. Items added later carry their own date. Verify against the code before
+> relying on any specific claim here.
 
 ### Done
 - Full homepage: HeroVideo (parallax + placeholder tiles), StatsStrip (animated counters), all sections with RevealOnScroll
@@ -42,6 +48,8 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 - BuilderLogoStrip marquee — removed `loading="lazy"` to fix seam gap in looping animation
 - Sitemap — `src/app/sitemap.ts` generates `/sitemap.xml` at build time; static routes + dynamic Sanity blog posts
 - ModelMatch showcase — password-gated static app at `/modelmatch-demo` (see ModelMatch Showcase section below)
+- **DNS cutover complete** — `daviesimaging.com` serves the Next.js/Vercel build; Webflow retired
+- **SEO + AI indexing foundations (August 2026)** — robots.txt, JSON-LD structured data, per-post canonicals, `/llms.txt`, RSS feed (see SEO and AI Indexing section below)
 
 ### In Progress / Pending
 - Hero video tiles — placeholder gradients, needs real MP4 footage from DIG shoots
@@ -54,17 +62,20 @@ The live production site (`daviesimaging.com`) runs on Webflow DIG 2025 and stay
 - `ADMIN_PASSWORD` env var — set in Vercel dashboard (currently only in `.env.local`)
 
 ### Do Not Touch
-- Webflow DIG 2025 (`68596ef61365cb1c678a0e7f`) — live production at `daviesimaging.com`
-- DNS — do not move domain until Chad explicitly approves
+- `main` is production. Merging deploys to the live public site. Branch and open a PR; Chad merges.
+- Never hardcode the domain. Import `SITE_URL` from `src/lib/seo.ts`.
 
 ---
 
-## Webflow Sites (reference only — do not touch)
+## Webflow Sites (retired — historical reference only)
+
+Webflow no longer serves any DIG traffic. These sites are kept only as a
+content archive. Do not modify them and do not treat them as production.
 
 | Site | ID | Status |
 |---|---|---|
-| DIG 2025 | `68596ef61365cb1c678a0e7f` | Live production at `daviesimaging.com` — do not modify |
-| DIG 2026 (copy) | `69c2fb1c74ba5d998f92ab1c` | Abandoned — Next.js replaces this |
+| DIG 2025 | `68596ef61365cb1c678a0e7f` | Retired — was production until the Vercel cutover |
+| DIG 2026 (copy) | `69c2fb1c74ba5d998f92ab1c` | Abandoned — Next.js replaced this |
 
 ---
 
@@ -1231,7 +1242,9 @@ This is a Next.js project deployed on Vercel. There is no Webflow, no external C
 | Contact form | Custom API route + Resend + Slack + Mailchimp | `/api/contact` — all three integrations live and tested |
 | Email capture | `EmailCaptureModal` | 30-second timer, session-dismissed, Mailchimp embed |
 | Deployment | Vercel | Auto-deploy on push; `npx vercel --prod` for manual production deploy |
-| Domain | `daviesimaging.com` | Currently on Webflow DIG 2025 — swap DNS to Vercel when ready |
+| Domain | `www.daviesimaging.com` | LIVE on Vercel. Apex `daviesimaging.com` 307-redirects to `www`. Canonical host lives in `SITE_URL` (`src/lib/seo.ts`) |
+| SEO / structured data | `src/lib/seo.ts` + `JsonLd.tsx` | Organization + WebSite schema sitewide, BlogPosting + BreadcrumbList per post |
+| Crawler directives | `src/app/robots.ts`, `src/app/llms.txt/route.ts` | Generates `/robots.txt` and `/llms.txt`; AI crawlers explicitly allowed |
 | Analytics | Vercel Analytics + Speed Insights | Both installed in root layout |
 
 ### Key environment variables (all set in `.env.local` and Vercel dashboard)
@@ -1593,11 +1606,61 @@ import { DarkSectionBg } from "@/components/DarkSectionBg";
 `src/app/sitemap.ts` — Next.js App Router native sitemap. Generates `/sitemap.xml` at build time.
 
 - Static routes: all public pages with appropriate `priority` (1.0 homepage → 0.3 legal) and `changeFrequency`
-- Dynamic routes: blog post slugs fetched from Sanity at build time via `postSlugsQuery`
+- Dynamic routes: blog posts fetched from Sanity via `postSitemapQuery`, which also supplies `_updatedAt` for `<lastmod>` so edited posts get re-crawled
 - **Excluded intentionally:** `/admin/*`, `/studio/*`, `/programs/frameflow-premium` (password-protected pilot), `/campaigns/*`
-- Base URL: `https://daviesimaging.com` (hardcoded — update if domain changes)
+- Base URL: imported from `SITE_URL` in `src/lib/seo.ts` — do not hardcode
+- Regenerates hourly (`revalidate = 3600`) so new Sanity posts appear without a redeploy
 
-Submit to Google Search Console after DNS moves to Vercel.
+**When deleting a page, remove its sitemap entry in the same commit.** A sitemap
+that lists a 404 erodes crawl trust. `/careers/apply/digital-production-specialist`
+sat in the sitemap for months after the page was deleted.
+
+---
+
+### SEO and AI Indexing (August 2026)
+
+The machine-readable layer that makes the site legible to search engines and to
+AI answer engines (ChatGPT, Claude, Perplexity, Google AI Overviews).
+
+| File | Generates | Purpose |
+|---|---|---|
+| `src/lib/seo.ts` | — | Single source of truth: `SITE_URL`, `SITE_NAME`, stable `@id`s, `organizationSchema`, `authorNode()` |
+| `src/components/JsonLd.tsx` | `<script type="application/ld+json">` | Server component; escapes `<` so string fields cannot break out of the script tag |
+| `src/app/robots.ts` | `/robots.txt` | Declares the sitemap, explicitly allows AI crawlers, blocks `/admin`, `/api`, `/studio`, `/modelmatch-demo` |
+| `src/app/llms.txt/route.ts` | `/llms.txt` | Curated markdown site map per the llmstxt.org convention; blog section built from Sanity |
+| `src/app/blog/rss.xml/route.ts` | `/blog/rss.xml` | RSS 2.0 feed, 50 most recent posts |
+
+**Structured data currently emitted:**
+- `Organization` + `WebSite` — sitewide, from the root layout, under stable `@id`s
+- `BlogPosting` + `BreadcrumbList` — every blog post
+- `Blog` with full post list — blog index
+
+Other schemas reference the Organization by `@id` (`{"@id": ORG_ID}`) instead of
+duplicating it. Keep that pattern.
+
+**Rules:**
+1. **Never set `alternates.canonical` in the root layout.** Next merges metadata
+   into child segments, so a root canonical makes every page that does not define
+   its own canonicalize to `/`. Set canonicals per route.
+2. **Titles that already include the brand must use `title: { absolute: ... }`.**
+   The root layout sets `template: "%s | Davies Imaging Group"`, so a plain string
+   title containing the brand renders it twice.
+3. **Import `SITE_URL`; never hardcode the domain.** It must be the `www` host.
+4. Route handlers with dots in the segment name (`llms.txt`, `rss.xml`) work fine
+   in the App Router. The static `rss.xml` segment wins over the sibling
+   `[slug]` dynamic route.
+
+**Known gaps (not yet done):**
+- Only the blog routes set canonicals. The other ~35 routes have none.
+- Sanity `post` schema has no `seoTitle` / `seoDescription` override, `excerpt` is
+  optional despite being used as the meta description, and `coverImage` has no
+  `alt` field (falls back to the post title).
+- `author` is a plain string. `authorNode()` already routes company names to the
+  Organization and anything else to a `Person`, so named authors only need the
+  schema change.
+- Blog posts have no outbound internal links into `/services/*` or `/programs/*`.
+- Vercel Bot Management can block AI crawlers at the edge regardless of
+  robots.txt. Verify in the Vercel project settings.
 
 ---
 
@@ -1742,7 +1805,8 @@ All 24 blog posts were migrated from the Webflow DIG 2025 CMS (collection ID `69
 - **No em dashes** anywhere in copy or UI text. Use commas, colons, or line breaks instead.
 - **No SAG talent agencies** for any lifestyle shoot casting (cost constraint).
 - Primary CTAs always point to: `Book a Strategy Call` or `Start the FrameFlow Challenge`.
-- The live `daviesimaging.com` domain is on Webflow DIG 2025 — do not touch that site. DNS moves to Vercel only when Chad explicitly approves.
+- `daviesimaging.com` is LIVE on Vercel. Merging to `main` publishes to the public site. Webflow is retired.
+- Canonical host is `https://www.daviesimaging.com` (the apex 307-redirects to it). Import `SITE_URL` from `src/lib/seo.ts` rather than writing the domain by hand.
 - FrameFlow Premium page (`/offerings/frameflow-premium`) is built but password-protected via Next.js middleware until the pilot concludes.
 - Virtual Video is also the listing video solution. DIG does NOT create listing video with real cameras. Do not refer to a separate "listing video" service anywhere on the site.
 - Blog content lives in Sanity CMS (see Blog/CMS section below). Nicole can create and edit posts at `/studio` or `dig-blog.sanity.studio` without touching code.
