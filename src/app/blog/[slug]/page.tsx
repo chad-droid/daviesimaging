@@ -10,7 +10,7 @@ import { client } from "@/sanity/client";
 import { postBySlugQuery, postSlugsQuery } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
 import { portableTextComponents } from "@/components/PortableTextComponents";
-import { SITE_URL, SITE_NAME, ORG_ID, authorNode } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, BLOG_NAME, ORG_ID, authorNode } from "@/lib/seo";
 
 interface Post {
   _id: string;
@@ -89,7 +89,7 @@ export async function generateMetadata({
   return {
     // absolute: the root layout's "%s | Davies Imaging Group" template would
     // otherwise append the brand a second time.
-    title: { absolute: `${post.title} | ${SITE_NAME}` },
+    title: { absolute: `${post.title} | ${BLOG_NAME}` },
     description,
     alternates: { canonical: `/blog/${slug}` },
     authors: post.author ? [{ name: post.author }] : undefined,
@@ -176,7 +176,7 @@ export default async function BlogPostPage({
       {
         "@type": "ListItem",
         position: 2,
-        name: "Blog",
+        name: "Builder Photo Blog",
         item: `${SITE_URL}/blog`,
       },
       { "@type": "ListItem", position: 3, name: post.title, item: url },
@@ -193,7 +193,7 @@ export default async function BlogPostPage({
             href="/blog"
             className="mb-8 inline-block text-sm font-semibold uppercase tracking-wider text-accent hover:text-accent-hover"
           >
-            &larr; Back to Blog
+            &larr; Back to Builder Photo Blog
           </Link>
 
           {post.category && (

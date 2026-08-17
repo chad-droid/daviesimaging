@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "DIG Blog Studio",
+  title: "Builder Photo Blog Studio",
 };
 
 export default function StudioLayout({
