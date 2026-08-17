@@ -4,7 +4,10 @@
 // so every other schema on the site (BlogPosting.publisher, breadcrumbs) can
 // reference it by @id instead of duplicating the whole object.
 
-export const SITE_URL = "https://daviesimaging.com";
+// Canonical host is www. The apex (daviesimaging.com) 307-redirects to it at
+// the Vercel domain layer, so canonicals, JSON-LD @ids, and sitemap entries
+// must use www or they all point at a redirect.
+export const SITE_URL = "https://www.daviesimaging.com";
 export const SITE_NAME = "Davies Imaging Group";
 
 export const ORG_ID = `${SITE_URL}/#organization`;

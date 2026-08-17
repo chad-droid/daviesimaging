@@ -7,7 +7,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import { AdminSiteOverlay } from "@/components/AdminSiteOverlay";
 import { JsonLd } from "@/components/JsonLd";
-import { organizationSchema } from "@/lib/seo";
+import { organizationSchema, SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   description:
     "DIG builds revenue-driving marketing assets designed for website conversion, sales center storytelling, paid media performance, and buyer connection.",
-  metadataBase: new URL("https://daviesimaging.com"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
     locale: "en_US",
