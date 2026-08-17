@@ -7,7 +7,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Amenities | Davies Imaging Group",
+  alternates: { canonical: "/gallery/amenities" },
+  title: "Amenities",
   description: "Community amenity photography that showcases pools, clubhouses, trails, and lifestyle spaces builders invest in.",
 };
 

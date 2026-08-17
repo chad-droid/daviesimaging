@@ -4,7 +4,8 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 
 export const metadata: Metadata = {
-  title: "Campaigns | Davies Imaging Group",
+  alternates: { canonical: "/campaigns" },
+  title: "Campaigns",
   description: "Active DIG campaigns, challenges, and demos for builder marketing teams.",
 };
 

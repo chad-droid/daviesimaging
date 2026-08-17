@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { DataLibrary } from "./DataLibrary";
 
 export const metadata: Metadata = {
-  title: "ModelMatch Data Library | Davies Imaging Group",
+  alternates: { canonical: "/modelmatch-datalibrary" },
+  title: "ModelMatch Data Library",
   description:
     "Real ModelMatch listings: how long each home sat unstaged, and how fast it found a buyer after staging. Verified MLS timelines with staged before-and-afters.",
   // Test build — not for indexing yet.

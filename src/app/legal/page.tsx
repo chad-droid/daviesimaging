@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Legal | Davies Imaging Group",
+  alternates: { canonical: "/legal" },
+  title: "Legal",
   description: "Terms of Service and portal agreement for Davies Imaging Group and the digDesk client portal.",
 };
 

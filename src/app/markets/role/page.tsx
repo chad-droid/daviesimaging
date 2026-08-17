@@ -6,7 +6,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Markets by Role | Davies Imaging Group",
+  alternates: { canonical: "/markets/role" },
+  title: "Markets by Role",
   description: "DIG serves marketing coordinators, directors, executives, and C-suite leaders at homebuilders. Find the page built for your role.",
 };
 

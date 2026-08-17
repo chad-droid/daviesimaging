@@ -7,7 +7,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Regional Partnerships | Davies Imaging Group",
+  alternates: { canonical: "/programs/regional-partnerships" },
+  title: "Regional Partnerships",
   description: "One visual partner across every market. Volume pricing, brand consistency, and digDesk ordering for national and regional builders.",
 };
 

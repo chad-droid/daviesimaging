@@ -7,7 +7,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "digDesk | Davies Imaging Group",
+  alternates: { canonical: "/programs/digdesk" },
+  title: "digDesk",
   description: "digDesk is the DIG client portal. Order every service, track every job, and manage every asset from a single dashboard.",
 };
 

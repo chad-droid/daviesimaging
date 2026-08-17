@@ -100,7 +100,11 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       {/* Header + filters — contained */}
       {(heading || hasData) && (
         <div className="mx-auto max-w-7xl px-6 text-center">
-          {heading && <h1>{heading}</h1>}
+          {/*
+            h2, not h1: this is a section heading inside a page that already
+            has an h1 in its hero. /gallery was shipping two h1s because of it.
+          */}
+          {heading && <h2>{heading}</h2>}
           {description && (
             <p className="mx-auto mt-4 max-w-2xl text-text-body">{description}</p>
           )}

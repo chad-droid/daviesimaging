@@ -7,7 +7,8 @@ import { Proof } from "@/components/lp/Proof";
 import { LPCta } from "@/components/lp/LPCta";
 
 export const metadata: Metadata = {
-  title: "For Executives | Davies Imaging Group",
+  alternates: { canonical: "/markets/role/executive" },
+  title: "For Executives",
   description: "DIG delivers regional coverage, vendor consolidation, and scalable asset partnerships for VP-level leaders.",
 };
 

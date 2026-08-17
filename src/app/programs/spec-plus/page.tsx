@@ -8,7 +8,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Spec+ | Davies Imaging Group",
+  alternates: { canonical: "/programs/spec-plus" },
+  title: "Spec+",
   description: "The complete spec home asset package: 25 listing photos, 8 virtually staged images, and 1 virtual video. $600 flat, 72-hour delivery via digDesk.",
 };
 

@@ -6,7 +6,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "About Us | Davies Imaging Group",
+  alternates: { canonical: "/about" },
+  title: "About Us",
   description:
     "Davies Imaging Group was built inside the homebuilding industry. We think like marketers, sales leaders, and partners.",
 };

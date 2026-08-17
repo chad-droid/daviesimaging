@@ -7,7 +7,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "Spec Homes | Davies Imaging Group",
+  alternates: { canonical: "/gallery/listings" },
+  title: "Spec Homes",
   description: "Fast-turn photography, virtual staging, and virtual video for spec homes and standing inventory. Built to move homes faster.",
 };
 

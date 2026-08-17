@@ -16,7 +16,8 @@ import type { Metadata } from "next";
 // prominent "Open the full report" action that uses the native PDF viewer.
 
 export const metadata: Metadata = {
-  title: "Sales Cycle Shrinkage | Davies Imaging Group",
+  alternates: { canonical: "/campaigns/sales-cycle-shrinkage" },
+  title: "Sales Cycle Shrinkage",
   description:
     "The Sales Cycle Shrinkage report from Davies Imaging Group: how homebuilders move standing inventory faster with ModelMatch.",
   robots: { index: false, follow: false },

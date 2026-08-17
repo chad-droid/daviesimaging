@@ -7,7 +7,8 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "FrameFlow | Davies Imaging Group",
+  alternates: { canonical: "/programs/frameflow" },
+  title: "FrameFlow",
   description: "FrameFlow Studio is the digital production module inside digDesk. Order virtual staging and virtual video without a shoot.",
 };
 

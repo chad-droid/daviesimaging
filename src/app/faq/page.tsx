@@ -3,11 +3,16 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { SpecFaq } from "@/components/SpecFaq";
+import { specFaqs } from "@/lib/faq-data";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE_URL, SITE_NAME, buildFaqSchema, buildBreadcrumbSchema } from "@/lib/seo";
 import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
-  title: "FAQ | Davies Imaging Group",
-  description: "Answers to common questions about Spec+, virtual staging, virtual video, delivery, and how DIG works.",
+  title: { absolute: `Builder Photography FAQ | ${SITE_NAME}` },
+  description:
+    "What Spec+ includes, how ModelMatch virtual staging works, delivery times, revisions, and the 28 markets DIG covers.",
+  alternates: { canonical: "/faq" },
 };
 
 const categories = [
@@ -20,6 +25,9 @@ const categories = [
 export default function FaqPage() {
   return (
     <>
+      <JsonLd data={buildFaqSchema(specFaqs, `${SITE_URL}/faq`)} />
+      <JsonLd data={buildBreadcrumbSchema([{ name: "FAQ", path: "/faq" }])} />
+
       {/* Hero */}
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">

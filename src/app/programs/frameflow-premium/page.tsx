@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { EditableSection } from "@/components/EditableSection";
 
 export const metadata: Metadata = {
-  title: "FrameFlow Premium | Davies Imaging Group",
+  alternates: { canonical: "/programs/frameflow-premium" },
+  title: "FrameFlow Premium",
   description: "Higher-cost, more specific digital work. Pilot program.",
   robots: { index: false, follow: false },
 };

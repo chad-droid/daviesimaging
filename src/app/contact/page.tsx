@@ -78,20 +78,30 @@ const options = [
   },
 ];
 
-function ContactContent() {
+/**
+ * Reads ?intent= and lifts it into ContactContent's state.
+ *
+ * useSearchParams() opts its whole subtree out of server rendering. When
+ * ContactContent called it directly, the entire page — H1, intro copy, and all
+ * five intent options — was missing from the served HTML, so crawlers that do
+ * not execute JavaScript saw an empty page. Isolating the hook in this
+ * null-rendering child keeps everything else server-rendered.
+ */
+function IntentParam({ onIntent }: { onIntent: (intent: string) => void }) {
   const searchParams = useSearchParams();
   const intentParam = searchParams.get("intent");
+  useEffect(() => {
+    if (intentParam) onIntent(intentParam);
+  }, [intentParam, onIntent]);
+  return null;
+}
 
-  const [selected, setSelected] = useState<string | null>(intentParam ?? null);
+function ContactContent() {
+  const [selected, setSelected] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { HoneypotField, getSpamFields } = useSpamGuard();
-
-  // If intent=demo pre-selected from URL, scroll past option list
-  useEffect(() => {
-    if (intentParam) setSelected(intentParam);
-  }, [intentParam]);
 
   if (submitted) {
     return (
@@ -144,6 +154,9 @@ function ContactContent() {
 
   return (
     <section className="min-h-screen bg-bg-surface py-24">
+      <Suspense fallback={null}>
+        <IntentParam onIntent={setSelected} />
+      </Suspense>
       <div className="mx-auto max-w-2xl px-6">
 
         {/* Step 1: Choose */}
@@ -371,9 +384,5 @@ function ContactContent() {
 }
 
 export default function ContactPage() {
-  return (
-    <Suspense>
-      <ContactContent />
-    </Suspense>
-  );
+  return <ContactContent />;
 }

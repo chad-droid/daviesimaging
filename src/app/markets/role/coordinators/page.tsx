@@ -7,7 +7,8 @@ import { Proof } from "@/components/lp/Proof";
 import { LPCta } from "@/components/lp/LPCta";
 
 export const metadata: Metadata = {
-  title: "For Coordinators | Davies Imaging Group",
+  alternates: { canonical: "/markets/role/coordinators" },
+  title: "For Coordinators",
   description: "DIG and digDesk make scheduling, ordering, and asset management faster for marketing coordinators.",
 };
 

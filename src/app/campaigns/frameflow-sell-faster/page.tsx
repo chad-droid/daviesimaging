@@ -7,7 +7,8 @@ import { Proof } from "@/components/lp/Proof";
 import { LPCta } from "@/components/lp/LPCta";
 
 export const metadata: Metadata = {
-  title: "FrameFlow Sell Faster Challenge | Davies Imaging Group",
+  alternates: { canonical: "/campaigns/frameflow-sell-faster" },
+  title: "FrameFlow Sell Faster Challenge",
   description:
     "See how strategic visual sequencing can increase engagement and drive faster buyer decisions. Risk-free.",
 };

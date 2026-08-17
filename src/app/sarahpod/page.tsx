@@ -7,7 +7,8 @@ import { ModelMatchDemo } from "@/components/ModelMatchDemo";
 import { BuilderLogoStrip } from "@/components/BuilderLogoStrip";
 
 export const metadata: Metadata = {
-  title: "ModelMatch for Just Make It Pretty Listeners | Davies Imaging Group",
+  alternates: { canonical: "/sarahpod" },
+  title: "ModelMatch for Just Make It Pretty Listeners",
   description:
     "Branded virtual staging, built for homebuilders. If you heard Chad Davies on Just Make It Pretty with Sarah Haynes, start here.",
   robots: { index: false, follow: false },
