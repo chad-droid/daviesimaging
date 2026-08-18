@@ -97,12 +97,10 @@ export default async function BlogPage() {
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="mb-16 text-center">
-            <Eyebrow>Builder Photo Blog</Eyebrow>
-            <h1>
-              Insights for builder marketing <strong>teams</strong>.
-            </h1>
+            <Eyebrow>Insights for Builder Marketing Teams</Eyebrow>
+            <h1>Builder Photo Blog</h1>
             <p className="mt-5 text-text-body">
-              Photography, strategy, and case studies for homebuilder marketing teams. Also reachable at builderphoto.com.
+              Photography, virtual staging, and marketing strategy from the DIG team. Also reachable at builderphoto.com.
             </p>
           </div>
         </RevealOnScroll>
