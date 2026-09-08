@@ -10,7 +10,7 @@ import { urlFor } from "@/sanity/image";
 import { SITE_URL, SITE_NAME, BLOG_NAME, ORG_ID, authorNode } from "@/lib/seo";
 
 const DESCRIPTION =
-  "The Builder Photo Blog: photography, virtual staging, and marketing strategy for homebuilder teams, from the DIG team.";
+  "Photography, virtual staging, and marketing strategy for homebuilder marketing teams, from Chad Davies and the team at DIG.";
 
 export const metadata: Metadata = {
   // absolute: the root layout's "%s | Davies Imaging Group" template would
@@ -97,10 +97,10 @@ export default async function BlogPage() {
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="mb-16 text-center">
-            <Eyebrow>Insights for Builder Marketing Teams</Eyebrow>
+            <Eyebrow>Insights for Homebuilder Marketing Teams</Eyebrow>
             <h1>Builder Photo Blog</h1>
             <p className="mt-5 text-text-body">
-              Photography, virtual staging, and marketing strategy from the DIG team. Also reachable at builderphoto.com.
+              Photography, virtual staging, and marketing strategy from Chad Davies and the team at DIG.
             </p>
           </div>
         </RevealOnScroll>
