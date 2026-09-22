@@ -70,7 +70,7 @@ export default function MatterportPage() {
               </Link>
               <Link
                 href="/gallery/models"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 See model home work &rarr;
               </Link>
@@ -194,7 +194,7 @@ export default function MatterportPage() {
               </Link>
               <Link
                 href="/services/virtual-video"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 Need listing video instead? &rarr;
               </Link>

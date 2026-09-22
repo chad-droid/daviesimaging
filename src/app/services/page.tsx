@@ -97,7 +97,7 @@ export default function ServicesIndex() {
           <RevealOnScroll>
             <Eyebrow dark>Services</Eyebrow>
             <h1 className="text-text-light">How DIG does the <strong>work</strong>.</h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+            <p className="mx-auto mt-5 max-w-xl text-lg text-white/60">
               Seven services across photography, video, and digital production. Each one built for homebuilder marketing teams that need results, not just assets.
             </p>
           </RevealOnScroll>
@@ -165,7 +165,7 @@ export default function ServicesIndex() {
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 text-center lg:p-12">
               <Eyebrow dark>Scale</Eyebrow>
               <h2 className="mt-2 text-text-light">Building across multiple <strong>markets</strong>?</h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-muted">
+              <p className="mx-auto mt-4 max-w-xl text-white/60">
                 DIG&apos;s Regional Partnerships program offers volume pricing, dedicated capacity, and one point of contact across all four U.S. regions. Built for builders doing 300 or more homes annually.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -177,7 +177,7 @@ export default function ServicesIndex() {
                 </Link>
                 <Link
                   href="/contact"
-                  className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                  className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
                 >
                   Book a strategy call &rarr;
                 </Link>

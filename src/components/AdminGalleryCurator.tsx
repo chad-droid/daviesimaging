@@ -70,7 +70,7 @@ export function AdminGalleryCurator({ dealId, dealName, pageSlug, onClose }: Cur
         <div className="flex items-center justify-between border-b border-[#2C2C2C] px-6 py-4">
           <div>
             <p className="text-sm font-semibold text-[#F5F5F5]">Curate Gallery: {dealName}</p>
-            <p className="text-xs text-text-muted">
+            <p className="text-xs text-white/60">
               {visibleCount} of {files.length} images visible | Page: {pageSlug}
             </p>
           </div>
@@ -92,7 +92,7 @@ export function AdminGalleryCurator({ dealId, dealName, pageSlug, onClose }: Cur
 
         {/* Instructions */}
         <div className="border-b border-[#2C2C2C] bg-[#121212] px-6 py-3">
-          <p className="text-xs text-text-muted">
+          <p className="text-xs text-white/60">
             <span className="text-[#6A5ACD]">Click star</span> to set cover image (shown on gallery page).{" "}
             <span className="text-[#E57373]">Click eye</span> to hide/show images from the gallery.
           </p>
