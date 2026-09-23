@@ -9,8 +9,8 @@ interface ShowcaseSectionHeaderProps {
   headlineDefault: string;
   /** Opening sentence. */
   leadDefault: string;
-  /** Closing detail. */
-  tailDefault: string;
+  /** Closing detail. Omit where a section only carries the one sentence. */
+  tailDefault?: string;
   /** Use on dark backgrounds */
   dark?: boolean;
 }
@@ -57,7 +57,9 @@ export function ShowcaseSectionHeader({
     { key: "eyebrow", label: "Category", type: "text" as const, defaultValue: eyebrowDefault },
     { key: "headline", label: "Headline", type: "text" as const, defaultValue: headlineDefault },
     { key: "lead", label: "Lead sentence", type: "textarea" as const, defaultValue: leadDefault },
-    { key: "tail", label: "Detail sentence", type: "textarea" as const, defaultValue: tailDefault },
+    ...(tailDefault !== undefined
+      ? [{ key: "tail", label: "Detail sentence", type: "textarea" as const, defaultValue: tailDefault }]
+      : []),
   ];
 
   // Unchanged from the single-size body this replaces. Only sizes move.

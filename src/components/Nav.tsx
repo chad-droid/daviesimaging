@@ -26,6 +26,7 @@ const navGroups: NavGroup[] = [
     basePath: "/services",
     items: [
       { label: "Spec+", href: "/programs/spec-plus", description: "Photography, staging, and video, $600 flat" },
+      { label: "Showcase", href: "/services/showcase", description: "PlanMatch, Moments and Cinematic" },
       { label: "Premium Photography", href: "/services/premium", description: "Full-service model home and lifestyle shoots" },
       { label: "Virtual Staging", href: "/services/virtual-staging", description: "ModelMatch virtual staging for homebuilders" },
       { label: "Virtual Video", href: "/services/virtual-video", description: "FrameFlow videos built from existing photos" },

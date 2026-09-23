@@ -32,9 +32,9 @@ const PLANMATCH_CLIPS = [
  * a wide frame misses. 821 Oleander.
  */
 const MOMENTS_PAIRS = [
-  { key: "a", label: "Moments 01", alt: "Playroom at 821 Oleander, wide frame and the embroidered detail within it" },
-  { key: "b", label: "Moments 02", alt: "Second room at 821 Oleander, wide frame and its detail" },
-  { key: "c", label: "Moments 03", alt: "Third room at 821 Oleander, wide frame and its detail" },
+  { key: "a", alt: "Playroom at 821 Oleander, wide frame and the embroidered detail within it" },
+  { key: "b", alt: "Bedroom at 821 Oleander, wide frame and its framed detail" },
+  { key: "c", alt: "Kitchen at 821 Oleander, wide frame and its counter detail" },
 ];
 
 /**
@@ -55,7 +55,7 @@ const SERVICES = [
     name: "Moments",
     serviceType: "Video Production",
     description:
-      "Short silent vignettes of a finished space, cut for listing pages, paid social and email. Five per home, vertical and horizontal.",
+      "Detailed close ups of a finished space, perfect for listing pages, paid social and email.",
   },
   {
     slug: "cinematic",
@@ -87,28 +87,15 @@ function FeatureFrame({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Small example card: media, then the name with its mode underneath. White on
- * the border-light hairline, so the sections separate without borders.
+ * Example card: the frames alone, no caption bar. The work carries the section.
  *
- * The media box is 3/2, matching the source frames, so nothing is cropped.
+ * The box is 3/2, matching the source frames, so nothing is cropped.
  */
-function ExampleCard({
-  label,
-  caption,
-  children,
-}: {
-  label: string;
-  caption: string;
-  children: React.ReactNode;
-}) {
+function ExampleCard({ children }: { children: React.ReactNode }) {
   return (
-    <figure className="overflow-hidden rounded-xl border border-border-light bg-bg-surface">
-      <div className="relative aspect-3/2 w-full bg-bg-light">{children}</div>
-      <figcaption className="px-4 py-3">
-        <p className="text-sm font-semibold text-text-dark">{label}</p>
-        <p className="mt-0.5 text-xs text-text-muted">{caption}</p>
-      </figcaption>
-    </figure>
+    <div className="relative aspect-3/2 w-full overflow-hidden rounded-xl border border-border-light bg-bg-light">
+      {children}
+    </div>
   );
 }
 
@@ -199,15 +186,14 @@ export default function ShowcasePage() {
                 slotId="services-showcase-moments"
                 eyebrowDefault="Moments"
                 headlineDefault="The details a wide listing shot <strong>misses</strong>."
-                leadDefault="Short vignettes of a finished space, silent by design, cut for listing pages, paid social and email."
-                tailDefault="Five per home, vertical and horizontal."
+                leadDefault="Detailed close ups of a finished space, perfect for listing pages, paid social and email."
               />
             </div>
           </RevealOnScroll>
           <RevealOnScroll>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {MOMENTS_PAIRS.map((pair) => (
-                <ExampleCard key={pair.key} label={pair.label} caption="Silent loop">
+                <ExampleCard key={pair.key}>
                   <CrossfadePair
                     first={`/showcase/moments-${pair.key}-1.webp`}
                     second={`/showcase/moments-${pair.key}-2.webp`}
