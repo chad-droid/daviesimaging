@@ -51,6 +51,7 @@
   --color-text-body: var(--text-body);
   --color-text-light: var(--text-light);
   --color-text-muted: var(--text-muted);
+  --color-text-light-muted: var(--text-light-muted);
 
   --color-border-light: var(--border-light);
   --color-border-dark: var(--border-dark);

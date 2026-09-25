@@ -86,7 +86,7 @@ export default function DigDeskPage() {
                 href="https://desk.daviesimaging.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 Already a client? Log in &rarr;
               </a>
@@ -226,7 +226,7 @@ export default function DigDeskPage() {
                 <div key={m.number} className="rounded-xl border border-white/10 bg-white/5 p-6">
                   <span className="font-mono text-2xl font-bold text-accent/50">{m.number}</span>
                   <h4 className="mt-3 text-base font-semibold text-text-light">{m.title}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-text-muted">{m.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">{m.body}</p>
                   <Link
                     href={m.href}
                     className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent transition-colors hover:underline"
@@ -341,7 +341,7 @@ export default function DigDeskPage() {
               </Link>
               <Link
                 href="/programs/frameflow"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 Explore FrameFlow Studio &rarr;
               </Link>

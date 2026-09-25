@@ -22,7 +22,7 @@ export function LPHero({
       <div className="mx-auto max-w-4xl px-6">
         {eyebrow && <Eyebrow dark>{eyebrow}</Eyebrow>}
         <h1 className="text-text-light">{headline}</h1>
-        <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+        <p className="mt-6 max-w-2xl text-xl leading-relaxed text-white/60">
           {subheadline}
         </p>
         <div className="mt-10 flex flex-col gap-4 sm:flex-row">

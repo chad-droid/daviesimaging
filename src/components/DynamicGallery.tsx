@@ -193,7 +193,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
                 <span className="text-sm font-semibold text-text-light leading-snug">
                   {cover.project}
                 </span>
-                <span className="mt-0.5 text-xs text-text-muted">
+                <span className="mt-0.5 text-xs text-white/60">
                   {cover.builder} | {cover.city}{cover.state ? `, ${cover.state}` : ""}
                 </span>
               </div>
