@@ -5,7 +5,7 @@ import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { ShowcaseSectionHeader } from "@/components/ShowcaseSectionHeader";
 import { SequentialVideo } from "@/components/SequentialVideo";
-import { CrossfadePair } from "@/components/CrossfadePair";
+import { MomentsStrip } from "@/components/MomentsStrip";
 import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_URL, buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
@@ -79,24 +79,18 @@ function AskButton() {
   );
 }
 
+/**
+ * Shared two-column grid for PlanMatch, Moments and Cinematic. The min height
+ * clears the tallest text column at every desktop size, so copy length never
+ * makes one section taller than the others.
+ */
+const SHOWCASE_GRID =
+  "grid gap-10 lg:min-h-[19.5rem] lg:grid-cols-2 lg:items-center lg:gap-16";
+
 /** The single large frame used by PlanMatch and Cinematic. No caption bar. */
 function FeatureFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-border-light bg-bg-light">
-      {children}
-    </div>
-  );
-}
-
-/**
- * Example card: the frames alone, no caption bar. The work carries the section.
- *
- * The box is 9/16, matching the vertical frames builders post to social.
- * Moments are vertical only, so nothing is cropped.
- */
-function ExampleCard({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative aspect-9/16 w-full overflow-hidden rounded-xl border border-border-light bg-bg-light">
       {children}
     </div>
   );
@@ -158,7 +152,7 @@ export default function ShowcasePage() {
       <section className="bg-bg-surface py-24">
         <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div className={SHOWCASE_GRID}>
               <div>
                 <ShowcaseSectionHeader
                   slotId="services-showcase-planmatch"
@@ -180,36 +174,23 @@ export default function ShowcasePage() {
         </div>
       </section>
 
-      {/* Moments — cream. Stacked header, three examples, then the ask. */}
+      {/* Moments — cream. Text left, a row of verticals right in the same
+          16:9 footprint as the films, so the three sections match in height. */}
       <section className="bg-bg-light py-24">
         <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="max-w-3xl">
-              <ShowcaseSectionHeader
-                slotId="services-showcase-moments"
-                eyebrowDefault="Moments"
-                headlineDefault="The details a wide listing shot <strong>misses</strong>."
-                leadDefault="Vertical close ups of what is built into the home: cabinetry, stone, fixtures and appliances. Made for social."
-              />
+            <div className={SHOWCASE_GRID}>
+              <div>
+                <ShowcaseSectionHeader
+                  slotId="services-showcase-moments"
+                  eyebrowDefault="Moments"
+                  headlineDefault="The details a wide listing shot <strong>misses</strong>."
+                  leadDefault="Vertical close ups of what is built into the home: cabinetry, stone, fixtures and appliances. Made for social."
+                />
+                <AskButton />
+              </div>
+              <MomentsStrip pairs={MOMENTS_PAIRS} />
             </div>
-          </RevealOnScroll>
-          <RevealOnScroll>
-            {/* Five verticals: a swipeable row below lg, one row of five from lg up. */}
-            <div className="-mx-6 mt-12 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0 lg:pb-0">
-              {MOMENTS_PAIRS.map((pair) => (
-                <div key={pair.key} className="w-[62%] shrink-0 snap-start sm:w-[30%] lg:w-auto">
-                  <ExampleCard>
-                    <CrossfadePair
-                      first={`/showcase/moments-${pair.key}-1.webp`}
-                      second={`/showcase/moments-${pair.key}-2.webp`}
-                      alt={pair.alt}
-                      sizes="(max-width: 640px) 62vw, (max-width: 1024px) 30vw, 220px"
-                    />
-                  </ExampleCard>
-                </div>
-              ))}
-            </div>
-            <AskButton />
           </RevealOnScroll>
         </div>
       </section>
@@ -218,7 +199,7 @@ export default function ShowcasePage() {
       <section className="bg-bg-surface py-24">
         <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div className={SHOWCASE_GRID}>
               {/* Text leads on mobile, sits right of the film from lg up. */}
               <div className="order-2 lg:order-1">
                 <FeatureFrame>
