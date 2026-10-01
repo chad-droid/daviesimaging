@@ -81,10 +81,10 @@ function AskButton() {
 
 /**
  * PlanMatch, Moments and Cinematic share one desktop height. Moments sets it:
- * a stacked header over five vertical cards runs about 53rem, so the two film
+ * a stacked header over five vertical cards runs about 50rem, so the two film
  * sections give their film the wider column and center in the same box.
  */
-const SHOWCASE_SECTION = "lg:flex lg:min-h-[54rem] lg:flex-col lg:justify-center";
+const SHOWCASE_SECTION = "lg:flex lg:min-h-[51rem] lg:flex-col lg:justify-center";
 
 /** The single large frame used by PlanMatch and Cinematic. No caption bar. */
 function FeatureFrame({ children }: { children: React.ReactNode }) {
@@ -202,7 +202,7 @@ export default function ShowcasePage() {
           </RevealOnScroll>
           <RevealOnScroll>
             {/* Five verticals: a swipeable row below lg, one row of five from lg up. */}
-            <div className="-mx-6 mt-12 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0 lg:pb-0">
+            <div className="-mx-6 mt-12 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 lg:mx-0 lg:grid lg:max-w-[60rem] lg:grid-cols-5 lg:overflow-visible lg:px-0 lg:pb-0">
               {MOMENTS_PAIRS.map((pair) => (
                 <div key={pair.key} className="w-[62%] shrink-0 snap-start sm:w-[30%] lg:w-auto">
                   <ExampleCard>
