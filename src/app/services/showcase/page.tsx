@@ -32,9 +32,11 @@ const PLANMATCH_CLIPS = [
  * a wide frame misses. 821 Oleander.
  */
 const MOMENTS_PAIRS = [
-  { key: "a", alt: "Kitchen at 13377 Shinnecock Dr, wide frame and its range hood and marble backsplash" },
-  { key: "b", alt: "Kitchen at 13377 Shinnecock Dr, wide frame and its island faucet, sink and stone countertop" },
-  { key: "c", alt: "Kitchen at 13377 Shinnecock Dr, wide frame and its built-in refrigerator, wall ovens and cabinetry" },
+  { key: "hood", alt: "Kitchen at 821 Oleander, wide frame and its stainless hood, walnut cabinets and herringbone backsplash" },
+  { key: "faucet", alt: "Kitchen at 13377 Shinnecock Dr, wide frame and its faucet, sink and stone counter at the window" },
+  { key: "fridge", alt: "Kitchen at 13377 Shinnecock Dr, wide frame and its built-in refrigerator, wall ovens and cabinetry" },
+  { key: "fireplace", alt: "Living room at 821 Oleander, wide frame and its stacked stone fireplace and mantel" },
+  { key: "bath", alt: "Primary suite at 821 Oleander, wide frame and its freestanding tub through the double doors" },
 ];
 
 /**
@@ -94,7 +96,7 @@ function FeatureFrame({ children }: { children: React.ReactNode }) {
  */
 function ExampleCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative mx-auto aspect-9/16 w-full max-w-sm overflow-hidden rounded-xl border border-border-light bg-bg-light">
+    <div className="relative aspect-9/16 w-full overflow-hidden rounded-xl border border-border-light bg-bg-light">
       {children}
     </div>
   );
@@ -192,15 +194,19 @@ export default function ShowcasePage() {
             </div>
           </RevealOnScroll>
           <RevealOnScroll>
-            <div className="mt-12 grid gap-6 sm:grid-cols-3">
+            {/* Five verticals: a swipeable row below lg, one row of five from lg up. */}
+            <div className="-mx-6 mt-12 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0 lg:pb-0">
               {MOMENTS_PAIRS.map((pair) => (
-                <ExampleCard key={pair.key}>
-                  <CrossfadePair
-                    first={`/showcase/moments-vertical-${pair.key}-1.webp`}
-                    second={`/showcase/moments-vertical-${pair.key}-2.webp`}
-                    alt={pair.alt}
-                  />
-                </ExampleCard>
+                <div key={pair.key} className="w-[62%] shrink-0 snap-start sm:w-[30%] lg:w-auto">
+                  <ExampleCard>
+                    <CrossfadePair
+                      first={`/showcase/moments-${pair.key}-1.webp`}
+                      second={`/showcase/moments-${pair.key}-2.webp`}
+                      alt={pair.alt}
+                      sizes="(max-width: 640px) 62vw, (max-width: 1024px) 30vw, 220px"
+                    />
+                  </ExampleCard>
+                </div>
               ))}
             </div>
             <AskButton />
