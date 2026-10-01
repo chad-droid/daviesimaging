@@ -119,7 +119,7 @@ export function ShowcaseSectionHeader({
           );
         }
         return (
-          <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
+          <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-16">
             <div>{title}</div>
             <div>{body}</div>
           </div>
