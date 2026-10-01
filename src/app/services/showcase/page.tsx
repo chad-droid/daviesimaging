@@ -32,9 +32,9 @@ const PLANMATCH_CLIPS = [
  * a wide frame misses. 821 Oleander.
  */
 const MOMENTS_PAIRS = [
-  { key: "a", alt: "Great room at 13377 Shinnecock Dr, wide frame and the kitchen faucet detail within it" },
-  { key: "b", alt: "Great room at 13377 Shinnecock Dr, wide frame and its wet bar detail" },
-  { key: "c", alt: "Rear exterior at 13377 Shinnecock Dr, wide frame and its covered lanai at sunset" },
+  { key: "a", alt: "Kitchen at 13377 Shinnecock Dr, wide frame and its range hood and marble backsplash" },
+  { key: "b", alt: "Kitchen at 13377 Shinnecock Dr, wide frame and its island faucet, sink and stone countertop" },
+  { key: "c", alt: "Kitchen at 13377 Shinnecock Dr, wide frame and its built-in refrigerator, wall ovens and cabinetry" },
 ];
 
 /**
@@ -89,11 +89,12 @@ function FeatureFrame({ children }: { children: React.ReactNode }) {
 /**
  * Example card: the frames alone, no caption bar. The work carries the section.
  *
- * The box is 3/2, matching the source frames, so nothing is cropped.
+ * The box is 9/16, matching the vertical frames builders post to social.
+ * Moments are vertical only, so nothing is cropped.
  */
 function ExampleCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative aspect-3/2 w-full overflow-hidden rounded-xl border border-border-light bg-bg-light">
+    <div className="relative mx-auto aspect-9/16 w-full max-w-sm overflow-hidden rounded-xl border border-border-light bg-bg-light">
       {children}
     </div>
   );
@@ -186,17 +187,17 @@ export default function ShowcasePage() {
                 slotId="services-showcase-moments"
                 eyebrowDefault="Moments"
                 headlineDefault="The details a wide listing shot <strong>misses</strong>."
-                leadDefault="Detailed close ups of a finished space, perfect for listing pages, paid social and email."
+                leadDefault="Vertical close ups of what is built into the home: cabinetry, stone, fixtures and appliances. Made for social."
               />
             </div>
           </RevealOnScroll>
           <RevealOnScroll>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid gap-6 sm:grid-cols-3">
               {MOMENTS_PAIRS.map((pair) => (
                 <ExampleCard key={pair.key}>
                   <CrossfadePair
-                    first={`/showcase/moments-${pair.key}-1.webp`}
-                    second={`/showcase/moments-${pair.key}-2.webp`}
+                    first={`/showcase/moments-vertical-${pair.key}-1.webp`}
+                    second={`/showcase/moments-vertical-${pair.key}-2.webp`}
                     alt={pair.alt}
                   />
                 </ExampleCard>
