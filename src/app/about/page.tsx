@@ -142,7 +142,7 @@ export default function AboutPage() {
                     <span className="font-mono text-[10px] text-white/25">0{i + 1}</span>
                   </div>
                   <h4 className="text-base font-semibold text-text-light">{p.title}</h4>
-                  <p className="mt-3 text-sm leading-relaxed text-text-muted">{p.body}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-white/60">{p.body}</p>
                 </div>
               ))}
             </div>
@@ -204,7 +204,7 @@ export default function AboutPage() {
               </Link>
               <Link
                 href="/programs/digdesk"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 Explore digDesk &rarr;
               </Link>

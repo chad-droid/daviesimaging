@@ -82,13 +82,13 @@ export default function LifestylePage() {
               </Link>
               <Link
                 href="/services/premium"
-                className="rounded-full border border-white/20 px-8 py-3 text-sm font-semibold text-text-muted transition-colors hover:border-accent hover:text-accent"
+                className="rounded-full border border-white/20 px-8 py-3 text-sm font-semibold text-white/60 transition-colors hover:border-accent hover:text-accent"
               >
                 Explore Premium Photo
               </Link>
               <Link
                 href="/contact"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 Book a strategy call &rarr;
               </Link>

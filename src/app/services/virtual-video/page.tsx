@@ -72,7 +72,7 @@ export default function VirtualVideoPage() {
               </a>
               <Link
                 href="/gallery/lifestyle"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 See video examples &rarr;
               </Link>
@@ -218,7 +218,7 @@ export default function VirtualVideoPage() {
               </a>
               <Link
                 href="/programs/spec-plus"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 See the Spec+ bundle &rarr;
               </Link>

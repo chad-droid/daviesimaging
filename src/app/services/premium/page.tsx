@@ -292,7 +292,7 @@ export default function PremiumPage() {
                   dark={true}
                 />
               </div>
-              <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-muted">
+              <div className="space-y-5 text-[1.0625rem] leading-relaxed text-white/60">
                 <p>
                   DIG Premium delivers consistent quality whether you&apos;re launching in California, Texas, Florida, or Colorado. We operate across 28 U.S. markets with the same process, the same quality checks, and the same delivery standard in every one.
                 </p>
@@ -308,7 +308,7 @@ export default function PremiumPage() {
                   </Link>
                   <Link
                     href="/markets/region"
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-white/60 transition-colors hover:text-text-light"
                   >
                     See all 28 markets &rarr;
                   </Link>

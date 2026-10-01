@@ -54,7 +54,7 @@ export default function ProgramsIndex() {
           <RevealOnScroll>
             <Eyebrow dark>Programs</Eyebrow>
             <h1 className="text-text-light">How builders <strong>purchase</strong>.</h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+            <p className="mx-auto mt-5 max-w-xl text-lg text-white/60">
               Streamlined packages and platforms designed for how builder marketing teams actually buy. No subscriptions, no minimums, no surprises.
             </p>
           </RevealOnScroll>
@@ -72,7 +72,7 @@ export default function ProgramsIndex() {
                   <h2 className="mt-2 text-text-light">
                     Everything runs through <strong>digDesk</strong>.
                   </h2>
-                  <p className="mt-3 max-w-xl text-text-muted text-[1.0625rem] leading-relaxed">
+                  <p className="mt-3 max-w-xl text-white/60 text-[1.0625rem] leading-relaxed">
                     {platform.description}
                   </p>
                 </div>
@@ -87,7 +87,7 @@ export default function ProgramsIndex() {
                     href="https://desk.daviesimaging.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-text-muted transition-colors hover:border-white/40 hover:text-text-light whitespace-nowrap text-center"
+                    className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/60 transition-colors hover:border-white/40 hover:text-text-light whitespace-nowrap text-center"
                   >
                     Log In
                   </a>

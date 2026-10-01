@@ -137,7 +137,7 @@ export default function HowWeDoItPage() {
                       {s.role}
                     </h4>
                   </div>
-                  <p className="mt-2 text-sm leading-relaxed text-text-muted">{s.description}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">{s.description}</p>
                 </div>
               ))}
             </div>

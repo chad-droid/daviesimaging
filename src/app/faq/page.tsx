@@ -36,7 +36,7 @@ export default function FaqPage() {
             <h1 className="text-text-light">
               Frequently asked <strong>questions</strong>.
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+            <p className="mx-auto mt-5 max-w-xl text-lg text-white/60">
               Everything you need to know about Spec+, virtual staging, video, and how DIG delivers.
             </p>
           </RevealOnScroll>

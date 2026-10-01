@@ -142,7 +142,7 @@ export function EditableSection({ slotId, variant, defaults, children }: Editabl
                   <h2 className={headlineClass} dangerouslySetInnerHTML={{ __html: v.headline }} />
                 )}
                 <p
-                  className={isHero ? "lead-text mt-6 text-text-muted" : bodyClass}
+                  className={isHero ? "lead-text mt-6 text-white/60" : bodyClass}
                   style={isHero ? { fontStyle: "italic" } : undefined}
                   dangerouslySetInnerHTML={{ __html: v.body }}
                 />

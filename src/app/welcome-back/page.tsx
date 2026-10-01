@@ -26,7 +26,7 @@ export default function WelcomeBackPage() {
             We heard you.<br />
             We rebuilt <strong>everything</strong>.
           </h1>
-          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-white/60">
             No subscriptions. Self-serve portal. Model-home-matched staging. Same team, completely different experience.
           </p>
           <p className="mt-6 inline-block rounded-lg border border-text-light/30 bg-white/10 px-6 py-3 text-sm font-semibold">
