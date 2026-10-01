@@ -177,9 +177,11 @@ export default function ShowcasePage() {
                 <AskButton />
               </div>
               <FeatureFrame>
+                {/* Scaled 2% inside the clipped frame: planmatch-02 carries a
+                    thin dark line baked into its top and bottom edges. */}
                 <SequentialVideo
                   clips={PLANMATCH_CLIPS}
-                  className="aspect-video w-full object-cover"
+                  className="aspect-video w-full scale-[1.02] object-cover"
                 />
               </FeatureFrame>
             </div>
