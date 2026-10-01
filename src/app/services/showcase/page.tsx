@@ -81,10 +81,10 @@ function AskButton() {
 
 /**
  * PlanMatch, Moments and Cinematic share one desktop height. Moments sets it:
- * a stacked header over five vertical cards runs about 50rem, so the two film
+ * a split header over five vertical cards runs about 43rem, so the two film
  * sections give their film the wider column and center in the same box.
  */
-const SHOWCASE_SECTION = "lg:flex lg:min-h-[51rem] lg:flex-col lg:justify-center";
+const SHOWCASE_SECTION = "lg:flex lg:min-h-[44rem] lg:flex-col lg:justify-center";
 
 /** The single large frame used by PlanMatch and Cinematic. No caption bar. */
 function FeatureFrame({ children }: { children: React.ReactNode }) {
@@ -189,37 +189,40 @@ export default function ShowcasePage() {
         </div>
       </section>
 
-      {/* Moments — cream. Stacked header, three examples, then the ask. */}
+      {/* Moments — cream. One centered block: title and headline left, body
+          and the ask right, then the five verticals across the same width. */}
       <section className={`bg-bg-light py-24 ${SHOWCASE_SECTION}`}>
         <div className="mx-auto w-full max-w-6xl px-6">
-          <RevealOnScroll>
-            <div className="max-w-3xl">
+          <div className="lg:mx-auto lg:max-w-[60rem]">
+            <RevealOnScroll>
               <ShowcaseSectionHeader
                 slotId="services-showcase-moments"
                 eyebrowDefault="Moments"
                 headlineDefault="The details a wide listing shot <strong>misses</strong>."
                 leadDefault="Vertical close ups of what is built into the home: cabinetry, stone, fixtures and appliances. Made for social."
-              />
-            </div>
-          </RevealOnScroll>
-          <RevealOnScroll>
-            {/* Five verticals: a swipeable row below lg, one row of five from lg up. */}
-            <div className="-mx-6 mt-12 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 lg:mx-0 lg:grid lg:max-w-[60rem] lg:grid-cols-5 lg:overflow-visible lg:px-0 lg:pb-0">
-              {MOMENTS_PAIRS.map((pair) => (
-                <div key={pair.key} className="w-[62%] shrink-0 snap-start sm:w-[30%] lg:w-auto">
-                  <ExampleCard>
-                    <CrossfadePair
-                      first={`/showcase/moments-${pair.key}-1.webp`}
-                      second={`/showcase/moments-${pair.key}-2.webp`}
-                      alt={pair.alt}
-                      sizes="(max-width: 640px) 62vw, (max-width: 1024px) 30vw, 220px"
-                    />
-                  </ExampleCard>
-                </div>
-              ))}
-            </div>
-            <AskButton />
-          </RevealOnScroll>
+                split
+              >
+                <AskButton />
+              </ShowcaseSectionHeader>
+            </RevealOnScroll>
+            <RevealOnScroll>
+              {/* Five verticals: a swipeable row below lg, one row of five from lg up. */}
+              <div className="-mx-6 mt-12 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0 lg:pb-0">
+                {MOMENTS_PAIRS.map((pair) => (
+                  <div key={pair.key} className="w-[62%] shrink-0 snap-start sm:w-[30%] lg:w-auto">
+                    <ExampleCard>
+                      <CrossfadePair
+                        first={`/showcase/moments-${pair.key}-1.webp`}
+                        second={`/showcase/moments-${pair.key}-2.webp`}
+                        alt={pair.alt}
+                        sizes="(max-width: 640px) 62vw, (max-width: 1024px) 30vw, 220px"
+                      />
+                    </ExampleCard>
+                  </div>
+                ))}
+              </div>
+            </RevealOnScroll>
+          </div>
         </div>
       </section>
 

@@ -13,6 +13,12 @@ interface ShowcaseSectionHeaderProps {
   tailDefault?: string;
   /** Use on dark backgrounds */
   dark?: boolean;
+  /**
+   * Two columns from lg up: category and headline left, body right. Anything
+   * passed as children (the section's button) sits under the body.
+   */
+  split?: boolean;
+  children?: React.ReactNode;
 }
 
 /**
@@ -52,6 +58,8 @@ export function ShowcaseSectionHeader({
   leadDefault,
   tailDefault,
   dark = false,
+  split = false,
+  children,
 }: ShowcaseSectionHeaderProps) {
   const fields = [
     { key: "eyebrow", label: "Category", type: "text" as const, defaultValue: eyebrowDefault },
@@ -68,33 +76,55 @@ export function ShowcaseSectionHeader({
 
   return (
     <EditableContent slotId={slotId} fields={fields}>
-      {(v) => (
-        <>
-          {(v.eyebrow || eyebrowDefault) && (
-            <p
-              className={`mb-3 font-bold uppercase leading-tight tracking-normal ${CATEGORY_SIZE} ${categoryColour}`}
-            >
-              {v.eyebrow || eyebrowDefault}
-            </p>
-          )}
-          <h2
-            className={`${HEADLINE_SIZE} leading-snug ${dark ? "text-text-light" : ""}`}
-            dangerouslySetInnerHTML={{ __html: v.headline }}
-          />
-          {v.lead && (
-            <p
-              className={`mt-4 text-base leading-relaxed ${copyColour}`}
-              dangerouslySetInnerHTML={{ __html: v.lead }}
+      {(v) => {
+        const title = (
+          <>
+            {(v.eyebrow || eyebrowDefault) && (
+              <p
+                className={`mb-3 font-bold uppercase leading-tight tracking-normal ${CATEGORY_SIZE} ${categoryColour}`}
+              >
+                {v.eyebrow || eyebrowDefault}
+              </p>
+            )}
+            <h2
+              className={`${HEADLINE_SIZE} leading-snug ${dark ? "text-text-light" : ""}`}
+              dangerouslySetInnerHTML={{ __html: v.headline }}
             />
-          )}
-          {v.tail && (
-            <p
-              className={`mt-2 text-base leading-relaxed ${copyColour}`}
-              dangerouslySetInnerHTML={{ __html: v.tail }}
-            />
-          )}
-        </>
-      )}
+          </>
+        );
+        // The first body line drops its top margin when it opens a column.
+        const body = (
+          <>
+            {v.lead && (
+              <p
+                className={`${split ? "mt-4 lg:mt-0" : "mt-4"} text-base leading-relaxed ${copyColour}`}
+                dangerouslySetInnerHTML={{ __html: v.lead }}
+              />
+            )}
+            {v.tail && (
+              <p
+                className={`mt-2 text-base leading-relaxed ${copyColour}`}
+                dangerouslySetInnerHTML={{ __html: v.tail }}
+              />
+            )}
+            {children}
+          </>
+        );
+        if (!split) {
+          return (
+            <>
+              {title}
+              {body}
+            </>
+          );
+        }
+        return (
+          <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div>{title}</div>
+            <div>{body}</div>
+          </div>
+        );
+      }}
     </EditableContent>
   );
 }
