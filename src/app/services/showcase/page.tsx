@@ -32,9 +32,9 @@ const PLANMATCH_CLIPS = [
  * a wide frame misses. 821 Oleander.
  */
 const MOMENTS_PAIRS = [
-  { key: "a", alt: "Playroom at 821 Oleander, wide frame and the embroidered detail within it" },
-  { key: "b", alt: "Bedroom at 821 Oleander, wide frame and its framed detail" },
-  { key: "c", alt: "Kitchen at 821 Oleander, wide frame and its counter detail" },
+  { key: "a", alt: "Great room at 13377 Shinnecock Dr, wide frame and the kitchen faucet detail within it" },
+  { key: "b", alt: "Great room at 13377 Shinnecock Dr, wide frame and its wet bar detail" },
+  { key: "c", alt: "Rear exterior at 13377 Shinnecock Dr, wide frame and its covered lanai at sunset" },
 ];
 
 /**
