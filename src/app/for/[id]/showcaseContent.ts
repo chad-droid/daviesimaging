@@ -30,7 +30,10 @@ export const CINEFLOW_FILMS: Film[] = [
   film("cineflow-crestmont", "Crestmont"),
 ];
 
-export const ACTFLOW_FILM: Film = film("actflow-shoreline", "Shoreline");
+export const ACTFLOW_FILMS: Film[] = [
+  film("actflow-shoreline", "Blue Heron"),
+  film("actflow-kolter", "Kolter Homes"),
+];
 
 export const LISTING_STILLS: Still[] = [
   still("listing-22", "Townhome exterior and front walk"),
@@ -82,7 +85,17 @@ export const SPEC_HOMES: SpecHome[] = [
   },
 ];
 
-export const PLANMATCH_STILLS: Still[] = [
+// PlanMatch: one tab per builder. The second builder asked not to be named,
+// so its tab, plan labels, and file names stay generic ("cc" = confidential
+// client). Do not add the builder or plan names anywhere in this repo.
+export type PlanSet = { label: string; stills: Still[] };
+export type PlanBuilder = { label: string; note?: string; plans: PlanSet[] };
+
+const COVENTRY_STILLS: Still[] = [
+  still("planmatch-coventry-ext-twilight", "Front exterior at twilight"),
+  still("planmatch-coventry-ext-sunset", "Front exterior at sunset"),
+  still("planmatch-coventry-ext-corner", "Corner exterior at sunset"),
+  still("planmatch-coventry-ext-day", "Front exterior in daylight"),
   still("planmatch-02-living-dining", "Living and dining"),
   still("planmatch-04-kitchen", "Kitchen"),
   still("planmatch-04-living-dining-kitchen", "Living, dining, and kitchen"),
@@ -93,6 +106,25 @@ export const PLANMATCH_STILLS: Still[] = [
   still("planmatch-08-bathroom", "Bathroom"),
 ];
 
+const ccPlan = (n: number): PlanSet => ({
+  label: `Plan ${n}`,
+  stills: [
+    still(`planmatch-cc-p${n}-ext`, `Plan ${n} front exterior`),
+    ...["01", "02", "03", "04", "05", "06", "07"].map((k, i) =>
+      still(`planmatch-cc-p${n}-${k}`, `Plan ${n} interior ${i + 1}`),
+    ),
+  ],
+});
+
+export const PLANMATCH_BUILDERS: PlanBuilder[] = [
+  { label: "Coventry", plans: [{ label: "Coventry", stills: COVENTRY_STILLS }] },
+  {
+    label: "Confidential client",
+    note: "Five plans with no model, built in 3D and delivered staged. Builder name withheld.",
+    plans: [1, 2, 3, 4, 5].map(ccPlan),
+  },
+];
+
 export const DIGDESK_SHOT = "/mm-deck/digdesk-dashboard.jpg";
 
 // The lineup slide. `slide` is the index of the product's slide in the deck.
@@ -101,5 +133,5 @@ export const LINEUP = [
   { n: "02", name: "ActFlow", kind: "Video with people", line: "CineFlow with the scenes brought to life by people." },
   { n: "03", name: "Listing", kind: "Production", line: "Spec and community photography, shot and edited by DIG." },
   { n: "04", name: "Spec+", kind: "Production + digital", line: "Listing photos, ModelMatch staging, and a FrameFlow video." },
-  { n: "05", name: "PlanMatch", kind: "3D", line: "Finished interior images for plans that have no model." },
+  { n: "05", name: "PlanMatch", kind: "3D", line: "Finished exterior and interior images for plans with no model." },
 ] as const;
