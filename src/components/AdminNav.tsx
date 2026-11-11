@@ -23,6 +23,11 @@ const NAV_ITEMS = [
     label: "Gallery Curation",
     sub: "Public gallery pages",
   },
+  {
+    href: "/admin/showcase",
+    label: "Client Decks",
+    sub: "Showcase links per meeting",
+  },
 ];
 
 export function AdminNav() {
