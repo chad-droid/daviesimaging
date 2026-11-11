@@ -763,7 +763,7 @@ function CloseSlide({ client }: SlideCtx) {
         <div>
           <Kicker dark>digDesk</Kicker>
           <h2 className="font-heading text-[clamp(2.6rem,6vw,5rem)] font-medium leading-[1.02] tracking-tight text-text-light">
-            It all orders in <strong className="font-semibold">one place.</strong>
+            Order everything in <strong className="font-semibold">one place.</strong>
           </h2>
           <p className="mt-6 max-w-[46ch] text-lg leading-relaxed text-white/70">
             {who} can order every service here in digDesk, track each job, and download the finished assets.
