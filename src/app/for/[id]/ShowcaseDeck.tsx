@@ -3,12 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DarkSectionBg } from "@/components/DarkSectionBg";
 import {
-  ACTFLOW_FILM,
+  ACTFLOW_FILMS,
   CINEFLOW_FILMS,
   DIGDESK_SHOT,
   LINEUP,
   LISTING_STILLS,
-  PLANMATCH_STILLS,
+  PLANMATCH_BUILDERS,
   SPEC_HOMES,
   type Film,
   type Still,
@@ -629,14 +629,20 @@ function CineFlowSlide({ active }: SlideCtx) {
 }
 
 function ActFlowSlide({ active }: SlideCtx) {
+  const [i, setI] = useState(0);
   return (
     <Shell dark wide>
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
-        <ProductHead n="02" name="ActFlow" sub="The upgrade to CineFlow" dark>
-          ActFlow brings people into the scenes, so buyers see your home being lived in, not just looked at. Same
-          photos, same film, more life.
-        </ProductHead>
-        <FilmPlayer film={ACTFLOW_FILM} active={active} />
+        <div>
+          <ProductHead n="02" name="ActFlow" sub="The upgrade to CineFlow" dark>
+            ActFlow brings people into the scenes, so buyers see your home being lived in, not just looked at. Same
+            photos, same film, more life.
+          </ProductHead>
+          <div className="mt-8">
+            <Tabs items={ACTFLOW_FILMS.map((f) => f.label)} value={i} onChange={setI} dark />
+          </div>
+        </div>
+        <FilmPlayer film={ACTFLOW_FILMS[i]} active={active} />
       </div>
     </Shell>
   );
@@ -694,14 +700,49 @@ function SpecPlusSlide({ active, openLightbox }: SlideCtx) {
 }
 
 function PlanMatchSlide({ openLightbox }: SlideCtx) {
+  const [b, setB] = useState(0);
+  const [p, setP] = useState(0);
+  const builder = PLANMATCH_BUILDERS[b];
+  const plan = builder.plans[Math.min(p, builder.plans.length - 1)];
   return (
     <Shell wide>
-      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
-        <ProductHead n="05" name="PlanMatch" sub="Images for the plans that have no model">
-          DIG builds the plan in 3D from your floor plan and delivers finished interior images, so you can market a
-          plan before a model exists.
-        </ProductHead>
-        <StillGrid stills={PLANMATCH_STILLS} cols={4} onOpen={(i) => openLightbox(PLANMATCH_STILLS, i)} />
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-center">
+        <div>
+          <ProductHead n="05" name="PlanMatch" sub="Images for the plans that have no model">
+            DIG builds the plan in 3D from your floor plan and delivers finished exterior and interior images, so you
+            can market a plan before a model exists.
+          </ProductHead>
+          <div className="mt-8">
+            <Tabs
+              items={PLANMATCH_BUILDERS.map((x) => x.label)}
+              value={b}
+              onChange={(n) => {
+                setB(n);
+                setP(0);
+              }}
+            />
+          </div>
+          {builder.note && <p className="mt-4 max-w-[42ch] text-sm text-text-muted">{builder.note}</p>}
+        </div>
+        <div className="space-y-4">
+          {builder.plans.length > 1 && (
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold">
+              {builder.plans.map((x, i) => (
+                <button
+                  key={x.label}
+                  type="button"
+                  onClick={() => setP(i)}
+                  className={`border-b-2 pb-1 transition-colors ${
+                    i === p ? "border-accent text-text-dark" : "border-transparent text-text-muted hover:text-accent"
+                  }`}
+                >
+                  {x.label}
+                </button>
+              ))}
+            </div>
+          )}
+          <StillGrid stills={plan.stills} cols={4} onOpen={(i) => openLightbox(plan.stills, i)} />
+        </div>
       </div>
     </Shell>
   );
