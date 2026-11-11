@@ -318,10 +318,12 @@ function ProductHead({
 
 function BuilderLogo({ client, size = "md" }: { client: ShowcaseClient; size?: "md" | "lg" }) {
   if (!client.logoUrl) return null;
-  const tile = client.logoBg === "dark" ? "bg-[#121212] border border-white/10" : "bg-white";
+  // A reversed (white) logo sits directly on the ink slides with no tile or
+  // border. A standard logo keeps its own colors on a white tile.
+  const tile = client.logoBg === "dark" ? "" : "rounded-xl bg-white px-6 py-4 shadow-sm";
   const h = size === "lg" ? "h-14 sm:h-16" : "h-10 sm:h-12";
   return (
-    <div className={`inline-flex items-center justify-center rounded-xl px-6 py-4 shadow-sm ${tile}`}>
+    <div className={`inline-flex items-center justify-center ${tile}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={client.logoUrl} alt={`${client.builderName} logo`} className={`${h} w-auto max-w-[220px] object-contain`} />
     </div>
