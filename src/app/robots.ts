@@ -22,6 +22,7 @@ const PRIVATE_PATHS = [
   "/studio/",
   "/modelmatch-demo",
   "/modelmatch-demo/",
+  "/for/",
 ];
 
 // Crawlers that feed AI answer engines and assistants.

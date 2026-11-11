@@ -8,7 +8,7 @@ import { PageTransition } from "./PageTransition";
 // Hides Nav but keeps Footer.
 const HIDE_NAV_PATHS = ["/sarahpod"];
 // Hides Nav, Footer, and the pt-16 gap under Nav.
-const CHROMELESS_PREFIXES = ["/campaigns/modelmatch-trial-info", "/campaigns/sales-cycle-shrinkage", "/capabilities", "/modelmatch-deck", "/modelmatch-datalibrary", "/modelmatch-cinematic", "/shore2026"];
+const CHROMELESS_PREFIXES = ["/campaigns/modelmatch-trial-info", "/campaigns/sales-cycle-shrinkage", "/capabilities", "/modelmatch-deck", "/modelmatch-datalibrary", "/modelmatch-cinematic", "/shore2026", "/for"];
 
 function matchesPrefix(pathname: string, list: string[]): boolean {
   return list.some((p) => pathname === p || pathname.startsWith(p + "/"));
