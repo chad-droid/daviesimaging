@@ -227,9 +227,9 @@ export default function ShowcasePage() {
                 slotId="services-showcase-planmatch"
                 index="01"
                 eyebrowDefault="PlanMatch"
-                headlineDefault="Photorealistic images in <strong>days, not months</strong>."
-                leadDefault="You upload your construction plans, upload samples of your finishes, and get photorealistic virtual images merchandised through our ModelMatch process."
-                tailDefault="This is not like traditional rendering services. You get great quality, at better prices, in less time."
+                headlineDefault="Don't call it <strong>rendering</strong>."
+                leadDefault="Before your community is ever built, you can have photorealistic images of all of your model home plans and your unmodeled plans. Better, faster, and less expensive than ever."
+                tailDefault="We start with your construction plans or CAD files, whatever is available, we can make work."
               />
             </RevealOnScroll>
           </div>

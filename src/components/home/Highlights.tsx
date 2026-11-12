@@ -37,7 +37,7 @@ const CARDS: Card[] = [
   },
   {
     label: "PlanMatch",
-    line: "Upload your construction plans. Get photorealistic images in days.",
+    line: "Photorealistic images of your plans, before your community is built.",
     href: "/services/planmatch",
     image: "/client-showcase/planmatch-coventry-ext-twilight.webp",
   },

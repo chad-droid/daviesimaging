@@ -135,12 +135,11 @@ export function PlanMatchChapter() {
       >
         <Eyebrow dark>PlanMatch</Eyebrow>
         <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
-          Photorealistic images in <strong>days, not months</strong>.
+          Don&apos;t call it <strong>rendering</strong>.
         </h2>
         <p className="mt-5 text-lg leading-relaxed text-white/80">
-          You upload your construction plans, upload samples of your finishes, and get
-          photorealistic virtual images. This is not like traditional rendering services. You get
-          great quality, at better prices, in less time.
+          Before your community is ever built, you can have photorealistic images of all of your
+          model home plans and your unmodeled plans. Better, faster, and less expensive than ever.
         </p>
         <Link
           href="/services/planmatch"
