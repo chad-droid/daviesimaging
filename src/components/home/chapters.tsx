@@ -72,12 +72,12 @@ export function ModelMatchChapter() {
             <div>
               <Eyebrow>ModelMatch</Eyebrow>
               <h2 className="lg:text-[3rem] lg:leading-[1.08]">
-                Virtual staging that looks like <strong>your homes</strong>.
+                Extend the investment you&rsquo;ve made in your <strong>model homes</strong>.
               </h2>
             </div>
             <p className="mt-6 text-lg leading-relaxed text-text-body lg:mt-0 lg:pb-2">
-              Build a brand-approved catalog from your own model homes, then apply that furniture and
-              palette to every spec you stage.
+              ModelMatch uses your model home merchandising to create bespoke furniture and accessory
+              galleries you can reuse across your vacant inventory.
             </p>
           </div>
         </RevealOnScroll>
@@ -126,12 +126,13 @@ export function FilmChapter() {
             <div>
               <Eyebrow dark>CineFlow and ActFlow</Eyebrow>
               <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
-                Turn your model photography into <strong>film</strong>.
+                Need video from the assets you <strong>already have</strong>?
               </h2>
             </div>
             <p className="mt-6 text-lg leading-relaxed text-white/80 lg:mt-0 lg:pb-2">
-              CineFlow relights each space and adds new angles for cinematic sequences. ActFlow
-              introduces virtual talent, so buyers can picture life in your homes and amenities.
+              CineFlow relights each space, adds new angles, and provides lifelike cinematic sequences
+              without a real photo shoot. ActFlow introduces virtual talent to your spaces so buyers
+              can envision what life looks like in your homes and amenities.
             </p>
           </div>
         </RevealOnScroll>
@@ -152,10 +153,11 @@ export function PlanMatchChapter() {
       >
         <Eyebrow dark>PlanMatch</Eyebrow>
         <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
-          The home sells before it <strong>is built</strong>.
+          Photorealistic images in <strong>days, not months</strong>.
         </h2>
         <p className="mt-5 text-lg leading-relaxed text-white/80">
-          Photography made from the plans, brand approved and ready the day pre-sales open.
+          You upload your construction plans, upload samples of your finishes, and get
+          photorealistic virtual images merchandised through our ModelMatch process.
         </p>
         <Link
           href="/services/showcase#planmatch"
@@ -191,7 +193,8 @@ export function PremiumChapter() {
               </h2>
             </div>
             <p className="mt-6 text-lg leading-relaxed text-text-body lg:mt-0 lg:pb-2">
-              Model homes, amenities and lifestyle, photographed across 28 markets.
+              The best model home photography, video, and Matterport services available to the
+              industry, in 28 markets across the United States.
             </p>
           </div>
         </RevealOnScroll>
@@ -220,6 +223,72 @@ export function PremiumChapter() {
   );
 }
 
+/* ── Service lines: the other way to sort the same products. ─────────────── */
+const LINES = [
+  {
+    name: "Production",
+    body: "Our national network of highly trained professional photographers, for listing and Premium services.",
+    products: [
+      { label: "Premium Photography", href: "/services/premium" },
+      { label: "Premium Video", href: "/services/video-production" },
+      { label: "Listing Photography", href: "/services/listing" },
+      { label: "Spec+", href: "/programs/spec-plus" },
+    ],
+  },
+  {
+    name: "Flow",
+    body: "Our Flow video generation process converts your static images into dynamic video.",
+    products: [
+      { label: "FrameFlow", href: "/services/virtual-video" },
+      { label: "CineFlow", href: "/services/showcase#cineflow" },
+      { label: "ActFlow", href: "/services/virtual-video#actflow" },
+    ],
+  },
+  {
+    name: "Match",
+    body: "Our Match system of interior design is built off your existing model home identity, so your virtual assets look and feel like the real thing.",
+    products: [
+      { label: "ModelMatch", href: "/services/virtual-staging" },
+      { label: "PlanMatch", href: "/services/showcase#planmatch" },
+      { label: "Moments", href: "/services/showcase#moments" },
+    ],
+  },
+];
+
+export function ServiceLinesChapter() {
+  return (
+    <section id="lines" className="scroll-mt-28 border-t border-border-light bg-bg-surface py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <RevealOnScroll>
+          <Eyebrow>Service lines</Eyebrow>
+          <h2 className="lg:text-[3rem] lg:leading-[1.08]">Production, Flow and Match</h2>
+        </RevealOnScroll>
+        <RevealOnScroll stagger={120}>
+          <div className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-border-light">
+            {LINES.map((l, i) => (
+              <div key={l.name} className={i === 0 ? "lg:pr-10" : "lg:px-10"}>
+                <p className="text-[2.75rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+                  {l.name}
+                </p>
+                <p className="mt-4 leading-relaxed text-text-body">{l.body}</p>
+                <ul className="mt-6 space-y-2">
+                  {l.products.map((pr) => (
+                    <li key={pr.label}>
+                      <Link href={pr.href} className="text-sm font-medium text-text-dark transition-colors hover:text-accent">
+                        {pr.label} &rarr;
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </RevealOnScroll>
+      </div>
+    </section>
+  );
+}
+
 /* ── digDesk: the real product, not a drawing of it. ─────────────────────── */
 export function DigDeskChapter() {
   return (
@@ -228,10 +297,11 @@ export function DigDeskChapter() {
         <RevealOnScroll>
           <Eyebrow dark>digDesk</Eyebrow>
           <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
-            One portal for your <strong>entire visual pipeline</strong>.
+            Everything is ordered through <strong>digDesk</strong>.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/75">
-            Order every service, track every job, and download every finished asset from one dashboard.
+            The single point of entry to order, track, revise, and pay for all of the assets you
+            need, in one place.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
             <Link href="/get-started" className={primaryBtn}>

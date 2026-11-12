@@ -14,21 +14,23 @@ interface NavItem {
   description?: string;
   /** Key of the stage column this item belongs to (Solutions only). */
   stage?: string;
+  /** Key of the service line this product belongs to (Solutions only). */
+  line?: string;
 }
 
-interface NavStage {
+interface NavColumn {
   key: string;
   label: string;
   tagline: string;
-  /** Not one of the three numbered stages: a product family that spans them. */
-  crossStage?: boolean;
 }
 
 interface NavGroup {
   label: string;
   basePath?: string; // used for active-state detection
   /** When set, the desktop panel lays items out in one column per stage. */
-  stages?: NavStage[];
+  stages?: NavColumn[];
+  /** The second way to browse the same products: by how DIG makes them. */
+  lines?: NavColumn[];
   items: NavItem[];
 }
 
@@ -36,28 +38,35 @@ const navGroups: NavGroup[] = [
   {
     label: "Solutions",
     basePath: "/services",
-    // Lead, Launch, List: the three moments a builder's marketing team needs
-    // assets for. Each product has one home here and cross-links elsewhere.
+    // Two views of the same products. Stage answers "what am I trying to do"
+    // (Lead, Launch, List). Line answers "what kind of work is it"
+    // (Production, Flow, Match). The panel switches between them.
     stages: [
       { key: "lead", label: "Lead", tagline: "Pre-sell before it's built" },
       { key: "launch", label: "Launch", tagline: "Model homes and amenities" },
       { key: "list", label: "List", tagline: "Spec homes for sale" },
     ],
+    lines: [
+      { key: "production", label: "Production", tagline: "Listing and Premium services" },
+      { key: "flow", label: "Flow", tagline: "Video from your still images" },
+      { key: "match", label: "Match", tagline: "Extend your merchandising" },
+    ],
     // A product that serves more than one stage is listed under each of them
-    // (CineFlow and ActFlow sit in both Lead and Launch).
+    // (CineFlow and ActFlow sit in both Lead and Launch). In the line view each
+    // product appears once.
     items: [
-      { stage: "lead", label: "PlanMatch", href: "/services/showcase#planmatch", description: "Photography made from your plans" },
-      { stage: "lead", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic sequences without a photo shoot" },
-      { stage: "lead", label: "ActFlow", href: "/services/virtual-video#actflow", description: "Virtual talent brings your spaces to life" },
-      { stage: "launch", label: "Premium Photography", href: "/services/premium", description: "Model homes, amenities and lifestyle" },
-      { stage: "launch", label: "Premium Video", href: "/services/video-production", description: "Crew-based community and lifestyle film" },
-      { stage: "launch", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic sequences from your model photography" },
-      { stage: "launch", label: "ActFlow", href: "/services/virtual-video#actflow", description: "Virtual talent in your models and amenities" },
-      { stage: "launch", label: "Moments", href: "/services/showcase#moments", description: "Vertical close ups for social" },
-      { stage: "list", label: "Spec+", href: "/programs/spec-plus", description: "Photography, staging, and video, $600 flat" },
-      { stage: "list", label: "Listing Photography", href: "/services/listing", description: "HDR spec home photos, MLS-ready" },
-      { stage: "list", label: "ModelMatch", href: "/services/virtual-staging", description: "Staging built from your own model homes" },
-      { stage: "list", label: "FrameFlow", href: "/services/virtual-video", description: "Lifelike video from your existing images" },
+      { stage: "lead", line: "match", label: "PlanMatch", href: "/services/showcase#planmatch", description: "Photography made from your plans" },
+      { stage: "lead", line: "flow", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic sequences without a photo shoot" },
+      { stage: "lead", line: "flow", label: "ActFlow", href: "/services/virtual-video#actflow", description: "Virtual talent brings your spaces to life" },
+      { stage: "launch", line: "production", label: "Premium Photography", href: "/services/premium", description: "Model homes, amenities and lifestyle" },
+      { stage: "launch", line: "production", label: "Premium Video", href: "/services/video-production", description: "Crew-based community and lifestyle film" },
+      { stage: "launch", line: "flow", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic sequences from your model photography" },
+      { stage: "launch", line: "flow", label: "ActFlow", href: "/services/virtual-video#actflow", description: "Virtual talent in your models and amenities" },
+      { stage: "launch", line: "match", label: "Moments", href: "/services/showcase#moments", description: "Vertical close ups for social" },
+      { stage: "list", line: "production", label: "Spec+", href: "/programs/spec-plus", description: "Photography, staging, and video, $600 flat" },
+      { stage: "list", line: "production", label: "Listing Photography", href: "/services/listing", description: "HDR spec home photos, MLS-ready" },
+      { stage: "list", line: "match", label: "ModelMatch", href: "/services/virtual-staging", description: "Staging built from your own model homes" },
+      { stage: "list", line: "flow", label: "FrameFlow", href: "/services/virtual-video", description: "Lifelike video from your existing images" },
     ],
   },
   {
@@ -91,6 +100,7 @@ function DesktopDropdown({
   active: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [view, setView] = useState<"stage" | "line">("stage");
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
 
@@ -135,7 +145,7 @@ function DesktopDropdown({
 
       <AnimatePresence>
         {open && group.stages && (
-          // Wide stage panel: centred under the header, one column per stage.
+          // Wide panel: centred under the header, one column per stage or line.
           <div className="pointer-events-none fixed inset-x-0 top-16 z-50 flex justify-center px-6">
             <motion.div
               initial={{ opacity: 0, y: 6 }}
@@ -148,25 +158,55 @@ function DesktopDropdown({
             >
               {/* Invisible bridge so the menu survives the trip down from the button */}
               <div className="absolute -top-8 left-0 h-8 w-full" />
+              {group.lines && (
+                <div className="flex items-center gap-3 border-b border-border-light px-6 py-3">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-text-muted">Browse</span>
+                  <div role="tablist" aria-label="Browse solutions" className="flex gap-1 rounded-full bg-bg-light p-1">
+                    {(["stage", "line"] as const).map((v) => (
+                      <button
+                        key={v}
+                        type="button"
+                        role="tab"
+                        aria-selected={view === v}
+                        onClick={() => setView(v)}
+                        className={`rounded-full px-3.5 py-1 text-xs font-medium transition-colors ${
+                          view === v ? "bg-bg-dark text-text-light" : "text-text-body hover:text-text-dark"
+                        }`}
+                      >
+                        {v === "stage" ? "By stage" : "By service line"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="grid grid-cols-3 divide-x divide-border-light">
-                {group.stages.map((stage, i) => (
-                  <div key={stage.key} className={`p-3 ${stage.crossStage ? "bg-bg-light" : ""}`}>
-                    <div className="px-3 pb-3 pt-2">
-                      <p className="flex items-baseline gap-2">
-                        {!stage.crossStage && (
-                          <span className="text-[0.65rem] font-bold tracking-[0.15em] text-accent">
-                            {String(i + 1).padStart(2, "0")}
+                {(view === "line" && group.lines ? group.lines : group.stages).map((col, i) => {
+                  const byLine = view === "line" && !!group.lines;
+                  // In the line view a product listed under two stages shows once.
+                  const seen = new Set<string>();
+                  const colItems = group.items.filter((item) => {
+                    if ((byLine ? item.line : item.stage) !== col.key) return false;
+                    if (!byLine) return true;
+                    if (seen.has(item.label)) return false;
+                    seen.add(item.label);
+                    return true;
+                  });
+                  return (
+                    <div key={col.key} className="p-3">
+                      <div className="px-3 pb-3 pt-2">
+                        <p className="flex items-baseline gap-2">
+                          {!byLine && (
+                            <span className="text-[0.65rem] font-bold tracking-[0.15em] text-accent">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                          )}
+                          <span className="text-[1.6rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+                            {col.label}
                           </span>
-                        )}
-                        <span className="text-[1.6rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
-                          {stage.label}
-                        </span>
-                      </p>
-                      <p className="mt-1.5 text-[11px] uppercase tracking-[0.1em] text-text-muted">{stage.tagline}</p>
-                    </div>
-                    {group.items
-                      .filter((item) => item.stage === stage.key)
-                      .map((item) => (
+                        </p>
+                        <p className="mt-1.5 text-[11px] uppercase tracking-[0.1em] text-text-muted">{col.tagline}</p>
+                      </div>
+                      {colItems.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
@@ -183,8 +223,9 @@ function DesktopDropdown({
                           )}
                         </Link>
                       ))}
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
           </div>

@@ -201,7 +201,7 @@ const FLOWS = [
   {
     key: "cineflow",
     name: "CineFlow",
-    line: "Every space relit and reframed into cinematic sequences, without a photo shoot.",
+    line: "Relights each space and adds new angles for lifelike cinematic sequences, without a real photo shoot.",
     src: "/showcase/cinematic.mp4",
     poster: "/showcase/cinematic.jpg",
     sound: true,
@@ -209,7 +209,7 @@ const FLOWS = [
   {
     key: "actflow",
     name: "ActFlow",
-    line: "Virtual talent in your spaces, so buyers can picture life in your homes and amenities.",
+    line: "Introduces virtual talent to your spaces so buyers can envision what life looks like in your homes and amenities.",
     src: "/client-showcase/actflow-kolter.mp4",
     poster: "/client-showcase/actflow-kolter-poster.webp",
     sound: false,

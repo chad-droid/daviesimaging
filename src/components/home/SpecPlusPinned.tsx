@@ -128,7 +128,7 @@ export function SpecPlusPinned() {
     <>
       <Eyebrow>Spec+</Eyebrow>
       <h2 className="lg:text-[clamp(2rem,5.2vh,3rem)] lg:leading-[1.08]">
-        One order. <strong>Everything</strong> a spec home needs.
+        Listing photography, ModelMatch staging and FrameFlow video, <strong>in one order</strong>.
       </h2>
     </>
   );

@@ -17,46 +17,46 @@ const BLOB = "https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com";
 const CARDS: Card[] = [
   {
     label: "Spec+",
-    line: "Photos, staging and video. One order, $600.",
+    line: "Listing photography, ModelMatch staging and FrameFlow video for $600.",
     href: "/programs/spec-plus",
     video: "/client-showcase/specplus-artisan.mp4",
     image: "/client-showcase/specplus-artisan-poster.webp",
   },
   {
     label: "ModelMatch",
-    line: "Staged with your own model home furniture.",
+    line: "Your model home merchandising, in each and every one of your listings.",
     href: "/services/virtual-staging",
     image: "/mm/result-1-great-room.jpg",
   },
   {
     label: "CineFlow",
-    line: "A home told as a story, not a tour.",
+    line: "Lifelike cinematic sequences without a real photo shoot.",
     href: "/services/showcase#cineflow",
     video: "/client-showcase/cineflow-crestmont.mp4",
     image: "/client-showcase/cineflow-crestmont-poster.webp",
   },
   {
     label: "PlanMatch",
-    line: "Photography before the home is built.",
+    line: "Upload your construction plans. Get photorealistic images in days.",
     href: "/services/showcase#planmatch",
     image: "/client-showcase/planmatch-coventry-ext-twilight.webp",
   },
   {
     label: "Moments",
-    line: "The details a wide listing shot misses.",
+    line: "Vertical close ups of what is built into the home.",
     href: "/services/showcase#moments",
     image: "/showcase/moments-hood-2.webp",
   },
   {
     label: "ActFlow",
-    line: "Virtual talent that brings your spaces to life.",
+    line: "Virtual talent, so buyers can envision life in your homes.",
     href: "/services/virtual-video#actflow",
     video: "/client-showcase/actflow-blueheron.mp4",
     image: "/client-showcase/actflow-blueheron-poster.webp",
   },
   {
     label: "Premium",
-    line: "Model homes, amenities and lifestyle.",
+    line: "The best model home photography available to the industry.",
     href: "/services/premium",
     image: `${BLOB}/site-assets/shawood-aspen-v2-8.webp`,
   },
@@ -78,7 +78,7 @@ export function Highlights() {
     <section id="highlights" className="scroll-mt-28 bg-bg-dark py-24 text-text-light lg:py-32">
       <div className="mx-auto flex max-w-7xl items-end justify-between gap-6 px-6">
         <h2 className="text-text-light lg:text-[3rem]">
-          Get the <strong>highlights</strong>.
+          A visual asset platform for <strong>home builders</strong>.
         </h2>
         <div className="hidden gap-3 sm:flex">
           <button type="button" onClick={() => nudge(-1)} aria-label="Previous highlights" className={paddle}>
