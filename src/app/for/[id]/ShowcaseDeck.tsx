@@ -1,14 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DarkSectionBg } from "@/components/DarkSectionBg";
+import { SHOWCASE_MODULES, type ModuleKey, type ShowcaseModule } from "@/lib/showcaseModules";
 import {
   ACTFLOW_FILMS,
   CINEFLOW_FILMS,
   DIGDESK_SHOT,
-  LINEUP,
   LISTING_STILLS,
   PLANMATCH_BUILDERS,
+  PREMIUM_SETS,
   SPEC_HOMES,
   type Film,
   type Still,
@@ -32,6 +33,7 @@ export type ShowcaseClient = {
   meetingDate: string | null;
   openingLine: string | null;
   preparedBy: string | null;
+  modules: ModuleKey[]; // already filtered to available modules, any order
 };
 
 type Lightbox = { stills: Still[]; index: number } | null;
@@ -41,9 +43,14 @@ type SlideCtx = {
   active: boolean;
   go: (n: number) => void;
   openLightbox: (stills: Still[], index: number) => void;
+  /** Modules in this deck, in order (lineup cards). */
+  modules: ShowcaseModule[];
+  /** This slide's product number ("02") and how many products the deck has. */
+  n: string;
+  of: string;
 };
 
-type SlideDef = { dark: boolean; render: (ctx: SlideCtx) => React.ReactNode };
+type SlideDef = { key: string; dark: boolean; render: (ctx: SlideCtx) => React.ReactNode };
 
 function pad(n: number) {
   return String(n).padStart(2, "0");
@@ -54,7 +61,18 @@ export function ShowcaseDeck({ client }: { client: ShowcaseClient }) {
   const [lightbox, setLightbox] = useState<Lightbox>(null);
   const [showHint, setShowHint] = useState(false);
   const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const total = SLIDES.length;
+
+  // Cover, lineup, the chosen product modules in catalog order, then the close.
+  const modules = useMemo(
+    () => SHOWCASE_MODULES.filter((m) => m.available && client.modules.includes(m.key)),
+    [client.modules],
+  );
+  const slides = useMemo<SlideDef[]>(
+    () => [COVER, ...(modules.length > 1 ? [LINEUP] : []), ...modules.map((m) => MODULE_SLIDES[m.key]), CLOSE],
+    [modules],
+  );
+  const total = slides.length;
+  const firstModuleSlide = modules.length > 1 ? 2 : 1;
 
   const show = useCallback(
     (n: number) => {
@@ -132,7 +150,7 @@ export function ShowcaseDeck({ client }: { client: ShowcaseClient }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onDark = SLIDES[current].dark;
+  const onDark = slides[current].dark;
   const openLightbox = useCallback((stills: Still[], index: number) => setLightbox({ stills, index }), []);
 
   return (
@@ -159,9 +177,9 @@ export function ShowcaseDeck({ client }: { client: ShowcaseClient }) {
       />
 
       <main className="relative h-full w-full">
-        {SLIDES.map((s, i) => (
+        {slides.map((s, i) => (
           <div
-            key={i}
+            key={s.key}
             ref={(el) => {
               slideRefs.current[i] = el;
             }}
@@ -170,7 +188,15 @@ export function ShowcaseDeck({ client }: { client: ShowcaseClient }) {
             }`}
             aria-hidden={i !== current}
           >
-            {s.render({ client, active: i === current, go: show, openLightbox })}
+            {s.render({
+              client,
+              active: i === current,
+              go: show,
+              openLightbox,
+              modules,
+              n: pad(i - firstModuleSlide + 1),
+              of: pad(modules.length),
+            })}
           </div>
         ))}
       </main>
@@ -275,12 +301,14 @@ function Kicker({ children, dark }: { children: React.ReactNode; dark?: boolean 
 
 function ProductHead({
   n,
+  of,
   name,
   sub,
   dark,
   children,
 }: {
   n: string;
+  of: string;
   name: string;
   sub: string;
   dark?: boolean;
@@ -289,7 +317,7 @@ function ProductHead({
   return (
     <div>
       <p className="mb-3 text-xs font-bold uppercase tracking-[0.15em]">
-        <span className={dark ? "text-white/35" : "text-text-muted"}>{n} of 05</span>
+        <span className={dark ? "text-white/35" : "text-text-muted"}>{n} of {of}</span>
         <span className={dark ? "text-white/20" : "text-border-light"}> / </span>
         <span className={dark ? "text-accent-dark-hover" : "text-accent"}>{name}</span>
       </p>
@@ -565,7 +593,16 @@ function CoverSlide({ client }: SlideCtx) {
   );
 }
 
-function LineupSlide({ go }: SlideCtx) {
+const COUNT_WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"];
+const LINEUP_COLS: Record<number, string> = {
+  2: "lg:grid-cols-2",
+  3: "lg:grid-cols-3",
+  4: "lg:grid-cols-4",
+  5: "lg:grid-cols-5",
+  6: "lg:grid-cols-6",
+};
+
+function LineupSlide({ go, modules }: SlideCtx) {
   return (
     <Shell wide>
       <Kicker>The lineup</Kicker>
@@ -573,17 +610,18 @@ function LineupSlide({ go }: SlideCtx) {
         One shoot. <strong className="font-semibold">Multiple outcomes.</strong>
       </h2>
       <p className="mt-4 max-w-[60ch] text-text-muted">
-        Five services, each one built from the work DIG already does for you. Every one of them orders in digDesk.
+        {COUNT_WORDS[modules.length] ?? modules.length} services, each one built from the work DIG already does for
+        you. Every one of them orders in digDesk.
       </p>
-      <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-        {LINEUP.map((p, i) => (
+      <div className={`mt-10 grid gap-3 sm:grid-cols-2 ${LINEUP_COLS[modules.length] ?? "lg:grid-cols-3"}`}>
+        {modules.map((p, i) => (
           <button
-            key={p.name}
+            key={p.key}
             type="button"
             onClick={() => go(i + 2)}
             className="group flex flex-col rounded-2xl border border-border-light bg-white p-5 text-left transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-lg"
           >
-            <span className="font-heading text-2xl italic text-accent">{p.n}</span>
+            <span className="font-heading text-2xl italic text-accent">{pad(i + 1)}</span>
             <span className="mt-3 font-heading text-[1.9rem] font-medium leading-none text-text-dark">{p.name}</span>
             <span className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-text-muted">{p.kind}</span>
             <span className="mt-3 flex-1 text-sm leading-relaxed text-text-body">{p.line}</span>
@@ -608,13 +646,37 @@ function LineupSlide({ go }: SlideCtx) {
   );
 }
 
-function CineFlowSlide({ active }: SlideCtx) {
+function PremiumSlide({ openLightbox, n, of }: SlideCtx) {
+  const [i, setI] = useState(0);
+  const set = PREMIUM_SETS[i];
+  if (!set) return null;
+  return (
+    <Shell wide>
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-center">
+        <div>
+          <ProductHead n={n} of={of} name="Premium" sub="Model home, amenity, and lifestyle photography">
+            DIG&apos;s signature shoot. A DIG crew styles every room, lights it, and shoots it slowly, so your model
+            homes and community look their best on every channel.
+          </ProductHead>
+          {PREMIUM_SETS.length > 1 && (
+            <div className="mt-8">
+              <Tabs items={PREMIUM_SETS.map((x) => x.label)} value={i} onChange={setI} />
+            </div>
+          )}
+        </div>
+        <StillGrid stills={set.stills} onOpen={(k) => openLightbox(set.stills, k)} />
+      </div>
+    </Shell>
+  );
+}
+
+function CineFlowSlide({ active, n, of }: SlideCtx) {
   const [i, setI] = useState(0);
   return (
     <Shell dark wide>
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
         <div>
-          <ProductHead n="01" name="CineFlow" sub="An add-on to the model photography DIG already does for you" dark>
+          <ProductHead n={n} of={of} name="CineFlow" sub="An add-on to the model photography DIG already does for you" dark>
             A cinematic film of your model home, built from the same shoot. No film crew and no second visit. Ready
             for your website, social, and the sales center screen.
           </ProductHead>
@@ -628,13 +690,13 @@ function CineFlowSlide({ active }: SlideCtx) {
   );
 }
 
-function ActFlowSlide({ active }: SlideCtx) {
+function ActFlowSlide({ active, n, of }: SlideCtx) {
   const [i, setI] = useState(0);
   return (
     <Shell dark wide>
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
         <div>
-          <ProductHead n="02" name="ActFlow" sub="The upgrade to CineFlow" dark>
+          <ProductHead n={n} of={of} name="ActFlow" sub="The upgrade to CineFlow" dark>
             ActFlow brings people into the scenes, so buyers see your home being lived in, not just looked at. Same
             photos, same film, more life.
           </ProductHead>
@@ -648,11 +710,11 @@ function ActFlowSlide({ active }: SlideCtx) {
   );
 }
 
-function ListingSlide({ openLightbox }: SlideCtx) {
+function ListingSlide({ openLightbox, n, of }: SlideCtx) {
   return (
     <Shell wide>
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
-        <ProductHead n="03" name="Listing" sub="Spec and community photography">
+        <ProductHead n={n} of={of} name="Listing" sub="Spec and community photography">
           A DIG photographer shoots your spec homes and communities. DIG edits and delivers MLS-ready photos through
           digDesk.
         </ProductHead>
@@ -662,14 +724,14 @@ function ListingSlide({ openLightbox }: SlideCtx) {
   );
 }
 
-function SpecPlusSlide({ active, openLightbox }: SlideCtx) {
+function SpecPlusSlide({ active, openLightbox, n, of }: SlideCtx) {
   const [h, setH] = useState(0);
   const home = SPEC_HOMES[h];
   return (
     <Shell dark wide>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-start">
         <div className="lg:pt-6">
-          <ProductHead n="04" name="Spec+" sub="Listing, plus ModelMatch, plus FrameFlow" dark />
+          <ProductHead n={n} of={of} name="Spec+" sub="Listing, plus ModelMatch, plus FrameFlow" dark />
           <ul className="mt-5 space-y-3 text-[0.95rem] leading-relaxed text-white/70">
             <li>
               <strong className="text-text-light">Listing:</strong> photos of the spec home
@@ -699,7 +761,7 @@ function SpecPlusSlide({ active, openLightbox }: SlideCtx) {
   );
 }
 
-function PlanMatchSlide({ openLightbox }: SlideCtx) {
+function PlanMatchSlide({ openLightbox, n, of }: SlideCtx) {
   const [b, setB] = useState(0);
   const [p, setP] = useState(0);
   const builder = PLANMATCH_BUILDERS[b];
@@ -708,7 +770,7 @@ function PlanMatchSlide({ openLightbox }: SlideCtx) {
     <Shell wide>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-center">
         <div>
-          <ProductHead n="05" name="PlanMatch" sub="Images for the plans that have no model">
+          <ProductHead n={n} of={of} name="PlanMatch" sub="Images for the plans that have no model">
             DIG builds the plan in 3D from your floor plan and delivers finished exterior and interior images, so you
             can market a plan before a model exists.
           </ProductHead>
@@ -797,13 +859,15 @@ function CloseSlide({ client }: SlideCtx) {
   );
 }
 
-const SLIDES: SlideDef[] = [
-  { dark: true, render: (c) => <CoverSlide {...c} /> },
-  { dark: false, render: (c) => <LineupSlide {...c} /> },
-  { dark: true, render: (c) => <CineFlowSlide {...c} /> },
-  { dark: true, render: (c) => <ActFlowSlide {...c} /> },
-  { dark: false, render: (c) => <ListingSlide {...c} /> },
-  { dark: true, render: (c) => <SpecPlusSlide {...c} /> },
-  { dark: false, render: (c) => <PlanMatchSlide {...c} /> },
-  { dark: true, render: (c) => <CloseSlide {...c} /> },
-];
+const COVER: SlideDef = { key: "cover", dark: true, render: (c) => <CoverSlide {...c} /> };
+const LINEUP: SlideDef = { key: "lineup", dark: false, render: (c) => <LineupSlide {...c} /> };
+const CLOSE: SlideDef = { key: "close", dark: true, render: (c) => <CloseSlide {...c} /> };
+
+const MODULE_SLIDES: Record<ModuleKey, SlideDef> = {
+  premium: { key: "premium", dark: false, render: (c) => <PremiumSlide {...c} /> },
+  cineflow: { key: "cineflow", dark: true, render: (c) => <CineFlowSlide {...c} /> },
+  actflow: { key: "actflow", dark: true, render: (c) => <ActFlowSlide {...c} /> },
+  listing: { key: "listing", dark: false, render: (c) => <ListingSlide {...c} /> },
+  specplus: { key: "specplus", dark: true, render: (c) => <SpecPlusSlide {...c} /> },
+  planmatch: { key: "planmatch", dark: false, render: (c) => <PlanMatchSlide {...c} /> },
+};

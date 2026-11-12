@@ -125,13 +125,11 @@ export const PLANMATCH_BUILDERS: PlanBuilder[] = [
   },
 ];
 
-export const DIGDESK_SHOT = "/mm-deck/digdesk-dashboard.jpg";
+// Premium Photography: one tab per set (model home, amenity, lifestyle...).
+// Empty until the photos are encoded into /public/client-showcase; the module
+// stays switched off in src/lib/showcaseModules.ts until then.
+export type PremiumSet = { label: string; stills: Still[] };
 
-// The lineup slide. `slide` is the index of the product's slide in the deck.
-export const LINEUP = [
-  { n: "01", name: "CineFlow", kind: "Video from your photos", line: "A cinematic film of your model, built from the same shoot." },
-  { n: "02", name: "ActFlow", kind: "Video with people", line: "CineFlow with the scenes brought to life by people." },
-  { n: "03", name: "Listing", kind: "Production", line: "Spec and community photography, shot and edited by DIG." },
-  { n: "04", name: "Spec+", kind: "Production + digital", line: "Listing photos, ModelMatch staging, and a FrameFlow video." },
-  { n: "05", name: "PlanMatch", kind: "3D", line: "Finished exterior and interior images for plans with no model." },
-] as const;
+export const PREMIUM_SETS: PremiumSet[] = [];
+
+export const DIGDESK_SHOT = "/mm-deck/digdesk-dashboard.jpg";

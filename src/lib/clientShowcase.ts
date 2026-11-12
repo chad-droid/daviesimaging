@@ -6,6 +6,7 @@
 
 import { sql } from "@vercel/postgres";
 import { randomBytes } from "crypto";
+import { cleanModules, type ModuleKey } from "./showcaseModules";
 
 export type Attendee = { name: string; title?: string };
 
@@ -19,6 +20,7 @@ export type ClientDeck = {
   meeting_date: string | null;
   opening_line: string | null;
   prepared_by: string | null;
+  modules: ModuleKey[] | null; // null = deck predates the selector
   views: number;
   last_viewed_at: string | null;
   created_at: string;
@@ -45,6 +47,7 @@ export function ensureShowcaseTable(): Promise<void> {
           created_at TIMESTAMPTZ DEFAULT NOW()
         )
       `;
+      await sql`ALTER TABLE client_showcase_decks ADD COLUMN IF NOT EXISTS modules JSONB`;
     })().catch((e) => {
       tableReady = null;
       throw e;
@@ -84,6 +87,7 @@ function rowToDeck(r: Record<string, unknown>): ClientDeck {
     meeting_date: (r.meeting_date as string) ?? null,
     opening_line: (r.opening_line as string) ?? null,
     prepared_by: (r.prepared_by as string) ?? null,
+    modules: cleanModules(r.modules),
     views: Number(r.views ?? 0),
     last_viewed_at: r.last_viewed_at ? new Date(r.last_viewed_at as string).toISOString() : null,
     created_at: new Date(r.created_at as string).toISOString(),
@@ -112,6 +116,7 @@ export type DeckInput = {
   meeting_date?: string | null;
   opening_line?: string | null;
   prepared_by?: string | null;
+  modules?: ModuleKey[] | null;
 };
 
 export function cleanAttendees(input: unknown): Attendee[] {
@@ -129,11 +134,12 @@ export async function createDeck(id: string, d: DeckInput): Promise<ClientDeck> 
   await ensureShowcaseTable();
   const { rows } = await sql`
     INSERT INTO client_showcase_decks
-      (id, builder_name, website, logo_url, logo_bg, attendees, meeting_date, opening_line, prepared_by)
+      (id, builder_name, website, logo_url, logo_bg, attendees, meeting_date, opening_line, prepared_by, modules)
     VALUES (
       ${id}, ${d.builder_name}, ${d.website ?? null}, ${d.logo_url ?? null},
       ${d.logo_bg ?? "light"}, ${JSON.stringify(d.attendees ?? [])}::jsonb,
-      ${d.meeting_date ?? null}, ${d.opening_line ?? null}, ${d.prepared_by ?? null}
+      ${d.meeting_date ?? null}, ${d.opening_line ?? null}, ${d.prepared_by ?? null},
+      ${d.modules ? JSON.stringify(d.modules) : null}::jsonb
     )
     RETURNING *
   `;
@@ -151,7 +157,8 @@ export async function updateDeck(id: string, d: DeckInput): Promise<ClientDeck |
       attendees = ${JSON.stringify(d.attendees ?? [])}::jsonb,
       meeting_date = ${d.meeting_date ?? null},
       opening_line = ${d.opening_line ?? null},
-      prepared_by = ${d.prepared_by ?? null}
+      prepared_by = ${d.prepared_by ?? null},
+      modules = ${d.modules ? JSON.stringify(d.modules) : null}::jsonb
     WHERE id = ${id}
     RETURNING *
   `;
