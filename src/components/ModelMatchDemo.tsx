@@ -2,6 +2,7 @@
 
 import { Fragment, useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import posthog from "posthog-js";
 import { DynamicImage } from "@/components/DynamicImage";
 
 const rooms = [
@@ -169,6 +170,10 @@ export function ModelMatchDemo() {
             key={r.id}
             type="button"
             onClick={() => {
+              posthog.capture("modelmatch_demo_explored", {
+                interaction: "room_selected",
+                room: r.id,
+              });
               setActiveRoom(i);
               setActiveStage(null);
             }}
@@ -211,7 +216,14 @@ export function ModelMatchDemo() {
                 >
                   <button
                     type="button"
-                    onClick={() => setActiveStage(activeStage === i ? null : i)}
+                    onClick={() => {
+                      posthog.capture("modelmatch_demo_explored", {
+                        interaction: activeStage === i ? "stage_collapsed" : "stage_expanded",
+                        room: room.id,
+                        stage: stage.step,
+                      });
+                      setActiveStage(activeStage === i ? null : i);
+                    }}
                     className="group w-full text-left focus:outline-none"
                   >
                     {/* Image area — fixed height; image fills vertically and reveals more width on expand */}
