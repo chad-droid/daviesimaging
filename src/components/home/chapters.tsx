@@ -308,16 +308,16 @@ export function ProofChapter() {
 /* ── Compare: which one fits. ────────────────────────────────────────────── */
 const PLANS = [
   {
+    name: "Listing Photography",
+    href: "/services/listing",
+    rows: ["Listings that need photography only", "HDR listing photos, MLS-ready", "Within 48 hours of the shoot", "Quoted by market"],
+  },
+  {
     name: "Spec+",
     tag: "Best value",
     href: "/programs/spec-plus",
     rows: ["Spec homes and standing inventory", "25 photos, 8 staged images, 1 video", "72 hours after photography", "$600 flat, all home sizes"],
     featured: true,
-  },
-  {
-    name: "Listing Photography",
-    href: "/services/listing",
-    rows: ["Listings that need photography only", "HDR listing photos, MLS-ready", "Within 48 hours of the shoot", "Quoted by market"],
   },
   {
     name: "Premium Photography",
@@ -332,10 +332,8 @@ export function CompareChapter() {
     <section id="compare" className="scroll-mt-28 bg-bg-surface py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <RevealOnScroll>
-          <Eyebrow>Compare</Eyebrow>
-          <h2 className="lg:text-[3rem] lg:leading-[1.08]">
-            Which one <strong>fits</strong>?
-          </h2>
+          <Eyebrow>Production</Eyebrow>
+          <h2 className="lg:text-[3rem] lg:leading-[1.08]">Compare Photography Services</h2>
         </RevealOnScroll>
         <RevealOnScroll stagger={120}>
           <div className="mt-12 grid gap-5 lg:grid-cols-3">
