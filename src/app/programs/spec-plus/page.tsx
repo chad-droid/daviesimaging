@@ -221,7 +221,7 @@ export default function SpecPlusPage() {
       </section>
 
       {/* Customer proof */}
-      <TestimonialBand ids={["jordan-easy"]} />
+      <TestimonialBand ids={["jaime-speed"]} />
 
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">

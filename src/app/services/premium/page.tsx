@@ -321,7 +321,7 @@ export default function PremiumPage() {
       </DarkSection>
 
       {/* Customer proof */}
-      <TestimonialBand ids={["angela-hooked", "alexandra-partner"]} />
+      <TestimonialBand ids={["sarah-handoff", "angela-hooked"]} />
 
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">

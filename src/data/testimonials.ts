@@ -44,6 +44,8 @@ const PEOPLE = {
   bradley: { name: "Bradley Davis", title: "Marketing Director", company: "Woodbridge Pacific Group" },
   carrie: { name: "Carrie Davis", company: "Ladera Living" },
   linnea: { name: "Linnea Chapman", title: "Corporate VP of Marketing", company: "TrueMark Homes" },
+  sarah: { name: "Sarah Shay", title: "Marketing Director", company: "Dream Finders Homes" },
+  jaime: { name: "Jaime Godwin", title: "Director of Marketing Communications", company: "Kolter Homes" },
 } as const;
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -173,6 +175,77 @@ export const TESTIMONIALS: Testimonial[] = [
     quote:
       "The fact that my team doesn't need to be out on site, and the streamlining of communication, it just allows us to move so much faster.",
     topics: ["partnership", "markets"],
+    approved: true,
+  },
+  {
+    id: "jaime-pilot",
+    ...PEOPLE.jaime,
+    quote:
+      "We started DIG in one of our markets, and then some of the sales team in other markets started seeing, wait, what are you doing in South Florida? We want that in our market too.",
+    topics: ["markets", "partnership"],
+    approved: true,
+  },
+  {
+    id: "jaime-speed",
+    ...PEOPLE.jaime,
+    quote:
+      "When a home is finished with construction, we need to get the photography as soon as we can so that we can list the home, because every day counts. And you also want to list the home with as many assets as possible within the first day of listing it.",
+    topics: ["spec-plus", "listing"],
+    approved: true,
+  },
+  {
+    id: "jaime-selects",
+    ...PEOPLE.jaime,
+    quote:
+      "The assets that were delivered were vetted and were ready to go. Because sometimes you work with a photographer and they just give you a Dropbox link to thousands of photos that take forever to download, and then you have to edit them yourself, and then you have to cherry-pick the selects. We basically were handed selects that were exactly what we needed as soon as we received them.",
+    topics: ["listing"],
+    approved: true,
+  },
+  {
+    id: "jaime-refresh",
+    ...PEOPLE.jaime,
+    quote:
+      "If we have a listing that's maybe been sitting a little longer than we like, we can go into DIG's platform and request new virtual staging or maybe a different video, and we're able to refresh the listing with new assets for it.",
+    topics: ["digdesk", "modelmatch", "video"],
+    approved: true,
+  },
+  {
+    id: "jaime-modelmatch",
+    ...PEOPLE.jaime,
+    quote:
+      "And what's really cool about the virtual staging is that they can look at the type of merchandising that you have in your own models and then use similar features and similar furniture so that there's a consistency to the way the home looks.",
+    topics: ["modelmatch"],
+    approved: true,
+  },
+  {
+    id: "sarah-handoff",
+    ...PEOPLE.sarah,
+    quote:
+      "Now that we work with DIG, we've really been able to take a step back. They handle all of the coordination with our teams, and we can focus on what marketing does best, which is ensuring our homes are presented in the best light.",
+    topics: ["premium", "partnership"],
+    approved: true,
+  },
+  {
+    id: "sarah-skeptic",
+    ...PEOPLE.sarah,
+    quote:
+      "We were a little bit skeptical, I will say, at the beginning. We saw their work. It's amazing. But we had a process down. We were involved to the nth degree in every step of it. And it was such a breath of fresh air to have a partner who came in and worked alongside of us step by step to ensure every need that we had was met, so that we can focus on other parts of the marketing business.",
+    topics: ["switching", "premium"],
+    approved: true,
+  },
+  {
+    id: "sarah-know",
+    ...PEOPLE.sarah,
+    quote: "Sometimes it feels like they know what we need even more than we do.",
+    topics: ["premium", "partnership"],
+    approved: true,
+  },
+  {
+    id: "sarah-reshoot",
+    ...PEOPLE.sarah,
+    quote:
+      "And I know some people will say, hey, don't we build this model? Don't we already have pictures of it? But if all of your pictures look the same, it doesn't intrigue a buyer.",
+    topics: ["premium", "cost"],
     approved: true,
   },
 ];

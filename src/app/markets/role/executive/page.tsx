@@ -8,7 +8,7 @@ import { LPCta } from "@/components/lp/LPCta";
 import { getTestimonials, attributionLine } from "@/data/testimonials";
 
 // A named customer, from src/data/testimonials.ts.
-const [t] = getTestimonials(["kim-one-partner"]);
+const [t] = getTestimonials(["jaime-pilot"]);
 const proofQuote = t ? { quote: t.quote, attribution: attributionLine(t) } : undefined;
 
 export const metadata: Metadata = {

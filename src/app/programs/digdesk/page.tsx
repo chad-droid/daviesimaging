@@ -324,7 +324,7 @@ export default function DigDeskPage() {
       </section>
 
       {/* Customer proof */}
-      <TestimonialBand ids={["bradley-portal"]} />
+      <TestimonialBand ids={["bradley-portal", "jaime-refresh"]} />
 
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">

@@ -209,7 +209,7 @@ export default function RegionalPartnershipsPage() {
       </DarkSection>
 
       {/* Customer proof */}
-      <TestimonialBand ids={["linnea-reach", "kim-markets"]} />
+      <TestimonialBand ids={["jaime-pilot", "linnea-reach"]} />
 
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">
