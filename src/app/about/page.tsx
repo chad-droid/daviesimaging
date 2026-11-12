@@ -30,8 +30,8 @@ const pillars = [
 
 const stats = [
   { value: "28", label: "Markets nationwide" },
-  { value: "95%", label: "First-delivery success rate" },
-  { value: "72 hrs", label: "Spec+ delivery after shoot" },
+  { value: "95%", label: "First delivery" },
+  { value: "72 hrs", label: "Spec+ delivery" },
   { value: "5-Star", label: "Client reviews" },
 ];
 
@@ -83,13 +83,19 @@ export default function AboutPage() {
 
       {/* Stats */}
       <section className="bg-bg-light py-16">
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {stats.map((s, i) => (
-                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-6 text-center">
-                  <p className="text-3xl font-semibold text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>{s.value}</p>
-                  <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-accent">{s.label}</p>
+                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-7">
+                  <p
+                    className="whitespace-nowrap text-[2.25rem] font-semibold leading-none text-text-dark"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {s.value}
+                  </p>
+                  <div className="mt-4 h-px w-10 bg-accent" />
+                  <p className="mt-4 whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-accent">{s.label}</p>
                 </div>
               ))}
             </div>
