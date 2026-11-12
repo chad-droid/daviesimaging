@@ -165,7 +165,7 @@ export default function ListingPhotoPage() {
       </section>
 
       {/* Customer proof */}
-      <TestimonialBand ids={["bradley-resale"]} />
+      <TestimonialBand ids={["bradley-resale", "jaime-selects"]} />
 
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">
