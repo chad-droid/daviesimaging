@@ -143,7 +143,7 @@ export function PlanMatchChapter() {
           great quality, at better prices, in less time.
         </p>
         <Link
-          href="/services/showcase#planmatch"
+          href="/services/planmatch"
           className="mt-5 inline-block text-sm font-medium text-white/70 transition-colors hover:text-white"
         >
           See PlanMatch &rarr;
@@ -214,8 +214,8 @@ const LINES = [
     body: "Your static images, converted into dynamic video.",
     products: [
       { label: "FrameFlow", href: "/services/virtual-video" },
-      { label: "CineFlow", href: "/services/showcase#cineflow" },
-      { label: "ActFlow", href: "/services/showcase#actflow" },
+      { label: "CineFlow", href: "/services/cineflow" },
+      { label: "ActFlow", href: "/services/actflow" },
     ],
   },
   {
@@ -223,8 +223,8 @@ const LINES = [
     body: "Your virtual assets look and feel like the real thing, because they are built off your existing model home identity.",
     products: [
       { label: "ModelMatch", href: "/services/virtual-staging" },
-      { label: "PlanMatch", href: "/services/showcase#planmatch" },
-      { label: "Moments", href: "/services/showcase#moments" },
+      { label: "PlanMatch", href: "/services/planmatch" },
+      { label: "Moments", href: "/services/moments" },
     ],
   },
 ];

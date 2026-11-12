@@ -222,7 +222,7 @@ export default function VirtualVideoPage() {
                   lifelike cinematic sequences without a real photo shoot.
                 </p>
                 <Link
-                  href="/services/showcase#cineflow"
+                  href="/services/cineflow"
                   className="mt-5 inline-block text-sm font-medium text-text-dark transition-colors hover:text-accent"
                 >
                   See CineFlow &rarr;
@@ -235,7 +235,7 @@ export default function VirtualVideoPage() {
                   in your homes and amenities.
                 </p>
                 <Link
-                  href="/services/showcase#actflow"
+                  href="/services/actflow"
                   className="mt-5 inline-block text-sm font-medium text-text-dark transition-colors hover:text-accent"
                 >
                   See ActFlow &rarr;

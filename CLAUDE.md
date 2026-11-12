@@ -258,6 +258,22 @@ Use `border-white/10 bg-white/5` — not opaque dark colors. The subtle transpar
 
 ---
 
+### Product pages built on `ProductPage` (November 2026, `homepage-rebuild` branch)
+
+PlanMatch, Moments, CineFlow and ActFlow each have a page at `/services/{slug}`,
+all rendered by `src/components/ProductPage.tsx` from a plain config object in
+the page file. Add or change a product there, not by copying a page.
+
+- Slot ids derive from the slug: `services-{slug}-hero`, `-intro`, `-cta` for
+  text and `services-{slug}-{id}-img` for images.
+- `DynamicImage` takes `defaultSrc` (a local image shown until an admin assigns
+  one) and `hideWhenEmpty` (visitors see nothing for an empty slot; admins see
+  the placeholder so they can fill it). The stills section on a product page
+  hides itself until at least one slot has an image.
+- Nav, footer and homepage link to these pages, not to `/services/showcase#...`.
+
+---
+
 ### Premium Photography
 
 Premium Photography is an **umbrella** covering three distinct shoot types ordered separately. It is NOT a bundled package with deliverables. Do not list deliverables as a grid.
@@ -299,7 +315,10 @@ These are the exact eyebrow strings to use on each page. Do not deviate.
 | `/services/video-production` | `Solutions / Premium Video` | yes |
 | `/services/virtual-staging` | `Solutions / ModelMatch` | yes |
 | `/services/virtual-video` | `Solutions / FrameFlow` | yes |
-| `/services/matterport` | `Solutions / Matterport` | yes |
+| `/services/planmatch` | `Solutions / PlanMatch` | yes |
+| `/services/moments` | `Solutions / Moments` | yes |
+| `/services/cineflow` | `Solutions / CineFlow` | yes |
+| `/services/actflow` | `Solutions / ActFlow` | yes |
 | `/programs/frameflow` | `Programs / FrameFlow Studio` | yes |
 | `/programs/spec-plus` | `Programs / Spec+` | yes |
 | `/programs/digdesk` | `Programs / digDesk` | yes |

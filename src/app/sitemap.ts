@@ -49,6 +49,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/services/virtual-staging`,  changeFrequency: "monthly", priority: 0.80 },
     { url: `${BASE}/services/virtual-video`,    changeFrequency: "monthly", priority: 0.80 },
     { url: `${BASE}/services/showcase`,         changeFrequency: "monthly", priority: 0.80 },
+    { url: `${BASE}/services/planmatch`, changeFrequency: "monthly", priority: 0.80 },
+    { url: `${BASE}/services/moments`, changeFrequency: "monthly", priority: 0.80 },
+    { url: `${BASE}/services/cineflow`, changeFrequency: "monthly", priority: 0.80 },
+    { url: `${BASE}/services/actflow`, changeFrequency: "monthly", priority: 0.80 },
 
     // ── Programs ──────────────────────────────────────────────────────────────
     // NOTE: /programs/frameflow-premium intentionally excluded — password-protected stealth pilot

@@ -7,15 +7,15 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const footerLinks = {
   Solutions: [
-    { label: "PlanMatch", href: "/services/showcase#planmatch" },
+    { label: "PlanMatch", href: "/services/planmatch" },
     { label: "Premium Photography", href: "/services/premium" },
     { label: "Premium Video", href: "/services/video-production" },
     { label: "Spec+", href: "/programs/spec-plus" },
     { label: "Listing Photography", href: "/services/listing" },
     { label: "ModelMatch", href: "/services/virtual-staging" },
     { label: "FrameFlow", href: "/services/virtual-video" },
-    { label: "CineFlow", href: "/services/showcase#cineflow" },
-    { label: "ActFlow", href: "/services/showcase#actflow" },
+    { label: "CineFlow", href: "/services/cineflow" },
+    { label: "ActFlow", href: "/services/actflow" },
   ],
   About: [
     { label: "Why We Exist", href: "/about" },

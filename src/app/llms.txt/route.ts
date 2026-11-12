@@ -20,6 +20,10 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 - [Video Production](${SITE_URL}/services/video-production): On-site, crew-based video. Community walkthroughs, lifestyle video, amenity showcases, brand films.
 - [Virtual Staging](${SITE_URL}/services/virtual-staging): Reference-based virtual staging using approved model home images as design references, not generic room swaps.
 - [Virtual Video](${SITE_URL}/services/virtual-video): Digital video built from existing photos or staging outputs. No shoot or crew required. This is also DIG's listing video solution.
+- [PlanMatch](${SITE_URL}/services/planmatch): Photorealistic interior and exterior images of homes before they are built, made from construction plans and finish samples.
+- [Moments](${SITE_URL}/services/moments): Vertical close ups of the cabinetry, stone, fixtures and appliances in a builder's homes, made for social.
+- [CineFlow](${SITE_URL}/services/cineflow): Cinematic video sequences made from still images, relit and with new angles, without a photo shoot.
+- [ActFlow](${SITE_URL}/services/actflow): Lifestyle video with virtual talent placed in a builder's own homes and amenities.
 
 ## Programs (how builders buy)
 

@@ -55,14 +55,14 @@ const navGroups: NavGroup[] = [
     // (CineFlow and ActFlow sit in both Lead and Launch). In the line view each
     // product appears once.
     items: [
-      { stage: "lead", line: "match", label: "PlanMatch", href: "/services/showcase#planmatch", description: "Photography made from your plans" },
-      { stage: "lead", line: "flow", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic sequences without a photo shoot" },
-      { stage: "lead", line: "flow", label: "ActFlow", href: "/services/showcase#actflow", description: "Virtual talent brings your spaces to life" },
+      { stage: "lead", line: "match", label: "PlanMatch", href: "/services/planmatch", description: "Photography made from your plans" },
+      { stage: "lead", line: "flow", label: "CineFlow", href: "/services/cineflow", description: "Cinematic sequences without a photo shoot" },
+      { stage: "lead", line: "flow", label: "ActFlow", href: "/services/actflow", description: "Virtual talent brings your spaces to life" },
       { stage: "launch", line: "production", label: "Premium Photography", href: "/services/premium", description: "Model homes, amenities and lifestyle" },
       { stage: "launch", line: "production", label: "Premium Video", href: "/services/video-production", description: "Crew-based community and lifestyle film" },
-      { stage: "launch", line: "flow", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic sequences from your model photography" },
-      { stage: "launch", line: "flow", label: "ActFlow", href: "/services/showcase#actflow", description: "Virtual talent in your models and amenities" },
-      { stage: "launch", line: "match", label: "Moments", href: "/services/showcase#moments", description: "Vertical close ups for social" },
+      { stage: "launch", line: "flow", label: "CineFlow", href: "/services/cineflow", description: "Cinematic sequences from your model photography" },
+      { stage: "launch", line: "flow", label: "ActFlow", href: "/services/actflow", description: "Virtual talent in your models and amenities" },
+      { stage: "launch", line: "match", label: "Moments", href: "/services/moments", description: "Vertical close ups for social" },
       { stage: "list", line: "production", label: "Spec+", href: "/programs/spec-plus", description: "Photography, staging, and video, $600 flat" },
       { stage: "list", line: "production", label: "Listing Photography", href: "/services/listing", description: "HDR spec home photos, MLS-ready" },
       { stage: "list", line: "match", label: "ModelMatch", href: "/services/virtual-staging", description: "Staging built from your own model homes" },
