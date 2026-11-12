@@ -4,7 +4,10 @@ import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { ShowcaseSectionHeader } from "@/components/ShowcaseSectionHeader";
+import Image from "next/image";
 import { SequentialVideo } from "@/components/SequentialVideo";
+import { ShowcaseFilm } from "@/components/ShowcaseFilm";
+import { ShowcaseChapterNav } from "@/components/ShowcaseChapterNav";
 import { CrossfadePair } from "@/components/CrossfadePair";
 import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
@@ -68,46 +71,85 @@ const SERVICES = [
   },
 ];
 
+/** Finished PlanMatch photography, shown under the plan-to-photo film. */
+const PLANMATCH_STILLS = [
+  { file: "planmatch-coventry-ext-twilight", alt: "PlanMatch front exterior at twilight" },
+  { file: "planmatch-04-living-dining-kitchen", alt: "PlanMatch living, dining and kitchen" },
+  { file: "planmatch-04-kitchen", alt: "PlanMatch kitchen" },
+  { file: "planmatch-05-master-bedroom", alt: "PlanMatch primary bedroom" },
+];
+
+/** Chapter order. Drives the sticky chapter bar and the section ids. */
+const CHAPTERS = SERVICES.map((s) => ({ id: s.slug, label: s.name }));
+
+/**
+ * Three plain facts per chapter. Every value restates copy already approved
+ * for this page; nothing here is a new claim, price or turnaround.
+ */
+const FACTS: Record<string, { label: string; value: string }[]> = {
+  planmatch: [
+    { label: "Made from", value: "Your plans and brand standards" },
+    { label: "You get", value: "Photography of every elevation and room" },
+    { label: "Ready for", value: "The day pre-sales open" },
+  ],
+  moments: [
+    { label: "Format", value: "Vertical close ups, silent" },
+    { label: "Shows", value: "Cabinetry, stone, fixtures and appliances" },
+    { label: "Built for", value: "Listing pages, paid social and email" },
+  ],
+  cinematic: [
+    { label: "Format", value: "Short editorial film, cut to music" },
+    { label: "Also included", value: "A vertical cut and stills from the same set" },
+    { label: "Built for", value: "The website and the sales center" },
+  ],
+};
+
 function AskButton() {
   return (
     <Link
       href={ASK_HREF}
-      className="mt-8 inline-flex rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+      className="inline-flex rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
     >
       {ASK_LABEL}
     </Link>
   );
 }
 
-/**
- * PlanMatch, Moments and Cinematic share one desktop height. Moments sets it:
- * a split header over five vertical cards runs about 43rem, so the two film
- * sections give their film the wider column and center in the same box.
- */
-const SHOWCASE_SECTION = "lg:flex lg:min-h-[44rem] lg:flex-col lg:justify-center";
-
-/** The single large frame used by PlanMatch and Cinematic. No caption bar. */
-function FeatureFrame({ children }: { children: React.ReactNode }) {
+/** Facts on the left, the one ask on the right, under a hairline. */
+function ChapterFooter({ slug }: { slug: string }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-border-light bg-bg-light">
-      {children}
+    <div className="mx-auto mt-12 max-w-6xl px-6">
+      <dl className="grid border-y border-white/10 sm:grid-cols-3 sm:divide-x sm:divide-white/10">
+        {FACTS[slug].map((f, i) => (
+          <div
+            key={f.label}
+            className={`py-5 sm:py-6 ${i > 0 ? "border-t border-white/10 sm:border-t-0 sm:pl-6" : ""} sm:pr-6`}
+          >
+            <dt className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/45">{f.label}</dt>
+            <dd className="mt-2 text-base leading-snug text-text-light">{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className="mt-10">
+        <AskButton />
+      </div>
     </div>
   );
 }
 
 /**
- * Example card: the frames alone, no caption bar. The work carries the section.
- *
- * The box is 9/16, matching the vertical frames builders post to social.
- * Moments are vertical only, so nothing is cropped.
+ * The film frame. Runs edge to edge on phones and tablets, and sits inside a
+ * wide rounded frame from lg up, so the work is the largest thing on screen.
  */
-function ExampleCard({ children }: { children: React.ReactNode }) {
+function Stage({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative aspect-9/16 w-full overflow-hidden rounded-xl border border-border-light bg-bg-light">
-      {children}
+    <div className="mx-auto mt-12 max-w-[100rem] lg:mt-16 lg:px-6">
+      <div className="overflow-hidden bg-black lg:rounded-2xl lg:ring-1 lg:ring-white/10">{children}</div>
     </div>
   );
 }
+
+const CHAPTER = "scroll-mt-28 border-t border-white/10 py-24 lg:py-32";
 
 export default function ShowcasePage() {
   return (
@@ -133,7 +175,7 @@ export default function ShowcasePage() {
         ])}
       />
 
-      {/* Hero — dark, left justified, one headline with one bolded payoff */}
+      {/* Hero: dark, left justified, one headline with one bolded payoff */}
       <DarkSection className="min-h-[60vh] py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
@@ -150,121 +192,122 @@ export default function ShowcasePage() {
               >
                 Book a Strategy Call
               </Link>
-              <Link
-                href="/gallery"
+              <a
+                href="#planmatch"
                 className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
-                See the work &rarr;
-              </Link>
+                See the work &darr;
+              </a>
             </div>
           </RevealOnScroll>
         </div>
       </DarkSection>
 
-      {/* PlanMatch — white. Text left, one large film right. */}
-      <section className={`bg-bg-surface py-24 ${SHOWCASE_SECTION}`}>
-        <div className="mx-auto w-full max-w-6xl px-6">
-          <RevealOnScroll>
-            <div className="grid gap-10 lg:grid-cols-[2fr_3fr] lg:items-center lg:gap-16">
-              <div>
-                <ShowcaseSectionHeader
-                  slotId="services-showcase-planmatch"
-                  eyebrowDefault="PlanMatch"
-                  headlineDefault="The home sells before it <strong>is built</strong>."
-                  leadDefault="Photography made from the plans, brand approved and ready the day pre-sales open."
-                  tailDefault="Every elevation held to the standard of the finished model, without waiting on a slab."
-                />
-                <AskButton />
-              </div>
-              <FeatureFrame>
-                {/* Scaled 2% inside the clipped frame: planmatch-02 carries a
-                    thin dark line baked into its top and bottom edges. */}
-                <SequentialVideo
-                  clips={PLANMATCH_CLIPS}
-                  className="aspect-video w-full scale-[1.02] object-cover"
-                />
-              </FeatureFrame>
-            </div>
-          </RevealOnScroll>
-        </div>
-      </section>
+      {/* The whole page stays dark below the hero: the films are the light. */}
+      <div className="bg-bg-dark text-text-light">
+        <ShowcaseChapterNav chapters={CHAPTERS} ctaHref={ASK_HREF} ctaLabel={ASK_LABEL} />
 
-      {/* Moments — cream. One centered block: title and headline left, body
-          and the ask right, then the five verticals across the same width. */}
-      <section className={`bg-bg-light py-24 ${SHOWCASE_SECTION}`}>
-        <div className="mx-auto w-full max-w-6xl px-6">
-          <div className="lg:mx-auto lg:max-w-[60rem]">
+        {/* 01 PlanMatch: the plan-to-photo film, then the finished photography */}
+        <section id="planmatch" className={`${CHAPTER} border-t-0`}>
+          <div className="mx-auto max-w-6xl px-6">
+            <RevealOnScroll>
+              <ShowcaseSectionHeader
+                slotId="services-showcase-planmatch"
+                index="01"
+                eyebrowDefault="PlanMatch"
+                headlineDefault="The home sells before it <strong>is built</strong>."
+                leadDefault="Photography made from the plans, brand approved and ready the day pre-sales open."
+                tailDefault="Every elevation held to the standard of the finished model, without waiting on a slab."
+              />
+            </RevealOnScroll>
+          </div>
+          <Stage>
+            {/* Scaled 2% inside the clipped frame: planmatch-02 carries a thin
+                dark line baked into its top and bottom edges. */}
+            <SequentialVideo clips={PLANMATCH_CLIPS} className="aspect-video w-full scale-[1.02] object-cover" />
+          </Stage>
+          <div className="mx-auto mt-3 max-w-[100rem] lg:px-6">
+            <div className="grid grid-cols-2 gap-3 px-3 lg:grid-cols-4 lg:px-0">
+              {PLANMATCH_STILLS.map((s) => (
+                <div
+                  key={s.file}
+                  className="relative aspect-[3/2] overflow-hidden rounded-lg bg-bg-dark-surface ring-1 ring-white/10 lg:rounded-xl"
+                >
+                  <Image
+                    src={`/client-showcase/${s.file}.webp`}
+                    alt={s.alt}
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <ChapterFooter slug="planmatch" />
+        </section>
+
+        {/* 02 Moments: five verticals at phone proportions */}
+        <section id="moments" className={CHAPTER}>
+          <div className="mx-auto max-w-6xl px-6">
             <RevealOnScroll>
               <ShowcaseSectionHeader
                 slotId="services-showcase-moments"
+                index="02"
                 eyebrowDefault="Moments"
                 headlineDefault="The details a wide listing shot <strong>misses</strong>."
                 leadDefault="Vertical close ups of what is built into the home: cabinetry, stone, fixtures and appliances. Made for social."
-                split
-              >
-                <AskButton />
-              </ShowcaseSectionHeader>
-            </RevealOnScroll>
-            <RevealOnScroll>
-              {/* Five verticals: a swipeable row below lg, one row of five from lg up. */}
-              <div className="-mx-6 mt-12 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 lg:mx-0 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0 lg:pb-0">
-                {MOMENTS_PAIRS.map((pair) => (
-                  <div key={pair.key} className="w-[62%] shrink-0 snap-start sm:w-[30%] lg:w-auto">
-                    <ExampleCard>
-                      <CrossfadePair
-                        first={`/showcase/moments-${pair.key}-1.webp`}
-                        second={`/showcase/moments-${pair.key}-2.webp`}
-                        alt={pair.alt}
-                        sizes="(max-width: 640px) 62vw, (max-width: 1024px) 30vw, 220px"
-                      />
-                    </ExampleCard>
-                  </div>
-                ))}
-              </div>
+              />
             </RevealOnScroll>
           </div>
-        </div>
-      </section>
-
-      {/* Cinematic — white. PlanMatch inverted: large film left, text right. */}
-      <section className={`bg-bg-surface py-24 ${SHOWCASE_SECTION}`}>
-        <div className="mx-auto w-full max-w-6xl px-6">
-          <RevealOnScroll>
-            <div className="grid gap-10 lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-16">
-              {/* Text leads on mobile, sits right of the film from lg up. */}
-              <div className="order-2 lg:order-1">
-                <FeatureFrame>
-                  {/* Sound on play: the film carries a control and stays
-                      silent until it is pressed, unlike the loops above. */}
-                  <video
-                    src="/showcase/cinematic.mp4"
-                    poster="/showcase/cinematic.jpg"
-                    controls
-                    playsInline
-                    preload="metadata"
-                    className="aspect-video w-full object-cover"
-                  />
-                </FeatureFrame>
-              </div>
-              <div className="order-1 lg:order-2">
-                {/* Single sentence in the source copy, broken at its comma so
-                    this section carries the same two-step body as the others. */}
-                <ShowcaseSectionHeader
-                  slotId="services-showcase-cinematic"
-                  eyebrowDefault="Cinematic"
-                  headlineDefault="A home told as a story, <strong>not a tour</strong>."
-                  leadDefault="A short editorial film cut to a music narrative."
-                  tailDefault="With a vertical version for social and stills pulled from the same set."
-                />
-                <AskButton />
-              </div>
+          {/* A swipeable row below lg, one row of five from lg up. */}
+          <div className="mx-auto mt-12 max-w-6xl lg:mt-16 lg:px-6">
+            <div className="flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 lg:grid lg:grid-cols-5 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0">
+              {MOMENTS_PAIRS.map((pair) => (
+                <div key={pair.key} className="w-[62%] shrink-0 snap-start sm:w-[34%] lg:w-auto">
+                  <div className="relative aspect-9/16 w-full overflow-hidden rounded-[1.5rem] bg-bg-dark-surface ring-1 ring-white/10">
+                    <CrossfadePair
+                      first={`/showcase/moments-${pair.key}-1.webp`}
+                      second={`/showcase/moments-${pair.key}-2.webp`}
+                      alt={pair.alt}
+                      sizes="(max-width: 640px) 62vw, (max-width: 1024px) 34vw, 220px"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-          </RevealOnScroll>
-        </div>
-      </section>
+          </div>
+          <ChapterFooter slug="moments" />
+        </section>
 
-      {/* Next step — dark bookend, the one place centered text is right */}
-      <DarkSection className="py-24 text-text-light">
+        {/* 03 Cinematic: the film, playing, with sound one tap away */}
+        <section id="cinematic" className={CHAPTER}>
+          <div className="mx-auto max-w-6xl px-6">
+            <RevealOnScroll>
+              <ShowcaseSectionHeader
+                slotId="services-showcase-cinematic"
+                index="03"
+                eyebrowDefault="Cinematic"
+                headlineDefault="A home told as a story, <strong>not a tour</strong>."
+                leadDefault="A short editorial film cut to a music narrative."
+                tailDefault="With a vertical version for social and stills pulled from the same set."
+              />
+            </RevealOnScroll>
+          </div>
+          <Stage>
+            <ShowcaseFilm
+              src="/showcase/cinematic.mp4"
+              poster="/showcase/cinematic.jpg"
+              label="Cinematic film of a model home"
+              sound
+            />
+          </Stage>
+          <ChapterFooter slug="cinematic" />
+        </section>
+      </div>
+
+      {/* Next step: dark bookend, the one place centered text is right */}
+      <DarkSection className="border-t border-white/10 py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <EditableTextContent
