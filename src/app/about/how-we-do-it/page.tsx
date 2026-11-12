@@ -32,7 +32,7 @@ const specialists = [
 ];
 
 const proofPoints = [
-  { value: "95%", label: "First-delivery success rate", detail: "95% of deliveries are ready to publish without any changes." },
+  { value: "95%", label: "First delivery", detail: "95% of deliveries are ready to publish without any changes." },
   { value: "5-Star", label: "Client reviews", detail: "Seamless because every person on the team is focused on what they do best." },
   { value: "One team", label: "Every specialty", detail: "Photography, video, virtual staging, and 3D under one roof. One point of contact." },
   { value: "28 markets", label: "Same standard", detail: "Specialization scales. The model works in Sacramento the same way it works in Dallas." },
@@ -183,14 +183,20 @@ export default function HowWeDoItPage() {
 
       {/* Proof points */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {proofPoints.map((p, i) => (
-                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-6 text-center">
-                  <p className="font-serif text-3xl font-semibold text-text-dark">{p.value}</p>
-                  <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-accent">{p.label}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-text-muted">{p.detail}</p>
+                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-7">
+                  <p
+                    className="whitespace-nowrap text-[2.25rem] font-semibold leading-none text-text-dark"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {p.value}
+                  </p>
+                  <div className="mt-4 h-px w-10 bg-accent" />
+                  <p className="mt-4 whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-accent">{p.label}</p>
+                  <p className="mt-3 text-pretty text-[0.9375rem] leading-relaxed text-text-body">{p.detail}</p>
                 </div>
               ))}
             </div>
