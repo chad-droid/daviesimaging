@@ -8,6 +8,7 @@
 // because AdminAuth only gates the UI.
 
 import { useCallback, useEffect, useState } from "react";
+import { DEFAULT_MODULES, SHOWCASE_MODULES, resolveModules, type ModuleKey } from "@/lib/showcaseModules";
 
 const KEY_STORAGE = "dig-showcase-key";
 
@@ -22,6 +23,7 @@ type Deck = {
   meeting_date: string | null;
   opening_line: string | null;
   prepared_by: string | null;
+  modules: ModuleKey[] | null;
   views: number;
   last_viewed_at: string | null;
   created_at: string;
@@ -37,6 +39,7 @@ type Form = {
   meeting_date: string;
   opening_line: string;
   prepared_by: string;
+  modules: ModuleKey[];
 };
 
 const EMPTY: Form = {
@@ -48,6 +51,7 @@ const EMPTY: Form = {
   meeting_date: new Date().toISOString().slice(0, 10),
   opening_line: "",
   prepared_by: "",
+  modules: DEFAULT_MODULES,
 };
 
 const input =
@@ -136,6 +140,7 @@ export default function ShowcaseAdminPage() {
 
   async function save() {
     if (!form.builder_name.trim()) return setError("Builder name is required.");
+    if (form.modules.length === 0) return setError("Pick at least one module.");
     setBusy("save");
     setError("");
     try {
@@ -182,6 +187,7 @@ export default function ShowcaseAdminPage() {
       meeting_date: d.meeting_date ?? "",
       opening_line: d.opening_line ?? "",
       prepared_by: d.prepared_by ?? "",
+      modules: resolveModules(d.modules).map((m) => m.key),
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -191,6 +197,12 @@ export default function ShowcaseAdminPage() {
     setCopied(id);
     window.setTimeout(() => setCopied(""), 1600);
   }
+
+  const toggleModule = (k: ModuleKey) =>
+    setForm((f) => ({
+      ...f,
+      modules: f.modules.includes(k) ? f.modules.filter((x) => x !== k) : [...f.modules, k],
+    }));
 
   const setAtt = (i: number, patch: Partial<Attendee>) =>
     setForm((f) => ({ ...f, attendees: f.attendees.map((a, j) => (j === i ? { ...a, ...patch } : a)) }));
@@ -205,8 +217,8 @@ export default function ShowcaseAdminPage() {
             <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#A8A2D0]">Client Decks</p>
             <h1 className="mt-1 font-heading text-4xl font-medium">Product showcase links</h1>
             <p className="mt-2 max-w-xl text-sm text-[#888]">
-              One link per meeting. The deck shows CineFlow, ActFlow, Listing, Spec+, and PlanMatch, branded with the
-              builder&apos;s logo and the people you&apos;re meeting.{" "}
+              One link per meeting. Pick the products to show, and the deck is branded with the builder&apos;s logo and
+              the people you&apos;re meeting.{" "}
               <a href="/for/sample" target="_blank" className="text-[#A8A2D0] hover:underline">
                 See the unbranded sample
               </a>
@@ -360,6 +372,42 @@ export default function ShowcaseAdminPage() {
 
             <div className="space-y-4">
               <div>
+                <label className={label}>Modules in this deck</label>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {SHOWCASE_MODULES.map((m) => {
+                    const on = m.available && form.modules.includes(m.key);
+                    return (
+                      <label
+                        key={m.key}
+                        className={`flex cursor-pointer items-start gap-2 rounded-lg border px-3 py-2 text-xs ${
+                          !m.available
+                            ? "cursor-not-allowed border-[#222] text-[#555]"
+                            : on
+                              ? "border-[#6A5ACD] bg-[#6A5ACD]/10 text-white"
+                              : "border-[#2C2C2C] text-[#999] hover:border-[#444]"
+                        }`}
+                        title={m.available ? m.line : "Photos not added yet"}
+                      >
+                        <input
+                          type="checkbox"
+                          className="mt-0.5 accent-[#6A5ACD]"
+                          checked={on}
+                          disabled={!m.available}
+                          onChange={() => toggleModule(m.key)}
+                        />
+                        <span>
+                          <span className="block font-semibold">{m.name}</span>
+                          <span className="block text-[10px] text-[#777]">{m.available ? m.kind : "Coming soon"}</span>
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+                <p className="mt-1.5 text-[11px] text-[#666]">
+                  The cover and the digDesk close always show. The lineup slide shows when there are two or more modules.
+                </p>
+              </div>
+              <div>
                 <label className={label}>Logo</label>
                 <div className={`flex h-32 items-center justify-center rounded-xl ${logoPreviewBg}`}>
                   {form.logo_source_url ? (
@@ -475,6 +523,7 @@ export default function ShowcaseAdminPage() {
                   <tr>
                     <th className="px-4 py-3">Builder</th>
                     <th className="px-4 py-3">Prepared for</th>
+                    <th className="px-4 py-3">Modules</th>
                     <th className="px-4 py-3">Date</th>
                     <th className="px-4 py-3">Views</th>
                     <th className="px-4 py-3" />
@@ -502,6 +551,11 @@ export default function ShowcaseAdminPage() {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-[#aaa]">{d.attendees.map((a) => a.name).join(", ") || "–"}</td>
+                      <td className="px-4 py-3 text-[11px] text-[#aaa]">
+                        {resolveModules(d.modules)
+                          .map((m) => m.name)
+                          .join(", ")}
+                      </td>
                       <td className="px-4 py-3 text-[#aaa]">{d.meeting_date || "–"}</td>
                       <td className="px-4 py-3 text-[#aaa]">
                         {d.views}

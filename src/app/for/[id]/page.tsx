@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDeck, recordDeckView } from "@/lib/clientShowcase";
+import { DEFAULT_MODULES, resolveModules } from "@/lib/showcaseModules";
 import { ShowcaseDeck, type ShowcaseClient } from "./ShowcaseDeck";
 
 // /for/[id] — a client's personalized product showcase. Decks are created in
@@ -17,6 +18,7 @@ const SAMPLE: ShowcaseClient = {
   meetingDate: null,
   openingLine: "A look at the assets DIG builds for homebuilder marketing teams.",
   preparedBy: null,
+  modules: DEFAULT_MODULES,
 };
 
 type Params = { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | undefined>> };
@@ -34,6 +36,7 @@ async function load(id: string): Promise<ShowcaseClient | null> {
       meetingDate: d.meeting_date,
       openingLine: d.opening_line,
       preparedBy: d.prepared_by,
+      modules: resolveModules(d.modules).map((m) => m.key),
     };
   } catch {
     return null;
@@ -46,7 +49,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const title = client && id !== "sample" ? `DIG for ${client.builderName}` : "DIG Product Showcase";
   return {
     title: { absolute: `${title} | Davies Imaging Group` },
-    description: "CineFlow, ActFlow, Listing, Spec+, and PlanMatch from Davies Imaging Group.",
+    description: "Photography, video, and 3D marketing assets from Davies Imaging Group.",
     robots: { index: false, follow: false },
     openGraph: { title, images: ["/client-showcase/cineflow-wildrose-poster.webp"] },
   };

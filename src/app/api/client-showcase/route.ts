@@ -21,6 +21,7 @@ import {
   updateDeck,
   type DeckInput,
 } from "@/lib/clientShowcase";
+import { cleanModules } from "@/lib/showcaseModules";
 import { fetchLogo, normalizeWebsite, scrapeBrand } from "@/lib/brandScrape";
 
 export const maxDuration = 30;
@@ -64,6 +65,8 @@ async function hostLogo(sourceUrl: string | null | undefined, deckId: string): P
 async function toInput(raw: Body["deck"], deckId: string): Promise<DeckInput> {
   const builder_name = str(raw?.builder_name, 80);
   if (!builder_name) throw new Error("Builder name is required");
+  const modules = cleanModules(raw?.modules);
+  if (modules && modules.length === 0) throw new Error("Pick at least one module");
   let website: string | null = null;
   if (str(raw?.website, 300)) website = normalizeWebsite(raw!.website as string);
   return {
@@ -75,6 +78,7 @@ async function toInput(raw: Body["deck"], deckId: string): Promise<DeckInput> {
     meeting_date: str(raw?.meeting_date, 40),
     opening_line: str(raw?.opening_line, 240),
     prepared_by: str(raw?.prepared_by, 120),
+    modules,
   };
 }
 
