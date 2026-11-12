@@ -297,7 +297,7 @@ export function DigDeskChapter() {
         <RevealOnScroll>
           <Eyebrow dark>digDesk</Eyebrow>
           <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
-            Everything is ordered through <strong>digDesk</strong>.
+            Everything you need in <strong>one place</strong>.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/75">
             The single point of entry to order, track, revise, and pay for all of the assets you
