@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
@@ -31,9 +31,10 @@ const options = [
     href: "https://desk.daviesimaging.com/register",
   },
   {
-    id: "specs",
-    title: "Get My Specs Moving",
-    description: "Talk through how Spec+ and FrameFlow can reduce your days on market.",
+    id: "trial",
+    title: "Start My Free Trial",
+    description: "See your own spec home staged with ModelMatch. Eight staged photos, free.",
+    href: "/modelmatch-datalibrary",
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -102,6 +103,7 @@ function ContactContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { HoneypotField, getSpamFields } = useSpamGuard();
+  const router = useRouter();
 
   if (submitted) {
     return (
@@ -180,6 +182,8 @@ function ContactContent() {
                   onClick={() => {
                     if (opt.external && opt.href) {
                       window.open(opt.href, "_blank", "noopener,noreferrer");
+                    } else if (opt.href) {
+                      router.push(opt.href);
                     } else {
                       setSelected(opt.id);
                     }
@@ -243,7 +247,6 @@ function ContactContent() {
             <Eyebrow>{selectedOpt.title}</Eyebrow>
             <h2>
               {selected === "demo" && <>Let&rsquo;s book your <strong>walkthrough</strong>.</>}
-              {selected === "specs" && <>Tell us about your <strong>homes</strong>.</>}
               {selected === "strategy" && <>Tell us about your <strong>goals</strong>.</>}
               {selected === "other" && <>How can we <strong>help</strong>?</>}
               {selected === "sarah-podcast" && <>Let&rsquo;s stage your <strong>sample room</strong>.</>}
