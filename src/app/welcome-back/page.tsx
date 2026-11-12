@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function WelcomeBackPage() {
   return (
     <>
-      <DarkSection className="min-h-[60vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <Eyebrow dark>Welcome Back</Eyebrow>
           <h1 className="text-text-light">

@@ -21,7 +21,7 @@ export function Proof({
   testimonial,
 }: ProofProps) {
   return (
-    <DarkSection className="min-h-[60vh] py-24 text-text-light">
+    <DarkSection className="py-24 text-text-light">
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div className="text-center">

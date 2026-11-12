@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { DynamicImage } from "@/components/DynamicImage";
+import { ImageBand } from "@/components/ImageBand";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
@@ -67,7 +68,7 @@ export default function DigDeskPage() {
   return (
     <>
       {/* Hero */}
-      <DarkSection className="min-h-[60vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <EditableHero
@@ -96,6 +97,15 @@ export default function DigDeskPage() {
         </div>
       </DarkSection>
 
+      {/* The dashboard, full width under the hero */}
+      <ImageBand
+        slotId="programs-digdesk-hero-img"
+        defaultSrc="/mm-deck/digdesk-dashboard.jpg"
+        alt="The digDesk dashboard, showing recent orders and their status"
+        aspectRatio="16/9"
+        dark
+      />
+
       {/* What it is */}
       <section className="py-24">
         <div className="mx-auto max-w-5xl px-6">
@@ -120,90 +130,13 @@ export default function DigDeskPage() {
                   </Link>
                 </div>
               </div>
-              <div className="group relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-dark">
-                <DynamicImage
-                  slotId="offerings-digdesk-portal"
-                  className="h-full w-full object-cover object-left-top"
-                  fallbackClass="h-full w-full"
-                />
-                {/* CSS mockup fallback */}
-                <div className="absolute inset-0 group-has-[img]:hidden">
-                  <div className="flex h-full flex-col">
-                    {/* Window chrome */}
-                    <div className="flex items-center justify-between border-b border-white/8 bg-black/30 px-5 py-3">
-                      <div className="flex gap-1.5">
-                        <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
-                        <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
-                        <div className="h-2.5 w-2.5 rounded-full bg-white/15" />
-                      </div>
-                      <div className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1">
-                        <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                        <span className="text-[10px] text-white/30">digDesk · Grand Homes</span>
-                      </div>
-                      <div className="w-10" />
-                    </div>
-                    {/* App layout */}
-                    <div className="flex flex-1">
-                      {/* Sidebar */}
-                      <div className="w-40 border-r border-white/6 bg-black/10 p-3">
-                        <div className="mb-4 flex items-center gap-2 px-2">
-                          <div className="h-6 w-6 rounded-full bg-accent/20" />
-                          <div className="h-2 w-16 rounded bg-white/15" />
-                        </div>
-                        {[
-                          { label: "Dashboard", active: false },
-                          { label: "New Order", active: true },
-                          { label: "My Jobs", active: false },
-                          { label: "ModelMatch", active: false },
-                          { label: "Assets", active: false },
-                        ].map((item) => (
-                          <div
-                            key={item.label}
-                            className={`mb-0.5 flex items-center gap-2 rounded-lg px-2 py-1.5 ${
-                              item.active ? "bg-accent/15 text-accent" : "text-white/30"
-                            }`}
-                          >
-                            <div className={`h-1.5 w-1.5 rounded-full ${item.active ? "bg-accent" : "bg-white/20"}`} />
-                            <span className="text-[10px]">{item.label}</span>
-                          </div>
-                        ))}
-                      </div>
-                      {/* Main */}
-                      <div className="flex-1 p-5">
-                        <div className="mb-4">
-                          <div className="text-[11px] font-semibold text-white/70">New Order</div>
-                          <div className="mt-0.5 text-[9px] text-white/30">Select a service to begin</div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          {[
-                            { name: "Spec+", price: "$600 flat", active: true },
-                            { name: "Listing Photo", price: "From $400", active: false },
-                            { name: "ModelMatch", price: "From $25/img", active: false },
-                            { name: "Premium Photo", price: "Custom", active: false },
-                          ].map((card) => (
-                            <div
-                              key={card.name}
-                              className={`rounded-xl p-3 ${
-                                card.active
-                                  ? "border border-accent/40 bg-accent/10"
-                                  : "border border-white/6 bg-white/3"
-                              }`}
-                            >
-                              <span className="text-[10px] font-medium text-white/70">{card.name}</span>
-                              <div className="mt-1 text-[11px] font-semibold text-white/50">{card.price}</div>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="mt-4 flex justify-end">
-                          <div className="rounded-full bg-accent px-4 py-1.5 text-[10px] font-semibold text-white">
-                            Continue &rarr;
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <DynamicImage
+                slotId="offerings-digdesk-portal"
+                defaultSrc="/mm-deck/digdesk-gallery.jpg"
+                defaultAlt="The ModelMatch gallery inside digDesk"
+                aspectRatio="16/9"
+                className="rounded-2xl ring-1 ring-border-light"
+              />
             </div>
           </RevealOnScroll>
         </div>
@@ -275,7 +208,7 @@ export default function DigDeskPage() {
                   slotId="programs-digdesk-existing-clients"
                   eyebrowDefault="Existing DIG Clients"
                   headlineDefault="Already working <strong>with DIG</strong>?"
-                  bodyDefault="If your team already orders photography or digital services through DIG, your digDesk account is either active or ready to be set up. Log in with your existing credentials or reach out and we will get your account activated."
+                  bodyDefault="Log in, or reach out and we will activate your account."
                   headingLevel="h3"
                 />
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -300,7 +233,7 @@ export default function DigDeskPage() {
                   slotId="programs-digdesk-new-clients"
                   eyebrowDefault="New to DIG"
                   headlineDefault="Ready to get <strong>started</strong>?"
-                  bodyDefault="New accounts are reviewed by our team and activated within one business day. Start with a 15-minute demo, or create your account and start ordering."
+                  bodyDefault="Your account is active within one business day."
                   headingLevel="h3"
                 />
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">

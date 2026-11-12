@@ -166,7 +166,7 @@ The `Eyebrow` component detects a "Parent / Child" pattern and renders with visu
 
 **Standard hero container:**
 ```tsx
-<section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
+<section className="bg-bg-dark py-28 text-text-light">
   <div className="mx-auto max-w-4xl px-6">
     <RevealOnScroll>
       <Eyebrow dark>Parent / Page Name</Eyebrow>
@@ -192,7 +192,7 @@ The `Eyebrow` component detects a "Parent / Child" pattern and renders with visu
 
 **Hero background:** Always `bg-bg-dark` with `text-text-light`. Hero sections are never white/light.
 
-**Hero min-height:** `min-h-[60vh]` standard. Use `py-28` for padding.
+**Hero height:** no forced minimum. Use `py-28` and let the content set the height. The old `min-h-[60vh]` left an empty band under short heroes and was removed site-wide (November 2026).
 
 ---
 
