@@ -25,6 +25,8 @@ export function ShowcaseChapterNav({ chapters, ctaHref, ctaLabel }: ShowcaseChap
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) setActive(e.target.id);
+          // Scrolled past the last chapter (or above the first): mark none.
+          else setActive((cur) => (cur === e.target.id ? null : cur));
         });
       },
       { rootMargin: "-25% 0px -65% 0px" },

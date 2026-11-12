@@ -1,0 +1,163 @@
+"use client";
+
+import Link from "next/link";
+import { useRef, useState } from "react";
+import { useMotionValueEvent, useScroll } from "framer-motion";
+import { Eyebrow } from "@/components/Eyebrow";
+import { LoopVideo } from "./LoopVideo";
+
+const STEPS = [
+  {
+    n: "01",
+    title: "Listing photography",
+    body: "25 MLS-ready photos of the finished home.",
+    image: "/mm/shane-before.jpg",
+    alt: "Listing photograph of a vacant great room",
+  },
+  {
+    n: "02",
+    title: "Virtual staging",
+    body: "8 rooms staged with ModelMatch, using your own model home furniture.",
+    image: "/mm/shane-after.jpg",
+    alt: "The same great room, virtually staged",
+  },
+  {
+    n: "03",
+    title: "Virtual video",
+    body: "1 wide listing video, built from the same photos.",
+    image: "/client-showcase/specplus-palatka-poster.webp",
+    video: "/client-showcase/specplus-palatka.mp4",
+    alt: "Spec+ listing video",
+  },
+];
+
+function Media({ step, active }: { step: (typeof STEPS)[number]; active: boolean }) {
+  return step.video ? (
+    <LoopVideo src={step.video} poster={step.image} active={active} className="h-full w-full object-cover" />
+  ) : (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={step.image} alt={step.alt} className="h-full w-full object-cover" />
+  );
+}
+
+function Numbers() {
+  return (
+    <dl className="mt-8 flex gap-10 border-t border-border-light pt-6 [@media(max-height:780px)]:lg:hidden">
+      <div>
+        <dd className="text-[3.25rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+          $600
+        </dd>
+        <dt className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-text-muted">Flat, all home sizes</dt>
+      </div>
+      <div>
+        <dd className="text-[3.25rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+          72 hrs
+        </dd>
+        <dt className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-text-muted">After photography</dt>
+      </div>
+    </dl>
+  );
+}
+
+function Cta() {
+  return (
+    <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+      <Link
+        href="/programs/spec-plus"
+        className="rounded-full bg-accent px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+      >
+        Explore Spec+
+      </Link>
+      <Link href="/gallery/listings" className="text-sm font-medium text-text-body transition-colors hover:text-accent">
+        See Spec+ deliveries &rarr;
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * Spec+ chapter. From lg up the section pins while the visitor scrolls: the
+ * frame on the right moves from photo, to staged, to video as each step on
+ * the left lights up. Below lg the three steps simply stack.
+ */
+export function SpecPlusPinned() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    setActive(Math.min(STEPS.length - 1, Math.floor(p * STEPS.length)));
+  });
+
+  const heading = (
+    <>
+      <Eyebrow>Spec+</Eyebrow>
+      <h2 className="lg:text-[3rem] lg:leading-[1.08]">
+        One order. <strong>Everything</strong> a spec home needs.
+      </h2>
+    </>
+  );
+
+  return (
+    <section id="spec-plus" className="scroll-mt-28 bg-bg-light">
+      {/* Pinned, lg and up */}
+      <div ref={ref} className="relative hidden h-[300vh] lg:block">
+        <div className="sticky top-[7.5rem] flex h-[calc(100vh-7.5rem)] items-center">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-[5fr_7fr] items-center gap-16 px-6">
+            <div>
+              {heading}
+              <ol className="mt-8 space-y-4">
+                {STEPS.map((s, i) => (
+                  <li
+                    key={s.n}
+                    className={`border-l-2 pl-5 transition-all duration-500 ${
+                      i === active ? "border-accent opacity-100" : "border-border-light opacity-40"
+                    }`}
+                  >
+                    <p className="text-xs font-bold tracking-[0.15em] text-accent">{s.n}</p>
+                    <h3 className="mt-1 text-[1.5rem]">{s.title}</h3>
+                    <p className="mt-1 text-text-body">{s.body}</p>
+                  </li>
+                ))}
+              </ol>
+              <Numbers />
+              <Cta />
+            </div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-bg-dark shadow-2xl">
+              {STEPS.map((s, i) => (
+                <div
+                  key={s.n}
+                  className="absolute inset-0 transition-opacity duration-700"
+                  style={{ opacity: i === active ? 1 : 0 }}
+                >
+                  <Media step={s} active={i === active} />
+                </div>
+              ))}
+              <span className="absolute left-5 top-5 rounded-full bg-black/55 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white backdrop-blur">
+                {STEPS[active].n} · {STEPS[active].title}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stacked, below lg */}
+      <div className="px-6 py-24 lg:hidden">
+        {heading}
+        <div className="mt-10 space-y-10">
+          {STEPS.map((s) => (
+            <div key={s.n}>
+              <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-bg-dark">
+                <Media step={s} active />
+              </div>
+              <p className="mt-4 text-xs font-bold tracking-[0.15em] text-accent">{s.n}</p>
+              <h3 className="mt-1">{s.title}</h3>
+              <p className="mt-1 text-text-body">{s.body}</p>
+            </div>
+          ))}
+        </div>
+        <Numbers />
+        <Cta />
+      </div>
+    </section>
+  );
+}
