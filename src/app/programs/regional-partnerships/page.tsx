@@ -10,33 +10,33 @@ import { TestimonialBand } from "@/components/TestimonialBand";
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/regional-partnerships" },
   title: "Regional Partnerships",
-  description: "One visual partner across every market. Volume pricing, brand consistency, and digDesk ordering for national and regional builders.",
+  description: "One partner in every market you build in. Volume pricing, dedicated capacity, and digDesk ordering for national and regional builders.",
 };
 
 const benefits = [
   {
     title: "Volume pricing",
-    body: "Commit to volume across your communities and unlock discounted rates across all DIG services. Pricing is structured by annual volume, not one-off negotiation.",
+    body: "Commit to volume across your communities and you get discounted rates on all DIG services, structured by your annual volume.",
   },
   {
     title: "Dedicated capacity",
-    body: "Regional partners get reserved production capacity. No competing for scheduling windows during peak launch seasons across your markets.",
+    body: "You get reserved production capacity, so you are not competing for scheduling windows during peak launch seasons.",
   },
   {
-    title: "Brand guidelines enforcement",
-    body: "Your brand guide, your color standards, your staging references. Every shoot in every market follows the same brief, so your portfolio looks consistent from West to East.",
+    title: "Your brand guidelines, followed",
+    body: "Your brand guide, your color standards, and your ModelMatch galleries. Every shoot in every market follows the same brief.",
   },
   {
     title: "Single point of contact",
-    body: "One account team manages all four regions. You don&apos;t coordinate between vendors or follow up across markets. DIG handles it.",
+    body: "One account team manages all four regions for you, so you are not coordinating between vendors or following up across markets.",
   },
   {
     title: "Centralized ordering through digDesk",
-    body: "Your marketing team orders through digDesk regardless of market. One platform, one process, and one place to track assets across every community.",
+    body: "Your marketing team orders through digDesk in every market, with one place to track your assets across every community.",
   },
   {
     title: "Two U.S. regions live in 2026",
-    body: "DIG launched regional partnership programs in two large states in 2026. Volume builders in those regions are already benefiting from committed pricing and dedicated coverage.",
+    body: "We launched regional partnerships in two large states in 2026. Volume builders in those regions already have committed pricing and dedicated coverage.",
   },
 ];
 
@@ -57,8 +57,8 @@ export default function RegionalPartnershipsPage() {
             <EditableHero
               slotId="programs-regional-partnerships-hero"
               eyebrowDefault="Programs / Regional Partnerships"
-              headlineDefault="One partner, every <strong>market</strong>."
-              subheadDefault="DIG's regional partnership model gives national and regional builders a single point of contact for photography, staging, and video across all four U.S. regions. Volume pricing. Dedicated capacity. Brand consistency enforced."
+              headlineDefault="One partner in every market <strong>you build in</strong>."
+              subheadDefault="You get a single point of contact for photography, staging, and video across all four U.S. regions, with volume pricing and dedicated capacity."
             />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
@@ -87,16 +87,16 @@ export default function RegionalPartnershipsPage() {
                 <EditableTextContent
                   slotId="programs-regional-partnerships-scale"
                   eyebrowDefault="Built For Scale"
-                  headlineDefault="Volume pricing without quality <strong>compromise</strong>."
+                  headlineDefault="For builders in <strong>multiple markets</strong>."
                   bodyDefault=""
                 />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
-                  Regional Partnerships are designed for builders doing 300 or more homes annually across multiple markets. If you&apos;re managing community rollouts in two or more states, coordinating with a single vendor at discounted volume pricing is a meaningful operational advantage.
+                  Regional Partnerships are for builders doing 300 or more homes a year across multiple markets. If you&apos;re managing community rollouts in two or more states, you get one partner and volume pricing.
                 </p>
                 <p>
-                  This program is a commitment on both sides. DIG reserves capacity for your markets. You commit to volume. The result is faster scheduling, consistent results, and a partner who knows your brand as well as you do.
+                  It is a commitment on both sides. We reserve capacity for your markets, and you commit to volume.
                 </p>
               </div>
             </div>
@@ -121,7 +121,7 @@ export default function RegionalPartnershipsPage() {
                 <EditableTextContent
                   slotId="programs-regional-partnerships-regions"
                   eyebrowDefault="Four Regions"
-                  headlineDefault="Consistent quality from West to <strong>East</strong>."
+                  headlineDefault="The same quality in <strong>all four regions</strong>."
                   bodyDefault=""
                 />
                 <div className="mt-8 space-y-4">
@@ -154,7 +154,7 @@ export default function RegionalPartnershipsPage() {
               <EditableTextContent
                 slotId="programs-regional-partnerships-benefits"
                 eyebrowDefault="What You Get"
-                headlineDefault="Six things that change when you partner <strong>at scale</strong>."
+                headlineDefault="What you get as a <strong>regional partner</strong>."
                 bodyDefault=""
               />
             </div>
@@ -182,17 +182,17 @@ export default function RegionalPartnershipsPage() {
                 <EditableTextContent
                   slotId="programs-regional-partnerships-frameflow"
                   eyebrowDefault="digDesk Powered"
-                  headlineDefault="Centralized ordering across every <strong>region</strong>."
+                  headlineDefault="Order the same way in <strong>every market</strong>."
                   bodyDefault=""
                   dark={true}
                 />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-muted">
                 <p>
-                  Your marketing team orders through digDesk regardless of which market you&apos;re working in. digDesk handles virtual staging and virtual video via FrameFlow Studio, as well as photography coordinated by your dedicated account team. One platform, one process.
+                  Your marketing team orders through digDesk regardless of which market you&apos;re working in: ModelMatch staging, FrameFlow video, and photography coordinated by your account team.
                 </p>
                 <p>
-                  Billing, asset delivery, and order tracking are all centralized. No chasing down individual photographers in different states. No disconnected vendor invoices. Everything runs through the same account.
+                  Your billing, asset delivery, and order tracking all run through the same account.
                 </p>
                 <div className="pt-2">
                   <Link
@@ -218,8 +218,8 @@ export default function RegionalPartnershipsPage() {
             <EditableTextContent
               slotId="programs-regional-partnerships-cta"
               eyebrowDefault="Start the Conversation"
-              headlineDefault="Ready to build a partnership that <strong>scales</strong>?"
-              bodyDefault="Regional partnership pricing and structure is negotiated directly with the DIG team. The conversation starts with a strategy call to understand your volume, markets, and brand requirements."
+              headlineDefault="Building in <strong>more than one market</strong>?"
+              bodyDefault="Regional partnership pricing is set directly with the DIG team. Start with a strategy call so we can understand your volume, your markets, and your brand."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

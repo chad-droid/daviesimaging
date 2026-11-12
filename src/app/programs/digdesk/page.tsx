@@ -10,35 +10,35 @@ import { TestimonialBand } from "@/components/TestimonialBand";
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/digdesk" },
   title: "digDesk",
-  description: "digDesk is the DIG client portal. Order every service, track every job, and manage every asset from a single dashboard.",
+  description: "digDesk is the single point of entry to order, track, revise, and pay for all of your marketing assets.",
 };
 
 const modules = [
   {
     number: "01",
     title: "FrameFlow Studio",
-    body: "The digital production module inside digDesk. Upload listing photography and receive ModelMatch virtual staging and virtual video without scheduling a new shoot. Order standalone or bundle as Spec+.",
+    body: "Upload your listing photography and get ModelMatch virtual staging and FrameFlow video without scheduling a new shoot. Order them by themselves or bundled as Spec+.",
     href: "/programs/frameflow",
     linkLabel: "Explore FrameFlow Studio",
   },
   {
     number: "02",
     title: "Listing Photography",
-    body: "Schedule spec home and QMI photography orders directly through your portal. Select market, provide property details, and coordinate access — all from a single order form.",
+    body: "Schedule your spec home and QMI photography directly through your portal. Select your market, add the property details, and coordinate access from a single order form.",
     href: "/services/listing",
     linkLabel: "See Listing Photography",
   },
   {
     number: "03",
     title: "Premium Photography",
-    body: "Request model home and lifestyle shoot projects, upload pre-shoot briefs, and track production progress from submission to final delivery.",
+    body: "Request your model home and lifestyle shoots, upload your pre-shoot briefs, and track production from submission to final delivery.",
     href: "/services/premium",
     linkLabel: "See Premium Photography",
   },
   {
     number: "04",
     title: "ModelMatch Gallery",
-    body: "Build and manage your builder's reference image library. Upload approved model home photography once. Every future virtual staging order draws from it automatically.",
+    body: "Build and manage your reference image library. Upload your approved model home photography once, and every future ModelMatch order draws from it.",
     href: "/services/virtual-staging",
     linkLabel: "How ModelMatch works",
   },
@@ -47,19 +47,19 @@ const modules = [
 const reasons = [
   {
     title: "One place for everything",
-    body: "Photography orders, virtual staging, virtual video, asset downloads, and revision requests all live in digDesk. No emails, no separate portals, no confusion about order status.",
+    body: "Your photography orders, ModelMatch staging, FrameFlow video, asset downloads, and revision requests all live in digDesk.",
   },
   {
     title: "Order and track in real time",
-    body: "Every order shows its current status from submission through production to delivery. Your team always knows where things stand without having to ask.",
+    body: "Every order shows its status from submission through production to delivery, so your team always knows where things stand.",
   },
   {
     title: "Assets delivered directly",
-    body: "Finished photography, staged images, and virtual video are delivered to your digDesk portal. Preview, download individual files, or use Download All. Each order includes a shareable delivery link with no login required.",
+    body: "Your finished photography, staged images, and video are delivered to your digDesk portal. Preview, download individual files, or use Download All. Each order includes a shareable delivery link with no login required.",
   },
   {
     title: "Built for lean marketing teams",
-    body: "digDesk is designed for builder marketing coordinators and directors who need to move fast. Low friction ordering, clear status tracking, and a clean interface that does not get in the way.",
+    body: "Our services minimize the time to order everything you need, saving lean marketing teams days of valuable listing time.",
   },
 ];
 
@@ -73,8 +73,8 @@ export default function DigDeskPage() {
             <EditableHero
               slotId="programs-digdesk-hero"
               eyebrowDefault="Programs / digDesk"
-              headlineDefault="One portal for your <strong>entire visual pipeline</strong>."
-              subheadDefault="digDesk is the DIG client portal. Order every service, track every job, manage your ModelMatch brand library, and download finished assets from a single dashboard."
+              headlineDefault="Everything you need in <strong>one place</strong>."
+              subheadDefault="The single point of entry to order, track, revise, and pay for all of your marketing assets."
             />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
@@ -105,11 +105,11 @@ export default function DigDeskPage() {
                 <EditableTextContent
                   slotId="programs-digdesk-portal"
                   eyebrowDefault="The DIG Client Portal"
-                  headlineDefault="Every DIG service. <strong>One dashboard</strong>."
-                  bodyDefault="digDesk replaces the back-and-forth of email-based ordering. From your portal, you can place new orders, upload shoot details, choose your ModelMatch reference gallery, track production, and download finished assets — all without a single email to your account team."
+                  headlineDefault="The only end-to-end marketing solution built for <strong>home builders</strong>."
+                  bodyDefault="From your portal you can place new orders, upload shoot details, choose your ModelMatch gallery, track production, and download your finished assets."
                 />
                 <p className="mt-4 text-text-body">
-                  Every order type DIG offers runs through digDesk. Listing photography, virtual staging, virtual video, Spec+ bundles, and Premium photography requests all start and finish in the same place.
+                  Every order runs through digDesk. Your listing photography, ModelMatch staging, FrameFlow video, Spec+, and Premium photography requests all start and finish in the same place.
                 </p>
                 <div className="mt-8">
                   <Link
@@ -178,7 +178,7 @@ export default function DigDeskPage() {
                           {[
                             { name: "Spec+", price: "$600 flat", active: true },
                             { name: "Listing Photo", price: "From $400", active: false },
-                            { name: "Virtual Staging", price: "From $25/img", active: false },
+                            { name: "ModelMatch", price: "From $25/img", active: false },
                             { name: "Premium Photo", price: "Custom", active: false },
                           ].map((card) => (
                             <div
@@ -217,8 +217,8 @@ export default function DigDeskPage() {
               <EditableTextContent
                 slotId="programs-digdesk-modules"
                 eyebrowDefault="What's Inside"
-                headlineDefault="Four modules. <strong>Every DIG service covered</strong>."
-                bodyDefault="digDesk is organized around the services your team actually uses. Each module has its own ordering flow, tracking view, and delivery destination."
+                headlineDefault="What you can order in <strong>digDesk</strong>."
+                bodyDefault="digDesk is organized around the services your team uses. Each one has its own ordering flow, tracking view, and delivery."
                 dark={true}
               />
             </div>
@@ -249,7 +249,7 @@ export default function DigDeskPage() {
               <EditableTextContent
                 slotId="programs-digdesk-why"
                 eyebrowDefault="Why It Matters"
-                headlineDefault="Less coordination. <strong>More velocity</strong>."
+                headlineDefault="Why builders use <strong>digDesk</strong>."
                 bodyDefault=""
               />
             </div>
@@ -300,7 +300,7 @@ export default function DigDeskPage() {
                   slotId="programs-digdesk-new-clients"
                   eyebrowDefault="New to DIG"
                   headlineDefault="Ready to get <strong>started</strong>?"
-                  bodyDefault="New accounts are reviewed by our team and activated within one business day. Start with a 15-minute demo to see digDesk in action, or submit your account request directly and start ordering right away."
+                  bodyDefault="New accounts are reviewed by our team and activated within one business day. Start with a 15-minute demo, or create your account and start ordering."
                   headingLevel="h3"
                 />
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -332,8 +332,8 @@ export default function DigDeskPage() {
           <RevealOnScroll>
             <EditableTextContent
               slotId="programs-digdesk-cta"
-              headlineDefault="The portal your marketing team <strong>has been missing</strong>."
-              bodyDefault="Order photography, virtual staging, and video. Track every job. Download every asset. All from one place built specifically for homebuilder marketing teams."
+              headlineDefault="Has a listing been <strong>sitting</strong>?"
+              bodyDefault="Go into digDesk and request new virtual staging or a different video, and refresh your listing with new assets."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
