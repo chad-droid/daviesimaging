@@ -296,7 +296,7 @@ These are the exact eyebrow strings to use on each page. Do not deviate.
 | `/gallery/lifestyle` | `Gallery / Lifestyle` | yes |
 | `/services/premium` | `Solutions / Premium Photography` | yes |
 | `/services/listing` | `Solutions / Listing Photography` | yes |
-| `/services/video-production` | `Solutions / Video Production` | yes |
+| `/services/video-production` | `Solutions / Premium Video` | yes |
 | `/services/virtual-staging` | `Solutions / ModelMatch` | yes |
 | `/services/virtual-video` | `Solutions / FrameFlow` | yes |
 | `/services/matterport` | `Solutions / Matterport` | yes |

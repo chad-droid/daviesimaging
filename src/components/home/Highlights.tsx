@@ -50,7 +50,7 @@ const CARDS: Card[] = [
   {
     label: "ActFlow",
     line: "Virtual talent, so buyers can envision life in your homes.",
-    href: "/services/virtual-video#actflow",
+    href: "/services/showcase#actflow",
     video: "/client-showcase/actflow-blueheron.mp4",
     image: "/client-showcase/actflow-blueheron-poster.webp",
   },

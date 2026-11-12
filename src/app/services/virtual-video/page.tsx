@@ -235,10 +235,10 @@ export default function VirtualVideoPage() {
                   in your homes and amenities.
                 </p>
                 <Link
-                  href="/contact?intent=strategy"
+                  href="/services/showcase#actflow"
                   className="mt-5 inline-block text-sm font-medium text-text-dark transition-colors hover:text-accent"
                 >
-                  Ask about ActFlow &rarr;
+                  See ActFlow &rarr;
                 </Link>
               </div>
             </div>

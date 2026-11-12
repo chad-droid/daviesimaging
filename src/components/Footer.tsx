@@ -15,7 +15,7 @@ const footerLinks = {
     { label: "ModelMatch", href: "/services/virtual-staging" },
     { label: "FrameFlow", href: "/services/virtual-video" },
     { label: "CineFlow", href: "/services/showcase#cineflow" },
-    { label: "ActFlow", href: "/services/virtual-video#actflow" },
+    { label: "ActFlow", href: "/services/showcase#actflow" },
   ],
   About: [
     { label: "Why We Exist", href: "/about" },

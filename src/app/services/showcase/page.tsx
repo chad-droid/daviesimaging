@@ -15,9 +15,9 @@ import { SITE_URL, buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/showcase" },
-  title: "PlanMatch, Moments and CineFlow",
+  title: "PlanMatch, Moments, CineFlow and ActFlow",
   description:
-    "Three ways to show a home that has to move. Photography made from the plans, short silent vignettes, and a short editorial film, built for the website, paid media, the sales center and the listing refresh.",
+    "Photorealistic images from your construction plans, close ups of your finished homes, cinematic sequences without a photo shoot, and virtual talent in your spaces.",
 };
 
 /** One ask per section. Interest is a signal for DIG to follow up, not an order. */
@@ -69,6 +69,13 @@ const SERVICES = [
     description:
       "A short editorial film of the home, cut to a music narrative rather than a walkthrough, with a vertical version for social.",
   },
+  {
+    slug: "actflow",
+    name: "ActFlow",
+    serviceType: "Video Production",
+    description:
+      "Video that introduces virtual talent to a builder's spaces so buyers can envision what life looks like in the homes and amenities.",
+  },
 ];
 
 /** Finished PlanMatch photography, shown under the plan-to-photo film. */
@@ -88,9 +95,9 @@ const CHAPTERS = SERVICES.map((s) => ({ id: s.slug, label: s.name }));
  */
 const FACTS: Record<string, { label: string; value: string }[]> = {
   planmatch: [
-    { label: "Made from", value: "Your plans and brand standards" },
+    { label: "Made from", value: "Your construction plans and finish samples" },
     { label: "You get", value: "Photography of every elevation and room" },
-    { label: "Ready for", value: "The day pre-sales open" },
+    { label: "Ready in", value: "Days, not months" },
   ],
   moments: [
     { label: "Format", value: "Vertical close ups, silent" },
@@ -98,9 +105,14 @@ const FACTS: Record<string, { label: string; value: string }[]> = {
     { label: "Built for", value: "Listing pages, paid social and email" },
   ],
   cineflow: [
-    { label: "Format", value: "Short editorial film, cut to music" },
+    { label: "Format", value: "Cinematic sequences, cut to music" },
     { label: "Also included", value: "A vertical cut and stills from the same set" },
-    { label: "Built for", value: "The website and the sales center" },
+    { label: "Built for", value: "Your website and your sales center" },
+  ],
+  actflow: [
+    { label: "Made from", value: "Your photographs or virtual images" },
+    { label: "Shows", value: "Virtual talent in your homes and amenities" },
+    { label: "Built for", value: "Your website and social" },
   ],
 };
 
@@ -182,8 +194,8 @@ export default function ShowcasePage() {
             <EditableHero
               slotId="services-showcase-hero"
               eyebrowDefault="Solutions / Showcase"
-              headlineDefault="Three ways to show a home that <strong>has to move</strong>."
-              subheadDefault="Photography, vignettes and film built for where a home actually sells: the website, paid media, the sales center and the listing refresh."
+              headlineDefault="Photographs and video of your homes, <strong>before they're built</strong>."
+              subheadDefault="Before your communities are ever built, you can have photorealistic photographs and video of all of your model home plans and your unmodeled plans, whether you need exteriors or interiors."
             />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
@@ -215,9 +227,9 @@ export default function ShowcasePage() {
                 slotId="services-showcase-planmatch"
                 index="01"
                 eyebrowDefault="PlanMatch"
-                headlineDefault="The home sells before it <strong>is built</strong>."
-                leadDefault="Photography made from the plans, brand approved and ready the day pre-sales open."
-                tailDefault="Every elevation held to the standard of the finished model, without waiting on a slab."
+                headlineDefault="Photorealistic images in <strong>days, not months</strong>."
+                leadDefault="You upload your construction plans, upload samples of your finishes, and get photorealistic virtual images in days, not months."
+                tailDefault="Every image is merchandised through our ModelMatch process, so it looks and feels like the real thing before anything is built."
               />
             </RevealOnScroll>
           </div>
@@ -255,8 +267,8 @@ export default function ShowcasePage() {
                 slotId="services-showcase-moments"
                 index="02"
                 eyebrowDefault="Moments"
-                headlineDefault="The details a wide listing shot <strong>misses</strong>."
-                leadDefault="Vertical close ups of what is built into the home: cabinetry, stone, fixtures and appliances. Made for social."
+                headlineDefault="Close ups of what is built into <strong>your homes</strong>."
+                leadDefault="Vertical close ups of your cabinetry, stone, fixtures and appliances, made for social."
               />
             </RevealOnScroll>
           </div>
@@ -288,8 +300,8 @@ export default function ShowcasePage() {
                 slotId="services-showcase-cinematic"
                 index="03"
                 eyebrowDefault="CineFlow"
-                headlineDefault="A home told as a story, <strong>not a tour</strong>."
-                leadDefault="A short editorial film cut to a music narrative."
+                headlineDefault="Cinematic sequences without a <strong>real photo shoot</strong>."
+                leadDefault="CineFlow relights each of your spaces, adds new angles, and gives you lifelike cinematic sequences."
                 tailDefault="With a vertical version for social and stills pulled from the same set."
               />
             </RevealOnScroll>
@@ -303,6 +315,30 @@ export default function ShowcasePage() {
             />
           </Stage>
           <ChapterFooter slug="cineflow" />
+        </section>
+
+        {/* 04 ActFlow: virtual talent in the builder's own spaces */}
+        <section id="actflow" className={CHAPTER}>
+          <div className="mx-auto max-w-6xl px-6">
+            <RevealOnScroll>
+              <ShowcaseSectionHeader
+                slotId="services-showcase-actflow"
+                index="04"
+                eyebrowDefault="ActFlow"
+                headlineDefault="What life looks like in <strong>your homes</strong>."
+                leadDefault="ActFlow introduces virtual talent to your spaces so your buyers can envision what life looks like in your homes and amenities."
+                tailDefault="Need lifestyle content, but don't have the budget for a full-blown production? You get lifelike, diverse models in your homes without one."
+              />
+            </RevealOnScroll>
+          </div>
+          <Stage>
+            <ShowcaseFilm
+              src="/client-showcase/actflow-kolter.mp4"
+              poster="/client-showcase/actflow-kolter-poster.webp"
+              label="ActFlow film with virtual talent"
+            />
+          </Stage>
+          <ChapterFooter slug="actflow" />
         </section>
       </div>
 

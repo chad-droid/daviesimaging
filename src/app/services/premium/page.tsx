@@ -8,30 +8,31 @@ import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
 import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 import { TestimonialBand } from "@/components/TestimonialBand";
+import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/premium" },
   title: "Premium Photography",
-  description: "Full-service model home, amenity, and lifestyle photography for homebuilders. DIG's signature service across 28 U.S. markets.",
+  description: "Model home, amenity, and lifestyle photography for homebuilders, from a national network of highly trained photographers in 28 U.S. markets.",
 };
 
 const shootTypes = [
   {
     number: "01",
     title: "Model Home Photography",
-    detail: "Room-by-room coverage of furnished interiors, architectural detail, twilight exteriors, and detail and finish work. Planned in advance, executed at launch, delivered as a complete publish-ready package.",
+    detail: "Room-by-room coverage of your furnished interiors, architectural detail, twilight exteriors, and finish work, planned in advance and shot when your model opens.",
     gallery: { label: "See Model Home Work", href: "/gallery/models" },
   },
   {
     number: "02",
     title: "Amenity Photography",
-    detail: "Pools, clubhouses, fitness centers, trails, and parks photographed to show buyers the life waiting for them. Scheduled independently from model home shoots — amenities deserve their own day.",
+    detail: "Your pools, clubhouses, fitness centers, trails, and parks, scheduled independently from your model home shoots.",
     gallery: { label: "See Amenity Work", href: "/gallery/amenities" },
   },
   {
     number: "03",
     title: "Lifestyle Photography",
-    detail: "Talent-driven photography that shows buyers how they'll live in the community, not just what it looks like. Casting, styling, and art direction handled by DIG's production team.",
+    detail: "Talent-driven photography that shows your buyers how they'll live in the community. Our production team handles casting, styling, and art direction.",
     gallery: { label: "See Lifestyle Work", href: "/gallery/lifestyle" },
   },
 ];
@@ -40,22 +41,22 @@ const useCases = [
   {
     number: "01",
     title: "Model home grand opening",
-    body: "The first photos of your model set the standard for every spec and listing that follows. Premium ensures that opening looks like a launch.",
+    body: "The first photos of your model set the standard for every spec and listing that follows.",
   },
   {
     number: "02",
     title: "Amenity and community reveals",
-    body: "Pools, clubhouses, and green spaces deserve their own shoot. Premium amenity photography gives buyers a reason to choose the community, not just the floor plan.",
+    body: "Your pools, clubhouses, and green spaces get their own shoot, so your buyers see the community as well as the floor plan.",
   },
   {
     number: "03",
     title: "Lifestyle campaigns",
-    body: "Talent, styling, and real-moment storytelling for buyers who want to see themselves in the community. Lifestyle is a primary output of every Premium engagement.",
+    body: "Talent and styling for buyers who want to see themselves in your community.",
   },
   {
     number: "04",
     title: "Regional rollouts and brand photography",
-    body: "Launching multiple communities across markets? DIG coordinates Premium shoots across all four U.S. regions under one brief and one account team.",
+    body: "Launching multiple communities across markets? We coordinate your Premium shoots across all four U.S. regions with one account team.",
   },
 ];
 
@@ -72,7 +73,7 @@ export default function PremiumPage() {
         data={buildServiceSchema({
           name: "Premium Photography",
           description:
-            "Full-service model home, amenity, and lifestyle photography for homebuilders. Slow, methodical, full-setup shoots across 28 U.S. markets.",
+            "Model home, amenity, and lifestyle photography for homebuilders, from a national network of highly trained photographers in 28 U.S. markets.",
           path: "/services/premium",
           serviceType: "Photography",
         })}
@@ -90,9 +91,10 @@ export default function PremiumPage() {
             <EditableHero
               slotId="services-premium-hero"
               eyebrowDefault="Solutions / Premium Photography"
-              headlineDefault="Full-service photography for builders who demand the <strong>best</strong>."
-              subheadDefault="Slow, methodical, full-setup photography for model homes, amenity spaces, and lifestyle shoots. DIG's signature service across 28 markets nationwide."
+              headlineDefault="Showcase your new model park at its <strong>best</strong>."
+              subheadDefault="You get a national network of highly trained professional photographers, and the best model home photography, video, and Matterport services available to the industry."
             />
+            <ProductTags line="Production" stage="Launch" />
             <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
               <Link
                 href="/contact"
@@ -126,11 +128,11 @@ export default function PremiumPage() {
                 <EditableTextContent
                   slotId="services-premium-signature"
                   eyebrowDefault="Signature Service"
-                  headlineDefault="Every detail, every <strong>angle</strong>."
-                  bodyDefault="Premium Photography is DIG's umbrella for high-craft, full-service shoots. It covers three distinct engagement types: model home photography, amenity photography, and lifestyle photography. Builders order each as a separate shoot, not as a single combined package."
+                  headlineDefault="Your model is a <strong>sales tool</strong>."
+                  bodyDefault="A model home is a big investment in merchandising and design. The photography is how most of your buyers see that investment first, and it should help them picture living there."
                 />
                 <p className="mt-4 text-text-body">
-                  This is not fast-turn listing photography. Every Premium shoot is planned in advance, executed by DIG&apos;s most experienced photographers, and delivered as a complete, publish-ready asset package built for launches, community reveals, and builder brands that need imagery that earns attention everywhere it appears.
+                  Every Premium shoot is planned in advance and coordinated with your on-site construction and sales teams, so your marketing team does not need to be at the shoot.
                 </p>
               </div>
               <div className="overflow-hidden rounded-2xl bg-bg-light">
@@ -154,8 +156,8 @@ export default function PremiumPage() {
               <EditableTextContent
                 slotId="services-premium-shoot-types"
                 eyebrowDefault="What You're Booking"
-                headlineDefault="Three shoot types. <strong>One standard of quality</strong>."
-                bodyDefault="Premium Photography is an umbrella. Builders order model home, amenity, and lifestyle shoots as separate engagements — each scoped and scheduled for its specific subject."
+                headlineDefault="Order the shoot you <strong>need</strong>."
+                bodyDefault="You order model home, amenity, and lifestyle shoots separately, each scoped and scheduled for its subject."
               />
             </div>
             <div className="grid gap-6 lg:grid-cols-3">
@@ -185,7 +187,7 @@ export default function PremiumPage() {
               <EditableTextContent
                 slotId="services-premium-use-cases"
                 eyebrowDefault="How Builders Use It"
-                headlineDefault="From model home launches to <strong>community reveals</strong>."
+                headlineDefault="When builders order <strong>Premium</strong>."
                 bodyDefault=""
               />
             </div>
@@ -223,11 +225,11 @@ export default function PremiumPage() {
                 <EditableTextContent
                   slotId="services-premium-amenities"
                   eyebrowDefault="Amenity Photography"
-                  headlineDefault="The amenity is the <strong>differentiator</strong>."
-                  bodyDefault="In a competitive market, buyers choose communities as much as they choose floor plans. The pool deck, the clubhouse, the trail system, the fitness center: these are the assets that close the gap between interest and decision."
+                  headlineDefault="Your amenities get their <strong>own shoot</strong>."
+                  bodyDefault="Your buyers choose a community as much as they choose a floor plan. The pool deck, the clubhouse, the trail system, and the fitness center are part of what they are buying."
                 />
                 <p className="mt-4 text-text-body">
-                  DIG Premium amenity photography is planned, lit, and executed with the same care as model home interiors. The result is gallery-quality imagery that works across your website, paid social, and sales center displays.
+                  We plan and light your amenities with the same care as your model home interiors, for images you can use on your website, in paid social, and in your sales center.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
@@ -257,8 +259,8 @@ export default function PremiumPage() {
               <EditableTextContent
                 slotId="services-premium-lifestyle"
                 eyebrowDefault="Lifestyle Photography"
-                headlineDefault="Buyers buy feelings. <strong>Premium delivers them</strong>."
-                bodyDefault="Lifestyle photography is a primary output of DIG Premium. Talent, styling, and real-moment storytelling that connects buyers emotionally to your community before they ever visit. This is the work that makes your brand stand apart on Instagram, on your website hero, and in the sales center."
+                headlineDefault="Show your buyers what life looks like in <strong>your community</strong>."
+                bodyDefault="Lifestyle photography uses talent and styling to connect your buyers to your community before they ever visit. Use it on your website, on social, and in your sales center."
               />
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
@@ -288,17 +290,17 @@ export default function PremiumPage() {
                 <EditableTextContent
                   slotId="services-premium-regional"
                   eyebrowDefault="Regional Coverage"
-                  headlineDefault="One standard across every <strong>market</strong>."
+                  headlineDefault="The same quality in every market <strong>you build in</strong>."
                   bodyDefault=""
                   dark={true}
                 />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-muted">
                 <p>
-                  DIG Premium delivers consistent quality whether you&apos;re launching in California, Texas, Florida, or Colorado. We operate across 28 U.S. markets with the same process, the same quality checks, and the same delivery standard in every one.
+                  You get the same process and the same delivery standard whether you&apos;re launching in California, Texas, Florida, or Colorado. Our photographers are already operating in 28 U.S. markets. If you build in a smaller market, we will onboard a qualified professional trained on our standards in weeks.
                 </p>
                 <p>
-                  For national and regional builders running multiple launches simultaneously, DIG&apos;s Regional Partnerships program provides dedicated capacity, volume pricing, and a single account team across all four U.S. regions.
+                  Running multiple launches at once? Regional Partnerships give you dedicated capacity, volume pricing, and a single account team across all four U.S. regions.
                 </p>
                 <div className="flex flex-wrap gap-4 pt-2">
                   <Link
@@ -331,8 +333,8 @@ export default function PremiumPage() {
               <EditableTextContent
                 slotId="services-premium-cta"
                 eyebrowDefault="Browse the Work"
-                headlineDefault="See what Premium looks like <strong>in the field</strong>."
-                bodyDefault="Browse gallery examples across all four Premium output types, then book a call to scope your shoot."
+                headlineDefault="Model home photography starts at <strong>$4,000</strong>."
+                bodyDefault="Against $60k to $100k in merchandising, that's 5% to 10% to make sure your investment is properly communicated everywhere it shows up."
                 dark={true}
               />
               {/* Gallery pill links */}
