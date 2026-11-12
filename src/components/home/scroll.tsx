@@ -195,3 +195,62 @@ export function ScrubFilm({
     </>
   );
 }
+
+/* ── Launch films: CineFlow and ActFlow, switched by tab. ────────────────── */
+const FLOWS = [
+  {
+    key: "cineflow",
+    name: "CineFlow",
+    line: "Every space relit and reframed into cinematic sequences, without a photo shoot.",
+    src: "/showcase/cinematic.mp4",
+    poster: "/showcase/cinematic.jpg",
+    sound: true,
+  },
+  {
+    key: "actflow",
+    name: "ActFlow",
+    line: "Virtual talent in your spaces, so buyers can picture life in your homes and amenities.",
+    src: "/client-showcase/actflow-kolter.mp4",
+    poster: "/client-showcase/actflow-kolter-poster.webp",
+    sound: false,
+  },
+];
+
+export function FlowFilms() {
+  const [tab, setTab] = useState(0);
+  const flow = FLOWS[tab];
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 0.22"] });
+  const scale = useTransform(scrollYProgress, [0, 1], [0.72, 1]);
+  const radius = useTransform(scrollYProgress, [0, 1], [40, 0]);
+
+  return (
+    <div>
+      <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-5 px-6 lg:flex-row lg:items-center lg:justify-between">
+        <div role="tablist" aria-label="Film products" className="flex gap-2">
+          {FLOWS.map((f, i) => (
+            <button
+              key={f.key}
+              type="button"
+              role="tab"
+              aria-selected={i === tab}
+              onClick={() => setTab(i)}
+              className={`rounded-full px-5 py-2 text-sm font-medium transition-colors ${
+                i === tab ? "bg-white text-text-dark" : "border border-white/20 text-white/70 hover:border-white hover:text-white"
+              }`}
+            >
+              {f.name}
+            </button>
+          ))}
+        </div>
+        <p className="max-w-xl text-white/75 lg:text-right">{flow.line}</p>
+      </div>
+      <div ref={ref} className="mt-10">
+        <motion.div className="origin-top overflow-hidden bg-black" style={{ scale, borderRadius: radius }}>
+          {/* key remounts the player so each tab starts its own film from the top */}
+          <ShowcaseFilm key={flow.key} src={flow.src} poster={flow.poster} label={`${flow.name} film`} sound={flow.sound} />
+        </motion.div>
+      </div>
+    </div>
+  );
+}

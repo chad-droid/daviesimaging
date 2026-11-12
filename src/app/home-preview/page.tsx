@@ -49,10 +49,10 @@ export default function HomePreview() {
           products={[
             { label: "PlanMatch", href: "/services/showcase#planmatch" },
             { label: "CineFlow", href: "/services/showcase#cineflow" },
+            { label: "ActFlow", href: "/services/virtual-video#actflow" },
           ]}
         />
         <PlanMatchChapter />
-        <FilmChapter />
       </div>
 
       <div id="launch" className="scroll-mt-28">
@@ -63,9 +63,13 @@ export default function HomePreview() {
           products={[
             { label: "Premium Photography", href: "/services/premium" },
             { label: "Premium Video", href: "/services/video-production" },
+            { label: "CineFlow", href: "/services/showcase#cineflow" },
+            { label: "ActFlow", href: "/services/virtual-video#actflow" },
+            { label: "Moments", href: "/services/showcase#moments" },
           ]}
         />
         <PremiumChapter />
+        <FilmChapter />
       </div>
 
       <div id="list" className="scroll-mt-28">
@@ -78,7 +82,6 @@ export default function HomePreview() {
             { label: "Listing Photography", href: "/services/listing" },
             { label: "ModelMatch", href: "/services/virtual-staging" },
             { label: "FrameFlow", href: "/services/virtual-video" },
-            { label: "Moments", href: "/services/showcase#moments" },
           ]}
         />
         <SpecPlusPinned />

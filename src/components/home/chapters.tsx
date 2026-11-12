@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { GrowingFilm, ScrollWipe, GlideStrip, ScrubFilm } from "./scroll";
+import { FlowFilms, ScrollWipe, GlideStrip, ScrubFilm } from "./scroll";
 import { getTestimonials, type Testimonial } from "@/data/testimonials";
 import { QuoteText } from "@/components/QuoteText";
 
@@ -116,7 +116,7 @@ export function ModelMatchChapter() {
   );
 }
 
-/* ── Film: the Cinematic film, full bleed, sound one tap away. ───────────── */
+/* ── Launch films: CineFlow and ActFlow from your model photography. ────── */
 export function FilmChapter() {
   return (
     <section id="film" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-24 text-text-light lg:pt-32">
@@ -124,30 +124,19 @@ export function FilmChapter() {
         <RevealOnScroll>
           <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:items-end lg:gap-16">
             <div>
-              <Eyebrow dark>CineFlow</Eyebrow>
+              <Eyebrow dark>CineFlow and ActFlow</Eyebrow>
               <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
-                A home told as a story, <strong>not a tour</strong>.
+                Turn your model photography into <strong>film</strong>.
               </h2>
             </div>
-            <div className="mt-6 lg:mt-0 lg:pb-2">
-              <p className="text-lg leading-relaxed text-white/80">
-                Cinematic sequences of your homes, cut to a music narrative, without a full production.
-              </p>
-              <Link
-                href="/services/showcase"
-                className="mt-4 inline-block text-sm font-medium text-white/70 transition-colors hover:text-white"
-              >
-                See PlanMatch, Moments and CineFlow &rarr;
-              </Link>
-            </div>
+            <p className="mt-6 text-lg leading-relaxed text-white/80 lg:mt-0 lg:pb-2">
+              CineFlow relights each space and adds new angles for cinematic sequences. ActFlow
+              introduces virtual talent, so buyers can picture life in your homes and amenities.
+            </p>
           </div>
         </RevealOnScroll>
       </div>
-      <GrowingFilm
-        src="/showcase/cinematic.mp4"
-        poster="/showcase/cinematic.jpg"
-        label="CineFlow film of a model home"
-      />
+      <FlowFilms />
     </section>
   );
 }

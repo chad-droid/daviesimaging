@@ -104,10 +104,13 @@ These are resolved decisions. Do not re-litigate them without explicit instructi
 
 > **November 2026: Solutions menu is organised by stage (on the `homepage-rebuild`
 > branch, not yet live).** Three columns answer "what am I trying to do":
-> **Lead** (pre-sell before it is built: PlanMatch, CineFlow), **Launch** (model
-> homes and amenities: Premium Photography, Premium Video), **List** (spec homes
-> for sale: Spec+, Listing Photography, ModelMatch, FrameFlow, Moments). Each
-> product has one home and cross-links from the others. The service lines
+> **Lead** (pre-sell before it is built: PlanMatch, CineFlow, ActFlow),
+> **Launch** (model homes and amenities: Premium Photography, Premium Video,
+> CineFlow, ActFlow, Moments), **List** (spec homes for sale: Spec+, Listing
+> Photography, ModelMatch, FrameFlow). Stage placement is Chad's (Nov 2026). A
+> product that serves two stages is listed under both; there is no separate
+> Flow column. Each
+> product keeps a single page. The service lines
 > (Production, Flow, Match, and "+" hybrids) live in the product names, not in
 > a menu. Matterport has no page of its own: it is part of Premium and Listing,
 > and `/services/matterport` redirects to `/services/premium`. Not public yet,
@@ -317,6 +320,7 @@ Consistent capitalization and formatting across all copy and UI:
 | ModelMatch | `ModelMatch` | one word, camel case — never "Model Match" |
 | Spec+ | `Spec+` | capital S, plus sign — never "Spec Plus" or "spec+" |
 | CineFlow | `CineFlow` | one word, camel case. Was "Cinematic" until November 2026 — do not use the old name |
+| ActFlow | `ActFlow` | one word, camel case. Virtual talent video. Was "TalentMatch" — never "Active Flow" or "ActiFlow" |
 | PlanMatch | `PlanMatch` | one word, camel case |
 | Moments | `Moments` | keeps its name |
 | Premium Video | `Premium Video` | nav label for the Video Production page (`/services/video-production`) |

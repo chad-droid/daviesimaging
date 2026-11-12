@@ -20,6 +20,8 @@ interface NavStage {
   key: string;
   label: string;
   tagline: string;
+  /** Not one of the three numbered stages: a product family that spans them. */
+  crossStage?: boolean;
 }
 
 interface NavGroup {
@@ -41,16 +43,21 @@ const navGroups: NavGroup[] = [
       { key: "launch", label: "Launch", tagline: "Model homes and amenities" },
       { key: "list", label: "List", tagline: "Spec homes for sale" },
     ],
+    // A product that serves more than one stage is listed under each of them
+    // (CineFlow and ActFlow sit in both Lead and Launch).
     items: [
       { stage: "lead", label: "PlanMatch", href: "/services/showcase#planmatch", description: "Photography made from your plans" },
-      { stage: "lead", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic film without a photo shoot" },
+      { stage: "lead", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic sequences without a photo shoot" },
+      { stage: "lead", label: "ActFlow", href: "/services/virtual-video#actflow", description: "Virtual talent brings your spaces to life" },
       { stage: "launch", label: "Premium Photography", href: "/services/premium", description: "Model homes, amenities and lifestyle" },
       { stage: "launch", label: "Premium Video", href: "/services/video-production", description: "Crew-based community and lifestyle film" },
+      { stage: "launch", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic sequences from your model photography" },
+      { stage: "launch", label: "ActFlow", href: "/services/virtual-video#actflow", description: "Virtual talent in your models and amenities" },
+      { stage: "launch", label: "Moments", href: "/services/showcase#moments", description: "Vertical close ups for social" },
       { stage: "list", label: "Spec+", href: "/programs/spec-plus", description: "Photography, staging, and video, $600 flat" },
       { stage: "list", label: "Listing Photography", href: "/services/listing", description: "HDR spec home photos, MLS-ready" },
       { stage: "list", label: "ModelMatch", href: "/services/virtual-staging", description: "Staging built from your own model homes" },
-      { stage: "list", label: "FrameFlow", href: "/services/virtual-video", description: "Video built from your existing photos" },
-      { stage: "list", label: "Moments", href: "/services/showcase#moments", description: "Vertical close ups for social" },
+      { stage: "list", label: "FrameFlow", href: "/services/virtual-video", description: "Lifelike video from your existing images" },
     ],
   },
   {
@@ -143,12 +150,14 @@ function DesktopDropdown({
               <div className="absolute -top-8 left-0 h-8 w-full" />
               <div className="grid grid-cols-3 divide-x divide-border-light">
                 {group.stages.map((stage, i) => (
-                  <div key={stage.key} className="p-3">
+                  <div key={stage.key} className={`p-3 ${stage.crossStage ? "bg-bg-light" : ""}`}>
                     <div className="px-3 pb-3 pt-2">
                       <p className="flex items-baseline gap-2">
-                        <span className="text-[0.65rem] font-bold tracking-[0.15em] text-accent">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
+                        {!stage.crossStage && (
+                          <span className="text-[0.65rem] font-bold tracking-[0.15em] text-accent">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                        )}
                         <span className="text-[1.6rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
                           {stage.label}
                         </span>
@@ -406,7 +415,7 @@ function MobileGroup({
                     ? group.stages?.find((st) => st.key === item.stage)
                     : undefined;
                 return (
-                  <div key={item.href}>
+                  <div key={`${item.stage ?? ""}-${item.href}`}>
                   {stage && (
                     <p className="pb-1 pl-2 pt-3 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-accent">
                       {stage.label} <span className="font-medium normal-case tracking-normal text-text-muted">· {stage.tagline}</span>

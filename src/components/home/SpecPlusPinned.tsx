@@ -30,7 +30,7 @@ const STEPS = [
     title: "Virtual video",
     count: "1",
     unit: "listing video",
-    body: "A wide listing video, built from the same photos.",
+    body: "A wide FrameFlow listing video, built from the same photos.",
     image: "/client-showcase/specplus-palatka-poster.webp",
     video: "/client-showcase/specplus-palatka.mp4",
     alt: "Spec+ listing video",

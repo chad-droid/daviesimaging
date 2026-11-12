@@ -48,6 +48,13 @@ const CARDS: Card[] = [
     image: "/showcase/moments-hood-2.webp",
   },
   {
+    label: "ActFlow",
+    line: "Virtual talent that brings your spaces to life.",
+    href: "/services/virtual-video#actflow",
+    video: "/client-showcase/actflow-blueheron.mp4",
+    image: "/client-showcase/actflow-blueheron-poster.webp",
+  },
+  {
     label: "Premium",
     line: "Model homes, amenities and lifestyle.",
     href: "/services/premium",
