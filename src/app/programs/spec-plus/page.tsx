@@ -153,7 +153,7 @@ export default function SpecPlusPage() {
             <div className="mt-14 grid gap-8 sm:grid-cols-3">
               {steps.map((step) => (
                 <div key={step.number} className="flex flex-col">
-                  <span className="font-mono text-3xl font-light text-border-light">{step.number}</span>
+                  <span className="font-mono text-3xl font-light text-text-muted">{step.number}</span>
                   <h4 className="mt-3 text-base font-semibold text-text-dark">{step.title}</h4>
                   <p className="mt-2 text-sm leading-relaxed text-text-body">{step.detail}</p>
                 </div>

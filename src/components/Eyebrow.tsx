@@ -6,8 +6,8 @@ export function Eyebrow({ children, dark }: { children: React.ReactNode; dark?: 
     const child = children.slice(slashIndex + 3);
     return (
       <p className="mb-4 text-sm font-bold uppercase tracking-[0.15em] lg:text-[0.9375rem]">
-        <span className={dark ? "text-white/35" : "text-text-muted"}>{parent}</span>
-        <span className={dark ? "text-white/20" : "text-border-light"}> / </span>
+        <span className={dark ? "text-white/60" : "text-text-muted"}>{parent}</span>
+        <span className={dark ? "text-white/35" : "text-border-light"}> / </span>
         <span className={dark ? "text-accent-dark-hover" : "text-accent"}>{child}</span>
       </p>
     );

@@ -145,7 +145,7 @@ export default async function BlogPage() {
                         {post.excerpt}
                       </p>
                     )}
-                    <p className="mt-4 text-xs text-text-body/60">
+                    <p className="mt-4 text-xs text-text-muted">
                       {formatDate(post.publishedAt)}
                       {post.author ? ` · ${post.author}` : ""}
                     </p>

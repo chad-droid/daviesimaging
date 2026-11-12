@@ -145,8 +145,8 @@ The `Eyebrow` component detects a "Parent / Child" pattern and renders with visu
 ```
 
 **Rendering rules:**
-- Parent: `text-white/35` (dark) or `text-text-muted` (light)
-- Separator " / ": `text-white/20` (dark) or `text-border-light` (light)
+- Parent: `text-white/60` (dark) or `text-text-muted` (light). Was `text-white/35`, which failed contrast (November 2026)
+- Separator " / ": `text-white/35` (dark) or `text-border-light` (light)
 - Child: `text-accent-dark-hover` (dark) or `text-accent` (light)
 - Same line — do NOT stack parent and child vertically
 
@@ -240,6 +240,8 @@ Do not add `uppercase`, `tracking-wider`, or accent color to h4/h5 in globals.cs
 ```
 
 Use `border-white/10 bg-white/5` — not opaque dark colors. The subtle transparency maintains visual depth.
+
+**Contrast on dark (November 2026):** `text-text-muted` and `text-accent` are re-pointed to lighter values inside any `bg-bg-dark` section by rules at the end of `globals.css`, so the same classes stay readable on both backgrounds. Do not use `text-white/30` to `/50` for text anyone needs to read; `text-white/60` is the floor.
 
 ---
 

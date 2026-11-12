@@ -48,12 +48,12 @@ export function ShowcaseChapterNav({ chapters, ctaHref, ctaLabel }: ShowcaseChap
                 href={`#${c.id}`}
                 aria-current={active === c.id ? "true" : undefined}
                 className={`flex items-baseline gap-2 text-sm font-medium transition-colors ${
-                  active === c.id ? "text-text-light" : "text-white/50 hover:text-text-light"
+                  active === c.id ? "text-text-light" : "text-white/70 hover:text-text-light"
                 }`}
               >
                 <span
                   className={`text-[0.65rem] font-bold tracking-[0.15em] ${
-                    active === c.id ? "text-accent-dark-hover" : "text-white/30"
+                    active === c.id ? "text-accent-dark-hover" : "text-white/55"
                   }`}
                 >
                   {String(i + 1).padStart(2, "0")}

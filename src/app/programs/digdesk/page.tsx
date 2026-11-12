@@ -225,7 +225,7 @@ export default function DigDeskPage() {
             <div className="grid gap-6 sm:grid-cols-2">
               {modules.map((m) => (
                 <div key={m.number} className="rounded-xl border border-white/10 bg-white/5 p-6">
-                  <span className="font-mono text-2xl font-bold text-accent/50">{m.number}</span>
+                  <span className="font-mono text-2xl font-bold text-accent-dark-hover">{m.number}</span>
                   <h4 className="mt-3 text-base font-semibold text-text-light">{m.title}</h4>
                   <p className="mt-2 text-sm leading-relaxed text-text-muted">{m.body}</p>
                   <Link

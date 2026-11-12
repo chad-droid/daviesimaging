@@ -219,3 +219,28 @@
     transform: none;
   }
 }
+
+/* ── Muted text on dark backgrounds ──
+   text-text-muted is tuned for light backgrounds (#5C5C5C). Inside any dark
+   section it resolves to a light grey instead, so the same class stays
+   readable on both. Light cards nested in a dark section switch it back. */
+.bg-bg-dark,
+.bg-bg-dark-surface {
+  --text-muted: #B4B4B4;
+}
+.bg-bg-dark :is(.bg-bg-surface, .bg-bg-light, .bg-white),
+.bg-bg-dark-surface :is(.bg-bg-surface, .bg-bg-light, .bg-white) {
+  --text-muted: #5C5C5C;
+}
+
+/* Accent-colored text on a dark background uses the lighter accent, which
+   passes contrast there. Light cards nested in a dark section keep the
+   standard accent. */
+.bg-bg-dark .text-accent,
+.bg-bg-dark-surface .text-accent {
+  color: var(--accent-hover-dark);
+}
+.bg-bg-dark :is(.bg-bg-surface, .bg-bg-light, .bg-white) .text-accent,
+.bg-bg-dark-surface :is(.bg-bg-surface, .bg-bg-light, .bg-white) .text-accent {
+  color: var(--accent);
+}

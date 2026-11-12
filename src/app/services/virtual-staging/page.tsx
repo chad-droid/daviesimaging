@@ -169,7 +169,7 @@ export default function VirtualStagingPage() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {steps.map((step) => (
                 <div key={step.number} className="relative rounded-xl border border-white/10 bg-white/5 p-6">
-                  <span className="font-mono text-3xl font-bold text-accent/60">{step.number}</span>
+                  <span className="font-mono text-3xl font-bold text-accent-dark-hover">{step.number}</span>
                   <h4 className="mt-4 text-base font-semibold text-text-light">{step.title}</h4>
                   <p className="mt-2 text-sm leading-relaxed text-text-muted">{step.body}</p>
                 </div>
