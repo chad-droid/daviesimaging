@@ -13,15 +13,15 @@ export interface FaqItem {
 export const specFaqs: FaqItem[] = [
   {
     q: "What exactly is included in Spec+?",
-    a: "Every Spec+ order includes 25 HDR listing photos, 8 ModelMatch virtually staged images, and 1 wide-format virtual video. Photography is handled on-site by a DIG photographer. Virtual staging and video are produced digitally through digDesk. All three are delivered together within 72 hours of the shoot.",
+    a: "Every Spec+ order includes 25 HDR listing photos, 8 ModelMatch virtually staged images, and 1 wide-format FrameFlow video. Photography is handled on-site by a DIG photographer. Virtual staging and video are produced digitally through digDesk. All three are delivered together within 72 hours of the shoot.",
   },
   {
     q: "How is Spec+ different from just ordering listing photos?",
-    a: "Listing photography gets you photos. Spec+ gets you a complete marketing asset package. The ModelMatch staging uses your builder's own model home photography as the design reference, so every staged image looks on-brand, not generic. The virtual video is built from your photos by our production team. One order, three outputs.",
+    a: "Listing photography gets you photos. Spec+ adds ModelMatch staging and a FrameFlow video. The ModelMatch staging uses your builder's own model home photography as the design reference, so every staged image looks on-brand, not generic. The virtual video is built from your photos by our production team. One order, three outputs.",
   },
   {
     q: "What is ModelMatch virtual staging?",
-    a: "ModelMatch is DIG's reference-based virtual staging method. Instead of dropping generic furniture into empty rooms, our team uses your builder's approved model home photography as the design reference. The result looks like your community's style, not a furniture catalog.",
+    a: "ModelMatch is virtual staging built from the furniture and decor in your own model homes. We use your approved model home photography as the design reference, so a spec in the listing looks like it belongs in the same community as the model.",
   },
   {
     q: "Do I need to be present at the shoot?",
@@ -29,7 +29,7 @@ export const specFaqs: FaqItem[] = [
   },
   {
     q: "What if I already have photos and just need staging or video?",
-    a: "You can order standalone virtual staging or virtual video through digDesk. Upload your existing listing photos and our team handles the rest. Spec+ includes the photography, but digDesk digital services are available without a new shoot.",
+    a: "You can order ModelMatch staging or FrameFlow video by themselves through digDesk. Upload your existing listing photos and our team handles the rest. Spec+ includes the photography, but digDesk digital services are available without a new shoot.",
   },
   {
     q: "How do I receive my finished assets?",

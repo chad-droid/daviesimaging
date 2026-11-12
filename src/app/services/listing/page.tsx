@@ -51,7 +51,7 @@ export default function ListingPhotoPage() {
               slotId="services-listing-hero"
               eyebrowDefault="Solutions / Listing Photography"
               headlineDefault="Get your new listings <strong>online</strong>."
-              subheadDefault="Listing photography for your spec homes and standing inventory, delivered within 48 hours of the shoot and ready for MLS, your website, email and paid channels."
+              subheadDefault="You get listing photography for your spec homes and standing inventory within 48 hours of the shoot, ready for MLS, your website, email and paid channels."
             />
             <ProductTags line="Production" stage="List" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">

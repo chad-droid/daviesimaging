@@ -9,13 +9,13 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/lifestyle" },
   title: "Lifestyle",
-  description: "Lifestyle photography that captures how buyers actually live in a home. Talent, styling, and storytelling built for builder marketing.",
+  description: "Lifestyle photography and video that show your buyers what life looks like in your community.",
 };
 
 const otherWork = [
   { label: "Model Homes", href: "/gallery/models" },
   { label: "Amenities", href: "/gallery/amenities" },
-  { label: "Spec Homes", href: "/gallery/listings" },
+  { label: "Listings", href: "/gallery/listings" },
 ];
 
 export default function LifestylePage() {
@@ -28,8 +28,8 @@ export default function LifestylePage() {
             <EditableHero
               slotId="gallery-lifestyle-hero"
               eyebrowDefault="Gallery / Lifestyle"
-              headlineDefault="Buyers buy feelings. <strong>Give them something to feel</strong>."
-              subheadDefault="Lifestyle photography brings homes to life. Real moments, real emotion, built for builder marketing teams that want buyers to feel something before the first visit."
+              headlineDefault="Show your buyers what life looks like in <strong>your community</strong>."
+              subheadDefault="Lifestyle photography uses talent and styling to connect your buyers to your community before they ever visit."
             />
           </RevealOnScroll>
         </div>
@@ -56,7 +56,7 @@ export default function LifestylePage() {
               slotId="gallery-lifestyle-context"
               eyebrowDefault="Photo + Video"
               headlineDefault="Lifestyle covers both <strong>photo and video</strong>."
-              bodyDefault="Lifestyle is a primary output of two DIG services: Premium photography and Video Production. Both appear in this gallery because both serve the same purpose: connecting buyers emotionally to a community before a physical visit ever happens.<br><br>Lifestyle shoots involve talent, styling, and real-moment direction. The goal is not staged perfection. It is authentic energy that communicates what it actually feels like to live in a home. That distinction is what makes lifestyle content outperform architecture-only photography in paid media and website conversion."
+              bodyDefault="Lifestyle is a primary output of two DIG services: Premium Photography and Premium Video. Both appear in this gallery because both serve the same purpose: connecting buyers emotionally to a community before a physical visit ever happens.<br><br>Lifestyle shoots involve talent, styling, and real-moment direction. The goal is not staged perfection. It is authentic energy that communicates what it actually feels like to live in a home. That distinction is what makes lifestyle content outperform architecture-only photography in paid media and website conversion."
             />
           </RevealOnScroll>
         </div>
@@ -69,8 +69,8 @@ export default function LifestylePage() {
             <EditableTextContent
               slotId="gallery-lifestyle-cta"
               eyebrowDefault="Lifestyle and Video"
-              headlineDefault="DIG Premium includes lifestyle photography. DIG Video Production captures the full community <strong>story on film</strong>."
-              bodyDefault="Both are delivered to your marketing team, ready to deploy across website, paid media, email, and sales center."
+              headlineDefault="Lifestyle photography and <strong>Premium Video</strong>."
+              bodyDefault="Both are delivered to your marketing team, ready for your website, paid media, email, and sales center."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

@@ -7,26 +7,26 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/markets" },
   title: "Markets",
-  description: "DIG serves builders by type, role, and region. Find the page built for you.",
+  description: "Find how DIG helps you by what you build, your role, or the markets you build in.",
 };
 
 const dimensions = [
   {
     title: "By Type",
     href: "/markets/type",
-    description: "Detached, attached, luxury, BTR, multifamily. Different build types have different asset needs. Find the approach built for how you operate.",
+    description: "Detached, attached, luxury, build-to-rent, or multifamily. See which services fit what you build.",
     examples: ["Single-family detached", "Townhomes + attached", "Luxury and estate", "Build-to-rent", "Multifamily"],
   },
   {
     title: "By Role",
     href: "/markets/role",
-    description: "Coordinators, directors, executives, and C-suite leaders each have different pressures. We built pages that speak directly to yours.",
+    description: "Whether you place the orders or set the budget, see how DIG helps you and your team.",
     examples: ["Marketing Coordinators", "Marketing Directors", "VP level", "C-Suite"],
   },
   {
     title: "By Region",
     href: "/markets/region",
-    description: "DIG operates across 28 U.S. markets in four regions, with offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.",
+    description: "You get the same quality in 28 U.S. markets across four regions, with offices in Sacramento, Dallas, and Guadalajara.",
     examples: ["West", "Mountain", "Central", "East"],
   },
 ];
@@ -41,7 +41,7 @@ export default function MarketsIndex() {
             <Eyebrow dark>Markets</Eyebrow>
             <h1 className="text-text-light">Who DIG <strong>serves</strong>.</h1>
             <p className="mt-5 max-w-xl text-lg text-text-muted">
-              Three ways to find the right fit: by what you build, who you are, or where you operate. Every page is written for your specific situation.
+              Find your fit by what you build, your role, or where you build.
             </p>
           </RevealOnScroll>
         </div>
@@ -89,7 +89,7 @@ export default function MarketsIndex() {
                 Just talk to <strong>someone</strong>.
               </h2>
               <p className="mx-auto mt-4 max-w-md text-text-body">
-                A 15-minute conversation with the DIG team is the fastest way to find the right service, offering, and approach for your specific situation.
+                A 15-minute conversation with our team is the fastest way to find the right services for your communities.
               </p>
               <div className="mt-8">
                 <Link

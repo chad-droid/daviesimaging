@@ -62,7 +62,7 @@ export default function VirtualVideoPage() {
               slotId="services-virtual-video-hero"
               eyebrowDefault="Solutions / FrameFlow"
               headlineDefault="Need video from the photos you <strong>already have</strong>?"
-              subheadDefault="FrameFlow converts your images, whether they're interiors, exteriors, or amenities, into lifelike video sequences. This works with virtual images, model home images, and amenity photographs."
+              subheadDefault="Your images, whether they're interiors, exteriors, or amenities, become lifelike video sequences. This works with your virtual images, model home images, and amenity photographs."
             />
             <ProductTags line="Flow" stage="List" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">

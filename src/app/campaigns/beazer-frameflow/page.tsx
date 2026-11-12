@@ -32,7 +32,7 @@ export default function BeazerFrameFlowPage() {
         eyebrow="Impact"
         headline={<>Faster listings, faster <strong>closings</strong>.</>}
         stats={[
-          { value: "37%", label: "Avg. DOM reduction" },
+          { value: "72 hrs", label: "Spec+ delivery after the shoot" },
           { value: "3-in-1", label: "Photo + staging + video" },
           { value: "28", label: "Markets covered" },
         ]}

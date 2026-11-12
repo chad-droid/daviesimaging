@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 
 const categories = [
   { label: "Spec+", href: "#spec-plus" },
-  { label: "Virtual Staging", href: "/services/virtual-staging" },
-  { label: "Virtual Video", href: "/services/virtual-video" },
+  { label: "ModelMatch", href: "/services/virtual-staging" },
+  { label: "FrameFlow", href: "/services/virtual-video" },
   { label: "Ordering", href: "/programs/digdesk" },
 ];
 
@@ -37,7 +37,7 @@ export default function FaqPage() {
               Frequently asked <strong>questions</strong>.
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
-              Everything you need to know about Spec+, virtual staging, video, and how DIG delivers.
+              Your questions about Spec+, ModelMatch staging, FrameFlow video, and how we deliver.
             </p>
           </RevealOnScroll>
         </div>
@@ -68,7 +68,7 @@ export default function FaqPage() {
                 We&apos;re easy to <strong>reach</strong>.
               </h2>
               <p className="mx-auto mt-4 max-w-md text-text-body">
-                If your question is not covered above, reach out directly. We respond quickly and are happy to walk through anything before you order.
+                If your question is not covered above, reach out. We are happy to walk you through anything before you order.
               </p>
               <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
                 <Link

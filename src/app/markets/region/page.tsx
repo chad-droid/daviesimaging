@@ -8,7 +8,7 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 export const metadata: Metadata = {
   alternates: { canonical: "/markets/region" },
   title: "Markets by Region",
-  description: "DIG operates across 28 U.S. markets in four regions, with offices in Sacramento, Dallas, and Guadalajara.",
+  description: "You get the same quality in 28 U.S. markets across four regions, with offices in Sacramento, Dallas, and Guadalajara.",
 };
 
 export default function ByRegionPage() {
@@ -38,8 +38,8 @@ export default function ByRegionPage() {
             <EditableTextContent
               slotId="markets-region-partnerships"
               eyebrowDefault="Partnerships"
-              headlineDefault="One partner across every <strong>region</strong>."
-              bodyDefault="Volume pricing, dedicated capacity, and brand consistency enforced from West to East. Built for builders doing 300+ homes annually."
+              headlineDefault="One partner in every market <strong>you build in</strong>."
+              bodyDefault="You get volume pricing, dedicated capacity, and your brand guidelines followed from West to East. For builders doing 300 or more homes a year."
               headingLevel="h3"
             />
             <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5">

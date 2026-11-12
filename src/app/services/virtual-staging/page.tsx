@@ -14,7 +14,7 @@ import { ProductTags } from "@/components/ProductTags";
 export const metadata: Metadata = {
   alternates: { canonical: "/services/virtual-staging" },
   title: "ModelMatch Virtual Staging",
-  description: "ModelMatch uses your model home merchandising to create furniture and accessory galleries you can reuse across your vacant inventory.",
+  description: "Your model home merchandising becomes furniture and accessory galleries you can reuse across your vacant inventory.",
 };
 
 const steps = [
@@ -85,7 +85,7 @@ export default function VirtualStagingPage() {
               slotId="services-virtual-staging-hero"
               eyebrowDefault="Solutions / ModelMatch"
               headlineDefault="Extend the investment you've made in your <strong>model homes</strong>."
-              subheadDefault="ModelMatch uses your model home merchandising to create bespoke furniture and accessory galleries you can reuse across your vacant inventory."
+              subheadDefault="Your model home merchandising becomes bespoke furniture and accessory galleries you can reuse across your vacant inventory."
             />
             <ProductTags line="Match" stage="List" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">

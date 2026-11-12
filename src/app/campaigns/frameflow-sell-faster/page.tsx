@@ -77,14 +77,10 @@ export default function FrameFlowChallengePage() {
           </>
         }
         stats={[
-          { value: "37%", label: "Avg. reduction in days on market" },
-          { value: "2.4x", label: "Increase in listing engagement" },
+          { value: "28", label: "Markets served" },
+          { value: "$600", label: "Spec+, flat for all home sizes" },
           { value: "0", label: "Risk to get started" },
         ]}
-        testimonial={{
-          quote: "We ran the challenge on one community and saw results immediately. Now every community goes through FrameFlow.",
-          attribution: "Marketing Director, Regional Builder",
-        }}
       />
 
       <LPCta

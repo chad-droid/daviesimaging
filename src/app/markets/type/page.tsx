@@ -7,44 +7,44 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/markets/type" },
   title: "Markets by Type",
-  description: "DIG serves detached, attached, luxury, build-to-rent, and multifamily builders. Find the asset strategy built for how you operate.",
+  description: "Detached, attached, luxury, build-to-rent, and multifamily: see which DIG services fit what you build.",
 };
 
 const types = [
   {
     title: "Detached",
-    description: "Single-family production and custom homes. Photography, staging, and video for every price point. Spec+ is the primary tool for standing inventory. Premium for model home launches.",
+    description: "Single-family production and custom homes. Use Spec+ for your standing inventory and Premium for your model home launches.",
     services: ["Premium Photo", "Listing Photo", "Spec+"],
     href: "/gallery/models",
     cta: "See model home work",
   },
   {
     title: "Attached",
-    description: "Townhomes and duplexes. Consistent asset packages across high-volume attached communities where every unit looks as good as the last. Virtual staging is especially effective for showing unit variations without multiple shoots.",
-    services: ["Listing Photo", "Virtual Staging", "Virtual Video"],
+    description: "Townhomes and duplexes. ModelMatch lets you show your unit variations without multiple shoots.",
+    services: ["Listing Photography", "ModelMatch", "FrameFlow"],
     href: "/gallery/listings",
-    cta: "See spec home work",
+    cta: "See listing work",
   },
   {
     title: "Luxury",
-    description: "High-end custom and estate homes. Premium photography and lifestyle video that matches the caliber of the build. DIG&apos;s most methodical, detail-driven service tier for communities where every image makes a statement.",
-    services: ["Premium Photo", "Video Production", "Matterport"],
+    description: "High-end custom and estate homes. You get Premium photography and video that match the caliber of what you build.",
+    services: ["Premium Photography", "Premium Video", "Matterport"],
     href: "/services/premium",
-    cta: "Explore Premium Photo",
+    cta: "Explore Premium Photography",
   },
   {
     title: "BTR",
-    description: "Build-to-rent communities. Amenity-forward photography and virtual staging for lease-up marketing. DIG captures the community infrastructure that drives BTR leasing decisions: pools, clubhouses, fitness centers, and outdoor spaces.",
-    services: ["Premium Photo", "Virtual Staging", "Amenity Shoots"],
+    description: "Build-to-rent communities. Photography of your pools, clubhouses, fitness centers, and outdoor spaces, plus ModelMatch staging for your lease-up marketing.",
+    services: ["Premium Photography", "ModelMatch", "Amenity Shoots"],
     href: "/gallery/amenities",
     cta: "See amenity work",
   },
   {
     title: "Multifamily",
-    description: "Apartment and condo communities. Virtual staging and video for lease-up and pre-sale campaigns. digDesk handles digital production at scale without a shoot day for every unit.",
-    services: ["Virtual Staging", "Virtual Video", "digDesk"],
+    description: "Apartment and condo communities. ModelMatch staging and FrameFlow video for your lease-up and pre-sale campaigns, ordered through digDesk without a shoot for every unit.",
+    services: ["ModelMatch", "FrameFlow", "digDesk"],
     href: "/services/virtual-staging",
-    cta: "Explore Virtual Staging",
+    cta: "Explore ModelMatch",
   },
 ];
 
@@ -60,7 +60,7 @@ export default function ByTypePage() {
               Every builder type has a different <strong>need</strong>.
             </h1>
             <p className="mt-5 max-w-xl text-lg text-text-muted">
-              Detached, attached, luxury, BTR, or multifamily. We build asset strategies tailored to how you operate and what your buyers actually need to see.
+              Detached, attached, luxury, BTR, or multifamily. See which services fit what you build and what your buyers need to see.
             </p>
           </RevealOnScroll>
         </div>
@@ -112,7 +112,7 @@ export default function ByTypePage() {
               Not sure which services fit your <strong>build type</strong>?
             </h2>
             <p className="mt-5 text-text-muted">
-              A 15-minute strategy call is the fastest way to get a recommendation tailored to your specific communities, volume, and marketing goals.
+              A 15-minute strategy call is the fastest way to get a recommendation for your communities, your volume, and your marketing goals.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link

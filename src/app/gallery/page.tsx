@@ -8,29 +8,29 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery" },
   title: "Our Work",
-  description: "Browse the full DIG portfolio across model homes, amenities, spec homes, and lifestyle photography and video.",
+  description: "Browse our work by category: model homes, amenities, listings, and lifestyle photography and video.",
 };
 
 const categories = [
   {
     title: "Model Homes",
     href: "/gallery/models",
-    description: "Furnished interiors, architectural detail, and finished spaces. DIG&apos;s highest-craft output.",
+    description: "Furnished interiors, architectural detail, and finished spaces.",
   },
   {
     title: "Amenities",
     href: "/gallery/amenities",
-    description: "Pools, clubhouses, fitness centers, and parks. The community infrastructure that drives buyer decisions.",
+    description: "Pools, clubhouses, fitness centers, and parks.",
   },
   {
-    title: "Spec Homes",
+    title: "Listings",
     href: "/gallery/listings",
-    description: "Move-in ready homes. Listing photography, virtual staging, and virtual video output.",
+    description: "Move-in ready homes: listing photography, ModelMatch staging, and FrameFlow video.",
   },
   {
     title: "Lifestyle",
     href: "/gallery/lifestyle",
-    description: "Talent-driven photography and video that connects buyers emotionally to a community.",
+    description: "Talent-driven photography and video that connect your buyers to your community.",
   },
 ];
 
@@ -46,7 +46,7 @@ export default function WorkPage() {
               Assets built to move <strong>homes</strong>.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-text-muted">
-              Browse the full DIG portfolio across every category. Photography, staging, and video built for homebuilder marketing teams that need results, not just visuals.
+              Browse our work by category: model homes, amenities, listings, and lifestyle.
             </p>
           </RevealOnScroll>
         </div>

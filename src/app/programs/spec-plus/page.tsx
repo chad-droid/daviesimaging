@@ -41,7 +41,7 @@ export default function SpecPlusPage() {
               slotId="programs-spec-plus-hero"
               eyebrowDefault="Programs / Spec+"
               headlineDefault="List your spec homes looking their <strong>absolute best</strong>."
-              subheadDefault="Spec+ combines our listing photography with ModelMatch virtual staging and a FrameFlow video. $600 flat, regardless of home size, delivered within 72 hours of the shoot."
+              subheadDefault="You get our listing photography, ModelMatch virtual staging and a FrameFlow video in one order. $600 flat, regardless of home size, delivered within 72 hours of the shoot."
             />
             <ProductTags line="Production + Match + Flow" stage="List" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">

@@ -9,12 +9,12 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/amenities" },
   title: "Amenities",
-  description: "Community amenity photography that showcases pools, clubhouses, trails, and lifestyle spaces builders invest in.",
+  description: "Photography of your pools, clubhouses, trails, and community spaces.",
 };
 
 const otherWork = [
   { label: "Model Homes", href: "/gallery/models" },
-  { label: "Spec Homes", href: "/gallery/listings" },
+  { label: "Listings", href: "/gallery/listings" },
   { label: "Lifestyle", href: "/gallery/lifestyle" },
 ];
 
@@ -28,8 +28,8 @@ export default function AmenitiesPage() {
             <EditableHero
               slotId="gallery-amenities-hero"
               eyebrowDefault="Gallery / Amenities"
-              headlineDefault="Buyers choose communities. Give them a reason to choose <strong>yours</strong>."
-              subheadDefault="Pools, clubhouses, fitness centers, trails, and parks. DIG captures every amenity the way it deserves: with context, with light, and with buyers in mind."
+              headlineDefault="Show your buyers the community <strong>they are choosing</strong>."
+              subheadDefault="Your pools, clubhouses, fitness centers, trails, and parks, planned and lit with the same care as your model home interiors."
             />
           </RevealOnScroll>
         </div>
@@ -70,7 +70,7 @@ export default function AmenitiesPage() {
               slotId="gallery-amenities-cta"
               eyebrowDefault="Book an Amenity Shoot"
               headlineDefault="Ready to showcase what makes your community <strong>worth choosing</strong>?"
-              bodyDefault="Amenity photography is part of DIG Premium. Coordinate it alongside your model home shoot or book it as a standalone engagement."
+              bodyDefault="Amenity photography is part of Premium. Coordinate it alongside your model home shoot or book it by itself."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

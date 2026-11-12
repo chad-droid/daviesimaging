@@ -13,19 +13,19 @@ export const metadata: Metadata = {
 const values = [
   {
     title: "We think like marketers",
-    body: "DIG isn't a photography company that also does staging. We're a marketing asset company. Everyone on the team understands why the work matters, not just how to do it.",
+    body: "Everyone on the team understands why the work matters to a builder's marketing team, as well as how to do it.",
   },
   {
     title: "Craft matters here",
-    body: "We hold a high standard because the builders we work with hold one too. Quality is the expectation, not the exception.",
+    body: "We hold a high standard because the builders we work with hold one too.",
   },
   {
     title: "We're building something",
-    body: "The 2026 platform, digDesk, FrameFlow Studio, and Spec+ are live products with real traction. You'd be joining during a real growth phase.",
+    body: "digDesk, FrameFlow Studio, and Spec+ are live products, and you'd be joining while we grow.",
   },
   {
     title: "28 markets and growing",
-    body: "We have offices in Sacramento and Dallas, production in Guadalajara, and photographers across the country. The team is distributed and the work is real.",
+    body: "We have offices in Sacramento and Dallas, production in Guadalajara, and photographers across the country.",
   },
 ];
 
@@ -58,7 +58,7 @@ export default function CareersPage() {
               Join a team that thinks about <strong>what happens after the shoot</strong>.
             </h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              Davies Imaging Group is a homebuilder marketing asset company. We build photography, virtual staging, and video that helps builders sell homes faster. We&apos;re looking for people who care about that outcome.
+              Davies Imaging Group is a visual asset platform for home builders. We&apos;re looking for photographers and cinematographers who want to make the world&apos;s best home builders look their best.
             </p>
           </RevealOnScroll>
         </div>
