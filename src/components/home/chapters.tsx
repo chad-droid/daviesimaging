@@ -227,7 +227,7 @@ export function DigDeskChapter() {
 /* ── Proof: builders, in their own words. Quotes come from the library. ──── */
 export function ProofChapter() {
   const [lead] = getTestimonials(["kim-skeptic"]);
-  const rest = getTestimonials(["jordan-easy", "bradley-resale", "angela-hooked"]);
+  const rest = getTestimonials(["alexandra-partner", "bradley-resale", "angela-hooked"]);
   if (!lead) return null;
   const who = (t: Testimonial) => [t.title, t.company].filter(Boolean).join(", ");
 

@@ -153,7 +153,7 @@ export function ScrubFilm({
   return (
     <>
       {/* Pinned and scrubbed, lg and up */}
-      <div ref={ref} className="relative hidden h-[320vh] lg:block">
+      <div ref={ref} className="relative hidden h-[320vh] [@media(min-height:640px)]:lg:block">
         <div className="sticky top-[7.5rem] h-[calc(100vh-7.5rem)] overflow-hidden bg-black">
           <video
             ref={video}
@@ -186,7 +186,7 @@ export function ScrubFilm({
       </div>
 
       {/* Below lg: the same film, simply playing */}
-      <div className="bg-bg-dark px-6 py-24 text-text-light lg:hidden">
+      <div className="mx-auto max-w-4xl bg-bg-dark px-6 py-24 text-text-light [@media(min-height:640px)]:lg:hidden">
         {children}
         <div className="mt-10 overflow-hidden rounded-2xl bg-black">
           <LoopVideo src={loopSrc} poster={poster} className="aspect-video w-full object-cover" />

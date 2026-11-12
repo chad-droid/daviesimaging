@@ -54,7 +54,7 @@ function Media({ step, active }: { step: (typeof STEPS)[number]; active: boolean
 function StepRow({ step, active }: { step: (typeof STEPS)[number]; active: boolean }) {
   return (
     <div
-      className={`relative grid grid-cols-[5.5rem_1fr] items-center gap-5 border-b border-border-light py-4 transition-opacity duration-500 ${
+      className={`relative grid grid-cols-[5.5rem_1fr] items-center gap-5 border-b border-border-light py-[clamp(0.6rem,1.8vh,1rem)] transition-opacity duration-500 ${
         active ? "opacity-100" : "opacity-40"
       }`}
     >
@@ -63,13 +63,13 @@ function StepRow({ step, active }: { step: (typeof STEPS)[number]; active: boole
         aria-hidden
       />
       <div>
-        <p className="text-[3rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+        <p className="text-[clamp(2.25rem,5.5vh,3rem)] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
           {step.count}
         </p>
         <p className="mt-1 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-accent">{step.unit}</p>
       </div>
       <div>
-        <h3 className="text-[1.5rem] leading-tight">{step.title}</h3>
+        <h3 className="text-[clamp(1.25rem,2.8vh,1.5rem)] leading-tight">{step.title}</h3>
         <p className="mt-1.5 text-text-body">{step.body}</p>
       </div>
     </div>
@@ -78,7 +78,7 @@ function StepRow({ step, active }: { step: (typeof STEPS)[number]; active: boole
 
 function Numbers() {
   return (
-    <dl className="mt-8 flex gap-12 lg:mt-6 lg:justify-end [@media(max-height:760px)]:lg:hidden">
+    <dl className="mt-8 flex gap-12 lg:mt-5 lg:justify-end">
       <div>
         <dd className="text-[2.5rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
           $600
@@ -127,7 +127,7 @@ export function SpecPlusPinned() {
   const heading = (
     <>
       <Eyebrow>Spec+</Eyebrow>
-      <h2 className="lg:text-[3rem] lg:leading-[1.08]">
+      <h2 className="lg:text-[clamp(2rem,5.2vh,3rem)] lg:leading-[1.08]">
         One order. <strong>Everything</strong> a spec home needs.
       </h2>
     </>
@@ -136,8 +136,8 @@ export function SpecPlusPinned() {
   return (
     <section id="spec-plus" className="scroll-mt-28 bg-bg-light">
       {/* Pinned, lg and up */}
-      <div ref={ref} className="relative hidden h-[300vh] lg:block">
-        <div className="sticky top-[7.5rem] flex h-[calc(100vh-7.5rem)] items-center">
+      <div ref={ref} className="relative hidden h-[300vh] [@media(min-height:720px)]:lg:block">
+        <div className="sticky top-[7.5rem] flex h-[calc(100vh-7.5rem)] items-center overflow-hidden">
           <div className="mx-auto grid w-full max-w-7xl grid-cols-[5fr_7fr] items-center gap-16 px-6">
             <div>
               {heading}
@@ -149,7 +149,7 @@ export function SpecPlusPinned() {
               <Cta />
             </div>
             <div>
-            <div className="relative aspect-[4/3] max-h-[58vh] w-full overflow-hidden rounded-3xl bg-bg-dark shadow-2xl">
+            <div className="relative aspect-[4/3] max-h-[52vh] w-full overflow-hidden rounded-3xl bg-bg-dark shadow-2xl">
               {STEPS.map((s, i) => (
                 <div
                   key={s.n}
@@ -169,16 +169,16 @@ export function SpecPlusPinned() {
         </div>
       </div>
 
-      {/* Stacked, below lg */}
-      <div className="px-6 py-24 lg:hidden">
+      {/* Stacked: below lg, and on windows too short to pin */}
+      <div className="mx-auto max-w-7xl px-6 py-24 [@media(min-height:720px)]:lg:hidden">
         {heading}
         <div className="mt-10 space-y-12">
           {STEPS.map((s) => (
-            <div key={s.n}>
+            <div key={s.n} className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-12">
               <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-bg-dark">
                 <Media step={s} active />
               </div>
-              <div className="mt-2">
+              <div className="mt-2 lg:mt-0">
                 <StepRow step={s} active />
               </div>
             </div>
