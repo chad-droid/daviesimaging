@@ -32,11 +32,14 @@ function trackLead(intent: string) {
   }
 }
 
+/** The three tiles on the picker, in display order. */
+const TILES = ["trial", "demo", "other"];
+
 const options = [
   {
     id: "demo",
-    title: "Schedule a Demo",
-    description: "15-minute walkthrough of digDesk and FrameFlow Studio. No pressure.",
+    title: "Schedule Demo",
+    description: "Fifteen minutes. You see digDesk and how your homes get ordered, tracked, and delivered.",
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
@@ -44,21 +47,9 @@ const options = [
     ),
   },
   {
-    id: "signup",
-    title: "Create an Account",
-    description: "Ready to order? Sign up for digDesk. We review and activate within 1 business day.",
-    icon: (
-      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-      </svg>
-    ),
-    external: true,
-    href: "https://desk.daviesimaging.com/register",
-  },
-  {
     id: "trial",
-    title: "Start My Free Trial",
-    description: "See your own spec home staged with ModelMatch. Eight staged photos, free.",
+    title: "Start Free Trial",
+    description: "Send us one of your spec homes. You get eight staged photos back, free.",
     href: "/modelmatch-datalibrary",
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -70,6 +61,8 @@ const options = [
     id: "strategy",
     title: "Book a Strategy Call",
     description: "Talk through your marketing goals and see where DIG fits.",
+    // Not a tile. Reached from CTAs across the site (?intent=strategy).
+    hidden: true,
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
@@ -79,7 +72,7 @@ const options = [
   {
     id: "other",
     title: "Something Else",
-    description: "General questions, partnerships, press, or media inquiries.",
+    description: "A question, a partnership, press. Tell us what you need.",
     icon: (
       <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -109,7 +102,7 @@ const options = [
  *
  * useSearchParams() opts its whole subtree out of server rendering. When
  * ContactContent called it directly, the entire page — H1, intro copy, and all
- * five intent options — was missing from the served HTML, so crawlers that do
+ * the intent tiles — was missing from the served HTML, so crawlers that do
  * not execute JavaScript saw an empty page. Isolating the hook in this
  * null-rendering child keeps everything else server-rendered.
  */
@@ -118,7 +111,7 @@ function IntentParam({ onIntent }: { onIntent: (intent: string) => void }) {
   const intentParam = searchParams.get("intent");
   useEffect(() => {
     // Only intents that open the form. An unknown value, or one that belongs
-    // to an option that links away (signup, trial), falls back to the picker
+    // to an option that links away (trial), falls back to the picker
     // instead of rendering an empty page.
     const opt = options.find((o) => o.id === intentParam);
     if (opt && !("href" in opt && opt.href)) onIntent(opt.id);
@@ -217,7 +210,7 @@ function ContactContent() {
       <Suspense fallback={null}>
         <IntentParam onIntent={setSelected} />
       </Suspense>
-      <div className="mx-auto max-w-2xl px-6">
+      <div className={`mx-auto px-6 ${selected ? "max-w-2xl" : "max-w-5xl"}`}>
 
         {/* Step 1: Choose */}
         {!selected && (
@@ -228,12 +221,12 @@ function ContactContent() {
                 What brings you <strong>here</strong>?
               </h1>
               <p className="mt-5 text-text-body">
-                Choose the option that fits and we&rsquo;ll take it from there.
+                Pick one and we&rsquo;ll take it from there.
               </p>
             </div>
 
-            <div className="mt-12 space-y-3">
-              {options.filter((opt) => !opt.hidden).map((opt) => (
+            <div className="mx-auto mt-12 grid max-w-sm gap-4 lg:max-w-none lg:grid-cols-3 lg:gap-6">
+              {TILES.map((id) => options.find((o) => o.id === id)!).map((opt, i) => (
                 <button
                   key={opt.id}
                   type="button"
@@ -241,45 +234,29 @@ function ContactContent() {
                     posthog.capture("contact_intent_selected", {
                       contact_intent: opt.id,
                     });
-                    if (opt.external && opt.href) {
-                      window.open(opt.href, "_blank", "noopener,noreferrer");
-                    } else if (opt.href) {
-                      router.push(opt.href);
-                    } else {
-                      setSelected(opt.id);
-                    }
+                    if ("href" in opt && opt.href) router.push(opt.href);
+                    else setSelected(opt.id);
                   }}
-                  className={`group w-full rounded-xl border p-5 text-left transition-all hover:border-accent hover:shadow-sm ${
-                    opt.id === "signup"
-                      ? "border-accent bg-accent/[0.03]"
-                      : "border-border-light"
+                  className={`group flex aspect-square w-full flex-col justify-between rounded-2xl border p-7 text-left transition-all hover:-translate-y-0.5 hover:shadow-lg lg:aspect-auto lg:min-h-[30rem] lg:p-9 ${
+                    i === 0
+                      ? "border-bg-dark bg-bg-dark text-text-light"
+                      : "border-border-light bg-bg-light hover:border-accent"
                   }`}
                 >
-                  <div className="flex items-start gap-4">
-                    <span className={`mt-0.5 flex-shrink-0 transition-colors group-hover:text-accent ${
-                      opt.id === "signup" ? "text-accent" : "text-text-muted"
-                    }`}>
-                      {opt.icon}
+                  <span className={i === 0 ? "text-accent-dark-hover" : "text-accent"}>
+                    {opt.icon}
+                  </span>
+                  <div>
+                    <h2 className={`text-[2rem] leading-[1.1] lg:text-[2.5rem] ${i === 0 ? "text-text-light" : ""}`}>
+                      {opt.title}
+                    </h2>
+                    <p className={`mt-3 text-sm leading-relaxed lg:text-base ${i === 0 ? "text-white/70" : "text-text-body"}`}>
+                      {opt.description}
+                    </p>
+                    <span className={`mt-6 inline-flex items-center gap-1.5 text-sm font-semibold transition-transform group-hover:translate-x-1 ${i === 0 ? "text-text-light" : "text-accent"}`}>
+                      {opt.id === "trial" ? "Start now" : opt.id === "demo" ? "Pick a time" : "Send a message"}
+                      <span aria-hidden="true">&rarr;</span>
                     </span>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="font-semibold text-text-dark">{opt.title}</p>
-                        {opt.id === "signup" && (
-                          <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-accent">
-                            New
-                          </span>
-                        )}
-                        {opt.external && (
-                          <svg className="h-3.5 w-3.5 flex-shrink-0 text-text-muted" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                          </svg>
-                        )}
-                      </div>
-                      <p className="mt-0.5 text-sm text-text-body">{opt.description}</p>
-                    </div>
-                    <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-accent" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
                   </div>
                 </button>
               ))}

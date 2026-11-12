@@ -234,8 +234,7 @@ export function ServiceLinesChapter() {
     <section id="lines" className="scroll-mt-28 border-t border-border-light bg-bg-surface py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <RevealOnScroll>
-          <Eyebrow>Service lines</Eyebrow>
-          <h2 className="lg:text-[3rem] lg:leading-[1.08]">Production, Flow and Match</h2>
+          <h2 className="text-[2.5rem] leading-[1.08] lg:text-[3.5rem]">Service Lines</h2>
         </RevealOnScroll>
         <RevealOnScroll stagger={120}>
           <div className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-border-light">
