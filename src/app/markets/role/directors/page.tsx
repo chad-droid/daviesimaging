@@ -43,6 +43,9 @@ export default function DirectorsPage() {
         description="We coordinate the shoots with your teams in the field, and you order photography, ModelMatch staging, and Flow video in one place."
         ctaLabel="See how it works"
         ctaHref="/about/how-we-do-it"
+        imageSlot="markets-role-directors-solution-img"
+        imageDefault="/client-showcase/spec-cresswind-01.webp"
+        imageAlt="Listing photograph of a spec home"
       />
       <Proof
         eyebrow="Results"

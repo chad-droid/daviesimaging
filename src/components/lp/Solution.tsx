@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DynamicImage } from "@/components/DynamicImage";
 
 interface SolutionProps {
   eyebrow?: string;
@@ -8,6 +9,11 @@ interface SolutionProps {
   description: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Admin image slot for the right-hand image. Without it the placeholder block shows. */
+  imageSlot?: string;
+  /** Local image shown until one is assigned to the slot. */
+  imageDefault?: string;
+  imageAlt?: string;
 }
 
 export function Solution({
@@ -16,6 +22,9 @@ export function Solution({
   description,
   ctaLabel,
   ctaHref,
+  imageSlot,
+  imageDefault,
+  imageAlt,
 }: SolutionProps) {
   return (
     <section className="min-h-[70vh] bg-bg-light py-24">
@@ -35,7 +44,17 @@ export function Solution({
         </RevealOnScroll>
 
         <RevealOnScroll>
-          <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-bg-light to-border-light" />
+          {imageSlot ? (
+            <DynamicImage
+              slotId={imageSlot}
+              defaultSrc={imageDefault}
+              defaultAlt={imageAlt}
+              aspectRatio="4/3"
+              className="rounded-lg"
+            />
+          ) : (
+            <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-bg-light to-border-light" />
+          )}
         </RevealOnScroll>
       </div>
     </section>

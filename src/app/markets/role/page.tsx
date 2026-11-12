@@ -1,3 +1,4 @@
+import { DynamicImage } from "@/components/DynamicImage";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
@@ -18,6 +19,8 @@ const roles = [
     pain: "Email chains, vendor coordination, and scattered files",
     solution: "Order, track, revise, and pay for everything in one place",
     href: "/markets/role/coordinators",
+    slot: "markets-role-coordinators-card-img",
+    image: "/client-showcase/spec-artisan-01.webp",
   },
   {
     title: "Marketing Directors",
@@ -25,6 +28,8 @@ const roles = [
     pain: "Photography that looks different from one market to the next",
     solution: "The same quality standard in 28 markets",
     href: "/markets/role/directors",
+    slot: "markets-role-directors-card-img",
+    image: "/client-showcase/spec-cresswind-01.webp",
   },
   {
     title: "VP Level",
@@ -32,6 +37,8 @@ const roles = [
     pain: "Multiple vendors across your regions",
     solution: "Regional Partnerships with volume pricing, dedicated capacity, and one account team",
     href: "/markets/role/executive",
+    slot: "markets-role-executive-card-img",
+    image: "/client-showcase/spec-palatka-01.webp",
   },
   {
     title: "C-Suite",
@@ -39,6 +46,8 @@ const roles = [
     pain: "Days on market and carry costs",
     solution: "Spec+ for $600 flat, delivered within 72 hours of the shoot",
     href: "/markets/role/c-suite",
+    slot: "markets-role-c-suite-card-img",
+    image: "/client-showcase/listing-06.webp",
   },
 ];
 
@@ -69,8 +78,17 @@ export default function ByRolePage() {
                 <Link
                   key={role.href}
                   href={role.href}
-                  className="group flex flex-col rounded-xl border border-border-light bg-bg-surface p-6 transition-all hover:border-accent hover:shadow-sm"
+                  className="group flex flex-col overflow-hidden rounded-xl border border-border-light bg-bg-surface p-6 transition-all hover:border-accent hover:shadow-sm"
                 >
+                  <div className="-mx-6 -mt-6 mb-6">
+                    <DynamicImage
+                      slotId={role.slot}
+                      defaultSrc={role.image}
+                      defaultAlt=""
+                      aspectRatio="16/9"
+                      disableLightbox
+                    />
+                  </div>
                   <h3 className="text-xl font-semibold text-text-dark transition-colors group-hover:text-accent">
                     {role.title}
                   </h3>

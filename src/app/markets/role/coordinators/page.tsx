@@ -43,6 +43,9 @@ export default function CoordinatorsPage() {
         description="Choose the services you need for each home or neighborhood, see the total, place the order, and get regular updates on its status. Your finished assets are delivered to the same place."
         ctaLabel="Explore digDesk"
         ctaHref="/programs/digdesk"
+        imageSlot="markets-role-coordinators-solution-img"
+        imageDefault="/client-showcase/spec-artisan-01.webp"
+        imageAlt="Listing photograph of a spec home"
       />
       <Proof
         eyebrow="Impact"

@@ -1,3 +1,4 @@
+import { ImageBand } from "@/components/ImageBand";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
@@ -53,6 +54,9 @@ export default function HowWeDoItPage() {
           </RevealOnScroll>
         </div>
       </DarkSection>
+
+      {/* Wide image under the hero. Hidden until one is assigned in admin. */}
+      <ImageBand slotId="about-how-we-do-it-hero-img" dark />
 
       {/* The problem */}
       <section className="py-24">
@@ -111,6 +115,9 @@ export default function HowWeDoItPage() {
           </RevealOnScroll>
         </div>
       </section>
+
+      {/* The team at work. Hidden until one is assigned in admin. */}
+      <ImageBand slotId="about-how-we-do-it-team-img" />
 
       {/* Specialist grid */}
       <DarkSection className="py-24 text-text-light">

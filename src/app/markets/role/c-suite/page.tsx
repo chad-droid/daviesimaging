@@ -43,6 +43,9 @@ export default function CSuitePage() {
         description="Spec photography runs about 0.1% of list price. If better presentation helps a home sell four days sooner, it has paid for itself. Regional Partnerships add volume pricing and dedicated capacity across your markets."
         ctaLabel="Explore partnerships"
         ctaHref="/programs/regional-partnerships"
+        imageSlot="markets-role-c-suite-solution-img"
+        imageDefault="/client-showcase/listing-06.webp"
+        imageAlt="Listing photograph of a home"
       />
       <Proof
         eyebrow="Business Impact"

@@ -43,6 +43,9 @@ export default function ExecutivePage() {
         description="Regional Partnerships give you a single point of contact, volume pricing, and your brand guidelines followed across West, Mountain, Central, and East."
         ctaLabel="Explore partnerships"
         ctaHref="/programs/regional-partnerships"
+        imageSlot="markets-role-executive-solution-img"
+        imageDefault="/client-showcase/spec-palatka-01.webp"
+        imageAlt="Listing photograph of a spec home"
       />
       <Proof
         eyebrow="Scale"

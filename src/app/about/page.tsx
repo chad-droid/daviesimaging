@@ -1,3 +1,4 @@
+import { ImageBand } from "@/components/ImageBand";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
@@ -50,6 +51,9 @@ export default function AboutPage() {
           </RevealOnScroll>
         </div>
       </DarkSection>
+
+      {/* Wide image under the hero. Hidden until one is assigned in admin. */}
+      <ImageBand slotId="about-main-hero-img" dark />
 
       {/* Origin Story */}
       <section className="py-24">
@@ -118,6 +122,9 @@ export default function AboutPage() {
           </RevealOnScroll>
         </div>
       </section>
+
+      {/* Team or on-site photo. Hidden until one is assigned in admin. */}
+      <ImageBand slotId="about-team-img" />
 
       {/* How we think */}
       <DarkSection className="py-24 text-text-light">
