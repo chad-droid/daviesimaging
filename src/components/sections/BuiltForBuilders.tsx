@@ -11,7 +11,7 @@ const fields = [
   { key: "headline", label: "Headline", type: "text" as const, defaultValue: "We partner with marketing directors and sales leaders who want *results*." },
   { key: "body", label: "Body", type: "textarea" as const, defaultValue: "Builders doing 300+ homes annually. Teams that need consistency across communities. Leaders who understand launch pressure, spec timelines, and sales alignment." },
   { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "See who we serve" },
-  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/markets/role/directors" },
+  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/about" },
 ];
 
 export function BuiltForBuilders() {

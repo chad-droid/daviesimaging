@@ -62,6 +62,9 @@ Davies Imaging Group (DIG) rebuilt `daviesimaging.com` from scratch as a Next.js
 - digDojo photography training platform (see full spec below)
 - `ADMIN_PASSWORD` env var — set in Vercel dashboard (currently only in `.env.local`)
 
+### Removed
+- **Who We Help (`/markets/role`) and its four role pages** were removed in November 2026 at Chad's direction. The URLs redirect to `/about`. Sections below that still describe By Role or persona pages are historical.
+
 ### Do Not Touch
 - `main` is production. Merging deploys to the live public site. Branch and open a PR; Chad merges.
 - Never hardcode the domain. Import `SITE_URL` from `src/lib/seo.ts`.

@@ -20,7 +20,6 @@ const footerLinks = {
   About: [
     { label: "Why We Exist", href: "/about" },
     { label: "How We Do It", href: "/about/how-we-do-it" },
-    { label: "Who We Help", href: "/markets/role" },
     { label: "Our Markets", href: "/markets/region" },
     { label: "Builder Photo Blog", href: "/blog" },
     { label: "Careers", href: "/careers" },

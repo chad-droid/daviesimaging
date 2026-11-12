@@ -7,7 +7,7 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/markets" },
   title: "Markets",
-  description: "Find how DIG helps you by what you build, your role, or the markets you build in.",
+  description: "Find how DIG helps you by what you build or the markets you build in.",
 };
 
 const dimensions = [
@@ -16,12 +16,6 @@ const dimensions = [
     href: "/markets/type",
     description: "Detached, attached, luxury, build-to-rent, or multifamily. See which services fit what you build.",
     examples: ["Single-family detached", "Townhomes + attached", "Luxury and estate", "Build-to-rent", "Multifamily"],
-  },
-  {
-    title: "By Role",
-    href: "/markets/role",
-    description: "Whether you place the orders or set the budget, see how DIG helps you and your team.",
-    examples: ["Marketing Coordinators", "Marketing Directors", "VP level", "C-Suite"],
   },
   {
     title: "By Region",
@@ -41,7 +35,7 @@ export default function MarketsIndex() {
             <Eyebrow dark>Markets</Eyebrow>
             <h1 className="text-text-light">Find how DIG <strong>helps you</strong>.</h1>
             <p className="mt-5 max-w-xl text-lg text-text-muted">
-              Find your fit by what you build, your role, or where you build.
+              Find your fit by what you build or where you build.
             </p>
           </RevealOnScroll>
         </div>
@@ -51,7 +45,7 @@ export default function MarketsIndex() {
       <section className="py-24">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="grid gap-6 lg:grid-cols-2">
               {dimensions.map((dim) => (
                 <Link
                   key={dim.href}

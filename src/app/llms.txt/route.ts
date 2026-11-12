@@ -43,7 +43,6 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 
 - [By Region](${SITE_URL}/markets/region): DIG's market coverage across the West, Mountain, Central, and East regions.
 - [By Builder Type](${SITE_URL}/markets/type): Detached, attached, luxury, build-to-rent, and multifamily.
-- [By Role](${SITE_URL}/markets/role): Tailored positioning for coordinators, marketing directors, executives, and C-suite buyers.
 
 ## Company
 

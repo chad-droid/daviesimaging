@@ -66,11 +66,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/markets`,                    changeFrequency: "monthly", priority: 0.75 },
     { url: `${BASE}/markets/region`,             changeFrequency: "monthly", priority: 0.75 },
     { url: `${BASE}/markets/type`,               changeFrequency: "monthly", priority: 0.75 },
-    { url: `${BASE}/markets/role`,               changeFrequency: "monthly", priority: 0.75 },
-    { url: `${BASE}/markets/role/coordinators`,  changeFrequency: "monthly", priority: 0.70 },
-    { url: `${BASE}/markets/role/directors`,     changeFrequency: "monthly", priority: 0.70 },
-    { url: `${BASE}/markets/role/executive`,     changeFrequency: "monthly", priority: 0.70 },
-    { url: `${BASE}/markets/role/c-suite`,       changeFrequency: "monthly", priority: 0.70 },
 
     // ── About ─────────────────────────────────────────────────────────────────
     { url: `${BASE}/about`,              changeFrequency: "monthly", priority: 0.70 },

@@ -29,6 +29,9 @@ const nextConfig: NextConfig = {
       // Matterport no longer has its own page. It is part of Premium (model
       // homes) and Listing (inventory), so the old URL lands on Premium.
       { source: "/services/matterport", destination: "/services/premium", permanent: true },
+      // "Who We Help" and its four role pages were removed (Nov 2026).
+      { source: "/markets/role",        destination: "/about", permanent: true },
+      { source: "/markets/role/:path*", destination: "/about", permanent: true },
       // ── builderphoto.com → the Builder Photo Blog ───────────────────────────
       // The blog is branded "Builder Photo Blog" and lives at /blog on the main
       // site. builderphoto.com is a vanity domain that funnels straight to it.
@@ -95,7 +98,7 @@ const nextConfig: NextConfig = {
       { source: "/services/staging",       destination: "/services/virtual-staging", permanent: true },
 
       // ── Old markets paths ────────────────────────────────────────────────────
-      { source: "/markets/by-role",        destination: "/markets/role",   permanent: true },
+      { source: "/markets/by-role",        destination: "/about",          permanent: true },
       { source: "/markets/by-region",      destination: "/markets/region", permanent: true },
       { source: "/markets/by-type",        destination: "/markets/type",   permanent: true },
 
