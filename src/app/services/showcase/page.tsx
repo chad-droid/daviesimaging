@@ -194,8 +194,8 @@ export default function ShowcasePage() {
             <EditableHero
               slotId="services-showcase-hero"
               eyebrowDefault="Solutions / Showcase"
-              headlineDefault="Photographs and video of your homes, <strong>before they're built</strong>."
-              subheadDefault="Before your communities are ever built, you can have photorealistic photographs and video of all of your model home plans and your unmodeled plans, whether you need exteriors or interiors."
+              headlineDefault="Better, faster, and <strong>less expensive than ever</strong>."
+              subheadDefault="Photorealistic images from your plans, close ups of your best features, cinematic video, and virtual talent in your spaces. All without another shoot."
             />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
