@@ -14,6 +14,7 @@ import {
   extractExternalShareHash,
   resolveExternalShareToFolderId,
 } from "@/lib/workdrive";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // Image optimization settings
 const MAX_WIDTH = 2400;
@@ -420,6 +421,8 @@ async function processInBatches<T, R>(
 // ── Main route ──
 
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { dealId, maxImages, overrideUrl, selectedFolderIds, zohoToken: providedZohoToken } = (await req.json()) as {
       dealId: string;

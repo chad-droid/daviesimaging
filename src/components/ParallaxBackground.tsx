@@ -3,8 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-
-const ADMIN_KEY = "dig-admin-auth";
+import { isAdminSession } from "@/lib/adminClient";
 
 interface ParallaxBackgroundProps {
   slotId: string;
@@ -56,7 +55,7 @@ export function ParallaxBackground({
         setImageUrl(assetCache[slotId].image_url || assetCache[slotId].thumb_url);
       }
     });
-    setIsAdmin(sessionStorage.getItem(ADMIN_KEY) === "true");
+    setIsAdmin(isAdminSession());
   }, [slotId]);
 
   return (

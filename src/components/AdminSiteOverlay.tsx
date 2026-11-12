@@ -4,8 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { AdminMediaPicker } from "./AdminMediaPicker";
 import { AdminGalleryPicker } from "./AdminGalleryPicker";
-
-const ADMIN_STORAGE_KEY = "dig-admin-auth";
+import { ADMIN_LOGOUT_EVENT, clearAdminSession, isAdminSession } from "@/lib/adminClient";
 
 export function AdminSiteOverlay() {
   const pathname = usePathname();
@@ -21,8 +20,13 @@ export function AdminSiteOverlay() {
 
   // Check admin on mount and on every route change
   useEffect(() => {
-    const authed = sessionStorage.getItem(ADMIN_STORAGE_KEY);
-    setIsAdmin(authed === "true");
+    setIsAdmin(isAdminSession());
+    const onLogout = () => {
+      setIsAdmin(false);
+      setEnabled(false);
+    };
+    window.addEventListener(ADMIN_LOGOUT_EVENT, onLogout);
+    return () => window.removeEventListener(ADMIN_LOGOUT_EVENT, onLogout);
   }, [pathname]);
 
   // Find the slot element from a click/right-click target
@@ -153,9 +157,7 @@ export function AdminSiteOverlay() {
         </a>
         <button
           onClick={() => {
-            sessionStorage.removeItem(ADMIN_STORAGE_KEY);
-            setIsAdmin(false);
-            setEnabled(false);
+            clearAdminSession();
           }}
           className="rounded-full bg-[#1E1E1E] px-4 py-2 text-xs font-semibold text-[#E57373] shadow-lg transition-colors hover:bg-[#2C2C2C]"
         >

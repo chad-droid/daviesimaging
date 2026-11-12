@@ -179,7 +179,4 @@ export async function recordDeckView(id: string): Promise<void> {
   `;
 }
 
-export function checkAdminKey(key: unknown): boolean {
-  const expected = process.env.ADMIN_PASSWORD ?? "";
-  return !!expected && typeof key === "string" && key === expected;
-}
+export { checkAdminKey } from "@/lib/adminAuth";

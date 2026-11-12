@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { del, list } from "@vercel/blob";
 import { sql } from "@vercel/postgres";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // DELETE a project's images from Vercel Blob + media_files table + reset deal imported flag.
 // Accepts either:
@@ -8,6 +9,8 @@ import { sql } from "@vercel/postgres";
 //   { pathPrefix }          — deletes all blobs under gallery/{builder}/{deal}/ and matching DB rows
 //   { dealId, pathPrefix }  — both (best coverage)
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { dealId, pathPrefix, urls } = (await req.json()) as {
       dealId?: string;

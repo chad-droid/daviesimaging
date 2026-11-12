@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { requireAdmin } from "@/lib/adminAuth";
 
-export async function POST() {
+export async function POST(req: Request) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     await sql`ALTER TABLE media_files ADD COLUMN IF NOT EXISTS description TEXT`;
     await sql`ALTER TABLE deals ADD COLUMN IF NOT EXISTS scope TEXT`;

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { requireAdmin } from "@/lib/adminAuth";
 
 const ZOHO_ACCOUNTS_URL = "https://accounts.zoho.com/oauth/v2/token";
 const ZOHO_API_URL = "https://www.zohoapis.com/crm/v2/Deals";
@@ -90,7 +91,9 @@ async function fetchDeals(accessToken: string): Promise<ZohoDeal[]> {
   return allDeals;
 }
 
-export async function POST() {
+export async function POST(req: Request) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const accessToken = await getAccessToken();
     const zohodeals = await fetchDeals(accessToken);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // GET: fetch content for a slot or all slots
 export async function GET(req: NextRequest) {
@@ -18,6 +19,8 @@ export async function GET(req: NextRequest) {
 
 // POST: save content for a slot
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { slotId, content } = (await req.json()) as {
       slotId: string;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { adminFetch } from "@/lib/adminClient";
 import Image from "next/image";
 
 // Recursively collect all image Files from a drop event, including folders.
@@ -130,7 +131,7 @@ function DealUploadZone({ deal, onSuccess }: { deal: { id: string }; onSuccess: 
     fd.set("dealId", deal.id);
     images.forEach((f) => fd.append("files", f));
     try {
-      const res = await fetch("/api/media/upload", { method: "POST", body: fd });
+      const res = await adminFetch("/api/media/upload", { method: "POST", body: fd });
       const data = await res.json();
       setResult({ imported: data.imported || 0, errors: data.errors || [] });
       if (data.imported > 0) onSuccess();
@@ -191,7 +192,7 @@ function AttnSection({ onResolved }: { onResolved: () => void }) {
   const fetchAttn = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/deals/status", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "getAttn" }) });
+      const res = await adminFetch("/api/deals/status", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "getAttn" }) });
       const data = await res.json();
       setDeals(data.deals || []);
     } finally {
@@ -202,7 +203,7 @@ function AttnSection({ onResolved }: { onResolved: () => void }) {
   useEffect(() => { fetchAttn(); }, [fetchAttn]);
 
   async function dismiss(dealId: string) {
-    await fetch("/api/deals/status", {
+    await adminFetch("/api/deals/status", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "clearFailed", id: dealId }),
@@ -307,7 +308,7 @@ function GalleryDropdown({ projectPath }: { projectPath: string }) {
     // Fetch each gallery's assignments to see if this deal is in it
     const results = await Promise.all(
       GALLERIES.map((g) =>
-        fetch(`/api/gallery?action=assignments&page=${encodeURIComponent(g.slug)}`)
+        adminFetch(`/api/gallery?action=assignments&page=${encodeURIComponent(g.slug)}`)
           .then((r) => r.json())
           .then((data) => ({ slug: g.slug, assigned: (data.assignments || []).some((a: { deal_id: string }) => a.deal_id === id) }))
       )
@@ -322,7 +323,7 @@ function GalleryDropdown({ projectPath }: { projectPath: string }) {
     if (dealId) return; // already loaded
     setLoading(true);
     const [, dealSlug] = projectPath.split("/");
-    const res = await fetch(`/api/deals/status?search=${encodeURIComponent(dealSlug.replace(/-/g, " "))}`);
+    const res = await adminFetch(`/api/deals/status?search=${encodeURIComponent(dealSlug.replace(/-/g, " "))}`);
     const data = await res.json();
     const id = data.deals?.[0]?.id || null;
     setDealId(id);
@@ -334,7 +335,7 @@ function GalleryDropdown({ projectPath }: { projectPath: string }) {
     if (!dealId) return;
     setSaving(slug);
     const isAssigned = assigned.has(slug);
-    await fetch("/api/gallery", {
+    await adminFetch("/api/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pageSlug: slug, dealId, action: isAssigned ? "remove" : undefined }),
@@ -410,7 +411,7 @@ function DealSearchBox() {
   useEffect(() => {
     if (query.length < 2) { setResults([]); return; }
     const timer = setTimeout(async () => {
-      const res = await fetch(`/api/deals/status?search=${encodeURIComponent(query)}`);
+      const res = await adminFetch(`/api/deals/status?search=${encodeURIComponent(query)}`);
       const data = await res.json();
       setResults((data.deals || []).slice(0, 12));
     }, 300);
@@ -419,7 +420,7 @@ function DealSearchBox() {
 
   async function moveToLibrary(id: string) {
     setMoving(id);
-    await fetch("/api/deals/status", {
+    await adminFetch("/api/deals/status", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "moveToLibrary", id }),
@@ -478,7 +479,7 @@ function EmptyLibrarySection({ onUploaded }: { onUploaded: () => void }) {
   const fetchEmpty = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/deals/status", {
+      const res = await adminFetch("/api/deals/status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "emptyLibrary" }),
@@ -495,7 +496,7 @@ function EmptyLibrarySection({ onUploaded }: { onUploaded: () => void }) {
   async function saveEdit() {
     if (!editing) return;
     setSavingEdit(true);
-    await fetch("/api/media/metadata", {
+    await adminFetch("/api/media/metadata", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ dealId: editing.id, fields: { name: editing.name, builder: editing.builder } }),
@@ -579,7 +580,7 @@ function EmptyLibrarySection({ onUploaded }: { onUploaded: () => void }) {
                   </button>
                   <button
                     onClick={async () => {
-                      await fetch("/api/deals/status", {
+                      await adminFetch("/api/deals/status", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ id: deal.id, imported: false }),
@@ -623,7 +624,7 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
   const [describeResult, setDescribeResult] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/api/media/metadata?dealId=${dealId}`)
+    adminFetch(`/api/media/metadata?dealId=${dealId}`)
       .then((r) => r.json())
       .then((data) => {
         setDeal(data.deal);
@@ -634,14 +635,14 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
   async function saveFields() {
     if (Object.keys(editing).length === 0) return;
     setSaving(true);
-    await fetch("/api/media/metadata", {
+    await adminFetch("/api/media/metadata", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ dealId, fields: editing }),
     });
     setSaving(false);
     setEditing({});
-    const res = await fetch(`/api/media/metadata?dealId=${dealId}`);
+    const res = await adminFetch(`/api/media/metadata?dealId=${dealId}`);
     const data = await res.json();
     setDeal(data.deal);
   }
@@ -650,14 +651,14 @@ function MetadataPanel({ dealId, onClose }: { dealId: string; onClose: () => voi
     setDescribing(true);
     setDescribeResult(null);
     try {
-      const res = await fetch("/api/media/describe", {
+      const res = await adminFetch("/api/media/describe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dealId, all: true }),
       });
       const data = await res.json();
       setDescribeResult(`${data.described} images described${data.failed > 0 ? `, ${data.failed} failed` : ""}`);
-      const meta = await fetch(`/api/media/metadata?dealId=${dealId}`);
+      const meta = await adminFetch(`/api/media/metadata?dealId=${dealId}`);
       const metaData = await meta.json();
       setFiles(metaData.files || []);
     } catch (e) {
@@ -825,7 +826,7 @@ function OriginalDownloadButton({ projectPath }: { projectPath: string }) {
   useEffect(() => {
     const [, dealSlug] = projectPath.split("/");
     const searchTerm = dealSlug.replace(/-/g, " ");
-    fetch(`/api/deals/status?search=${encodeURIComponent(searchTerm)}`)
+    adminFetch(`/api/deals/status?search=${encodeURIComponent(searchTerm)}`)
       .then((r) => r.json())
       .then((data) => {
         if (data.deals?.[0]) {
@@ -888,7 +889,7 @@ export default function AdminMediaPage() {
       do {
         const params = new URLSearchParams({ prefix: "gallery/" });
         if (cursor) params.set("cursor", cursor);
-        const res = await fetch(`/api/media/list?${params}`);
+        const res = await adminFetch(`/api/media/list?${params}`);
         if (!res.ok) throw new Error("Failed to load media");
         const data = await res.json();
         allFiles.push(...data.blobs);
@@ -913,7 +914,7 @@ export default function AdminMediaPage() {
       const body: Record<string, string> = {};
       if (dealId) body.dealId = dealId;
       if (pathPrefix) body.pathPrefix = `gallery/${pathPrefix}`;
-      const res = await fetch("/api/media/delete", {
+      const res = await adminFetch("/api/media/delete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -1030,7 +1031,7 @@ export default function AdminMediaPage() {
                 fd.set("folder", uploadFolder);
                 droppedFiles.forEach((f) => fd.append("files", f));
                 try {
-                  const res = await fetch("/api/media/upload", { method: "POST", body: fd });
+                  const res = await adminFetch("/api/media/upload", { method: "POST", body: fd });
                   setUploadResult(await res.json());
                   fetchFiles();
                 } catch (err) {
@@ -1118,11 +1119,11 @@ export default function AdminMediaPage() {
                           onClick={async (e) => {
                             e.stopPropagation();
                             // Find dealId via search and update metadata
-                            const res = await fetch(`/api/deals/status?search=${encodeURIComponent(project.deal.replace(/-/g, " "))}`);
+                            const res = await adminFetch(`/api/deals/status?search=${encodeURIComponent(project.deal.replace(/-/g, " "))}`);
                             const data = await res.json();
                             const dealId = data.deals?.[0]?.id;
                             if (dealId) {
-                              await fetch("/api/media/metadata", {
+                              await adminFetch("/api/media/metadata", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({ dealId, fields: { name: renameValues.name, builder: renameValues.builder } }),
@@ -1249,7 +1250,7 @@ function MetadataPanelLoader({ projectPath, onClose }: { projectPath: string; on
   useEffect(() => {
     const [, dealSlug] = projectPath.split("/");
     const searchTerm = dealSlug.replace(/-/g, " ");
-    fetch(`/api/deals/status?search=${encodeURIComponent(searchTerm)}`)
+    adminFetch(`/api/deals/status?search=${encodeURIComponent(searchTerm)}`)
       .then((r) => r.json())
       .then((data) => {
         if (data.deals && data.deals.length > 0) setDealId(data.deals[0].id);

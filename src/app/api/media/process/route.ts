@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { put, del } from "@vercel/blob";
 import { sql } from "@vercel/postgres";
 import sharp from "sharp";
+import { requireAdmin } from "@/lib/adminAuth";
 
 export const maxDuration = 60;
 
@@ -22,6 +23,8 @@ const QUALITY = 100;
 const THUMB_WIDTH = 800;
 
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { dealId, blobUrl, filename } = (await req.json()) as {
       dealId: string;

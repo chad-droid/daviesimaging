@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // Idempotent migrations
 async function ensureImageOrderColumn() {
@@ -63,6 +64,8 @@ export async function GET(req: NextRequest) {
 
 // POST: update curation settings (cover, hidden, order)
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { pageSlug, dealId, coverId, hiddenIds, imageOrder, imageGroups } = (await req.json()) as {
       pageSlug: string;

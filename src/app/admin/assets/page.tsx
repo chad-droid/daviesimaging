@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { adminFetch } from "@/lib/adminClient";
 import recommendedIds from "@/data/recommended-projects.json";
 
 async function readDroppedItems(e: React.DragEvent): Promise<File[]> {
@@ -108,7 +109,7 @@ function ManualUploadZone({ dealId, onComplete }: { dealId: string; onComplete: 
     fd.set("dealId", dealId);
     images.forEach((f) => fd.append("files", f));
     try {
-      const res = await fetch("/api/media/upload", { method: "POST", body: fd });
+      const res = await adminFetch("/api/media/upload", { method: "POST", body: fd });
       const data = await res.json();
       setResult({ imported: data.imported || 0, errors: data.errors || [] });
       if (data.imported > 0) onComplete();
@@ -168,7 +169,7 @@ function ImportButton({ dealId, dealName, onComplete }: { dealId: string; dealNa
       const body: Record<string, unknown> = { dealId };
       if (url) body.overrideUrl = url;
       if (folderIds && folderIds.length > 0) body.selectedFolderIds = folderIds;
-      const res = await fetch("/api/media/import", {
+      const res = await adminFetch("/api/media/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -337,21 +338,21 @@ export default function AdminAssetsPage() {
     if (filterState) params.set("state", filterState);
     if (filterPipeline) params.set("pipeline", filterPipeline);
 
-    const res = await fetch(`/api/deals/status?${params}`);
+    const res = await adminFetch(`/api/deals/status?${params}`);
     const data = await res.json();
     setDeals(data.deals || []);
     setLoading(false);
   }, [tab, search, filterBuilder, filterState, filterPipeline]);
 
   const fetchStats = useCallback(async () => {
-    const res = await fetch("/api/deals/status?action=stats");
+    const res = await adminFetch("/api/deals/status?action=stats");
     const data = await res.json();
     setStats(data.stats || {});
     setLastSync(data.lastSync || null);
   }, []);
 
   const fetchFilters = useCallback(async () => {
-    const res = await fetch("/api/deals/status?action=filters");
+    const res = await adminFetch("/api/deals/status?action=filters");
     const data = await res.json();
     setFilters(data);
   }, []);
@@ -367,7 +368,7 @@ export default function AdminAssetsPage() {
 
   async function setDealStatus(id: string, status: "approved" | "denied" | "pending") {
     setSaving(true);
-    await fetch("/api/deals/status", {
+    await adminFetch("/api/deals/status", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, status }),
@@ -380,7 +381,7 @@ export default function AdminAssetsPage() {
   async function bulkApproveRecommended() {
     setSaving(true);
     const ids = deals.filter((d) => recommendedSet.has(d.id)).map((d) => d.id);
-    await fetch("/api/deals/status", {
+    await adminFetch("/api/deals/status", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "bulk", ids, status: "approved" }),
@@ -425,7 +426,7 @@ export default function AdminAssetsPage() {
 
     async function refreshZohoToken() {
       try {
-        const tokenRes = await fetch("/api/workdrive/token");
+        const tokenRes = await adminFetch("/api/workdrive/token");
         const tokenData = await tokenRes.json();
         if (tokenData.token) { zohoToken = tokenData.token; tokenFetchedAt = Date.now(); }
       } catch { /* proceed without pre-fetched token — imports will self-authenticate */ }
@@ -445,7 +446,7 @@ export default function AdminAssetsPage() {
       }
 
       try {
-        const res = await fetch("/api/media/import", {
+        const res = await adminFetch("/api/media/import", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ dealId: ids[i], zohoToken }),
@@ -469,7 +470,7 @@ export default function AdminAssetsPage() {
         if (errorMsg) {
           failures.push({ name: deal?.name || ids[i], error: errorMsg });
           // Mark deal as failed in DB so it appears in Attn queue
-          await fetch("/api/deals/status", {
+          await adminFetch("/api/deals/status", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ action: "markFailed", id: ids[i], importError: errorMsg }),
@@ -478,7 +479,7 @@ export default function AdminAssetsPage() {
       } catch (e) {
         const errorMsg = String(e);
         failures.push({ name: deal?.name || ids[i], error: errorMsg });
-        await fetch("/api/deals/status", {
+        await adminFetch("/api/deals/status", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ action: "markFailed", id: ids[i], importError: errorMsg }),
@@ -498,7 +499,7 @@ export default function AdminAssetsPage() {
     if (!newDeal.name || !newDeal.builder) return;
     setCreatingDeal(true);
     try {
-      const res = await fetch("/api/deals/status", {
+      const res = await adminFetch("/api/deals/status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "createDeal", ...newDeal }),
@@ -518,7 +519,7 @@ export default function AdminAssetsPage() {
     setSyncing(true);
     setSyncResult(null);
     try {
-      const res = await fetch("/api/deals/sync", { method: "POST" });
+      const res = await adminFetch("/api/deals/sync", { method: "POST" });
       const data = await res.json();
       if (data.error) {
         setSyncResult(`Error: ${data.error}`);
@@ -691,7 +692,7 @@ export default function AdminAssetsPage() {
                 onClick={async () => {
                   const ids = Array.from(selected);
                   if (!ids.length) return;
-                  await fetch("/api/deals/status", {
+                  await adminFetch("/api/deals/status", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ action: "moveToLibrary", ids }),
@@ -806,7 +807,7 @@ export default function AdminAssetsPage() {
                     <button
                       onClick={() => {
                         if (!deal.imported) {
-                          fetch("/api/deals/status", {
+                          adminFetch("/api/deals/status", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ action: "moveToLibrary", id: deal.id }),
