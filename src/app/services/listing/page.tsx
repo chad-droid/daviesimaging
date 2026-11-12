@@ -7,6 +7,7 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
 import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { TestimonialBand } from "@/components/TestimonialBand";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/listing" },
@@ -162,6 +163,9 @@ export default function ListingPhotoPage() {
           </RevealOnScroll>
         </div>
       </section>
+
+      {/* Customer proof */}
+      <TestimonialBand ids={["bradley-resale"]} />
 
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">

@@ -5,6 +5,11 @@ import { PainPoints } from "@/components/lp/PainPoints";
 import { Solution } from "@/components/lp/Solution";
 import { Proof } from "@/components/lp/Proof";
 import { LPCta } from "@/components/lp/LPCta";
+import { getTestimonials, attributionLine } from "@/data/testimonials";
+
+// A named customer, from src/data/testimonials.ts.
+const [t] = getTestimonials(["carrie-portal"]);
+const proofQuote = t ? { quote: t.quote, attribution: attributionLine(t) } : undefined;
 
 export const metadata: Metadata = {
   alternates: { canonical: "/markets/role/coordinators" },
@@ -47,6 +52,7 @@ export default function CoordinatorsPage() {
           { value: "72hr", label: "Spec+ turnaround" },
           { value: "28", label: "Markets supported" },
         ]}
+        testimonial={proofQuote}
       />
       <LPCta
         headline={<>Ready to simplify your <strong>workflow</strong>?</>}

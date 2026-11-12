@@ -5,6 +5,11 @@ import { PainPoints } from "@/components/lp/PainPoints";
 import { Solution } from "@/components/lp/Solution";
 import { Proof } from "@/components/lp/Proof";
 import { LPCta } from "@/components/lp/LPCta";
+import { getTestimonials, attributionLine } from "@/data/testimonials";
+
+// A named customer, from src/data/testimonials.ts.
+const [t] = getTestimonials(["kim-one-partner"]);
+const proofQuote = t ? { quote: t.quote, attribution: attributionLine(t) } : undefined;
 
 export const metadata: Metadata = {
   alternates: { canonical: "/markets/role/executive" },
@@ -47,10 +52,7 @@ export default function ExecutivePage() {
           { value: "4", label: "Regions covered" },
           { value: "10,000+", label: "Homes delivered" },
         ]}
-        testimonial={{
-          quote: "Before DIG, we had a different vendor in every market. Now we have one partner and our brand looks the same everywhere.",
-          attribution: "CMO, National Builder",
-        }}
+        testimonial={proofQuote}
       />
       <LPCta
         headline={<>Ready to simplify your marketing <strong>operations</strong>?</>}

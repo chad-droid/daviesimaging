@@ -5,6 +5,11 @@ import { PainPoints } from "@/components/lp/PainPoints";
 import { Solution } from "@/components/lp/Solution";
 import { Proof } from "@/components/lp/Proof";
 import { LPCta } from "@/components/lp/LPCta";
+import { getTestimonials, attributionLine } from "@/data/testimonials";
+
+// A named customer, from src/data/testimonials.ts.
+const [t] = getTestimonials(["alexandra-micromanage"]);
+const proofQuote = t ? { quote: t.quote, attribution: attributionLine(t) } : undefined;
 
 export const metadata: Metadata = {
   alternates: { canonical: "/markets/role/directors" },
@@ -47,10 +52,7 @@ export default function DirectorsPage() {
           { value: "28", label: "Markets served nationwide" },
           { value: "10,000+", label: "Homes photographed" },
         ]}
-        testimonial={{
-          quote: "DIG changed how we think about photography. It went from a line item to a growth lever.",
-          attribution: "Marketing Director, Regional Builder",
-        }}
+        testimonial={proofQuote}
       />
       <LPCta
         headline={<>Let&rsquo;s build assets that move <strong>homes</strong>.</>}

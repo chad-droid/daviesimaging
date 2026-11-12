@@ -6,6 +6,7 @@ import { SpecFaq } from "@/components/SpecFaq";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
+import { TestimonialBand } from "@/components/TestimonialBand";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/spec-plus" },
@@ -218,6 +219,9 @@ export default function SpecPlusPage() {
           </RevealOnScroll>
         </div>
       </section>
+
+      {/* Customer proof */}
+      <TestimonialBand ids={["jordan-easy"]} />
 
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">
