@@ -22,31 +22,31 @@ export default function CoordinatorsPage() {
     <>
       <LPHero
         eyebrow="For Coordinators"
-        headline={<>One platform to manage every <strong>order</strong>.</>}
-        subheadline="digDesk replaces the email chains, spreadsheets, and vendor juggling. Schedule shoots, order staging, track delivery, all in one place."
-        primaryCta={{ label: "Open digDesk", href: "/programs/digdesk" }}
-        secondaryCta={{ label: "Book a Demo", href: "/contact" }}
+        headline={<>Everything you need in <strong>one place</strong>.</>}
+        subheadline="digDesk is your single point of entry to order, track, revise, and pay for all of your marketing assets."
+        primaryCta={{ label: "Explore digDesk", href: "/programs/digdesk" }}
+        secondaryCta={{ label: "Book a Demo", href: "/contact?intent=demo" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
       <PainPoints
-        eyebrow="Daily Friction"
-        headline={<>Too many vendors, too many <strong>threads</strong>.</>}
+        eyebrow="Without digDesk"
+        headline={<>What ordering content <strong>usually takes</strong>.</>}
         points={[
-          { title: "Scheduling Chaos", description: "Coordinating photographers, stagers, and videographers across communities burns hours every week." },
-          { title: "No Single Source", description: "Assets scattered across email, Dropbox, and vendor portals. Finding the right file takes longer than it should." },
-          { title: "Reorder Friction", description: "Every new community means starting from scratch with vendor coordination." },
+          { title: "Back and forth", description: "Ordering content for a lot of communities at once can turn into a mess of emails and calls." },
+          { title: "Thousands of files", description: "Some photographers hand you a link to thousands of photos that you have to download, edit, and sort through yourself." },
+          { title: "Listings that sit", description: "When a listing has been sitting, refreshing it means starting a new round of coordination." },
         ]}
       />
       <Solution
         eyebrow="digDesk"
-        headline={<>Order, track, and receive in one <strong>app</strong>.</>}
-        description="digDesk centralizes ordering for photography, virtual staging, virtual video, and Spec+ packages. One login, one dashboard, every asset delivered and organized."
+        headline={<>Pick what you need for <strong>each home</strong>.</>}
+        description="Choose the services you need for each home or neighborhood, see the total, place the order, and get regular updates on its status. Your finished assets are delivered to the same place."
         ctaLabel="Explore digDesk"
         ctaHref="/programs/digdesk"
       />
       <Proof
         eyebrow="Impact"
-        headline={<>Less coordination, more <strong>output</strong>.</>}
+        headline={<>What you can <strong>count on</strong>.</>}
         stats={[
           { value: "1", label: "Platform for all orders" },
           { value: "72hr", label: "Spec+ turnaround" },
@@ -55,8 +55,8 @@ export default function CoordinatorsPage() {
         testimonial={proofQuote}
       />
       <LPCta
-        headline={<>Ready to simplify your <strong>workflow</strong>?</>}
-        primaryCta={{ label: "Book a Demo", href: "/contact" }}
+        headline={<>Ready to see <strong>digDesk</strong>?</>}
+        primaryCta={{ label: "Book a Demo", href: "/contact?intent=demo" }}
         secondaryCta={{ label: "Explore digDesk", href: "/programs/digdesk" }}
       />
     </>

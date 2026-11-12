@@ -96,7 +96,7 @@ const CHAPTERS = SERVICES.map((s) => ({ id: s.slug, label: s.name }));
 const FACTS: Record<string, { label: string; value: string }[]> = {
   planmatch: [
     { label: "Made from", value: "Your construction plans and finish samples" },
-    { label: "You get", value: "Photography of every elevation and room" },
+    { label: "Compared with rendering", value: "Great quality, better prices, less time" },
     { label: "Ready in", value: "Days, not months" },
   ],
   moments: [
@@ -228,8 +228,8 @@ export default function ShowcasePage() {
                 index="01"
                 eyebrowDefault="PlanMatch"
                 headlineDefault="Photorealistic images in <strong>days, not months</strong>."
-                leadDefault="You upload your construction plans, upload samples of your finishes, and get photorealistic virtual images in days, not months."
-                tailDefault="Every image is merchandised through our ModelMatch process, so it looks and feels like the real thing before anything is built."
+                leadDefault="You upload your construction plans, upload samples of your finishes, and get photorealistic virtual images merchandised through our ModelMatch process."
+                tailDefault="This is not like traditional rendering services. You get great quality, at better prices, in less time."
               />
             </RevealOnScroll>
           </div>

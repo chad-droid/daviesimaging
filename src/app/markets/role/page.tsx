@@ -14,30 +14,30 @@ export const metadata: Metadata = {
 const roles = [
   {
     title: "Coordinators",
-    description: "You schedule shoots, submit orders, and manage assets day to day. digDesk is built to make your workflow faster and your deliveries more predictable.",
-    pain: "Chasing vendors, missed deadlines, inconsistent output",
-    solution: "One platform, one team, 95% first-delivery success rate",
+    description: "You schedule shoots, submit orders, and manage assets day to day. digDesk gives you a single point of entry to manage your orders, revisions, and payments.",
+    pain: "Email chains, vendor coordination, and scattered files",
+    solution: "Order, track, revise, and pay for everything in one place",
     href: "/markets/role/coordinators",
   },
   {
     title: "Marketing Directors",
-    description: "Brand consistency across communities, multi-market rollouts, and assets that perform across every channel. DIG aligns creative to your marketing strategy, not just your shoot calendar.",
-    pain: "Inconsistent photography across markets, assets that only live in one place",
-    solution: "Standardized production across 28 markets, assets built for downstream deployment",
+    description: "You run a lot of projects at once. You get a partner who coordinates the shoots for you and delivers the same quality in every market you build in.",
+    pain: "Photography that looks different from one market to the next",
+    solution: "The same quality standard in 28 markets",
     href: "/markets/role/directors",
   },
   {
     title: "VP Level",
-    description: "Regional coverage, vendor consolidation, and scalable asset partnerships that reduce cost and complexity across your portfolio.",
-    pain: "Managing multiple vendors across regions, unpredictable quality and pricing",
+    description: "You need coverage in every market you build in and fewer vendors to manage. Regional Partnerships give you volume pricing, dedicated capacity, and one account team.",
+    pain: "Multiple vendors across your regions",
     solution: "Regional Partnerships with volume pricing, dedicated capacity, and one account team",
     href: "/markets/role/executive",
   },
   {
     title: "C-Suite",
-    description: "Strategic growth, cost efficiency, and competitive advantage through visual marketing that moves inventory faster and supports your sales team.",
-    pain: "Days on market, carry costs, sales team without the right tools to close",
-    solution: "Spec+ packages that reduce time from listing to sale through superior marketing assets",
+    description: "You're watching days on market and carry costs. Better presentation helps your homes sell sooner, and spec photography costs about four days of carry.",
+    pain: "Days on market and carry costs",
+    solution: "Spec+ for $600 flat, delivered within 72 hours of the shoot",
     href: "/markets/role/c-suite",
   },
 ];
@@ -51,10 +51,10 @@ export default function ByRolePage() {
           <RevealOnScroll>
             <Eyebrow dark>About / Who We Help</Eyebrow>
             <h1 className="text-text-light">
-              Built for the people who move <strong>homes</strong>.
+              Whatever your role, <strong>we take care of you</strong>.
             </h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              Every role in a homebuilding organization has different pressures. We built pages that speak directly to yours.
+              Find your role and see how DIG helps you and your team.
             </p>
           </RevealOnScroll>
         </div>

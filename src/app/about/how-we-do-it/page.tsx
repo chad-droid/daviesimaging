@@ -120,7 +120,7 @@ export default function HowWeDoItPage() {
               <EditableTextContent
                 slotId="about-how-we-do-it-team"
                 eyebrowDefault="The Team"
-                headlineDefault="Four disciplines. <strong>One roof</strong>."
+                headlineDefault="Four disciplines, each with its <strong>own specialists</strong>."
                 bodyDefault="Photography, editing, virtual staging, and video production are separate disciplines staffed by separate specialists."
                 dark={true}
               />
@@ -154,7 +154,7 @@ export default function HowWeDoItPage() {
                 <EditableTextContent
                   slotId="about-how-we-do-it-advantage"
                   eyebrowDefault="Your Advantage"
-                  headlineDefault="One team. Every <strong>specialty</strong>."
+                  headlineDefault="You work with <strong>one team</strong>."
                   bodyDefault=""
                 />
               </div>

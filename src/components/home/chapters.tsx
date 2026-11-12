@@ -139,7 +139,8 @@ export function PlanMatchChapter() {
         </h2>
         <p className="mt-5 text-lg leading-relaxed text-white/80">
           You upload your construction plans, upload samples of your finishes, and get
-          photorealistic virtual images merchandised through our ModelMatch process.
+          photorealistic virtual images. This is not like traditional rendering services. You get
+          great quality, at better prices, in less time.
         </p>
         <Link
           href="/services/showcase#planmatch"

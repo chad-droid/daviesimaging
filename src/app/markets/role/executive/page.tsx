@@ -22,41 +22,41 @@ export default function ExecutivePage() {
     <>
       <LPHero
         eyebrow="For Executives"
-        headline={<>Consolidate vendors. Scale <strong>coverage</strong>.</>}
-        subheadline="VP-level oversight requires predictable quality across markets, vendor simplification, and a partner who can grow with the business."
+        headline={<>One partner in every market <strong>you build in</strong>.</>}
+        subheadline="You get the same quality in each of our service lines, in 28 markets across the United States, with volume pricing and one account team."
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
         secondaryCta={{ label: "Regional Partnerships", href: "/programs/regional-partnerships" }}
       />
       <LogoStrip logos={["Kolter Homes", "Beazer Homes", "M/I Homes", "Robert Thomas Homes", "SouthSix"]} />
       <PainPoints
-        eyebrow="VP Challenges"
-        headline={<>Growth creates vendor <strong>sprawl</strong>.</>}
+        eyebrow="As You Grow"
+        headline={<>What growth does to your <strong>vendor list</strong>.</>}
         points={[
-          { title: "Market-to-Market Inconsistency", description: "Different photographers in every market means different quality and a fragmented brand." },
-          { title: "Coordination Overhead", description: "Your directors spend more time managing vendors than managing strategy." },
-          { title: "No Economies of Scale", description: "Per-shoot pricing across 10+ markets without volume benefits or strategic alignment." },
+          { title: "A different look in every market", description: "Different photographers in every market means different quality from one community to the next." },
+          { title: "Time spent managing vendors", description: "Your directors spend their time managing vendors when they could be marketing homes." },
+          { title: "No volume pricing", description: "You pay per shoot in every market, with no benefit for the volume you bring." },
         ]}
       />
       <Solution
         eyebrow="Regional Partnerships"
         headline={<>One partner across every <strong>region</strong>.</>}
-        description="DIG's regional partnership model gives you a single point of contact, volume pricing, and brand guidelines enforced across West, Mountain, Central, and East."
+        description="Regional Partnerships give you a single point of contact, volume pricing, and your brand guidelines followed across West, Mountain, Central, and East."
         ctaLabel="Explore partnerships"
         ctaHref="/programs/regional-partnerships"
       />
       <Proof
         eyebrow="Scale"
-        headline={<>Coverage without <strong>compromise</strong>.</>}
+        headline={<>Coverage you can <strong>count on</strong>.</>}
         stats={[
           { value: "28", label: "Markets served" },
           { value: "4", label: "Regions covered" },
-          { value: "10,000+", label: "Homes delivered" },
+          { value: "Weeks", label: "To onboard a trained photographer in a new market" },
         ]}
         testimonial={proofQuote}
       />
       <LPCta
         headline={<>Ready to simplify your marketing <strong>operations</strong>?</>}
-        primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
+        primaryCta={{ label: "Book a Strategy Call", href: "/contact?intent=strategy" }}
         secondaryCta={{ label: "Explore digDesk", href: "/programs/digdesk" }}
       />
     </>
