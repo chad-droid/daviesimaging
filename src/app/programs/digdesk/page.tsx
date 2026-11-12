@@ -265,7 +265,7 @@ export default function DigDeskPage() {
           <RevealOnScroll>
             <EditableTextContent
               slotId="programs-digdesk-cta"
-              headlineDefault="Has a listing been <strong>sitting</strong>?"
+              headlineDefault="Have your listings been <strong>sitting</strong>?"
               bodyDefault="Go into digDesk and request new virtual staging or a different video, and refresh your listing with new assets."
               dark={true}
             />
