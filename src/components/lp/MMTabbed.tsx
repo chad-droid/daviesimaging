@@ -53,7 +53,7 @@ function HowItWorks() {
     {
       label: 'Step Three',
       title: 'Receive staged results.',
-      desc: 'Five high-res images, delivered in 24 hours.',
+      desc: 'Eight high-res images, delivered in 24 hours.',
       icon: (
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
           <rect x="8" y="12" width="40" height="28" rx="2" stroke="#6A5ACD" strokeWidth="1.8" />
@@ -240,7 +240,7 @@ function FAQs() {
     },
     {
       q: 'What do I get back?',
-      a: 'Five fully-staged photos, delivered as high-resolution files licensed for MLS, paid ads, email, and web.',
+      a: 'Eight fully-staged photos, delivered as high-resolution files licensed for MLS, paid ads, email, and web.',
     },
     {
       q: 'What happens after the trial?',

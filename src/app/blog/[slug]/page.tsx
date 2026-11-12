@@ -198,7 +198,7 @@ export default async function BlogPostPage({
 
           {post.category && (
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-accent-secondary">
-              {post.category.replace("-", " ")}
+              {post.category.replaceAll("-", " ")}
             </p>
           )}
 
@@ -224,15 +224,56 @@ export default async function BlogPostPage({
             </div>
           )}
 
-          {post.body && (
-            <div className="prose-dig">
-              <PortableText
-                value={post.body}
-                components={portableTextComponents}
-              />
-            </div>
-          )}
         </RevealOnScroll>
+
+        {/* Body sits outside the reveal wrapper. The wrapper fades in once 10%
+            of it is on screen, which a long article can never reach. */}
+        {post.body && (
+          <div>
+            <PortableText
+              value={post.body}
+              components={portableTextComponents}
+            />
+          </div>
+        )}
+
+        {/* Every post ends with a next step. */}
+        <aside className="mt-16 rounded-2xl bg-bg-dark p-8 text-text-light lg:p-10">
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-accent-dark-hover">
+            Put this to work
+          </p>
+          <h2 className="mt-3 text-text-light">
+            See it on one of <strong>your homes</strong>.
+          </h2>
+          <p className="mt-4 max-w-xl text-text-muted">
+            Send us a spec home and we will stage eight photos with ModelMatch, free. Or talk
+            through your communities with the DIG team.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link
+              href="/modelmatch-datalibrary"
+              className="rounded-full bg-accent px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+            >
+              Start My Free Trial
+            </Link>
+            <Link
+              href="/contact?intent=strategy"
+              className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+            >
+              Book a Strategy Call &rarr;
+            </Link>
+          </div>
+          <p className="mt-8 border-t border-white/10 pt-6 text-sm text-text-muted">
+            Explore:{" "}
+            <Link href="/programs/spec-plus" className="text-text-light underline decoration-white/30 underline-offset-2 hover:decoration-white">Spec+</Link>
+            {" · "}
+            <Link href="/services/virtual-staging" className="text-text-light underline decoration-white/30 underline-offset-2 hover:decoration-white">Virtual Staging</Link>
+            {" · "}
+            <Link href="/services/premium" className="text-text-light underline decoration-white/30 underline-offset-2 hover:decoration-white">Premium Photography</Link>
+            {" · "}
+            <Link href="/blog" className="text-text-light underline decoration-white/30 underline-offset-2 hover:decoration-white">More articles</Link>
+          </p>
+        </aside>
       </div>
     </article>
   );

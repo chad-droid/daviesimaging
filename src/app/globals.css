@@ -2,6 +2,9 @@
 
 /* ── FrameFlow-Inspired Color System ── */
 :root {
+  /* Motion. Used by the ModelMatch landing components outside .mm-landing. */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
   /* Core palette */
   --accent: #6A5ACD;
   --accent-hover-light: #5848B5;

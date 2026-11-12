@@ -10,11 +10,11 @@ import { DarkSectionBg } from "@/components/DarkSectionBg";
 // ─── Editable fields ──────────────────────────────────────────────────────────
 
 const metaFields = [
-  { key: "eyebrow",  label: "Eyebrow",    type: "text"     as const, defaultValue: "digDesk — Now Rolling Out" },
+  { key: "eyebrow",  label: "Eyebrow",    type: "text"     as const, defaultValue: "digDesk: Now Rolling Out" },
   { key: "headline", label: "Headline",   type: "textarea" as const, defaultValue: "One portal for your **entire visual pipeline**." },
   { key: "body",     label: "Body",       type: "textarea" as const, defaultValue: "digDesk is DIG's professional client portal designed for high-performing, lean homebuilder marketing teams. Order every service, track every job, and manage every asset from a single dashboard." },
   { key: "ctaText",  label: "CTA Button", type: "text"     as const, defaultValue: "Get access to digDesk" },
-  { key: "ctaHref",  label: "CTA URL",    type: "url"      as const, defaultValue: "/programs/frameflow" },
+  { key: "ctaHref",  label: "CTA URL",    type: "url"      as const, defaultValue: "/programs/digdesk" },
   { key: "ctaNote",  label: "CTA Note",   type: "text"     as const, defaultValue: "Currently available to existing DIG clients. Onboarding new accounts quarterly." },
 ];
 
