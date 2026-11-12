@@ -6,7 +6,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 export const metadata: Metadata = {
   alternates: { canonical: "/get-started" },
   title: "Get Started",
-  description: "Schedule a demo of digDesk and FrameFlow Studio, or create an account and start ordering today.",
+  description: "Schedule a demo with the DIG team, or start a free trial and see one of your own spec homes staged with ModelMatch.",
 };
 
 export default function GetStartedPage() {
@@ -17,10 +17,10 @@ export default function GetStartedPage() {
           <div className="mb-14 text-center">
             <Eyebrow>Get Started</Eyebrow>
             <h1>
-              Two ways to <strong>get into digDesk</strong>.
+              Two ways to <strong>get started</strong>.
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-text-body">
-              Schedule a 15-minute demo with the DIG team, or create your account directly and start ordering right away. All accounts are reviewed by our team before activation.
+              Schedule a 15-minute demo with the DIG team, or start a free trial and see one of your own spec homes staged with ModelMatch.
             </p>
           </div>
         </RevealOnScroll>
@@ -72,12 +72,12 @@ export default function GetStartedPage() {
                   Schedule a Demo
                 </Link>
                 <p className="mt-3 text-center text-xs text-text-muted">
-                  We respond within 1 business day to book a time
+                  Leave your details, then pick a time on the next screen
                 </p>
               </div>
             </div>
 
-            {/* Path 2 — Create Account */}
+            {/* Path 2: Free trial */}
             <div className="flex flex-col rounded-2xl border-2 border-accent bg-bg-surface p-8 shadow-sm">
               <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10">
                 <svg className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -86,23 +86,23 @@ export default function GetStartedPage() {
               </div>
 
               <div className="mb-1 flex items-center gap-2">
-                <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-accent">Ready to order</span>
+                <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-accent">Your first home is free</span>
               </div>
 
               <h2 className="mt-3 text-[1.5rem]">
-                Create an <strong>Account</strong>
+                Start a <strong>Free Trial</strong>
               </h2>
 
               <p className="mt-3 text-sm leading-relaxed text-text-body">
-                Go directly to digDesk and submit your account request. Our team reviews every new account and activates it within 1 business day. Once active, you can place Spec+ and FrameFlow Studio orders immediately. No subscription or commitment required.
+                See ModelMatch on one of your own homes before you order anything. The first eight staged images are on us.
               </p>
 
               <ul className="mt-6 space-y-2.5">
                 {[
-                  "Submit your account info in under 5 minutes",
-                  "Admin review and activation within 1 business day",
-                  "Instant access to digDesk on activation",
-                  "Order Spec+ and standalone digital services right away",
+                  "Eight staged images of your own spec home, free",
+                  "Staged with furniture from your own model homes",
+                  "Delivered in 1 business day",
+                  "No contract and no credit card",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-text-body">
                     <svg viewBox="0 0 16 16" className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -114,16 +114,14 @@ export default function GetStartedPage() {
               </ul>
 
               <div className="mt-auto pt-8">
-                <a
-                  href="https://desk.daviesimaging.com/register"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/modelmatch-datalibrary"
                   className="flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                 >
-                  Create Your Account
-                </a>
+                  Start My Free Trial
+                </Link>
                 <p className="mt-3 text-center text-xs text-text-muted">
-                  Accounts require admin approval before activation
+                  Send one model home and one vacant spec to begin
                 </p>
               </div>
             </div>
@@ -134,6 +132,16 @@ export default function GetStartedPage() {
         {/* Already a client */}
         <RevealOnScroll>
           <div className="mt-10 flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-center">
+            <span className="text-sm text-text-muted">Ready to order?</span>
+            <a
+              href="https://desk.daviesimaging.com/register"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium text-text-dark transition-colors hover:text-accent"
+            >
+              Create a digDesk account &rarr;
+            </a>
+            <span className="hidden text-border-light sm:inline">|</span>
             <span className="text-sm text-text-muted">Already have an account?</span>
             <a
               href="https://desk.daviesimaging.com"
@@ -153,7 +161,7 @@ export default function GetStartedPage() {
               { label: "28 U.S. markets", sub: "Photography and digital services nationwide" },
               { label: "95% first-delivery success rate", sub: "Assets ready to publish without changes" },
             { label: "Pay as you go", sub: "No subscription, no minimum commitment" },
-              { label: "1 business day", sub: "Account activation after admin review" },
+              { label: "1 business day", sub: "Free trial images delivered" },
             ].map((item) => (
               <div key={item.label} className="text-center">
                 <p className="text-sm font-semibold text-text-dark">{item.label}</p>

@@ -7,26 +7,27 @@ import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 import { TestimonialBand } from "@/components/TestimonialBand";
+import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/spec-plus" },
   title: "Spec+",
-  description: "The complete spec home asset package: 25 listing photos, 8 virtually staged images, and 1 virtual video. $600 flat, 72-hour delivery via digDesk.",
+  description: "Spec+ combines listing photography, ModelMatch virtual staging and a FrameFlow video in one order. 25 photos, 8 staged images and 1 video for $600 flat, delivered within 72 hours of the shoot.",
 };
 
 const included = [
   { label: "25 MLS-ready listing images", detail: "HDR photography, professionally retouched" },
-  { label: "8 ModelMatch virtually staged images", detail: "Branded to your model home, not generic furniture" },
-  { label: "1 virtual video via digDesk", detail: "Built from your photos, wide format, ready to deploy" },
-  { label: "72-hour delivery after photography", detail: "From shoot to delivery, no waiting" },
+  { label: "8 ModelMatch virtually staged images", detail: "Staged with your own model home merchandising" },
+  { label: "1 FrameFlow video", detail: "Built from your photos, in wide format" },
+  { label: "Delivered within 72 hours of the shoot", detail: "Photography, staging and video arrive together" },
   { label: "Sky replacement + exterior retouching", detail: "Every exterior looks its best" },
-  { label: "Coordinated through digDesk", detail: "Photography + FrameFlow production managed in one place" },
+  { label: "Ordered through digDesk", detail: "Order, track, revise and pay in one place" },
 ];
 
 const steps = [
   { number: "01", title: "Place your order in digDesk", detail: "Select Spec+, add the community and address, submit." },
-  { number: "02", title: "We schedule and shoot", detail: "DIG coordinates the shoot in your market. You don't lift a finger." },
-  { number: "03", title: "Assets delivered in 72 hours", detail: "Photography, staging, and video delivered in one package, ready to publish." },
+  { number: "02", title: "We schedule and shoot", detail: "We coordinate the shoot with your sales team in the field." },
+  { number: "03", title: "Assets delivered in 72 hours", detail: "Photography, staging and video are delivered together in digDesk." },
 ];
 
 export default function SpecPlusPage() {
@@ -39,9 +40,10 @@ export default function SpecPlusPage() {
             <EditableHero
               slotId="programs-spec-plus-hero"
               eyebrowDefault="Programs / Spec+"
-              headlineDefault="Your inventory needs to move. Spec+ delivers <strong>everything</strong>."
-              subheadDefault="DIG listing photography combined with digDesk digital production. $600 flat, regardless of home size. Delivered in 72 hours."
+              headlineDefault="List your spec homes looking their <strong>absolute best</strong>."
+              subheadDefault="Spec+ combines our listing photography with ModelMatch virtual staging and a FrameFlow video. $600 flat, regardless of home size, delivered within 72 hours of the shoot."
             />
+            <ProductTags line="Production + Match + Flow" stage="List" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href="https://desk.daviesimaging.com"
@@ -98,8 +100,8 @@ export default function SpecPlusPage() {
                 <EditableTextContent
                   slotId="programs-spec-plus-package"
                   eyebrowDefault="Package Contents"
-                  headlineDefault="Everything your listing needs. <strong>Nothing it doesn't</strong>."
-                  bodyDefault="Spec+ was built for one purpose: get standing inventory listed, marketed, and sold faster. Every element in the package earns its place."
+                  headlineDefault="What comes in a <strong>Spec+ order</strong>."
+                  bodyDefault="Your listings look their absolute best while your team focuses on essential marketing activities rather than coordination and retouching."
                 />
                 <ul className="mt-8 space-y-4">
                   {included.map((item) => (
@@ -144,7 +146,7 @@ export default function SpecPlusPage() {
               <EditableTextContent
                 slotId="programs-spec-plus-how-it-works"
                 eyebrowDefault="How It Works"
-                headlineDefault="Order today. Assets in <strong>72 hours</strong>."
+                headlineDefault="How a Spec+ order <strong>works</strong>."
                 bodyDefault=""
               />
             </div>
@@ -171,8 +173,8 @@ export default function SpecPlusPage() {
                   <EditableTextContent
                     slotId="programs-spec-plus-modelmatch"
                     eyebrowDefault="ModelMatch Virtual Staging"
-                    headlineDefault="Not generic furniture. <strong>Your builder's design palette</strong>."
-                    bodyDefault="Spec+ virtual staging uses your model home photography as the design reference. The result looks branded and on-spec, because it is. No mismatched styles, no generic staging templates."
+                    headlineDefault="Your model home merchandising, in <strong>every listing</strong>."
+                    bodyDefault="If you have beautiful model home merchandising but feel like your spec home presentation can use a boost, ModelMatch was designed to extend the investment you've made into your model homes and insert that merchandising into each and every one of your listings."
                     headingLevel="h3"
                   />
                   <Link
@@ -186,7 +188,7 @@ export default function SpecPlusPage() {
                   {[
                     "Uses approved model home photos as the design reference",
                     "Matches the builder's established design palette and material selections",
-                    "Each staged image reflects the community, not a generic library",
+                    "Each staged image reflects the community it belongs to",
                     "8 staged images per Spec+ order, more available as add-ons",
                   ].map((point) => (
                     <div key={point} className="flex items-start gap-2.5 text-text-body">
@@ -211,7 +213,7 @@ export default function SpecPlusPage() {
               <EditableTextContent
                 slotId="programs-spec-plus-faq"
                 eyebrowDefault="Common Questions"
-                headlineDefault="Everything you need to <strong>know before ordering</strong>."
+                headlineDefault="Before you <strong>order</strong>."
                 bodyDefault=""
               />
             </div>
@@ -230,8 +232,8 @@ export default function SpecPlusPage() {
             <EditableTextContent
               slotId="programs-spec-plus-cta"
               eyebrowDefault="Ready to Order"
-              headlineDefault="$600. 72 hours. <strong>Move faster</strong>."
-              bodyDefault="Stop managing vendors. Stop waiting on turnarounds. Order Spec+ through digDesk and get photography, staging, and video in one coordinated delivery."
+              headlineDefault="Spec photography costs about <strong>four days of carry</strong>."
+              bodyDefault="Carry on a spec runs about $25 a day for every $100,000 of list price. Spec photography runs about 0.1% of list price. If better presentation helps a home sell four days sooner, it has paid for itself."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

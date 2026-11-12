@@ -297,8 +297,8 @@ These are the exact eyebrow strings to use on each page. Do not deviate.
 | `/services/premium` | `Solutions / Premium Photography` | yes |
 | `/services/listing` | `Solutions / Listing Photography` | yes |
 | `/services/video-production` | `Solutions / Video Production` | yes |
-| `/services/virtual-staging` | `Solutions / Virtual Staging` | yes |
-| `/services/virtual-video` | `Solutions / Virtual Video` | yes |
+| `/services/virtual-staging` | `Solutions / ModelMatch` | yes |
+| `/services/virtual-video` | `Solutions / FrameFlow` | yes |
 | `/services/matterport` | `Solutions / Matterport` | yes |
 | `/programs/frameflow` | `Programs / FrameFlow Studio` | yes |
 | `/programs/spec-plus` | `Programs / Spec+` | yes |
