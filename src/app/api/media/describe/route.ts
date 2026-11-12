@@ -1,9 +1,8 @@
+import { randomUUID } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
-import Anthropic from "@anthropic-ai/sdk";
 import { requireAdmin } from "@/lib/adminAuth";
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+import { anthropic, flushPostHogAi, getAnthropicObservabilityOptions } from "@/lib/posthog-ai";
 
 // Describe a single image
 async function describeImage(
@@ -16,10 +15,12 @@ async function describeImage(
     modelName: string;
     deliverables: string;
   },
+  aiSessionId: string,
 ): Promise<string> {
-  const response = await client.messages.create({
+  const response = await anthropic.messages.create({
     model: "claude-sonnet-4-20250514",
     max_tokens: 200,
+    ...getAnthropicObservabilityOptions(aiSessionId),
     messages: [
       {
         role: "user",
@@ -67,6 +68,8 @@ export async function POST(req: NextRequest) {
 
     if (!dealId) return NextResponse.json({ error: "dealId required" }, { status: 400 });
 
+    const aiSessionId = `media-description-${randomUUID()}`;
+
     // Get deal context
     const dealResult = await sql`SELECT * FROM deals WHERE id = ${dealId}`;
     if (dealResult.rows.length === 0) return NextResponse.json({ error: "Deal not found" }, { status: 404 });
@@ -96,7 +99,7 @@ export async function POST(req: NextRequest) {
 
     for (const file of files.rows) {
       try {
-        const description = await describeImage(file.url, context);
+        const description = await describeImage(file.url, context, aiSessionId);
         await sql`UPDATE media_files SET description = ${description} WHERE id = ${file.id}`;
         results.push({ id: file.id, filename: file.filename, description });
       } catch (e) {
@@ -112,5 +115,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (e) {
     return NextResponse.json({ error: `Description failed: ${e}` }, { status: 500 });
+  } finally {
+    await flushPostHogAi();
   }
 }

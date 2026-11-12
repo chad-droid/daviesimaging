@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import posthog from "posthog-js";
 
 export function EmailCaptureModal() {
   const [open, setOpen] = useState(false);
@@ -49,6 +50,7 @@ export function EmailCaptureModal() {
           action="https://daviesimaging.us17.list-manage.com/subscribe/post?u=de0da4eedef3becab5eb4e4ab&id=418d6a179b"
           method="post"
           target="_blank"
+          onSubmit={() => posthog.capture("newsletter_subscription_started")}
           className="mt-6 space-y-3"
         >
           <input

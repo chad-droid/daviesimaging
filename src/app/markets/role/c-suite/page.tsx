@@ -5,6 +5,11 @@ import { PainPoints } from "@/components/lp/PainPoints";
 import { Solution } from "@/components/lp/Solution";
 import { Proof } from "@/components/lp/Proof";
 import { LPCta } from "@/components/lp/LPCta";
+import { getTestimonials, attributionLine } from "@/data/testimonials";
+
+// A named customer, from src/data/testimonials.ts.
+const [t] = getTestimonials(["jordan-cost"]);
+const proofQuote = t ? { quote: t.quote, attribution: attributionLine(t) } : undefined;
 
 export const metadata: Metadata = {
   alternates: { canonical: "/markets/role/c-suite" },
@@ -47,10 +52,7 @@ export default function CSuitePage() {
           { value: "2.4x", label: "Listing engagement increase" },
           { value: "4", label: "Regions, one partner" },
         ]}
-        testimonial={{
-          quote: "DIG isn't a photography vendor. They're a strategic partner that helps us move homes faster in every market.",
-          attribution: "CEO, Regional Builder",
-        }}
+        testimonial={proofQuote}
       />
       <LPCta
         headline={<>Let&rsquo;s talk about <strong>growth</strong>.</>}

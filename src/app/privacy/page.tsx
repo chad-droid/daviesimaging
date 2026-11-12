@@ -36,7 +36,7 @@ const sections = [
   {
     number: "4",
     title: "Advertising and Analytics Technologies",
-    body: "We use cookies and tracking tags from third-party providers to understand site traffic and measure advertising performance. These include the LinkedIn Insight Tag, the Meta (Facebook) Pixel, Google Analytics, and Microsoft Clarity. These providers may set their own cookies and process data under their own privacy policies. You can control cookies through your browser settings, and you can opt out of interest-based advertising through the providers' own tools and through industry pages such as optout.aboutads.info.",
+    body: "We use cookies and tracking tags from third-party providers to understand site traffic and measure advertising performance. These include the LinkedIn Insight Tag, the Meta (Facebook) Pixel, Google Analytics, Microsoft Clarity, and PostHog. These providers may set their own cookies and process data under their own privacy policies. You can control cookies through your browser settings, and you can opt out of interest-based advertising through the providers' own tools and through industry pages such as optout.aboutads.info.",
   },
   {
     number: "5",

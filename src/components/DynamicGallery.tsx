@@ -53,6 +53,14 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       .then((r) => r.json())
       .then((data) => {
         setProjects(data.projects || []);
+        // Region links from the homepage and the market map arrive as
+        // ?region=West. Applied here, with the data, so the grid opens
+        // already filtered (window, not useSearchParams, so the page stays
+        // server-rendered).
+        if (showRegionFilter) {
+          const r = new URLSearchParams(window.location.search).get("region");
+          if (r && (regions as readonly string[]).includes(r)) setActive(r as Region);
+        }
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -74,7 +82,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
         dealId: p.deal_id,
         project: p.deal_name,
         builder: p.builder,
-        region: stateToRegion[p.state] || "Unknown",
+        region: stateToRegion[p.state] || "",
         city: p.city,
         state: p.state,
         imageCount: p.images.length,
@@ -157,7 +165,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
             <button
               key={cover.dealId}
               onClick={() => setLightbox({ dealId: cover.dealId, imageIndex: 0 })}
-              className="group relative aspect-[4/3] overflow-hidden bg-bg-dark"
+              className="group relative aspect-[4/3] overflow-hidden bg-bg-light"
             >
               {/* Cover image or YouTube thumbnail */}
               {cover.youtubeId && !cover.url ? (
@@ -198,9 +206,11 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
                 </span>
               </div>
               <div className="absolute right-2 top-2 flex gap-1">
-                <span className="rounded-full bg-black/50 px-2.5 py-1 text-[10px] font-medium text-white/80 backdrop-blur-sm">
-                  {cover.region}
-                </span>
+                {cover.region && (
+                  <span className="rounded-full bg-black/50 px-2.5 py-1 text-[10px] font-medium text-white/80 backdrop-blur-sm">
+                    {cover.region}
+                  </span>
+                )}
                 {cover.imageCount > 1 && (
                   <span className="rounded-full bg-black/50 px-2.5 py-1 text-[10px] font-medium text-white/80 backdrop-blur-sm">
                     {cover.imageCount}

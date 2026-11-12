@@ -41,6 +41,18 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
       );
     },
   },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="mb-5 list-disc space-y-2 pl-6 text-text-body marker:text-accent">{children}</ul>
+    ),
+    number: ({ children }) => (
+      <ol className="mb-5 list-decimal space-y-2 pl-6 text-text-body marker:text-accent">{children}</ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="leading-relaxed">{children}</li>,
+    number: ({ children }) => <li className="leading-relaxed">{children}</li>,
+  },
   block: {
     h2: ({ children }) => <h2 className="mb-4 mt-10">{children}</h2>,
     h3: ({ children }) => <h3 className="mb-3 mt-8">{children}</h3>,

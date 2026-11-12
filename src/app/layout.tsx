@@ -140,7 +140,13 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="min-h-full flex flex-col bg-bg-light text-text-body">
-        <JsonLd data={organizationSchema} />
+        {/* Wrapped so it is not a direct "body > script". posthog-js inserts its
+            loader scripts before the first "body > script"; if that is this
+            element, hydration matches the loader to this slot and the
+            structured data is dropped from the live DOM. */}
+        <div hidden>
+          <JsonLd data={organizationSchema} />
+        </div>
         <SiteShell>{children}</SiteShell>
         <AdminSiteOverlay />
         <Analytics />

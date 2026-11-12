@@ -17,7 +17,7 @@ export type HeroCopy = {
   singleColumn?: boolean;
 };
 
-const DEFAULT_CTA = 'Claim My Five Free Images';
+const DEFAULT_CTA = 'Claim My 8 Free Images';
 
 function CtaArrow({ size = 14 }: { size?: number }) {
   return (
@@ -237,11 +237,11 @@ function MMHeroSingle({ copy }: { copy: HeroCopy }) {
             </div>
             <div>
               <p style={{ margin: 0, fontSize: 32, fontWeight: 600, color: '#1C1C1C', lineHeight: 1, letterSpacing: '-0.02em', display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                <span style={{ fontWeight: 400, color: 'var(--text-muted)', textDecoration: 'line-through', textDecorationColor: 'rgba(0,0,0,0.45)', fontSize: 24 }}>$125</span>
+                <span style={{ fontWeight: 400, color: 'var(--text-muted)', textDecoration: 'line-through', textDecorationColor: 'rgba(0,0,0,0.45)', fontSize: 24 }}>$200</span>
                 <span style={{ color: '#6A5ACD' }}>Free</span>
               </p>
               <p style={{ margin: '6px 0 0', fontSize: 12, color: 'var(--text-muted)', fontFamily: 'var(--font-body)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700 }}>
-                First five images
+                First eight images
               </p>
             </div>
           </div>
@@ -461,7 +461,7 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
                       fontSize: 24,
                     }}
                   >
-                    $125
+                    $200
                   </span>
                   <span style={{ color: '#6A5ACD' }}>Free</span>
                 </p>
@@ -476,7 +476,7 @@ function MMHero({ copy }: { copy?: HeroCopy }) {
                     fontWeight: 700,
                   }}
                 >
-                  First five images
+                  First eight images
                 </p>
               </div>
             </div>

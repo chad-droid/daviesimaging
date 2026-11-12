@@ -498,12 +498,13 @@ const WHY_CARDS = [
 // details verified from MLS listing histories (DIG Proof Library, data as of
 // June 7, 2026). `before` = days unstaged on market; `after` = days to a buyer
 // after ModelMatch. Avg 285 -> ~35. Builder names intentionally omitted.
+// Texas is a non-disclosure state: list dates only, no dollar figures.
 const PROJECTS = [
-  { n: "01", addr: "282 Laurel Hike, San Antonio, TX", mls: "Listed Sep 23, 2025 · $399,999", before: 196, after: 43 },
-  { n: "02", addr: "3737 Selborne Dr, Rockwall, TX", mls: "Listed Apr 21, 2025 · $854,319", before: 357, after: 14 },
-  { n: "03", addr: "511 San Angelo Dr, Forney, TX", mls: "Listed Apr 13, 2025 · $671,273", before: 368, after: 18 },
-  { n: "04", addr: "215 Prairie Clover Way, Wylie, TX", mls: "Listed Sep 29, 2025 · $914,252", before: 193, after: 56 },
-  { n: "05", addr: "2634 Shadybrook Dr, Prosper, TX", mls: "Listed Jun 17, 2025 · $1,148,647", before: 309, after: 43 },
+  { n: "01", addr: "282 Laurel Hike, San Antonio, TX", mls: "Listed Sep 23, 2025", before: 196, after: 43 },
+  { n: "02", addr: "3737 Selborne Dr, Rockwall, TX", mls: "Listed Apr 21, 2025", before: 357, after: 14 },
+  { n: "03", addr: "511 San Angelo Dr, Forney, TX", mls: "Listed Apr 13, 2025", before: 368, after: 18 },
+  { n: "04", addr: "215 Prairie Clover Way, Wylie, TX", mls: "Listed Sep 29, 2025", before: 193, after: 56 },
+  { n: "05", addr: "2634 Shadybrook Dr, Prosper, TX", mls: "Listed Jun 17, 2025", before: 309, after: 43 },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────

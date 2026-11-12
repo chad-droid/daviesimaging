@@ -11,7 +11,7 @@ import { DarkSectionBg } from "@/components/DarkSectionBg";
 
 const metaFields = [
   { key: "eyebrow",  label: "Eyebrow",     type: "text"     as const, defaultValue: "How It Works" },
-  { key: "headline", label: "Headline",    type: "textarea" as const, defaultValue: "Order complete. Assets live. **24 hours.**" },
+  { key: "headline", label: "Headline",    type: "textarea" as const, defaultValue: "Order complete. Assets live. **72 hours.**" },
   { key: "subhead",  label: "Subhead",     type: "textarea" as const, defaultValue: "digDesk handles the workflow. You focus on moving homes." },
   { key: "ctaText",  label: "CTA Button",  type: "text"     as const, defaultValue: "Order via digDesk" },
   { key: "ctaHref",  label: "CTA URL",     type: "url"      as const, defaultValue: "/programs/digdesk" },
@@ -57,8 +57,8 @@ const STEP_DEFAULTS = [
   },
   {
     number: "03",
-    title: "Assets in your dashboard. 24 hours.",
-    body: "Finished photos, staged images, and videos appear in your digDesk dashboard within 24 hours. Download and deploy to MLS, your website, email campaigns, and paid media from one folder.",
+    title: "Assets in your dashboard. 72 hours.",
+    body: "Finished photos, staged images, and videos appear in your digDesk dashboard within 72 hours of the shoot. Download and deploy to MLS, your website, email campaigns, and paid media from one folder.",
     proof: "One order. Multiple outputs. Every channel covered.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-6 w-6" stroke="currentColor" strokeWidth={1.5}>

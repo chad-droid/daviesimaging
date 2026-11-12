@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import posthog from "posthog-js";
 import type { EventImage } from "@/app/shoresummitphotos2026/galleries";
 
 // Full-screen lightbox for the event galleries. Keyboard (Esc / arrows), swipe on
@@ -53,6 +54,7 @@ export function EventLightbox({
       a.download = name;
       document.body.appendChild(a);
       a.click();
+      posthog.capture("event_gallery_photo_downloaded");
       a.remove();
       URL.revokeObjectURL(url);
     } catch {

@@ -873,7 +873,7 @@ export function Shore2026() {
       <style dangerouslySetInnerHTML={{ __html: pageCSS }} />
       <Header />
       <Hero />
-      <SummitPresence />
+      {/* <SummitPresence /> removed after the event (July 15 to 17, 2026): it told visitors to find Booth 507. */}
       <TrustBar />
       <Problem />
       <Solution />

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import posthog from "posthog-js";
 import { useSpamGuard } from "@/components/SpamGuard";
 
 export default function CinematographerApplyPage() {
@@ -69,6 +70,9 @@ export default function CinematographerApplyPage() {
                 }),
               });
               if (!res.ok) throw new Error();
+              posthog.capture("career_application_submitted", {
+                role: "cinematographer",
+              });
               setSubmitted(true);
             } catch {
               setError("Something went wrong. Email us directly at info@daviesimaging.com.");

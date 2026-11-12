@@ -7,6 +7,7 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
 import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { TestimonialBand } from "@/components/TestimonialBand";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/premium" },
@@ -318,6 +319,9 @@ export default function PremiumPage() {
           </RevealOnScroll>
         </div>
       </DarkSection>
+
+      {/* Customer proof */}
+      <TestimonialBand ids={["angela-hooked", "alexandra-partner"]} />
 
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">

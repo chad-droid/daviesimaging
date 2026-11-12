@@ -5,7 +5,7 @@ import { Reveal, TRIAL_URL, IMG } from './MMPrimitives';
 // ──────────────────────────────────────────────────────────────
 // Final CTA — dark editorial section
 // ──────────────────────────────────────────────────────────────
-function MMFinalCTA({ ctaLabel = 'Claim My Five Free Images' }: { ctaLabel?: string }) {
+function MMFinalCTA({ ctaLabel = 'Claim My 8 Free Images' }: { ctaLabel?: string }) {
   return (
     <section
       style={{
@@ -66,7 +66,7 @@ function MMFinalCTA({ ctaLabel = 'Claim My Five Free Images' }: { ctaLabel?: str
               textWrap: 'balance',
             }}
           >
-            Your first five images.{' '}
+            Your first eight images.{' '}
             <strong style={{ fontWeight: 700 }}>Free.</strong>
           </h2>
         </Reveal>
@@ -84,7 +84,7 @@ function MMFinalCTA({ ctaLabel = 'Claim My Five Free Images' }: { ctaLabel?: str
           >
             Send us one model home and one vacant spec.
             <br />
-            We&apos;ll stage the first five photos for free.
+            We&apos;ll stage the first eight photos for free.
           </p>
         </Reveal>
         <Reveal delay={0.3}>
