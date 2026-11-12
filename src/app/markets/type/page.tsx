@@ -57,7 +57,7 @@ export default function ByTypePage() {
           <RevealOnScroll>
             <Eyebrow dark>Markets / By Type</Eyebrow>
             <h1 className="text-text-light">
-              Every builder type has a different <strong>need</strong>.
+              Services for what <strong>you build</strong>.
             </h1>
             <p className="mt-5 max-w-xl text-lg text-text-muted">
               Detached, attached, luxury, BTR, or multifamily. See which services fit what you build and what your buyers need to see.

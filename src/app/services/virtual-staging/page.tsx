@@ -236,7 +236,7 @@ export default function VirtualStagingPage() {
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border border-border-light p-6">
-                <h4 className="text-base font-semibold text-text-dark">Standalone Virtual Staging</h4>
+                <h4 className="text-base font-semibold text-text-dark">ModelMatch by itself</h4>
                 <p className="mt-2 text-sm text-text-body">Already have photos? Upload them through digDesk and receive ModelMatch-staged images ready to publish.</p>
                 <p className="mt-4 font-serif text-2xl font-semibold text-text-dark">
                   Starting at $25

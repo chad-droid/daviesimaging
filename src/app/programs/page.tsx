@@ -53,7 +53,7 @@ export default function ProgramsIndex() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Programs</Eyebrow>
-            <h1 className="text-text-light">How builders <strong>purchase</strong>.</h1>
+            <h1 className="text-text-light">How you <strong>order</strong>.</h1>
             <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
               How you order from DIG. There is no subscription and no minimum.
             </p>

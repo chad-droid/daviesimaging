@@ -78,7 +78,7 @@ export default function LifestylePage() {
                 href="/services/video-production"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Explore Video Production
+                Explore Premium Video
               </Link>
               <Link
                 href="/services/premium"

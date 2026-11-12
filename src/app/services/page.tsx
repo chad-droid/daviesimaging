@@ -89,7 +89,7 @@ export default function ServicesIndex() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Services</Eyebrow>
-            <h1 className="text-text-light">How DIG does the <strong>work</strong>.</h1>
+            <h1 className="text-text-light">Everything you need, from lead to launch <strong>to list</strong>.</h1>
             <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
               Photography, video, and digital production for your marketing team, from lead to launch to list.
             </p>

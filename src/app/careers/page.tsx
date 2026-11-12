@@ -55,7 +55,7 @@ export default function CareersPage() {
           <RevealOnScroll>
             <Eyebrow dark>Careers at DIG</Eyebrow>
             <h1 className="text-text-light">
-              Join a team that thinks about <strong>what happens after the shoot</strong>.
+              Help the world&rsquo;s best home builders look <strong>their best</strong>.
             </h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Davies Imaging Group is a visual asset platform for home builders. We&apos;re looking for photographers and cinematographers who want to make the world&apos;s best home builders look their best.

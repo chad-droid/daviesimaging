@@ -41,7 +41,7 @@ export default function VirtualVideoPage() {
     <>
       <JsonLd
         data={buildServiceSchema({
-          name: "Virtual Video",
+          name: "FrameFlow Video",
           description:
             "Digital video built from existing photos or staging output. No shoot, no crew. Also DIG's listing video solution for spec and inventory homes.",
           path: "/services/virtual-video",
@@ -51,7 +51,7 @@ export default function VirtualVideoPage() {
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Solutions", path: "/services" },
-          { name: "Virtual Video", path: "/services/virtual-video" },
+          { name: "FrameFlow", path: "/services/virtual-video" },
         ])}
       />
       {/* Hero */}
@@ -166,7 +166,7 @@ export default function VirtualVideoPage() {
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border border-border-light p-6">
-                <h4 className="text-base font-semibold text-text-dark">Standalone Virtual Video</h4>
+                <h4 className="text-base font-semibold text-text-dark">FrameFlow by itself</h4>
                 <p className="mt-2 text-sm text-text-body">
                   Already have photos? Upload them through digDesk and receive a finished FrameFlow video.
                 </p>

@@ -221,11 +221,11 @@ export default function FrameFlowPage() {
             </div>
             <div className="mt-8 flex flex-col items-center justify-center gap-2 text-center sm:flex-row sm:gap-6">
               <span className="text-sm text-text-body">
-                Virtual Staging starting at <strong className="text-text-dark">$25 / image</strong>
+                ModelMatch starting at <strong className="text-text-dark">$25 / image</strong>
               </span>
               <span className="hidden text-border-light sm:inline">|</span>
               <span className="text-sm text-text-body">
-                Virtual Video starting at <strong className="text-text-dark">$150 / video</strong>
+                FrameFlow starting at <strong className="text-text-dark">$150 / video</strong>
               </span>
               <span className="hidden text-border-light sm:inline">|</span>
               <a href="https://desk.daviesimaging.com/register" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-accent hover:underline">

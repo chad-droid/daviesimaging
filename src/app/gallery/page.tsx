@@ -43,7 +43,7 @@ export default function WorkPage() {
           <RevealOnScroll>
             <Eyebrow dark>Gallery</Eyebrow>
             <h1 className="text-text-light">
-              Assets built to move <strong>homes</strong>.
+              Our <strong>work</strong>.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-text-muted">
               Browse our work by category: model homes, amenities, listings, and lifestyle.

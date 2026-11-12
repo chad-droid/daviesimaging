@@ -39,7 +39,7 @@ export default function MarketsIndex() {
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Markets</Eyebrow>
-            <h1 className="text-text-light">Who DIG <strong>serves</strong>.</h1>
+            <h1 className="text-text-light">Find how DIG <strong>helps you</strong>.</h1>
             <p className="mt-5 max-w-xl text-lg text-text-muted">
               Find your fit by what you build, your role, or where you build.
             </p>
