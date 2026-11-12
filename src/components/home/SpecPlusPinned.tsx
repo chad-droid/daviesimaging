@@ -136,14 +136,16 @@ export function SpecPlusPinned() {
   return (
     <section id="spec-plus" className="scroll-mt-28 bg-bg-light">
       {/* Pinned, lg and up */}
-      <div ref={ref} className="relative hidden h-[300vh] [@media(min-height:720px)]:lg:block">
+      <div ref={ref} className="relative hidden h-[175vh] [@media(min-height:720px)]:lg:block">
         <div className="sticky top-[7.5rem] flex h-[calc(100vh-7.5rem)] items-center overflow-hidden">
           <div className="mx-auto grid w-full max-w-7xl grid-cols-[5fr_7fr] items-center gap-16 px-6">
             <div>
               {heading}
               <div className="mt-6 border-t border-border-light">
                 {STEPS.map((s, i) => (
-                  <StepRow key={s.n} step={s} active={i === active} />
+                  <button key={s.n} type="button" onClick={() => setActive(i)} className="block w-full cursor-pointer text-left">
+                    <StepRow step={s} active={i === active} />
+                  </button>
                 ))}
               </div>
               <Cta />
