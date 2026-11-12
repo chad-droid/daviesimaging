@@ -29,10 +29,10 @@ const pillars = [
 ];
 
 const stats = [
-  { value: "28", label: "Markets nationwide" },
-  { value: "95%", label: "First delivery" },
-  { value: "72 hrs", label: "Spec+ delivery" },
-  { value: "5-Star", label: "Client reviews" },
+  { value: "28", label: "Markets nationwide", detail: "You get the same standard in every market you build in." },
+  { value: "95%", label: "First delivery", detail: "95% of deliveries are ready to publish without any changes." },
+  { value: "72 hrs", label: "Spec+ delivery", detail: "Your Spec+ assets arrive within 72 hours of the shoot." },
+  { value: "5-Star", label: "Client reviews", detail: "Seamless because every person on the team is focused on what they do best." },
 ];
 
 export default function AboutPage() {
@@ -96,6 +96,7 @@ export default function AboutPage() {
                   </p>
                   <div className="mt-4 h-px w-10 bg-accent" />
                   <p className="mt-4 whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-accent">{s.label}</p>
+                  <p className="mt-3 text-pretty text-[0.9375rem] leading-relaxed text-text-body">{s.detail}</p>
                 </div>
               ))}
             </div>
