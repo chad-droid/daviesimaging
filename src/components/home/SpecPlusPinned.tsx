@@ -104,9 +104,6 @@ function Cta() {
       >
         Explore Spec+
       </Link>
-      <Link href="/gallery/listings" className="text-sm font-medium text-text-body transition-colors hover:text-accent">
-        See Spec+ deliveries &rarr;
-      </Link>
     </div>
   );
 }

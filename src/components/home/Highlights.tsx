@@ -75,9 +75,9 @@ export function Highlights() {
     "flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white/80 transition-colors hover:border-white hover:text-white";
 
   return (
-    <section id="highlights" className="scroll-mt-28 bg-bg-dark py-24 text-text-light lg:py-32">
+    <section id="highlights" className="scroll-mt-28 bg-bg-dark py-24 text-text-light lg:py-36">
       <div className="mx-auto flex max-w-7xl items-end justify-between gap-6 px-6">
-        <h2 className="text-text-light lg:text-[3rem]">
+        <h2 className="max-w-[40rem] text-text-light lg:text-[3rem] lg:leading-[1.08]">
           A visual asset platform for <strong>home builders</strong>.
         </h2>
         <div className="hidden gap-3 sm:flex">
@@ -96,7 +96,7 @@ export function Highlights() {
 
       <div
         ref={track}
-        className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]"
+        className="mt-14 flex snap-x lg:mt-20 snap-mandatory gap-5 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]"
       >
         {CARDS.map((c) => (
           <Link

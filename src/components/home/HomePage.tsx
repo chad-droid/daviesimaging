@@ -38,12 +38,7 @@ export function HomePage() {
           dark
           n="01"
           stage="Lead"
-          body="Before your communities are ever built, DIG gives you photorealistic photographs and video of every plan, modeled or not, so your prospects understand the neighborhood you are bringing into their lives."
-          products={[
-            { label: "PlanMatch", href: "/services/showcase#planmatch" },
-            { label: "CineFlow", href: "/services/showcase#cineflow" },
-            { label: "ActFlow", href: "/services/virtual-video#actflow" },
-          ]}
+          body="Before your communities are ever built, you can have photorealistic photographs and video of every plan, modeled or not, so your prospects fully understand the neighborhood you're bringing into their lives."
         />
         <PlanMatchChapter />
       </div>
@@ -52,14 +47,7 @@ export function HomePage() {
         <StageHeader
           n="02"
           stage="Launch"
-          body="Our launch services are what DIG's reputation was built on: a national network of highly trained photographers for the best model home photography, video and Matterport available to the industry."
-          products={[
-            { label: "Premium Photography", href: "/services/premium" },
-            { label: "Premium Video", href: "/services/video-production" },
-            { label: "CineFlow", href: "/services/showcase#cineflow" },
-            { label: "ActFlow", href: "/services/virtual-video#actflow" },
-            { label: "Moments", href: "/services/showcase#moments" },
-          ]}
+          body="When your model homes open, you get a national network of highly trained photographers and the best model home photography, video and Matterport available to the industry."
         />
         <PremiumChapter />
         <FilmChapter />
@@ -69,13 +57,7 @@ export function HomePage() {
         <StageHeader
           n="03"
           stage="List"
-          body="Once you are ready to sell, DIG helps you list every spec home. Your listings look their absolute best while your team focuses on marketing, not coordination and retouching."
-          products={[
-            { label: "Spec+", href: "/programs/spec-plus" },
-            { label: "Listing Photography", href: "/services/listing" },
-            { label: "ModelMatch", href: "/services/virtual-staging" },
-            { label: "FrameFlow", href: "/services/virtual-video" },
-          ]}
+          body="Once you're ready to sell, you can list every spec home looking its absolute best, while your team focuses on essential marketing activities rather than coordination and retouching."
         />
         <SpecPlusPinned />
         <ModelMatchChapter />

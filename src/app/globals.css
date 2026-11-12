@@ -61,6 +61,13 @@
 
 /* ── Base type styles (in @layer base so utilities always win) ── */
 @layer base {
+  /* Line breaks. Headlines balance their lines so none ends in a single
+     stranded word; running text avoids a last line of one or two words.
+     (Apple gets the same result by hand, gluing final words together with
+     non-breaking spaces.) */
+  h1, h2, h3, h4, blockquote { text-wrap: balance; }
+  p, li, dd, figcaption { text-wrap: pretty; }
+
   body {
     /* Prevent any element that overflows the viewport (marquees, drag
        gestures, full-bleed mockups) from producing horizontal page

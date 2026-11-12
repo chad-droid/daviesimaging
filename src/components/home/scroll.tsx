@@ -201,7 +201,7 @@ const FLOWS = [
   {
     key: "cineflow",
     name: "CineFlow",
-    line: "Relights each space and adds new angles for lifelike cinematic sequences, without a real photo shoot.",
+    line: "Your spaces relit and seen from new angles, in lifelike cinematic sequences, without a real photo shoot.",
     src: "/showcase/cinematic.mp4",
     poster: "/showcase/cinematic.jpg",
     sound: true,
@@ -209,7 +209,7 @@ const FLOWS = [
   {
     key: "actflow",
     name: "ActFlow",
-    line: "Introduces virtual talent to your spaces so buyers can envision what life looks like in your homes and amenities.",
+    line: "Virtual talent in your spaces, so your buyers can envision what life looks like in your homes and amenities.",
     src: "/client-showcase/actflow-kolter.mp4",
     poster: "/client-showcase/actflow-kolter-poster.webp",
     sound: false,
@@ -226,7 +226,7 @@ export function FlowFilms() {
 
   return (
     <div>
-      <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-5 px-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="mx-auto mt-12 flex max-w-7xl flex-col gap-6 px-6 lg:flex-row lg:items-center lg:justify-between">
         <div role="tablist" aria-label="Film products" className="flex gap-2">
           {FLOWS.map((f, i) => (
             <button
@@ -243,9 +243,9 @@ export function FlowFilms() {
             </button>
           ))}
         </div>
-        <p className="max-w-xl text-white/75 lg:text-right">{flow.line}</p>
+        <p className="max-w-[30rem] text-[1.0625rem] leading-[1.45] text-white/75 lg:text-right">{flow.line}</p>
       </div>
-      <div ref={ref} className="mt-10">
+      <div ref={ref} className="mt-14 lg:mt-20">
         <motion.div className="origin-top overflow-hidden bg-black" style={{ scale, borderRadius: radius }}>
           {/* key remounts the player so each tab starts its own film from the top */}
           <ShowcaseFilm key={flow.key} src={flow.src} poster={flow.poster} label={`${flow.name} film`} sound={flow.sound} />

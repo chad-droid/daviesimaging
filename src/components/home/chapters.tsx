@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { FlowFilms, ScrollWipe, GlideStrip, ScrubFilm } from "./scroll";
+import { StageWord, StageBody } from "./StageWord";
 import { getTestimonials, type Testimonial } from "@/data/testimonials";
 import { QuoteText } from "@/components/QuoteText";
 
@@ -15,81 +16,78 @@ export function StageHeader({
   n,
   stage,
   body,
-  products,
   dark = false,
 }: {
   n: string;
   stage: string;
   body: string;
-  products: { label: string; href: string }[];
   dark?: boolean;
 }) {
   return (
     <div className={dark ? "border-t border-white/10 bg-bg-dark text-text-light" : "border-t border-border-light bg-bg-surface"}>
-      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-20 lg:grid-cols-[auto_1fr] lg:items-end lg:gap-20 lg:py-28">
-        <RevealOnScroll>
-          <p className={`text-xs font-bold uppercase tracking-[0.15em] ${dark ? "text-accent-dark-hover" : "text-accent"}`}>
-            Stage {n}
+      <div className="mx-auto max-w-7xl px-6 py-28 lg:py-44">
+        <p className={`text-xs font-bold uppercase tracking-[0.15em] ${dark ? "text-accent-dark-hover" : "text-accent"}`}>
+          Stage {n}
+        </p>
+        <StageWord word={stage} dark={dark} />
+        <StageBody>
+          <p className={`mt-10 max-w-[44rem] text-[1.3125rem] leading-[1.4] lg:mt-14 ${dark ? "text-white/80" : "text-text-body"}`}>
+            {body}
           </p>
-          <p
-            className={`mt-2 text-[5.5rem] leading-[0.85] tracking-tight lg:text-[11rem] ${dark ? "text-text-light" : "text-text-dark"}`}
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            {stage}
-            <span className="text-accent">.</span>
-          </p>
-        </RevealOnScroll>
-        <RevealOnScroll>
-          <p className={`max-w-2xl text-xl leading-relaxed lg:text-[1.4rem] ${dark ? "text-white/80" : "text-text-body"}`}>{body}</p>
-          <div className="mt-7 flex flex-wrap gap-2">
-            {products.map((p) => (
-              <Link
-                key={p.label}
-                href={p.href}
-                className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
-                  dark
-                    ? "border-white/20 text-white/85 hover:border-white hover:text-white"
-                    : "border-border-light text-text-dark hover:border-accent hover:text-accent"
-                }`}
-              >
-                {p.label}
-              </Link>
-            ))}
-          </div>
-        </RevealOnScroll>
+        </StageBody>
       </div>
     </div>
+  );
+}
+
+/* ── Chapter header: eyebrow, headline, then the body beneath it. Stacked,
+      with the headline held to about three quarters of the column and the
+      body to a comfortable reading width, so each has room around it. ───── */
+function ChapterHeader({
+  eyebrow,
+  children,
+  body,
+  dark = false,
+  after,
+}: {
+  eyebrow: string;
+  children: React.ReactNode;
+  body?: React.ReactNode;
+  dark?: boolean;
+  after?: React.ReactNode;
+}) {
+  return (
+    <RevealOnScroll>
+      <Eyebrow dark={dark}>{eyebrow}</Eyebrow>
+      <h2 className={`max-w-[52rem] lg:text-[3rem] lg:leading-[1.08] ${dark ? "text-text-light" : ""}`}>{children}</h2>
+      {body && (
+        <p className={`mt-6 max-w-[44rem] text-[1.3125rem] leading-[1.4] ${dark ? "text-white/75" : "text-text-body"}`}>{body}</p>
+      )}
+      {after}
+    </RevealOnScroll>
   );
 }
 
 /* ── ModelMatch: the hands-on moment. Drag vacant to staged. ─────────────── */
 export function ModelMatchChapter() {
   return (
-    <section id="modelmatch" className="scroll-mt-28 bg-bg-surface py-24 lg:py-32">
+    <section id="modelmatch" className="scroll-mt-28 bg-bg-surface py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
-        <RevealOnScroll>
-          <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:items-end lg:gap-16">
-            <div>
-              <Eyebrow>ModelMatch</Eyebrow>
-              <h2 className="lg:text-[3rem] lg:leading-[1.08]">
-                Extend the investment you&rsquo;ve made in your <strong>model homes</strong>.
-              </h2>
-            </div>
-            <p className="mt-6 text-lg leading-relaxed text-text-body lg:mt-0 lg:pb-2">
-              ModelMatch uses your model home merchandising to create bespoke furniture and accessory
-              galleries you can reuse across your vacant inventory.
-            </p>
-          </div>
-        </RevealOnScroll>
+        <ChapterHeader
+          eyebrow="ModelMatch"
+          body="Your model home merchandising becomes bespoke furniture and accessory galleries you can reuse across your vacant inventory."
+        >
+          Extend the investment you&rsquo;ve made in your <strong>model homes</strong>.
+        </ChapterHeader>
 
-        <div className="mt-12 lg:mt-16">
+        <div className="mt-14 lg:mt-20">
           <ScrollWipe before="/mm/vacant-great-room.jpg" after="/mm/result-1-great-room.jpg" />
           <p className="mt-4 text-center text-xs font-bold uppercase tracking-[0.15em] text-text-muted">
             Scroll or drag to compare
           </p>
         </div>
 
-        <div className="mt-14 grid gap-10 border-t border-border-light pt-10 lg:grid-cols-[2fr_3fr] lg:items-center lg:gap-16">
+        <div className="mt-20 grid gap-10 border-t border-border-light pt-14 lg:mt-28 lg:grid-cols-[3fr_2fr] lg:items-end lg:gap-16">
           <div>
             <p className="text-[2.75rem] leading-[1.05] text-text-dark lg:text-[3.5rem]" style={{ fontFamily: "var(--font-heading)" }}>
               357 days listed.
@@ -102,10 +100,6 @@ export function ModelMatchChapter() {
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6 lg:justify-end">
-            <div className="sm:text-right">
-              <p className="font-semibold text-text-dark">Try it on one of your specs.</p>
-              <p className="text-sm text-text-body">Eight staged photos, free.</p>
-            </div>
             <Link href="/modelmatch-datalibrary" className={primaryBtn}>
               Start My Free Trial
             </Link>
@@ -119,23 +113,11 @@ export function ModelMatchChapter() {
 /* ── Launch films: CineFlow and ActFlow from your model photography. ────── */
 export function FilmChapter() {
   return (
-    <section id="film" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-24 text-text-light lg:pt-32">
+    <section id="film" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-24 text-text-light lg:pt-36">
       <div className="mx-auto max-w-7xl px-6">
-        <RevealOnScroll>
-          <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:items-end lg:gap-16">
-            <div>
-              <Eyebrow dark>CineFlow and ActFlow</Eyebrow>
-              <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
-                Need video from the assets you <strong>already have</strong>?
-              </h2>
-            </div>
-            <p className="mt-6 text-lg leading-relaxed text-white/80 lg:mt-0 lg:pb-2">
-              CineFlow relights each space, adds new angles, and provides lifelike cinematic sequences
-              without a real photo shoot. ActFlow introduces virtual talent to your spaces so buyers
-              can envision what life looks like in your homes and amenities.
-            </p>
-          </div>
-        </RevealOnScroll>
+        <ChapterHeader dark eyebrow="CineFlow and ActFlow">
+          Need video from the assets you <strong>already have</strong>?
+        </ChapterHeader>
       </div>
       <FlowFilms />
     </section>
@@ -182,29 +164,20 @@ const REGIONS = ["West", "Mountain", "Central", "East"];
 
 export function PremiumChapter() {
   return (
-    <section id="premium" className="scroll-mt-28 bg-bg-light py-24 lg:py-32">
+    <section id="premium" className="scroll-mt-28 bg-bg-light py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
-        <RevealOnScroll>
-          <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:items-end lg:gap-16">
-            <div>
-              <Eyebrow>Premium Photography</Eyebrow>
-              <h2 className="lg:text-[3rem] lg:leading-[1.08]">
-                Built for builders who <strong>demand the best</strong>.
-              </h2>
-            </div>
-            <p className="mt-6 text-lg leading-relaxed text-text-body lg:mt-0 lg:pb-2">
-              The best model home photography, video, and Matterport services available to the
-              industry, in 28 markets across the United States.
-            </p>
-          </div>
-        </RevealOnScroll>
+        <ChapterHeader
+          eyebrow="Premium Photography"
+          body="You get the best model home photography, video, and Matterport services available to the industry, in 28 markets across the United States."
+        >
+          Built for builders who <strong>demand the best</strong>.
+        </ChapterHeader>
       </div>
 
       <GlideStrip items={PREMIUM} />
 
-      <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-5 px-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto mt-14 flex max-w-7xl flex-col gap-5 px-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="mr-2 text-xs font-bold uppercase tracking-[0.12em] text-text-muted">Browse by region</span>
           {REGIONS.map((r) => (
             <Link
               key={r}
@@ -227,7 +200,7 @@ export function PremiumChapter() {
 const LINES = [
   {
     name: "Production",
-    body: "Our national network of highly trained professional photographers, for listing and Premium services.",
+    body: "You get a national network of highly trained professional photographers, for your listings and your Premium shoots.",
     products: [
       { label: "Premium Photography", href: "/services/premium" },
       { label: "Premium Video", href: "/services/video-production" },
@@ -237,7 +210,7 @@ const LINES = [
   },
   {
     name: "Flow",
-    body: "Our Flow video generation process converts your static images into dynamic video.",
+    body: "Your static images, converted into dynamic video.",
     products: [
       { label: "FrameFlow", href: "/services/virtual-video" },
       { label: "CineFlow", href: "/services/showcase#cineflow" },
@@ -246,7 +219,7 @@ const LINES = [
   },
   {
     name: "Match",
-    body: "Our Match system of interior design is built off your existing model home identity, so your virtual assets look and feel like the real thing.",
+    body: "Your virtual assets look and feel like the real thing, because they are built off your existing model home identity.",
     products: [
       { label: "ModelMatch", href: "/services/virtual-staging" },
       { label: "PlanMatch", href: "/services/showcase#planmatch" },
@@ -257,7 +230,7 @@ const LINES = [
 
 export function ServiceLinesChapter() {
   return (
-    <section id="lines" className="scroll-mt-28 border-t border-border-light bg-bg-surface py-24 lg:py-32">
+    <section id="lines" className="scroll-mt-28 border-t border-border-light bg-bg-surface py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <RevealOnScroll>
           <Eyebrow>Service lines</Eyebrow>
@@ -292,7 +265,7 @@ export function ServiceLinesChapter() {
 /* ── digDesk: the real product, not a drawing of it. ─────────────────────── */
 export function DigDeskChapter() {
   return (
-    <section id="digdesk" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-24 text-text-light lg:pt-32">
+    <section id="digdesk" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-24 text-text-light lg:pt-36">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <RevealOnScroll>
           <Eyebrow dark>digDesk</Eyebrow>
@@ -343,7 +316,7 @@ export function ProofChapter() {
   const who = (t: Testimonial) => [t.title, t.company].filter(Boolean).join(", ");
 
   return (
-    <section id="results" className="scroll-mt-28 bg-bg-light py-24 lg:py-32">
+    <section id="results" className="scroll-mt-28 bg-bg-light py-24 lg:py-36">
       <div className="mx-auto max-w-6xl px-6">
         <RevealOnScroll>
           <Eyebrow>In their words</Eyebrow>
@@ -399,7 +372,7 @@ const ROW_LABELS = ["Best for", "You get", "Turnaround", "Price"];
 
 export function CompareChapter() {
   return (
-    <section id="compare" className="scroll-mt-28 bg-bg-surface py-24 lg:py-32">
+    <section id="compare" className="scroll-mt-28 bg-bg-surface py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <RevealOnScroll>
           <Eyebrow>Production</Eyebrow>
