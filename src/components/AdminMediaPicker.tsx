@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { adminFetch, getAdminKey } from "@/lib/adminClient";
 import Image from "next/image";
 
 interface MediaFile {
@@ -53,7 +54,7 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
   const [dragOver, setDragOver] = useState(false);
 
   function loadFiles() {
-    fetch("/api/media/metadata?dealId=all")
+    adminFetch("/api/media/metadata?dealId=all")
       .then((r) => r.json())
       .then((data) => {
         setFiles(data.files || []);
@@ -83,9 +84,10 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
       const blob = await upload(pathname, compressed, {
         access: "public",
         handleUploadUrl: "/api/media/upload",
+        clientPayload: getAdminKey(),
       });
       // Assign blob URL directly to the slot — no server-side processing needed
-      const res = await fetch("/api/site-assets", {
+      const res = await adminFetch("/api/site-assets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slotId, imageUrl: blob.url, thumbUrl: blob.url, altText: file.name }),
@@ -121,7 +123,7 @@ export function AdminMediaPicker({ slotId, onClose, onSave }: PickerProps) {
     if (mode === "before-after" && (!selectedImage || !selectedBefore)) return;
 
     setSaving(true);
-    await fetch("/api/site-assets", {
+    await adminFetch("/api/site-assets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

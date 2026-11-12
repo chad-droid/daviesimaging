@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { AdminNav } from "./AdminNav";
+import { ADMIN_LOGOUT_EVENT, isAdminSession, setAdminSession } from "@/lib/adminClient";
 
-// sessionStorage key — used by useEditableSlot to gate edit UI.
-// The actual password never touches the client. Validation happens server-side
-// via /api/admin-auth so the password is never shipped in the JS bundle.
-export const ADMIN_STORAGE_KEY = "dig-admin-auth";
+// The password is validated server-side via /api/admin-auth and is never
+// shipped in the JS bundle. After a successful login it is kept in
+// sessionStorage for this tab only, because every admin API route checks it
+// again server-side on each request (see src/lib/adminClient.ts).
 
 export function AdminAuth({ children }: { children: React.ReactNode }) {
   const [authed, setAuthed] = useState(false);
@@ -16,9 +17,11 @@ export function AdminAuth({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const saved = sessionStorage.getItem(ADMIN_STORAGE_KEY);
-    if (saved === "true") setAuthed(true);
+    if (isAdminSession()) setAuthed(true);
     setChecking(false);
+    const onLogout = () => setAuthed(false);
+    window.addEventListener(ADMIN_LOGOUT_EVENT, onLogout);
+    return () => window.removeEventListener(ADMIN_LOGOUT_EVENT, onLogout);
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -32,7 +35,7 @@ export function AdminAuth({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ password: input }),
       });
       if (res.ok) {
-        sessionStorage.setItem(ADMIN_STORAGE_KEY, "true");
+        setAdminSession(input);
         setAuthed(true);
       } else {
         setError(true);

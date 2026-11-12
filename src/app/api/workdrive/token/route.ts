@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/adminAuth";
 
 const ZOHO_ACCOUNTS_URL = "https://accounts.zoho.com/oauth/v2/token";
 
 // Returns a fresh Zoho access token for use by the admin batch import flow.
 // Called once before a batch — the client passes the token with each import request
 // so the server never needs to fetch its own token during a batch.
-export async function GET() {
+export async function GET(req: Request) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const res = await fetch(ZOHO_ACCOUNTS_URL, {
       method: "POST",

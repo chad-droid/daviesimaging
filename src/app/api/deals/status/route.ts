@@ -9,9 +9,12 @@ import {
   getLastSync,
   getUniqueValues,
 } from "@/lib/db";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // GET: return deals with optional filters, stats, and last sync
 export async function GET(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const p = req.nextUrl.searchParams;
     const action = p.get("action");
@@ -44,6 +47,8 @@ export async function GET(req: NextRequest) {
 
 // POST: update deal statuses
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const body = await req.json();
     const { action, ids, id, status, imported, importFailed, importError } = body as {

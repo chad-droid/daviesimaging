@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { adminFetch } from "@/lib/adminClient";
 import Image from "next/image";
 
 interface MediaFile {
@@ -26,7 +27,7 @@ export function AdminGalleryCurator({ dealId, dealName, pageSlug, onClose }: Cur
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/gallery/curate?dealId=${dealId}&page=${encodeURIComponent(pageSlug)}`)
+    adminFetch(`/api/gallery/curate?dealId=${dealId}&page=${encodeURIComponent(pageSlug)}`)
       .then((r) => r.json())
       .then((data) => {
         setFiles(data.files || []);
@@ -38,7 +39,7 @@ export function AdminGalleryCurator({ dealId, dealName, pageSlug, onClose }: Cur
 
   async function save() {
     setSaving(true);
-    await fetch("/api/gallery/curate", {
+    await adminFetch("/api/gallery/curate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

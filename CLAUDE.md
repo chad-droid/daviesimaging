@@ -368,6 +368,12 @@ Two separate systems for admin editing:
 - Images stored in Neon Postgres `site_assets` table, files in Vercel Blob.
 - Slot naming convention: `{page-prefix}-{description}` e.g. `services-premium-hero-img`
 
+**Server-side auth (November 2026):** The `/admin` login gate is client-only, so every API route that writes data or returns admin-only data must authenticate the request itself.
+- Server: call `requireAdmin(req)` from `src/lib/adminAuth.ts` at the top of the handler (`const denied = requireAdmin(req); if (denied) return denied;`). It checks the `x-admin-key` header against `ADMIN_PASSWORD` and fails closed (503) when the env var is unset.
+- Client: call admin routes with `adminFetch` from `src/lib/adminClient.ts`, which adds the header from the tab's sessionStorage. For `@vercel/blob` client uploads, pass `clientPayload: getAdminKey()`.
+- Public on purpose: the GET handlers the live site reads (`site-content`, `site-assets`, `gallery`, `gallery/batch`, `gallery/curate`, `media/metadata`, `event-gallery`) and `POST /api/contact`.
+- Any new route under `src/app/api` that is not one of those public reads must use `requireAdmin`.
+
 **Slot ID naming convention:**
 - Hero text: `{section}-{page}-hero` (e.g. `services-premium-hero`)
 - Hero image: `{section}-{page}-hero-img`

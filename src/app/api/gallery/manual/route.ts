@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import { randomUUID } from "crypto";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // POST: create a manual gallery project (no Zoho deal required)
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { name, builder, city, state, pipeline, youtube } = (await req.json()) as {
       name: string;
@@ -42,6 +45,8 @@ export async function POST(req: NextRequest) {
 
 // PATCH: update project metadata (name, builder, city, state, pipeline, youtube)
 export async function PATCH(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { dealId, name, builder, city, state, pipeline, youtube } = (await req.json()) as {
       dealId: string;

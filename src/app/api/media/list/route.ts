@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { list } from "@vercel/blob";
+import { requireAdmin } from "@/lib/adminAuth";
 
 export async function GET(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   const prefix = req.nextUrl.searchParams.get("prefix") || "gallery/";
   const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
 

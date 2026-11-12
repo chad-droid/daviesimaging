@@ -2,8 +2,11 @@ import { NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import { setupDatabase } from "@/lib/db";
 import dealsData from "@/data/deals.json";
+import { requireAdmin } from "@/lib/adminAuth";
 
-export async function POST() {
+export async function POST(req: Request) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     // Create tables
     await setupDatabase();

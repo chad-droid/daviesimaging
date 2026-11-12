@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
 import Anthropic from "@anthropic-ai/sdk";
+import { requireAdmin } from "@/lib/adminAuth";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -55,6 +56,8 @@ Guidelines:
 
 // POST: describe one or all images for a deal
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { dealId, fileId, all } = (await req.json()) as {
       dealId: string;

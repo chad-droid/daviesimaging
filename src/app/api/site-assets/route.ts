@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // GET: fetch all site asset assignments (or one by slot_id)
 export async function GET(req: NextRequest) {
@@ -18,6 +19,8 @@ export async function GET(req: NextRequest) {
 
 // POST: assign or update an image for a slot
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { slotId, imageUrl, thumbUrl, beforeUrl, beforeThumbUrl, altText, dealId } = (await req.json()) as {
       slotId: string;
@@ -60,6 +63,8 @@ export async function POST(req: NextRequest) {
 
 // DELETE: remove an assignment
 export async function DELETE(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { slotId } = (await req.json()) as { slotId: string };
     await sql`DELETE FROM site_assets WHERE slot_id = ${slotId}`;

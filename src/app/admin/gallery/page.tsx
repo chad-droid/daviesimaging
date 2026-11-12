@@ -9,6 +9,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { adminFetch, getAdminKey } from "@/lib/adminClient";
 import Image from "next/image";
 import { upload } from "@vercel/blob/client";
 
@@ -86,7 +87,7 @@ function ImageCurationPanel({
 
   const loadImages = useCallback(() => {
     setLoading(true);
-    fetch(`/api/gallery/curate?dealId=${dealId}&page=${encodeURIComponent(pageSlug)}`)
+    adminFetch(`/api/gallery/curate?dealId=${dealId}&page=${encodeURIComponent(pageSlug)}`)
       .then((r) => r.json())
       .then((data) => {
         setImages(data.files || []);
@@ -116,10 +117,11 @@ function ImageCurationPanel({
         const blob = await upload(`temp/${dealId}/${file.name}`, file, {
           access: "public",
           handleUploadUrl: "/api/media/upload",
+          clientPayload: getAdminKey(),
         });
 
         // Step 2: Process with Sharp on the server (resize, WebP, thumbnail, DB record)
-        const res = await fetch("/api/media/process", {
+        const res = await adminFetch("/api/media/process", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ dealId, blobUrl: blob.url, filename: file.name }),
@@ -176,7 +178,7 @@ function ImageCurationPanel({
   // ── Save ─────────────────────────────────────────────────────────────────────
   async function save() {
     setSaving(true);
-    await fetch("/api/gallery/curate", {
+    await adminFetch("/api/gallery/curate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -409,7 +411,7 @@ function CreateManualProjectModal({
     setError(null);
     try {
       // 1. Create the deal
-      const res = await fetch("/api/gallery/manual", {
+      const res = await adminFetch("/api/gallery/manual", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -418,7 +420,7 @@ function CreateManualProjectModal({
       if (data.error) { setError(data.error); setCreating(false); return; }
 
       // 2. Assign to the current gallery page
-      await fetch("/api/gallery", {
+      await adminFetch("/api/gallery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ pageSlug, dealId: data.dealId }),
@@ -527,7 +529,7 @@ function EditProjectModal({
     setSaving(true);
     setError(null);
     try {
-      const res = await fetch("/api/gallery/manual", {
+      const res = await adminFetch("/api/gallery/manual", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dealId: project.deal_id, ...form }),
@@ -641,7 +643,7 @@ function AddProjectModal({
 
   async function addProject(p: AvailableProject) {
     setAdding(p.id);
-    await fetch("/api/gallery", {
+    await adminFetch("/api/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pageSlug, dealId: p.id }),
@@ -733,7 +735,7 @@ export default function AdminGalleryPage() {
     setLoading(true);
     setExpandedId(null);
     try {
-      const res = await fetch(`/api/gallery?action=assignments&page=${encodeURIComponent(activeSlug)}`);
+      const res = await adminFetch(`/api/gallery?action=assignments&page=${encodeURIComponent(activeSlug)}`);
       const data = await res.json();
       setProjects(
         (data.assignments || []).map((a: AssignedProject) => ({
@@ -750,7 +752,7 @@ export default function AdminGalleryPage() {
   useEffect(() => { fetchAssignments(); }, [fetchAssignments]);
 
   async function removeProject(dealId: string) {
-    await fetch("/api/gallery", {
+    await adminFetch("/api/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pageSlug: activeSlug, dealId, action: "remove" }),
@@ -761,7 +763,7 @@ export default function AdminGalleryPage() {
 
   async function saveOrder(ordered: AssignedProject[]) {
     setSaving(true);
-    await fetch("/api/gallery", {
+    await adminFetch("/api/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

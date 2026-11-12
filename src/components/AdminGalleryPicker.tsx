@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { adminFetch } from "@/lib/adminClient";
 import Image from "next/image";
 import { AdminGalleryCurator } from "./AdminGalleryCurator";
 
@@ -49,7 +50,7 @@ export function AdminGalleryPicker({
   const [curateDeal, setCurateDeal] = useState<{ id: string; name: string } | null>(null);
 
   function fetchAssignments() {
-    fetch(`/api/gallery?action=assignments&page=${encodeURIComponent(pageSlug)}`)
+    adminFetch(`/api/gallery?action=assignments&page=${encodeURIComponent(pageSlug)}`)
       .then((r) => r.json())
       .then((data) => setAssignments(data.assignments || []));
   }
@@ -57,7 +58,7 @@ export function AdminGalleryPicker({
   function fetchProjects() {
     const params = new URLSearchParams();
     if (search) params.set("search", search);
-    fetch(`/api/gallery?${params}`)
+    adminFetch(`/api/gallery?${params}`)
       .then((r) => r.json())
       .then((data) => {
         setProjects(data.projects || []);
@@ -76,7 +77,7 @@ export function AdminGalleryPicker({
   }, [search]);
 
   async function addProject(dealId: string) {
-    await fetch("/api/gallery", {
+    await adminFetch("/api/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pageSlug, dealId }),
@@ -85,7 +86,7 @@ export function AdminGalleryPicker({
   }
 
   async function removeProject(dealId: string) {
-    await fetch("/api/gallery", {
+    await adminFetch("/api/gallery", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pageSlug, dealId, action: "remove" }),
@@ -95,7 +96,7 @@ export function AdminGalleryPicker({
 
   async function previewProject(dealId: string) {
     setPreviewDealId(dealId);
-    const res = await fetch(`/api/media/metadata?dealId=${dealId}`);
+    const res = await adminFetch(`/api/media/metadata?dealId=${dealId}`);
     const data = await res.json();
     setPreviewFiles(data.files || []);
   }

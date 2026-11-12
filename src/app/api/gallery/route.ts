@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // GET: get gallery assignments for a page, or list available projects with media
 export async function GET(req: NextRequest) {
@@ -66,6 +67,8 @@ export async function GET(req: NextRequest) {
 
 // POST: add/update/remove/reorder gallery assignments
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const body = (await req.json()) as {
       pageSlug: string;

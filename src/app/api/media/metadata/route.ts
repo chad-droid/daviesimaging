@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import { requireAdmin } from "@/lib/adminAuth";
 
 // GET: get deal metadata + all media files for a deal
 export async function GET(req: NextRequest) {
@@ -29,6 +30,8 @@ export async function GET(req: NextRequest) {
 
 // POST: update deal metadata fields
 export async function POST(req: NextRequest) {
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   try {
     const { dealId, fields } = (await req.json()) as {
       dealId: string;

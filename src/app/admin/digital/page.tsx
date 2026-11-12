@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { adminFetch } from "@/lib/adminClient";
 
 interface Transaction {
   id: string;
@@ -63,21 +64,21 @@ export default function AdminDigitalPage() {
     if (filterAccount) params.set("account", filterAccount);
     if (filterService) params.set("service", filterService);
 
-    const res = await fetch(`/api/digital/status?${params}`);
+    const res = await adminFetch(`/api/digital/status?${params}`);
     const data = await res.json();
     setTransactions(data.transactions || []);
     setLoading(false);
   }, [tab, search, filterAccount, filterService]);
 
   const fetchStats = useCallback(async () => {
-    const res = await fetch("/api/digital/status?action=stats");
+    const res = await adminFetch("/api/digital/status?action=stats");
     const data = await res.json();
     setStats(data.stats || {});
     setLastSync(data.lastSync || null);
   }, []);
 
   const fetchFilters = useCallback(async () => {
-    const res = await fetch("/api/digital/status?action=filters");
+    const res = await adminFetch("/api/digital/status?action=filters");
     setFilters(await res.json());
   }, []);
 
@@ -86,7 +87,7 @@ export default function AdminDigitalPage() {
 
   async function setTxStatus(id: string, status: string) {
     setSaving(true);
-    await fetch("/api/digital/status", {
+    await adminFetch("/api/digital/status", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id, status }),
@@ -100,7 +101,7 @@ export default function AdminDigitalPage() {
     setSyncing(true);
     setSyncResult(null);
     try {
-      const res = await fetch("/api/digital/sync", { method: "POST" });
+      const res = await adminFetch("/api/digital/sync", { method: "POST" });
       const data = await res.json();
       setSyncResult(data.error ? `Error: ${data.error}` : `Synced! ${data.new} new, ${data.updated} updated.`);
       fetchData();
@@ -134,7 +135,7 @@ export default function AdminDigitalPage() {
       const tx = transactions.find((t) => t.id === ids[i]);
       setBatchProgress({ current: i + 1, total: ids.length, currentName: tx?.project_name || "" });
       try {
-        await fetch("/api/media/import", {
+        await adminFetch("/api/media/import", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ dealId: ids[i] }),

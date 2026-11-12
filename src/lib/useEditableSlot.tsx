@@ -23,8 +23,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-
-const ADMIN_KEY = "dig-admin-auth";
+import { ADMIN_LOGOUT_EVENT, adminFetch, isAdminSession } from "@/lib/adminClient";
 
 export type SlotField = {
   key: string;
@@ -47,7 +46,10 @@ export function useEditableSlot(slotId: string, fields: SlotField[]) {
 
   // Admin detection
   useEffect(() => {
-    setIsAdmin(sessionStorage.getItem(ADMIN_KEY) === "true");
+    setIsAdmin(isAdminSession());
+    const onLogout = () => setIsAdmin(false);
+    window.addEventListener(ADMIN_LOGOUT_EVENT, onLogout);
+    return () => window.removeEventListener(ADMIN_LOGOUT_EVENT, onLogout);
   }, [pathname]);
 
   // Background-load saved content — never blocks render
@@ -86,12 +88,20 @@ export function useEditableSlot(slotId: string, fields: SlotField[]) {
   async function save() {
     setSaving(true);
     try {
-      await fetch("/api/site-content", {
+      const res = await adminFetch("/api/site-content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slotId, content: editValues }),
       });
-      setDbValues(editValues);
+      if (res.ok) {
+        setDbValues(editValues);
+      } else {
+        alert(
+          res.status === 401
+            ? "Your admin session has expired. Log in again at /admin, then save."
+            : "Save failed. Your changes were not saved.",
+        );
+      }
     } finally {
       setSaving(false);
       setEditing(false);

@@ -3,6 +3,7 @@ import { put } from "@vercel/blob";
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { sql } from "@vercel/postgres";
 import sharp from "sharp";
+import { checkAdminKey, requireAdmin } from "@/lib/adminAuth";
 
 export const maxDuration = 60;
 
@@ -15,34 +16,45 @@ const THUMB_QUALITY = 100;
 // Called by @vercel/blob's upload() on the client to:
 //   1) generate a signed token for direct-to-blob upload
 //   2) receive an upload-completed notification (we use /api/media/process for processing)
+// The token request carries the admin key as clientPayload and is refused
+// without it. The completion notification comes from Vercel, not the browser,
+// and is verified by handleUpload's own signature check.
 async function handleClientUpload(req: NextRequest): Promise<NextResponse> {
   const body = (await req.json()) as HandleUploadBody;
-  const result = await handleUpload({
-    body,
-    request: req,
-    onBeforeGenerateToken: async (_pathname: string) => ({
-      allowedContentTypes: [
-        "image/jpeg",
-        "image/jpg",
-        "image/png",
-        "image/webp",
-        "image/tiff",
-        "image/heic",
-        "image/heif",
-      ],
-      maximumSizeInBytes: 100 * 1024 * 1024, // 100 MB
-      addRandomSuffix: true,
-      // Safety net: if a pathname somehow collides (e.g. addRandomSuffix not
-      // propagating through the client token in @vercel/blob 2.x), allow the
-      // upload to overwrite rather than throwing the "blob already exists" error.
-      allowOverwrite: true,
-    }),
-    onUploadCompleted: async () => {
-      // Processing (Sharp optimization + DB) is handled separately by /api/media/process
-      // after the client receives the blob URL from upload()
-    },
-  });
-  return NextResponse.json(result);
+  try {
+    const result = await handleUpload({
+      body,
+      request: req,
+      onBeforeGenerateToken: async (_pathname: string, clientPayload: string | null) => {
+        if (!checkAdminKey(clientPayload)) throw new Error("Unauthorized");
+        return {
+          allowedContentTypes: [
+            "image/jpeg",
+            "image/jpg",
+            "image/png",
+            "image/webp",
+            "image/tiff",
+            "image/heic",
+            "image/heif",
+          ],
+          maximumSizeInBytes: 100 * 1024 * 1024, // 100 MB
+          addRandomSuffix: true,
+          // Safety net: if a pathname somehow collides (e.g. addRandomSuffix not
+          // propagating through the client token in @vercel/blob 2.x), allow the
+          // upload to overwrite rather than throwing the "blob already exists" error.
+          allowOverwrite: true,
+        };
+      },
+      onUploadCompleted: async () => {
+        // Processing (Sharp optimization + DB) is handled separately by /api/media/process
+        // after the client receives the blob URL from upload()
+      },
+    });
+    return NextResponse.json(result);
+  } catch (e) {
+    const unauthorized = e instanceof Error && e.message === "Unauthorized";
+    return NextResponse.json({ error: String(e) }, { status: unauthorized ? 401 : 400 });
+  }
 }
 
 // ── Legacy FormData upload path (kept for Media Library, Assets, AdminMediaPicker) ──
@@ -169,5 +181,7 @@ export async function POST(req: NextRequest): Promise<Response> {
   }
 
   // Legacy FormData path
+  const denied = requireAdmin(req);
+  if (denied) return denied;
   return handleFormDataUpload(req);
 }
