@@ -3,6 +3,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { ShowcaseFilm } from "@/components/ShowcaseFilm";
 import MMSlider from "@/components/lp/MMSlider";
+import { getTestimonials, type Testimonial } from "@/data/testimonials";
 
 const BLOB = "https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com";
 
@@ -216,33 +217,37 @@ export function DigDeskChapter() {
   );
 }
 
-/* ── Proof: builders, in their own words. ────────────────────────────────── */
-const QUOTES = [
-  { quote: "We sold one of the 5 inventory homes over the weekend!", who: "Classic Homes" },
-  { quote: "I LOVE these so much.", who: "Beazer Homes" },
-  { quote: "They. Are. So. Cool!!!!! We are going to do some more today.", who: "Grand Homes" },
-];
-
+/* ── Proof: builders, in their own words. Quotes come from the library. ──── */
 export function ProofChapter() {
+  const [lead] = getTestimonials(["kim-skeptic"]);
+  const rest = getTestimonials(["jordan-easy", "bradley-resale", "angela-hooked"]);
+  if (!lead) return null;
+  const who = (t: Testimonial) => [t.title, t.company].filter(Boolean).join(", ");
+
   return (
     <section id="results" className="scroll-mt-28 bg-bg-light py-24 lg:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <RevealOnScroll>
-          <Eyebrow>Results</Eyebrow>
+          <Eyebrow>In their words</Eyebrow>
           <blockquote>
-            <p className="max-w-5xl text-[2rem] leading-[1.15] text-text-dark lg:text-[3.5rem]" style={{ fontFamily: "var(--font-heading)" }}>
-              &ldquo;The last two weeks of sales have been the{" "}
-              <strong>best we have had in over a year</strong>.&rdquo;
+            <p className="max-w-5xl text-[1.75rem] leading-[1.2] text-text-dark lg:text-[2.75rem]" style={{ fontFamily: "var(--font-heading)" }}>
+              &ldquo;{lead.quote}&rdquo;
             </p>
-            <footer className="mt-6 text-sm font-semibold uppercase tracking-[0.12em] text-accent">Graham Hart Homebuilder</footer>
+            <footer className="mt-6">
+              <p className="text-sm font-semibold text-text-dark">{lead.name}</p>
+              <p className="mt-0.5 text-sm text-text-muted">{who(lead)}</p>
+            </footer>
           </blockquote>
         </RevealOnScroll>
         <RevealOnScroll stagger={120}>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border-light bg-border-light sm:grid-cols-3">
-            {QUOTES.map((q) => (
-              <blockquote key={q.who} className="bg-bg-surface p-8">
-                <p className="text-lg leading-snug text-text-dark">&ldquo;{q.quote}&rdquo;</p>
-                <footer className="mt-4 text-xs font-bold uppercase tracking-[0.12em] text-text-muted">{q.who}</footer>
+          <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border-light bg-border-light lg:grid-cols-3">
+            {rest.map((t) => (
+              <blockquote key={t.id} className="flex flex-col bg-bg-surface p-8">
+                <p className="flex-1 leading-relaxed text-text-dark">&ldquo;{t.quote}&rdquo;</p>
+                <footer className="mt-6">
+                  <p className="text-sm font-semibold text-text-dark">{t.name}</p>
+                  <p className="mt-0.5 text-xs text-text-muted">{who(t)}</p>
+                </footer>
               </blockquote>
             ))}
           </div>
