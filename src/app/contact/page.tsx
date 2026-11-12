@@ -6,7 +6,6 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { track } from "@vercel/analytics";
-import posthog from "posthog-js";
 import { useSpamGuard } from "@/components/SpamGuard";
 
 /** Same calendar the podcast page books on. */
@@ -161,9 +160,6 @@ function ContactContent() {
                 onClick={() => {
                   try {
                     track("contact_calendar_click", { intent: selected ?? "" });
-                    posthog.capture("calendar_booking_started", {
-                      contact_intent: selected ?? "unknown",
-                    });
                   } catch {}
                 }}
                 className="cta-button mt-8 inline-flex rounded-full bg-accent px-8 py-3.5 text-text-light transition-colors hover:bg-accent-hover"
@@ -238,9 +234,6 @@ function ContactContent() {
                   key={opt.id}
                   type="button"
                   onClick={() => {
-                    posthog.capture("contact_intent_selected", {
-                      contact_intent: opt.id,
-                    });
                     if (opt.external && opt.href) {
                       window.open(opt.href, "_blank", "noopener,noreferrer");
                     } else if (opt.href) {
@@ -344,9 +337,6 @@ function ContactContent() {
                   });
                   if (!res.ok) throw new Error("Submission failed");
                   trackLead(selectedOpt.id);
-                  posthog.capture("contact_form_submitted", {
-                    contact_intent: selectedOpt.id,
-                  });
                   setSubmitted(true);
                 } catch {
                   setError("Something went wrong. Please try again or email us directly at info@daviesimaging.com.");
