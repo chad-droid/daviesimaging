@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
-import { ShowcaseFilm } from "@/components/ShowcaseFilm";
-import MMSlider from "@/components/lp/MMSlider";
+import { GrowingFilm, ScrollWipe, GlideStrip, ScrubFilm } from "./scroll";
 import { getTestimonials, type Testimonial } from "@/data/testimonials";
+import { QuoteText } from "@/components/QuoteText";
 
 const BLOB = "https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com";
 
@@ -31,9 +31,9 @@ export function ModelMatchChapter() {
         </RevealOnScroll>
 
         <div className="mt-12 lg:mt-16">
-          <MMSlider before="/mm/vacant-great-room.jpg" after="/mm/result-1-great-room.jpg" />
+          <ScrollWipe before="/mm/vacant-great-room.jpg" after="/mm/result-1-great-room.jpg" />
           <p className="mt-4 text-center text-xs font-bold uppercase tracking-[0.15em] text-text-muted">
-            Drag to compare
+            Scroll or drag to compare
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export function ModelMatchChapter() {
 /* ── Film: the Cinematic film, full bleed, sound one tap away. ───────────── */
 export function FilmChapter() {
   return (
-    <section id="film" className="scroll-mt-28 bg-bg-dark py-24 text-text-light lg:py-32">
+    <section id="film" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-24 text-text-light lg:pt-32">
       <div className="mx-auto max-w-7xl px-6">
         <RevealOnScroll>
           <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:items-end lg:gap-16">
@@ -91,16 +91,38 @@ export function FilmChapter() {
           </div>
         </RevealOnScroll>
       </div>
-      <div className="mx-auto mt-12 max-w-[100rem] lg:mt-16 lg:px-6">
-        <div className="overflow-hidden bg-black lg:rounded-2xl lg:ring-1 lg:ring-white/10">
-          <ShowcaseFilm
-            src="/showcase/cinematic.mp4"
-            poster="/showcase/cinematic.jpg"
-            label="Cinematic film of a model home"
-            sound
-          />
-        </div>
-      </div>
+      <GrowingFilm
+        src="/showcase/cinematic.mp4"
+        poster="/showcase/cinematic.jpg"
+        label="Cinematic film of a model home"
+      />
+    </section>
+  );
+}
+
+/* ── PlanMatch: the scroll is the playhead, from floor plan to photograph. ─ */
+export function PlanMatchChapter() {
+  return (
+    <section id="planmatch" className="scroll-mt-28 bg-bg-dark text-text-light">
+      <ScrubFilm
+        scrubSrc="/showcase/planmatch-scrub.mp4"
+        loopSrc="/showcase/planmatch-01.mp4"
+        poster="/showcase/planmatch-01.jpg"
+      >
+        <Eyebrow dark>PlanMatch</Eyebrow>
+        <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
+          The home sells before it <strong>is built</strong>.
+        </h2>
+        <p className="mt-5 text-lg leading-relaxed text-white/80">
+          Photography made from the plans, brand approved and ready the day pre-sales open.
+        </p>
+        <Link
+          href="/services/showcase#planmatch"
+          className="mt-5 inline-block text-sm font-medium text-white/70 transition-colors hover:text-white"
+        >
+          See PlanMatch &rarr;
+        </Link>
+      </ScrubFilm>
     </section>
   );
 }
@@ -134,22 +156,7 @@ export function PremiumChapter() {
         </RevealOnScroll>
       </div>
 
-      <div className="mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mt-16 lg:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]">
-        {PREMIUM.map((p) => (
-          <figure
-            key={p.src}
-            className={`relative h-[22rem] shrink-0 snap-start overflow-hidden rounded-2xl bg-bg-dark lg:h-[32rem] ${
-              p.wide ? "w-[88%] sm:w-[62%] lg:w-[52rem]" : "w-[70%] sm:w-[40%] lg:w-[30rem]"
-            }`}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={p.src} alt={`${p.label} photography by DIG`} loading="lazy" className="h-full w-full object-cover" />
-            <figcaption className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white backdrop-blur">
-              {p.label}
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+      <GlideStrip items={PREMIUM} />
 
       <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-5 px-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap items-center gap-2">
@@ -231,7 +238,7 @@ export function ProofChapter() {
           <Eyebrow>In their words</Eyebrow>
           <blockquote>
             <p className="max-w-5xl text-[1.75rem] leading-[1.2] text-text-dark lg:text-[2.75rem]" style={{ fontFamily: "var(--font-heading)" }}>
-              &ldquo;{lead.quote}&rdquo;
+              <QuoteText t={lead} />
             </p>
             <footer className="mt-6">
               <p className="text-sm font-semibold text-text-dark">{lead.name}</p>
@@ -243,7 +250,7 @@ export function ProofChapter() {
           <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border-light bg-border-light lg:grid-cols-3">
             {rest.map((t) => (
               <blockquote key={t.id} className="flex flex-col bg-bg-surface p-8">
-                <p className="flex-1 leading-relaxed text-text-dark">&ldquo;{t.quote}&rdquo;</p>
+                <p className="flex-1 leading-relaxed text-text-dark"><QuoteText t={t} /></p>
                 <footer className="mt-6">
                   <p className="text-sm font-semibold text-text-dark">{t.name}</p>
                   <p className="mt-0.5 text-xs text-text-muted">{who(t)}</p>

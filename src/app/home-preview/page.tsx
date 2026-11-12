@@ -8,6 +8,7 @@ import { SpecPlusPinned } from "@/components/home/SpecPlusPinned";
 import {
   ModelMatchChapter,
   FilmChapter,
+  PlanMatchChapter,
   PremiumChapter,
   DigDeskChapter,
   ProofChapter,
@@ -40,6 +41,7 @@ export default function HomePreview() {
       <SpecPlusPinned />
       <ModelMatchChapter />
       <FilmChapter />
+      <PlanMatchChapter />
       <PremiumChapter />
       <DigDeskChapter />
       <ProofChapter />

@@ -10,21 +10,27 @@ const STEPS = [
   {
     n: "01",
     title: "Listing photography",
-    body: "25 MLS-ready photos of the finished home.",
+    count: "25",
+    unit: "photos",
+    body: "MLS-ready photographs of the finished home.",
     image: "/mm/shane-before.jpg",
     alt: "Listing photograph of a vacant great room",
   },
   {
     n: "02",
     title: "Virtual staging",
-    body: "8 rooms staged with ModelMatch, using your own model home furniture.",
+    count: "8",
+    unit: "staged images",
+    body: "Staged with ModelMatch, using your own model home furniture.",
     image: "/mm/shane-after.jpg",
     alt: "The same great room, virtually staged",
   },
   {
     n: "03",
     title: "Virtual video",
-    body: "1 wide listing video, built from the same photos.",
+    count: "1",
+    unit: "listing video",
+    body: "A wide listing video, built from the same photos.",
     image: "/client-showcase/specplus-palatka-poster.webp",
     video: "/client-showcase/specplus-palatka.mp4",
     alt: "Spec+ listing video",
@@ -40,17 +46,47 @@ function Media({ step, active }: { step: (typeof STEPS)[number]; active: boolean
   );
 }
 
+/**
+ * One deliverable per row: how many on the left in large numerals, what it is
+ * on the right. The active row is full strength with an accent rule; the
+ * others sit back until the scroll reaches them.
+ */
+function StepRow({ step, active }: { step: (typeof STEPS)[number]; active: boolean }) {
+  return (
+    <div
+      className={`relative grid grid-cols-[5.5rem_1fr] items-center gap-5 border-b border-border-light py-4 transition-opacity duration-500 ${
+        active ? "opacity-100" : "opacity-40"
+      }`}
+    >
+      <span
+        className={`absolute -top-px left-0 h-0.5 bg-accent transition-all duration-500 ${active ? "w-full" : "w-0"}`}
+        aria-hidden
+      />
+      <div>
+        <p className="text-[3rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+          {step.count}
+        </p>
+        <p className="mt-1 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-accent">{step.unit}</p>
+      </div>
+      <div>
+        <h3 className="text-[1.5rem] leading-tight">{step.title}</h3>
+        <p className="mt-1.5 text-text-body">{step.body}</p>
+      </div>
+    </div>
+  );
+}
+
 function Numbers() {
   return (
-    <dl className="mt-8 flex gap-10 border-t border-border-light pt-6 [@media(max-height:780px)]:lg:hidden">
+    <dl className="mt-8 flex gap-12 lg:mt-6 lg:justify-end [@media(max-height:760px)]:lg:hidden">
       <div>
-        <dd className="text-[3.25rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+        <dd className="text-[2.5rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
           $600
         </dd>
         <dt className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-text-muted">Flat, all home sizes</dt>
       </div>
       <div>
-        <dd className="text-[3.25rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+        <dd className="text-[2.5rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
           72 hrs
         </dd>
         <dt className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-text-muted">After photography</dt>
@@ -105,24 +141,15 @@ export function SpecPlusPinned() {
           <div className="mx-auto grid w-full max-w-7xl grid-cols-[5fr_7fr] items-center gap-16 px-6">
             <div>
               {heading}
-              <ol className="mt-8 space-y-4">
+              <div className="mt-6 border-t border-border-light">
                 {STEPS.map((s, i) => (
-                  <li
-                    key={s.n}
-                    className={`border-l-2 pl-5 transition-all duration-500 ${
-                      i === active ? "border-accent opacity-100" : "border-border-light opacity-40"
-                    }`}
-                  >
-                    <p className="text-xs font-bold tracking-[0.15em] text-accent">{s.n}</p>
-                    <h3 className="mt-1 text-[1.5rem]">{s.title}</h3>
-                    <p className="mt-1 text-text-body">{s.body}</p>
-                  </li>
+                  <StepRow key={s.n} step={s} active={i === active} />
                 ))}
-              </ol>
-              <Numbers />
+              </div>
               <Cta />
             </div>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-bg-dark shadow-2xl">
+            <div>
+            <div className="relative aspect-[4/3] max-h-[58vh] w-full overflow-hidden rounded-3xl bg-bg-dark shadow-2xl">
               {STEPS.map((s, i) => (
                 <div
                   key={s.n}
@@ -136,6 +163,8 @@ export function SpecPlusPinned() {
                 {STEPS[active].n} · {STEPS[active].title}
               </span>
             </div>
+            <Numbers />
+            </div>
           </div>
         </div>
       </div>
@@ -143,15 +172,15 @@ export function SpecPlusPinned() {
       {/* Stacked, below lg */}
       <div className="px-6 py-24 lg:hidden">
         {heading}
-        <div className="mt-10 space-y-10">
+        <div className="mt-10 space-y-12">
           {STEPS.map((s) => (
             <div key={s.n}>
               <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-bg-dark">
                 <Media step={s} active />
               </div>
-              <p className="mt-4 text-xs font-bold tracking-[0.15em] text-accent">{s.n}</p>
-              <h3 className="mt-1">{s.title}</h3>
-              <p className="mt-1 text-text-body">{s.body}</p>
+              <div className="mt-2">
+                <StepRow step={s} active />
+              </div>
             </div>
           ))}
         </div>
