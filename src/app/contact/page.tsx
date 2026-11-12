@@ -210,7 +210,7 @@ function ContactContent() {
     <div className="theme-dark">
     {/* Hero: only on the picker. The form view opens straight on the form. */}
     {!selected && (
-      <DarkSection className="py-28 text-text-light">
+      <DarkSection fadeBottom className="pb-20 pt-28 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Get in Touch</Eyebrow>
@@ -224,7 +224,7 @@ function ContactContent() {
         </div>
       </DarkSection>
     )}
-    <section className={`min-h-screen bg-bg-surface ${selected ? "py-24" : "py-16 lg:py-20"}`}>
+    <section className={`bg-bg-surface ${selected ? "min-h-screen py-24" : "pb-24 pt-4"}`}>
       <Suspense fallback={null}>
         <IntentParam onIntent={setSelected} />
       </Suspense>
@@ -245,7 +245,7 @@ function ContactContent() {
                     if ("href" in opt && opt.href) router.push(opt.href);
                     else setSelected(opt.id);
                   }}
-                  className={`group flex aspect-square w-full flex-col justify-between rounded-2xl border p-7 text-left transition-all hover:-translate-y-0.5 hover:shadow-lg lg:aspect-auto lg:min-h-[30rem] lg:p-9 ${
+                  className={`group flex aspect-square w-full flex-col justify-between rounded-2xl border p-7 text-left transition-all hover:-translate-y-0.5 hover:shadow-lg lg:p-8 ${
                     i === 0
                       ? "theme-light border-bg-surface bg-bg-surface"
                       : "border-border-light bg-bg-light hover:border-accent"
@@ -255,13 +255,13 @@ function ContactContent() {
                     {opt.icon}
                   </span>
                   <div>
-                    <h2 className="text-[2rem] leading-[1.1] lg:text-[2.5rem]">
+                    <h2 className="text-[2rem] leading-[1.1]">
                       {opt.title}
                     </h2>
-                    <p className="mt-3 text-sm leading-relaxed text-text-body lg:text-base">
+                    <p className="mt-3 text-sm leading-relaxed text-text-body">
                       {opt.description}
                     </p>
-                    <span className={`mt-6 inline-flex items-center gap-1.5 text-sm font-semibold transition-transform group-hover:translate-x-1 ${i === 0 ? "text-text-dark" : "text-accent"}`}>
+                    <span className={`mt-5 inline-flex items-center gap-1.5 text-sm font-semibold transition-transform group-hover:translate-x-1 ${i === 0 ? "text-text-dark" : "text-accent"}`}>
                       {opt.id === "trial" ? "Start now" : opt.id === "demo" ? "Pick a time" : "Send a message"}
                       <span aria-hidden="true">&rarr;</span>
                     </span>

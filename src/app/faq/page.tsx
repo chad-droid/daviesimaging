@@ -29,7 +29,7 @@ export default function FaqPage() {
       <JsonLd data={buildBreadcrumbSchema([{ name: "FAQ", path: "/faq" }])} />
 
       {/* Hero */}
-      <DarkSection className="py-28 text-text-light">
+      <DarkSection fadeBottom className="pb-20 pt-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Help Center</Eyebrow>

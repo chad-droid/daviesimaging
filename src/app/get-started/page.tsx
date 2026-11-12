@@ -47,7 +47,7 @@ const PATHS = [
 export default function GetStartedPage() {
   return (
     <div className="theme-dark">
-      <DarkSection className="py-28 text-text-light">
+      <DarkSection fadeBottom className="pb-20 pt-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Get Started</Eyebrow>
@@ -60,7 +60,7 @@ export default function GetStartedPage() {
           </RevealOnScroll>
         </div>
       </DarkSection>
-    <section className="bg-bg-surface py-20">
+    <section className="bg-bg-surface pb-20 pt-4">
       <div className="mx-auto max-w-4xl px-6">
 
         <RevealOnScroll>
@@ -103,45 +103,54 @@ export default function GetStartedPage() {
           </div>
         </RevealOnScroll>
 
-        {/* Already a client */}
+        {/* What you can count on */}
         <RevealOnScroll>
-          <div className="mt-10 flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-center">
-            <span className="text-sm text-text-muted">Ready to order?</span>
-            <a
-              href="https://desk.daviesimaging.com/register"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Create a digDesk account &rarr;
-            </a>
-            <span className="hidden text-border-light sm:inline">|</span>
-            <span className="text-sm text-text-muted">Already have an account?</span>
-            <a
-              href="https://desk.daviesimaging.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Log in to digDesk &rarr;
-            </a>
+          <div className="mt-16 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { value: "28", label: "U.S. markets", sub: "Photography and digital services nationwide." },
+              { value: "95%", label: "First delivery", sub: "Assets ready to publish without changes." },
+              { value: "$0", label: "To get started", sub: "Pay as you go. No subscription, no minimum." },
+              { value: "1 day", label: "Free trial", sub: "Your trial images back in one business day." },
+            ].map((item) => (
+              <div key={item.label} className="border-t border-border-light pt-5">
+                <p
+                  className="whitespace-nowrap text-[2rem] font-semibold leading-none text-text-dark"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  {item.value}
+                </p>
+                <p className="mt-3 whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-accent">{item.label}</p>
+                <p className="mt-2 text-pretty text-sm leading-relaxed text-text-body">{item.sub}</p>
+              </div>
+            ))}
           </div>
         </RevealOnScroll>
 
-        {/* Trust notes */}
+        {/* Already a client */}
         <RevealOnScroll>
-          <div className="mt-16 grid gap-4 rounded-2xl border border-border-light bg-bg-light p-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { label: "28 U.S. markets", sub: "Photography and digital services nationwide" },
-              { label: "95% first-delivery success rate", sub: "Assets ready to publish without changes" },
-            { label: "Pay as you go", sub: "No subscription, no minimum commitment" },
-              { label: "1 business day", sub: "Free trial images delivered" },
-            ].map((item) => (
-              <div key={item.label} className="text-center">
-                <p className="text-sm font-semibold text-text-dark">{item.label}</p>
-                <p className="mt-1 text-xs text-text-muted">{item.sub}</p>
-              </div>
-            ))}
+          <div className="mt-14 flex flex-col gap-4 border-t border-border-light pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-text-muted">
+              Ready to order?{" "}
+              <a
+                href="https://desk.daviesimaging.com/register"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-text-dark transition-colors hover:text-accent"
+              >
+                Create a digDesk account &rarr;
+              </a>
+            </p>
+            <p className="text-sm text-text-muted">
+              Already have an account?{" "}
+              <a
+                href="https://desk.daviesimaging.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-text-dark transition-colors hover:text-accent"
+              >
+                Log in to digDesk &rarr;
+              </a>
+            </p>
           </div>
         </RevealOnScroll>
       </div>

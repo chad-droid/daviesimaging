@@ -21,12 +21,15 @@ interface DarkSectionProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
   /** Rendered element — default "section". Use "div" when a section wrapper would be semantically wrong. */
   as?: "section" | "div";
+  /** Fade the glow out at the bottom edge, for a hero that sits on a dark page with no hard edge below it. */
+  fadeBottom?: boolean;
 }
 
 export function DarkSection({
   children,
   className = "",
   as: Tag = "section",
+  fadeBottom = false,
   ...props
 }: DarkSectionProps) {
   return (
@@ -35,6 +38,12 @@ export function DarkSection({
       {...props}
     >
       <DarkSectionBg />
+      {fadeBottom && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-bg-dark"
+        />
+      )}
       {/* relative z-[1] ensures content stacks above the absolute background layer */}
       <div className="relative z-[1]">{children}</div>
     </Tag>
