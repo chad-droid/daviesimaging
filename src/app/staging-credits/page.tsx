@@ -93,6 +93,7 @@ export default function StagingCreditsPage() {
       </section>
 
       {/* How It Works */}
+      <div id="how-it-works" className="scroll-mt-16" />
       <PainPoints
         eyebrow="How It Works"
         headline={
@@ -168,7 +169,7 @@ export default function StagingCreditsPage() {
       </section>
 
       {/* Pricing */}
-      <section className="bg-bg-light py-24" id="how-it-works">
+      <section className="bg-bg-light py-24" id="pricing">
         <div className="mx-auto max-w-xl px-6 text-center">
           <RevealOnScroll>
             <h2>Simple Pricing</h2>

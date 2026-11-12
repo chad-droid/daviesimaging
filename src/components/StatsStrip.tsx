@@ -145,7 +145,7 @@ function PackageBreakdown({ animate }: { animate: boolean }) {
         <svg viewBox="0 0 12 12" className="h-3 w-3 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
           <path d="M1.5 10.5l9-9M4.5 1.5h-3v3M10.5 7.5v3h-3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <span className="text-xs font-bold tracking-widest text-accent">SAVE $220</span>
+        <span className="text-xs font-bold tracking-widest text-accent">SAVE $170</span>
       </div>
     </div>
   );
@@ -205,7 +205,7 @@ function SupportStatCell({ slotIndex }: { slotIndex: number }) {
   const [active, setActive] = useState(false);
 
   const DEFAULTS = [
-    { value: "48",  prefix: "",  suffix: " hrs", label: "Spec+ Delivery",  sublabel: "Shoot to published assets",         graphic: "clock"    },
+    { value: "72",  prefix: "",  suffix: " hrs", label: "Spec+ Delivery",  sublabel: "Shoot to published assets",         graphic: "clock"    },
     { value: "14",  prefix: "",  suffix: " days",label: "Faster to Sold",   sublabel: "Avg. DOM reduction with DIG assets", graphic: "calendar" },
   ][slotIndex];
 

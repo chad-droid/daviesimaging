@@ -5,7 +5,31 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { track } from "@vercel/analytics";
 import { useSpamGuard } from "@/components/SpamGuard";
+
+/** Same calendar the podcast page books on. */
+const CALENDLY_URL = "https://calendly.com/chaddavies/dig-disco-with-chad";
+
+/** Intents that end in a conversation, so the visitor can pick a time at once. */
+const BOOKABLE = new Set(["demo", "strategy", "sarah-podcast"]);
+
+type TrackWindow = Window & {
+  gtag?: (command: string, event: string, params?: Record<string, unknown>) => void;
+  clarity?: (action: string, ...args: unknown[]) => void;
+};
+
+/** One lead event per successful submit, so form leads are countable. */
+function trackLead(intent: string) {
+  try {
+    track("contact_lead", { intent });
+    const w = window as TrackWindow;
+    w.gtag?.("event", "generate_lead", { method: "contact_form", intent });
+    w.clarity?.("event", "contact_lead");
+  } catch {
+    // Analytics must never break the thank-you screen.
+  }
+}
 
 const options = [
   {
@@ -92,7 +116,11 @@ function IntentParam({ onIntent }: { onIntent: (intent: string) => void }) {
   const searchParams = useSearchParams();
   const intentParam = searchParams.get("intent");
   useEffect(() => {
-    if (intentParam) onIntent(intentParam);
+    // Only intents that open the form. An unknown value, or one that belongs
+    // to an option that links away (signup, trial), falls back to the picker
+    // instead of rendering an empty page.
+    const opt = options.find((o) => o.id === intentParam);
+    if (opt && !("href" in opt && opt.href)) onIntent(opt.id);
   }, [intentParam, onIntent]);
   return null;
 }
@@ -106,33 +134,59 @@ function ContactContent() {
   const router = useRouter();
 
   if (submitted) {
+    const bookable = selected !== null && BOOKABLE.has(selected);
     return (
       <section className="flex min-h-screen items-center bg-bg-surface py-24">
         <div className="mx-auto max-w-2xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Thank You</Eyebrow>
             <h1>
-              We&rsquo;ll be in <strong>touch</strong>.
+              {bookable ? (
+                <>Got it. Now pick a <strong>time</strong>.</>
+              ) : (
+                <>We&rsquo;ll be in <strong>touch</strong>.</>
+              )}
             </h1>
             <p className="mt-5 text-text-body">
-              Someone from the DIG team will reach out within 1 business day.
+              {bookable
+                ? "Grab a slot on the calendar and you are booked. If nothing fits, we will reach out within 1 business day."
+                : "Someone from the DIG team will reach out within 1 business day."}
             </p>
+            {bookable && (
+              <a
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  try {
+                    track("contact_calendar_click", { intent: selected ?? "" });
+                  } catch {}
+                }}
+                className="cta-button mt-8 inline-flex rounded-full bg-accent px-8 py-3.5 text-text-light transition-colors hover:bg-accent-hover"
+              >
+                Pick a Time
+              </a>
+            )}
             <div className="mt-10 rounded-lg border border-border-light bg-bg-light p-6 text-left">
               <p className="text-sm font-semibold text-text-dark">What happens next</p>
               <ul className="mt-3 space-y-2 text-sm text-text-body">
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                  We review your submission within 1 business day
+                  {bookable
+                    ? "Choose a time above and the call is on your calendar"
+                    : "We review your submission within 1 business day"}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                   {selected === "signup"
                     ? "We activate your digDesk account and send login details"
                     : selected === "demo"
-                    ? "We reach out to book your 15-minute walkthrough"
+                    ? "We walk you through digDesk and FrameFlow Studio in 15 minutes"
                     : selected === "sarah-podcast"
-                    ? "Chad reaches out within 1 business day to book your 20-minute call"
-                    : "We reach out with a plan tailored to your homes"}
+                    ? "Bring a listing photo and a couple of model home references to your 20-minute call"
+                    : selected === "strategy"
+                    ? "We come to the call with a plan tailored to your homes"
+                    : "We reply to your message directly"}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-0.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
@@ -253,10 +307,12 @@ function ContactContent() {
             </h2>
             <p className="mt-4 text-text-body">
               {selected === "demo"
-                ? "Leave your details and we'll reach out within 1 business day to pick a time. 15 minutes, no deck, no pressure."
+                ? "Leave your details, then pick a time on the next screen. 15 minutes, no deck, no pressure."
                 : selected === "sarah-podcast"
-                ? "Chad will reach out within 1 business day to book a 20-minute call. Bring a listing photo and a couple of model home references. He'll stage one room on us."
-                : "No long sales process. Just a quick conversation about what you need."}
+                ? "Leave your details, then pick a time for a 20-minute call with Chad. Bring a listing photo and a couple of model home references. He'll stage one room on us."
+                : selected === "strategy"
+                ? "Leave your details, then pick a time on the next screen. No long sales process."
+                : "No long sales process. Just tell us what you need."}
             </p>
 
             <form
@@ -280,6 +336,7 @@ function ContactContent() {
                     }),
                   });
                   if (!res.ok) throw new Error("Submission failed");
+                  trackLead(selectedOpt.id);
                   setSubmitted(true);
                 } catch {
                   setError("Something went wrong. Please try again or email us directly at info@daviesimaging.com.");
@@ -329,6 +386,8 @@ function ContactContent() {
                     ? "Anything we should know before the call?"
                     : selected === "sarah-podcast"
                     ? "Anything we should know before Chad calls?"
+                    : selected === "other"
+                    ? "How can we help?"
                     : "Tell us about your homes"}
                 </label>
                 <textarea
@@ -338,13 +397,15 @@ function ContactContent() {
                       ? "Markets, volume, specific questions about FrameFlow or Spec+..."
                       : selected === "sarah-podcast"
                       ? "Which episode hit? How many specs are you staging right now? Which model home would you want to reference first?"
+                      : selected === "other"
+                      ? "Tell us what you are looking for."
                       : "How many specs are you sitting on? What markets? What's your biggest challenge right now?"
                   }
                   className="w-full rounded-lg border border-border-light px-4 py-3 text-sm text-text-dark placeholder:text-text-muted outline-none transition-colors focus:border-accent"
                 />
               </div>
 
-              {error && <p className="text-sm text-red-600">{error}</p>}
+              {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
 
               <button
                 type="submit"
@@ -354,9 +415,9 @@ function ContactContent() {
                 {loading
                   ? "Sending..."
                   : selected === "demo"
-                  ? "Request a Demo"
-                  : selected === "sarah-podcast"
-                  ? "Book the Call"
+                  ? "Continue to Scheduling"
+                  : selected === "sarah-podcast" || selected === "strategy"
+                  ? "Continue to Scheduling"
                   : "Send Message"}
               </button>
             </form>

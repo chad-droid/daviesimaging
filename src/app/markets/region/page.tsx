@@ -42,12 +42,20 @@ export default function ByRegionPage() {
               bodyDefault="Volume pricing, dedicated capacity, and brand consistency enforced from West to East. Built for builders doing 300+ homes annually."
               headingLevel="h3"
             />
-            <Link
-              href="/programs/regional-partnerships"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-            >
-              Explore Regional Partnerships <span aria-hidden="true">&rarr;</span>
-            </Link>
+            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5">
+              <Link
+                href="/contact?intent=strategy"
+                className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+              >
+                Book a Strategy Call
+              </Link>
+              <Link
+                href="/programs/regional-partnerships"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
+              >
+                Explore Regional Partnerships <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
           </div>
         </RevealOnScroll>
       </div>

@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           from: "DIG Website <notifications@daviesimaging.com>",
           to: notifyEmail,
-          subject: `New contact: ${name} — ${intent || "General inquiry"}`,
+          subject: `New contact: ${name}, ${intent || "General inquiry"}`,
           html: `
             <h2 style="font-family:sans-serif">New Contact Form Submission</h2>
             <table style="font-family:sans-serif;border-collapse:collapse;width:100%">
@@ -102,7 +102,10 @@ export async function POST(req: NextRequest) {
   const mcKey = process.env.MAILCHIMP_API_KEY;
   const mcList = process.env.MAILCHIMP_LIST_ID;
   const mcServer = process.env.MAILCHIMP_SERVER;
-  if (mcKey && mcList && mcServer) {
+  // Job applicants post through this route too. They are not builder leads,
+  // so they are never added to the marketing audience.
+  const isCareerApplication = typeof intent === "string" && intent.startsWith("Career Application");
+  if (mcKey && mcList && mcServer && !isCareerApplication) {
     try {
       const res = await fetch(
         `https://${mcServer}.api.mailchimp.com/3.0/lists/${mcList}/members`,
@@ -129,6 +132,19 @@ export async function POST(req: NextRequest) {
     } catch {
       results.mailchimp = "error";
     }
+  }
+
+  // A lead only counts as received if a human will actually see it. Slack and
+  // the notification email are the two channels the team reads; Mailchimp alone
+  // does not notify anyone. If neither landed, tell the visitor so they can
+  // email us instead of waiting on a reply that will never come.
+  const delivered = results.slack === "ok" || results.email === "ok";
+  if (!delivered) {
+    console.error("[contact] no notification channel delivered", results);
+    return NextResponse.json(
+      { error: "Delivery failed", results },
+      { status: 502 }
+    );
   }
 
   return NextResponse.json({ success: true, results });

@@ -10,7 +10,7 @@ const fields = [
   { key: "headline", label: "Headline", type: "text" as const, defaultValue: "Every shoot is built for downstream *velocity*." },
   { key: "body", label: "Body", type: "textarea" as const, defaultValue: "Website conversion, email campaigns, paid media, sales center storytelling, listing refreshes. Modern builder marketing requires velocity, not just visuals." },
   { key: "ctaText", label: "CTA Text", type: "text" as const, defaultValue: "Explore our work" },
-  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/work" },
+  { key: "ctaUrl", label: "CTA URL", type: "url" as const, defaultValue: "/gallery" },
 ];
 
 export function MarketingEcosystem() {

@@ -14,10 +14,10 @@ const fields = [
 ];
 
 const regions = [
-  { name: "West", href: "/work?region=West" },
-  { name: "Mountain", href: "/work?region=Mountain" },
-  { name: "Central", href: "/work?region=Central" },
-  { name: "East", href: "/work?region=East" },
+  { name: "West", href: "/gallery/models?region=West" },
+  { name: "Mountain", href: "/gallery/models?region=Mountain" },
+  { name: "Central", href: "/gallery/models?region=Central" },
+  { name: "East", href: "/gallery/models?region=East" },
 ];
 
 export function PremiumGallery() {

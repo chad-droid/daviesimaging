@@ -44,7 +44,7 @@ export default function CoordinatorsPage() {
         headline={<>Less coordination, more <strong>output</strong>.</>}
         stats={[
           { value: "1", label: "Platform for all orders" },
-          { value: "48hr", label: "Spec turnaround" },
+          { value: "72hr", label: "Spec+ turnaround" },
           { value: "28", label: "Markets supported" },
         ]}
       />

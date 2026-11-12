@@ -134,7 +134,7 @@ export default function SarahPodcastPage() {
                 href="/campaigns/modelmatch-trial-info"
                 className="rounded-full bg-accent px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Get 5 free ModelMatch images
+                Get 8 free ModelMatch images
               </Link>
               <Link
                 href="https://calendly.com/chaddavies/dig-disco-with-chad"
@@ -353,22 +353,22 @@ export default function SarahPodcastPage() {
                     className="mt-5 text-5xl font-semibold tracking-tight text-text-dark"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
-                    5 free <span className="text-2xl text-text-muted">images</span>
+                    8 free <span className="text-2xl text-text-muted">images</span>
                   </p>
                   <p className="mt-2 text-sm text-text-body">
-                    Send us 5 listing photos and your model home references.
+                    Send us 8 listing photos and your model home references.
                     We&rsquo;ll stage them in your brand and send them back.
                   </p>
                   <p className="mt-4 text-xs leading-relaxed text-text-muted">
                     No contract. No credit card. If ModelMatch fits, we&rsquo;ll
-                    talk pricing. If not, you still walk away with 5 staged
+                    talk pricing. If not, you still walk away with 8 staged
                     images.
                   </p>
                   <Link
                     href="/campaigns/modelmatch-trial-info"
                     className="mt-6 block rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                   >
-                    Claim my 5 free images
+                    Claim my 8 free images
                   </Link>
                   <Link
                     href="https://calendly.com/chaddavies/dig-disco-with-chad"
@@ -461,17 +461,17 @@ export default function SarahPodcastPage() {
               <strong>start here</strong>.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-white/80">
-              Send 5 listing photos and a few model home references. We&rsquo;ll
+              Send 8 listing photos and a few model home references. We&rsquo;ll
               stage them in your brand and send them back, on us. If ModelMatch
               fits your workflow, we&rsquo;ll talk. If not, you&rsquo;ve still
-              got 5 staged images.
+              got 8 staged images.
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/campaigns/modelmatch-trial-info"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Get 5 free ModelMatch images
+                Get 8 free ModelMatch images
               </Link>
               <Link
                 href="https://calendly.com/chaddavies/dig-disco-with-chad"
