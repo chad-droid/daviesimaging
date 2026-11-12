@@ -6,14 +6,15 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
 const footerLinks = {
+  // Three groups: production, Match, Flow. `gap` opens a space above the item.
   Solutions: [
-    { label: "PlanMatch", href: "/services/planmatch" },
     { label: "Premium Photography", href: "/services/premium" },
-    { label: "Premium Video", href: "/services/video-production" },
-    { label: "Spec+", href: "/programs/spec-plus" },
     { label: "Listing Photography", href: "/services/listing" },
-    { label: "ModelMatch", href: "/services/virtual-staging" },
-    { label: "FrameFlow", href: "/services/virtual-video" },
+    { label: "Spec+ Package", href: "/programs/spec-plus" },
+    { label: "ModelMatch", href: "/services/virtual-staging", gap: true },
+    { label: "PlanMatch", href: "/services/planmatch" },
+    { label: "Moments", href: "/services/moments" },
+    { label: "FrameFlow", href: "/services/virtual-video", gap: true },
     { label: "CineFlow", href: "/services/cineflow" },
     { label: "ActFlow", href: "/services/actflow" },
   ],
@@ -46,7 +47,7 @@ function FooterAccordion({
   links,
 }: {
   heading: string;
-  links: { label: string; href: string }[];
+  links: { label: string; href: string; gap?: boolean }[];
 }) {
   const [open, setOpen] = useState(false);
 
@@ -86,7 +87,7 @@ function FooterAccordion({
             className="overflow-hidden pb-3 sm:hidden"
           >
             {links.map((link) => (
-              <li key={link.href} className="py-1.5 pl-1">
+              <li key={link.href} className={`py-1.5 pl-1 ${link.gap ? "mt-3" : ""}`}>
                 <Link
                   href={link.href}
                   className="text-sm text-text-body transition-colors hover:text-accent"
@@ -102,7 +103,7 @@ function FooterAccordion({
       {/* Desktop: static link list */}
       <ul className="hidden space-y-2.5 sm:block">
         {links.map((link) => (
-          <li key={link.href}>
+          <li key={link.href} className={link.gap ? "!mt-7" : undefined}>
             <Link
               href={link.href}
               className="text-sm text-text-body transition-colors hover:text-accent"
