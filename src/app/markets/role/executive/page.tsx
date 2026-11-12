@@ -23,7 +23,7 @@ export default function ExecutivePage() {
       <LPHero
         eyebrow="For Executives"
         headline={<>One partner in every market <strong>you build in</strong>.</>}
-        subheadline="You get the same quality in each of our service lines, in 28 markets across the United States, with volume pricing and one account team."
+        subheadline="You get the same quality in each of our service lines, in 26 markets across the United States, with volume pricing and one account team."
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
         secondaryCta={{ label: "Regional Partnerships", href: "/programs/regional-partnerships" }}
       />
@@ -51,7 +51,7 @@ export default function ExecutivePage() {
         eyebrow="Scale"
         headline={<>Coverage you can <strong>count on</strong>.</>}
         stats={[
-          { value: "28", label: "Markets served" },
+          { value: "26", label: "Markets served" },
           { value: "4", label: "Regions covered" },
           { value: "Weeks", label: "To onboard a trained photographer in a new market" },
         ]}

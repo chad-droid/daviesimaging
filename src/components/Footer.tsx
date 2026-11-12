@@ -133,7 +133,7 @@ export function Footer() {
             />
             <p className="mt-3 text-sm leading-relaxed text-text-body">
               Award-winning photography, video and virtual staging for home
-              builders in 28 markets.
+              builders in 26 markets.
             </p>
             <div className="mt-5 flex gap-4">
               <a href="https://www.linkedin.com/company/daviesimaging/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-text-body transition-colors hover:text-accent">

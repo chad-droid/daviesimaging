@@ -52,7 +52,7 @@ export default function CSuitePage() {
         headline={<>What you can <strong>count on</strong>.</>}
         stats={[
           { value: "$600", label: "Spec+, flat for all home sizes" },
-          { value: "28", label: "Markets served" },
+          { value: "26", label: "Markets served" },
           { value: "4", label: "Regions, one partner" },
         ]}
         testimonial={proofQuote}

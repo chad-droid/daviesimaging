@@ -6,7 +6,7 @@ import { SITE_NAME, buildBreadcrumbSchema } from "@/lib/seo";
 export const metadata: Metadata = {
   title: { absolute: `Cinematographer Jobs | ${SITE_NAME}` },
   description:
-    "Shoot community walkthroughs, lifestyle films, and amenity showcases for homebuilders. Crew-based video production across DIG's 28 markets.",
+    "Shoot community walkthroughs, lifestyle films, and amenity showcases for homebuilders. Crew-based video production across DIG's 26 markets.",
   alternates: { canonical: "/careers/apply/cinematographer" },
 };
 

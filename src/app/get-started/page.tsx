@@ -107,7 +107,7 @@ export default function GetStartedPage() {
         <RevealOnScroll>
           <div className="mt-16 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { value: "28", label: "U.S. markets", sub: "Photography and digital services nationwide." },
+              { value: "26", label: "U.S. markets", sub: "Photography and digital services nationwide." },
               { value: "95%", label: "First delivery", sub: "Assets ready to publish without changes." },
               { value: "$0", label: "To get started", sub: "Pay as you go. No subscription, no minimum." },
               { value: "1 day", label: "Free trial", sub: "Your trial images back in one business day." },

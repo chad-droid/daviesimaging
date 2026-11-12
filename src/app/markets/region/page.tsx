@@ -8,7 +8,7 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 export const metadata: Metadata = {
   alternates: { canonical: "/markets/region" },
   title: "Markets by Region",
-  description: "You get the same quality in 28 U.S. markets across four regions, with offices in Sacramento, Dallas, and Guadalajara.",
+  description: "You get the same quality in 26 U.S. markets across four regions, with offices in Sacramento, Dallas, and Guadalajara.",
 };
 
 export default function ByRegionPage() {
@@ -22,7 +22,7 @@ export default function ByRegionPage() {
               The same quality in every market <strong>you build in</strong>.
             </h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-body">
-              28 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.
+              26 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.
             </p>
           </div>
         </RevealOnScroll>

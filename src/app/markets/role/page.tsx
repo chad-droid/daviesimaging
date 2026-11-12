@@ -26,7 +26,7 @@ const roles = [
     title: "Marketing Directors",
     description: "You run a lot of projects at once. You get a partner who coordinates the shoots for you and delivers the same quality in every market you build in.",
     pain: "Photography that looks different from one market to the next",
-    solution: "The same quality standard in 28 markets",
+    solution: "The same quality standard in 26 markets",
     href: "/markets/role/directors",
     slot: "markets-role-directors-card-img",
     image: "/client-showcase/spec-cresswind-01.webp",

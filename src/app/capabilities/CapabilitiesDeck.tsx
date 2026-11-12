@@ -557,7 +557,7 @@ function SlideCover() {
         that move homes.
       </h1>
       <p className="lead-text mt-8 max-w-[60ch] text-text-light-muted">
-        Trusted by homebuilders across 28 markets.
+        Trusted by homebuilders across 26 markets.
       </p>
     </SlideShell>
   );
@@ -1272,7 +1272,7 @@ function SlideMarkets() {
           One standard across every market.
         </h2>
         <p className="lead-text mt-2 max-w-[70ch] text-text-body">
-          28 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara.
+          26 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara.
         </p>
         <div className="relative mt-4 w-full">
           <RegionMap />

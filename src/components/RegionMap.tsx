@@ -1,22 +1,14 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
 } from "react-simple-maps";
-import { DynamicImage } from "@/components/DynamicImage";
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-
-// Derive a consistent slot ID from a city name: "Salt Lake City" → "market-salt-lake-city"
-function citySlot(city: string) {
-  return `market-${city.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`;
-}
 
 const stateRegion: Record<string, string> = {
   "53": "west", "41": "west", "06": "west", "32": "west",
@@ -100,33 +92,7 @@ const marketPins: MarketPin[] = [
 ];
 
 export function RegionMap() {
-  const router = useRouter();
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
-  const [hoveredPin, setHoveredPin] = useState<MarketPin | null>(null);
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
-
-  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const clearHideTimer = useCallback(() => {
-    if (hideTimer.current) { clearTimeout(hideTimer.current); hideTimer.current = null; }
-  }, []);
-
-  const scheduleHide = useCallback(() => {
-    clearHideTimer();
-    hideTimer.current = setTimeout(() => {
-      setHoveredPin(null);
-      setMousePos(null);
-    }, 160);
-  }, [clearHideTimer]);
-
-  // Clean up on unmount
-  useEffect(() => () => { if (hideTimer.current) clearTimeout(hideTimer.current); }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }, []);
-
   const visiblePins = activeRegion
     ? marketPins.filter((p) => p.region === activeRegion)
     : marketPins;
@@ -140,8 +106,6 @@ export function RegionMap() {
       {/* Map — tracks mouse position for tooltip */}
       <div
         className="relative"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={scheduleHide}
       >
         <ComposableMap
           projection="geoAlbersUsa"
@@ -181,42 +145,30 @@ export function RegionMap() {
           </Geographies>
 
           {visiblePins.map((pin) => {
-            const isHovered = hoveredPin?.city === pin.city;
             const anchor = pin.labelAnchor ?? "start";
             const labelX = anchor === "end" ? -8 : anchor === "middle" ? 0 : 8;
 
             return (
               <Marker key={pin.city} coordinates={pin.coords}>
-                <g
-                  onMouseEnter={() => { clearHideTimer(); setHoveredPin(pin); }}
-                  onMouseLeave={scheduleHide}
-                  onClick={() => router.push(regionInfo[pin.region].href)}
-                  style={{ cursor: "pointer" }}
-                >
+                {/* Pins are plain dots: no hover, no click. The region cards below do the navigating. */}
+                <g style={{ pointerEvents: "none" }}>
                   {pin.isOffice ? (
                     <>
-                      <circle r={isHovered ? 9 : 7} fill="#6A5ACD" opacity={0.15} style={{ transition: "r 0.15s ease" }} />
-                      <circle r={isHovered ? 5 : 4} fill="#6A5ACD" stroke="#ffffff" strokeWidth={1.5} style={{ transition: "r 0.15s ease" }} />
+                      <circle r={7} fill="#6A5ACD" opacity={0.15} />
+                      <circle r={4} fill="#6A5ACD" stroke="#ffffff" strokeWidth={1.5} />
                       <circle r={1.5} fill="#ffffff" />
                     </>
                   ) : (
-                    <circle
-                      r={isHovered ? 5 : 3.5}
-                      fill={isHovered ? "#5848B5" : "#6A5ACD"}
-                      stroke="#ffffff"
-                      strokeWidth={1.5}
-                      style={{ transition: "all 0.15s ease" }}
-                    />
+                    <circle r={3.5} fill="#6A5ACD" stroke="#ffffff" strokeWidth={1.5} />
                   )}
                   <text
                     className="map-city-label"
                     textAnchor={anchor}
                     x={labelX}
                     y={pin.labelY ?? -10}
-                    fontSize={isHovered ? 10 : 8.5}
-                    fontWeight={isHovered || pin.isOffice ? 600 : 400}
-                    fill={isHovered ? "#222" : "#555"}
-                    style={{ pointerEvents: "none", transition: "all 0.15s ease" }}
+                    fontSize={8.5}
+                    fontWeight={pin.isOffice ? 600 : 400}
+                    fill="#555"
                   >
                     {pin.city}
                   </text>
@@ -225,53 +177,6 @@ export function RegionMap() {
             );
           })}
         </ComposableMap>
-
-        {/* Hover card — thumbnail + city info */}
-        <AnimatePresence>
-          {hoveredPin && mousePos && (
-            <motion.div
-              key={hoveredPin.city}
-              initial={{ opacity: 0, scale: 0.96, y: 6 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 4 }}
-              transition={{ duration: 0.14 }}
-              className="absolute z-20 w-52 cursor-pointer overflow-hidden rounded-xl border border-border-light bg-white shadow-xl"
-              style={{ left: mousePos.x + 16, top: mousePos.y - 60 }}
-              onMouseEnter={clearHideTimer}
-              onMouseLeave={scheduleHide}
-              onClick={() => router.push(regionInfo[hoveredPin.region].href)}
-            >
-              {/* Thumbnail */}
-              <div className="relative h-28 w-full bg-bg-surface">
-                <DynamicImage
-                  slotId={citySlot(hoveredPin.city)}
-                  className="h-full w-full object-cover"
-                  fallbackClass="h-full w-full bg-gradient-to-br from-bg-surface to-accent/10"
-                  aspectRatio="16/9"
-                />
-                <span className="absolute left-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
-                  {regionInfo[hoveredPin.region].label}
-                </span>
-              </div>
-
-              {/* City info */}
-              <div className="px-3 py-2.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-semibold text-text-dark">{hoveredPin.city}</span>
-                  {hoveredPin.isOffice && (
-                    <span className="rounded-full bg-accent/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-accent">
-                      Office
-                    </span>
-                  )}
-                </div>
-                <p className="mt-0.5 text-[10px] leading-snug text-text-muted">{hoveredPin.blurb}</p>
-                <p className="mt-1.5 text-[10px] font-medium text-accent">
-                  See {regionInfo[hoveredPin.region].label} work →
-                </p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
       {/* Guadalajara callout */}

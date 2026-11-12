@@ -51,7 +51,7 @@ export default function DirectorsPage() {
         eyebrow="Results"
         headline={<>What you can <strong>count on</strong>.</>}
         stats={[
-          { value: "28", label: "Markets served nationwide" },
+          { value: "26", label: "Markets served nationwide" },
           { value: "72 hrs", label: "Spec+ delivery after the shoot" },
           { value: "$600", label: "Spec+, flat for all home sizes" },
         ]}

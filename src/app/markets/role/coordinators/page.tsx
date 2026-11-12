@@ -53,7 +53,7 @@ export default function CoordinatorsPage() {
         stats={[
           { value: "1", label: "Platform for all orders" },
           { value: "72hr", label: "Spec+ turnaround" },
-          { value: "28", label: "Markets supported" },
+          { value: "26", label: "Markets supported" },
         ]}
         testimonial={proofQuote}
       />

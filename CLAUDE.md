@@ -57,6 +57,7 @@ Davies Imaging Group (DIG) rebuilt `daviesimaging.com` from scratch as a Next.js
 - Image slots — most sections have `DynamicImage` / `ParallaxBackground` wired up but no images assigned yet
 - Gallery curation — admin tool built, actual image ingestion from Dropbox pending
 - Phoenix, AZ geo-targeted landing page (listing + ModelMatch virtual staging, for paid ad campaigns)
+- Landing pages for each region DIG shoots in, then city-specific content that makes the Our Markets map interactive again (Chad, Nov 2026: regions first). Map pins are plain dots until then; the per-city blurbs are still in `RegionMap.tsx` for reuse.
 - Resources and Education section
 - digDojo photography training platform (see full spec below)
 - `ADMIN_PASSWORD` env var — set in Vercel dashboard (currently only in `.env.local`)
@@ -114,7 +115,9 @@ These are resolved decisions. Do not re-litigate them without explicit instructi
 > (Production, Flow, Match, and "+" hybrids) live in the product names, not in
 > a menu. Matterport has no page of its own: it is part of Premium and Listing,
 > and `/services/matterport` redirects to `/services/premium`. Not public yet,
-> so keep off the site: digDAM, the BuildPro partnership. Market count stays 28.
+> so keep off the site: digDAM, the BuildPro partnership. Market count is 26
+> (Chad, 12 Nov 2026: it was 28 on the site, the map and region cards only
+> ever listed 26).
 
 | Label | Slug | Notes |
 |---|---|---|
@@ -662,7 +665,7 @@ Video content is Phase 2 — placeholder sections in the schema now, populate la
 
 At the bottom of every module, after the content:
 - "Shoot for DIG" CTA — links to `/careers` or a dedicated photographer application form
-- Copy: "Ready to put these skills to work? DIG is always looking for photographers in our 28 markets."
+- Copy: "Ready to put these skills to work? DIG is always looking for photographers in our 26 markets."
 - This is the primary acquisition mechanism — people who complete the training are warm leads
 
 ---

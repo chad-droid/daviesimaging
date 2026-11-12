@@ -11,7 +11,7 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   title: { absolute: `Builder Photography FAQ | ${SITE_NAME}` },
   description:
-    "What Spec+ includes, how ModelMatch virtual staging works, delivery times, revisions, and the 28 markets DIG covers.",
+    "What Spec+ includes, how ModelMatch virtual staging works, delivery times, revisions, and the 26 markets DIG covers.",
   alternates: { canonical: "/faq" },
 };
 

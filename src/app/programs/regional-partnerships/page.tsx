@@ -71,7 +71,7 @@ export default function RegionalPartnershipsPage() {
                 href="/markets/region"
                 className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
-                See all 28 markets &rarr;
+                See all 26 markets &rarr;
               </Link>
             </div>
           </RevealOnScroll>

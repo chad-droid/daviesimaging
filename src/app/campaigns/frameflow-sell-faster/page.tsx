@@ -77,7 +77,7 @@ export default function FrameFlowChallengePage() {
           </>
         }
         stats={[
-          { value: "28", label: "Markets served" },
+          { value: "26", label: "Markets served" },
           { value: "$600", label: "Spec+, flat for all home sizes" },
           { value: "0", label: "Risk to get started" },
         ]}
