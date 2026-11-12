@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import posthog from 'posthog-js';
 
 // Inline ModelMatch trial wizard. Embeds the digDesk trial flow so ad traffic
 // can start the trial without leaving the landing page. Two-way postMessage
@@ -88,6 +89,9 @@ export default function MMTrialEmbed() {
           try {
             w.gtag?.('event', step, { method: 'modelmatch_trial' });
             w.clarity?.('event', step);
+            posthog.capture('modelmatch_trial_funnel_step', {
+              funnel_step: step,
+            });
           } catch {
             // A blocked tag shouldn't break the page.
           }
