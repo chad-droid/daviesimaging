@@ -1,6 +1,7 @@
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { getTestimonials, type Testimonial } from "@/data/testimonials";
+import { QuoteText } from "@/components/QuoteText";
 
 interface TestimonialBandProps {
   /** One or two ids from src/data/testimonials.ts. One renders large; two sit side by side. */
@@ -37,7 +38,7 @@ export function TestimonialBand({ ids, eyebrow = "In their words" }: Testimonial
                 className="text-[1.75rem] leading-[1.25] text-text-dark lg:text-[2.5rem] lg:leading-[1.2]"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                &ldquo;{items[0].quote}&rdquo;
+                <QuoteText t={items[0]} />
               </p>
               <Attribution t={items[0]} />
             </blockquote>
@@ -49,7 +50,7 @@ export function TestimonialBand({ ids, eyebrow = "In their words" }: Testimonial
                     className="text-[1.5rem] leading-[1.3] text-text-dark lg:text-[1.75rem]"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
-                    &ldquo;{t.quote}&rdquo;
+                    <QuoteText t={t} />
                   </p>
                   <Attribution t={t} />
                 </blockquote>
