@@ -66,7 +66,10 @@
      (Apple gets the same result by hand, gluing final words together with
      non-breaking spaces.) */
   h1, h2, h3, h4, blockquote { text-wrap: balance; }
-  p, li, dd, figcaption { text-wrap: pretty; }
+  p, li, dd, figcaption { text-wrap: balance; }
+  /* Long-form reading (blog posts) keeps full-width lines and only guards
+     against a stranded last word. */
+  article p, article li { text-wrap: pretty; }
 
   body {
     /* Prevent any element that overflows the viewport (marquees, drag
