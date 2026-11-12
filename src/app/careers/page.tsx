@@ -127,15 +127,15 @@ export default function CareersPage() {
       </section>
 
       {/* General interest */}
-      <section className="py-24">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>Don&apos;t See Your Role?</Eyebrow>
-              <h2>
+            <div className="text-center">
+              <Eyebrow dark>Don&apos;t See Your Role?</Eyebrow>
+              <h2 className="text-text-light">
                 We&apos;re always looking for <strong>great people</strong>.
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
+              <p className="mx-auto mt-4 max-w-xl text-text-muted">
                 If you&apos;re a photographer, editor, or someone who understands homebuilder marketing and wants to do better work, send us a note. We hire for fit as much as for role.
               </p>
               <div className="mt-8">
@@ -149,7 +149,7 @@ export default function CareersPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

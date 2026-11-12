@@ -29,14 +29,14 @@ export default function FaqPage() {
       <JsonLd data={buildBreadcrumbSchema([{ name: "FAQ", path: "/faq" }])} />
 
       {/* Hero */}
-      <DarkSection className="py-24 text-text-light">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+      <DarkSection className="py-28 text-text-light">
+        <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Help Center</Eyebrow>
             <h1 className="text-text-light">
               Frequently asked <strong>questions</strong>.
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Your questions about Spec+, ModelMatch staging, FrameFlow video, and how we deliver.
             </p>
           </RevealOnScroll>
@@ -58,39 +58,8 @@ export default function FaqPage() {
         </div>
       </section>
 
-      {/* Still have questions */}
-      <section className="bg-bg-light py-20">
-        <div className="mx-auto max-w-3xl px-6">
-          <RevealOnScroll>
-            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>Still Have Questions?</Eyebrow>
-              <h2 className="mt-2">
-                We&apos;re easy to <strong>reach</strong>.
-              </h2>
-              <p className="mx-auto mt-4 max-w-md text-text-body">
-                If your question is not covered above, reach out. We are happy to walk you through anything before you order.
-              </p>
-              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
-                <Link
-                  href="/contact"
-                  className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-                >
-                  Contact Us
-                </Link>
-                <Link
-                  href="/programs/digdesk"
-                  className="rounded-full border border-border-light px-8 py-3 text-sm font-semibold text-text-body transition-colors hover:border-accent hover:text-accent"
-                >
-                  Explore digDesk
-                </Link>
-              </div>
-            </div>
-          </RevealOnScroll>
-        </div>
-      </section>
-
       {/* Quick links */}
-      <section className="py-16">
+      <section className="bg-bg-light py-16">
         <div className="mx-auto max-w-3xl px-6">
           <RevealOnScroll>
             <p className="mb-5 text-center text-sm text-text-body">Explore related pages:</p>
@@ -108,6 +77,37 @@ export default function FaqPage() {
           </RevealOnScroll>
         </div>
       </section>
+
+      {/* Still have questions */}
+      <DarkSection className="py-24 text-text-light">
+        <div className="mx-auto max-w-3xl px-6">
+          <RevealOnScroll>
+            <div className="text-center">
+              <Eyebrow dark>Still Have Questions?</Eyebrow>
+              <h2 className="text-text-light">
+                We&apos;re easy to <strong>reach</strong>.
+              </h2>
+              <p className="mx-auto mt-4 max-w-md text-text-muted">
+                If your question is not covered above, reach out. We are happy to walk you through anything before you order.
+              </p>
+              <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+                <Link
+                  href="/contact"
+                  className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                >
+                  Contact Us
+                </Link>
+                <Link
+                  href="/programs/digdesk"
+                  className="rounded-full border border-white/30 px-8 py-3 text-sm font-semibold text-text-light transition-colors hover:border-white/60"
+                >
+                  Explore digDesk
+                </Link>
+              </div>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </DarkSection>
     </>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/get-started" },
@@ -11,19 +12,22 @@ export const metadata: Metadata = {
 
 export default function GetStartedPage() {
   return (
-    <section className="min-h-screen bg-bg-surface py-28">
-      <div className="mx-auto max-w-4xl px-6">
-        <RevealOnScroll>
-          <div className="mb-14 text-center">
-            <Eyebrow>Get Started</Eyebrow>
-            <h1>
+    <>
+      <DarkSection className="py-28 text-text-light">
+        <div className="mx-auto max-w-4xl px-6">
+          <RevealOnScroll>
+            <Eyebrow dark>Get Started</Eyebrow>
+            <h1 className="text-text-light">
               Two ways to <strong>get started</strong>.
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-text-body">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Schedule a 15-minute demo with the DIG team, or start a free trial and see one of your own spec homes staged with ModelMatch.
             </p>
-          </div>
-        </RevealOnScroll>
+          </RevealOnScroll>
+        </div>
+      </DarkSection>
+    <section className="bg-bg-surface py-20">
+      <div className="mx-auto max-w-4xl px-6">
 
         <RevealOnScroll>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -172,5 +176,6 @@ export default function GetStartedPage() {
         </RevealOnScroll>
       </div>
     </section>
+    </>
   );
 }

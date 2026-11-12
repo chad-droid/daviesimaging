@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { DarkSection } from "@/components/DarkSection";
 
 interface LPCtaProps {
   headline: React.ReactNode;
@@ -8,6 +9,7 @@ interface LPCtaProps {
   secondaryCta?: { label: string; href: string };
 }
 
+/** Closing section for landing and role pages. Dark, like every other page's final CTA. */
 export function LPCta({
   headline,
   description,
@@ -15,24 +17,24 @@ export function LPCta({
   secondaryCta,
 }: LPCtaProps) {
   return (
-    <section className="flex min-h-[60vh] items-center bg-bg-surface py-24">
-      <div className="mx-auto max-w-4xl px-6 text-center">
+    <DarkSection className="py-24 text-text-light">
+      <div className="mx-auto max-w-3xl px-6 text-center">
         <RevealOnScroll>
-          <h2>{headline}</h2>
+          <h2 className="text-text-light">{headline}</h2>
           {description && (
-            <p className="mt-5 text-text-body">{description}</p>
+            <p className="mx-auto mt-5 max-w-xl text-text-muted">{description}</p>
           )}
-          <div className="mt-8 flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
             <Link
               href={primaryCta.href}
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
+              className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
             >
-              {primaryCta.label} <span aria-hidden="true">&rarr;</span>
+              {primaryCta.label}
             </Link>
             {secondaryCta && (
               <Link
                 href={secondaryCta.href}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
+                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
               >
                 {secondaryCta.label} <span aria-hidden="true">&rarr;</span>
               </Link>
@@ -40,6 +42,6 @@ export function LPCta({
           </div>
         </RevealOnScroll>
       </div>
-    </section>
+    </DarkSection>
   );
 }

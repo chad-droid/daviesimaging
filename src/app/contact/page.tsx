@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { DarkSection } from "@/components/DarkSection";
 import { track } from "@vercel/analytics";
 import posthog from "posthog-js";
 import { useSpamGuard } from "@/components/SpamGuard";
@@ -206,7 +207,24 @@ function ContactContent() {
   const selectedOpt = options.find((o) => o.id === selected);
 
   return (
-    <section className="min-h-screen bg-bg-surface py-24">
+    <>
+    {/* Hero: only on the picker. The form view opens straight on the form. */}
+    {!selected && (
+      <DarkSection className="py-28 text-text-light">
+        <div className="mx-auto max-w-5xl px-6">
+          <RevealOnScroll>
+            <Eyebrow dark>Get in Touch</Eyebrow>
+            <h1 className="text-text-light">
+              What brings you <strong>here</strong>?
+            </h1>
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+              Pick one and we&rsquo;ll take it from there.
+            </p>
+          </RevealOnScroll>
+        </div>
+      </DarkSection>
+    )}
+    <section className={`min-h-screen bg-bg-surface ${selected ? "py-24" : "py-16 lg:py-20"}`}>
       <Suspense fallback={null}>
         <IntentParam onIntent={setSelected} />
       </Suspense>
@@ -215,17 +233,7 @@ function ContactContent() {
         {/* Step 1: Choose */}
         {!selected && (
           <RevealOnScroll>
-            <div className="text-center">
-              <Eyebrow>Get in Touch</Eyebrow>
-              <h1>
-                What brings you <strong>here</strong>?
-              </h1>
-              <p className="mt-5 text-text-body">
-                Pick one and we&rsquo;ll take it from there.
-              </p>
-            </div>
-
-            <div className="mx-auto mt-12 grid max-w-sm gap-4 lg:max-w-none lg:grid-cols-3 lg:gap-6">
+            <div className="mx-auto grid max-w-sm gap-4 lg:max-w-none lg:grid-cols-3 lg:gap-6">
               {TILES.map((id) => options.find((o) => o.id === id)!).map((opt, i) => (
                 <button
                   key={opt.id}
@@ -431,6 +439,7 @@ function ContactContent() {
 
       </div>
     </section>
+    </>
   );
 }
 

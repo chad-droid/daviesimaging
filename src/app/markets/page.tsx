@@ -80,15 +80,15 @@ export default function MarketsIndex() {
       </section>
 
       {/* CTA */}
-      <section className="bg-bg-light py-24">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>Not sure where to start?</Eyebrow>
-              <h2 className="mt-2">
+            <div className="text-center">
+              <Eyebrow dark>Not sure where to start?</Eyebrow>
+              <h2 className="text-text-light">
                 Just talk to <strong>someone</strong>.
               </h2>
-              <p className="mx-auto mt-4 max-w-md text-text-body">
+              <p className="mx-auto mt-4 max-w-md text-text-muted">
                 A 15-minute conversation with our team is the fastest way to find the right services for your communities.
               </p>
               <div className="mt-8">
@@ -102,7 +102,7 @@ export default function MarketsIndex() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }

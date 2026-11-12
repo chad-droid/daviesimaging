@@ -150,15 +150,15 @@ export default function ProgramsIndex() {
       </section>
 
       {/* Get started CTA */}
-      <section className="bg-bg-light py-24">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>Ready to Order</Eyebrow>
-              <h2 className="mt-2">
+            <div className="text-center">
+              <Eyebrow dark>Ready to Order</Eyebrow>
+              <h2 className="text-text-light">
                 Two ways to get <strong>into digDesk</strong>.
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
+              <p className="mx-auto mt-4 max-w-xl text-text-muted">
                 Schedule a 15-minute demo and we will walk you through the platform, or submit your account request directly and start ordering within one business day.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -170,7 +170,7 @@ export default function ProgramsIndex() {
                 </Link>
                 <Link
                   href="/programs/digdesk"
-                  className="text-sm font-medium text-text-body transition-colors hover:text-accent"
+                  className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
                 >
                   Learn about digDesk &rarr;
                 </Link>
@@ -178,7 +178,7 @@ export default function ProgramsIndex() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
+      </DarkSection>
     </>
   );
 }
