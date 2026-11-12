@@ -16,7 +16,7 @@ const config: ProductPageConfig = {
   schemaDescription:
     "Cinematic video sequences made from still images. Each space is relit and given new angles, without a photo shoot.",
   hero: {
-    headline: "Cinematic sequences without a <strong>real photo shoot</strong>.",
+    headline: "Cinematic video, without <strong>another shoot</strong>.",
     subhead: "CineFlow relights each of your spaces, adds new angles, and gives you lifelike cinematic sequences.",
   },
   leadFilm: {
@@ -27,12 +27,12 @@ const config: ProductPageConfig = {
   },
   intro: {
     eyebrow: "Beyond FrameFlow",
-    headline: "Your images, relit and <strong>in motion</strong>.",
+    headline: "Create drama with your <strong>existing images</strong>.",
     body: "FrameFlow converts your static images into dynamic video. CineFlow takes this even further by relighting each space, adding new angles, and giving you lifelike cinematic sequences without a real photo shoot.",
   },
   points: [
-    { title: "Relit", body: "Each of your spaces is relit for the sequence, so it does not look like a photo that moves." },
-    { title: "New angles", body: "You get angles of your home that were never photographed." },
+    { title: "Relight", body: "Each of your spaces is relit for the sequence, so it does not look like a photo that moves." },
+    { title: "Moments", body: "You get fresh perspectives without another shoot." },
     { title: "Vertical and stills", body: "You also get a vertical version for social and stills pulled from the same set." },
   ],
   films: [

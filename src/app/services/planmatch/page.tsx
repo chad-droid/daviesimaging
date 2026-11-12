@@ -16,9 +16,9 @@ const config: ProductPageConfig = {
   schemaDescription:
     "Photorealistic interior and exterior images of unbuilt homes, made from construction plans and finish samples and merchandised through ModelMatch.",
   hero: {
-    headline: "Photographs of your homes, <strong>before they're built</strong>.",
+    headline: "Don't call it <strong>rendering</strong>.",
     subhead:
-      "Before your community is ever built, you can have photorealistic images of all of your model home plans and your unmodeled plans, whether you need exteriors or interiors.",
+      "Before your community is ever built, you can have photorealistic images of all of your model home plans and your unmodeled plans. Better, faster, and less expensive than ever.",
   },
   leadFilm: {
     src: "/showcase/planmatch-01.mp4",
@@ -31,7 +31,7 @@ const config: ProductPageConfig = {
     body: "This is not like traditional rendering services. You upload your construction plans, upload samples of your finishes, and get photorealistic virtual images merchandised through our ModelMatch process. You get them in days, not months.",
   },
   points: [
-    { title: "Upload your plans", body: "Your construction plans are where we start. Model home plans and unmodeled plans both work." },
+    { title: "Upload your plans", body: "We start with your construction plans or CAD files, whatever is available, we can make work." },
     { title: "Upload your finishes", body: "Send samples of your finishes, so the homes you show are the homes you will build." },
     { title: "Get your images", body: "You get photorealistic interiors and exteriors, merchandised through ModelMatch, ready to pre-sell." },
   ],

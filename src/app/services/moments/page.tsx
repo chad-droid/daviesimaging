@@ -16,12 +16,12 @@ const config: ProductPageConfig = {
   schemaDescription:
     "Vertical close ups of the cabinetry, stone, fixtures and appliances in a builder's homes, made for social media.",
   hero: {
-    headline: "Close ups of what is built into <strong>your homes</strong>.",
+    headline: "Your best features, <strong>up close</strong>.",
     subhead: "Vertical close ups of your cabinetry, stone, fixtures and appliances, made for social.",
   },
   intro: {
     eyebrow: "Made for social",
-    headline: "Your finishes, <strong>up close</strong>.",
+    headline: "Stop the scroll, <strong>without the cost</strong>.",
     body: "Your buyers scroll on their phones. Moments gives you vertical close ups of the details in your homes, sized for where they are looking.",
   },
   points: [

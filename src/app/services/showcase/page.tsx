@@ -267,7 +267,7 @@ export default function ShowcasePage() {
                 slotId="services-showcase-moments"
                 index="02"
                 eyebrowDefault="Moments"
-                headlineDefault="Close ups of what is built into <strong>your homes</strong>."
+                headlineDefault="Your best features, <strong>up close</strong>."
                 leadDefault="Vertical close ups of your cabinetry, stone, fixtures and appliances, made for social."
               />
             </RevealOnScroll>
