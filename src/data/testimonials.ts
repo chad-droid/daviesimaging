@@ -31,6 +31,8 @@ export interface Testimonial {
   company: string;
   topics: TestimonialTopic[];
   approved: boolean;
+  /** A phrase inside `quote` to set in bold. Must match the quote text exactly. */
+  emphasis?: string;
   video?: { youtubeId?: string; src?: string; poster?: string };
 }
 
@@ -38,7 +40,7 @@ const PEOPLE = {
   alexandra: { name: "Alexandra Cormack", title: "Marketing Manager", company: "Coventry Homes" },
   jordan: { name: "Jordan Brown", title: "Director of Sales and Marketing", company: "Graham Hart Home Builder" },
   kim: { name: "Kim Swan", title: "VP of Operational Marketing and Creative", company: "Perry Homes" },
-  angela: { name: "Angela Kissling", title: "Marketing Manager", company: "Bloomfield Homes" },
+  angela: { name: "Angela Kesling", title: "Marketing Manager", company: "Bloomfield Homes" },
   bradley: { name: "Bradley Davis", title: "Marketing Director", company: "Woodbridge Pacific Group" },
   carrie: { name: "Carrie Davis", company: "Ladera Living" },
   linnea: { name: "Linnea Chapman", title: "Corporate VP of Marketing", company: "TrueMark Homes" },
@@ -52,6 +54,7 @@ export const TESTIMONIALS: Testimonial[] = [
       "Can this really be done? Is it really as easy as they say it's going to be? And can it really look as good as they portray that it can be? And it's all the above. It really has been a great experience.",
     topics: ["switching", "partnership"],
     approved: true,
+    emphasis: "And it's all the above.",
   },
   {
     id: "kim-modelmatch",
