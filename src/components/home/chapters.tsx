@@ -300,8 +300,8 @@ export function DigDeskChapter() {
             Everything you need in <strong>one place</strong>.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/75">
-            The single point of entry to order, track, revise, and pay for all of the assets you
-            need, in one place.
+            The single point of entry to order, track, revise, and pay for all of your marketing
+            assets.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
             <Link href="/get-started" className={primaryBtn}>
