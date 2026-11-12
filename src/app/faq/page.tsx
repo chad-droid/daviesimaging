@@ -24,7 +24,7 @@ const categories = [
 
 export default function FaqPage() {
   return (
-    <>
+    <div className="theme-dark">
       <JsonLd data={buildFaqSchema(specFaqs, `${SITE_URL}/faq`)} />
       <JsonLd data={buildBreadcrumbSchema([{ name: "FAQ", path: "/faq" }])} />
 
@@ -108,6 +108,6 @@ export default function FaqPage() {
           </RevealOnScroll>
         </div>
       </DarkSection>
-    </>
+    </div>
   );
 }

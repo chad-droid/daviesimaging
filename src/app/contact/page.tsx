@@ -207,7 +207,7 @@ function ContactContent() {
   const selectedOpt = options.find((o) => o.id === selected);
 
   return (
-    <>
+    <div className="theme-dark">
     {/* Hero: only on the picker. The form view opens straight on the form. */}
     {!selected && (
       <DarkSection className="py-28 text-text-light">
@@ -247,21 +247,21 @@ function ContactContent() {
                   }}
                   className={`group flex aspect-square w-full flex-col justify-between rounded-2xl border p-7 text-left transition-all hover:-translate-y-0.5 hover:shadow-lg lg:aspect-auto lg:min-h-[30rem] lg:p-9 ${
                     i === 0
-                      ? "border-bg-dark bg-bg-dark text-text-light"
+                      ? "theme-light border-bg-surface bg-bg-surface"
                       : "border-border-light bg-bg-light hover:border-accent"
                   }`}
                 >
-                  <span className={i === 0 ? "text-accent-dark-hover" : "text-accent"}>
+                  <span className="text-accent">
                     {opt.icon}
                   </span>
                   <div>
-                    <h2 className={`text-[2rem] leading-[1.1] lg:text-[2.5rem] ${i === 0 ? "text-text-light" : ""}`}>
+                    <h2 className="text-[2rem] leading-[1.1] lg:text-[2.5rem]">
                       {opt.title}
                     </h2>
-                    <p className={`mt-3 text-sm leading-relaxed lg:text-base ${i === 0 ? "text-white/70" : "text-text-body"}`}>
+                    <p className="mt-3 text-sm leading-relaxed text-text-body lg:text-base">
                       {opt.description}
                     </p>
-                    <span className={`mt-6 inline-flex items-center gap-1.5 text-sm font-semibold transition-transform group-hover:translate-x-1 ${i === 0 ? "text-text-light" : "text-accent"}`}>
+                    <span className={`mt-6 inline-flex items-center gap-1.5 text-sm font-semibold transition-transform group-hover:translate-x-1 ${i === 0 ? "text-text-dark" : "text-accent"}`}>
                       {opt.id === "trial" ? "Start now" : opt.id === "demo" ? "Pick a time" : "Send a message"}
                       <span aria-hidden="true">&rarr;</span>
                     </span>
@@ -439,7 +439,7 @@ function ContactContent() {
 
       </div>
     </section>
-    </>
+    </div>
   );
 }
 

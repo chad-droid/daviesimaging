@@ -132,8 +132,8 @@ export function Footer() {
               className="h-8 w-auto"
             />
             <p className="mt-3 text-sm leading-relaxed text-text-body">
-              Revenue-driving marketing assets designed for homebuilder teams
-              that need to sell faster.
+              Award-winning photography, video and virtual staging for home
+              builders in 28 markets.
             </p>
             <div className="mt-5 flex gap-4">
               <a href="https://www.linkedin.com/company/daviesimaging/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-text-body transition-colors hover:text-accent">

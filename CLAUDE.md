@@ -196,6 +196,16 @@ The `Eyebrow` component detects a "Parent / Child" pattern and renders with visu
 
 ---
 
+### Dark-primary pages (November 2026, `homepage-rebuild` branch)
+
+Chad's direction: dark is the primary look. Contact, Get Started and FAQ are
+fully dark. Wrap a page in `<div className="theme-dark">` and the light tokens
+flip (rules at the end of `globals.css`), so the page keeps its normal classes.
+Put `theme-light` on one element inside to flip it back, for a featured card.
+Other pages still use dark hero, light body, dark close until Chad extends it.
+
+---
+
 ### Final CTA Sections
 
 All "final CTA" closing sections (bottom of every page) must use `bg-bg-dark`. Never white, never `bg-bg-light`. The dark treatment creates a consistent visual bookend across all pages.

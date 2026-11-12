@@ -10,9 +10,43 @@ export const metadata: Metadata = {
   description: "Schedule a demo with the DIG team, or start a free trial and see one of your own spec homes staged with ModelMatch.",
 };
 
+// Same order and titles as the tiles on /contact: trial first, then demo.
+const PATHS = [
+  {
+    tag: "Your first home is free",
+    title: "Start Free Trial",
+    description:
+      "See ModelMatch on one of your own homes before you order anything. The first eight staged images are on us.",
+    points: [
+      "Eight staged images of your own spec home, free",
+      "Staged with furniture from your own model homes",
+      "Delivered in 1 business day",
+      "No contract and no credit card",
+    ],
+    href: "/modelmatch-datalibrary",
+    cta: "Start My Free Trial",
+    note: "Send one model home and one vacant spec to begin",
+  },
+  {
+    tag: "Recommended for new clients",
+    title: "Schedule Demo",
+    description:
+      "A 15-minute walkthrough with the DIG team. We show you digDesk, FrameFlow Studio, and the Spec+ ordering flow. You ask questions. No deck, no pressure.",
+    points: [
+      "See digDesk and virtual staging live",
+      "Watch a Spec+ order from submission to delivery",
+      "Ask about your specific markets and volume",
+      "15 minutes, no commitment required",
+    ],
+    href: "/contact?intent=demo",
+    cta: "Schedule a Demo",
+    note: "Leave your details, then pick a time on the next screen",
+  },
+];
+
 export default function GetStartedPage() {
   return (
-    <>
+    <div className="theme-dark">
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
@@ -30,106 +64,42 @@ export default function GetStartedPage() {
       <div className="mx-auto max-w-4xl px-6">
 
         <RevealOnScroll>
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-2 lg:gap-6">
+            {PATHS.map((path, i) => (
+              <div
+                key={path.title}
+                className={`flex flex-col rounded-2xl border p-7 lg:p-9 ${
+                  i === 0
+                    ? "theme-light border-bg-surface bg-bg-surface"
+                    : "border-border-light bg-bg-light"
+                }`}
+              >
+                <p className="text-xs font-bold uppercase tracking-[0.15em] text-accent">{path.tag}</p>
+                <h2 className="mt-5 text-[2rem] leading-[1.1] lg:text-[2.5rem]">{path.title}</h2>
+                <p className="mt-3 text-sm leading-relaxed text-text-body lg:text-base">{path.description}</p>
 
-            {/* Path 1 — Schedule Demo */}
-            <div className="flex flex-col rounded-2xl border border-border-light bg-bg-surface p-8 shadow-sm">
-              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-bg-light">
-                <svg className="h-6 w-6 text-text-dark" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-                </svg>
+                <ul className="mt-6 space-y-2.5">
+                  {path.points.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-text-body">
+                      <svg viewBox="0 0 16 16" className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <path d="M3 8l3 3.5 7-7" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-auto pt-8">
+                  <Link
+                    href={path.href}
+                    className="flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                  >
+                    {path.cta}
+                  </Link>
+                  <p className="mt-3 text-center text-xs text-text-muted">{path.note}</p>
+                </div>
               </div>
-
-              <div className="mb-1 flex items-center gap-2">
-                <span className="rounded-full bg-bg-light px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-text-muted">Recommended for new clients</span>
-              </div>
-
-              <h2 className="mt-3 text-[1.5rem]">
-                Schedule a <strong>Demo</strong>
-              </h2>
-
-              <p className="mt-3 text-sm leading-relaxed text-text-body">
-                A 15-minute walkthrough with the DIG team. We show you digDesk, FrameFlow Studio, and the Spec+ ordering flow. You ask questions. No deck, no pressure.
-              </p>
-
-              <ul className="mt-6 space-y-2.5">
-                {[
-                  "See digDesk and virtual staging live",
-                  "Watch a Spec+ order from submission to delivery",
-                  "Ask about your specific markets and volume",
-                  "15 minutes, no commitment required",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm text-text-body">
-                    <svg viewBox="0 0 16 16" className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
-                      <path d="M3 8l3 3.5 7-7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-auto pt-8">
-                <Link
-                  href="/contact?intent=demo"
-                  className="flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-                >
-                  Schedule a Demo
-                </Link>
-                <p className="mt-3 text-center text-xs text-text-muted">
-                  Leave your details, then pick a time on the next screen
-                </p>
-              </div>
-            </div>
-
-            {/* Path 2: Free trial */}
-            <div className="flex flex-col rounded-2xl border-2 border-accent bg-bg-surface p-8 shadow-sm">
-              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10">
-                <svg className="h-6 w-6 text-accent" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-              </div>
-
-              <div className="mb-1 flex items-center gap-2">
-                <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-accent">Your first home is free</span>
-              </div>
-
-              <h2 className="mt-3 text-[1.5rem]">
-                Start a <strong>Free Trial</strong>
-              </h2>
-
-              <p className="mt-3 text-sm leading-relaxed text-text-body">
-                See ModelMatch on one of your own homes before you order anything. The first eight staged images are on us.
-              </p>
-
-              <ul className="mt-6 space-y-2.5">
-                {[
-                  "Eight staged images of your own spec home, free",
-                  "Staged with furniture from your own model homes",
-                  "Delivered in 1 business day",
-                  "No contract and no credit card",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm text-text-body">
-                    <svg viewBox="0 0 16 16" className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth={2}>
-                      <path d="M3 8l3 3.5 7-7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-auto pt-8">
-                <Link
-                  href="/modelmatch-datalibrary"
-                  className="flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-                >
-                  Start My Free Trial
-                </Link>
-                <p className="mt-3 text-center text-xs text-text-muted">
-                  Send one model home and one vacant spec to begin
-                </p>
-              </div>
-            </div>
-
+            ))}
           </div>
         </RevealOnScroll>
 
@@ -176,6 +146,6 @@ export default function GetStartedPage() {
         </RevealOnScroll>
       </div>
     </section>
-    </>
+    </div>
   );
 }
