@@ -15,7 +15,7 @@ import { SITE_URL, buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/showcase" },
-  title: "PlanMatch, Moments and Cinematic",
+  title: "PlanMatch, Moments and CineFlow",
   description:
     "Three ways to show a home that has to move. Photography made from the plans, short silent vignettes, and a short editorial film, built for the website, paid media, the sales center and the listing refresh.",
 };
@@ -63,8 +63,8 @@ const SERVICES = [
       "Detailed close ups of a finished space, perfect for listing pages, paid social and email.",
   },
   {
-    slug: "cinematic",
-    name: "Cinematic",
+    slug: "cineflow",
+    name: "CineFlow",
     serviceType: "Video Production",
     description:
       "A short editorial film of the home, cut to a music narrative rather than a walkthrough, with a vertical version for social.",
@@ -97,7 +97,7 @@ const FACTS: Record<string, { label: string; value: string }[]> = {
     { label: "Shows", value: "Cabinetry, stone, fixtures and appliances" },
     { label: "Built for", value: "Listing pages, paid social and email" },
   ],
-  cinematic: [
+  cineflow: [
     { label: "Format", value: "Short editorial film, cut to music" },
     { label: "Also included", value: "A vertical cut and stills from the same set" },
     { label: "Built for", value: "The website and the sales center" },
@@ -280,14 +280,14 @@ export default function ShowcasePage() {
           <ChapterFooter slug="moments" />
         </section>
 
-        {/* 03 Cinematic: the film, playing, with sound one tap away */}
-        <section id="cinematic" className={CHAPTER}>
+        {/* 03 CineFlow: the film, playing, with sound one tap away */}
+        <section id="cineflow" className={CHAPTER}>
           <div className="mx-auto max-w-6xl px-6">
             <RevealOnScroll>
               <ShowcaseSectionHeader
                 slotId="services-showcase-cinematic"
                 index="03"
-                eyebrowDefault="Cinematic"
+                eyebrowDefault="CineFlow"
                 headlineDefault="A home told as a story, <strong>not a tour</strong>."
                 leadDefault="A short editorial film cut to a music narrative."
                 tailDefault="With a vertical version for social and stills pulled from the same set."
@@ -298,11 +298,11 @@ export default function ShowcasePage() {
             <ShowcaseFilm
               src="/showcase/cinematic.mp4"
               poster="/showcase/cinematic.jpg"
-              label="Cinematic film of a model home"
+              label="CineFlow film of a model home"
               sound
             />
           </Stage>
-          <ChapterFooter slug="cinematic" />
+          <ChapterFooter slug="cineflow" />
         </section>
       </div>
 
