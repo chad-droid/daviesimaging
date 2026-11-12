@@ -138,7 +138,7 @@ export default function DigDeskPage() {
                       </div>
                       <div className="flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1">
                         <div className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                        <span className="text-[10px] text-white/30">digDesk — Grand Homes</span>
+                        <span className="text-[10px] text-white/30">digDesk · Grand Homes</span>
                       </div>
                       <div className="w-10" />
                     </div>
