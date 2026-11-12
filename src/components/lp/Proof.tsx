@@ -39,7 +39,7 @@ export function Proof({
               >
                 {stat.value}
               </p>
-              <p className="mt-2 text-sm text-text-muted">{stat.label}</p>
+              <p className="mt-2 text-sm text-white/60">{stat.label}</p>
             </div>
           ))}
         </RevealOnScroll>

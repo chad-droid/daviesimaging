@@ -96,7 +96,7 @@ export default function VirtualStagingPage() {
               </a>
               <Link
                 href="/gallery/listings"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 See staged results &rarr;
               </Link>
@@ -168,7 +168,7 @@ export default function VirtualStagingPage() {
                 <div key={step.number} className="relative rounded-xl border border-white/10 bg-white/5 p-6">
                   <span className="font-mono text-3xl font-bold text-accent/60">{step.number}</span>
                   <h4 className="mt-4 text-base font-semibold text-text-light">{step.title}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-text-muted">{step.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">{step.body}</p>
                 </div>
               ))}
             </div>
@@ -287,7 +287,7 @@ export default function VirtualStagingPage() {
               </Link>
               <Link
                 href="/programs/spec-plus"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 See full Spec+ pricing &rarr;
               </Link>

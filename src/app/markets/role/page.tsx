@@ -53,7 +53,7 @@ export default function ByRolePage() {
             <h1 className="text-text-light">
               Built for the people who move <strong>homes</strong>.
             </h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-white/60">
               Every role in a homebuilding organization has different pressures. We built pages that speak directly to yours.
             </p>
           </RevealOnScroll>

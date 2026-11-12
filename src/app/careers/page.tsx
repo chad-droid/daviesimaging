@@ -57,7 +57,7 @@ export default function CareersPage() {
             <h1 className="text-text-light">
               Join a team that thinks about <strong>what happens after the shoot</strong>.
             </h1>
-            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-white/60">
               Davies Imaging Group is a homebuilder marketing asset company. We build photography, virtual staging, and video that helps builders sell homes faster. We&apos;re looking for people who care about that outcome.
             </p>
           </RevealOnScroll>

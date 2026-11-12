@@ -78,7 +78,7 @@ export default function ModelHomesPage() {
               </Link>
               <Link
                 href="/contact"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 Book a strategy call &rarr;
               </Link>

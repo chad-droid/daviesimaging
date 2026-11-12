@@ -59,7 +59,7 @@ export default function ByTypePage() {
             <h1 className="text-text-light">
               Every builder type has a different <strong>need</strong>.
             </h1>
-            <p className="mt-5 max-w-xl text-lg text-text-muted">
+            <p className="mt-5 max-w-xl text-lg text-white/60">
               Detached, attached, luxury, BTR, or multifamily. We build asset strategies tailored to how you operate and what your buyers actually need to see.
             </p>
           </RevealOnScroll>
@@ -111,7 +111,7 @@ export default function ByTypePage() {
             <h2 className="text-text-light">
               Not sure which services fit your <strong>build type</strong>?
             </h2>
-            <p className="mt-5 text-text-muted">
+            <p className="mt-5 text-white/60">
               A 15-minute strategy call is the fastest way to get a recommendation tailored to your specific communities, volume, and marketing goals.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -123,7 +123,7 @@ export default function ByTypePage() {
               </Link>
               <Link
                 href="/programs/spec-plus"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 See Spec+ pricing &rarr;
               </Link>

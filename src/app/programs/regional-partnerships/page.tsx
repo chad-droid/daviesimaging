@@ -68,7 +68,7 @@ export default function RegionalPartnershipsPage() {
               </Link>
               <Link
                 href="/markets/region"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 See all 28 markets &rarr;
               </Link>
@@ -186,7 +186,7 @@ export default function RegionalPartnershipsPage() {
                   dark={true}
                 />
               </div>
-              <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-muted">
+              <div className="space-y-5 text-[1.0625rem] leading-relaxed text-white/60">
                 <p>
                   Your marketing team orders through digDesk regardless of which market you&apos;re working in. digDesk handles virtual staging and virtual video via FrameFlow Studio, as well as photography coordinated by your dedicated account team. One platform, one process.
                 </p>

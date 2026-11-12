@@ -45,7 +45,7 @@ export default function WorkPage() {
             <h1 className="text-text-light">
               Assets built to move <strong>homes</strong>.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-text-muted">
+            <p className="mt-6 max-w-2xl text-lg text-white/60">
               Browse the full DIG portfolio across every category. Photography, staging, and video built for homebuilder marketing teams that need results, not just visuals.
             </p>
           </RevealOnScroll>
@@ -110,7 +110,7 @@ export default function WorkPage() {
               </Link>
               <Link
                 href="/programs/spec-plus"
-                className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
+                className="text-sm font-medium text-white/60 transition-colors hover:text-text-light"
               >
                 See Spec+ pricing &rarr;
               </Link>

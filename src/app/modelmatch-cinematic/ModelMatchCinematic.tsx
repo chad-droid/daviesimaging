@@ -234,7 +234,7 @@ function Glow({ pos }: { pos: "tr" | "bl" }) {
 
 function Eyebrow({ children, tone = "accent" }: { children: React.ReactNode; tone?: "accent" | "muted" | "onDark" }) {
   const color =
-    tone === "muted" ? "text-text-muted" : tone === "onDark" ? "text-accent-dark-hover" : "text-accent";
+    tone === "muted" ? "text-white/60" : tone === "onDark" ? "text-accent-dark-hover" : "text-accent";
   return (
     <p className={`text-[0.85rem] font-bold uppercase tracking-[0.26em] sm:text-base ${color}`}>
       {children}
@@ -482,8 +482,8 @@ const slides: Array<(p: SlideProps) => React.ReactElement> = [
           </div>
         </dl>
         <div className="mt-4 flex items-center justify-between rounded-xl bg-black/[0.04] px-5 py-3.5 sm:py-4">
-          <span className="text-sm text-text-muted sm:text-base">Optional Vertical Edit</span>
-          <span className="text-sm font-medium text-text-muted sm:text-base">+ $500</span>
+          <span className="text-sm text-white/60 sm:text-base">Optional Vertical Edit</span>
+          <span className="text-sm font-medium text-white/60 sm:text-base">+ $500</span>
         </div>
       </div>
     </div>
