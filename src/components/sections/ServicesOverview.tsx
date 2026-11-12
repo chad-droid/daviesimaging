@@ -184,7 +184,7 @@ export function ServicesOverview() {
         {/* Additional services footnote */}
         <p className="mt-10 text-center text-xs text-text-muted">
           Additional services available:{" "}
-          <Link href="/services/matterport" className="underline decoration-dotted hover:text-accent">
+          <Link href="/services/premium" className="underline decoration-dotted hover:text-accent">
             Matterport
           </Link>
           {" · "}

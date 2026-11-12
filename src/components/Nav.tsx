@@ -12,11 +12,21 @@ interface NavItem {
   label: string;
   href: string;
   description?: string;
+  /** Key of the stage column this item belongs to (Solutions only). */
+  stage?: string;
+}
+
+interface NavStage {
+  key: string;
+  label: string;
+  tagline: string;
 }
 
 interface NavGroup {
   label: string;
   basePath?: string; // used for active-state detection
+  /** When set, the desktop panel lays items out in one column per stage. */
+  stages?: NavStage[];
   items: NavItem[];
 }
 
@@ -24,15 +34,23 @@ const navGroups: NavGroup[] = [
   {
     label: "Solutions",
     basePath: "/services",
+    // Lead, Launch, List: the three moments a builder's marketing team needs
+    // assets for. Each product has one home here and cross-links elsewhere.
+    stages: [
+      { key: "lead", label: "Lead", tagline: "Pre-sell before it's built" },
+      { key: "launch", label: "Launch", tagline: "Model homes and amenities" },
+      { key: "list", label: "List", tagline: "Spec homes for sale" },
+    ],
     items: [
-      { label: "Spec+", href: "/programs/spec-plus", description: "Photography, staging, and video, $600 flat" },
-      { label: "Showcase", href: "/services/showcase", description: "PlanMatch, Moments and Cinematic" },
-      { label: "Premium Photography", href: "/services/premium", description: "Full-service model home and lifestyle shoots" },
-      { label: "Virtual Staging", href: "/services/virtual-staging", description: "ModelMatch virtual staging for homebuilders" },
-      { label: "Virtual Video", href: "/services/virtual-video", description: "FrameFlow videos built from existing photos" },
-      { label: "Video Production", href: "/services/video-production", description: "Crew-based community and lifestyle video" },
-      { label: "Listing Photography", href: "/services/listing", description: "HDR spec home photos for builder inventory" },
-      { label: "Matterport", href: "/services/matterport", description: "3D virtual tour scanning" },
+      { stage: "lead", label: "PlanMatch", href: "/services/showcase#planmatch", description: "Photography made from your plans" },
+      { stage: "lead", label: "CineFlow", href: "/services/showcase#cineflow", description: "Cinematic film without a photo shoot" },
+      { stage: "launch", label: "Premium Photography", href: "/services/premium", description: "Model homes, amenities and lifestyle" },
+      { stage: "launch", label: "Premium Video", href: "/services/video-production", description: "Crew-based community and lifestyle film" },
+      { stage: "list", label: "Spec+", href: "/programs/spec-plus", description: "Photography, staging, and video, $600 flat" },
+      { stage: "list", label: "Listing Photography", href: "/services/listing", description: "HDR spec home photos, MLS-ready" },
+      { stage: "list", label: "ModelMatch", href: "/services/virtual-staging", description: "Staging built from your own model homes" },
+      { stage: "list", label: "FrameFlow", href: "/services/virtual-video", description: "Video built from your existing photos" },
+      { stage: "list", label: "Moments", href: "/services/showcase#moments", description: "Vertical close ups for social" },
     ],
   },
   {
@@ -109,7 +127,60 @@ function DesktopDropdown({
       </button>
 
       <AnimatePresence>
-        {open && (
+        {open && group.stages && (
+          // Wide stage panel: centred under the header, one column per stage.
+          <div className="pointer-events-none fixed inset-x-0 top-16 z-50 flex justify-center px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
+              className="pointer-events-auto relative w-full max-w-4xl rounded-2xl border border-border-light bg-bg-surface shadow-xl shadow-black/8"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              {/* Invisible bridge so the menu survives the trip down from the button */}
+              <div className="absolute -top-8 left-0 h-8 w-full" />
+              <div className="grid grid-cols-3 divide-x divide-border-light">
+                {group.stages.map((stage, i) => (
+                  <div key={stage.key} className="p-3">
+                    <div className="px-3 pb-3 pt-2">
+                      <p className="flex items-baseline gap-2">
+                        <span className="text-[0.65rem] font-bold tracking-[0.15em] text-accent">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-[1.6rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+                          {stage.label}
+                        </span>
+                      </p>
+                      <p className="mt-1.5 text-[11px] uppercase tracking-[0.1em] text-text-muted">{stage.tagline}</p>
+                    </div>
+                    {group.items
+                      .filter((item) => item.stage === stage.key)
+                      .map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setOpen(false)}
+                          className="group/item flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-bg-light"
+                        >
+                          <span className="text-sm font-medium text-text-dark transition-colors group-hover/item:text-accent">
+                            {item.label}
+                          </span>
+                          {item.description && (
+                            <span className="mt-0.5 text-[11px] leading-snug text-text-muted transition-colors group-hover/item:text-text-body">
+                              {item.description}
+                            </span>
+                          )}
+                        </Link>
+                      ))}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        )}
+        {open && !group.stages && (
           <motion.div
             initial={{ opacity: 0, y: 6, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -328,11 +399,20 @@ function MobileGroup({
             className="overflow-hidden"
           >
             <div className="pb-2 pl-2">
-              {group.items.map((item) => {
+              {group.items.map((item, i) => {
                 const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+                const stage =
+                  item.stage && item.stage !== group.items[i - 1]?.stage
+                    ? group.stages?.find((st) => st.key === item.stage)
+                    : undefined;
                 return (
+                  <div key={item.href}>
+                  {stage && (
+                    <p className="pb-1 pl-2 pt-3 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-accent">
+                      {stage.label} <span className="font-medium normal-case tracking-normal text-text-muted">· {stage.tagline}</span>
+                    </p>
+                  )}
                   <Link
-                    key={item.href}
                     href={item.href}
                     onClick={onNavigate}
                     className={`flex flex-col py-2 pl-2 transition-colors hover:text-accent ${
@@ -344,6 +424,7 @@ function MobileGroup({
                       <span className="mt-0.5 text-[11px] text-text-muted">{item.description}</span>
                     )}
                   </Link>
+                  </div>
                 );
               })}
             </div>

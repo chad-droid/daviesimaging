@@ -20,7 +20,6 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 - [Video Production](${SITE_URL}/services/video-production): On-site, crew-based video. Community walkthroughs, lifestyle video, amenity showcases, brand films.
 - [Virtual Staging](${SITE_URL}/services/virtual-staging): Reference-based virtual staging using approved model home images as design references, not generic room swaps.
 - [Virtual Video](${SITE_URL}/services/virtual-video): Digital video built from existing photos or staging outputs. No shoot or crew required. This is also DIG's listing video solution.
-- [Matterport](${SITE_URL}/services/matterport): 3D virtual tour scanning.
 
 ## Programs (how builders buy)
 

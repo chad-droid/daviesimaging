@@ -10,6 +10,58 @@ const BLOB = "https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com";
 const primaryBtn =
   "rounded-full bg-accent px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover";
 
+/* ── Stage header: the giant word that opens Lead, Launch and List. ─────── */
+export function StageHeader({
+  n,
+  stage,
+  body,
+  products,
+  dark = false,
+}: {
+  n: string;
+  stage: string;
+  body: string;
+  products: { label: string; href: string }[];
+  dark?: boolean;
+}) {
+  return (
+    <div className={dark ? "border-t border-white/10 bg-bg-dark text-text-light" : "border-t border-border-light bg-bg-surface"}>
+      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-20 lg:grid-cols-[auto_1fr] lg:items-end lg:gap-20 lg:py-28">
+        <RevealOnScroll>
+          <p className={`text-xs font-bold uppercase tracking-[0.15em] ${dark ? "text-accent-dark-hover" : "text-accent"}`}>
+            Stage {n}
+          </p>
+          <p
+            className={`mt-2 text-[5.5rem] leading-[0.85] tracking-tight lg:text-[11rem] ${dark ? "text-text-light" : "text-text-dark"}`}
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            {stage}
+            <span className="text-accent">.</span>
+          </p>
+        </RevealOnScroll>
+        <RevealOnScroll>
+          <p className={`max-w-2xl text-xl leading-relaxed lg:text-[1.4rem] ${dark ? "text-white/80" : "text-text-body"}`}>{body}</p>
+          <div className="mt-7 flex flex-wrap gap-2">
+            {products.map((p) => (
+              <Link
+                key={p.label}
+                href={p.href}
+                className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                  dark
+                    ? "border-white/20 text-white/85 hover:border-white hover:text-white"
+                    : "border-border-light text-text-dark hover:border-accent hover:text-accent"
+                }`}
+              >
+                {p.label}
+              </Link>
+            ))}
+          </div>
+        </RevealOnScroll>
+      </div>
+    </div>
+  );
+}
+
 /* ── ModelMatch: the hands-on moment. Drag vacant to staged. ─────────────── */
 export function ModelMatchChapter() {
   return (
@@ -72,20 +124,20 @@ export function FilmChapter() {
         <RevealOnScroll>
           <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:items-end lg:gap-16">
             <div>
-              <Eyebrow dark>Film</Eyebrow>
+              <Eyebrow dark>CineFlow</Eyebrow>
               <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
                 A home told as a story, <strong>not a tour</strong>.
               </h2>
             </div>
             <div className="mt-6 lg:mt-0 lg:pb-2">
               <p className="text-lg leading-relaxed text-white/80">
-                A short editorial film cut to a music narrative, with a vertical version for social.
+                Cinematic sequences of your homes, cut to a music narrative, without a full production.
               </p>
               <Link
                 href="/services/showcase"
                 className="mt-4 inline-block text-sm font-medium text-white/70 transition-colors hover:text-white"
               >
-                See PlanMatch, Moments and Cinematic &rarr;
+                See PlanMatch, Moments and CineFlow &rarr;
               </Link>
             </div>
           </div>
@@ -94,7 +146,7 @@ export function FilmChapter() {
       <GrowingFilm
         src="/showcase/cinematic.mp4"
         poster="/showcase/cinematic.jpg"
-        label="Cinematic film of a model home"
+        label="CineFlow film of a model home"
       />
     </section>
   );

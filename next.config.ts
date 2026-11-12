@@ -26,6 +26,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Matterport no longer has its own page. It is part of Premium (model
+      // homes) and Listing (inventory), so the old URL lands on Premium.
+      { source: "/services/matterport", destination: "/services/premium", permanent: true },
       // ── builderphoto.com → the Builder Photo Blog ───────────────────────────
       // The blog is branded "Builder Photo Blog" and lives at /blog on the main
       // site. builderphoto.com is a vanity domain that funnels straight to it.

@@ -52,13 +52,6 @@ const digital = [
     description: "Reference-based virtual staging using your builder&apos;s own model home photography as the design reference. Branded results, not generic furniture swaps.",
     cta: "Explore Virtual Staging",
   },
-  {
-    title: "Matterport",
-    href: "/services/matterport",
-    tag: "3D Tours",
-    description: "Immersive 3D virtual tours for model homes and communities. Room-by-room navigation for remote buyers, sales centers, and digital campaigns.",
-    cta: "Explore Matterport",
-  },
 ];
 
 function ServiceCard({ svc }: { svc: typeof photography[0] }) {

@@ -41,7 +41,7 @@ export function HomeHero() {
         style={{ y: copyY, opacity: copyOpacity }}
       >
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.15em] text-white/60">
-          Davies Imaging Group
+          From lead to launch to list
         </p>
         <h1 className="max-w-4xl text-text-light lg:text-[4.5rem] lg:leading-[1.02] xl:text-[5.25rem]">
           Slow sales? Update your <strong>presentation</strong>.

@@ -48,7 +48,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/services/video-production`, changeFrequency: "monthly", priority: 0.80 },
     { url: `${BASE}/services/virtual-staging`,  changeFrequency: "monthly", priority: 0.80 },
     { url: `${BASE}/services/virtual-video`,    changeFrequency: "monthly", priority: 0.80 },
-    { url: `${BASE}/services/matterport`,       changeFrequency: "monthly", priority: 0.70 },
     { url: `${BASE}/services/showcase`,         changeFrequency: "monthly", priority: 0.80 },
 
     // ── Programs ──────────────────────────────────────────────────────────────

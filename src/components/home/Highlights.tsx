@@ -29,9 +29,9 @@ const CARDS: Card[] = [
     image: "/mm/result-1-great-room.jpg",
   },
   {
-    label: "Cinematic",
+    label: "CineFlow",
     line: "A home told as a story, not a tour.",
-    href: "/services/showcase#cinematic",
+    href: "/services/showcase#cineflow",
     video: "/client-showcase/cineflow-crestmont.mp4",
     image: "/client-showcase/cineflow-crestmont-poster.webp",
   },
