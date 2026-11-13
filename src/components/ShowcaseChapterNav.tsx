@@ -38,7 +38,7 @@ export function ShowcaseChapterNav({ chapters, ctaHref, ctaLabel }: ShowcaseChap
   return (
     <nav
       aria-label="Showcase chapters"
-      className="sticky top-16 z-30 border-y border-white/10 bg-bg-dark/85 backdrop-blur"
+      className="sticky top-16 z-30 border-b border-white/10 bg-[#18181A]"
     >
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-6">
         <ul className="flex items-center gap-6 overflow-x-auto sm:gap-8">
@@ -65,9 +65,9 @@ export function ShowcaseChapterNav({ chapters, ctaHref, ctaLabel }: ShowcaseChap
         </ul>
         <Link
           href={ctaHref}
-          className="hidden shrink-0 rounded-full bg-accent px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-accent-hover sm:inline-flex"
+          className="hidden shrink-0 items-center gap-1.5 text-sm font-medium text-text-light transition-colors hover:text-accent-dark-hover sm:inline-flex"
         >
-          {ctaLabel}
+          {ctaLabel} <span aria-hidden="true">&rarr;</span>
         </Link>
       </div>
     </nav>
