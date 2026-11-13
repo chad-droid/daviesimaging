@@ -3,7 +3,7 @@ import { ProductPage, type ProductPageConfig } from "@/components/ProductPage";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/cineflow" },
-  title: "CineFlow",
+  title: "CineFlow: Cinematic Model Home Video Without a Shoot",
   description: "CineFlow relights each of your spaces, adds new angles, and gives you lifelike cinematic sequences without a real photo shoot.",
 };
 

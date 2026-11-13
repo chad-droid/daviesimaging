@@ -11,7 +11,7 @@ import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/video-production" },
-  title: "Premium Video",
+  title: "Model Home and Community Video for Home Builders",
   description: "On-site, crew-based video of your model homes, amenities, and communities: community walkthroughs, lifestyle video, and brand films.",
 };
 

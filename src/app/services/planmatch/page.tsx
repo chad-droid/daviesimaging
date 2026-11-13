@@ -3,7 +3,7 @@ import { ProductPage, type ProductPageConfig } from "@/components/ProductPage";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/planmatch" },
-  title: "PlanMatch",
+  title: "PlanMatch: Photorealistic Renderings From Your Floor Plans",
   description: "PlanMatch gives you photorealistic images of your homes before they are built, made from your construction plans and finishes. Days, not months.",
 };
 
@@ -18,7 +18,7 @@ const config: ProductPageConfig = {
   hero: {
     headline: "Don't call it <strong>rendering</strong>.",
     subhead:
-      "Before your community is ever built, you can have photorealistic images of all of your model home plans and your unmodeled plans. Better, faster, and less expensive than ever.",
+      "Before your community is ever built, you can have photorealistic images of every floor plan, modeled or not, in place of traditional renderings. Better, faster, and less expensive than ever.",
   },
   leadFilm: {
     src: "/showcase/planmatch-01.mp4",

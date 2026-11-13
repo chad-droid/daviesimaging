@@ -12,7 +12,7 @@ import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/premium" },
-  title: "Premium Photography",
+  title: "Model Home Photography for Home Builders",
   description: "Model home, amenity, and lifestyle photography for homebuilders, from a national network of highly trained photographers in 26 U.S. markets.",
 };
 
@@ -91,7 +91,7 @@ export default function PremiumPage() {
             <EditableHero
               slotId="services-premium-hero"
               eyebrowDefault="Solutions / Premium Photography"
-              headlineDefault="Showcase your new model park at its <strong>best</strong>."
+              headlineDefault="Model home photography that shows your new model park at its <strong>best</strong>."
               subheadDefault="You get a national network of highly trained professional photographers, and the best model home photography, video, and Matterport services available to the industry."
             />
             <ProductTags line="Production" stage="Launch" />

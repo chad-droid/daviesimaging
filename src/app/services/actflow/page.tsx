@@ -3,7 +3,7 @@ import { ProductPage, type ProductPageConfig } from "@/components/ProductPage";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/actflow" },
-  title: "ActFlow",
+  title: "ActFlow: Lifestyle Content With Virtual Talent",
   description: "ActFlow introduces virtual talent to your spaces so your buyers can envision what life looks like in your homes and amenities.",
 };
 

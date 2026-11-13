@@ -8,7 +8,7 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/lifestyle" },
-  title: "Lifestyle",
+  title: "Lifestyle Photography and Video Gallery",
   description: "Lifestyle photography and video that show your buyers what life looks like in your community.",
 };
 

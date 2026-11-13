@@ -11,7 +11,7 @@ import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/spec-plus" },
-  title: "Spec+",
+  title: "Spec+: Spec Home Photography, Staging and Video for $600",
   description: "Spec+ combines listing photography, ModelMatch virtual staging and a FrameFlow video in one order. 25 photos, 8 staged images and 1 video for $600 flat, delivered within 72 hours of the shoot.",
 };
 
