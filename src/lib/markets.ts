@@ -67,6 +67,31 @@ export const markets = [
   {"slug": "gettysburg", "city": "Gettysburg", "name": "Gettysburg", "state": "PA", "stateName": "Pennsylvania", "region": "east", "coords": [-77.23, 39.83], "blurb": "South central Pennsylvania: Adams County and the Gettysburg area.", "areas": ["Biglerville", "Adams County"], "builders": ["S&A Homes"], "labelAnchor": "end", "labelY": -10},
 ] as Market[];
 
+/**
+ * Places DIG does not shoot in yet but is opening, because builders we are
+ * onboarding build there (13 Nov 2026). They show on the map and in the market
+ * list as "Coming soon". They are not counted in the market total, have no
+ * page, and are not in the sitemap. When the first shoot is done, move the
+ * entry into `markets` above with its real areas and builders.
+ */
+export interface ComingSoonMarket {
+  city: string;
+  state: string;
+  region: RegionId;
+  coords: [number, number];
+}
+
+export const comingSoonMarkets: ComingSoonMarket[] = [
+  { city: "Spokane", state: "WA", region: "west", coords: [-117.43, 47.66] },
+  { city: "Bend", state: "OR", region: "west", coords: [-121.31, 44.06] },
+  { city: "Eugene", state: "OR", region: "west", coords: [-123.09, 44.05] },
+  { city: "Missoula", state: "MT", region: "mountain", coords: [-113.99, 46.87] },
+  { city: "Chattanooga", state: "TN", region: "central", coords: [-85.31, 35.05] },
+  { city: "Blairsville", state: "GA", region: "east", coords: [-83.96, 34.88] },
+  { city: "Asheville", state: "NC", region: "east", coords: [-82.55, 35.6] },
+  { city: "Greenville", state: "SC", region: "east", coords: [-82.39, 34.85] },
+];
+
 export const marketBySlug = (slug: string) => markets.find((m) => m.slug === slug);
 export const marketsInRegion = (region: RegionId) => markets.filter((m) => m.region === region);
 /** "Dallas-Fort Worth", or "the San Francisco Bay Area" where the name needs an article. */

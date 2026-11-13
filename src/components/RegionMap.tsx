@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { markets } from "@/lib/markets";
+import { markets, comingSoonMarkets } from "@/lib/markets";
 import {
   ComposableMap,
   Geographies,
@@ -154,6 +154,23 @@ export function RegionMap({ dark = false, linkPins = false }: { dark?: boolean; 
               </Marker>
             );
           })}
+
+          {/* Coming soon: a hollow ring, no label and no link. Hovering shows the name. */}
+          {comingSoonMarkets
+            .filter((m) => !activeRegion || m.region === activeRegion)
+            .map((m) => (
+              <Marker key={`soon-${m.city}`} coordinates={m.coords}>
+                <circle
+                  r={3.5}
+                  fill={dark ? "#18181A" : "#ffffff"}
+                  stroke={dark ? "#857AE0" : "#6A5ACD"}
+                  strokeWidth={1.25}
+                  strokeDasharray="2 1.5"
+                >
+                  <title>{`${m.city}, ${m.state}: coming soon`}</title>
+                </circle>
+              </Marker>
+            ))}
         </ComposableMap>
       </div>
 
@@ -204,6 +221,10 @@ export function RegionMap({ dark = false, linkPins = false }: { dark?: boolean; 
         <span className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-accent" />
           Active market: click to see the work
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full border border-dashed border-accent" />
+          Coming soon
         </span>
         <span>29 U.S. markets + growing</span>
       </div>
