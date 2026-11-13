@@ -10,17 +10,17 @@ export function MarketDirectory({ current }: { current?: string }) {
       {REGIONS.map((r) => (
         <div key={r}>
           <p className="text-xs font-bold uppercase tracking-[0.15em] text-accent">{REGION_LABELS[r]}</p>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-3">
             {markets
               .filter((m) => m.region === r)
               .map((m) => (
                 <li key={m.slug}>
                   {m.slug === current ? (
-                    <span className="text-sm font-semibold text-text-dark">{m.name}, {m.state}</span>
+                    <span className="block py-1.5 text-sm font-semibold text-text-dark">{m.name}, {m.state}</span>
                   ) : (
                     <Link
                       href={`/markets/${m.slug}`}
-                      className="text-sm text-text-body transition-colors hover:text-accent"
+                      className="block py-1.5 text-sm text-text-body transition-colors hover:text-accent"
                     >
                       {m.name}, {m.state}
                     </Link>
