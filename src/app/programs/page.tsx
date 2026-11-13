@@ -47,7 +47,7 @@ const offerings = [
 
 export default function ProgramsIndex() {
   return (
-    <>
+    <div className="theme-dark">
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
@@ -179,6 +179,6 @@ export default function ProgramsIndex() {
           </RevealOnScroll>
         </div>
       </DarkSection>
-    </>
+    </div>
   );
 }

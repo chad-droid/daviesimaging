@@ -27,7 +27,7 @@ const dimensions = [
 
 export default function MarketsIndex() {
   return (
-    <>
+    <div className="theme-dark">
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
@@ -97,6 +97,6 @@ export default function MarketsIndex() {
           </RevealOnScroll>
         </div>
       </DarkSection>
-    </>
+    </div>
   );
 }
