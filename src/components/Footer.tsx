@@ -163,7 +163,7 @@ export function Footer() {
               target="_blank"
               className="mt-7"
             >
-              <label htmlFor="footer-email" className="text-xs font-medium uppercase tracking-[0.12em] text-text-muted">
+              <label htmlFor="footer-email" className="text-sm text-text-body">
                 Subscribe for updates and insights
               </label>
               <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
