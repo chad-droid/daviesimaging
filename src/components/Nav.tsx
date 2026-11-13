@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import type React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -151,7 +152,7 @@ function DesktopDropdown({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 4 }}
               transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-              className="pointer-events-auto relative w-full max-w-4xl rounded-2xl border border-border-light bg-bg-surface shadow-xl shadow-black/8"
+              className="pointer-events-auto relative w-full max-w-4xl rounded-2xl border border-border-light bg-bg-surface shadow-xl shadow-black/50"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
@@ -235,7 +236,7 @@ function DesktopDropdown({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.98 }}
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
-            className="absolute left-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-xl border border-border-light bg-bg-surface shadow-xl shadow-black/8"
+            className="absolute left-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-xl border border-border-light bg-bg-surface shadow-xl shadow-black/50"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
@@ -323,13 +324,14 @@ function MobileDrawer({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] as [number, number, number, number] }}
-            className="fixed right-0 top-0 z-50 flex h-full w-[min(360px,90vw)] flex-col bg-bg-surface shadow-2xl lg:hidden"
+            className="theme-dark fixed right-0 top-0 z-50 flex h-full w-[min(360px,90vw)] flex-col shadow-2xl lg:hidden"
+            style={{ "--bg-surface": "#18181A", "--bg-light": "#26262A", background: "#18181A" } as React.CSSProperties}
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border-light px-6 py-4">
               <Link href="/" onClick={onClose}>
                 <Image
-                  src="/dig-logo-dark.png"
+                  src="/dig-logo-light.png"
                   alt="Davies Imaging Group"
                   width={120}
                   height={73}
@@ -486,18 +488,24 @@ function MobileGroup({
 
 // ─── Main Nav ─────────────────────────────────────────────────────────────────
 
+// The bar and its menus are charcoal, matching the footer. theme-dark flips the
+// text and border tokens; these override the surface tokens so the dropdowns
+// sit on the same charcoal instead of the page's near-black.
+const NAV_VARS = { "--bg-surface": "#18181A", "--bg-light": "#26262A" } as React.CSSProperties;
+const NAV_DARK = { ...NAV_VARS, background: "rgba(24, 24, 26, 0.94)" } as React.CSSProperties;
+
 export function Nav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
-      <header className="fixed left-0 right-0 top-0 z-40 border-b border-border-light bg-bg-surface/95 backdrop-blur-sm">
+      <header className="theme-dark fixed left-0 right-0 top-0 z-40 border-b border-border-light backdrop-blur-sm" style={NAV_DARK}>
         <nav className="mx-auto flex max-w-[90rem] items-center justify-between px-6 py-3.5 lg:px-8 2xl:px-12 2xl:py-4">
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <Image
-              src="/dig-logo-dark.png"
+              src="/dig-logo-light.png"
               alt="Davies Imaging Group"
               width={120}
               height={73}
@@ -574,7 +582,7 @@ export function Nav() {
               href="https://desk.daviesimaging.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-border-light px-4 py-1.5 text-[12px] font-semibold tracking-wide text-text-body transition-all hover:border-accent hover:text-accent"
+              className="rounded-full border border-white/25 px-4 py-1.5 text-[12px] font-semibold tracking-wide text-text-body transition-all hover:border-accent hover:text-accent"
             >
               Log In
             </a>

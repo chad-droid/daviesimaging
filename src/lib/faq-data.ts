@@ -112,6 +112,10 @@ export const faqGroups: FaqGroup[] = [
         a: "Yes. Matterport is available as part of a Premium or Listing Photography shoot. Ask for it when you order.",
       },
       {
+        q: "Do you offer Zillow 3D Home tours?",
+        a: "Yes. We offer Zillow 3D Home tours. Ask for one when you order your shoot.",
+      },
+      {
         q: "Do you film video of spec homes?",
         a: "Not with a camera crew. For a spec or listing home, FrameFlow makes the video from your listing photos, so there is nothing more to schedule.",
       },

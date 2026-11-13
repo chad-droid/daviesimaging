@@ -64,6 +64,7 @@ Davies Imaging Group (DIG) rebuilt `daviesimaging.com` from scratch as a Next.js
 
 ### Removed
 - **Removed 12 November 2026 at Chad's direction**, each with a redirect in `next.config.ts`: Builder Types (`/markets/type`), Regional Partnerships (`/programs/regional-partnerships`), the Gallery index (`/gallery`, now goes to `/gallery/models`), `/welcome-back`, and the campaign pages `frameflow-demo`, `frameflow-sell-faster` and `modelmatch-trial-info`. Sections below that describe them are historical. `/privacy` was on the same list but is held: it is the full privacy policy that ad lead forms point to.
+- **Navbar (12 Nov 2026):** charcoal to match the footer. `theme-dark` on the header and mobile drawer, with `--bg-surface` overridden to `#18181A` so the dropdowns match. Light logo.
 - **Footer (12 Nov 2026):** charcoal `#18181A` with `theme-dark`, newsletter form inside the brand column. No Careers, FrameFlow Studio or Premium Video links. Links column has "Try ModelMatch Free" to `/modelmatch-datalibrary`.
 - **Who We Help (`/markets/role`) and its four role pages** were removed in November 2026 at Chad's direction. The URLs redirect to `/about`. Sections below that still describe By Role or persona pages are historical.
 
