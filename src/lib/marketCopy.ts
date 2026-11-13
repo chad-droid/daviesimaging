@@ -1,6 +1,6 @@
 // Wording for the market pages at /markets/{slug}.
 //
-// All 27 pages are built from one component, so without this they read almost
+// All 29 pages are built from one component, so without this they read almost
 // word for word alike. Each line below has a few phrasings that say the same
 // thing, and a market picks one by its slug, so the choice never changes
 // between builds and neighbouring pages differ. Nothing here adds a claim: a
@@ -40,15 +40,15 @@ export function marketFaqs(m: Market): MarketFaq[] {
     pick<MarketFaq>(m, "faq-coverage", [
       {
         q: `Does DIG photograph new homes in ${place}?`,
-        a: `Yes. ${m.name} is one of the 27 U.S. markets DIG shoots in, covering ${areas} and the communities around them.`,
+        a: `Yes. ${m.name} is one of the 29 U.S. markets DIG shoots in, covering ${areas} and the communities around them.`,
       },
       {
         q: `Is ${m.name} one of DIG's markets?`,
-        a: `Yes. We shoot in ${areas} and the communities nearby. ${m.name} is one of 27 U.S. markets DIG covers.`,
+        a: `Yes. We shoot in ${areas} and the communities nearby. ${m.name} is one of 29 U.S. markets DIG covers.`,
       },
       {
         q: `Do you work with home builders in ${place}?`,
-        a: `Yes. DIG photographers work across ${areas}, and ${m.name} is one of our 27 U.S. markets.`,
+        a: `Yes. DIG photographers work across ${areas}, and ${m.name} is one of our 29 U.S. markets.`,
       },
     ]),
     pick<MarketFaq>(m, "faq-services", [
@@ -122,7 +122,7 @@ export function marketCopy(m: Market) {
     ]),
     coverageBody: pick(m, "coverage", [
       `Our photographers work new home communities in ${areas}, and the neighborhoods between them. You get the same process and the same delivery standard here as in every other DIG market.`,
-      `You can book DIG for communities in ${areas} and the areas around them. The process and the delivery times are the same ones we hold in all 27 markets.`,
+      `You can book DIG for communities in ${areas} and the areas around them. The process and the delivery times are the same ones we hold in all 29 markets.`,
       `DIG shoots model homes, spec homes and amenities throughout ${areas}. Your ${m.name} communities get the same process and the same delivery standard as every other market we serve.`,
       `If you build in ${areas}, or anywhere nearby, we can photograph it. What you receive in ${m.name} matches what our builders receive in every other DIG market.`,
     ]),
@@ -151,7 +151,7 @@ export function marketCopy(m: Market) {
     ]),
     premiumBody: pick(m, "premium", [
       `You get the best model home photography, video, and Matterport services available to the industry, in ${place} and 25 other markets across the United States.`,
-      `In ${place}, as in all 27 DIG markets, you get the best model home photography, video, and Matterport services available to the industry.`,
+      `In ${place}, as in all 29 DIG markets, you get the best model home photography, video, and Matterport services available to the industry.`,
       `You get the best model home photography, video, and Matterport services available to the industry, from photographers who work in ${place}.`,
     ]),
     modelMatchBody: pick(m, "modelmatch", [
@@ -165,9 +165,9 @@ export function marketCopy(m: Market) {
       `What builders in <strong>${place}</strong> ask us.`,
     ]),
     directoryHeadline: pick(m, "directory-h", [
-      `The same quality in <strong>27 markets</strong>.`,
-      `${m.name} is one of <strong>27 markets</strong>.`,
-      `Building somewhere else too? We shoot in <strong>27 markets</strong>.`,
+      `The same quality in <strong>29 markets</strong>.`,
+      `${m.name} is one of <strong>29 markets</strong>.`,
+      `Building somewhere else too? We shoot in <strong>29 markets</strong>.`,
     ]),
   };
 }

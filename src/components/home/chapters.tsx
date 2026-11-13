@@ -169,7 +169,7 @@ export function PremiumChapter({ body }: { body?: string } = {}) {
       <div className="mx-auto max-w-7xl px-6">
         <ChapterHeader
           eyebrow="Premium Photography"
-          body={body ?? "You get the best model home photography, video, and Matterport services available to the industry, in 27 markets across the United States."}
+          body={body ?? "You get the best model home photography, video, and Matterport services available to the industry, in 29 markets across the United States."}
         >
           Built for builders who <strong>demand the best</strong>.
         </ChapterHeader>

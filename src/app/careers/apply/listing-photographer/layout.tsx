@@ -6,7 +6,7 @@ import { SITE_NAME, buildBreadcrumbSchema } from "@/lib/seo";
 export const metadata: Metadata = {
   title: { absolute: `Listing Photographer Jobs | ${SITE_NAME}` },
   description:
-    "Shoot spec homes and active inventory for national and regional homebuilders. HDR listing photography, fast turnaround, flexible scheduling across DIG's 27 markets.",
+    "Shoot spec homes and active inventory for national and regional homebuilders. HDR listing photography, fast turnaround, flexible scheduling across DIG's 29 markets.",
   alternates: { canonical: "/careers/apply/listing-photographer" },
 };
 

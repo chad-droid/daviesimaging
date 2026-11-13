@@ -75,7 +75,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Why We Exist", href: "/about", description: "How DIG was built inside the industry" },
       { label: "How We Do It", href: "/about/how-we-do-it", description: "Our specialization model and philosophy" },
-      { label: "Our Markets", href: "/markets/region", description: "27 markets across four U.S. regions" },
+      { label: "Our Markets", href: "/markets/region", description: "29 markets across four U.S. regions" },
       { label: "Builder Photo Blog", href: "/blog", description: "Photography, strategy, and builder insights" },
     ],
   },

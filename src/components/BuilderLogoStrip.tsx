@@ -36,7 +36,7 @@ const row2 = [
 ];
 
 const headlineFields = [
-  { key: "headline", label: "Headline text", type: "text" as const, defaultValue: "Trusted by homebuilders across 27 markets" },
+  { key: "headline", label: "Headline text", type: "text" as const, defaultValue: "Trusted by homebuilders across 29 markets" },
 ];
 
 type LogoEntry = { name: string; file: string; h: number; maxW: number };
