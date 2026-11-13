@@ -6,6 +6,8 @@ import { ImageBand } from "@/components/ImageBand";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
+import { JsonLd } from "@/components/JsonLd";
+import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 import { TestimonialBand } from "@/components/TestimonialBand";
 
 export const metadata: Metadata = {
@@ -67,6 +69,21 @@ const reasons = [
 export default function DigDeskPage() {
   return (
     <>
+      <JsonLd
+        data={buildServiceSchema({
+          name: "digDesk",
+          description:
+            "The DIG client portal: one place to order, track, revise and pay for photography, virtual staging and video.",
+          path: "/programs/digdesk",
+          serviceType: "Client Portal",
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: "Programs", path: "/programs" },
+          { name: "digDesk", path: "/programs/digdesk" },
+        ])}
+      />
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">

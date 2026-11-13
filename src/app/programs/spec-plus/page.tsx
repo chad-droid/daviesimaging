@@ -3,6 +3,9 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { DynamicImage } from "@/components/DynamicImage";
 import { SpecFaq } from "@/components/SpecFaq";
+import { JsonLd } from "@/components/JsonLd";
+import { SITE_URL, buildServiceSchema, buildBreadcrumbSchema, buildFaqSchema } from "@/lib/seo";
+import { specFaqs } from "@/lib/faq-data";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
@@ -33,6 +36,24 @@ const steps = [
 export default function SpecPlusPage() {
   return (
     <>
+      <JsonLd
+        data={buildServiceSchema({
+          name: "Spec+",
+          description:
+            "Listing photography, ModelMatch virtual staging and a FrameFlow video for spec homes, in one order: 25 photos, 8 staged images and 1 video, delivered within 72 hours of the shoot.",
+          path: "/programs/spec-plus",
+          serviceType: "Photography",
+          offers: [{ name: "Spec+ order, any home size", price: 600 }],
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: "Programs", path: "/programs" },
+          { name: "Spec+", path: "/programs/spec-plus" },
+        ])}
+      />
+      {/* Matches the questions <SpecFaq /> shows further down this page. */}
+      <JsonLd data={buildFaqSchema(specFaqs, `${SITE_URL}/programs/spec-plus`)} />
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
