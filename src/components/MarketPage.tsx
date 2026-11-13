@@ -22,7 +22,7 @@ import {
 } from "@/components/home/chapters";
 import { SITE_URL, buildServiceSchema, buildBreadcrumbSchema, buildFaqSchema } from "@/lib/seo";
 import { inName, REGION_LABELS, type Market } from "@/lib/markets";
-import { marketCopy, marketFaqs, marketTestimonialIds } from "@/lib/marketCopy";
+import { list, marketCopy, marketFaqs, marketTestimonialIds } from "@/lib/marketCopy";
 
 const CHAPTERS = [
   { id: "coverage", label: "Coverage" },
@@ -84,6 +84,11 @@ export function MarketPage({ market: m }: { market: Market }) {
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>{m.blurb}</p>
                 <p>{copy.coverageBody}</p>
+                {m.builders.length > 0 && (
+                  <p>
+                    Home builders we have worked with in and around {m.name} include {list(m.builders.slice(0, m.buildersShown ?? 6))}.
+                  </p>
+                )}
                 {m.isOffice && (
                   <p>{copy.officeBody}</p>
                 )}

@@ -10,7 +10,7 @@ import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/frameflow" },
-  title: "FrameFlow",
+  title: "FrameFlow Studio: Order Virtual Staging and Listing Video Online",
   description: "FrameFlow Studio is where you order ModelMatch staging and FrameFlow video inside digDesk, from the photos you already have.",
 };
 
