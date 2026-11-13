@@ -12,7 +12,7 @@ import { TestimonialBand } from "@/components/TestimonialBand";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/digdesk" },
-  title: "digDesk",
+  title: "digDesk: Order and Track Home Builder Photography Online",
   description: "digDesk is the single point of entry to order, track, revise, and pay for all of your marketing assets.",
 };
 
