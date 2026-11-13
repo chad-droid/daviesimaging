@@ -386,7 +386,7 @@ export default function ShowcaseAdminPage() {
                               ? "border-[#6A5ACD] bg-[#6A5ACD]/10 text-white"
                               : "border-[#2C2C2C] text-[#999] hover:border-[#444]"
                         }`}
-                        title={m.available ? m.line : "Photos not added yet"}
+                        title={m.available ? m.blurb : "Photos not added yet"}
                       >
                         <input
                           type="checkbox"
@@ -397,7 +397,7 @@ export default function ShowcaseAdminPage() {
                         />
                         <span>
                           <span className="block font-semibold">{m.name}</span>
-                          <span className="block text-[10px] text-[#777]">{m.available ? m.kind : "Coming soon"}</span>
+                          <span className="block text-[10px] text-[#777]">{m.available ? m.stages.join(" + ") : "Coming soon"}</span>
                         </span>
                       </label>
                     );
