@@ -4,7 +4,7 @@ import { HomePage } from "@/components/home/HomePage";
 export const metadata: Metadata = {
   title: { absolute: "Photography Made for Homebuilders | Davies Imaging Group" },
   description:
-    "Model home photography, listing photography, virtual staging and video for home builders in 26 U.S. markets.",
+    "Model home photography, listing photography, virtual staging and video for home builders in 27 U.S. markets.",
   alternates: { canonical: "/" },
 };
 

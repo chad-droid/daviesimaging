@@ -9,7 +9,7 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/models" },
   title: "Model Home Photography Gallery",
-  description: "Model home photography from our national network of highly trained photographers, in 26 U.S. markets.",
+  description: "Model home photography from our national network of highly trained photographers, in 27 U.S. markets.",
 };
 
 const otherWork = [
@@ -66,7 +66,7 @@ export default function ModelHomesPage() {
               slotId="gallery-models-cta"
               eyebrowDefault="Premium Photography"
               headlineDefault="Ready to photograph your <strong>next model</strong>?"
-              bodyDefault="You get full-service model home photography, from pre-shoot planning to final delivery, in 26 markets."
+              bodyDefault="You get full-service model home photography, from pre-shoot planning to final delivery, in 27 markets."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

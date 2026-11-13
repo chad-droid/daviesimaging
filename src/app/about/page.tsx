@@ -29,7 +29,7 @@ const pillars = [
 ];
 
 const stats = [
-  { value: "26", label: "Markets nationwide", detail: "You get the same standard in every market you build in." },
+  { value: "27", label: "Markets nationwide", detail: "You get the same standard in every market you build in." },
   { value: "95%", label: "First delivery", detail: "95% of deliveries are ready to publish without any changes." },
   { value: "72 hrs", label: "Spec+ delivery", detail: "Your Spec+ assets arrive within 72 hours of the shoot." },
   { value: "5-Star", label: "Client reviews", detail: "Seamless because every person on the team is focused on what they do best." },
@@ -122,7 +122,7 @@ export default function AboutPage() {
                   Whether you&apos;re pre-selling a new community, showcasing a new model park, or getting your new listings online, our suite of marketing services is designed to make the world&apos;s best home builders look their best.
                 </p>
                 <p>
-                  Regardless of the market you operate in, you get the same award-winning quality in each of our service lines. We&apos;re proud to serve 26 markets across the United States, and that&apos;s growing.
+                  Regardless of the market you operate in, you get the same award-winning quality in each of our service lines. We&apos;re proud to serve 27 markets across the United States, and that&apos;s growing.
                 </p>
               </div>
             </div>

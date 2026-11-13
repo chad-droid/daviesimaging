@@ -105,7 +105,7 @@ export default function SpecPlusPage() {
             </div>
             <div className="hidden h-12 w-px bg-border-light sm:block" />
             <div className="flex flex-col items-center sm:items-start">
-              <span className="text-4xl font-bold text-text-dark">26</span>
+              <span className="text-4xl font-bold text-text-dark">27</span>
               <span className="mt-1 text-sm text-text-muted">U.S. markets covered</span>
             </div>
           </div>

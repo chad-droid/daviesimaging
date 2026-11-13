@@ -52,7 +52,7 @@ interface RegionInfo {
 const regionInfo: Record<string, RegionInfo> = {
   west:     { label: "West",     subtitle: "CA, OR, WA, NV",         markets: 9,  href: "/gallery/models?region=West" },
   mountain: { label: "Mountain", subtitle: "ID, UT, CO, AZ",         markets: 4,  href: "/gallery/models?region=Mountain" },
-  central:  { label: "Central",  subtitle: "TX",                     markets: 4,  href: "/gallery/models?region=Central" },
+  central:  { label: "Central",  subtitle: "TX, TN",                 markets: 5,  href: "/gallery/models?region=Central" },
   east:     { label: "East",     subtitle: "FL, GA, SC, NC, OH",     markets: 9,  href: "/gallery/models?region=East" },
 };
 
@@ -205,7 +205,7 @@ export function RegionMap({ dark = false, linkPins = false }: { dark?: boolean; 
           <span className="h-2.5 w-2.5 rounded-full bg-accent" />
           Active market: click to see the work
         </span>
-        <span>26 U.S. markets + growing</span>
+        <span>27 U.S. markets + growing</span>
       </div>
     </div>
   );

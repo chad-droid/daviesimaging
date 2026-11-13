@@ -45,7 +45,7 @@ export default function ListingPhotographerApplyPage() {
             Listing <strong>Photographer</strong>
           </h1>
           <p className="mt-4 text-text-body">
-            DIG works with experienced listing photographers across all 26 markets and is actively growing. Tell us about your work and where you shoot.
+            DIG works with experienced listing photographers across all 27 markets and is actively growing. Tell us about your work and where you shoot.
           </p>
         </RevealOnScroll>
 

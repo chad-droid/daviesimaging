@@ -74,7 +74,7 @@ export async function GET() {
 
   const body = `# Davies Imaging Group (DIG)
 
-> Davies Imaging Group builds photography, virtual staging, and video assets for homebuilder marketing teams across 26 U.S. markets. DIG works with national and regional homebuilders, build-to-rent operators, and multifamily developers, producing marketing assets designed for website conversion, paid media, sales center storytelling, and listing velocity.
+> Davies Imaging Group builds photography, virtual staging, and video assets for homebuilder marketing teams across 27 U.S. markets. DIG works with national and regional homebuilders, build-to-rent operators, and multifamily developers, producing marketing assets designed for website conversion, paid media, sales center storytelling, and listing velocity.
 
 DIG is a production and strategy partner, not a general-purpose photography studio. Every engagement is built around builder marketing workflows: launch timelines, spec inventory pressure, brand consistency across communities, and sales team alignment.
 

@@ -41,7 +41,7 @@ export const specFaqs: FaqItem[] = [
   },
   {
     q: "How many markets does DIG cover?",
-    a: "DIG operates in 26 U.S. markets across four regions: West, Mountain, Central, and East. Offices are in Sacramento and Dallas, with production support in Guadalajara. If you are unsure whether we cover your market, reach out and we will confirm.",
+    a: "DIG operates in 27 U.S. markets across four regions: West, Mountain, Central, and East. Offices are in Sacramento and Dallas, with production support in Guadalajara. If you are unsure whether we cover your market, reach out and we will confirm.",
   },
 ];
 

@@ -146,7 +146,7 @@ export const organizationSchema = {
         url: LOGO_URL,
       },
       description:
-        "Davies Imaging Group builds photography, virtual staging, and video assets for homebuilder marketing teams across 26 U.S. markets.",
+        "Davies Imaging Group builds photography, virtual staging, and video assets for homebuilder marketing teams across 27 U.S. markets.",
       email: "info@daviesimaging.com",
       areaServed: {
         "@type": "Country",
