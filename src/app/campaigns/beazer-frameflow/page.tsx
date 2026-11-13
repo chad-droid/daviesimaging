@@ -34,7 +34,7 @@ export default function BeazerFrameFlowPage() {
         stats={[
           { value: "72 hrs", label: "Spec+ delivery after the shoot" },
           { value: "3-in-1", label: "Photo + staging + video" },
-          { value: "26", label: "Markets covered" },
+          { value: "29", label: "Markets covered" },
         ]}
       />
       <LPCta

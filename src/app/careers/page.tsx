@@ -24,7 +24,7 @@ const values = [
     body: "digDesk, FrameFlow Studio, and Spec+ are live products, and you'd be joining while we grow.",
   },
   {
-    title: "26 markets and growing",
+    title: "29 markets and growing",
     body: "We have offices in Sacramento and Dallas, production in Guadalajara, and photographers across the country.",
   },
 ];
@@ -34,7 +34,7 @@ const openRoles = [
     title: "Listing Photographer",
     type: "Freelance / Contract",
     markets: "Any U.S. market",
-    description: "DIG works with experienced listing photographers across all 26 markets and is actively expanding its network. If you shoot residential or homebuilder work and want consistent volume, let's talk.",
+    description: "DIG works with experienced listing photographers across all 29 markets and is actively expanding its network. If you shoot residential or homebuilder work and want consistent volume, let's talk.",
     applyHref: "/careers/apply/listing-photographer",
   },
   {

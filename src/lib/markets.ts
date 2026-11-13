@@ -53,6 +53,7 @@ export const markets = [
   {"slug": "houston", "city": "Houston", "name": "Houston", "state": "TX", "stateName": "Texas", "region": "central", "coords": [-95.37, 29.76], "blurb": "Greater Houston: high-volume production builders and master-planned communities.", "areas": ["Richmond", "Missouri City", "Tomball", "Katy", "Todd Mission", "Montgomery"], "builders": ["Toll Brothers", "Beazer Homes", "Coventry Homes", "Tricon Residential", "Perry Homes", "Risewell Homes", "DRB Homes", "Stylecraft"], "labelAnchor": "start", "labelY": -10},
   {"slug": "austin", "city": "Austin", "name": "Austin", "state": "TX", "stateName": "Texas", "region": "central", "coords": [-97.74, 30.27], "blurb": "Austin metro and Hill Country: strong spec and QMI demand.", "areas": ["Georgetown", "Leander", "Liberty Hill", "Cedar Park", "Kyle", "Marble Falls"], "builders": ["Highland Homes", "Coventry Homes", "Toll Brothers", "Risewell Homes", "Drees Homes", "Pacesetter Homes", "Tricon Residential"], "labelAnchor": "middle", "labelY": -13},
   {"slug": "san-antonio", "city": "San Antonio", "name": "San Antonio", "state": "TX", "stateName": "Texas", "region": "central", "coords": [-98.49, 29.42], "blurb": "San Antonio and South Texas builders.", "areas": ["Schertz", "Boerne", "Cibolo", "Bulverde", "Castroville", "Universal City"], "builders": ["Rhodes Enterprises", "Beazer Homes", "Coventry Homes", "Toll Brothers"], "labelAnchor": "end", "labelY": -10},
+  {"slug": "nashville", "city": "Nashville", "name": "Nashville", "state": "TN", "stateName": "Tennessee", "region": "central", "coords": [-86.78, 36.16], "blurb": "Middle Tennessee: Nashville and Williamson County communities.", "areas": ["Franklin", "Williamson County"], "builders": ["Toll Brothers"], "labelAnchor": "end", "labelY": -10},
   {"slug": "tampa", "city": "Tampa", "name": "Tampa Bay", "state": "FL", "stateName": "Florida", "region": "east", "coords": [-82.46, 27.95], "blurb": "Tampa Bay and the Gulf Coast: Florida's western growth corridor.", "areas": ["Lakewood Ranch", "Parrish", "Palm Harbor", "Venice", "Apollo Beach", "Wimauma"], "builders": ["Kolter Homes", "Toll Brothers", "Perry Homes", "Homes by WestBay"], "labelAnchor": "end", "labelY": -10},
   {"slug": "orlando", "city": "Orlando", "name": "Orlando", "state": "FL", "stateName": "Florida", "region": "east", "coords": [-81.38, 28.54], "blurb": "Central Florida: one of the busiest new home markets in the U.S.", "areas": ["DeLand", "Lady Lake", "Tavares", "Oviedo", "Sanford", "Apopka"], "builders": ["Kolter Homes", "Beazer Homes", "Toll Brothers"], "labelAnchor": "start", "labelY": -10},
   {"slug": "miami", "city": "Miami", "name": "Miami", "state": "FL", "stateName": "Florida", "region": "east", "coords": [-80.19, 25.76], "blurb": "South Florida: luxury, production, and waterfront communities.", "areas": ["Port St. Lucie", "Palm Beach Gardens", "Loxahatchee", "Westlake", "Parkland", "Boca Raton"], "builders": ["Kolter Homes", "Toll Brothers"], "labelAnchor": "start", "labelY": -10},
@@ -62,7 +63,34 @@ export const markets = [
   {"slug": "charlotte", "city": "Charlotte", "name": "Charlotte", "state": "NC", "stateName": "North Carolina", "region": "east", "coords": [-80.84, 35.23], "blurb": "Charlotte metro and Lake Norman corridor.", "areas": ["Locust", "Indian Land", "Monroe", "Huntersville", "Mooresville"], "builders": ["Kolter Homes", "Mungo Homes", "Toll Brothers", "Tricon Residential"], "labelAnchor": "end", "labelY": -10},
   {"slug": "raleigh", "city": "Raleigh", "name": "Raleigh-Durham", "state": "NC", "stateName": "North Carolina", "region": "east", "coords": [-78.64, 35.78], "blurb": "Triangle and Research Triangle Park: strong spec and model home demand.", "areas": ["Youngsville", "Durham", "Lillington", "Wendell", "Apex", "Clayton"], "builders": ["Caviness & Cates Communities", "Toll Brothers", "Beazer Homes", "Homes By Dickerson", "Chesapeake Homes", "Mungo Homes", "Garman Homes"], "labelAnchor": "start", "labelY": -10},
   {"slug": "columbus", "city": "Columbus", "name": "Columbus", "state": "OH", "stateName": "Ohio", "region": "east", "coords": [-82.99, 39.96], "blurb": "Central Ohio: Columbus metro new home builders.", "areas": ["Dublin", "Powell", "New Albany"], "builders": ["M/I Homes", "Thrive Companies"], "labelAnchor": "start", "labelY": -10},
+  {"slug": "lehigh-valley", "city": "Lehigh Valley", "name": "Lehigh Valley", "inName": "the Lehigh Valley", "state": "PA", "stateName": "Pennsylvania", "region": "east", "coords": [-75.47, 40.6], "blurb": "Eastern Pennsylvania: Allentown, Bethlehem and Easton communities.", "areas": ["Schnecksville", "Easton"], "builders": ["Tuskes Homes"], "labelAnchor": "start", "labelY": -10},
+  {"slug": "gettysburg", "city": "Gettysburg", "name": "Gettysburg", "state": "PA", "stateName": "Pennsylvania", "region": "east", "coords": [-77.23, 39.83], "blurb": "South central Pennsylvania: Adams County and the Gettysburg area.", "areas": ["Biglerville", "Adams County"], "builders": ["S&A Homes"], "labelAnchor": "end", "labelY": -10},
 ] as Market[];
+
+/**
+ * Places DIG does not shoot in yet but is opening, because builders we are
+ * onboarding build there (13 Nov 2026). They show on the map and in the market
+ * list as "Coming soon". They are not counted in the market total, have no
+ * page, and are not in the sitemap. When the first shoot is done, move the
+ * entry into `markets` above with its real areas and builders.
+ */
+export interface ComingSoonMarket {
+  city: string;
+  state: string;
+  region: RegionId;
+  coords: [number, number];
+}
+
+export const comingSoonMarkets: ComingSoonMarket[] = [
+  { city: "Spokane", state: "WA", region: "west", coords: [-117.43, 47.66] },
+  { city: "Bend", state: "OR", region: "west", coords: [-121.31, 44.06] },
+  { city: "Eugene", state: "OR", region: "west", coords: [-123.09, 44.05] },
+  { city: "Missoula", state: "MT", region: "mountain", coords: [-113.99, 46.87] },
+  { city: "Chattanooga", state: "TN", region: "central", coords: [-85.31, 35.05] },
+  { city: "Blairsville", state: "GA", region: "east", coords: [-83.96, 34.88] },
+  { city: "Asheville", state: "NC", region: "east", coords: [-82.55, 35.6] },
+  { city: "Greenville", state: "SC", region: "east", coords: [-82.39, 34.85] },
+];
 
 export const marketBySlug = (slug: string) => markets.find((m) => m.slug === slug);
 export const marketsInRegion = (region: RegionId) => markets.filter((m) => m.region === region);

@@ -15,7 +15,7 @@ const dimensions = [
   {
     title: "By Region",
     href: "/markets/region",
-    description: "You get the same quality in 26 U.S. markets across four regions, with offices in Sacramento, Dallas, and Guadalajara.",
+    description: "You get the same quality in 29 U.S. markets across four regions, with offices in Sacramento, Dallas, and Guadalajara.",
     examples: ["West", "Mountain", "Central", "East"],
   },
 ];

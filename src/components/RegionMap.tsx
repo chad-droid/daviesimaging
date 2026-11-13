@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { markets } from "@/lib/markets";
+import { markets, comingSoonMarkets } from "@/lib/markets";
 import {
   ComposableMap,
   Geographies,
@@ -52,8 +52,8 @@ interface RegionInfo {
 const regionInfo: Record<string, RegionInfo> = {
   west:     { label: "West",     subtitle: "CA, OR, WA, NV",         markets: 9,  href: "/gallery/models?region=West" },
   mountain: { label: "Mountain", subtitle: "ID, UT, CO, AZ",         markets: 4,  href: "/gallery/models?region=Mountain" },
-  central:  { label: "Central",  subtitle: "TX",                     markets: 4,  href: "/gallery/models?region=Central" },
-  east:     { label: "East",     subtitle: "FL, GA, SC, NC, OH",     markets: 9,  href: "/gallery/models?region=East" },
+  central:  { label: "Central",  subtitle: "TX, TN",                 markets: 5,  href: "/gallery/models?region=Central" },
+  east:     { label: "East",     subtitle: "FL, GA, SC, NC, OH, PA", markets: 11,  href: "/gallery/models?region=East" },
 };
 
 const regionList = Object.entries(regionInfo).map(([id, v]) => ({ id, ...v }));
@@ -154,6 +154,23 @@ export function RegionMap({ dark = false, linkPins = false }: { dark?: boolean; 
               </Marker>
             );
           })}
+
+          {/* Coming soon: a hollow ring, no label and no link. Hovering shows the name. */}
+          {comingSoonMarkets
+            .filter((m) => !activeRegion || m.region === activeRegion)
+            .map((m) => (
+              <Marker key={`soon-${m.city}`} coordinates={m.coords}>
+                <circle
+                  r={3.5}
+                  fill={dark ? "#18181A" : "#ffffff"}
+                  stroke={dark ? "#857AE0" : "#6A5ACD"}
+                  strokeWidth={1.25}
+                  strokeDasharray="2 1.5"
+                >
+                  <title>{`${m.city}, ${m.state}: coming soon`}</title>
+                </circle>
+              </Marker>
+            ))}
         </ComposableMap>
       </div>
 
@@ -205,7 +222,11 @@ export function RegionMap({ dark = false, linkPins = false }: { dark?: boolean; 
           <span className="h-2.5 w-2.5 rounded-full bg-accent" />
           Active market: click to see the work
         </span>
-        <span>26 U.S. markets + growing</span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full border border-dashed border-accent" />
+          Coming soon
+        </span>
+        <span>29 U.S. markets + growing</span>
       </div>
     </div>
   );

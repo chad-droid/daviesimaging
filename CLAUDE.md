@@ -66,8 +66,9 @@ Davies Imaging Group (DIG) rebuilt `daviesimaging.com` from scratch as a Next.js
 - **FrameFlow Studio page (`/programs/frameflow`) removed 13 November 2026 at Chad's direction.** It and every old URL that pointed to it redirect to `/programs/digdesk`. Sections below that describe it are historical. The name still appears as plain text on Contact, Get Started, Careers and the capabilities deck.
 - **Pricing page (13 Nov 2026):** `/pricing` publishes the 2026 rate sheet (source: "DIG Homebuilder Rates 2026" PDF from Chad). All figures live in `src/app/pricing/page.tsx`; when rates change, update the tables, the FAQ answers and the schema offers together. Linked from the footer, the Programs index, digDesk, sitemap and llms.txt.
 - **Removed 12 November 2026 at Chad's direction**, each with a redirect in `next.config.ts`: Builder Types (`/markets/type`), Regional Partnerships (`/programs/regional-partnerships`), the Gallery index (`/gallery`, now goes to `/gallery/models`), `/welcome-back`, and the campaign pages `frameflow-demo`, `frameflow-sell-faster` and `modelmatch-trial-info`. Sections below that describe them are historical. `/privacy` was on the same list but is held: it is the full privacy policy that ad lead forms point to.
-- **Market pages (12 Nov 2026):** one page per market at `/markets/{slug}`, 26 in all, built by `src/components/MarketPage.tsx` from `src/lib/markets.ts` (also the source for the map pins, `MarketDirectory`, sitemap and llms.txt). Each page is the homepage told for one metro: film hero with a local headline, a Coverage section, the Lead/Launch/List chapters, local FAQ and Service/FAQ schema with `areaServed` set to the city. `areas` (submarkets) in the data file are Claude's lists and need Chad's confirmation. Image slot per market: `markets-{slug}-hero-img`. To rank, each page still needs local proof: photos shot there, builder and community names, a local testimonial.
+- **Market pages (12 Nov 2026):** one page per market at `/markets/{slug}`, 29 in all (Nashville, Lehigh Valley and Gettysburg added 13 Nov 2026), built by `src/components/MarketPage.tsx` from `src/lib/markets.ts` (also the source for the map pins, `MarketDirectory`, sitemap and llms.txt). Each page is the homepage told for one metro: film hero with a local headline, a Coverage section, the Lead/Launch/List chapters, local FAQ and Service/FAQ schema with `areaServed` set to the city. `areas` (submarkets) in the data file are Claude's lists and need Chad's confirmation. Image slot per market: `markets-{slug}-hero-img`. To rank, each page still needs local proof: photos shot there, builder and community names, a local testimonial.
 - **Customer stories in Sanity (12 Nov 2026):** document type `customerStory` (`src/sanity/schemas/customerStory.ts`): person, builder, market, topics, video (YouTube ID, short cuts), interview questions and answers, and pull quotes with stable ids. Queries in `src/sanity/queries.ts` only return stories with `approved == true` and drop quotes marked `hold`. Not done yet: no documents exist, the pages still read `src/data/testimonials.ts`, there is no story page, and the hosted studio needs `npx sanity deploy` to show the type.
+- **Coming-soon markets (13 Nov 2026):** `comingSoonMarkets` in `src/lib/markets.ts` (Spokane, Bend, Eugene, Missoula, Chattanooga, Blairsville, Asheville, Greenville). Hollow dashed pins on the map and unlinked "Coming soon" rows in `MarketDirectory`. Not counted in the 29, no pages, not in the sitemap. They are there because Hayden Homes and Brown Haven Homes are being onboarded; do not name those two builders on the site until DIG has shot for them.
 - **Navbar (12 Nov 2026):** charcoal to match the footer. `theme-dark` on the header and mobile drawer, with `--bg-surface` overridden to `#18181A` so the dropdowns match. Light logo.
 - **Footer (12 Nov 2026):** charcoal `#18181A` with `theme-dark`, newsletter form inside the brand column. No Careers, FrameFlow Studio or Premium Video links. Links column has "Try ModelMatch Free" to `/modelmatch-datalibrary`.
 - **Who We Help (`/markets/role`) and its four role pages** were removed in November 2026 at Chad's direction. The URLs redirect to `/about`. Sections below that still describe By Role or persona pages are historical.
@@ -125,9 +126,10 @@ These are resolved decisions. Do not re-litigate them without explicit instructi
 > (Production, Flow, Match, and "+" hybrids) live in the product names, not in
 > a menu. Matterport has no page of its own: it is part of Premium and Listing,
 > and `/services/matterport` redirects to `/services/premium`. Not public yet,
-> so keep off the site: digDAM, the BuildPro partnership. Market count is 26
-> (Chad, 12 Nov 2026: it was 28 on the site, the map and region cards only
-> ever listed 26).
+> so keep off the site: digDAM, the BuildPro partnership. Market count is 29
+> (Chad, 13 Nov 2026: added Nashville, TN (Toll Brothers, Franklin), Lehigh
+> Valley, PA (Tuskes Homes) and Gettysburg, PA (S&A Homes, Biglerville). It was
+> 26 the day before).
 
 | Label | Slug | Notes |
 |---|---|---|
@@ -681,7 +683,7 @@ Video content is Phase 2 — placeholder sections in the schema now, populate la
 
 At the bottom of every module, after the content:
 - "Shoot for DIG" CTA — links to `/careers` or a dedicated photographer application form
-- Copy: "Ready to put these skills to work? DIG is always looking for photographers in our 26 markets."
+- Copy: "Ready to put these skills to work? DIG is always looking for photographers in our 29 markets."
 - This is the primary acquisition mechanism — people who complete the training are warm leads
 
 ---

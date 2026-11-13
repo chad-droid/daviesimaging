@@ -8,7 +8,7 @@ import { SITE_NAME, buildBreadcrumbSchema } from "@/lib/seo";
 export const metadata: Metadata = {
   title: { absolute: `Contact DIG | ${SITE_NAME}` },
   description:
-    "Book a strategy call, schedule a digDesk demo, or get a quote for photography, virtual staging, and video across 26 U.S. markets.",
+    "Book a strategy call, schedule a digDesk demo, or get a quote for photography, virtual staging, and video across 29 U.S. markets.",
   alternates: { canonical: "/contact" },
   openGraph: {
     type: "website",
