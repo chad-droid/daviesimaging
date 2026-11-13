@@ -2,8 +2,8 @@
 // shows the same products and assets; only the cover/close personalize.
 //
 // Product names follow the Product Name Hardening sheet (Nov 2026):
-// Cinematic -> CineFlow, TalentMatch -> ActFlow. Order follows Part 2 of the
-// Drees "digDesk and the Asset Cloud" deck.
+// Cinematic -> CineFlow, TalentMatch -> ActFlow. Module order, stages and
+// one-liners live in src/lib/showcaseModules.ts and follow the site menu.
 //
 // Assets live in /public/client-showcase (web-encoded from the "Library Dig"
 // Drive folder). Public route, so never point at gated paths.
@@ -131,5 +131,14 @@ export const PLANMATCH_BUILDERS: PlanBuilder[] = [
 export type PremiumSet = { label: string; stills: Still[] };
 
 export const PREMIUM_SETS: PremiumSet[] = [];
+
+// Moments: the vertical close ups shown on /services/moments (already public).
+export const MOMENTS_STILLS: Still[] = [
+  { src: "/showcase/moments-hood-2.webp", thumb: "/showcase/moments-hood-2.webp", alt: "Range hood close up" },
+  { src: "/showcase/moments-faucet-1.webp", thumb: "/showcase/moments-faucet-1.webp", alt: "Kitchen faucet close up" },
+  { src: "/showcase/moments-fireplace-1.webp", thumb: "/showcase/moments-fireplace-1.webp", alt: "Fireplace close up" },
+  { src: "/showcase/moments-fridge-1.webp", thumb: "/showcase/moments-fridge-1.webp", alt: "Refrigerator close up" },
+  { src: "/showcase/moments-bath-1.webp", thumb: "/showcase/moments-bath-1.webp", alt: "Bathroom close up" },
+];
 
 export const DIGDESK_SHOT = "/mm-deck/digdesk-dashboard.jpg";

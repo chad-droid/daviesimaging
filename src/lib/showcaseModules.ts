@@ -2,60 +2,98 @@
 // order. The admin picks which ones go into each deck; the cover, lineup, and
 // digDesk close always show.
 //
+// Order, stages, lines, and one-line descriptions follow the site's Solutions
+// menu (src/components/Nav.tsx): Lead (pre-sell before it's built), Launch
+// (model homes and amenities), List (spec homes for sale). Keep them in step
+// when the menu changes.
+//
 // `available: false` hides a module everywhere (admin checkbox disabled, deck
 // skips it) until its assets are in /public/client-showcase.
 
-export type ModuleKey = "premium" | "cineflow" | "actflow" | "listing" | "specplus" | "planmatch";
+export type ModuleKey =
+  | "planmatch"
+  | "cineflow"
+  | "actflow"
+  | "premium"
+  | "moments"
+  | "listing"
+  | "specplus";
+
+export type Stage = "Lead" | "Launch" | "List";
+export type Line = "Production" | "Flow" | "Match";
 
 export type ShowcaseModule = {
   key: ModuleKey;
   name: string;
-  kind: string; // small caps label on the lineup card
-  line: string; // one-line description on the lineup card
+  stages: Stage[];
+  line: Line;
+  blurb: string; // one line on the lineup card, matches the site menu
+  href: string; // the product's page on the site
   available: boolean;
 };
 
 export const SHOWCASE_MODULES: ShowcaseModule[] = [
   {
-    key: "premium",
-    name: "Premium",
-    kind: "Photography",
-    line: "Model home, amenity, and lifestyle photography, styled and shot by DIG.",
-    available: false,
+    key: "planmatch",
+    name: "PlanMatch",
+    stages: ["Lead"],
+    line: "Match",
+    blurb: "Photography made from your plans.",
+    href: "/services/planmatch",
+    available: true,
   },
   {
     key: "cineflow",
     name: "CineFlow",
-    kind: "Video from your photos",
-    line: "A cinematic film of your model, built from the same shoot.",
+    stages: ["Lead", "Launch"],
+    line: "Flow",
+    blurb: "Cinematic sequences without a photo shoot.",
+    href: "/services/cineflow",
     available: true,
   },
   {
     key: "actflow",
     name: "ActFlow",
-    kind: "Video with people",
-    line: "CineFlow with the scenes brought to life by people.",
+    stages: ["Lead", "Launch"],
+    line: "Flow",
+    blurb: "Virtual talent brings your spaces to life.",
+    href: "/services/actflow",
+    available: true,
+  },
+  {
+    key: "premium",
+    name: "Premium Photography",
+    stages: ["Launch"],
+    line: "Production",
+    blurb: "Model homes, amenities and lifestyle.",
+    href: "/services/premium",
+    available: false,
+  },
+  {
+    key: "moments",
+    name: "Moments",
+    stages: ["Launch"],
+    line: "Match",
+    blurb: "Vertical close ups for social.",
+    href: "/services/moments",
     available: true,
   },
   {
     key: "listing",
-    name: "Listing",
-    kind: "Production",
-    line: "Spec and community photography, shot and edited by DIG.",
+    name: "Listing Photography",
+    stages: ["List"],
+    line: "Production",
+    blurb: "HDR spec home photos, MLS-ready.",
+    href: "/services/listing",
     available: true,
   },
   {
     key: "specplus",
     name: "Spec+",
-    kind: "Production + digital",
-    line: "Listing photos, ModelMatch staging, and a FrameFlow video.",
-    available: true,
-  },
-  {
-    key: "planmatch",
-    name: "PlanMatch",
-    kind: "3D",
-    line: "Finished exterior and interior images for plans with no model.",
+    stages: ["List"],
+    line: "Production",
+    blurb: "Photography, staging, and video, $600 flat.",
+    href: "/programs/spec-plus",
     available: true,
   },
 ];
@@ -64,7 +102,7 @@ const ALL_KEYS = SHOWCASE_MODULES.map((m) => m.key);
 
 // Decks saved before the selector existed have no module list. They keep the
 // five modules they were sent with, so a deck already in a client's inbox
-// never changes underneath them.
+// never loses a product.
 const LEGACY_DEFAULT: ModuleKey[] = ["cineflow", "actflow", "listing", "specplus", "planmatch"];
 
 /** Every module that can currently be shown; the default for a new deck. */
@@ -82,3 +120,15 @@ export function resolveModules(stored: ModuleKey[] | null): ShowcaseModule[] {
   const keys = new Set(stored ?? LEGACY_DEFAULT);
   return SHOWCASE_MODULES.filter((m) => m.available && keys.has(m.key));
 }
+
+/** The stage and line taglines the site's Solutions menu uses. */
+export const STAGE_TAGLINES: Record<Stage, string> = {
+  Lead: "Pre-sell before it's built",
+  Launch: "Model homes and amenities",
+  List: "Spec homes for sale",
+};
+export const LINE_TAGLINES: Record<Line, string> = {
+  Production: "Listing and Premium services",
+  Flow: "Video from your still images",
+  Match: "Extend your merchandising",
+};

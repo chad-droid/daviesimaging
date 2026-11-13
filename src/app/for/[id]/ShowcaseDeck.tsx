@@ -1,13 +1,24 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { DarkSectionBg } from "@/components/DarkSectionBg";
-import { SHOWCASE_MODULES, type ModuleKey, type ShowcaseModule } from "@/lib/showcaseModules";
+import { Nav } from "@/components/Nav";
+import {
+  LINE_TAGLINES,
+  SHOWCASE_MODULES,
+  STAGE_TAGLINES,
+  type Line,
+  type ModuleKey,
+  type Stage,
+  type ShowcaseModule,
+} from "@/lib/showcaseModules";
 import {
   ACTFLOW_FILMS,
   CINEFLOW_FILMS,
   DIGDESK_SHOT,
   LISTING_STILLS,
+  MOMENTS_STILLS,
   PLANMATCH_BUILDERS,
   PREMIUM_SETS,
   SPEC_HOMES,
@@ -16,9 +27,10 @@ import {
 } from "./showcaseContent";
 
 /**
- * /for/[id] — client product showcase. Full-screen deck in the same shell as
- * /modelmatch-deck (arrow keys, swipe, #n deep links), personalized per client
- * with their name, logo, and the people it was prepared for.
+ * /for/[id]: client product showcase. Full-screen deck (arrow keys, swipe, #n
+ * deep links) under the site's own navbar, so a client can move from the deck
+ * to any page on the site. Personalized per client with their name, logo, and
+ * the people it was prepared for.
  *
  * Brand rules applied: ink + paper + one violet; builder logos keep their own
  * colors and sit on a white tile (or an ink tile when the admin picks a
@@ -48,6 +60,8 @@ type SlideCtx = {
   /** This slide's product number ("02") and how many products the deck has. */
   n: string;
   of: string;
+  /** The product this slide shows (product slides only). */
+  mod?: ShowcaseModule;
 };
 
 type SlideDef = { key: string; dark: boolean; render: (ctx: SlideCtx) => React.ReactNode };
@@ -155,26 +169,8 @@ export function ShowcaseDeck({ client }: { client: ShowcaseClient }) {
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-bg-dark text-text-body">
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 sm:px-10">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={onDark ? "/dig-logo-light.png" : "/dig-logo-dark.png"}
-          alt="DIG"
-          className="h-6 w-auto transition-opacity"
-        />
-        <span
-          className={`text-[0.65rem] font-medium uppercase tracking-[0.25em] tabular-nums transition-colors ${
-            onDark ? "text-white/60" : "text-text-muted"
-          }`}
-        >
-          {pad(current + 1)} / {pad(total)}
-        </span>
-      </header>
-      <div
-        className={`pointer-events-none fixed inset-x-6 top-[3.6rem] z-[19] h-px transition-colors sm:inset-x-10 ${
-          onDark ? "bg-white/15" : "bg-border-light"
-        }`}
-      />
+      {/* The site's navbar, so clients can reach the rest of the site from the deck. */}
+      <Nav />
 
       <main className="relative h-full w-full">
         {slides.map((s, i) => (
@@ -196,6 +192,7 @@ export function ShowcaseDeck({ client }: { client: ShowcaseClient }) {
               modules,
               n: pad(i - firstModuleSlide + 1),
               of: pad(modules.length),
+              mod: modules[i - firstModuleSlide],
             })}
           </div>
         ))}
@@ -215,6 +212,13 @@ export function ShowcaseDeck({ client }: { client: ShowcaseClient }) {
             style={{ width: `${((current + 1) / total) * 100}%` }}
           />
         </div>
+        <span
+          className={`hidden text-[0.65rem] font-medium uppercase tracking-[0.25em] tabular-nums sm:inline ${
+            onDark ? "text-white/60" : "text-text-muted"
+          }`}
+        >
+          {pad(current + 1)} / {pad(total)}
+        </span>
         <NavButton dark={onDark} disabled={current === total - 1} onClick={() => show(current + 1)} label="Next slide">
           Next &rarr;
         </NavButton>
@@ -302,6 +306,7 @@ function Kicker({ children, dark }: { children: React.ReactNode; dark?: boolean 
 function ProductHead({
   n,
   of,
+  mod,
   name,
   sub,
   dark,
@@ -309,6 +314,7 @@ function ProductHead({
 }: {
   n: string;
   of: string;
+  mod?: ShowcaseModule;
   name: string;
   sub: string;
   dark?: boolean;
@@ -317,9 +323,17 @@ function ProductHead({
   return (
     <div>
       <p className="mb-3 text-xs font-bold uppercase tracking-[0.15em]">
-        <span className={dark ? "text-white/35" : "text-text-muted"}>{n} of {of}</span>
-        <span className={dark ? "text-white/20" : "text-border-light"}> / </span>
-        <span className={dark ? "text-accent-dark-hover" : "text-accent"}>{name}</span>
+        <span className={dark ? "text-white/60" : "text-text-muted"}>
+          {n} of {of}
+        </span>
+        {mod && (
+          <>
+            <span className={dark ? "text-white/35" : "text-border-light"}> / </span>
+            <span className={dark ? "text-accent-dark-hover" : "text-accent"}>
+              {mod.stages.join(" + ")} &middot; {mod.line}
+            </span>
+          </>
+        )}
       </p>
       <h2
         className={`font-heading text-[clamp(2.4rem,5vw,4.25rem)] font-medium leading-[1.02] tracking-tight ${
@@ -336,9 +350,19 @@ function ProductHead({
         {sub}
       </p>
       {children && (
-        <div className={`mt-3 max-w-[46ch] text-[0.95rem] leading-relaxed ${dark ? "text-white/65" : "text-text-muted"}`}>
+        <div className={`mt-3 max-w-[46ch] text-[0.95rem] leading-relaxed ${dark ? "text-white/70" : "text-text-muted"}`}>
           {children}
         </div>
+      )}
+      {mod && (
+        <Link
+          href={mod.href}
+          className={`mt-5 inline-block text-sm font-semibold transition-colors ${
+            dark ? "text-accent-dark-hover hover:text-white" : "text-accent hover:text-text-dark"
+          }`}
+        >
+          {`See the ${mod.name} page →`}
+        </Link>
       )}
     </div>
   );
@@ -452,14 +476,17 @@ function StillGrid({
   onOpen,
   cols = 3,
   label,
+  vertical,
 }: {
   stills: Still[];
   onOpen: (i: number) => void;
-  cols?: 3 | 4;
+  cols?: 3 | 4 | 5;
   label?: string;
+  vertical?: boolean;
 }) {
+  const colClass = cols === 5 ? "grid-cols-3 md:grid-cols-5" : cols === 4 ? "grid-cols-2 md:grid-cols-4" : "grid-cols-2 md:grid-cols-3";
   return (
-    <div className={`grid grid-cols-2 gap-2 sm:gap-3 ${cols === 4 ? "md:grid-cols-4" : "md:grid-cols-3"}`}>
+    <div className={`grid gap-2 sm:gap-3 ${colClass}`}>
       {stills.map((s, i) => (
         <button
           key={s.src}
@@ -473,7 +500,7 @@ function StillGrid({
             src={s.thumb}
             alt={s.alt}
             loading="lazy"
-            className="aspect-[3/2] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            className={`${vertical ? "aspect-[9/16]" : "aspect-[3/2]"} w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]`}
           />
           {label && (
             <span className="absolute left-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[0.55rem] font-bold uppercase tracking-[0.15em] text-white/90 backdrop-blur">
@@ -599,19 +626,28 @@ const LINEUP_COLS: Record<number, string> = {
   3: "lg:grid-cols-3",
   4: "lg:grid-cols-4",
   5: "lg:grid-cols-5",
-  6: "lg:grid-cols-6",
+  6: "lg:grid-cols-3 xl:grid-cols-6",
+  7: "lg:grid-cols-4 xl:grid-cols-7",
 };
 
 function LineupSlide({ go, modules }: SlideCtx) {
+  const lines = (["Production", "Flow", "Match"] as Line[]).filter((l) => modules.some((m) => m.line === l));
+  const stages = (["Lead", "Launch", "List"] as Stage[]).filter((st) => modules.some((m) => m.stages.includes(st)));
   return (
     <Shell wide>
       <Kicker>The lineup</Kicker>
       <h2 className="max-w-[20ch] font-heading text-[clamp(2.2rem,4.5vw,3.75rem)] font-medium leading-[1.05] tracking-tight text-text-dark">
         One shoot. <strong className="font-semibold">Multiple outcomes.</strong>
       </h2>
-      <p className="mt-4 max-w-[60ch] text-text-muted">
-        {COUNT_WORDS[modules.length] ?? modules.length} services, each one built from the work DIG already does for
-        you. Every one of them orders in digDesk.
+      <p className="mt-4 max-w-[62ch] text-text-muted">
+        {COUNT_WORDS[modules.length] ?? modules.length} services, in the order you need them.{" "}
+        {stages.map((st, k) => (
+          <span key={st}>
+            <strong className="font-semibold text-text-dark">{st}</strong>: {STAGE_TAGLINES[st].toLowerCase()}
+            {k < stages.length - 1 ? ". " : ". "}
+          </span>
+        ))}
+        Every one of them orders in digDesk.
       </p>
       <div className={`mt-10 grid gap-3 sm:grid-cols-2 ${LINEUP_COLS[modules.length] ?? "lg:grid-cols-3"}`}>
         {modules.map((p, i) => (
@@ -622,9 +658,11 @@ function LineupSlide({ go, modules }: SlideCtx) {
             className="group flex flex-col rounded-2xl border border-border-light bg-white p-5 text-left transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-lg"
           >
             <span className="font-heading text-2xl italic text-accent">{pad(i + 1)}</span>
-            <span className="mt-3 font-heading text-[1.9rem] font-medium leading-none text-text-dark">{p.name}</span>
-            <span className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-text-muted">{p.kind}</span>
-            <span className="mt-3 flex-1 text-sm leading-relaxed text-text-body">{p.line}</span>
+            <span className="mt-3 font-heading text-[1.75rem] font-medium leading-none text-text-dark">{p.name}</span>
+            <span className="mt-2 text-[0.6rem] font-bold uppercase tracking-[0.16em] text-text-muted">
+              {p.stages.join(" + ")} &middot; {p.line}
+            </span>
+            <span className="mt-3 flex-1 text-sm leading-relaxed text-text-body">{p.blurb}</span>
             <span className="mt-4 text-xs font-bold text-accent opacity-0 transition-opacity group-hover:opacity-100">
               See it &rarr;
             </span>
@@ -632,21 +670,107 @@ function LineupSlide({ go, modules }: SlideCtx) {
         ))}
       </div>
       <div className="mt-8 flex flex-wrap gap-x-8 gap-y-2 border-t border-border-light pt-5 text-sm text-text-muted">
-        <span>
-          <strong className="mr-2 text-text-dark">Flow</strong>video made from still images
-        </span>
-        <span>
-          <strong className="mr-2 text-text-dark">Match</strong>3D tools that make spaces look their best
-        </span>
-        <span>
-          <strong className="mr-2 text-text-dark">+</strong>production and digital together
-        </span>
+        {lines.map((l) => (
+          <span key={l}>
+            <strong className="mr-2 text-text-dark">{l}</strong>
+            {LINE_TAGLINES[l].toLowerCase()}
+          </span>
+        ))}
       </div>
     </Shell>
   );
 }
 
-function PremiumSlide({ openLightbox, n, of }: SlideCtx) {
+function PlanMatchSlide({ openLightbox, n, of, mod }: SlideCtx) {
+  const [b, setB] = useState(0);
+  const [p, setP] = useState(0);
+  const builder = PLANMATCH_BUILDERS[b];
+  const plan = builder.plans[Math.min(p, builder.plans.length - 1)];
+  return (
+    <Shell wide>
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-center">
+        <div>
+          <ProductHead n={n} of={of} mod={mod} name="PlanMatch" sub="Don't call it rendering.">
+            Photorealistic images of your homes before they are built, made from your construction plans and
+            finishes. Days, not months, so you can pre-sell a plan before a model exists.
+          </ProductHead>
+          <div className="mt-8">
+            <Tabs
+              items={PLANMATCH_BUILDERS.map((x) => x.label)}
+              value={b}
+              onChange={(k) => {
+                setB(k);
+                setP(0);
+              }}
+            />
+          </div>
+          {builder.note && <p className="mt-4 max-w-[42ch] text-sm text-text-muted">{builder.note}</p>}
+        </div>
+        <div className="space-y-4">
+          {builder.plans.length > 1 && (
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold">
+              {builder.plans.map((x, k) => (
+                <button
+                  key={x.label}
+                  type="button"
+                  onClick={() => setP(k)}
+                  className={`border-b-2 pb-1 transition-colors ${
+                    k === p ? "border-accent text-text-dark" : "border-transparent text-text-muted hover:text-accent"
+                  }`}
+                >
+                  {x.label}
+                </button>
+              ))}
+            </div>
+          )}
+          <StillGrid stills={plan.stills} cols={4} onOpen={(k) => openLightbox(plan.stills, k)} />
+        </div>
+      </div>
+    </Shell>
+  );
+}
+
+function CineFlowSlide({ active, n, of, mod }: SlideCtx) {
+  const [i, setI] = useState(0);
+  return (
+    <Shell dark wide>
+      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
+        <div>
+          <ProductHead n={n} of={of} mod={mod} name="CineFlow" sub="Cinematic video, without another shoot." dark>
+            CineFlow relights each of your spaces, adds new angles, and gives you lifelike cinematic sequences from
+            your existing model photography. Ready for your website, social, and the sales center screen.
+          </ProductHead>
+          <div className="mt-8">
+            <Tabs items={CINEFLOW_FILMS.map((f) => f.label)} value={i} onChange={setI} dark />
+          </div>
+        </div>
+        <FilmPlayer film={CINEFLOW_FILMS[i]} active={active} />
+      </div>
+    </Shell>
+  );
+}
+
+function ActFlowSlide({ active, n, of, mod }: SlideCtx) {
+  const [i, setI] = useState(0);
+  return (
+    <Shell dark wide>
+      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
+        <div>
+          <ProductHead n={n} of={of} mod={mod} name="ActFlow" sub="What life looks like in your homes." dark>
+            ActFlow introduces virtual talent to your spaces, so your buyers can picture life in your homes and
+            amenities. Lifestyle video without a production crew.
+          </ProductHead>
+          <div className="mt-8">
+            <Tabs items={ACTFLOW_FILMS.map((f) => f.label)} value={i} onChange={setI} dark />
+          </div>
+        </div>
+        <FilmPlayer film={ACTFLOW_FILMS[i]} active={active} />
+      </div>
+    </Shell>
+  );
+}
+
+function PremiumSlide({ openLightbox, n, of, mod }: SlideCtx) {
   const [i, setI] = useState(0);
   const set = PREMIUM_SETS[i];
   if (!set) return null;
@@ -654,9 +778,9 @@ function PremiumSlide({ openLightbox, n, of }: SlideCtx) {
     <Shell wide>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-center">
         <div>
-          <ProductHead n={n} of={of} name="Premium" sub="Model home, amenity, and lifestyle photography">
-            DIG&apos;s signature shoot. A DIG crew styles every room, lights it, and shoots it slowly, so your model
-            homes and community look their best on every channel.
+          <ProductHead n={n} of={of} mod={mod} name="Premium Photography" sub="Showcase your model park at its best.">
+            A national network of highly trained photographers for your model homes, amenities and lifestyle shoots.
+            Each shoot type is ordered on its own.
           </ProductHead>
           {PREMIUM_SETS.length > 1 && (
             <div className="mt-8">
@@ -670,78 +794,52 @@ function PremiumSlide({ openLightbox, n, of }: SlideCtx) {
   );
 }
 
-function CineFlowSlide({ active, n, of }: SlideCtx) {
-  const [i, setI] = useState(0);
+function MomentsSlide({ openLightbox, n, of, mod }: SlideCtx) {
   return (
     <Shell dark wide>
-      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
-        <div>
-          <ProductHead n={n} of={of} name="CineFlow" sub="An add-on to the model photography DIG already does for you" dark>
-            A cinematic film of your model home, built from the same shoot. No film crew and no second visit. Ready
-            for your website, social, and the sales center screen.
-          </ProductHead>
-          <div className="mt-8">
-            <Tabs items={CINEFLOW_FILMS.map((f) => f.label)} value={i} onChange={setI} dark />
-          </div>
-        </div>
-        <FilmPlayer film={CINEFLOW_FILMS[i]} active={active} />
+      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
+        <ProductHead n={n} of={of} mod={mod} name="Moments" sub="Your best features, up close." dark>
+          Vertical close ups of the cabinetry, stone, fixtures and appliances built into your homes, sized for social
+          so you can post them without cropping.
+        </ProductHead>
+        <StillGrid stills={MOMENTS_STILLS} cols={5} vertical onOpen={(k) => openLightbox(MOMENTS_STILLS, k)} />
       </div>
     </Shell>
   );
 }
 
-function ActFlowSlide({ active, n, of }: SlideCtx) {
-  const [i, setI] = useState(0);
-  return (
-    <Shell dark wide>
-      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)]">
-        <div>
-          <ProductHead n={n} of={of} name="ActFlow" sub="The upgrade to CineFlow" dark>
-            ActFlow brings people into the scenes, so buyers see your home being lived in, not just looked at. Same
-            photos, same film, more life.
-          </ProductHead>
-          <div className="mt-8">
-            <Tabs items={ACTFLOW_FILMS.map((f) => f.label)} value={i} onChange={setI} dark />
-          </div>
-        </div>
-        <FilmPlayer film={ACTFLOW_FILMS[i]} active={active} />
-      </div>
-    </Shell>
-  );
-}
-
-function ListingSlide({ openLightbox, n, of }: SlideCtx) {
+function ListingSlide({ openLightbox, n, of, mod }: SlideCtx) {
   return (
     <Shell wide>
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
-        <ProductHead n={n} of={of} name="Listing" sub="Spec and community photography">
-          A DIG photographer shoots your spec homes and communities. DIG edits and delivers MLS-ready photos through
-          digDesk.
+        <ProductHead n={n} of={of} mod={mod} name="Listing Photography" sub="Get your new listings online.">
+          HDR photography of your spec homes and standing inventory within 48 hours of the shoot, ready for MLS,
+          your website, email and paid channels.
         </ProductHead>
-        <StillGrid stills={LISTING_STILLS} onOpen={(i) => openLightbox(LISTING_STILLS, i)} />
+        <StillGrid stills={LISTING_STILLS} onOpen={(k) => openLightbox(LISTING_STILLS, k)} />
       </div>
     </Shell>
   );
 }
 
-function SpecPlusSlide({ active, openLightbox, n, of }: SlideCtx) {
+function SpecPlusSlide({ active, openLightbox, n, of, mod }: SlideCtx) {
   const [h, setH] = useState(0);
   const home = SPEC_HOMES[h];
   return (
     <Shell dark wide>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-start">
         <div className="lg:pt-6">
-          <ProductHead n={n} of={of} name="Spec+" sub="Listing, plus ModelMatch, plus FrameFlow" dark />
+          <ProductHead n={n} of={of} mod={mod} name="Spec+" sub="Photography, staging, and video, $600 flat." dark />
           <ul className="mt-5 space-y-3 text-[0.95rem] leading-relaxed text-white/70">
             <li>
-              <strong className="text-text-light">Listing:</strong> photos of the spec home
+              <strong className="text-text-light">Listing Photography:</strong> photos of the spec home
             </li>
             <li>
-              <strong className="text-text-light">ModelMatch:</strong> the vacant rooms virtually staged from your
-              own model home photos
+              <strong className="text-text-light">ModelMatch:</strong> the vacant rooms staged from your own model
+              home photos
             </li>
             <li>
-              <strong className="text-text-light">FrameFlow:</strong> a video made from the photos
+              <strong className="text-text-light">FrameFlow:</strong> lifelike video made from the photos
             </li>
           </ul>
           <div className="mt-8">
@@ -750,60 +848,7 @@ function SpecPlusSlide({ active, openLightbox, n, of }: SlideCtx) {
         </div>
         <div className="space-y-3">
           <FilmPlayer film={home.film} active={active} />
-          <StillGrid
-            stills={home.stills}
-            onOpen={(i) => openLightbox(home.stills, i)}
-            label="Virtually staged"
-          />
-        </div>
-      </div>
-    </Shell>
-  );
-}
-
-function PlanMatchSlide({ openLightbox, n, of }: SlideCtx) {
-  const [b, setB] = useState(0);
-  const [p, setP] = useState(0);
-  const builder = PLANMATCH_BUILDERS[b];
-  const plan = builder.plans[Math.min(p, builder.plans.length - 1)];
-  return (
-    <Shell wide>
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-center">
-        <div>
-          <ProductHead n={n} of={of} name="PlanMatch" sub="Images for the plans that have no model">
-            DIG builds the plan in 3D from your floor plan and delivers finished exterior and interior images, so you
-            can market a plan before a model exists.
-          </ProductHead>
-          <div className="mt-8">
-            <Tabs
-              items={PLANMATCH_BUILDERS.map((x) => x.label)}
-              value={b}
-              onChange={(n) => {
-                setB(n);
-                setP(0);
-              }}
-            />
-          </div>
-          {builder.note && <p className="mt-4 max-w-[42ch] text-sm text-text-muted">{builder.note}</p>}
-        </div>
-        <div className="space-y-4">
-          {builder.plans.length > 1 && (
-            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold">
-              {builder.plans.map((x, i) => (
-                <button
-                  key={x.label}
-                  type="button"
-                  onClick={() => setP(i)}
-                  className={`border-b-2 pb-1 transition-colors ${
-                    i === p ? "border-accent text-text-dark" : "border-transparent text-text-muted hover:text-accent"
-                  }`}
-                >
-                  {x.label}
-                </button>
-              ))}
-            </div>
-          )}
-          <StillGrid stills={plan.stills} cols={4} onOpen={(i) => openLightbox(plan.stills, i)} />
+          <StillGrid stills={home.stills} onOpen={(k) => openLightbox(home.stills, k)} label="Virtually staged" />
         </div>
       </div>
     </Shell>
@@ -823,7 +868,11 @@ function CloseSlide({ client }: SlideCtx) {
       <DarkSectionBg glowIntensity={16} />
       <div className="relative z-[1] mx-auto grid min-h-[calc(100vh-13rem)] max-w-6xl items-center gap-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]">
         <div>
-          <Kicker dark>digDesk</Kicker>
+          <Kicker dark>
+            <Link href="/programs/digdesk" className="hover:text-white">
+              digDesk
+            </Link>
+          </Kicker>
           <h2 className="font-heading text-[clamp(2.6rem,6vw,5rem)] font-medium leading-[1.02] tracking-tight text-text-light">
             Order everything in <strong className="font-semibold">one place.</strong>
           </h2>
@@ -831,15 +880,15 @@ function CloseSlide({ client }: SlideCtx) {
             {who} can order every service here in digDesk, track each job, and download the finished assets.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
+            <Link
               href="/get-started"
               className="inline-flex items-center justify-center rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-dark-hover"
             >
               Next step: start a trial
-            </a>
-            <a href="/contact" className="text-sm font-medium text-white/60 transition-colors hover:text-white">
+            </Link>
+            <Link href="/contact" className="text-sm font-medium text-white/70 transition-colors hover:text-white">
               Talk to DIG &rarr;
-            </a>
+            </Link>
           </div>
           {client.logoUrl && (
             <div className="mt-14 flex items-center gap-5">
@@ -865,6 +914,7 @@ const CLOSE: SlideDef = { key: "close", dark: true, render: (c) => <CloseSlide {
 
 const MODULE_SLIDES: Record<ModuleKey, SlideDef> = {
   premium: { key: "premium", dark: false, render: (c) => <PremiumSlide {...c} /> },
+  moments: { key: "moments", dark: true, render: (c) => <MomentsSlide {...c} /> },
   cineflow: { key: "cineflow", dark: true, render: (c) => <CineFlowSlide {...c} /> },
   actflow: { key: "actflow", dark: true, render: (c) => <ActFlowSlide {...c} /> },
   listing: { key: "listing", dark: false, render: (c) => <ListingSlide {...c} /> },
