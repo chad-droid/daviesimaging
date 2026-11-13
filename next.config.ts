@@ -37,9 +37,11 @@ const nextConfig: NextConfig = {
       { source: "/markets/type", destination: "/markets/region", permanent: true },
       { source: "/gallery", destination: "/gallery/models", permanent: true },
       { source: "/campaigns/modelmatch-trial-info", destination: "/modelmatch-datalibrary", permanent: true },
-      { source: "/campaigns/frameflow-demo", destination: "/programs/frameflow", permanent: true },
-      { source: "/campaigns/frameflow-sell-faster", destination: "/programs/frameflow", permanent: true },
+      { source: "/campaigns/frameflow-demo", destination: "/programs/digdesk", permanent: true },
+      { source: "/campaigns/frameflow-sell-faster", destination: "/programs/digdesk", permanent: true },
       { source: "/welcome-back", destination: "/get-started", permanent: true },
+      // FrameFlow Studio page removed 13 Nov 2026 at Chad's direction. Ordering is digDesk.
+      { source: "/programs/frameflow", destination: "/programs/digdesk", permanent: true },
       // ── builderphoto.com → the Builder Photo Blog ───────────────────────────
       // The blog is branded "Builder Photo Blog" and lives at /blog on the main
       // site. builderphoto.com is a vanity domain that funnels straight to it.
@@ -71,14 +73,14 @@ const nextConfig: NextConfig = {
       { source: "/mi-dfw-analysis", destination: "/markets",            permanent: true },
 
       // ── Services moved to Programs ──────────────────────────────────────────
-      { source: "/services/frameflow", destination: "/programs/frameflow",  permanent: true },
+      { source: "/services/frameflow", destination: "/programs/digdesk",  permanent: true },
       { source: "/services/spec",      destination: "/programs/spec-plus",  permanent: true },
-      { source: "/frameflow",          destination: "/programs/frameflow",  permanent: true },
+      { source: "/frameflow",          destination: "/programs/digdesk",  permanent: true },
 
       // ── Campaigns ──────────────────────────────────────────────────────────
-      { source: "/frameflow-sell-faster-challenge-0210", destination: "/programs/frameflow", permanent: true },
+      { source: "/frameflow-sell-faster-challenge-0210", destination: "/programs/digdesk", permanent: true },
       { source: "/beazer-frameflow",                     destination: "/campaigns/beazer-frameflow",      permanent: true },
-      { source: "/frameflow-v2-0-demo",                  destination: "/programs/frameflow",        permanent: true },
+      { source: "/frameflow-v2-0-demo",                  destination: "/programs/digdesk",        permanent: true },
 
       // ── Old "work" gallery paths → new "gallery" paths ─────────────────────
       { source: "/work",                   destination: "/gallery/models",           permanent: true },
@@ -93,11 +95,11 @@ const nextConfig: NextConfig = {
 
       // ── Old "offerings" paths → new "programs" paths ────────────────────────
       { source: "/offerings",                          destination: "/programs",                          permanent: true },
-      { source: "/offerings/frameflow",                destination: "/programs/frameflow",                permanent: true },
+      { source: "/offerings/frameflow",                destination: "/programs/digdesk",                permanent: true },
       { source: "/offerings/spec-plus",                destination: "/programs/spec-plus",                permanent: true },
       { source: "/offerings/regional-partnerships",    destination: "/contact",    permanent: true },
       { source: "/offerings/digdesk",                  destination: "/programs/digdesk",                  permanent: true },
-      { source: "/offerings/frameflow-premium",        destination: "/programs/frameflow",                permanent: true },
+      { source: "/offerings/frameflow-premium",        destination: "/programs/digdesk",                permanent: true },
 
       // ── Old service name aliases ─────────────────────────────────────────────
       { source: "/services/standard",      destination: "/services/listing",  permanent: true },

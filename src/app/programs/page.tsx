@@ -9,7 +9,7 @@ import { buildBreadcrumbSchema } from "@/lib/seo";
 export const metadata: Metadata = {
   alternates: { canonical: "/programs" },
   title: "Programs",
-  description: "digDesk, FrameFlow Studio, Spec+, and Regional Partnerships: how you order and manage DIG services.",
+  description: "digDesk and Spec+: how home builders order and manage photography, virtual staging and video from DIG.",
 };
 
 const platform = {
@@ -21,12 +21,12 @@ const platform = {
 
 const offerings = [
   {
-    title: "FrameFlow Studio",
-    href: "/programs/frameflow",
-    tag: "Ordering Platform",
-    description: "Where you order ModelMatch staging and FrameFlow video inside digDesk. Upload your listing photos, with no shoot to schedule.",
-    price: "Starting at $25 / image",
-    cta: "Explore FrameFlow Studio",
+    title: "2026 Rates",
+    href: "/pricing",
+    tag: "Pricing",
+    description: "Every published rate in one place: model home and community photography, spec home listing photography, 3D tours, and digital services ordered in digDesk.",
+    price: "Virtual staging from $25 / image",
+    cta: "See all pricing",
   },
   {
     title: "Spec+",

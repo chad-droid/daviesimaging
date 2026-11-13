@@ -29,7 +29,7 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 ## Programs (how builders buy)
 
 - [Spec+](${SITE_URL}/programs/spec-plus): All-in-one package combining listing photography, virtual staging, and virtual video for standing inventory.
-- [FrameFlow](${SITE_URL}/programs/frameflow): The digital ordering platform for Spec+, standalone virtual staging, and virtual video.
+- [Pricing](${SITE_URL}/pricing): Published 2026 rates. Model home photography from $4,000 per home, spec home listing photography $350 flat, Spec+ $600 flat, ModelMatch virtual staging from $25 per image, FrameFlow video from $150.
 - [digDesk](${SITE_URL}/programs/digdesk): The DIG client portal. Order services, track jobs, manage the ModelMatch brand library, download finished assets.
 
 ## Gallery (examples of the work)
