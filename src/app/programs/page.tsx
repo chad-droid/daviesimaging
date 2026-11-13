@@ -3,6 +3,8 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DarkSection } from "@/components/DarkSection";
+import { JsonLd } from "@/components/JsonLd";
+import { buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/programs" },
@@ -40,6 +42,7 @@ const offerings = [
 export default function ProgramsIndex() {
   return (
     <div className="theme-dark">
+      <JsonLd data={buildBreadcrumbSchema([{ name: "Programs", path: "/programs" }])} />
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">

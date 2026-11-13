@@ -89,6 +89,12 @@ export function buildServiceSchema(opts: {
   serviceType: string;
   /** A metro this page is about. Omit for the national service pages. */
   city?: { name: string; state: string };
+  /**
+   * Prices shown on the page, in US dollars. `from: true` marks a starting
+   * price ("from $25 per image"); without it the price is flat. Only list a
+   * price the page itself states.
+   */
+  offers?: { name: string; price: number; unit?: string; from?: boolean }[];
 }) {
   return {
     "@context": "https://schema.org",
@@ -106,6 +112,23 @@ export function buildServiceSchema(opts: {
       "@type": "BusinessAudience",
       name: "Homebuilders and residential developers",
     },
+    ...(opts.offers?.length && {
+      offers: opts.offers.map((o) => ({
+        "@type": "Offer",
+        name: o.name,
+        priceCurrency: "USD",
+        ...(o.from || o.unit
+          ? {
+              priceSpecification: {
+                "@type": "UnitPriceSpecification",
+                priceCurrency: "USD",
+                ...(o.from ? { minPrice: o.price } : { price: o.price }),
+                ...(o.unit && { unitText: o.unit }),
+              },
+            }
+          : { price: o.price }),
+      })),
+    }),
   };
 }
 

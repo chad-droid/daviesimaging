@@ -5,6 +5,8 @@ import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
+import { JsonLd } from "@/components/JsonLd";
+import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/frameflow" },
@@ -39,6 +41,25 @@ const reasons = [
 export default function FrameFlowPage() {
   return (
     <>
+      <JsonLd
+        data={buildServiceSchema({
+          name: "FrameFlow Studio",
+          description:
+            "Order ModelMatch virtual staging and FrameFlow video inside digDesk, made from the photos you already have, with no shoot.",
+          path: "/programs/frameflow",
+          serviceType: "Virtual Staging",
+          offers: [
+            { name: "ModelMatch virtual staging", price: 25, unit: "image", from: true },
+            { name: "FrameFlow video", price: 150, unit: "video", from: true },
+          ],
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: "Programs", path: "/programs" },
+          { name: "FrameFlow Studio", path: "/programs/frameflow" },
+        ])}
+      />
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
