@@ -58,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // NOTE: /programs/frameflow-premium intentionally excluded — password-protected stealth pilot
     { url: `${BASE}/programs`,                       changeFrequency: "monthly", priority: 0.80 },
     { url: `${BASE}/programs/spec-plus`,             changeFrequency: "monthly", priority: 0.90 },
-    { url: `${BASE}/programs/frameflow`,             changeFrequency: "monthly", priority: 0.85 },
+    { url: `${BASE}/pricing`,                        changeFrequency: "monthly", priority: 0.85 },
     { url: `${BASE}/programs/digdesk`,               changeFrequency: "monthly", priority: 0.80 },
 
     // ── Markets ───────────────────────────────────────────────────────────────

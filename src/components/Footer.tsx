@@ -32,6 +32,7 @@ const footerLinks = {
     { label: "digDesk", href: "/programs/digdesk" },
     { label: "Try ModelMatch Free", href: "/modelmatch-datalibrary" },
     { label: "Contact", href: "/contact" },
+    { label: "Pricing", href: "/pricing" },
     { label: "FAQ", href: "/faq" },
     { label: "Legal", href: "/legal" },
     { label: "Copyright & Usage", href: "/copyright" },

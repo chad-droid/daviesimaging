@@ -239,7 +239,7 @@ export function DigDeskPlatform() {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                href={v.ctaHref || "/programs/frameflow"}
+                href={v.ctaHref || "/programs/digdesk"}
                 className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
               >
                 {v.ctaText} <span aria-hidden="true">→</span>
