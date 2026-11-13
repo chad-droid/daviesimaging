@@ -69,13 +69,14 @@ function ChapterHeader({
 }
 
 /* ── ModelMatch: the hands-on moment. Drag vacant to staged. ─────────────── */
-export function ModelMatchChapter() {
+/** `body` lets a market page say the same thing in its own words. */
+export function ModelMatchChapter({ body }: { body?: string } = {}) {
   return (
     <section id="modelmatch" className="scroll-mt-28 bg-bg-surface py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <ChapterHeader
           eyebrow="ModelMatch"
-          body="Your model home merchandising becomes bespoke furniture and accessory galleries you can reuse across your vacant inventory."
+          body={body ?? "Your model home merchandising becomes bespoke furniture and accessory galleries you can reuse across your vacant inventory."}
         >
           Extend the investment you&rsquo;ve made in your <strong>model homes</strong>.
         </ChapterHeader>
@@ -162,13 +163,13 @@ const PREMIUM = [
 ];
 const REGIONS = ["West", "Mountain", "Central", "East"];
 
-export function PremiumChapter() {
+export function PremiumChapter({ body }: { body?: string } = {}) {
   return (
     <section id="premium" className="scroll-mt-28 bg-bg-light py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <ChapterHeader
           eyebrow="Premium Photography"
-          body="You get the best model home photography, video, and Matterport services available to the industry, in 26 markets across the United States."
+          body={body ?? "You get the best model home photography, video, and Matterport services available to the industry, in 26 markets across the United States."}
         >
           Built for builders who <strong>demand the best</strong>.
         </ChapterHeader>
@@ -308,9 +309,12 @@ export function DigDeskChapter() {
 }
 
 /* ── Proof: builders, in their own words. Quotes come from the library. ──── */
-export function ProofChapter() {
-  const [lead] = getTestimonials(["kim-skeptic"]);
-  const rest = getTestimonials(["jaime-pilot", "bradley-resale", "sarah-know"]);
+export function ProofChapter({
+  leadId = "kim-skeptic",
+  restIds = ["jaime-pilot", "bradley-resale", "sarah-know"],
+}: { leadId?: string; restIds?: string[] } = {}) {
+  const [lead] = getTestimonials([leadId]);
+  const rest = getTestimonials(restIds);
   if (!lead) return null;
   const who = (t: Testimonial) => [t.title, t.company].filter(Boolean).join(", ");
 
