@@ -8,7 +8,7 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/listings" },
-  title: "Listings",
+  title: "Spec Home Listing Photography Gallery",
   description: "Listing photography, ModelMatch staging, and FrameFlow video for your spec homes and standing inventory.",
 };
 
@@ -28,7 +28,7 @@ export default function SpecHomesPage() {
             <EditableHero
               slotId="gallery-spec-homes-hero"
               eyebrowDefault="Gallery / Listings"
-              headlineDefault="Slow moving inventory? <strong>Increases your sales pace.</strong>"
+              headlineDefault="Slow-moving inventory? <strong>Increase your sales pace.</strong>"
               subheadDefault="Spec+ gives you listing photography, ModelMatch virtual staging, and a FrameFlow video in one order, delivered within 72 hours of the shoot."
             />
           </RevealOnScroll>

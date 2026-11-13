@@ -8,7 +8,7 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/amenities" },
-  title: "Amenities",
+  title: "Community Amenity Photography Gallery",
   description: "Photography of your pools, clubhouses, trails, and community spaces.",
 };
 

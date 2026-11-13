@@ -13,7 +13,7 @@ import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/virtual-video" },
-  title: "FrameFlow Video",
+  title: "FrameFlow: Listing Video Made From Your Photos",
   description: "FrameFlow converts your images, whether they are interiors, exteriors, or amenities, into lifelike video sequences. Ordered on demand through digDesk.",
 };
 

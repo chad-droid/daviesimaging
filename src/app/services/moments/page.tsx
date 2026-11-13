@@ -3,7 +3,7 @@ import { ProductPage, type ProductPageConfig } from "@/components/ProductPage";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/moments" },
-  title: "Moments",
+  title: "Moments: Vertical Detail Video for Home Builder Social",
   description: "Moments gives you vertical close ups of the cabinetry, stone, fixtures and appliances built into your homes, made for social.",
 };
 

@@ -8,7 +8,7 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/models" },
-  title: "Model Homes",
+  title: "Model Home Photography Gallery",
   description: "Model home photography from our national network of highly trained photographers, in 26 U.S. markets.",
 };
 

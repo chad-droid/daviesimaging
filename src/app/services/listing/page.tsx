@@ -12,7 +12,7 @@ import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/listing" },
-  title: "Listing Photography",
+  title: "Spec Home and Listing Photography for Home Builders",
   description: "Listing photography for spec homes and standing inventory, delivered within 48 hours of the shoot and ready for MLS, your website, email and paid channels.",
 };
 
@@ -50,7 +50,7 @@ export default function ListingPhotoPage() {
             <EditableHero
               slotId="services-listing-hero"
               eyebrowDefault="Solutions / Listing Photography"
-              headlineDefault="Get your new listings <strong>online</strong>."
+              headlineDefault="Listing photography for your spec homes, online in <strong>48 hours</strong>."
               subheadDefault="You get listing photography for your spec homes and standing inventory within 48 hours of the shoot, ready for MLS, your website, email and paid channels."
             />
             <ProductTags line="Production" stage="List" />

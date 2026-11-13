@@ -13,7 +13,7 @@ import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/virtual-staging" },
-  title: "ModelMatch Virtual Staging",
+  title: "ModelMatch: Virtual Staging for New Construction Homes",
   description: "Your model home merchandising becomes furniture and accessory galleries you can reuse across your vacant inventory.",
 };
 
@@ -84,7 +84,7 @@ export default function VirtualStagingPage() {
             <EditableHero
               slotId="services-virtual-staging-hero"
               eyebrowDefault="Solutions / ModelMatch"
-              headlineDefault="Extend the investment you've made in your <strong>model homes</strong>."
+              headlineDefault="Virtual staging that matches your <strong>model homes</strong>."
               subheadDefault="Your model home merchandising becomes bespoke furniture and accessory galleries you can reuse across your vacant inventory."
             />
             <ProductTags line="Match" stage="List" />
