@@ -35,7 +35,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/get-started`, changeFrequency: "monthly", priority: 0.8 },
 
     // ── Gallery ───────────────────────────────────────────────────────────────
-    { url: `${BASE}/gallery`,           changeFrequency: "weekly",  priority: 0.85 },
     { url: `${BASE}/gallery/models`,    changeFrequency: "weekly",  priority: 0.85 },
     { url: `${BASE}/gallery/listings`,  changeFrequency: "weekly",  priority: 0.85 },
     { url: `${BASE}/gallery/amenities`, changeFrequency: "weekly",  priority: 0.80 },
@@ -60,12 +59,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/programs/spec-plus`,             changeFrequency: "monthly", priority: 0.90 },
     { url: `${BASE}/programs/frameflow`,             changeFrequency: "monthly", priority: 0.85 },
     { url: `${BASE}/programs/digdesk`,               changeFrequency: "monthly", priority: 0.80 },
-    { url: `${BASE}/programs/regional-partnerships`, changeFrequency: "monthly", priority: 0.75 },
 
     // ── Markets ───────────────────────────────────────────────────────────────
     { url: `${BASE}/markets`,                    changeFrequency: "monthly", priority: 0.75 },
     { url: `${BASE}/markets/region`,             changeFrequency: "monthly", priority: 0.75 },
-    { url: `${BASE}/markets/type`,               changeFrequency: "monthly", priority: 0.75 },
 
     // ── About ─────────────────────────────────────────────────────────────────
     { url: `${BASE}/about`,              changeFrequency: "monthly", priority: 0.70 },

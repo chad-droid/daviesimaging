@@ -49,12 +49,6 @@ export default function ByRegionPage() {
               >
                 Book a Strategy Call
               </Link>
-              <Link
-                href="/programs/regional-partnerships"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-              >
-                Explore Regional Partnerships <span aria-hidden="true">&rarr;</span>
-              </Link>
             </div>
           </div>
         </RevealOnScroll>

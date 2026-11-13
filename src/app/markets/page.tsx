@@ -7,16 +7,10 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/markets" },
   title: "Markets",
-  description: "Find how DIG helps you by what you build or the markets you build in.",
+  description: "Find how DIG helps you in the markets you build in.",
 };
 
 const dimensions = [
-  {
-    title: "By Type",
-    href: "/markets/type",
-    description: "Detached, attached, luxury, build-to-rent, or multifamily. See which services fit what you build.",
-    examples: ["Single-family detached", "Townhomes + attached", "Luxury and estate", "Build-to-rent", "Multifamily"],
-  },
   {
     title: "By Region",
     href: "/markets/region",
@@ -35,7 +29,7 @@ export default function MarketsIndex() {
             <Eyebrow dark>Markets</Eyebrow>
             <h1 className="text-text-light">Find how DIG <strong>helps you</strong>.</h1>
             <p className="mt-5 max-w-xl text-lg text-text-muted">
-              Find your fit by what you build or where you build.
+              Find your fit by where you build.
             </p>
           </RevealOnScroll>
         </div>

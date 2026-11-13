@@ -163,16 +163,10 @@ export default function ServicesIndex() {
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
-                  href="/programs/regional-partnerships"
+                  href="/contact?intent=strategy"
                   className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                 >
-                  Explore Regional Partnerships
-                </Link>
-                <Link
-                  href="/contact"
-                  className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
-                >
-                  Book a strategy call &rarr;
+                  Book a Strategy Call
                 </Link>
               </div>
             </div>

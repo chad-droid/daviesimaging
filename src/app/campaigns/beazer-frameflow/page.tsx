@@ -40,7 +40,7 @@ export default function BeazerFrameFlowPage() {
       <LPCta
         headline={<>Let&rsquo;s build assets that move <strong>homes</strong>.</>}
         primaryCta={{ label: "Book a Strategy Call", href: "/contact" }}
-        secondaryCta={{ label: "Start the FrameFlow Challenge", href: "/campaigns/frameflow-sell-faster" }}
+        secondaryCta={{ label: "Explore FrameFlow Studio", href: "/programs/frameflow" }}
       />
     </>
   );

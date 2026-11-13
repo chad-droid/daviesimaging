@@ -35,14 +35,6 @@ const offerings = [
     cta: "See Spec+ Details",
     featured: true,
   },
-  {
-    title: "Regional Partnerships",
-    href: "/programs/regional-partnerships",
-    tag: "VP + C-Suite",
-    description: "For builders in multiple markets. You get volume pricing, dedicated capacity, and one account team across all four U.S. regions.",
-    price: "Custom pricing by volume",
-    cta: "Explore Regional Partnerships",
-  },
 ];
 
 export default function ProgramsIndex() {
@@ -106,7 +98,7 @@ export default function ProgramsIndex() {
               <Eyebrow>Packages and Programs</Eyebrow>
               <h2>What builders <strong>order</strong>.</h2>
             </div>
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
               {offerings.map((off) => (
                 <div
                   key={off.href}

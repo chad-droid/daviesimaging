@@ -5,6 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
+// Footer ground: a neutral charcoal one step lighter than the page (#121212),
+// so it reads as its own band on dark pages without a hard edge.
+const FOOTER_BG = "#18181A";
+
 const footerLinks = {
   // Three groups: production, Match, Flow. `gap` opens a space above the item.
   Solutions: [
@@ -23,12 +27,10 @@ const footerLinks = {
     { label: "How We Do It", href: "/about/how-we-do-it" },
     { label: "Our Markets", href: "/markets/region" },
     { label: "Builder Photo Blog", href: "/blog" },
-    { label: "Careers", href: "/careers" },
   ],
   Links: [
     { label: "digDesk", href: "/programs/digdesk" },
-    { label: "FrameFlow Studio", href: "/programs/frameflow" },
-    { label: "Spec+", href: "/programs/spec-plus" },
+    { label: "Try ModelMatch Free", href: "/modelmatch-datalibrary" },
     { label: "Contact", href: "/contact" },
     { label: "FAQ", href: "/faq" },
     { label: "Legal", href: "/legal" },
@@ -74,7 +76,7 @@ function FooterAccordion({
       </button>
 
       {/* Desktop: static heading */}
-      <h6 className="mb-4 hidden sm:block">{heading}</h6>
+      <h6 className="mb-3 hidden !text-text-muted sm:block">{heading}</h6>
 
       {/* Mobile: animated link list */}
       <AnimatePresence initial={false}>
@@ -101,9 +103,9 @@ function FooterAccordion({
       </AnimatePresence>
 
       {/* Desktop: static link list */}
-      <ul className="hidden space-y-2.5 sm:block">
+      <ul className="hidden space-y-2 sm:block">
         {links.map((link) => (
-          <li key={link.href} className={link.gap ? "!mt-7" : undefined}>
+          <li key={link.href} className={link.gap ? "!mt-5" : undefined}>
             <Link
               href={link.href}
               className="text-sm text-text-body transition-colors hover:text-accent"
@@ -119,13 +121,13 @@ function FooterAccordion({
 
 export function Footer() {
   return (
-    <footer className="border-t border-border-light bg-bg-light">
-      <div className="mx-auto max-w-7xl px-6 py-16">
+    <footer className="theme-dark border-t border-border-light" style={{ background: FOOTER_BG }}>
+      <div className="mx-auto max-w-7xl px-6 pb-8 pt-12">
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
           {/* Brand column — fixed width, doesn't compete with link column spacing */}
-          <div className="mb-2 border-b border-border-light pb-6 sm:mb-0 sm:border-none sm:pb-0 lg:w-52 lg:flex-shrink-0">
+          <div className="mb-2 border-b border-border-light pb-6 sm:mb-0 sm:border-none sm:pb-0 lg:w-64 lg:flex-shrink-0">
             <Image
-              src="/dig-logo-dark.png"
+              src="/dig-logo-light.png"
               alt="Davies Imaging Group"
               width={120}
               height={73}
@@ -152,6 +154,38 @@ export function Footer() {
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               </a>
             </div>
+
+            {/* Newsletter signup. The off-screen field is Mailchimp's own bot trap:
+                people never see it, and Mailchimp drops any signup that fills it. */}
+            <form
+              action="https://daviesimaging.us17.list-manage.com/subscribe/post?u=de0da4eedef3becab5eb4e4ab&id=418d6a179b"
+              method="post"
+              target="_blank"
+              className="mt-7"
+            >
+              <label htmlFor="footer-email" className="text-xs font-medium uppercase tracking-[0.12em] text-text-muted">
+                Insights by email
+              </label>
+              <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
+                <input type="text" name="b_de0da4eedef3becab5eb4e4ab_418d6a179b" tabIndex={-1} autoComplete="off" defaultValue="" />
+              </div>
+              <div className="mt-2 flex gap-2">
+                <input
+                  id="footer-email"
+                  type="email"
+                  name="EMAIL"
+                  placeholder="Email address"
+                  required
+                  className="min-w-0 flex-1 rounded-full border border-border-light bg-transparent px-4 py-2 text-sm text-text-dark outline-none transition-colors placeholder:text-text-muted focus:border-accent"
+                />
+                <button
+                  type="submit"
+                  className="rounded-full bg-accent px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-accent-hover"
+                >
+                  Subscribe
+                </button>
+              </div>
+            </form>
           </div>
 
           {/* Link columns — 4 equal columns */}
@@ -162,39 +196,9 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Newsletter signup */}
-        <div className="mt-12 border-t border-border-light pt-10">
-          <div className="mx-auto max-w-md text-center">
-            <h6 className="mb-2">Stay in the Loop</h6>
-            <p className="text-sm text-text-body">
-              Builder marketing insights delivered to your inbox.
-            </p>
-            <form
-              action="https://daviesimaging.us17.list-manage.com/subscribe/post?u=de0da4eedef3becab5eb4e4ab&id=418d6a179b"
-              method="post"
-              target="_blank"
-              className="mt-4 flex gap-2"
-            >
-              <input
-                type="email"
-                name="EMAIL"
-                placeholder="Email address"
-                required
-                className="flex-1 rounded-full border border-border-light px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent"
-              />
-              <button
-                type="submit"
-                className="cta-button rounded-full bg-accent px-6 py-2.5 text-text-light transition-colors hover:bg-accent-hover"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div>
-
         {/* Bottom bar */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border-light pt-8 sm:flex-row">
-          <p className="meta-text">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border-light pt-6 sm:flex-row">
+          <p className="text-sm text-text-muted">
             &copy; {new Date().getFullYear()} Davies Imaging Group. All rights
             reserved.
           </p>

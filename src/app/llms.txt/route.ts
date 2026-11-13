@@ -30,7 +30,6 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 - [Spec+](${SITE_URL}/programs/spec-plus): All-in-one package combining listing photography, virtual staging, and virtual video for standing inventory.
 - [FrameFlow](${SITE_URL}/programs/frameflow): The digital ordering platform for Spec+, standalone virtual staging, and virtual video.
 - [digDesk](${SITE_URL}/programs/digdesk): The DIG client portal. Order services, track jobs, manage the ModelMatch brand library, download finished assets.
-- [Regional Partnerships](${SITE_URL}/programs/regional-partnerships): Volume commitment program offering discounted rates and dedicated capacity in exchange for volume guarantees.
 
 ## Gallery (examples of the work)
 
@@ -42,7 +41,6 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 ## Markets
 
 - [By Region](${SITE_URL}/markets/region): DIG's market coverage across the West, Mountain, Central, and East regions.
-- [By Builder Type](${SITE_URL}/markets/type): Detached, attached, luxury, build-to-rent, and multifamily.
 
 ## Company
 

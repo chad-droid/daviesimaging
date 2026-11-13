@@ -188,7 +188,7 @@ export function PremiumChapter() {
             </Link>
           ))}
         </div>
-        <Link href="/gallery" className="text-sm font-medium text-text-dark transition-colors hover:text-accent">
+        <Link href="/gallery/models" className="text-sm font-medium text-text-dark transition-colors hover:text-accent">
           Explore the gallery &rarr;
         </Link>
       </div>
