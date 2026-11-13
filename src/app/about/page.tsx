@@ -20,7 +20,7 @@ const pillars = [
   },
   {
     title: "Photographers already in your market",
-    body: "We have national partnerships with some of the industry's most recognized brands, meaning their photographers are already operating in your market.",
+    body: "We have national partnerships with some of the industry's most recognized brands, meaning our photographers are already operating in your market.",
   },
   {
     title: "You save days of listing time",
@@ -73,7 +73,7 @@ export default function AboutPage() {
                   Our launch services are what DIG&apos;s reputation was built on: model home photography, video, and Matterport for the world&apos;s best home builders.
                 </p>
                 <p>
-                  Since then our services have expanded from our core model home photography to also include listing photography, ModelMatch virtual staging, and Flow video, so you can get all the assets you need from lead to launch to list.
+                  Since then our services have expanded from our core model home photography to also include listing photography, ModelMatch virtual staging, PlanMatch, and FrameFlow, CineFlow and ActFlow video, so you can get all the assets you need from lead to launch to list.
                 </p>
               </div>
             </div>

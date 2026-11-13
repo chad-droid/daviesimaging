@@ -490,9 +490,11 @@ function MobileGroup({
 
 // The bar and its menus are charcoal, matching the footer. theme-dark flips the
 // text and border tokens; these override the surface tokens so the dropdowns
-// sit on the same charcoal instead of the page's near-black.
+// sit on the same charcoal instead of the page's near-black. The bar is solid:
+// a see-through, blurred bar has to be re-blurred on every scrolled frame,
+// which made desktop scrolling stutter over the films.
 const NAV_VARS = { "--bg-surface": "#18181A", "--bg-light": "#26262A" } as React.CSSProperties;
-const NAV_DARK = { ...NAV_VARS, background: "rgba(24, 24, 26, 0.94)" } as React.CSSProperties;
+const NAV_DARK = { ...NAV_VARS, background: "#18181A" } as React.CSSProperties;
 
 export function Nav() {
   const pathname = usePathname();
@@ -500,7 +502,7 @@ export function Nav() {
 
   return (
     <>
-      <header className="theme-dark fixed left-0 right-0 top-0 z-40 border-b border-border-light backdrop-blur-sm" style={NAV_DARK}>
+      <header className="theme-dark fixed left-0 right-0 top-0 z-40 border-b border-border-light" style={NAV_DARK}>
         {/* Fixed height: 4rem including the 1px border, which is what the chapter bar (top-16) and the page offset (pt-16) assume. Kept in rem because the root font size changes with screen width. */}
         <nav className="mx-auto flex h-[calc(4rem-1px)] max-w-[90rem] items-center justify-between px-6 lg:px-8 2xl:px-12">
           {/* Logo */}
