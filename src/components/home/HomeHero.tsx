@@ -13,7 +13,19 @@ import { LoopVideo } from "./LoopVideo";
  * slightly, the scrim deepens, and the copy rises and fades, so the film
  * reads as sitting behind the page rather than on it.
  */
-export function HomeHero() {
+export function HomeHero({
+  eyebrow = "From lead to launch to list",
+  headline = "Slow sales? Update your <strong>presentation</strong>.",
+  subhead = "Stop cutting price, and give your new homes a second chance at success.",
+  compactHeadline = false,
+}: {
+  eyebrow?: string;
+  /** May contain <strong>. */
+  headline?: string;
+  subhead?: string;
+  /** Longer headlines (market pages) step down a size so they hold to two or three lines. */
+  compactHeadline?: boolean;
+} = {}) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const filmY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
@@ -41,13 +53,14 @@ export function HomeHero() {
         style={{ y: copyY, opacity: copyOpacity }}
       >
         <p className="mb-4 text-xs font-bold uppercase tracking-[0.15em] text-white/60">
-          From lead to launch to list
+          {eyebrow}
         </p>
-        <h1 className="max-w-4xl text-text-light lg:text-[4.5rem] lg:leading-[1.02] xl:text-[5.25rem]">
-          Slow sales? Update your <strong>presentation</strong>.
-        </h1>
+        <h1
+          className={`text-text-light ${compactHeadline ? "max-w-5xl lg:text-[3.75rem] lg:leading-[1.05] xl:text-[4.25rem]" : "max-w-4xl lg:text-[4.5rem] lg:leading-[1.02] xl:text-[5.25rem]"}`}
+          dangerouslySetInnerHTML={{ __html: headline }}
+        />
         <p className="mt-6 max-w-2xl text-xl leading-relaxed text-white/80">
-          Stop cutting price, and give your new homes a second chance at success.
+          {subhead}
         </p>
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
           <Link

@@ -1,3 +1,4 @@
+import { markets } from "@/lib/markets";
 import { MetadataRoute } from "next";
 import { client } from "@/sanity/client";
 import { postSitemapQuery } from "@/sanity/queries";
@@ -63,6 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ── Markets ───────────────────────────────────────────────────────────────
     { url: `${BASE}/markets`,                    changeFrequency: "monthly", priority: 0.75 },
     { url: `${BASE}/markets/region`,             changeFrequency: "monthly", priority: 0.75 },
+    ...markets.map((m) => ({ url: `${BASE}/markets/${m.slug}`, changeFrequency: "monthly" as const, priority: 0.7 })),
 
     // ── About ─────────────────────────────────────────────────────────────────
     { url: `${BASE}/about`,              changeFrequency: "monthly", priority: 0.70 },

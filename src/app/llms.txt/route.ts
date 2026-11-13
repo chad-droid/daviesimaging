@@ -1,3 +1,4 @@
+import { markets } from "@/lib/markets";
 import { client } from "@/sanity/client";
 import { postsFeedQuery } from "@/sanity/queries";
 import { SITE_URL, BLOG_NAME } from "@/lib/seo";
@@ -41,6 +42,7 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 ## Markets
 
 - [By Region](${SITE_URL}/markets/region): DIG's market coverage across the West, Mountain, Central, and East regions.
+${markets.map((m) => `- [Home builder photography in ${m.name}, ${m.state}](${SITE_URL}/markets/${m.slug}): ${m.blurb}`).join("\n")}
 
 ## Company
 

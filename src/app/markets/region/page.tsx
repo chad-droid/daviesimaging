@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { RegionMap } from "@/components/RegionMap";
+import { MarketDirectory } from "@/components/MarketDirectory";
 import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
@@ -29,7 +30,17 @@ export default function ByRegionPage() {
 
         <RevealOnScroll>
           <div className="mt-14">
-            <RegionMap dark />
+            <RegionMap dark linkPins />
+          </div>
+        </RevealOnScroll>
+
+        <RevealOnScroll>
+          <div className="mt-16">
+            <Eyebrow>Every market</Eyebrow>
+            <h2 className="mb-8 mt-2">
+              Pick the market <strong>you build in</strong>.
+            </h2>
+            <MarketDirectory />
           </div>
         </RevealOnScroll>
 

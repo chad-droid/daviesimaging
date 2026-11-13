@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { markets } from "@/lib/markets";
 import {
   ComposableMap,
   Geographies,
@@ -56,50 +58,11 @@ const regionInfo: Record<string, RegionInfo> = {
 
 const regionList = Object.entries(regionInfo).map(([id, v]) => ({ id, ...v }));
 
-interface MarketPin {
-  coords: [number, number];
-  city: string;
-  region: string;
-  isOffice?: boolean;
-  blurb: string;
-  labelAnchor?: "start" | "end" | "middle";
-  labelY?: number;
-}
+const marketPins = markets;
 
-const marketPins: MarketPin[] = [
-  // West (9)
-  { coords: [-122.33, 47.61], city: "Seattle",      region: "west",     blurb: "Pacific Northwest: WA's fastest-growing new home corridors.",           labelAnchor: "end",    labelY: -10 },
-  { coords: [-122.68, 45.52], city: "Portland",     region: "west",     blurb: "Pacific Northwest: OR/WA border markets and metro Portland.",            labelAnchor: "end",    labelY: -10 },
-  { coords: [-121.49, 38.58], city: "Sacramento",   region: "west",     blurb: "DIG's West Coast headquarters. Central Valley coverage hub.",             isOffice: true,        labelAnchor: "end",    labelY: -10 },
-  { coords: [-122.03, 37.54], city: "Bay Area",     region: "west",     blurb: "Bay Area and Silicon Valley homebuilders.",                               labelAnchor: "end",    labelY: -10 },
-  { coords: [-118.24, 34.05], city: "Los Angeles",  region: "west",     blurb: "Greater LA metro production and luxury communities.",                     labelAnchor: "end",    labelY: -10 },
-  { coords: [-117.82, 33.68], city: "Orange County",region: "west",     blurb: "Orange County and Inland Empire new home communities.",                   labelAnchor: "start",  labelY:  14 },
-  { coords: [-119.77, 36.74], city: "Fresno",       region: "west",     blurb: "Central Valley growth corridor: one of California's fastest-growing new home markets.", labelAnchor: "start", labelY: -10 },
-  { coords: [-115.14, 36.17], city: "Las Vegas",    region: "west",     blurb: "Nevada's largest new home market: high-volume spec and master plan.",    labelAnchor: "start",  labelY: -10 },
-  { coords: [-119.81, 39.53], city: "Reno",         region: "west",     blurb: "Northern Nevada: Reno/Sparks metro and Lake Tahoe corridor.",            labelAnchor: "start",  labelY: -10 },
-  // Mountain (4)
-  { coords: [-116.20, 43.62], city: "Boise",        region: "mountain", blurb: "Idaho's fastest-growing metro: Treasure Valley builders.",               labelAnchor: "start",  labelY: -10 },
-  { coords: [-111.89, 40.76], city: "Salt Lake City",region: "mountain",blurb: "Wasatch Front communities and Utah's growth markets.",                    labelAnchor: "start",  labelY: -10 },
-  { coords: [-104.99, 39.74], city: "Denver",       region: "mountain", blurb: "Colorado Front Range: Denver metro and mountain corridor builders.",      labelAnchor: "start",  labelY: -10 },
-  { coords: [-112.07, 33.45], city: "Phoenix",      region: "mountain", blurb: "Greater Phoenix: one of the nation's highest-volume new home markets.",   labelAnchor: "start",  labelY: -10 },
-  // Central (4)
-  { coords: [-96.80, 32.78],  city: "Dallas",       region: "central",  blurb: "DIG's Central region headquarters. DFW is one of our most active markets.", isOffice: true,      labelAnchor: "start",  labelY: -10 },
-  { coords: [-95.37, 29.76],  city: "Houston",      region: "central",  blurb: "Greater Houston: high-volume production builders and master-planned communities.", labelAnchor: "start", labelY: -10 },
-  { coords: [-97.74, 30.27],  city: "Austin",       region: "central",  blurb: "Austin metro and Hill Country: strong spec and QMI demand.",              labelAnchor: "middle", labelY: -13 },
-  { coords: [-98.49, 29.42],  city: "San Antonio",  region: "central",  blurb: "San Antonio and South Texas builders.",                                   labelAnchor: "end",    labelY: -10 },
-  // East (9)
-  { coords: [-82.46, 27.95],  city: "Tampa",        region: "east",     blurb: "Tampa Bay and the Gulf Coast: Florida's western growth corridor.",        labelAnchor: "end",    labelY: -10 },
-  { coords: [-81.38, 28.54],  city: "Orlando",      region: "east",     blurb: "Central Florida: one of the busiest new home markets in the U.S.",        labelAnchor: "start",  labelY: -10 },
-  { coords: [-80.19, 25.76],  city: "Miami",        region: "east",     blurb: "South Florida: luxury, production, and waterfront communities.",          labelAnchor: "start",  labelY: -10 },
-  { coords: [-81.66, 30.33],  city: "Jacksonville", region: "east",     blurb: "Northeast Florida: rapidly growing Jacksonville metro builders.",         labelAnchor: "start",  labelY: -10 },
-  { coords: [-84.39, 33.75],  city: "Atlanta",      region: "east",     blurb: "Metro Atlanta and suburban Georgia: active DIG market.",                  labelAnchor: "end",    labelY: -10 },
-  { coords: [-79.94, 32.78],  city: "Charleston",   region: "east",     blurb: "Lowcountry and coastal Carolina builders.",                               labelAnchor: "start",  labelY: -10 },
-  { coords: [-80.84, 35.23],  city: "Charlotte",    region: "east",     blurb: "Charlotte metro and Lake Norman corridor.",                               labelAnchor: "end",    labelY: -10 },
-  { coords: [-78.64, 35.78],  city: "Raleigh",      region: "east",     blurb: "Triangle and Research Triangle Park: strong spec and model home demand.", labelAnchor: "start",  labelY: -10 },
-  { coords: [-82.99, 39.96],  city: "Columbus",     region: "east",     blurb: "Central Ohio: Columbus metro new home builders.",                        labelAnchor: "start",  labelY: -10 },
-];
-
-export function RegionMap({ dark = false }: { dark?: boolean } = {}) {
+/** `linkPins` makes each pin open its market page. Leave it off where the map is only an illustration. */
+export function RegionMap({ dark = false, linkPins = false }: { dark?: boolean; linkPins?: boolean } = {}) {
+  const router = useRouter();
   const palette = dark ? regionColorsDark : regionColors;
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
   const visiblePins = activeRegion
@@ -159,8 +122,14 @@ export function RegionMap({ dark = false }: { dark?: boolean } = {}) {
 
             return (
               <Marker key={pin.city} coordinates={pin.coords}>
-                {/* Pins are plain dots: no hover, no click. The region cards below do the navigating. */}
-                <g style={{ pointerEvents: "none" }}>
+                {/* Pins are plain dots unless linkPins is set, in which case each opens its market page. */}
+                <g
+                  style={linkPins ? { cursor: "pointer" } : { pointerEvents: "none" }}
+                  onClick={linkPins ? () => router.push(`/markets/${pin.slug}`) : undefined}
+                  role={linkPins ? "link" : undefined}
+                  aria-label={linkPins ? `${pin.name} market page` : undefined}
+                >
+                  {linkPins && <circle r={11} fill="transparent" />}
                   {pin.isOffice ? (
                     <>
                       <circle r={7} fill={dark ? "#857AE0" : "#6A5ACD"} opacity={dark ? 0.3 : 0.15} />

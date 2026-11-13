@@ -57,13 +57,14 @@ Davies Imaging Group (DIG) rebuilt `daviesimaging.com` from scratch as a Next.js
 - Image slots — most sections have `DynamicImage` / `ParallaxBackground` wired up but no images assigned yet
 - Gallery curation — admin tool built, actual image ingestion from Dropbox pending
 - Phoenix, AZ geo-targeted landing page (listing + ModelMatch virtual staging, for paid ad campaigns)
-- Landing pages for each region DIG shoots in, then city-specific content that makes the Our Markets map interactive again (Chad, Nov 2026: regions first). Map pins are plain dots until then; the per-city blurbs are still in `RegionMap.tsx` for reuse.
+- Market pages exist (see Removed/Notes below); pins on Our Markets link to them. Next: local photos, builder names and testimonials per market.
 - Resources and Education section
 - digDojo photography training platform (see full spec below)
 - `ADMIN_PASSWORD` env var — set in Vercel dashboard (currently only in `.env.local`)
 
 ### Removed
 - **Removed 12 November 2026 at Chad's direction**, each with a redirect in `next.config.ts`: Builder Types (`/markets/type`), Regional Partnerships (`/programs/regional-partnerships`), the Gallery index (`/gallery`, now goes to `/gallery/models`), `/welcome-back`, and the campaign pages `frameflow-demo`, `frameflow-sell-faster` and `modelmatch-trial-info`. Sections below that describe them are historical. `/privacy` was on the same list but is held: it is the full privacy policy that ad lead forms point to.
+- **Market pages (12 Nov 2026):** one page per market at `/markets/{slug}`, 26 in all, built by `src/components/MarketPage.tsx` from `src/lib/markets.ts` (also the source for the map pins, `MarketDirectory`, sitemap and llms.txt). Each page is the homepage told for one metro: film hero with a local headline, a Coverage section, the Lead/Launch/List chapters, local FAQ and Service/FAQ schema with `areaServed` set to the city. `areas` (submarkets) in the data file are Claude's lists and need Chad's confirmation. Image slot per market: `markets-{slug}-hero-img`. To rank, each page still needs local proof: photos shot there, builder and community names, a local testimonial.
 - **Navbar (12 Nov 2026):** charcoal to match the footer. `theme-dark` on the header and mobile drawer, with `--bg-surface` overridden to `#18181A` so the dropdowns match. Light logo.
 - **Footer (12 Nov 2026):** charcoal `#18181A` with `theme-dark`, newsletter form inside the brand column. No Careers, FrameFlow Studio or Premium Video links. Links column has "Try ModelMatch Free" to `/modelmatch-datalibrary`.
 - **Who We Help (`/markets/role`) and its four role pages** were removed in November 2026 at Chad's direction. The URLs redirect to `/about`. Sections below that still describe By Role or persona pages are historical.

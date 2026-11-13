@@ -3,6 +3,7 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DarkSection } from "@/components/DarkSection";
+import { MarketDirectory } from "@/components/MarketDirectory";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/markets" },
@@ -63,6 +64,19 @@ export default function MarketsIndex() {
                 </Link>
               ))}
             </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
+      {/* Every market page */}
+      <section className="pb-24">
+        <div className="mx-auto max-w-5xl px-6">
+          <RevealOnScroll>
+            <Eyebrow>Every market</Eyebrow>
+            <h2 className="mb-8 mt-2">
+              Pick the market <strong>you build in</strong>.
+            </h2>
+            <MarketDirectory />
           </RevealOnScroll>
         </div>
       </section>
