@@ -501,7 +501,8 @@ export function Nav() {
   return (
     <>
       <header className="theme-dark fixed left-0 right-0 top-0 z-40 border-b border-border-light backdrop-blur-sm" style={NAV_DARK}>
-        <nav className="mx-auto flex max-w-[90rem] items-center justify-between px-6 py-3.5 lg:px-8 2xl:px-12 2xl:py-4">
+        {/* Fixed height: 4rem including the 1px border, which is what the chapter bar (top-16) and the page offset (pt-16) assume. Kept in rem because the root font size changes with screen width. */}
+        <nav className="mx-auto flex h-[calc(4rem-1px)] max-w-[90rem] items-center justify-between px-6 lg:px-8 2xl:px-12">
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <Image
