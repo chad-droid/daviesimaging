@@ -281,3 +281,26 @@
 .theme-dark .theme-light .text-accent {
   color: var(--accent);
 }
+
+/* ── Touch targets ──
+   On touch screens, a standalone link or button (not one inside a sentence)
+   gets an invisible 44px-tall hit area centred on it. Nothing moves and
+   nothing looks different; a 20px text link simply becomes easy to tap.
+   Kept in the base layer and at zero specificity so any utility class
+   (absolute, fixed, sticky, after:*) still wins. */
+@layer base {
+  @media (pointer: coarse) {
+    :where(a, button):not(:where(p, li p, h1, h2, h3, h4, blockquote, figcaption) :where(a, button)) {
+      position: relative;
+    }
+    :where(a, button):not(:where(p, li p, h1, h2, h3, h4, blockquote, figcaption) :where(a, button))::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 44px;
+      transform: translateY(-50%);
+    }
+  }
+}
