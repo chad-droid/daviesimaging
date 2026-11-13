@@ -40,7 +40,7 @@ export default function AboutPage() {
     <>
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="about-main-hero"
@@ -57,9 +57,9 @@ export default function AboutPage() {
 
       {/* Origin Story */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-origin"
@@ -106,9 +106,9 @@ export default function AboutPage() {
 
       {/* We Understand */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-perspective"
@@ -166,9 +166,9 @@ export default function AboutPage() {
 
       {/* Five-Step Strategy */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-how-we-work"

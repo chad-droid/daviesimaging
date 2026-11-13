@@ -43,7 +43,7 @@ export default function HowWeDoItPage() {
     <>
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="about-how-we-do-it-hero"
@@ -60,9 +60,9 @@ export default function HowWeDoItPage() {
 
       {/* The problem */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-how-we-do-it-problem"
@@ -89,9 +89,9 @@ export default function HowWeDoItPage() {
 
       {/* The answer */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-how-we-do-it-answer"
@@ -154,9 +154,9 @@ export default function HowWeDoItPage() {
 
       {/* Builder advantage */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-how-we-do-it-advantage"
