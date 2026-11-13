@@ -9,12 +9,12 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/models" },
   title: "Model Homes",
-  description: "Full-service model home photography across markets nationwide. Lifestyle, staging, and architectural visuals built to sell.",
+  description: "Model home photography from our national network of highly trained photographers, in 26 U.S. markets.",
 };
 
 const otherWork = [
   { label: "Amenities", href: "/gallery/amenities" },
-  { label: "Spec Homes", href: "/gallery/listings" },
+  { label: "Listings", href: "/gallery/listings" },
   { label: "Lifestyle", href: "/gallery/lifestyle" },
 ];
 
@@ -28,8 +28,8 @@ export default function ModelHomesPage() {
             <EditableHero
               slotId="gallery-model-homes-hero"
               eyebrowDefault="Gallery / Model Homes"
-              headlineDefault="Model home photography built to <strong>earn attention</strong>."
-              subheadDefault="Lifestyle and architectural photography that tells the full story of every model home, from grand opening through lasting impression. Delivered as a complete, publish-ready asset package."
+              headlineDefault="Your model homes, at <strong>their best</strong>."
+              subheadDefault="A model home is a big investment in merchandising and design. The photography is how most of your buyers see that investment first."
             />
           </RevealOnScroll>
         </div>
@@ -65,8 +65,8 @@ export default function ModelHomesPage() {
             <EditableTextContent
               slotId="gallery-models-cta"
               eyebrowDefault="Premium Photography"
-              headlineDefault="Your model home deserves photography that <strong>earns attention</strong>."
-              bodyDefault="DIG Premium delivers full-service lifestyle and model home photography, from pre-shoot planning to final asset delivery. 28 markets, one standard."
+              headlineDefault="Ready to photograph your <strong>next model</strong>?"
+              bodyDefault="You get full-service model home photography, from pre-shoot planning to final delivery, in 26 markets."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

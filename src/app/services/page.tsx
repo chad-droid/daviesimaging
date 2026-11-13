@@ -7,57 +7,50 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/services" },
   title: "Services",
-  description: "Photography, video, virtual staging, and 3D tours. Explore the full range of DIG services for homebuilder marketing teams.",
+  description: "Photography, video, ModelMatch staging, and Flow video for home builder marketing teams, from lead to launch to list.",
 };
 
 const photography = [
   {
-    title: "Premium Photo",
+    title: "Premium Photography",
     href: "/services/premium",
     tag: "Flagship",
-    description: "Slow, methodical, full-setup photography for model homes and lifestyle shoots. DIG&apos;s highest-craft output. For launches, lifestyle campaigns, and builder brands that need imagery that earns attention.",
+    description: "Model home, amenity, and lifestyle photography from our national network of highly trained photographers.",
     cta: "Explore Premium",
   },
   {
-    title: "Listing Photo",
+    title: "Listing Photography",
     href: "/services/listing",
     tag: null,
-    description: "HDR photography for spec homes and standing inventory. Fast-turn, MLS-ready, delivered within 48 hours of the shoot.",
-    cta: "Explore Listing Photo",
+    description: "HDR photography for your spec homes and standing inventory, delivered within 48 hours of the shoot.",
+    cta: "Explore Listing Photography",
   },
 ];
 
 const video = [
   {
-    title: "Video Production",
+    title: "Premium Video",
     href: "/services/video-production",
     tag: "Full Crew",
-    description: "On-site, crew-based video for community walkthroughs, lifestyle campaigns, amenity showcases, and brand films. DIG&apos;s highest-craft video output.",
-    cta: "Explore Video Production",
+    description: "On-site, crew-based video of your model homes, amenities, and communities.",
+    cta: "Explore Premium Video",
   },
   {
-    title: "Virtual Video",
+    title: "FrameFlow",
     href: "/services/virtual-video",
     tag: "No Shoot",
-    description: "Digital listing video built from existing photography. No shoot day, no crew. Fast delivery through FrameFlow Studio. The listing video solution for spec and standing inventory.",
-    cta: "Explore Virtual Video",
+    description: "Lifelike video from the photos you already have. Also how we produce video for your spec homes and listings.",
+    cta: "Explore FrameFlow",
   },
 ];
 
 const digital = [
   {
-    title: "Virtual Staging",
+    title: "ModelMatch",
     href: "/services/virtual-staging",
-    tag: "ModelMatch",
-    description: "Reference-based virtual staging using your builder&apos;s own model home photography as the design reference. Branded results, not generic furniture swaps.",
-    cta: "Explore Virtual Staging",
-  },
-  {
-    title: "Matterport",
-    href: "/services/matterport",
-    tag: "3D Tours",
-    description: "Immersive 3D virtual tours for model homes and communities. Room-by-room navigation for remote buyers, sales centers, and digital campaigns.",
-    cta: "Explore Matterport",
+    tag: "Virtual Staging",
+    description: "Virtual staging built from your own model home merchandising, so your listings match your models.",
+    cta: "Explore ModelMatch",
   },
 ];
 
@@ -92,13 +85,13 @@ export default function ServicesIndex() {
   return (
     <>
       {/* Hero */}
-      <DarkSection className="min-h-[55vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Services</Eyebrow>
-            <h1 className="text-text-light">How DIG does the <strong>work</strong>.</h1>
+            <h1 className="text-text-light">Everything you need, from lead to launch <strong>to list</strong>.</h1>
             <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
-              Seven services across photography, video, and digital production. Each one built for homebuilder marketing teams that need results, not just assets.
+              Photography, video, and digital production for your marketing team, from lead to launch to list.
             </p>
           </RevealOnScroll>
         </div>
@@ -129,7 +122,7 @@ export default function ServicesIndex() {
               <Eyebrow>Video</Eyebrow>
               <h2>Full crew or <strong>no crew</strong>. Your choice.</h2>
               <p className="mt-3 max-w-xl text-text-body">
-                DIG does not create listing video with a real camera crew. Virtual Video is the fast, consistent solution for spec and standing inventory. Video Production is for high-craft lifestyle and community storytelling.
+                FrameFlow is how we produce video for your spec homes and listings. Premium Video is crew-based film of your model homes and communities.
               </p>
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
@@ -166,20 +159,14 @@ export default function ServicesIndex() {
               <Eyebrow dark>Scale</Eyebrow>
               <h2 className="mt-2 text-text-light">Building across multiple <strong>markets</strong>?</h2>
               <p className="mx-auto mt-4 max-w-xl text-text-muted">
-                DIG&apos;s Regional Partnerships program offers volume pricing, dedicated capacity, and one point of contact across all four U.S. regions. Built for builders doing 300 or more homes annually.
+                Regional Partnerships give you volume pricing, dedicated capacity, and one point of contact across all four U.S. regions. For builders doing 300 or more homes a year.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
-                  href="/programs/regional-partnerships"
+                  href="/contact?intent=strategy"
                   className="rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                 >
-                  Explore Regional Partnerships
-                </Link>
-                <Link
-                  href="/contact"
-                  className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
-                >
-                  Book a strategy call &rarr;
+                  Book a Strategy Call
                 </Link>
               </div>
             </div>

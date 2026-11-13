@@ -18,7 +18,7 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
             />
           </div>
           {value.caption && (
-            <figcaption className="mt-2 text-center text-sm text-text-body/60">
+            <figcaption className="mt-2 text-center text-sm text-text-muted">
               {value.caption}
             </figcaption>
           )}

@@ -1,68 +1,43 @@
 "use client";
 
 import { EditableContent } from "./EditableContent";
+import { Eyebrow } from "./Eyebrow";
 
 interface ShowcaseSectionHeaderProps {
   slotId: string;
-  /** Category name. The largest thing in the section. */
+  /** Chapter number shown before the product name, e.g. "01". */
+  index: string;
+  /** Product name. Renders as the eyebrow, never as the headline. */
   eyebrowDefault: string;
   headlineDefault: string;
   /** Opening sentence. */
   leadDefault: string;
-  /** Closing detail. Omit where a section only carries the one sentence. */
+  /** Closing detail. Omit where a chapter only carries the one sentence. */
   tailDefault?: string;
-  /** Use on dark backgrounds */
-  dark?: boolean;
-  /**
-   * Two columns from lg up: category and headline left, body right. Anything
-   * passed as children (the section's button) sits under the body.
-   */
-  split?: boolean;
-  children?: React.ReactNode;
 }
 
 /**
- * Section header for /services/showcase: category name, headline, then body.
+ * Chapter header for /services/showcase, on a dark background.
  *
- * The ladder runs largest to smallest in reading order, so the category name
- * leads the section and the copy steps down under it:
- *
- *   width    category   headline   body
- *   <640     1.5rem     1.25rem    1rem
- *   >=640    1.875rem   1.4375rem  1rem
- *   >=1024   2.25rem    1.625rem   1rem
- *   >=1280   2.5rem     1.75rem    1rem
- *   >=1536   2.75rem    1.875rem   1rem
- *   >=1920   3rem       2rem       1rem
- *
- * Both tiers step with the h2 scale in globals.css rather than sitting at a
- * fixed size. A fixed size breaks the order on small screens, where the root
- * and the headings shrink but a hard-coded value does not.
- *
- * The category name is styled here rather than through <Eyebrow>, which is
- * locked to text-xs for the rest of the site. Colour and treatment match it.
+ * Follows the site's type system: the product name is a small eyebrow, the
+ * Cormorant headline is the largest thing in the chapter, and the body sits
+ * beside it from lg up. The product name is deliberately not a display
+ * heading. Bold uppercase sans at headline size is the one treatment the rest
+ * of the site never uses.
  *
  * Server-component-safe: the render function lives here on the client, so
  * pages pass only strings across the boundary.
  */
-const CATEGORY_SIZE =
-  "text-[1.5rem] sm:text-[1.875rem] lg:text-[2.25rem] xl:text-[2.5rem] 2xl:text-[2.75rem] min-[1920px]:text-[3rem]";
-
-const HEADLINE_SIZE =
-  "text-[1.25rem] sm:text-[1.4375rem] lg:text-[1.625rem] xl:text-[1.75rem] 2xl:text-[1.875rem] min-[1920px]:text-[2rem]";
-
 export function ShowcaseSectionHeader({
   slotId,
+  index,
   eyebrowDefault,
   headlineDefault,
   leadDefault,
   tailDefault,
-  dark = false,
-  split = false,
-  children,
 }: ShowcaseSectionHeaderProps) {
   const fields = [
-    { key: "eyebrow", label: "Category", type: "text" as const, defaultValue: eyebrowDefault },
+    { key: "eyebrow", label: "Product name", type: "text" as const, defaultValue: eyebrowDefault },
     { key: "headline", label: "Headline", type: "text" as const, defaultValue: headlineDefault },
     { key: "lead", label: "Lead sentence", type: "textarea" as const, defaultValue: leadDefault },
     ...(tailDefault !== undefined
@@ -70,61 +45,33 @@ export function ShowcaseSectionHeader({
       : []),
   ];
 
-  // Unchanged from the single-size body this replaces. Only sizes move.
-  const copyColour = dark ? "text-white/80" : "text-text-body";
-  const categoryColour = dark ? "text-accent-dark-hover" : "text-accent";
-
   return (
     <EditableContent slotId={slotId} fields={fields}>
-      {(v) => {
-        const title = (
-          <>
-            {(v.eyebrow || eyebrowDefault) && (
-              <p
-                className={`mb-3 font-bold uppercase leading-tight tracking-normal ${CATEGORY_SIZE} ${categoryColour}`}
-              >
-                {v.eyebrow || eyebrowDefault}
-              </p>
-            )}
+      {(v) => (
+        <div className="lg:grid lg:grid-cols-[3fr_2fr] lg:items-end lg:gap-16">
+          <div>
+            <Eyebrow dark>{`${index} / ${v.eyebrow || eyebrowDefault}`}</Eyebrow>
             <h2
-              className={`${HEADLINE_SIZE} leading-snug ${dark ? "text-text-light" : ""}`}
+              className="text-text-light lg:text-[3rem] lg:leading-[1.08] xl:text-[3.5rem]"
               dangerouslySetInnerHTML={{ __html: v.headline }}
             />
-          </>
-        );
-        // The first body line drops its top margin when it opens a column.
-        const body = (
-          <>
+          </div>
+          <div className="mt-6 lg:mt-0 lg:pb-2">
             {v.lead && (
               <p
-                className={`${split ? "mt-4 lg:mt-0" : "mt-4"} text-base leading-relaxed ${copyColour}`}
+                className="text-lg leading-relaxed text-white/80"
                 dangerouslySetInnerHTML={{ __html: v.lead }}
               />
             )}
             {v.tail && (
               <p
-                className={`mt-2 text-base leading-relaxed ${copyColour}`}
+                className="mt-3 text-base leading-relaxed text-white/60"
                 dangerouslySetInnerHTML={{ __html: v.tail }}
               />
             )}
-            {children}
-          </>
-        );
-        if (!split) {
-          return (
-            <>
-              {title}
-              {body}
-            </>
-          );
-        }
-        return (
-          <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-16">
-            <div>{title}</div>
-            <div>{body}</div>
           </div>
-        );
-      }}
+        </div>
+      )}
     </EditableContent>
   );
 }

@@ -13,19 +13,19 @@ export const metadata: Metadata = {
 const values = [
   {
     title: "We think like marketers",
-    body: "DIG isn't a photography company that also does staging. We're a marketing asset company. Everyone on the team understands why the work matters, not just how to do it.",
+    body: "Everyone on the team understands why the work matters to a builder's marketing team, as well as how to do it.",
   },
   {
     title: "Craft matters here",
-    body: "We hold a high standard because the builders we work with hold one too. Quality is the expectation, not the exception.",
+    body: "We hold a high standard because the builders we work with hold one too.",
   },
   {
     title: "We're building something",
-    body: "The 2026 platform, digDesk, FrameFlow Studio, and Spec+ are live products with real traction. You'd be joining during a real growth phase.",
+    body: "digDesk, FrameFlow Studio, and Spec+ are live products, and you'd be joining while we grow.",
   },
   {
-    title: "28 markets and growing",
-    body: "We have offices in Sacramento and Dallas, production in Guadalajara, and photographers across the country. The team is distributed and the work is real.",
+    title: "26 markets and growing",
+    body: "We have offices in Sacramento and Dallas, production in Guadalajara, and photographers across the country.",
   },
 ];
 
@@ -34,7 +34,7 @@ const openRoles = [
     title: "Listing Photographer",
     type: "Freelance / Contract",
     markets: "Any U.S. market",
-    description: "DIG works with experienced listing photographers across all 28 markets and is actively expanding its network. If you shoot residential or homebuilder work and want consistent volume, let's talk.",
+    description: "DIG works with experienced listing photographers across all 26 markets and is actively expanding its network. If you shoot residential or homebuilder work and want consistent volume, let's talk.",
     applyHref: "/careers/apply/listing-photographer",
   },
   {
@@ -48,17 +48,17 @@ const openRoles = [
 
 export default function CareersPage() {
   return (
-    <>
+    <div className="theme-dark">
       {/* Hero */}
-      <DarkSection className="min-h-[55vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Careers at DIG</Eyebrow>
             <h1 className="text-text-light">
-              Join a team that thinks about <strong>what happens after the shoot</strong>.
+              Help the world&rsquo;s best home builders look <strong>their best</strong>.
             </h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
-              Davies Imaging Group is a homebuilder marketing asset company. We build photography, virtual staging, and video that helps builders sell homes faster. We&apos;re looking for people who care about that outcome.
+              Davies Imaging Group is a visual asset platform for home builders. We&apos;re looking for photographers and cinematographers who want to make the world&apos;s best home builders look their best.
             </p>
           </RevealOnScroll>
         </div>
@@ -127,15 +127,15 @@ export default function CareersPage() {
       </section>
 
       {/* General interest */}
-      <section className="py-24">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>Don&apos;t See Your Role?</Eyebrow>
-              <h2>
+            <div className="text-center">
+              <Eyebrow dark>Don&apos;t See Your Role?</Eyebrow>
+              <h2 className="text-text-light">
                 We&apos;re always looking for <strong>great people</strong>.
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
+              <p className="mx-auto mt-4 max-w-xl text-text-muted">
                 If you&apos;re a photographer, editor, or someone who understands homebuilder marketing and wants to do better work, send us a note. We hire for fit as much as for role.
               </p>
               <div className="mt-8">
@@ -149,7 +149,7 @@ export default function CareersPage() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
-    </>
+      </DarkSection>
+    </div>
   );
 }

@@ -7,11 +7,13 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
 import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { TestimonialBand } from "@/components/TestimonialBand";
+import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/listing" },
   title: "Listing Photography",
-  description: "Professional listing photography for spec homes and standing inventory. Fast turnaround, MLS-ready, consistent across communities.",
+  description: "Listing photography for spec homes and standing inventory, delivered within 48 hours of the shoot and ready for MLS, your website, email and paid channels.",
 };
 
 const deliverables = [
@@ -19,6 +21,7 @@ const deliverables = [
   "MLS-ready resolution and file sizing",
   "Exterior, interior, and detail coverage",
   "Web-optimized and print-ready formats",
+  "Matterport and drone available on any listing",
   "Delivered via digDesk within 48 hours",
 ];
 
@@ -29,7 +32,7 @@ export default function ListingPhotoPage() {
         data={buildServiceSchema({
           name: "Listing Photography",
           description:
-            "HDR photography for spec homes and active inventory. Fast turnaround, MLS-ready, built for standing inventory that needs to move.",
+            "Listing photography for spec homes and standing inventory, delivered within 48 hours of the shoot.",
           path: "/services/listing",
           serviceType: "Photography",
         })}
@@ -41,15 +44,16 @@ export default function ListingPhotoPage() {
         ])}
       />
       {/* Hero */}
-      <DarkSection className="min-h-[60vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="services-listing-hero"
               eyebrowDefault="Solutions / Listing Photography"
-              headlineDefault="Photography built for homes that need to <strong>move</strong>."
-              subheadDefault="Fast turnaround, consistent quality, and assets ready to deploy across MLS, website, email, and paid channels. Built for spec homes and standing inventory."
+              headlineDefault="Get your new listings <strong>online</strong>."
+              subheadDefault="You get listing photography for your spec homes and standing inventory within 48 hours of the shoot, ready for MLS, your website, email and paid channels."
             />
+            <ProductTags line="Production" stage="List" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/programs/spec-plus"
@@ -77,8 +81,8 @@ export default function ListingPhotoPage() {
                 <EditableTextContent
                   slotId="services-listing-what-you-get"
                   eyebrowDefault="What You Get"
-                  headlineDefault="Every listing, same <strong>standard</strong>."
-                  bodyDefault="Whether it's the first home in a community or the fiftieth, DIG listing photography delivers brand-consistent visuals that perform across every channel."
+                  headlineDefault="The same quality on <strong>every listing</strong>."
+                  bodyDefault="A buyer scrolling a listing site doesn't sort by builder or resale. They see the photos. A builder with dozens of specs has to match the presentation of an agent with one, and that takes a process built for volume."
                 />
                 <ul className="mt-6 space-y-2.5">
                   {deliverables.map((item) => (
@@ -126,13 +130,13 @@ export default function ListingPhotoPage() {
                     slotId="services-listing-spec-upsell"
                     eyebrowDefault="Spec+ Bundle"
                     headlineDefault="Add staging and video for <strong>one flat price</strong>."
-                    bodyDefault="Spec+ combines listing photography, 8 ModelMatch-staged images, and a virtual video walkthrough into a single order. Everything your spec home needs to compete, delivered within 72 hours of the shoot."
+                    bodyDefault="Spec+ combines listing photography, 8 ModelMatch staged images, and a FrameFlow video into a single order, delivered within 72 hours of the shoot."
                   />
                   <ul className="mt-5 space-y-2">
                     {[
                       "Listing photography included",
                       "8 virtually staged images (ModelMatch method)",
-                      "Virtual video walkthrough",
+                      "1 FrameFlow video",
                       "$600 flat. No hidden fees.",
                       "72-hour delivery after shoot day",
                     ].map((item) => (
@@ -163,6 +167,9 @@ export default function ListingPhotoPage() {
         </div>
       </section>
 
+      {/* Customer proof */}
+      <TestimonialBand ids={["bradley-resale", "jaime-selects"]} />
+
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
@@ -170,7 +177,7 @@ export default function ListingPhotoPage() {
             <EditableTextContent
               slotId="services-listing-cta"
               eyebrowDefault="Book a Shoot"
-              headlineDefault="Ready to get your listings <strong>photography-ready</strong>?"
+              headlineDefault="Ready to list your <strong>next spec home</strong>?"
               bodyDefault=""
               dark={true}
             />

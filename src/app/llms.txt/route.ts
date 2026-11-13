@@ -1,3 +1,4 @@
+import { markets } from "@/lib/markets";
 import { client } from "@/sanity/client";
 import { postsFeedQuery } from "@/sanity/queries";
 import { SITE_URL, BLOG_NAME } from "@/lib/seo";
@@ -20,14 +21,16 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 - [Video Production](${SITE_URL}/services/video-production): On-site, crew-based video. Community walkthroughs, lifestyle video, amenity showcases, brand films.
 - [Virtual Staging](${SITE_URL}/services/virtual-staging): Reference-based virtual staging using approved model home images as design references, not generic room swaps.
 - [Virtual Video](${SITE_URL}/services/virtual-video): Digital video built from existing photos or staging outputs. No shoot or crew required. This is also DIG's listing video solution.
-- [Matterport](${SITE_URL}/services/matterport): 3D virtual tour scanning.
+- [PlanMatch](${SITE_URL}/services/planmatch): Photorealistic interior and exterior images of homes before they are built, made from construction plans and finish samples.
+- [Moments](${SITE_URL}/services/moments): Vertical close ups of the cabinetry, stone, fixtures and appliances in a builder's homes, made for social.
+- [CineFlow](${SITE_URL}/services/cineflow): Cinematic video sequences made from still images, relit and with new angles, without a photo shoot.
+- [ActFlow](${SITE_URL}/services/actflow): Lifestyle video with virtual talent placed in a builder's own homes and amenities.
 
 ## Programs (how builders buy)
 
 - [Spec+](${SITE_URL}/programs/spec-plus): All-in-one package combining listing photography, virtual staging, and virtual video for standing inventory.
 - [FrameFlow](${SITE_URL}/programs/frameflow): The digital ordering platform for Spec+, standalone virtual staging, and virtual video.
 - [digDesk](${SITE_URL}/programs/digdesk): The DIG client portal. Order services, track jobs, manage the ModelMatch brand library, download finished assets.
-- [Regional Partnerships](${SITE_URL}/programs/regional-partnerships): Volume commitment program offering discounted rates and dedicated capacity in exchange for volume guarantees.
 
 ## Gallery (examples of the work)
 
@@ -39,8 +42,7 @@ const STATIC_SECTIONS = `## Services (how the work is produced)
 ## Markets
 
 - [By Region](${SITE_URL}/markets/region): DIG's market coverage across the West, Mountain, Central, and East regions.
-- [By Builder Type](${SITE_URL}/markets/type): Detached, attached, luxury, build-to-rent, and multifamily.
-- [By Role](${SITE_URL}/markets/role): Tailored positioning for coordinators, marketing directors, executives, and C-suite buyers.
+${markets.map((m) => `- [Home builder photography in ${m.name}, ${m.state}](${SITE_URL}/markets/${m.slug}): ${m.blurb}`).join("\n")}
 
 ## Company
 
@@ -72,7 +74,7 @@ export async function GET() {
 
   const body = `# Davies Imaging Group (DIG)
 
-> Davies Imaging Group builds photography, virtual staging, and video assets for homebuilder marketing teams across 28 U.S. markets. DIG works with national and regional homebuilders, build-to-rent operators, and multifamily developers, producing marketing assets designed for website conversion, paid media, sales center storytelling, and listing velocity.
+> Davies Imaging Group builds photography, virtual staging, and video assets for homebuilder marketing teams across 26 U.S. markets. DIG works with national and regional homebuilders, build-to-rent operators, and multifamily developers, producing marketing assets designed for website conversion, paid media, sales center storytelling, and listing velocity.
 
 DIG is a production and strategy partner, not a general-purpose photography studio. Every engagement is built around builder marketing workflows: launch timelines, spec inventory pressure, brand consistency across communities, and sales team alignment.
 

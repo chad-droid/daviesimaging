@@ -9,30 +9,30 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/programs/frameflow" },
   title: "FrameFlow",
-  description: "FrameFlow Studio is the digital production module inside digDesk. Order virtual staging and virtual video without a shoot.",
+  description: "FrameFlow Studio is where you order ModelMatch staging and FrameFlow video inside digDesk, from the photos you already have.",
 };
 
 const capabilities = [
-  { label: "Virtual Staging", desc: "ModelMatch-branded staging from your existing photos", href: "/services/virtual-staging" },
-  { label: "Virtual Video", desc: "Digital listing video built from photos, no crew required", href: "/services/virtual-video" },
+  { label: "ModelMatch", desc: "Staging built from your own model home merchandising", href: "/services/virtual-staging" },
+  { label: "FrameFlow", desc: "Lifelike video from your existing images", href: "/services/virtual-video" },
 ];
 
 const reasons = [
   {
-    title: "No shoot. No crew. No waiting.",
-    body: "FrameFlow Studio works entirely from photography you already have. Upload your listing photos and receive staged images and digital video without scheduling a single shoot.",
+    title: "No shoot to schedule",
+    body: "FrameFlow Studio works from the photography you already have. Upload your listing photos and get staged images and video.",
   },
   {
-    title: "Branded, not generic",
-    body: "ModelMatch virtual staging uses your builder's own model home photography as the design reference. Every result looks on-spec for your community, not like a stock furniture showroom.",
+    title: "Built from your own models",
+    body: "ModelMatch uses your model home merchandising, so every result looks like it belongs in your community.",
   },
   {
-    title: "Fast turnaround, bulk-ready",
-    body: "FrameFlow Studio handles single listings or multi-community volume. Staged images and virtual video delivered fast so your team keeps moving.",
+    title: "One listing or a whole community",
+    body: "Order for a single listing or across multiple communities.",
   },
   {
-    title: "Integrated with Spec+",
-    body: "When you bundle FrameFlow digital services with DIG listing photography, that's Spec+. One coordinated package, one delivery, one flat price.",
+    title: "Part of Spec+",
+    body: "Bundle these with our listing photography and you have Spec+: one order and one flat price.",
   },
 ];
 
@@ -40,14 +40,14 @@ export default function FrameFlowPage() {
   return (
     <>
       {/* Hero */}
-      <DarkSection className="min-h-[60vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="programs-frameflow-hero"
               eyebrowDefault="Programs / FrameFlow Studio"
-              headlineDefault="Virtual staging and video. <strong>No shoot required</strong>."
-              subheadDefault="FrameFlow Studio is the digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer."
+              headlineDefault="Need staging and video from the photos you <strong>already have</strong>?"
+              subheadDefault="FrameFlow Studio is where you order them inside digDesk. Upload your listing photos and get ModelMatch staged images and FrameFlow video."
             />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
@@ -77,8 +77,8 @@ export default function FrameFlowPage() {
               <EditableTextContent
                 slotId="programs-frameflow-what-it-does"
                 eyebrowDefault="What FrameFlow Does"
-                headlineDefault="Digital production from <strong>photos you already have</strong>."
-                bodyDefault="FrameFlow Studio handles two things: virtual staging and virtual video. Both are digital services that work from existing photography. No new shoot required."
+                headlineDefault="Two things you can order <strong>without a shoot</strong>."
+                bodyDefault="FrameFlow Studio handles ModelMatch virtual staging and FrameFlow video. Both work from your existing photography."
               />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
@@ -120,7 +120,7 @@ export default function FrameFlowPage() {
                   slotId="programs-frameflow-inside-digdesk"
                   eyebrowDefault="Inside digDesk"
                   headlineDefault="FrameFlow Studio lives <strong>inside your digDesk portal</strong>."
-                  bodyDefault="digDesk is the DIG client portal. FrameFlow Studio is one of its modules, dedicated to digital production. Log in to digDesk to place FrameFlow orders, track progress, and download assets."
+                  bodyDefault="Log in to digDesk to place your orders, track progress, and download your assets."
                 />
                 <p className="mt-4 text-text-body">
                   Not a digDesk client yet? Book a demo and we&apos;ll set up your account.
@@ -155,7 +155,7 @@ export default function FrameFlowPage() {
               <EditableTextContent
                 slotId="programs-frameflow-why"
                 eyebrowDefault="Why It Works"
-                headlineDefault="Four reasons builders use <strong>FrameFlow Studio</strong>."
+                headlineDefault="Why builders use <strong>FrameFlow Studio</strong>."
                 bodyDefault=""
               />
             </div>
@@ -179,8 +179,8 @@ export default function FrameFlowPage() {
               <EditableTextContent
                 slotId="programs-frameflow-pricing"
                 eyebrowDefault="Pricing"
-                headlineDefault="No subscription. No commitment. <strong>Pay as you go</strong>."
-                bodyDefault="digDesk is built for flexibility. Order when you need it, pay per transaction, and scale up when your volume demands it."
+                headlineDefault="Pay as <strong>you go</strong>."
+                bodyDefault="Order when you need it and pay per order. There is no subscription and no minimum."
               />
             </div>
             <div className="grid gap-6 sm:grid-cols-3">
@@ -192,7 +192,7 @@ export default function FrameFlowPage() {
                 </div>
                 <h4 className="text-sm font-semibold text-text-dark">Pay As You Go</h4>
                 <p className="mt-2 text-sm leading-relaxed text-text-body">
-                  Order exactly what you need, when you need it. Each transaction is billed individually. No contracts, no minimums.
+                  Order what you need, when you need it. Each order is billed individually.
                 </p>
               </div>
               <div className="rounded-xl border-2 border-accent bg-bg-surface p-6 text-center">
@@ -215,17 +215,17 @@ export default function FrameFlowPage() {
                 </div>
                 <h4 className="text-sm font-semibold text-text-dark">Transparent Pricing</h4>
                 <p className="mt-2 text-sm leading-relaxed text-text-body">
-                  Full pricing is visible inside your digDesk account. No surprise fees, no hidden line items. What you see is what you pay.
+                  You see full pricing inside your digDesk account before you order.
                 </p>
               </div>
             </div>
             <div className="mt-8 flex flex-col items-center justify-center gap-2 text-center sm:flex-row sm:gap-6">
               <span className="text-sm text-text-body">
-                Virtual Staging starting at <strong className="text-text-dark">$25 / image</strong>
+                ModelMatch starting at <strong className="text-text-dark">$25 / image</strong>
               </span>
               <span className="hidden text-border-light sm:inline">|</span>
               <span className="text-sm text-text-body">
-                Virtual Video starting at <strong className="text-text-dark">$150 / video</strong>
+                FrameFlow starting at <strong className="text-text-dark">$150 / video</strong>
               </span>
               <span className="hidden text-border-light sm:inline">|</span>
               <a href="https://desk.daviesimaging.com/register" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-accent hover:underline">
@@ -244,8 +244,8 @@ export default function FrameFlowPage() {
               <EditableTextContent
                 slotId="programs-frameflow-spec-plus"
                 eyebrowDefault="FrameFlow + Photography"
-                headlineDefault="Bundle it with a shoot. <strong>That's Spec+</strong>."
-                bodyDefault="Spec+ combines DIG listing photography with FrameFlow Studio production. One coordinated package, 72-hour delivery, $600 flat. The most efficient way to get standing inventory market-ready."
+                headlineDefault="Add a shoot and you have <strong>Spec+</strong>."
+                bodyDefault="Spec+ combines our listing photography with ModelMatch staging and a FrameFlow video for $600 flat, delivered within 72 hours of the shoot."
               />
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
@@ -255,10 +255,10 @@ export default function FrameFlowPage() {
                   See Spec+ Details
                 </Link>
                 <Link
-                  href="/campaigns/frameflow-sell-faster"
+                  href="/modelmatch-datalibrary"
                   className="text-sm font-medium text-text-body transition-colors hover:text-accent"
                 >
-                  Take the FrameFlow Challenge &rarr;
+                  Start My Free Trial &rarr;
                 </Link>
               </div>
             </div>
@@ -273,7 +273,7 @@ export default function FrameFlowPage() {
             <EditableTextContent
               slotId="programs-frameflow-cta"
               headlineDefault="Already a digDesk client? <strong>Start a FrameFlow order</strong>."
-              bodyDefault="Log in to your digDesk portal and open FrameFlow Studio to submit a virtual staging or virtual video order."
+              bodyDefault="Log in to your digDesk portal and open FrameFlow Studio to submit a ModelMatch or FrameFlow order."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

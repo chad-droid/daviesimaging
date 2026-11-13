@@ -87,6 +87,8 @@ export function buildServiceSchema(opts: {
   description: string;
   path: string;
   serviceType: string;
+  /** A metro this page is about. Omit for the national service pages. */
+  city?: { name: string; state: string };
 }) {
   return {
     "@context": "https://schema.org",
@@ -97,7 +99,9 @@ export function buildServiceSchema(opts: {
     serviceType: opts.serviceType,
     url: `${SITE_URL}${opts.path}`,
     provider: { "@id": ORG_ID },
-    areaServed: { "@type": "Country", name: "United States" },
+    areaServed: opts.city
+      ? { "@type": "City", name: opts.city.name, containedInPlace: { "@type": "State", name: opts.city.state } }
+      : { "@type": "Country", name: "United States" },
     audience: {
       "@type": "BusinessAudience",
       name: "Homebuilders and residential developers",
@@ -119,7 +123,7 @@ export const organizationSchema = {
         url: LOGO_URL,
       },
       description:
-        "Davies Imaging Group builds photography, virtual staging, and video assets for homebuilder marketing teams across 28 U.S. markets.",
+        "Davies Imaging Group builds photography, virtual staging, and video assets for homebuilder marketing teams across 26 U.S. markets.",
       email: "info@daviesimaging.com",
       areaServed: {
         "@type": "Country",

@@ -383,7 +383,7 @@ export function ServiceExplorer() {
         {/* Footnote */}
         <p className="mt-10 text-center text-xs text-text-muted">
           Also available:{" "}
-          <Link href="/services/matterport" className="underline decoration-dotted hover:text-accent">Matterport</Link>
+          <Link href="/services/premium" className="underline decoration-dotted hover:text-accent">Matterport</Link>
           {" · "}
           <Link href="/services/video-production" className="underline decoration-dotted hover:text-accent">Video Production</Link>
           {" · "}

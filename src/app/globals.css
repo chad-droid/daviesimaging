@@ -61,6 +61,16 @@
 
 /* ── Base type styles (in @layer base so utilities always win) ── */
 @layer base {
+  /* Line breaks. Headlines balance their lines so none ends in a single
+     stranded word; running text avoids a last line of one or two words.
+     (Apple gets the same result by hand, gluing final words together with
+     non-breaking spaces.) */
+  h1, h2, h3, h4, blockquote { text-wrap: balance; }
+  p, li, dd, figcaption { text-wrap: balance; }
+  /* Long-form reading (blog posts) keeps full-width lines and only guards
+     against a stranded last word. */
+  article p, article li { text-wrap: pretty; }
+
   body {
     /* Prevent any element that overflows the viewport (marquees, drag
        gestures, full-bleed mockups) from producing horizontal page
@@ -207,5 +217,90 @@
   }
   to {
     transform: none;
+  }
+}
+
+/* ── Muted text on dark backgrounds ──
+   text-text-muted is tuned for light backgrounds (#5C5C5C). Inside any dark
+   section it resolves to a light grey instead, so the same class stays
+   readable on both. Light cards nested in a dark section switch it back. */
+.bg-bg-dark,
+.bg-bg-dark-surface {
+  --text-muted: #B4B4B4;
+}
+.bg-bg-dark :is(.bg-bg-surface, .bg-bg-light, .bg-white),
+.bg-bg-dark-surface :is(.bg-bg-surface, .bg-bg-light, .bg-white) {
+  --text-muted: #5C5C5C;
+}
+
+/* Accent-colored text on a dark background uses the lighter accent, which
+   passes contrast there. Light cards nested in a dark section keep the
+   standard accent. */
+.bg-bg-dark .text-accent,
+.bg-bg-dark-surface .text-accent {
+  color: var(--accent-hover-dark);
+}
+.bg-bg-dark :is(.bg-bg-surface, .bg-bg-light, .bg-white) .text-accent,
+.bg-bg-dark-surface :is(.bg-bg-surface, .bg-bg-light, .bg-white) .text-accent {
+  color: var(--accent);
+}
+
+/* ── Dark-primary pages ──
+   Wrap a page in .theme-dark and every light token flips: surfaces go dark,
+   text goes light, borders go to a dark hairline. Pages keep their normal
+   classes (bg-bg-surface, text-text-body, border-border-light).
+   .theme-light inside it flips one element back, for a featured light card. */
+.theme-dark {
+  --bg-surface: #121212;
+  --bg-light: #1C1C1E;
+  --text-dark: #F5F5F5;
+  --text-body: #D2D2D2;
+  --text-muted: #B4B4B4;
+  --border-light: #343436;
+  background: #121212;
+  color: var(--text-body);
+}
+.theme-dark :is(.bg-bg-surface, .bg-bg-light, .bg-white) {
+  --text-muted: #B4B4B4;
+}
+.theme-dark .text-accent {
+  color: var(--accent-hover-dark);
+}
+.theme-dark .theme-light,
+.theme-dark .theme-light :is(.bg-bg-surface, .bg-bg-light, .bg-white) {
+  --bg-surface: #FFFFFF;
+  --bg-light: #F8F6F3;
+  --text-dark: #1C1C1C;
+  --text-body: #3A3A3A;
+  --text-muted: #5C5C5C;
+  --border-light: #DAD7D2;
+}
+.theme-dark .theme-light {
+  color: var(--text-body);
+}
+.theme-dark .theme-light .text-accent {
+  color: var(--accent);
+}
+
+/* ── Touch targets ──
+   On touch screens, a standalone link or button (not one inside a sentence)
+   gets an invisible 44px-tall hit area centred on it. Nothing moves and
+   nothing looks different; a 20px text link simply becomes easy to tap.
+   Kept in the base layer and at zero specificity so any utility class
+   (absolute, fixed, sticky, after:*) still wins. */
+@layer base {
+  @media (pointer: coarse) {
+    :where(a, button):not(:where(p, li p, h1, h2, h3, h4, blockquote, figcaption) :where(a, button)) {
+      position: relative;
+    }
+    :where(a, button):not(:where(p, li p, h1, h2, h3, h4, blockquote, figcaption) :where(a, button))::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 44px;
+      transform: translateY(-50%);
+    }
   }
 }

@@ -3,45 +3,34 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { DarkSection } from "@/components/DarkSection";
+import { MarketDirectory } from "@/components/MarketDirectory";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/markets" },
   title: "Markets",
-  description: "DIG serves builders by type, role, and region. Find the page built for you.",
+  description: "Find how DIG helps you in the markets you build in.",
 };
 
 const dimensions = [
   {
-    title: "By Type",
-    href: "/markets/type",
-    description: "Detached, attached, luxury, BTR, multifamily. Different build types have different asset needs. Find the approach built for how you operate.",
-    examples: ["Single-family detached", "Townhomes + attached", "Luxury and estate", "Build-to-rent", "Multifamily"],
-  },
-  {
-    title: "By Role",
-    href: "/markets/role",
-    description: "Coordinators, directors, executives, and C-suite leaders each have different pressures. We built pages that speak directly to yours.",
-    examples: ["Marketing Coordinators", "Marketing Directors", "VP level", "C-Suite"],
-  },
-  {
     title: "By Region",
     href: "/markets/region",
-    description: "DIG operates across 28 U.S. markets in four regions, with offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.",
+    description: "You get the same quality in 26 U.S. markets across four regions, with offices in Sacramento, Dallas, and Guadalajara.",
     examples: ["West", "Mountain", "Central", "East"],
   },
 ];
 
 export default function MarketsIndex() {
   return (
-    <>
+    <div className="theme-dark">
       {/* Hero */}
-      <DarkSection className="min-h-[55vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Markets</Eyebrow>
-            <h1 className="text-text-light">Who DIG <strong>serves</strong>.</h1>
+            <h1 className="text-text-light">Find how DIG <strong>helps you</strong>.</h1>
             <p className="mt-5 max-w-xl text-lg text-text-muted">
-              Three ways to find the right fit: by what you build, who you are, or where you operate. Every page is written for your specific situation.
+              Find your fit by where you build.
             </p>
           </RevealOnScroll>
         </div>
@@ -51,7 +40,7 @@ export default function MarketsIndex() {
       <section className="py-24">
         <div className="mx-auto max-w-5xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="grid gap-6 lg:grid-cols-2">
               {dimensions.map((dim) => (
                 <Link
                   key={dim.href}
@@ -79,17 +68,30 @@ export default function MarketsIndex() {
         </div>
       </section>
 
+      {/* Every market page */}
+      <section className="pb-24">
+        <div className="mx-auto max-w-5xl px-6">
+          <RevealOnScroll>
+            <Eyebrow>Every market</Eyebrow>
+            <h2 className="mb-8 mt-2">
+              Pick the market <strong>you build in</strong>.
+            </h2>
+            <MarketDirectory />
+          </RevealOnScroll>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="bg-bg-light py-24">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>Not sure where to start?</Eyebrow>
-              <h2 className="mt-2">
+            <div className="text-center">
+              <Eyebrow dark>Not sure where to start?</Eyebrow>
+              <h2 className="text-text-light">
                 Just talk to <strong>someone</strong>.
               </h2>
-              <p className="mx-auto mt-4 max-w-md text-text-body">
-                A 15-minute conversation with the DIG team is the fastest way to find the right service, offering, and approach for your specific situation.
+              <p className="mx-auto mt-4 max-w-md text-text-muted">
+                A 15-minute conversation with our team is the fastest way to find the right services for your communities.
               </p>
               <div className="mt-8">
                 <Link
@@ -102,7 +104,7 @@ export default function MarketsIndex() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
-    </>
+      </DarkSection>
+    </div>
   );
 }

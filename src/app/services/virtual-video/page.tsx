@@ -1,35 +1,38 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { Eyebrow } from "@/components/Eyebrow";
 import { DynamicImage } from "@/components/DynamicImage";
 import { EditableHero } from "@/components/EditableHero";
 import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
 import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { TestimonialBand } from "@/components/TestimonialBand";
+import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/virtual-video" },
-  title: "Virtual Video",
-  description: "Digital listing video built from your existing photography. No shoot day, no crew. Fast delivery through digDesk.",
+  title: "FrameFlow Video",
+  description: "FrameFlow converts your images, whether they are interiors, exteriors, or amenities, into lifelike video sequences. Ordered on demand through digDesk.",
 };
 
 const differentiators = [
   {
     title: "No shoot day required",
-    body: "We build the video from photography you already have. No scheduling, no crew, no weather delays. Send the photos, receive the video.",
+    body: "We build the video from photography you already have, so there is no shoot to schedule.",
   },
   {
-    title: "MLS, website, and social ready",
-    body: "Each video is exported in the formats and aspect ratios your team actually needs: landscape for web, vertical for social, and a clean MLS-ready cut.",
+    title: "Vertical and horizontal",
+    body: "Order both versions so you can use the video in different formats, from your website to social.",
   },
   {
     title: "Consistent from listing to listing",
-    body: "Same pacing, same brand feel, same quality standard across every property. No production day variability. Every video looks like the last.",
+    body: "The same pacing and the same quality on every property.",
   },
   {
-    title: "Pairs with virtual staging",
-    body: "Order virtual staging and virtual video together and we build your video from the staged images, not empty rooms. Every listing looks move-in ready.",
+    title: "Pairs with ModelMatch",
+    body: "Order ModelMatch and FrameFlow together and we build your video from the staged images.",
   },
 ];
 
@@ -38,7 +41,7 @@ export default function VirtualVideoPage() {
     <>
       <JsonLd
         data={buildServiceSchema({
-          name: "Virtual Video",
+          name: "FrameFlow Video",
           description:
             "Digital video built from existing photos or staging output. No shoot, no crew. Also DIG's listing video solution for spec and inventory homes.",
           path: "/services/virtual-video",
@@ -48,19 +51,20 @@ export default function VirtualVideoPage() {
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Solutions", path: "/services" },
-          { name: "Virtual Video", path: "/services/virtual-video" },
+          { name: "FrameFlow", path: "/services/virtual-video" },
         ])}
       />
       {/* Hero */}
-      <DarkSection className="min-h-[60vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="services-virtual-video-hero"
-              eyebrowDefault="Solutions / Virtual Video"
-              headlineDefault="Listing video without the <strong>crew</strong>."
-              subheadDefault="DIG virtual video transforms existing photography into smooth, cinematic walkthroughs. No shoot day, no scheduling overhead, fast delivery through digDesk."
+              eyebrowDefault="Solutions / FrameFlow"
+              headlineDefault="Need video from the photos you <strong>already have</strong>?"
+              subheadDefault="Your images, whether they're interiors, exteriors, or amenities, become lifelike video sequences. This works with your virtual images, model home images, and amenity photographs."
             />
+            <ProductTags line="Flow" stage="List" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href="https://desk.daviesimaging.com"
@@ -90,11 +94,11 @@ export default function VirtualVideoPage() {
                 <EditableTextContent
                   slotId="services-virtual-video-what-it-is"
                   eyebrowDefault="From Photos to Video"
-                  headlineDefault="Turn stills into buyer <strong>experience</strong>."
-                  bodyDefault="Virtual video is DIG's digital production service for listing and spec home video. We take your existing photography, apply professional motion and transitions, and deliver a finished walkthrough video ready for MLS and social."
+                  headlineDefault="Your static images, converted into <strong>dynamic video</strong>."
+                  bodyDefault="If you have a large library of assets but need video to help elevate your website presence or create more dynamic social media content, you can order FrameFlow videos on demand."
                 />
                 <p className="mt-4 text-text-body">
-                  DIG does not create listing video with a real camera crew. Virtual video is the fast, consistent solution for builders who need video on every listing without a full production day for each.
+                  FrameFlow is how DIG produces video for spec homes and listings. For crew-based film of your model homes and communities, see Premium Video.
                 </p>
                 <div className="mt-8 flex gap-4">
                   <Link
@@ -132,7 +136,7 @@ export default function VirtualVideoPage() {
               <EditableTextContent
                 slotId="services-virtual-video-why"
                 eyebrowDefault="Why It Works"
-                headlineDefault="Fast video for every listing. <strong>No exceptions</strong>."
+                headlineDefault="Why builders use <strong>FrameFlow</strong>."
                 bodyDefault=""
               />
             </div>
@@ -157,14 +161,14 @@ export default function VirtualVideoPage() {
                 slotId="services-virtual-video-how-to-order"
                 eyebrowDefault="How to Order"
                 headlineDefault="Standalone or <strong>bundled in Spec+</strong>."
-                bodyDefault="Order virtual video by itself through digDesk, or bundle it with listing photography and virtual staging inside a Spec+ package."
+                bodyDefault="Order FrameFlow by itself through digDesk, or bundle it with listing photography and ModelMatch staging inside Spec+."
               />
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border border-border-light p-6">
-                <h4 className="text-base font-semibold text-text-dark">Standalone Virtual Video</h4>
+                <h4 className="text-base font-semibold text-text-dark">FrameFlow by itself</h4>
                 <p className="mt-2 text-sm text-text-body">
-                  Already have photos? Upload them through digDesk and receive a finished walkthrough video. No shoot required.
+                  Already have photos? Upload them through digDesk and receive a finished FrameFlow video.
                 </p>
                 <p className="mt-4 font-serif text-2xl font-semibold text-text-dark">
                   Starting at $150
@@ -183,7 +187,7 @@ export default function VirtualVideoPage() {
                 <div className="mb-2 inline-flex rounded-full bg-accent/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-accent">Best Value</div>
                 <h4 className="text-base font-semibold text-text-dark">Spec+ Bundle</h4>
                 <p className="mt-2 text-sm text-text-body">
-                  Photography + 8 staged images + virtual video in one $600 order. 72-hour delivery after the shoot.
+                  Listing photography, 8 ModelMatch staged images and a FrameFlow video in one $600 order, delivered within 72 hours of the shoot.
                 </p>
                 <Link
                   href="/programs/spec-plus"
@@ -197,14 +201,59 @@ export default function VirtualVideoPage() {
         </div>
       </section>
 
+      {/* Customer proof */}
+      <TestimonialBand ids={["carrie-videos"]} />
+
+      {/* The rest of Flow: CineFlow and ActFlow */}
+      <section id="actflow" className="scroll-mt-24 bg-bg-light py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <RevealOnScroll>
+            <Eyebrow>More from Flow</Eyebrow>
+            <h2>
+              CineFlow and <strong>ActFlow</strong>.
+            </h2>
+          </RevealOnScroll>
+          <RevealOnScroll stagger={120}>
+            <div className="mt-10 grid gap-6 lg:grid-cols-2">
+              <div className="rounded-2xl border border-border-light bg-bg-surface p-8">
+                <h3>CineFlow</h3>
+                <p className="mt-3 leading-relaxed text-text-body">
+                  CineFlow takes this even further by relighting each space, adding new angles, and providing
+                  lifelike cinematic sequences without a real photo shoot.
+                </p>
+                <Link
+                  href="/services/cineflow"
+                  className="mt-5 inline-block text-sm font-medium text-text-dark transition-colors hover:text-accent"
+                >
+                  See CineFlow &rarr;
+                </Link>
+              </div>
+              <div className="rounded-2xl border border-border-light bg-bg-surface p-8">
+                <h3>ActFlow</h3>
+                <p className="mt-3 leading-relaxed text-text-body">
+                  ActFlow introduces virtual talent to your spaces so buyers can envision what life looks like
+                  in your homes and amenities.
+                </p>
+                <Link
+                  href="/services/actflow"
+                  className="mt-5 inline-block text-sm font-medium text-text-dark transition-colors hover:text-accent"
+                >
+                  See ActFlow &rarr;
+                </Link>
+              </div>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <EditableTextContent
               slotId="services-virtual-video-cta"
-              headlineDefault="Every listing deserves <strong>a video</strong>."
-              bodyDefault="Create your digDesk account and start ordering virtual video for your inventory today."
+              headlineDefault="Need to refresh old assets with a <strong>new video</strong>?"
+              bodyDefault="Create your digDesk account and order FrameFlow for your inventory today."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

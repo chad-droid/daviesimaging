@@ -1,3 +1,4 @@
+import { ImageBand } from "@/components/ImageBand";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
@@ -31,10 +32,10 @@ const specialists = [
 ];
 
 const proofPoints = [
-  { value: "95%", label: "First-delivery success rate", detail: "95% of deliveries are ready to publish without any changes." },
+  { value: "95%", label: "First delivery", detail: "95% of deliveries are ready to publish without any changes." },
   { value: "5-Star", label: "Client reviews", detail: "Seamless because every person on the team is focused on what they do best." },
   { value: "One team", label: "Every specialty", detail: "Photography, video, virtual staging, and 3D under one roof. One point of contact." },
-  { value: "28 markets", label: "Same standard", detail: "Specialization scales. The model works in Sacramento the same way it works in Dallas." },
+  { value: "26 markets", label: "Same standard", detail: "Specialization scales. The model works in Sacramento the same way it works in Dallas." },
 ];
 
 export default function HowWeDoItPage() {
@@ -42,7 +43,7 @@ export default function HowWeDoItPage() {
     <>
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="about-how-we-do-it-hero"
@@ -54,11 +55,14 @@ export default function HowWeDoItPage() {
         </div>
       </DarkSection>
 
+      {/* Wide image under the hero. Hidden until one is assigned in admin. */}
+      <ImageBand slotId="about-how-we-do-it-hero-img" dark />
+
       {/* The problem */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-how-we-do-it-problem"
@@ -85,9 +89,9 @@ export default function HowWeDoItPage() {
 
       {/* The answer */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-how-we-do-it-answer"
@@ -112,6 +116,9 @@ export default function HowWeDoItPage() {
         </div>
       </section>
 
+      {/* The team at work. Hidden until one is assigned in admin. */}
+      <ImageBand slotId="about-how-we-do-it-team-img" />
+
       {/* Specialist grid */}
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-5xl px-6">
@@ -120,7 +127,7 @@ export default function HowWeDoItPage() {
               <EditableTextContent
                 slotId="about-how-we-do-it-team"
                 eyebrowDefault="The Team"
-                headlineDefault="Four disciplines. <strong>One roof</strong>."
+                headlineDefault="Four disciplines, each with its <strong>own specialists</strong>."
                 bodyDefault="Photography, editing, virtual staging, and video production are separate disciplines staffed by separate specialists."
                 dark={true}
               />
@@ -147,14 +154,14 @@ export default function HowWeDoItPage() {
 
       {/* Builder advantage */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-how-we-do-it-advantage"
                   eyebrowDefault="Your Advantage"
-                  headlineDefault="One team. Every <strong>specialty</strong>."
+                  headlineDefault="You work with <strong>one team</strong>."
                   bodyDefault=""
                 />
               </div>
@@ -176,14 +183,20 @@ export default function HowWeDoItPage() {
 
       {/* Proof points */}
       <section className="bg-bg-light py-24">
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {proofPoints.map((p, i) => (
-                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-6 text-center">
-                  <p className="font-serif text-3xl font-semibold text-text-dark">{p.value}</p>
-                  <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-accent">{p.label}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-text-muted">{p.detail}</p>
+                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-7">
+                  <p
+                    className="whitespace-nowrap text-[2.25rem] font-semibold leading-none text-text-dark"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {p.value}
+                  </p>
+                  <div className="mt-4 h-px w-10 bg-accent" />
+                  <p className="mt-4 whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-accent">{p.label}</p>
+                  <p className="mt-3 text-pretty text-[0.9375rem] leading-relaxed text-text-body">{p.detail}</p>
                 </div>
               ))}
             </div>

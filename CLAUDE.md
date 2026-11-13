@@ -57,9 +57,18 @@ Davies Imaging Group (DIG) rebuilt `daviesimaging.com` from scratch as a Next.js
 - Image slots — most sections have `DynamicImage` / `ParallaxBackground` wired up but no images assigned yet
 - Gallery curation — admin tool built, actual image ingestion from Dropbox pending
 - Phoenix, AZ geo-targeted landing page (listing + ModelMatch virtual staging, for paid ad campaigns)
+- Market pages exist (see Removed/Notes below); pins on Our Markets link to them. Next: local photos, builder names and testimonials per market.
 - Resources and Education section
 - digDojo photography training platform (see full spec below)
 - `ADMIN_PASSWORD` env var — set in Vercel dashboard (currently only in `.env.local`)
+
+### Removed
+- **Removed 12 November 2026 at Chad's direction**, each with a redirect in `next.config.ts`: Builder Types (`/markets/type`), Regional Partnerships (`/programs/regional-partnerships`), the Gallery index (`/gallery`, now goes to `/gallery/models`), `/welcome-back`, and the campaign pages `frameflow-demo`, `frameflow-sell-faster` and `modelmatch-trial-info`. Sections below that describe them are historical. `/privacy` was on the same list but is held: it is the full privacy policy that ad lead forms point to.
+- **Market pages (12 Nov 2026):** one page per market at `/markets/{slug}`, 26 in all, built by `src/components/MarketPage.tsx` from `src/lib/markets.ts` (also the source for the map pins, `MarketDirectory`, sitemap and llms.txt). Each page is the homepage told for one metro: film hero with a local headline, a Coverage section, the Lead/Launch/List chapters, local FAQ and Service/FAQ schema with `areaServed` set to the city. `areas` (submarkets) in the data file are Claude's lists and need Chad's confirmation. Image slot per market: `markets-{slug}-hero-img`. To rank, each page still needs local proof: photos shot there, builder and community names, a local testimonial.
+- **Customer stories in Sanity (12 Nov 2026):** document type `customerStory` (`src/sanity/schemas/customerStory.ts`): person, builder, market, topics, video (YouTube ID, short cuts), interview questions and answers, and pull quotes with stable ids. Queries in `src/sanity/queries.ts` only return stories with `approved == true` and drop quotes marked `hold`. Not done yet: no documents exist, the pages still read `src/data/testimonials.ts`, there is no story page, and the hosted studio needs `npx sanity deploy` to show the type.
+- **Navbar (12 Nov 2026):** charcoal to match the footer. `theme-dark` on the header and mobile drawer, with `--bg-surface` overridden to `#18181A` so the dropdowns match. Light logo.
+- **Footer (12 Nov 2026):** charcoal `#18181A` with `theme-dark`, newsletter form inside the brand column. No Careers, FrameFlow Studio or Premium Video links. Links column has "Try ModelMatch Free" to `/modelmatch-datalibrary`.
+- **Who We Help (`/markets/role`) and its four role pages** were removed in November 2026 at Chad's direction. The URLs redirect to `/about`. Sections below that still describe By Role or persona pages are historical.
 
 ### Do Not Touch
 - `main` is production. Merging deploys to the live public site. Branch and open a PR; Chad merges.
@@ -102,6 +111,22 @@ These are resolved decisions. Do not re-litigate them without explicit instructi
 
 ### Navigation
 
+> **November 2026: Solutions menu is organised by stage (on the `homepage-rebuild`
+> branch, not yet live).** Three columns answer "what am I trying to do":
+> **Lead** (pre-sell before it is built: PlanMatch, CineFlow, ActFlow),
+> **Launch** (model homes and amenities: Premium Photography, Premium Video,
+> CineFlow, ActFlow, Moments), **List** (spec homes for sale: Spec+, Listing
+> Photography, ModelMatch, FrameFlow). Stage placement is Chad's (Nov 2026). A
+> product that serves two stages is listed under both; there is no separate
+> Flow column. Each
+> product keeps a single page. The service lines
+> (Production, Flow, Match, and "+" hybrids) live in the product names, not in
+> a menu. Matterport has no page of its own: it is part of Premium and Listing,
+> and `/services/matterport` redirects to `/services/premium`. Not public yet,
+> so keep off the site: digDAM, the BuildPro partnership. Market count is 26
+> (Chad, 12 Nov 2026: it was 28 on the site, the map and region cards only
+> ever listed 26).
+
 | Label | Slug | Notes |
 |---|---|---|
 | Gallery | (dropdown) | Renamed from "Results" / was "Work" |
@@ -131,8 +156,8 @@ The `Eyebrow` component detects a "Parent / Child" pattern and renders with visu
 ```
 
 **Rendering rules:**
-- Parent: `text-white/35` (dark) or `text-text-muted` (light)
-- Separator " / ": `text-white/20` (dark) or `text-border-light` (light)
+- Parent: `text-white/60` (dark) or `text-text-muted` (light). Was `text-white/35`, which failed contrast (November 2026)
+- Separator " / ": `text-white/35` (dark) or `text-border-light` (light)
 - Child: `text-accent-dark-hover` (dark) or `text-accent` (light)
 - Same line — do NOT stack parent and child vertically
 
@@ -152,7 +177,7 @@ The `Eyebrow` component detects a "Parent / Child" pattern and renders with visu
 
 **Standard hero container:**
 ```tsx
-<section className="min-h-[60vh] bg-bg-dark py-28 text-text-light">
+<section className="bg-bg-dark py-28 text-text-light">
   <div className="mx-auto max-w-4xl px-6">
     <RevealOnScroll>
       <Eyebrow dark>Parent / Page Name</Eyebrow>
@@ -178,7 +203,23 @@ The `Eyebrow` component detects a "Parent / Child" pattern and renders with visu
 
 **Hero background:** Always `bg-bg-dark` with `text-text-light`. Hero sections are never white/light.
 
-**Hero min-height:** `min-h-[60vh]` standard. Use `py-28` for padding.
+**Hero height:** no forced minimum. Use `py-28` and let the content set the height. The old `min-h-[60vh]` left an empty band under short heroes and was removed site-wide (November 2026).
+
+---
+
+### Dark-primary pages (November 2026, `homepage-rebuild` branch)
+
+Chad's direction: dark is the primary look. Contact, Get Started and FAQ are
+fully dark. Wrap a page in `<div className="theme-dark">` and the light tokens
+flip (rules at the end of `globals.css`), so the page keeps its normal classes.
+Put `theme-light` on one element inside to flip it back, for a featured card.
+Chad's rule (12 Nov 2026): short pages are fully dark, so a dark/light/dark
+sandwich never shows on one screen. Long pages keep light body sections so
+readers have white space to take in more. Fully dark now: Contact, Get Started,
+FAQ, Markets index, Builder Types, Our Markets (`<RegionMap dark />`), Careers,
+Programs index, Gallery index, and the two careers application forms. Rough cutoff used: under about 2.5 screens tall.
+Light backgrounds are `--bg-surface` #FFFFFF (pure white) and `--bg-light`
+#F8F6F3 (warm off-white, alternating sections and the footer).
 
 ---
 
@@ -227,6 +268,8 @@ Do not add `uppercase`, `tracking-wider`, or accent color to h4/h5 in globals.cs
 
 Use `border-white/10 bg-white/5` — not opaque dark colors. The subtle transparency maintains visual depth.
 
+**Contrast on dark (November 2026):** `text-text-muted` and `text-accent` are re-pointed to lighter values inside any `bg-bg-dark` section by rules at the end of `globals.css`, so the same classes stay readable on both backgrounds. Do not use `text-white/30` to `/50` for text anyone needs to read; `text-white/60` is the floor.
+
 ---
 
 ### StatsStrip
@@ -241,6 +284,22 @@ Use `border-white/10 bg-white/5` — not opaque dark colors. The subtle transpar
 **Treatment:** Large editorial Cormorant numerals (`text-[5.5rem]` on desktop), `h-px w-12 bg-accent` rule below each number, Noto Bold uppercase label, muted descriptor. Three columns with `divide-x divide-white/8` hairlines. No circles, no rings, no SVG progress indicators.
 
 **Animation:** IntersectionObserver + `requestAnimationFrame` count-up. Ease-out cubic (`1 - (1-progress)^3`). Duration 1800ms. Triggers once on scroll-enter.
+
+---
+
+### Product pages built on `ProductPage` (November 2026, `homepage-rebuild` branch)
+
+PlanMatch, Moments, CineFlow and ActFlow each have a page at `/services/{slug}`,
+all rendered by `src/components/ProductPage.tsx` from a plain config object in
+the page file. Add or change a product there, not by copying a page.
+
+- Slot ids derive from the slug: `services-{slug}-hero`, `-intro`, `-cta` for
+  text and `services-{slug}-{id}-img` for images.
+- `DynamicImage` takes `defaultSrc` (a local image shown until an admin assigns
+  one) and `hideWhenEmpty` (visitors see nothing for an empty slot; admins see
+  the placeholder so they can fill it). The stills section on a product page
+  hides itself until at least one slot has an image.
+- Nav, footer and homepage link to these pages, not to `/services/showcase#...`.
 
 ---
 
@@ -282,10 +341,13 @@ These are the exact eyebrow strings to use on each page. Do not deviate.
 | `/gallery/lifestyle` | `Gallery / Lifestyle` | yes |
 | `/services/premium` | `Solutions / Premium Photography` | yes |
 | `/services/listing` | `Solutions / Listing Photography` | yes |
-| `/services/video-production` | `Solutions / Video Production` | yes |
-| `/services/virtual-staging` | `Solutions / Virtual Staging` | yes |
-| `/services/virtual-video` | `Solutions / Virtual Video` | yes |
-| `/services/matterport` | `Solutions / Matterport` | yes |
+| `/services/video-production` | `Solutions / Premium Video` | yes |
+| `/services/virtual-staging` | `Solutions / ModelMatch` | yes |
+| `/services/virtual-video` | `Solutions / FrameFlow` | yes |
+| `/services/planmatch` | `Solutions / PlanMatch` | yes |
+| `/services/moments` | `Solutions / Moments` | yes |
+| `/services/cineflow` | `Solutions / CineFlow` | yes |
+| `/services/actflow` | `Solutions / ActFlow` | yes |
 | `/programs/frameflow` | `Programs / FrameFlow Studio` | yes |
 | `/programs/spec-plus` | `Programs / Spec+` | yes |
 | `/programs/digdesk` | `Programs / digDesk` | yes |
@@ -305,6 +367,11 @@ Consistent capitalization and formatting across all copy and UI:
 | FrameFlow Studio | `FrameFlow Studio` | two words, both capitalized — never "Frameflow" |
 | ModelMatch | `ModelMatch` | one word, camel case — never "Model Match" |
 | Spec+ | `Spec+` | capital S, plus sign — never "Spec Plus" or "spec+" |
+| CineFlow | `CineFlow` | one word, camel case. Was "Cinematic" until November 2026 — do not use the old name |
+| ActFlow | `ActFlow` | one word, camel case. Virtual talent video. Was "TalentMatch" — never "Active Flow" or "ActiFlow" |
+| PlanMatch | `PlanMatch` | one word, camel case |
+| Moments | `Moments` | keeps its name |
+| Premium Video | `Premium Video` | nav label for the Video Production page (`/services/video-production`) |
 | DIG | `DIG` | always all-caps — never "Dig" |
 | Davies Imaging Group | full name on first reference per page, then "DIG" |
 
@@ -612,7 +679,7 @@ Video content is Phase 2 — placeholder sections in the schema now, populate la
 
 At the bottom of every module, after the content:
 - "Shoot for DIG" CTA — links to `/careers` or a dedicated photographer application form
-- Copy: "Ready to put these skills to work? DIG is always looking for photographers in our 28 markets."
+- Copy: "Ready to put these skills to work? DIG is always looking for photographers in our 26 markets."
 - This is the primary acquisition mechanism — people who complete the training are warm leads
 
 ---

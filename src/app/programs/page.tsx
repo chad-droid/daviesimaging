@@ -7,13 +7,13 @@ import { DarkSection } from "@/components/DarkSection";
 export const metadata: Metadata = {
   alternates: { canonical: "/programs" },
   title: "Programs",
-  description: "digDesk, FrameFlow Studio, Spec+, and Regional Partnerships. How builders purchase and manage DIG services.",
+  description: "digDesk, FrameFlow Studio, Spec+, and Regional Partnerships: how you order and manage DIG services.",
 };
 
 const platform = {
   title: "digDesk",
   href: "/programs/digdesk",
-  description: "The DIG client portal. Every service, every order, every asset — one dashboard. FrameFlow Studio, Spec+, listing photography, Premium photography requests, and ModelMatch gallery management all live here.",
+  description: "Everything you need in one place. The single point of entry to order, track, revise, and pay for all of your marketing assets.",
   cta: "Explore digDesk",
 };
 
@@ -22,7 +22,7 @@ const offerings = [
     title: "FrameFlow Studio",
     href: "/programs/frameflow",
     tag: "Ordering Platform",
-    description: "The digital production module inside digDesk. Upload listing photos and receive ModelMatch-staged images and virtual video without scheduling a photographer. Entry point for all digital orders.",
+    description: "Where you order ModelMatch staging and FrameFlow video inside digDesk. Upload your listing photos, with no shoot to schedule.",
     price: "Starting at $25 / image",
     cta: "Explore FrameFlow Studio",
   },
@@ -30,32 +30,24 @@ const offerings = [
     title: "Spec+",
     href: "/programs/spec-plus",
     tag: "Most Popular",
-    description: "The complete spec home asset package. 25 listing photos, 8 ModelMatch virtually staged images, and 1 virtual video. One coordinated order, one delivery, $600 flat.",
+    description: "Listing photography, ModelMatch staging and a FrameFlow video in one order. 25 photos, 8 staged images, and 1 video for $600 flat.",
     price: "$600 flat per listing",
     cta: "See Spec+ Details",
     featured: true,
-  },
-  {
-    title: "Regional Partnerships",
-    href: "/programs/regional-partnerships",
-    tag: "VP + C-Suite",
-    description: "Volume commitment program for national and regional builders. Price discounts in exchange for volume guarantees. Dedicated capacity and brand consistency across all four U.S. regions.",
-    price: "Custom pricing by volume",
-    cta: "Explore Regional Partnerships",
   },
 ];
 
 export default function ProgramsIndex() {
   return (
-    <>
+    <div className="theme-dark">
       {/* Hero */}
-      <DarkSection className="min-h-[55vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <Eyebrow dark>Programs</Eyebrow>
-            <h1 className="text-text-light">How builders <strong>purchase</strong>.</h1>
+            <h1 className="text-text-light">How you <strong>order</strong>.</h1>
             <p className="mx-auto mt-5 max-w-xl text-lg text-text-muted">
-              Streamlined packages and platforms designed for how builder marketing teams actually buy. No subscriptions, no minimums, no surprises.
+              How you order from DIG. There is no subscription and no minimum.
             </p>
           </RevealOnScroll>
         </div>
@@ -106,7 +98,7 @@ export default function ProgramsIndex() {
               <Eyebrow>Packages and Programs</Eyebrow>
               <h2>What builders <strong>order</strong>.</h2>
             </div>
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
               {offerings.map((off) => (
                 <div
                   key={off.href}
@@ -150,15 +142,15 @@ export default function ProgramsIndex() {
       </section>
 
       {/* Get started CTA */}
-      <section className="bg-bg-light py-24">
+      <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
-            <div className="rounded-2xl border border-border-light bg-bg-surface p-8 text-center lg:p-12">
-              <Eyebrow>Ready to Order</Eyebrow>
-              <h2 className="mt-2">
+            <div className="text-center">
+              <Eyebrow dark>Ready to Order</Eyebrow>
+              <h2 className="text-text-light">
                 Two ways to get <strong>into digDesk</strong>.
               </h2>
-              <p className="mx-auto mt-4 max-w-xl text-text-body">
+              <p className="mx-auto mt-4 max-w-xl text-text-muted">
                 Schedule a 15-minute demo and we will walk you through the platform, or submit your account request directly and start ordering within one business day.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -170,7 +162,7 @@ export default function ProgramsIndex() {
                 </Link>
                 <Link
                   href="/programs/digdesk"
-                  className="text-sm font-medium text-text-body transition-colors hover:text-accent"
+                  className="text-sm font-medium text-text-muted transition-colors hover:text-text-light"
                 >
                   Learn about digDesk &rarr;
                 </Link>
@@ -178,7 +170,7 @@ export default function ProgramsIndex() {
             </div>
           </RevealOnScroll>
         </div>
-      </section>
-    </>
+      </DarkSection>
+    </div>
   );
 }

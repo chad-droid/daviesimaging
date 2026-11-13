@@ -15,7 +15,7 @@ export default function CinematographerApplyPage() {
 
   if (submitted) {
     return (
-      <section className="flex min-h-screen items-center bg-bg-surface py-24">
+      <section className="theme-dark flex min-h-screen items-center bg-bg-surface py-24">
         <div className="mx-auto max-w-xl px-6 text-center">
           <RevealOnScroll>
             <Eyebrow>Application Received</Eyebrow>
@@ -33,7 +33,7 @@ export default function CinematographerApplyPage() {
   }
 
   return (
-    <section className="min-h-screen bg-bg-surface py-24">
+    <section className="theme-dark min-h-screen bg-bg-surface py-24">
       <div className="mx-auto max-w-2xl px-6">
         <Link href="/careers" className="mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-text-dark">
           &larr; Back to Careers

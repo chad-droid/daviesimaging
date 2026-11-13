@@ -8,8 +8,8 @@ import { DarkSection } from "@/components/DarkSection";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/gallery/listings" },
-  title: "Spec Homes",
-  description: "Fast-turn photography, virtual staging, and virtual video for spec homes and standing inventory. Built to move homes faster.",
+  title: "Listings",
+  description: "Listing photography, ModelMatch staging, and FrameFlow video for your spec homes and standing inventory.",
 };
 
 const otherWork = [
@@ -29,7 +29,7 @@ export default function SpecHomesPage() {
               slotId="gallery-spec-homes-hero"
               eyebrowDefault="Gallery / Listings"
               headlineDefault="Slow moving inventory? <strong>Increases your sales pace.</strong>"
-              subheadDefault="Spec+ packages deliver photography, ModelMatch virtual staging, and virtual video in one coordinated order. 72-hour delivery after the shoot. Built for standing inventory that needs to compete."
+              subheadDefault="Spec+ gives you listing photography, ModelMatch virtual staging, and a FrameFlow video in one order, delivered within 72 hours of the shoot."
             />
           </RevealOnScroll>
         </div>
@@ -52,7 +52,7 @@ export default function SpecHomesPage() {
               slotId="gallery-listings-context"
               eyebrowDefault="Spec+ Output"
               headlineDefault="What a <strong>Spec+ delivery</strong> looks like."
-              bodyDefault="Every image and video in this gallery came from a Spec+ order: listing photography, virtually staged interiors, and a digital video walkthrough, all delivered in one package within 72 hours of the shoot.<br><br>The virtual staging uses ModelMatch, which means the furniture and finishes are pulled from your builder's own model home photography. Every staged room looks like it belongs to your community, not a generic staging catalog. That specificity is what makes these images perform on MLS, paid ads, and your website."
+              bodyDefault="Every image and video in this gallery came from a Spec+ order: listing photography, ModelMatch staged interiors, and a FrameFlow video, all delivered in one package within 72 hours of the shoot.<br><br>The virtual staging uses ModelMatch, which means the furniture and finishes are pulled from your builder's own model home photography. Every staged room looks like it belongs to your community, not a generic staging catalog. That specificity is what makes these images perform on MLS, paid ads, and your website."
             />
           </RevealOnScroll>
         </div>
@@ -65,8 +65,8 @@ export default function SpecHomesPage() {
             <EditableTextContent
               slotId="gallery-listings-cta"
               eyebrowDefault="Spec+"
-              headlineDefault="One order. Listing photo, staging, and video <strong>delivered</strong>."
-              bodyDefault="$600 flat. 72 hours after the shoot. Stop managing multiple vendors and start moving homes faster."
+              headlineDefault="Listing photography, ModelMatch staging and a FrameFlow video, <strong>in one order</strong>."
+              bodyDefault="$600 flat, delivered within 72 hours of the shoot."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

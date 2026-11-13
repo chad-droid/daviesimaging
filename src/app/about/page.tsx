@@ -1,3 +1,4 @@
+import { ImageBand } from "@/components/ImageBand";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
@@ -9,29 +10,29 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
   title: "About Us",
   description:
-    "Davies Imaging Group was built inside the homebuilding industry. We think like marketers, sales leaders, and partners.",
+    "DIG is a visual asset platform for home builders, aiding your marketing team from lead to launch to listing.",
 };
 
 const pillars = [
   {
-    title: "We think like marketers",
-    body: "Beautiful photography that never gets used is just expensive. We build assets designed to perform on every channel your team deploys: website, paid media, email, and sales center.",
+    title: "You order everything in one place",
+    body: "Everything is ordered through digDesk, the single point of entry to manage your orders, revisions, and payments.",
   },
   {
-    title: "We think like sales leaders",
-    body: "Days on market matter. Carry costs are real. Every asset DIG delivers is built with one goal: helping your sales team close faster with better tools.",
+    title: "Photographers already in your market",
+    body: "We have national partnerships with some of the industry's most recognized brands, meaning their photographers are already operating in your market.",
   },
   {
-    title: "We think about what happens after the shoot",
-    body: "Most photographers leave when the camera bag goes back in the car. DIG stays involved through delivery, ensuring every image, video, and staged room is deployed correctly.",
+    title: "You save days of listing time",
+    body: "Our services minimize the time to order everything you need to communicate your value to buyers in any market, saving lean marketing teams days of valuable listing time.",
   },
 ];
 
 const stats = [
-  { value: "28", label: "Markets nationwide" },
-  { value: "95%", label: "First-delivery success rate" },
-  { value: "72 hrs", label: "Spec+ delivery after shoot" },
-  { value: "5-Star", label: "Client reviews" },
+  { value: "26", label: "Markets nationwide", detail: "You get the same standard in every market you build in." },
+  { value: "95%", label: "First delivery", detail: "95% of deliveries are ready to publish without any changes." },
+  { value: "72 hrs", label: "Spec+ delivery", detail: "Your Spec+ assets arrive within 72 hours of the shoot." },
+  { value: "5-Star", label: "Client reviews", detail: "Seamless because every person on the team is focused on what they do best." },
 ];
 
 export default function AboutPage() {
@@ -39,37 +40,40 @@ export default function AboutPage() {
     <>
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="about-main-hero"
               eyebrowDefault="About / Why We Exist"
-              headlineDefault="We don't just capture homes. We help builders <strong>win</strong>."
-              subheadDefault="Davies Imaging Group was built inside the homebuilding industry, not outside of it. That distinction changes everything about how we work."
+              headlineDefault="Our team is built around one simple value: <strong>we take care of you</strong>."
+              subheadDefault="Great marketing is an operational force multiplier. If your brand needs a boost, you only need one partner to deliver remarkable results."
             />
           </RevealOnScroll>
         </div>
       </DarkSection>
 
+      {/* Wide image under the hero. Hidden until one is assigned in admin. */}
+      <ImageBand slotId="about-main-hero-img" dark />
+
       {/* Origin Story */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-origin"
                   eyebrowDefault="Origin"
-                  headlineDefault="Founded on a clear <strong>conviction</strong>."
+                  headlineDefault="We started with <strong>model home photography</strong>."
                   bodyDefault=""
                 />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
-                  Chad Davies founded DIG with a simple conviction: homebuilder marketing deserves better. Better storytelling. Better strategy. Better alignment between creative work and the sales outcomes it&apos;s supposed to drive.
+                  Our launch services are what DIG&apos;s reputation was built on: model home photography, video, and Matterport for the world&apos;s best home builders.
                 </p>
                 <p>
-                  Under his leadership, DIG grew from a production-focused studio into a strategic partner that serves some of the most respected builders in the country. That growth happened because we stayed focused on what the industry actually needs, not just what looks impressive in a portfolio.
+                  Since then our services have expanded from our core model home photography to also include listing photography, ModelMatch virtual staging, and Flow video, so you can get all the assets you need from lead to launch to list.
                 </p>
               </div>
             </div>
@@ -79,13 +83,20 @@ export default function AboutPage() {
 
       {/* Stats */}
       <section className="bg-bg-light py-16">
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {stats.map((s, i) => (
-                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-6 text-center">
-                  <p className="text-3xl font-semibold text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>{s.value}</p>
-                  <p className="mt-1 text-xs font-semibold uppercase tracking-widest text-accent">{s.label}</p>
+                <div key={i} className="rounded-xl border border-border-light bg-bg-surface p-7">
+                  <p
+                    className="whitespace-nowrap text-[2.25rem] font-semibold leading-none text-text-dark"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    {s.value}
+                  </p>
+                  <div className="mt-4 h-px w-10 bg-accent" />
+                  <p className="mt-4 whitespace-nowrap text-xs font-bold uppercase tracking-[0.15em] text-accent">{s.label}</p>
+                  <p className="mt-3 text-pretty text-[0.9375rem] leading-relaxed text-text-body">{s.detail}</p>
                 </div>
               ))}
             </div>
@@ -95,29 +106,32 @@ export default function AboutPage() {
 
       {/* We Understand */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-perspective"
                   eyebrowDefault="Perspective"
-                  headlineDefault="We understand your world <strong>from the inside</strong>."
+                  headlineDefault="Built for home builder <strong>marketing teams</strong>."
                   bodyDefault=""
                 />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
-                  Launch timelines. Spec pressure. Marketing budgets. Sales alignment. Community rollouts. These aren&apos;t abstract concepts at DIG. They are the context in which we do every shoot, every digital order, and every delivery.
+                  Whether you&apos;re pre-selling a new community, showcasing a new model park, or getting your new listings online, our suite of marketing services is designed to make the world&apos;s best home builders look their best.
                 </p>
                 <p>
-                  We&apos;ve worked alongside national and regional builders across 28 markets. That experience shapes how we plan, how we execute, and how we communicate. It is why working with DIG feels different from working with a traditional photography vendor.
+                  Regardless of the market you operate in, you get the same award-winning quality in each of our service lines. We&apos;re proud to serve 26 markets across the United States, and that&apos;s growing.
                 </p>
               </div>
             </div>
           </RevealOnScroll>
         </div>
       </section>
+
+      {/* Team or on-site photo. Hidden until one is assigned in admin. */}
+      <ImageBand slotId="about-team-img" />
 
       {/* How we think */}
       <DarkSection className="py-24 text-text-light">
@@ -127,7 +141,7 @@ export default function AboutPage() {
               <EditableTextContent
                 slotId="about-approach"
                 eyebrowDefault="Our Approach"
-                headlineDefault="Three things we think about that most photographers <strong>don't</strong>."
+                headlineDefault="What you get with <strong>DIG</strong>."
                 bodyDefault=""
                 dark={true}
               />
@@ -152,23 +166,23 @@ export default function AboutPage() {
 
       {/* Five-Step Strategy */}
       <section className="py-24">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <RevealOnScroll>
-            <div className="grid gap-14 lg:grid-cols-[1fr_2fr]">
+            <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
               <div className="pt-1">
                 <EditableTextContent
                   slotId="about-how-we-work"
                   eyebrowDefault="How We Work"
-                  headlineDefault="From alignment to <strong>delivery</strong>."
+                  headlineDefault="One team of <strong>specialists</strong>."
                   bodyDefault=""
                 />
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-body">
                 <p>
-                  Our proven five-step asset strategy reduces the time it takes to plan, produce, and deploy marketing visuals that actually perform. From pre-shoot alignment to final asset delivery, every step supports your marketing team and your sales goals.
+                  Instead of managing multiple vendors across multiple processes just to get a finished set of marketing assets, you work with one team that knows how to bring it all together.
                 </p>
                 <p>
-                  We don&apos;t just show up with a camera. We arrive with a plan, execute with specialists, and deliver assets that are ready to publish without additional work on your team&apos;s side. 95% of our deliveries are approved without a single change request.
+                  You feel taken care of because communication is fast, scheduling is easy, and assets are delivered right the first time. 95% of our deliveries are ready to post without any changes needed.
                 </p>
                 <div className="pt-2">
                   <Link
@@ -191,8 +205,8 @@ export default function AboutPage() {
             <EditableTextContent
               slotId="about-cta"
               eyebrowDefault="Let's Work Together"
-              headlineDefault="Let's build assets that move <strong>homes</strong>."
-              bodyDefault="If you're looking for a vendor, there are plenty. If you're looking for a partner who understands how builder marketing actually works, let's talk."
+              headlineDefault="Have ambitious marketing and sales goals <strong>this year</strong>?"
+              bodyDefault="Reach out so we can help you execute with operational excellence and deliver breathtaking quality to your home buyers in each of the markets you build in. Your satisfaction is guaranteed."
               dark={true}
             />
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">

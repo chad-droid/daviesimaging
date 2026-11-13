@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { specFaqs } from "@/lib/faq-data";
+import { specFaqs, type FaqItem } from "@/lib/faq-data";
 
 
-export function SpecFaq() {
+/** Accordion of questions. Defaults to the Spec+ list; pass `items` for any other set and a unique `idPrefix` when more than one sits on a page. */
+export function SpecFaq({ items = specFaqs, idPrefix = "faq" }: { items?: FaqItem[]; idPrefix?: string } = {}) {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
     <div className="divide-y divide-border-light rounded-xl border border-border-light bg-bg-surface">
-      {specFaqs.map((item, i) => {
+      {items.map((item, i) => {
         const isOpen = open === i;
         return (
           <div key={i}>
@@ -19,9 +20,9 @@ export function SpecFaq() {
                 type="button"
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
-                aria-controls={`faq-answer-${i}`}
-                id={`faq-question-${i}`}
-                className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left text-sm font-medium text-text-dark transition-colors hover:bg-bg-light"
+                aria-controls={`${idPrefix}-answer-${i}`}
+                id={`${idPrefix}-question-${i}`}
+                className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left font-[family-name:var(--font-body)] text-[0.9375rem] font-medium text-text-dark transition-colors hover:bg-bg-light"
               >
                 <span>{item.q}</span>
                 <span
@@ -46,9 +47,9 @@ export function SpecFaq() {
               the height instead of unmounting so the text ships in the HTML.
             */}
             <motion.div
-              id={`faq-answer-${i}`}
+              id={`${idPrefix}-answer-${i}`}
               role="region"
-              aria-labelledby={`faq-question-${i}`}
+              aria-labelledby={`${idPrefix}-question-${i}`}
               initial={false}
               animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
               transition={{ duration: 0.22, ease: "easeInOut" }}

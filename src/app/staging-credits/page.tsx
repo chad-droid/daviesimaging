@@ -136,7 +136,7 @@ export default function StagingCreditsPage() {
         ]}
         testimonial={{
           quote: "The last two weeks of sales have been the best we have had in over a year.",
-          attribution: "Graham Hart Homebuilder",
+          attribution: "Graham Hart Home Builder",
         }}
       />
 

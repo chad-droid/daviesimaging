@@ -55,3 +55,63 @@ export const postsFeedQuery = groq`
     _updatedAt
   }
 `;
+
+// ─── Customer stories ────────────────────────────────────────────────────────
+// Only approved stories ever leave Sanity, and held quotes are filtered out in
+// the query so no page has to remember to do it.
+const storyCard = `
+  _id,
+  name,
+  "slug": slug.current,
+  jobTitle,
+  company,
+  market,
+  topics,
+  headline,
+  summary,
+  headshot,
+  companyLogo,
+  coverImage,
+  publishedAt,
+  "youtubeId": video.youtubeId,
+  "poster": video.poster
+`;
+
+export const customerStoriesQuery = groq`
+  *[_type == "customerStory" && approved == true && defined(slug.current)] | order(publishedAt desc) {
+    ${storyCard}
+  }
+`;
+
+export const customerStoryBySlugQuery = groq`
+  *[_type == "customerStory" && approved == true && slug.current == $slug][0] {
+    ${storyCard},
+    interviewDate,
+    _updatedAt,
+    video,
+    interview[]{ question, answer, timestamp },
+    "quotes": quotes[hold != true]{ "id": quoteId.current, quote, emphasis, topics }
+  }
+`;
+
+export const customerStorySlugsQuery = groq`
+  *[_type == "customerStory" && approved == true && defined(slug.current)][].slug.current
+`;
+
+// Flat list of pull quotes, each carrying its speaker. Filter in code by
+// topic or market, or ask for specific ids with $ids.
+export const customerQuotesQuery = groq`
+  *[_type == "customerStory" && approved == true]{
+    "quotes": quotes[hold != true && (!defined($ids) || quoteId.current in $ids)]{
+      "id": quoteId.current,
+      quote,
+      emphasis,
+      topics,
+      "name": ^.name,
+      "title": ^.jobTitle,
+      "company": ^.company,
+      "market": ^.market,
+      "storySlug": ^.slug.current
+    }
+  }.quotes[]
+`;

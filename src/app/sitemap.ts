@@ -1,3 +1,4 @@
+import { markets } from "@/lib/markets";
 import { MetadataRoute } from "next";
 import { client } from "@/sanity/client";
 import { postSitemapQuery } from "@/sanity/queries";
@@ -35,7 +36,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/get-started`, changeFrequency: "monthly", priority: 0.8 },
 
     // ── Gallery ───────────────────────────────────────────────────────────────
-    { url: `${BASE}/gallery`,           changeFrequency: "weekly",  priority: 0.85 },
     { url: `${BASE}/gallery/models`,    changeFrequency: "weekly",  priority: 0.85 },
     { url: `${BASE}/gallery/listings`,  changeFrequency: "weekly",  priority: 0.85 },
     { url: `${BASE}/gallery/amenities`, changeFrequency: "weekly",  priority: 0.80 },
@@ -48,8 +48,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/services/video-production`, changeFrequency: "monthly", priority: 0.80 },
     { url: `${BASE}/services/virtual-staging`,  changeFrequency: "monthly", priority: 0.80 },
     { url: `${BASE}/services/virtual-video`,    changeFrequency: "monthly", priority: 0.80 },
-    { url: `${BASE}/services/matterport`,       changeFrequency: "monthly", priority: 0.70 },
     { url: `${BASE}/services/showcase`,         changeFrequency: "monthly", priority: 0.80 },
+    { url: `${BASE}/services/planmatch`, changeFrequency: "monthly", priority: 0.80 },
+    { url: `${BASE}/services/moments`, changeFrequency: "monthly", priority: 0.80 },
+    { url: `${BASE}/services/cineflow`, changeFrequency: "monthly", priority: 0.80 },
+    { url: `${BASE}/services/actflow`, changeFrequency: "monthly", priority: 0.80 },
 
     // ── Programs ──────────────────────────────────────────────────────────────
     // NOTE: /programs/frameflow-premium intentionally excluded — password-protected stealth pilot
@@ -57,17 +60,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/programs/spec-plus`,             changeFrequency: "monthly", priority: 0.90 },
     { url: `${BASE}/programs/frameflow`,             changeFrequency: "monthly", priority: 0.85 },
     { url: `${BASE}/programs/digdesk`,               changeFrequency: "monthly", priority: 0.80 },
-    { url: `${BASE}/programs/regional-partnerships`, changeFrequency: "monthly", priority: 0.75 },
 
     // ── Markets ───────────────────────────────────────────────────────────────
     { url: `${BASE}/markets`,                    changeFrequency: "monthly", priority: 0.75 },
     { url: `${BASE}/markets/region`,             changeFrequency: "monthly", priority: 0.75 },
-    { url: `${BASE}/markets/type`,               changeFrequency: "monthly", priority: 0.75 },
-    { url: `${BASE}/markets/role`,               changeFrequency: "monthly", priority: 0.75 },
-    { url: `${BASE}/markets/role/coordinators`,  changeFrequency: "monthly", priority: 0.70 },
-    { url: `${BASE}/markets/role/directors`,     changeFrequency: "monthly", priority: 0.70 },
-    { url: `${BASE}/markets/role/executive`,     changeFrequency: "monthly", priority: 0.70 },
-    { url: `${BASE}/markets/role/c-suite`,       changeFrequency: "monthly", priority: 0.70 },
+    ...markets.map((m) => ({ url: `${BASE}/markets/${m.slug}`, changeFrequency: "monthly" as const, priority: 0.7 })),
 
     // ── About ─────────────────────────────────────────────────────────────────
     { url: `${BASE}/about`,              changeFrequency: "monthly", priority: 0.70 },

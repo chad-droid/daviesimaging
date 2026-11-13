@@ -1,22 +1,16 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { markets } from "@/lib/markets";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
 } from "react-simple-maps";
-import { DynamicImage } from "@/components/DynamicImage";
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-
-// Derive a consistent slot ID from a city name: "Salt Lake City" → "market-salt-lake-city"
-function citySlot(city: string) {
-  return `market-${city.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}`;
-}
 
 const stateRegion: Record<string, string> = {
   "53": "west", "41": "west", "06": "west", "32": "west",
@@ -40,6 +34,14 @@ const regionColors: Record<string, { base: string; active: string }> = {
   east:     { base: "#c2c5d4", active: "#9da0b6" }, // darkest — clearly distinct
 };
 
+// Same four steps for a dark page: states sit just above the #121212 background.
+const regionColorsDark: Record<string, { base: string; active: string }> = {
+  west:     { base: "#26262e", active: "#4a4670" },
+  mountain: { base: "#2e2e38", active: "#544f80" },
+  central:  { base: "#363642", active: "#5e5890" },
+  east:     { base: "#3f3f4d", active: "#6962a0" },
+};
+
 interface RegionInfo {
   label: string;
   subtitle: string;
@@ -56,77 +58,13 @@ const regionInfo: Record<string, RegionInfo> = {
 
 const regionList = Object.entries(regionInfo).map(([id, v]) => ({ id, ...v }));
 
-interface MarketPin {
-  coords: [number, number];
-  city: string;
-  region: string;
-  isOffice?: boolean;
-  blurb: string;
-  labelAnchor?: "start" | "end" | "middle";
-  labelY?: number;
-}
+const marketPins = markets;
 
-const marketPins: MarketPin[] = [
-  // West (9)
-  { coords: [-122.33, 47.61], city: "Seattle",      region: "west",     blurb: "Pacific Northwest: WA's fastest-growing new home corridors.",           labelAnchor: "end",    labelY: -10 },
-  { coords: [-122.68, 45.52], city: "Portland",     region: "west",     blurb: "Pacific Northwest: OR/WA border markets and metro Portland.",            labelAnchor: "end",    labelY: -10 },
-  { coords: [-121.49, 38.58], city: "Sacramento",   region: "west",     blurb: "DIG's West Coast headquarters. Central Valley coverage hub.",             isOffice: true,        labelAnchor: "end",    labelY: -10 },
-  { coords: [-122.03, 37.54], city: "Bay Area",     region: "west",     blurb: "Bay Area and Silicon Valley homebuilders.",                               labelAnchor: "end",    labelY: -10 },
-  { coords: [-118.24, 34.05], city: "Los Angeles",  region: "west",     blurb: "Greater LA metro production and luxury communities.",                     labelAnchor: "end",    labelY: -10 },
-  { coords: [-117.82, 33.68], city: "Orange County",region: "west",     blurb: "Orange County and Inland Empire new home communities.",                   labelAnchor: "start",  labelY:  14 },
-  { coords: [-119.77, 36.74], city: "Fresno",       region: "west",     blurb: "Central Valley growth corridor: one of California's fastest-growing new home markets.", labelAnchor: "start", labelY: -10 },
-  { coords: [-115.14, 36.17], city: "Las Vegas",    region: "west",     blurb: "Nevada's largest new home market: high-volume spec and master plan.",    labelAnchor: "start",  labelY: -10 },
-  { coords: [-119.81, 39.53], city: "Reno",         region: "west",     blurb: "Northern Nevada: Reno/Sparks metro and Lake Tahoe corridor.",            labelAnchor: "start",  labelY: -10 },
-  // Mountain (4)
-  { coords: [-116.20, 43.62], city: "Boise",        region: "mountain", blurb: "Idaho's fastest-growing metro: Treasure Valley builders.",               labelAnchor: "start",  labelY: -10 },
-  { coords: [-111.89, 40.76], city: "Salt Lake City",region: "mountain",blurb: "Wasatch Front communities and Utah's growth markets.",                    labelAnchor: "start",  labelY: -10 },
-  { coords: [-104.99, 39.74], city: "Denver",       region: "mountain", blurb: "Colorado Front Range: Denver metro and mountain corridor builders.",      labelAnchor: "start",  labelY: -10 },
-  { coords: [-112.07, 33.45], city: "Phoenix",      region: "mountain", blurb: "Greater Phoenix: one of the nation's highest-volume new home markets.",   labelAnchor: "start",  labelY: -10 },
-  // Central (4)
-  { coords: [-96.80, 32.78],  city: "Dallas",       region: "central",  blurb: "DIG's Central region headquarters. DFW is one of our most active markets.", isOffice: true,      labelAnchor: "start",  labelY: -10 },
-  { coords: [-95.37, 29.76],  city: "Houston",      region: "central",  blurb: "Greater Houston: high-volume production builders and master-planned communities.", labelAnchor: "start", labelY: -10 },
-  { coords: [-97.74, 30.27],  city: "Austin",       region: "central",  blurb: "Austin metro and Hill Country: strong spec and QMI demand.",              labelAnchor: "middle", labelY: -13 },
-  { coords: [-98.49, 29.42],  city: "San Antonio",  region: "central",  blurb: "San Antonio and South Texas builders.",                                   labelAnchor: "end",    labelY: -10 },
-  // East (9)
-  { coords: [-82.46, 27.95],  city: "Tampa",        region: "east",     blurb: "Tampa Bay and the Gulf Coast: Florida's western growth corridor.",        labelAnchor: "end",    labelY: -10 },
-  { coords: [-81.38, 28.54],  city: "Orlando",      region: "east",     blurb: "Central Florida: one of the busiest new home markets in the U.S.",        labelAnchor: "start",  labelY: -10 },
-  { coords: [-80.19, 25.76],  city: "Miami",        region: "east",     blurb: "South Florida: luxury, production, and waterfront communities.",          labelAnchor: "start",  labelY: -10 },
-  { coords: [-81.66, 30.33],  city: "Jacksonville", region: "east",     blurb: "Northeast Florida: rapidly growing Jacksonville metro builders.",         labelAnchor: "start",  labelY: -10 },
-  { coords: [-84.39, 33.75],  city: "Atlanta",      region: "east",     blurb: "Metro Atlanta and suburban Georgia: active DIG market.",                  labelAnchor: "end",    labelY: -10 },
-  { coords: [-79.94, 32.78],  city: "Charleston",   region: "east",     blurb: "Lowcountry and coastal Carolina builders.",                               labelAnchor: "start",  labelY: -10 },
-  { coords: [-80.84, 35.23],  city: "Charlotte",    region: "east",     blurb: "Charlotte metro and Lake Norman corridor.",                               labelAnchor: "end",    labelY: -10 },
-  { coords: [-78.64, 35.78],  city: "Raleigh",      region: "east",     blurb: "Triangle and Research Triangle Park: strong spec and model home demand.", labelAnchor: "start",  labelY: -10 },
-  { coords: [-82.99, 39.96],  city: "Columbus",     region: "east",     blurb: "Central Ohio: Columbus metro new home builders.",                        labelAnchor: "start",  labelY: -10 },
-];
-
-export function RegionMap() {
+/** `linkPins` makes each pin open its market page. Leave it off where the map is only an illustration. */
+export function RegionMap({ dark = false, linkPins = false }: { dark?: boolean; linkPins?: boolean } = {}) {
   const router = useRouter();
+  const palette = dark ? regionColorsDark : regionColors;
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
-  const [hoveredPin, setHoveredPin] = useState<MarketPin | null>(null);
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
-
-  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const clearHideTimer = useCallback(() => {
-    if (hideTimer.current) { clearTimeout(hideTimer.current); hideTimer.current = null; }
-  }, []);
-
-  const scheduleHide = useCallback(() => {
-    clearHideTimer();
-    hideTimer.current = setTimeout(() => {
-      setHoveredPin(null);
-      setMousePos(null);
-    }, 160);
-  }, [clearHideTimer]);
-
-  // Clean up on unmount
-  useEffect(() => () => { if (hideTimer.current) clearTimeout(hideTimer.current); }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }, []);
-
   const visiblePins = activeRegion
     ? marketPins.filter((p) => p.region === activeRegion)
     : marketPins;
@@ -140,8 +78,6 @@ export function RegionMap() {
       {/* Map — tracks mouse position for tooltip */}
       <div
         className="relative"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={scheduleHide}
       >
         <ComposableMap
           projection="geoAlbersUsa"
@@ -156,17 +92,17 @@ export function RegionMap() {
                 const fips = geo.id as string;
                 const region = stateRegion[fips];
                 if (!region) return null;
-                const colors = regionColors[region];
+                const colors = palette[region];
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
                     fill={
                       activeRegion === region ? colors.active
-                      : activeRegion !== null   ? "#efefef"
+                      : activeRegion !== null   ? (dark ? "#1e1e22" : "#efefef")
                       : colors.base
                     }
-                    stroke="#ffffff"
+                    stroke={dark ? "#121212" : "#ffffff"}
                     strokeWidth={0.75}
                     style={{
                       default: { outline: "none", cursor: "pointer" },
@@ -181,42 +117,36 @@ export function RegionMap() {
           </Geographies>
 
           {visiblePins.map((pin) => {
-            const isHovered = hoveredPin?.city === pin.city;
             const anchor = pin.labelAnchor ?? "start";
             const labelX = anchor === "end" ? -8 : anchor === "middle" ? 0 : 8;
 
             return (
               <Marker key={pin.city} coordinates={pin.coords}>
+                {/* Pins are plain dots unless linkPins is set, in which case each opens its market page. */}
                 <g
-                  onMouseEnter={() => { clearHideTimer(); setHoveredPin(pin); }}
-                  onMouseLeave={scheduleHide}
-                  onClick={() => router.push(regionInfo[pin.region].href)}
-                  style={{ cursor: "pointer" }}
+                  style={linkPins ? { cursor: "pointer" } : { pointerEvents: "none" }}
+                  onClick={linkPins ? () => router.push(`/markets/${pin.slug}`) : undefined}
+                  role={linkPins ? "link" : undefined}
+                  aria-label={linkPins ? `${pin.name} market page` : undefined}
                 >
+                  {linkPins && <circle r={11} fill="transparent" />}
                   {pin.isOffice ? (
                     <>
-                      <circle r={isHovered ? 9 : 7} fill="#6A5ACD" opacity={0.15} style={{ transition: "r 0.15s ease" }} />
-                      <circle r={isHovered ? 5 : 4} fill="#6A5ACD" stroke="#ffffff" strokeWidth={1.5} style={{ transition: "r 0.15s ease" }} />
+                      <circle r={7} fill={dark ? "#857AE0" : "#6A5ACD"} opacity={dark ? 0.3 : 0.15} />
+                      <circle r={4} fill={dark ? "#857AE0" : "#6A5ACD"} stroke={dark ? "#121212" : "#ffffff"} strokeWidth={1.5} />
                       <circle r={1.5} fill="#ffffff" />
                     </>
                   ) : (
-                    <circle
-                      r={isHovered ? 5 : 3.5}
-                      fill={isHovered ? "#5848B5" : "#6A5ACD"}
-                      stroke="#ffffff"
-                      strokeWidth={1.5}
-                      style={{ transition: "all 0.15s ease" }}
-                    />
+                    <circle r={3.5} fill={dark ? "#857AE0" : "#6A5ACD"} stroke={dark ? "#121212" : "#ffffff"} strokeWidth={1.5} />
                   )}
                   <text
                     className="map-city-label"
                     textAnchor={anchor}
                     x={labelX}
                     y={pin.labelY ?? -10}
-                    fontSize={isHovered ? 10 : 8.5}
-                    fontWeight={isHovered || pin.isOffice ? 600 : 400}
-                    fill={isHovered ? "#222" : "#555"}
-                    style={{ pointerEvents: "none", transition: "all 0.15s ease" }}
+                    fontSize={8.5}
+                    fontWeight={pin.isOffice ? 600 : 400}
+                    fill={dark ? "#C8C8C8" : "#555"}
                   >
                     {pin.city}
                   </text>
@@ -225,53 +155,6 @@ export function RegionMap() {
             );
           })}
         </ComposableMap>
-
-        {/* Hover card — thumbnail + city info */}
-        <AnimatePresence>
-          {hoveredPin && mousePos && (
-            <motion.div
-              key={hoveredPin.city}
-              initial={{ opacity: 0, scale: 0.96, y: 6 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 4 }}
-              transition={{ duration: 0.14 }}
-              className="absolute z-20 w-52 cursor-pointer overflow-hidden rounded-xl border border-border-light bg-white shadow-xl"
-              style={{ left: mousePos.x + 16, top: mousePos.y - 60 }}
-              onMouseEnter={clearHideTimer}
-              onMouseLeave={scheduleHide}
-              onClick={() => router.push(regionInfo[hoveredPin.region].href)}
-            >
-              {/* Thumbnail */}
-              <div className="relative h-28 w-full bg-bg-surface">
-                <DynamicImage
-                  slotId={citySlot(hoveredPin.city)}
-                  className="h-full w-full object-cover"
-                  fallbackClass="h-full w-full bg-gradient-to-br from-bg-surface to-accent/10"
-                  aspectRatio="16/9"
-                />
-                <span className="absolute left-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white backdrop-blur-sm">
-                  {regionInfo[hoveredPin.region].label}
-                </span>
-              </div>
-
-              {/* City info */}
-              <div className="px-3 py-2.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-semibold text-text-dark">{hoveredPin.city}</span>
-                  {hoveredPin.isOffice && (
-                    <span className="rounded-full bg-accent/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-accent">
-                      Office
-                    </span>
-                  )}
-                </div>
-                <p className="mt-0.5 text-[10px] leading-snug text-text-muted">{hoveredPin.blurb}</p>
-                <p className="mt-1.5 text-[10px] font-medium text-accent">
-                  See {regionInfo[hoveredPin.region].label} work →
-                </p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
       {/* Guadalajara callout */}
@@ -295,7 +178,7 @@ export function RegionMap() {
             onMouseLeave={() => setActiveRegion(null)}
             className={`rounded-lg border p-4 text-center transition-all ${
               activeRegion === region.id
-                ? "border-accent bg-bg-dark text-text-light"
+                ? dark ? "border-accent bg-accent/20 text-text-light" : "border-accent bg-bg-dark text-text-light"
                 : "border-border-light hover:border-accent/40 hover:bg-accent/5"
             }`}
           >

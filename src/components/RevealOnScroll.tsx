@@ -14,7 +14,11 @@ export function RevealOnScroll({
   stagger = 120,
 }: RevealOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  // "below": waiting under the viewport. "in": on screen. "above": scrolled past.
+  // The reveal runs both ways, so text eases in as it arrives and eases back
+  // out as it leaves, in whichever direction the page is moving.
+  const [phase, setPhase] = useState<"below" | "in" | "above">("below");
+  const visible = phase === "in";
 
   useEffect(() => {
     const el = ref.current;
@@ -22,10 +26,8 @@ export function RevealOnScroll({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(el);
-        }
+        if (entry.isIntersecting) setPhase("in");
+        else setPhase(entry.boundingClientRect.top < 0 ? "above" : "below");
       },
       { threshold: 0.1 },
     );
@@ -44,7 +46,7 @@ export function RevealOnScroll({
           className="transition-all duration-500 ease-out"
           style={{
             opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(20px)",
+            transform: visible ? "translateY(0)" : phase === "above" ? "translateY(-20px)" : "translateY(20px)",
             transitionDelay: visible ? `${i * stagger}ms` : "0ms",
           }}
         >

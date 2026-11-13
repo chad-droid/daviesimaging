@@ -3,33 +3,44 @@ import Link from "next/link";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { RegionMap } from "@/components/RegionMap";
+import { MarketDirectory } from "@/components/MarketDirectory";
 import { EditableTextContent } from "@/components/EditableTextContent";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/markets/region" },
   title: "Markets by Region",
-  description: "DIG operates across 28 U.S. markets in four regions, with offices in Sacramento, Dallas, and Guadalajara.",
+  description: "You get the same quality in 26 U.S. markets across four regions, with offices in Sacramento, Dallas, and Guadalajara.",
 };
 
 export default function ByRegionPage() {
   return (
-    <section className="min-h-screen bg-bg-surface py-24">
+    <section className="theme-dark bg-bg-surface py-24">
       <div className="mx-auto max-w-5xl px-6">
         <RevealOnScroll>
           <div>
             <Eyebrow>About / Our Markets</Eyebrow>
             <h1>
-              One standard across every <strong>market</strong>.
+              The same quality in every market <strong>you build in</strong>.
             </h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-body">
-              28 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.
+              26 markets across four U.S. regions. Offices in Sacramento, Dallas, and Guadalajara. Same quality, same process, everywhere.
             </p>
           </div>
         </RevealOnScroll>
 
         <RevealOnScroll>
           <div className="mt-14">
-            <RegionMap />
+            <RegionMap dark linkPins />
+          </div>
+        </RevealOnScroll>
+
+        <RevealOnScroll>
+          <div className="mt-16">
+            <Eyebrow>Every market</Eyebrow>
+            <h2 className="mb-8 mt-2">
+              Pick the market <strong>you build in</strong>.
+            </h2>
+            <MarketDirectory />
           </div>
         </RevealOnScroll>
 
@@ -38,8 +49,8 @@ export default function ByRegionPage() {
             <EditableTextContent
               slotId="markets-region-partnerships"
               eyebrowDefault="Partnerships"
-              headlineDefault="One partner across every <strong>region</strong>."
-              bodyDefault="Volume pricing, dedicated capacity, and brand consistency enforced from West to East. Built for builders doing 300+ homes annually."
+              headlineDefault="One partner in every market <strong>you build in</strong>."
+              bodyDefault="You get volume pricing, dedicated capacity, and your brand guidelines followed from West to East. For builders doing 300 or more homes a year."
               headingLevel="h3"
             />
             <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-5">
@@ -48,12 +59,6 @@ export default function ByRegionPage() {
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 Book a Strategy Call
-              </Link>
-              <Link
-                href="/programs/regional-partnerships"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-text-dark transition-colors hover:text-accent"
-              >
-                Explore Regional Partnerships <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>

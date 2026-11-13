@@ -7,29 +7,30 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
 import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/video-production" },
-  title: "Video Production",
-  description: "On-site, crew-based video production for homebuilder marketing. Community walkthroughs, lifestyle video, and brand films.",
+  title: "Premium Video",
+  description: "On-site, crew-based video of your model homes, amenities, and communities: community walkthroughs, lifestyle video, and brand films.",
 };
 
 const useCases = [
   {
     title: "Community Walkthroughs",
-    body: "Guided tours of your community, amenities, and model homes. Built for website hero sections, sales center displays, and digital ads.",
+    body: "Guided tours of your community, amenities, and model homes for your website, sales center displays, and digital ads.",
   },
   {
     title: "Lifestyle Video",
-    body: "Talent-driven, story-led video that connects buyers emotionally to your community. Lifestyle video is a primary output of DIG Premium Video.",
+    body: "Talent-driven video that connects your buyers to your community.",
   },
   {
     title: "Amenity Showcases",
-    body: "Dedicated video for pools, fitness centers, parks, and clubhouses. Gives buyers a reason to choose your community over the competition.",
+    body: "Dedicated video for your pools, fitness centers, parks, and clubhouses.",
   },
   {
     title: "Brand Films",
-    body: "Longer-form storytelling for builder websites, sales presentations, and investor materials. Crafted to reflect the quality of the homes you build.",
+    body: "Longer-form video for your website, sales presentations, and investor materials.",
   },
 ];
 
@@ -38,7 +39,7 @@ export default function VideoProductionPage() {
     <>
       <JsonLd
         data={buildServiceSchema({
-          name: "Video Production",
+          name: "Premium Video",
           description:
             "Crew-based video for homebuilders: community walkthroughs, lifestyle films, amenity showcases, and brand films.",
           path: "/services/video-production",
@@ -52,15 +53,16 @@ export default function VideoProductionPage() {
         ])}
       />
       {/* Hero */}
-      <DarkSection className="min-h-[60vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="services-video-production-hero"
-              eyebrowDefault="Solutions / Video Production"
-              headlineDefault="Video that moves buyers to <strong>action</strong>."
-              subheadDefault="On-site, crew-based video production for community walkthroughs, lifestyle campaigns, and builder brand films. DIG's highest-craft video output."
+              eyebrowDefault="Solutions / Premium Video"
+              headlineDefault="Show your buyers what it feels like to <strong>live there</strong>."
+              subheadDefault="On-site, crew-based video of your model homes, amenities, and communities, from the same team that photographs them."
             />
+            <ProductTags line="Production" stage="Launch" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/contact"
@@ -88,11 +90,11 @@ export default function VideoProductionPage() {
                 <EditableTextContent
                   slotId="services-video-production-what-it-is"
                   eyebrowDefault="Premium Video"
-                  headlineDefault="One shoot. Every <strong>platform</strong>."
-                  bodyDefault="DIG video production delivers assets formatted for website hero loops, social media cuts, email embeds, and sales center displays. One production day, multiple outputs across every channel your team uses."
+                  headlineDefault="One production day, for every channel <strong>you use</strong>."
+                  bodyDefault="From one production day you get video formatted for your website, social media, email, and sales center displays."
                 />
                 <p className="mt-4 text-text-body">
-                  This is DIG&apos;s full-crew, high-craft video service. For fast-turn listing video without a crew, see virtual video.
+                  This is our crew-based video service. For video of your spec homes and listings, see FrameFlow.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
@@ -130,7 +132,7 @@ export default function VideoProductionPage() {
               <EditableTextContent
                 slotId="services-video-production-use-cases"
                 eyebrowDefault="Use Cases"
-                headlineDefault="Four ways builders use <strong>DIG video</strong>."
+                headlineDefault="How builders use <strong>Premium Video</strong>."
                 bodyDefault=""
               />
             </div>
@@ -156,27 +158,27 @@ export default function VideoProductionPage() {
             <div className="text-center">
               <EditableTextContent
                 slotId="services-video-production-which-video"
-                eyebrowDefault="Which Video Is Right?"
-                headlineDefault="Know which service <strong>fits your need</strong>."
+                eyebrowDefault="Premium Video or FrameFlow"
+                headlineDefault="Which video do you <strong>need</strong>?"
                 bodyDefault=""
               />
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border-2 border-accent p-6">
                 <div className="mb-2 inline-flex rounded-full bg-accent/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-accent">This Page</div>
-                <h4 className="text-base font-semibold text-text-dark">Video Production</h4>
-                <p className="mt-2 text-sm text-text-body">On-site crew. Lifestyle talent. Community tours. High-craft brand films. Custom quote based on scope.</p>
-                <p className="mt-3 text-xs text-text-muted">Best for: model home launches, lifestyle campaigns, brand storytelling</p>
+                <h4 className="text-base font-semibold text-text-dark">Premium Video</h4>
+                <p className="mt-2 text-sm text-text-body">An on-site crew films your model homes, amenities, and community. Quoted by scope.</p>
+                <p className="mt-3 text-xs text-text-muted">Best for: model home launches, lifestyle campaigns, brand films</p>
                 <Link href="/contact" className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline">
                   Get a quote &rarr;
                 </Link>
               </div>
               <div className="rounded-xl border border-border-light p-6">
-                <h4 className="text-base font-semibold text-text-dark">Virtual Video</h4>
-                <p className="mt-2 text-sm text-text-body">Digital production from existing photos. No shoot day, no crew. Priced per property, delivered fast through digDesk.</p>
-                <p className="mt-3 text-xs text-text-muted">Best for: spec home listings, standing inventory, MLS video at scale</p>
+                <h4 className="text-base font-semibold text-text-dark">FrameFlow</h4>
+                <p className="mt-2 text-sm text-text-body">Video made from the photos you already have, ordered through digDesk.</p>
+                <p className="mt-3 text-xs text-text-muted">Best for: spec homes, listings, and standing inventory</p>
                 <Link href="/services/virtual-video" className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:underline">
-                  See virtual video &rarr;
+                  See FrameFlow &rarr;
                 </Link>
               </div>
             </div>
@@ -190,8 +192,8 @@ export default function VideoProductionPage() {
           <RevealOnScroll>
             <EditableTextContent
               slotId="services-video-production-cta"
-              headlineDefault="Ready to build video that <strong>earns attention</strong>?"
-              bodyDefault="Video production is custom-quoted based on scope, location, and deliverables. Start with a strategy call."
+              headlineDefault="Ready to film your <strong>next community</strong>?"
+              bodyDefault="Premium Video is quoted by scope, location, and deliverables. Start with a strategy call."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

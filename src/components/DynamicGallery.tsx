@@ -154,7 +154,7 @@ export function DynamicGallery({ pageSlug, heading, description }: DynamicGaller
       {!loading && !hasData && (
         <div className="mt-12 text-center">
           <p className="text-text-body">No projects assigned to this gallery yet.</p>
-          <p className="mt-1 text-xs text-text-body/60">Use the admin toolbar to add projects.</p>
+          <p className="mt-1 text-xs text-text-muted">Use the admin toolbar to add projects.</p>
         </div>
       )}
 

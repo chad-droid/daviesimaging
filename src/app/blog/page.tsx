@@ -4,6 +4,7 @@ import Image from "next/image";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
 import { JsonLd } from "@/components/JsonLd";
+import { DarkSection } from "@/components/DarkSection";
 import { client } from "@/sanity/client";
 import { postsQuery } from "@/sanity/queries";
 import { urlFor } from "@/sanity/image";
@@ -92,18 +93,21 @@ export default async function BlogPage() {
   };
 
   return (
-    <section className="min-h-screen bg-bg-surface py-24">
+    <>
       <JsonLd data={blogSchema} />
-      <div className="mx-auto max-w-5xl px-6">
-        <RevealOnScroll>
-          <div className="mb-16 text-center">
-            <Eyebrow>Insights for Homebuilder Marketing Teams</Eyebrow>
-            <h1>Builder Photo Blog</h1>
-            <p className="mt-5 text-text-body">
+      <DarkSection className="py-28 text-text-light">
+        <div className="mx-auto max-w-5xl px-6">
+          <RevealOnScroll>
+            <Eyebrow dark>Insights for Homebuilder Marketing Teams</Eyebrow>
+            <h1 className="text-text-light">Builder Photo Blog</h1>
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-text-muted">
               Photography, virtual staging, and marketing strategy from Chad Davies and the team at DIG.
             </p>
-          </div>
-        </RevealOnScroll>
+          </RevealOnScroll>
+        </div>
+      </DarkSection>
+    <section className="min-h-screen bg-bg-surface py-20">
+      <div className="mx-auto max-w-5xl px-6">
 
         {posts.length === 0 ? (
           <p className="text-center text-text-body">
@@ -145,7 +149,7 @@ export default async function BlogPage() {
                         {post.excerpt}
                       </p>
                     )}
-                    <p className="mt-4 text-xs text-text-body/60">
+                    <p className="mt-4 text-xs text-text-muted">
                       {formatDate(post.publishedAt)}
                       {post.author ? ` · ${post.author}` : ""}
                     </p>
@@ -157,5 +161,6 @@ export default async function BlogPage() {
         )}
       </div>
     </section>
+    </>
   );
 }

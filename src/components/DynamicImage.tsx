@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { isAdminSession } from "@/lib/adminClient";
 
 interface DynamicImageProps {
   slotId: string;
@@ -11,6 +12,11 @@ interface DynamicImageProps {
   disableLightbox?: boolean;
   disableBeforeAfter?: boolean;
   objectFit?: "cover" | "contain";
+  /** Local image shown until an admin assigns one to the slot. */
+  defaultSrc?: string;
+  defaultAlt?: string;
+  /** Render nothing for visitors while the slot is empty. Admins still see it, so they can fill it. */
+  hideWhenEmpty?: boolean;
 }
 
 // Cache site assets to avoid refetching per component
@@ -41,6 +47,9 @@ export function DynamicImage({
   disableLightbox = false,
   disableBeforeAfter = false,
   objectFit = "cover",
+  defaultSrc,
+  defaultAlt = "",
+  hideWhenEmpty = false,
 }: DynamicImageProps) {
   const [asset, setAsset] = useState<{
     image_url: string;
@@ -63,6 +72,8 @@ export function DynamicImage({
   }, [slotId]);
 
   if (!loaded) {
+    // An optional slot stays out of the layout until we know it is filled.
+    if (hideWhenEmpty && !defaultSrc) return null;
     return (
       <div
         data-slot={slotId}
@@ -72,7 +83,22 @@ export function DynamicImage({
     );
   }
 
+  if (!asset?.image_url && defaultSrc) {
+    return (
+      <div data-slot={slotId} className={`relative overflow-hidden ${className}`} style={{ aspectRatio }}>
+        <Image
+          src={defaultSrc}
+          alt={defaultAlt}
+          fill
+          className={objectFit === "contain" ? "object-contain" : "object-cover"}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+      </div>
+    );
+  }
+
   if (!asset?.image_url) {
+    if (hideWhenEmpty && !isAdminSession()) return null;
     return (
       <div
         data-slot={slotId}

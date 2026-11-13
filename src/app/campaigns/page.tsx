@@ -10,9 +10,7 @@ export const metadata: Metadata = {
 };
 
 const campaigns = [
-  { title: "FrameFlow Sell Faster Challenge", href: "/campaigns/frameflow-sell-faster", description: "See how strategic visual sequencing increases engagement. Risk-free, one community." },
   { title: "Beazer x FrameFlow", href: "/campaigns/beazer-frameflow", description: "How Beazer Homes uses FrameFlow to scale marketing assets across markets." },
-  { title: "FrameFlow Demo", href: "/campaigns/frameflow-demo", description: "See the FrameFlow platform in action before you commit." },
 ];
 
 export default function CampaignsIndex() {

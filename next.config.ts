@@ -26,6 +26,20 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Matterport no longer has its own page. It is part of Premium (model
+      // homes) and Listing (inventory), so the old URL lands on Premium.
+      { source: "/services/matterport", destination: "/services/premium", permanent: true },
+      // "Who We Help" and its four role pages were removed (Nov 2026).
+      { source: "/markets/role",        destination: "/about", permanent: true },
+      { source: "/markets/role/:path*", destination: "/about", permanent: true },
+      // Removed November 2026 at Chad's direction.
+      { source: "/programs/regional-partnerships", destination: "/contact", permanent: true },
+      { source: "/markets/type", destination: "/markets/region", permanent: true },
+      { source: "/gallery", destination: "/gallery/models", permanent: true },
+      { source: "/campaigns/modelmatch-trial-info", destination: "/modelmatch-datalibrary", permanent: true },
+      { source: "/campaigns/frameflow-demo", destination: "/programs/frameflow", permanent: true },
+      { source: "/campaigns/frameflow-sell-faster", destination: "/programs/frameflow", permanent: true },
+      { source: "/welcome-back", destination: "/get-started", permanent: true },
       // ── builderphoto.com → the Builder Photo Blog ───────────────────────────
       // The blog is branded "Builder Photo Blog" and lives at /blog on the main
       // site. builderphoto.com is a vanity domain that funnels straight to it.
@@ -62,12 +76,12 @@ const nextConfig: NextConfig = {
       { source: "/frameflow",          destination: "/programs/frameflow",  permanent: true },
 
       // ── Campaigns ──────────────────────────────────────────────────────────
-      { source: "/frameflow-sell-faster-challenge-0210", destination: "/campaigns/frameflow-sell-faster", permanent: true },
+      { source: "/frameflow-sell-faster-challenge-0210", destination: "/programs/frameflow", permanent: true },
       { source: "/beazer-frameflow",                     destination: "/campaigns/beazer-frameflow",      permanent: true },
-      { source: "/frameflow-v2-0-demo",                  destination: "/campaigns/frameflow-demo",        permanent: true },
+      { source: "/frameflow-v2-0-demo",                  destination: "/programs/frameflow",        permanent: true },
 
       // ── Old "work" gallery paths → new "gallery" paths ─────────────────────
-      { source: "/work",                   destination: "/gallery",           permanent: true },
+      { source: "/work",                   destination: "/gallery/models",           permanent: true },
       { source: "/work/model-homes",       destination: "/gallery/models",    permanent: true },
       { source: "/work/model-homes/:path*",destination: "/gallery/models",    permanent: true },
       { source: "/work/spec-homes",        destination: "/gallery/listings",  permanent: true },
@@ -81,7 +95,7 @@ const nextConfig: NextConfig = {
       { source: "/offerings",                          destination: "/programs",                          permanent: true },
       { source: "/offerings/frameflow",                destination: "/programs/frameflow",                permanent: true },
       { source: "/offerings/spec-plus",                destination: "/programs/spec-plus",                permanent: true },
-      { source: "/offerings/regional-partnerships",    destination: "/programs/regional-partnerships",    permanent: true },
+      { source: "/offerings/regional-partnerships",    destination: "/contact",    permanent: true },
       { source: "/offerings/digdesk",                  destination: "/programs/digdesk",                  permanent: true },
       { source: "/offerings/frameflow-premium",        destination: "/programs/frameflow",                permanent: true },
 
@@ -92,9 +106,9 @@ const nextConfig: NextConfig = {
       { source: "/services/staging",       destination: "/services/virtual-staging", permanent: true },
 
       // ── Old markets paths ────────────────────────────────────────────────────
-      { source: "/markets/by-role",        destination: "/markets/role",   permanent: true },
+      { source: "/markets/by-role",        destination: "/about",          permanent: true },
       { source: "/markets/by-region",      destination: "/markets/region", permanent: true },
-      { source: "/markets/by-type",        destination: "/markets/type",   permanent: true },
+      { source: "/markets/by-type",        destination: "/markets/region",   permanent: true },
 
       // ── Blog posts — slugs preserved, no redirect needed for most.
       // Any that 404 in Sanity will return 404 on new site as well (correct behavior).

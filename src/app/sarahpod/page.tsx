@@ -131,7 +131,7 @@ export default function SarahPodcastPage() {
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href="/campaigns/modelmatch-trial-info"
+                href="/modelmatch-datalibrary"
                 className="rounded-full bg-accent px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 Get 8 free ModelMatch images
@@ -365,7 +365,7 @@ export default function SarahPodcastPage() {
                     images.
                   </p>
                   <Link
-                    href="/campaigns/modelmatch-trial-info"
+                    href="/modelmatch-datalibrary"
                     className="mt-6 block rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                   >
                     Claim my 8 free images
@@ -468,7 +468,7 @@ export default function SarahPodcastPage() {
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/campaigns/modelmatch-trial-info"
+                href="/modelmatch-datalibrary"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 Get 8 free ModelMatch images

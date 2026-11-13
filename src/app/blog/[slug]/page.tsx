@@ -204,7 +204,7 @@ export default async function BlogPostPage({
 
           <h1 className="mb-4">{post.title}</h1>
 
-          <p className="mb-10 text-sm text-text-body/60">
+          <p className="mb-10 text-sm text-text-muted">
             <time dateTime={post.publishedAt}>
               {formatDate(post.publishedAt)}
             </time>

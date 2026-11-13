@@ -8,11 +8,13 @@ import { EditableTextContent } from "@/components/EditableTextContent";
 import { DarkSection } from "@/components/DarkSection";
 import { JsonLd } from "@/components/JsonLd";
 import { buildServiceSchema, buildBreadcrumbSchema } from "@/lib/seo";
+import { TestimonialBand } from "@/components/TestimonialBand";
+import { ProductTags } from "@/components/ProductTags";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/services/virtual-staging" },
-  title: "Virtual Staging",
-  description: "ModelMatch virtual staging uses your builder's own model home photography as the design reference. Branded, on-spec results for every listing.",
+  title: "ModelMatch Virtual Staging",
+  description: "Your model home merchandising becomes furniture and accessory galleries you can reuse across your vacant inventory.",
 };
 
 const steps = [
@@ -40,8 +42,8 @@ const steps = [
 
 const differentiators = [
   {
-    title: "Reference-based, not random",
-    body: "We use your approved model home photography as the design source. The result reflects your community, not a stock furniture catalog.",
+    title: "Based on your own models",
+    body: "We use your approved model home photography as the design source, so the result reflects your community.",
   },
   {
     title: "Matches your design palette",
@@ -52,7 +54,7 @@ const differentiators = [
     body: "No new shoot required. Send existing listing photography and receive staged images ready for MLS, website, and paid media.",
   },
   {
-    title: "Fast turnaround, bulk-friendly",
+    title: "Order by itself or inside Spec+",
     body: "Order standalone through digDesk or bundle inside Spec+ for photography, staging, and video in one delivery.",
   },
 ];
@@ -62,7 +64,7 @@ export default function VirtualStagingPage() {
     <>
       <JsonLd
         data={buildServiceSchema({
-          name: "Virtual Staging",
+          name: "ModelMatch Virtual Staging",
           description:
             "Reference-based virtual staging using a builder's approved model home photography as the design reference, so staged rooms match the community's actual style.",
           path: "/services/virtual-staging",
@@ -72,19 +74,20 @@ export default function VirtualStagingPage() {
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Solutions", path: "/services" },
-          { name: "Virtual Staging", path: "/services/virtual-staging" },
+          { name: "ModelMatch", path: "/services/virtual-staging" },
         ])}
       />
       {/* Hero */}
-      <DarkSection className="min-h-[60vh] py-28 text-text-light">
+      <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
           <RevealOnScroll>
             <EditableHero
               slotId="services-virtual-staging-hero"
-              eyebrowDefault="Solutions / Virtual Staging"
-              headlineDefault="Staging that looks like your community. Because <strong>it is</strong>."
-              subheadDefault="DIG virtual staging uses your builder's own model home photography as the design reference. Every staged image is branded and on-spec, not a generic template."
+              eyebrowDefault="Solutions / ModelMatch"
+              headlineDefault="Extend the investment you've made in your <strong>model homes</strong>."
+              subheadDefault="Your model home merchandising becomes bespoke furniture and accessory galleries you can reuse across your vacant inventory."
             />
+            <ProductTags line="Match" stage="List" />
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <a
                 href="https://desk.daviesimaging.com"
@@ -114,11 +117,11 @@ export default function VirtualStagingPage() {
                 <EditableTextContent
                   slotId="services-virtual-staging-modelmatch"
                   eyebrowDefault="The ModelMatch Difference"
-                  headlineDefault="Not furniture swaps. <strong>Brand-matched staging</strong>."
-                  bodyDefault="Most virtual staging services drop generic furniture into empty rooms. DIG builds a permanent staging reference library from your actual model home photography. Every staged image reflects your builder's design identity."
+                  headlineDefault="Built from the furniture in your <strong>own models</strong>."
+                  bodyDefault="Instead of a generic furniture library, we build your staging from the furniture and decor in your own model homes, so a spec in the listing looks like it belongs in the same community as the model."
                 />
                 <p className="mt-4 text-text-body">
-                  The result: staged listings that feel like an extension of your community, not a furniture showroom. Buyers recognize the brand. That recognition builds trust.
+                  Our Match system of interior design is built off your existing model home identity. That means your virtual assets look and feel like the real thing before anything is staged.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
@@ -158,7 +161,7 @@ export default function VirtualStagingPage() {
               <EditableTextContent
                 slotId="services-virtual-staging-how-it-works"
                 eyebrowDefault="How It Works"
-                headlineDefault="Four steps to <strong>on-brand staging</strong>."
+                headlineDefault="How ModelMatch <strong>works</strong>."
                 bodyDefault="ModelMatch is built around your account. Once your reference library is set up, every future order uses it automatically."
                 dark={true}
               />
@@ -166,7 +169,7 @@ export default function VirtualStagingPage() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {steps.map((step) => (
                 <div key={step.number} className="relative rounded-xl border border-white/10 bg-white/5 p-6">
-                  <span className="font-mono text-3xl font-bold text-accent/60">{step.number}</span>
+                  <span className="font-mono text-3xl font-bold text-accent-dark-hover">{step.number}</span>
                   <h4 className="mt-4 text-base font-semibold text-text-light">{step.title}</h4>
                   <p className="mt-2 text-sm leading-relaxed text-text-muted">{step.body}</p>
                 </div>
@@ -184,7 +187,7 @@ export default function VirtualStagingPage() {
               <EditableTextContent
                 slotId="services-virtual-staging-progression"
                 eyebrowDefault="See the Progression"
-                headlineDefault="Reference. Vacant. <strong>Result</strong>."
+                headlineDefault="From your model home to your <strong>vacant listing</strong>."
                 bodyDefault="Each room below shows the three-stage ModelMatch process: source reference images, the vacant listing photo, and the finished staged output. Select a room to explore the difference."
               />
             </div>
@@ -203,7 +206,7 @@ export default function VirtualStagingPage() {
               <EditableTextContent
                 slotId="services-virtual-staging-why"
                 eyebrowDefault="Why Builders Choose ModelMatch"
-                headlineDefault="Every listing. <strong>Same brand</strong>."
+                headlineDefault="Why builders use <strong>ModelMatch</strong>."
                 bodyDefault=""
               />
             </div>
@@ -228,12 +231,12 @@ export default function VirtualStagingPage() {
                 slotId="services-virtual-staging-pricing"
                 eyebrowDefault="Pricing"
                 headlineDefault="Standalone or <strong>bundled in Spec+</strong>."
-                bodyDefault="Order virtual staging by itself through digDesk, or bundle it with listing photography and virtual video inside Spec+ for one flat price."
+                bodyDefault="Order ModelMatch by itself through digDesk, or bundle it with listing photography and a FrameFlow video inside Spec+ for one flat price."
               />
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2">
               <div className="rounded-xl border border-border-light p-6">
-                <h4 className="text-base font-semibold text-text-dark">Standalone Virtual Staging</h4>
+                <h4 className="text-base font-semibold text-text-dark">ModelMatch by itself</h4>
                 <p className="mt-2 text-sm text-text-body">Already have photos? Upload them through digDesk and receive ModelMatch-staged images ready to publish.</p>
                 <p className="mt-4 font-serif text-2xl font-semibold text-text-dark">
                   Starting at $25
@@ -268,22 +271,25 @@ export default function VirtualStagingPage() {
         </div>
       </section>
 
+      {/* Customer proof */}
+      <TestimonialBand ids={["kim-modelmatch", "carrie-staging"]} />
+
       {/* Final CTA */}
       <DarkSection className="py-24 text-text-light">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <RevealOnScroll>
             <EditableTextContent
               slotId="services-virtual-staging-cta"
-              headlineDefault="Ready to see ModelMatch <strong>on your listings</strong>?"
-              bodyDefault="Send us a community name and existing model home photography. We'll show you exactly what ModelMatch staging looks like for your builder before you order."
+              headlineDefault="Your first home is <strong>free</strong>."
+              bodyDefault="See ModelMatch on one of your own spec homes. The first eight staged images are on us."
               dark={true}
             />
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="/contact"
+                href="/modelmatch-datalibrary"
                 className="rounded-full bg-accent px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
               >
-                Request a sample
+                Start My Free Trial
               </Link>
               <Link
                 href="/programs/spec-plus"
