@@ -161,7 +161,7 @@ export function Footer() {
               action="https://daviesimaging.us17.list-manage.com/subscribe/post?u=de0da4eedef3becab5eb4e4ab&id=418d6a179b"
               method="post"
               target="_blank"
-              className="mt-7"
+              className="mt-10"
             >
               <label htmlFor="footer-email" className="text-sm text-text-body">
                 Subscribe for updates and insights
