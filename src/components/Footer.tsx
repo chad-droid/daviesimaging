@@ -164,7 +164,7 @@ export function Footer() {
               className="mt-7"
             >
               <label htmlFor="footer-email" className="text-xs font-medium uppercase tracking-[0.12em] text-text-muted">
-                Insights by email
+                Subscribe for updates and insights
               </label>
               <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
                 <input type="text" name="b_de0da4eedef3becab5eb4e4ab_418d6a179b" tabIndex={-1} autoComplete="off" defaultValue="" />
@@ -180,9 +180,12 @@ export function Footer() {
                 />
                 <button
                   type="submit"
-                  className="rounded-full bg-accent px-4 py-2 text-xs font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-accent-hover"
+                  aria-label="Subscribe"
+                  className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-full bg-accent text-white transition-colors hover:bg-accent-hover"
                 >
-                  Subscribe
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.25} stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                  </svg>
                 </button>
               </div>
             </form>
