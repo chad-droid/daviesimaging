@@ -48,7 +48,7 @@ const openRoles = [
 
 export default function CareersPage() {
   return (
-    <>
+    <div className="theme-dark">
       {/* Hero */}
       <DarkSection className="py-28 text-text-light">
         <div className="mx-auto max-w-4xl px-6">
@@ -150,6 +150,6 @@ export default function CareersPage() {
           </RevealOnScroll>
         </div>
       </DarkSection>
-    </>
+    </div>
   );
 }

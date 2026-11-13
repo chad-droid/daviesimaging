@@ -32,6 +32,14 @@ const regionColors: Record<string, { base: string; active: string }> = {
   east:     { base: "#c2c5d4", active: "#9da0b6" }, // darkest — clearly distinct
 };
 
+// Same four steps for a dark page: states sit just above the #121212 background.
+const regionColorsDark: Record<string, { base: string; active: string }> = {
+  west:     { base: "#26262e", active: "#4a4670" },
+  mountain: { base: "#2e2e38", active: "#544f80" },
+  central:  { base: "#363642", active: "#5e5890" },
+  east:     { base: "#3f3f4d", active: "#6962a0" },
+};
+
 interface RegionInfo {
   label: string;
   subtitle: string;
@@ -91,7 +99,8 @@ const marketPins: MarketPin[] = [
   { coords: [-82.99, 39.96],  city: "Columbus",     region: "east",     blurb: "Central Ohio: Columbus metro new home builders.",                        labelAnchor: "start",  labelY: -10 },
 ];
 
-export function RegionMap() {
+export function RegionMap({ dark = false }: { dark?: boolean } = {}) {
+  const palette = dark ? regionColorsDark : regionColors;
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
   const visiblePins = activeRegion
     ? marketPins.filter((p) => p.region === activeRegion)
@@ -120,17 +129,17 @@ export function RegionMap() {
                 const fips = geo.id as string;
                 const region = stateRegion[fips];
                 if (!region) return null;
-                const colors = regionColors[region];
+                const colors = palette[region];
                 return (
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
                     fill={
                       activeRegion === region ? colors.active
-                      : activeRegion !== null   ? "#efefef"
+                      : activeRegion !== null   ? (dark ? "#1e1e22" : "#efefef")
                       : colors.base
                     }
-                    stroke="#ffffff"
+                    stroke={dark ? "#121212" : "#ffffff"}
                     strokeWidth={0.75}
                     style={{
                       default: { outline: "none", cursor: "pointer" },
@@ -154,12 +163,12 @@ export function RegionMap() {
                 <g style={{ pointerEvents: "none" }}>
                   {pin.isOffice ? (
                     <>
-                      <circle r={7} fill="#6A5ACD" opacity={0.15} />
-                      <circle r={4} fill="#6A5ACD" stroke="#ffffff" strokeWidth={1.5} />
+                      <circle r={7} fill={dark ? "#857AE0" : "#6A5ACD"} opacity={dark ? 0.3 : 0.15} />
+                      <circle r={4} fill={dark ? "#857AE0" : "#6A5ACD"} stroke={dark ? "#121212" : "#ffffff"} strokeWidth={1.5} />
                       <circle r={1.5} fill="#ffffff" />
                     </>
                   ) : (
-                    <circle r={3.5} fill="#6A5ACD" stroke="#ffffff" strokeWidth={1.5} />
+                    <circle r={3.5} fill={dark ? "#857AE0" : "#6A5ACD"} stroke={dark ? "#121212" : "#ffffff"} strokeWidth={1.5} />
                   )}
                   <text
                     className="map-city-label"
@@ -168,7 +177,7 @@ export function RegionMap() {
                     y={pin.labelY ?? -10}
                     fontSize={8.5}
                     fontWeight={pin.isOffice ? 600 : 400}
-                    fill="#555"
+                    fill={dark ? "#C8C8C8" : "#555"}
                   >
                     {pin.city}
                   </text>
@@ -200,7 +209,7 @@ export function RegionMap() {
             onMouseLeave={() => setActiveRegion(null)}
             className={`rounded-lg border p-4 text-center transition-all ${
               activeRegion === region.id
-                ? "border-accent bg-bg-dark text-text-light"
+                ? dark ? "border-accent bg-accent/20 text-text-light" : "border-accent bg-bg-dark text-text-light"
                 : "border-border-light hover:border-accent/40 hover:bg-accent/5"
             }`}
           >

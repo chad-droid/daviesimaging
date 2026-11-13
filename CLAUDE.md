@@ -211,8 +211,8 @@ Put `theme-light` on one element inside to flip it back, for a featured card.
 Chad's rule (12 Nov 2026): short pages are fully dark, so a dark/light/dark
 sandwich never shows on one screen. Long pages keep light body sections so
 readers have white space to take in more. Fully dark now: Contact, Get Started,
-FAQ, Markets index, Builder Types, Programs index, Gallery index, and the two
-careers application forms. Rough cutoff used: under about 2.5 screens tall.
+FAQ, Markets index, Builder Types, Our Markets (`<RegionMap dark />`), Careers,
+Programs index, Gallery index, and the two careers application forms. Rough cutoff used: under about 2.5 screens tall.
 Light backgrounds are `--bg-surface` #FFFFFF (pure white) and `--bg-light`
 #F8F6F3 (warm off-white, alternating sections and the footer).
 
