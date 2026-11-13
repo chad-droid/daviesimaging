@@ -20,7 +20,7 @@ const pillars = [
   },
   {
     title: "Photographers already in your market",
-    body: "We have national partnerships with some of the industry's most recognized brands, meaning our photographers are already operating in your market.",
+    body: "We have national partnerships with some of the industry's most recognized brands, meaning our photographers are already operational in your market.",
   },
   {
     title: "You save days of listing time",
