@@ -2,6 +2,7 @@ import { BuilderLogoStrip } from "@/components/BuilderLogoStrip";
 import { ShowcaseChapterNav } from "@/components/ShowcaseChapterNav";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { HomeHero } from "./HomeHero";
+import { GoogleReviews } from "@/components/GoogleReviews";
 import { Highlights } from "./Highlights";
 import { SpecPlusPinned } from "./SpecPlusPinned";
 import {
@@ -66,6 +67,7 @@ export function HomePage() {
       <ServiceLinesChapter />
       <DigDeskChapter />
       <ProofChapter />
+      <GoogleReviews />
       <CompareChapter />
       <FinalCta />
     </>

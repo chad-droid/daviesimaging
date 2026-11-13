@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { ImageBand } from "@/components/ImageBand";
 import { SpecFaq } from "@/components/SpecFaq";
 import { MarketDirectory } from "@/components/MarketDirectory";
+import { GoogleReviews } from "@/components/GoogleReviews";
 import { JsonLd } from "@/components/JsonLd";
 import { HomeHero } from "@/components/home/HomeHero";
 import { SpecPlusPinned } from "@/components/home/SpecPlusPinned";
@@ -171,6 +172,7 @@ export function MarketPage({ market: m }: { market: Market }) {
 
       <DigDeskChapter />
       <ProofChapter />
+      <GoogleReviews />
 
       {/* Local questions */}
       <section className="bg-bg-light py-24">
