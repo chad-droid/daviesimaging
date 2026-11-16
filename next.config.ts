@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withBotId } from "botid/next/config";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
@@ -118,4 +119,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// withBotId adds the rewrites the invisible captcha needs (see /api/subscribe).
+export default withBotId(nextConfig);

@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import posthog from "posthog-js";
+import { useSubscribe } from "@/lib/useSubscribe";
 
 export function EmailCaptureModal() {
   const [open, setOpen] = useState(false);
+  const subscribe = useSubscribe("modal");
 
   useEffect(() => {
     const dismissed = sessionStorage.getItem("dig-modal-dismissed");
@@ -46,40 +47,47 @@ export function EmailCaptureModal() {
           Strategy, trends, and case studies delivered to your inbox.
         </p>
 
-        <form
-          action="https://daviesimaging.us17.list-manage.com/subscribe/post?u=de0da4eedef3becab5eb4e4ab&id=418d6a179b"
-          method="post"
-          target="_blank"
-          onSubmit={() => posthog.capture("newsletter_subscription_started")}
-          className="mt-6 space-y-3"
-        >
-          <input
-            type="text"
-            name="FNAME"
-            placeholder="First name"
-            className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
-          />
-          <input
-            type="email"
-            name="EMAIL"
-            placeholder="Email address"
-            required
-            className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
-          />
-          <button
-            type="submit"
-            className="cta-button w-full rounded-full bg-accent px-6 py-3 text-text-light transition-colors hover:bg-accent-hover"
-          >
-            Subscribe
-          </button>
-        </form>
+        {subscribe.status === "done" ? (
+          <p className="mt-6 text-sm text-text-body" role="status">
+            You are subscribed. Thanks for signing up.
+          </p>
+        ) : (
+          <form onSubmit={subscribe.submit} onFocus={subscribe.touch} className="mt-6 space-y-3">
+            <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
+              <input type="text" name="hp_field" tabIndex={-1} autoComplete="off" defaultValue="" />
+            </div>
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First name"
+              className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email address"
+              required
+              className="w-full rounded-lg border border-border-light px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+            />
+            <button
+              type="submit"
+              disabled={subscribe.status === "sending"}
+              className="cta-button w-full rounded-full bg-accent px-6 py-3 text-text-light transition-colors hover:bg-accent-hover disabled:opacity-60"
+            >
+              {subscribe.status === "sending" ? "Subscribing..." : "Subscribe"}
+            </button>
+            {subscribe.status === "error" && (
+              <p className="text-sm text-text-body" role="alert">{subscribe.error}</p>
+            )}
+          </form>
+        )}
 
         <button
           type="button"
           onClick={dismiss}
           className="mt-4 block w-full text-center text-xs text-accent-secondary transition-colors hover:text-accent"
         >
-          No thanks
+          {subscribe.status === "done" ? "Close" : "No thanks"}
         </button>
       </div>
     </div>

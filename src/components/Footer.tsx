@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
+import { useSubscribe } from "@/lib/useSubscribe";
 
 // Footer ground: a neutral charcoal one step lighter than the page (#121212),
 // so it reads as its own band on dark pages without a hard edge.
@@ -121,6 +122,7 @@ function FooterAccordion({
 }
 
 export function Footer() {
+  const subscribe = useSubscribe("footer");
   return (
     <footer className="theme-dark border-t border-border-light" style={{ background: FOOTER_BG }}>
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-12">
@@ -156,40 +158,46 @@ export function Footer() {
               </a>
             </div>
 
-            {/* Newsletter signup. The off-screen field is Mailchimp's own bot trap:
-                people never see it, and Mailchimp drops any signup that fills it. */}
-            <form
-              action="https://daviesimaging.us17.list-manage.com/subscribe/post?u=de0da4eedef3becab5eb4e4ab&id=418d6a179b"
-              method="post"
-              target="_blank"
-              className="mt-10"
-            >
-              <label htmlFor="footer-email" className="text-sm text-text-body">
-                Subscribe for updates and insights
-              </label>
-              <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
-                <input type="text" name="b_de0da4eedef3becab5eb4e4ab_418d6a179b" tabIndex={-1} autoComplete="off" defaultValue="" />
-              </div>
-              <div className="mt-2 flex gap-2">
-                <input
-                  id="footer-email"
-                  type="email"
-                  name="EMAIL"
-                  placeholder="Email address"
-                  required
-                  className="min-w-0 flex-1 rounded-full border border-border-light bg-transparent px-4 py-2 text-sm text-text-dark outline-none transition-colors placeholder:text-text-muted focus:border-accent"
-                />
-                <button
-                  type="submit"
-                  aria-label="Subscribe"
-                  className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-full bg-accent text-white transition-colors hover:bg-accent-hover"
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.25} stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                  </svg>
-                </button>
-              </div>
-            </form>
+            {/* Newsletter signup. Posts to /api/subscribe, which is behind the
+                invisible captcha. The off-screen field is a bot trap: people
+                never see it, and the server drops any signup that fills it. */}
+            {subscribe.status === "done" ? (
+              <p className="mt-10 text-sm text-text-body" role="status">
+                You are subscribed. Thanks for signing up.
+              </p>
+            ) : (
+              <form onSubmit={subscribe.submit} onFocus={subscribe.touch} className="mt-10">
+                <label htmlFor="footer-email" className="text-sm text-text-body">
+                  Subscribe for updates and insights
+                </label>
+                <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
+                  <input type="text" name="hp_field" tabIndex={-1} autoComplete="off" defaultValue="" />
+                </div>
+                <div className="mt-2 flex gap-2">
+                  <input
+                    id="footer-email"
+                    type="email"
+                    name="email"
+                    placeholder="Email address"
+                    required
+                    className="min-w-0 flex-1 rounded-full border border-border-light bg-transparent px-4 py-2 text-sm text-text-dark outline-none transition-colors placeholder:text-text-muted focus:border-accent"
+                  />
+                  <button
+                    type="submit"
+                    aria-label="Subscribe"
+                    disabled={subscribe.status === "sending"}
+                    className="flex h-[38px] w-[38px] flex-shrink-0 items-center justify-center rounded-full bg-accent text-white transition-colors hover:bg-accent-hover disabled:opacity-60"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.25} stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                    </svg>
+                  </button>
+                </div>
+                {subscribe.status === "error" && (
+                  <p className="mt-2 text-sm text-text-body" role="alert">{subscribe.error}</p>
+                )}
+              </form>
+            )}
           </div>
 
           {/* Link columns — 4 equal columns */}
