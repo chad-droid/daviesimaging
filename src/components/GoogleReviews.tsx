@@ -1,6 +1,7 @@
 import { DarkSection } from "@/components/DarkSection";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { Eyebrow } from "@/components/Eyebrow";
+import { SwipeRow } from "@/components/home/swipe";
 import { googleReviews, GOOGLE_PROFILE_URL, GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from "@/lib/reviews";
 
 function Stars({ className = "" }: { className?: string }) {
@@ -22,7 +23,7 @@ function Stars({ className = "" }: { className?: string }) {
  */
 export function GoogleReviews() {
   return (
-    <DarkSection className="py-24 text-text-light lg:py-28">
+    <DarkSection className="py-16 text-text-light lg:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <RevealOnScroll>
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -47,15 +48,16 @@ export function GoogleReviews() {
           </div>
         </RevealOnScroll>
         <RevealOnScroll stagger={100}>
-          <div className="mt-12 grid gap-5 md:grid-cols-2">
+          {/* Below md the reviews swipe sideways; from md up they sit in two columns. */}
+          <SwipeRow className="-mx-6 mt-10 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-12 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
             {googleReviews.map((r) => (
-              <blockquote key={r.name} className="flex flex-col rounded-xl border border-white/10 bg-white/5 p-7">
+              <blockquote key={r.name} className="flex w-[84%] shrink-0 snap-start flex-col rounded-xl border border-white/10 bg-white/5 p-7 md:w-auto">
                 <Stars />
                 <p className="mt-4 flex-1 leading-relaxed text-white/85">{r.text}</p>
                 <footer className="mt-6 text-sm font-semibold text-text-light">{r.name}</footer>
               </blockquote>
             ))}
-          </div>
+          </SwipeRow>
         </RevealOnScroll>
       </div>
     </DarkSection>

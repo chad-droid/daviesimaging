@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { LoopVideo } from "./LoopVideo";
+import { useSwipeHint } from "./swipe";
 
 type Card = {
   label: string;
@@ -65,6 +66,7 @@ const CARDS: Card[] = [
 /** "Get the highlights": one tall card per product, swiped or paddled. */
 export function Highlights() {
   const track = useRef<HTMLDivElement>(null);
+  useSwipeHint(track);
   const nudge = (dir: 1 | -1) => {
     const el = track.current;
     if (!el) return;
@@ -75,7 +77,7 @@ export function Highlights() {
     "flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white/80 transition-colors hover:border-white hover:text-white";
 
   return (
-    <section id="highlights" className="scroll-mt-28 bg-bg-dark py-24 text-text-light lg:py-36">
+    <section id="highlights" className="scroll-mt-28 bg-bg-dark py-16 text-text-light lg:py-36">
       <div className="mx-auto flex max-w-7xl items-end justify-between gap-6 px-6">
         <h2 className="max-w-[40rem] text-text-light lg:text-[3rem] lg:leading-[1.08]">
           A visual asset platform for <strong>home builders</strong>.
@@ -96,7 +98,7 @@ export function Highlights() {
 
       <div
         ref={track}
-        className="mt-14 flex snap-x lg:mt-20 snap-mandatory gap-5 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]"
+        className="mt-10 flex snap-x lg:mt-20 snap-mandatory gap-5 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]"
       >
         {CARDS.map((c) => (
           <Link
@@ -120,14 +122,17 @@ export function Highlights() {
               />
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/30" />
-            <div className="absolute inset-x-0 top-0 p-6">
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-white/80">{c.label}</p>
+            <div className="absolute inset-x-0 top-0 p-5 lg:p-6">
+              <p className="inline-block rounded-full bg-black/55 px-3.5 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.15em] text-white backdrop-blur">
+                {c.label}
+              </p>
             </div>
             <div className="absolute inset-x-0 bottom-0 p-6">
-              <p className="font-serif text-[1.6rem] leading-tight text-white lg:text-[1.85rem]" style={{ fontFamily: "var(--font-heading)" }}>
+              {/* The sentence is for wide screens. On a phone the card is the name and the picture. */}
+              <p className="hidden font-serif text-[1.85rem] leading-tight text-white lg:block" style={{ fontFamily: "var(--font-heading)" }}>
                 {c.line}
               </p>
-              <p className="mt-4 text-sm font-medium text-white/70 transition-colors group-hover:text-white">
+              <p className="text-sm font-medium text-white/80 transition-colors group-hover:text-white lg:mt-4 lg:text-white/70">
                 Learn more &rarr;
               </p>
             </div>

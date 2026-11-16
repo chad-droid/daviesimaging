@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -12,6 +12,7 @@ import {
 } from "framer-motion";
 import { ShowcaseFilm } from "@/components/ShowcaseFilm";
 import { LoopVideo } from "./LoopVideo";
+import { useSwipeHint } from "./swipe";
 
 /* ── Film that grows from a framed card to full bleed as it arrives. ─────── */
 export function GrowingFilm({ src, poster, label }: { src: string; poster: string; label: string }) {
@@ -91,6 +92,8 @@ export function ScrollWipe({ before, after }: { before: string; after: string })
 /* ── Photography strip that glides sideways as the page scrolls down. ────── */
 export function GlideStrip({ items }: { items: { src: string; label: string; wide: boolean }[] }) {
   const ref = useRef<HTMLDivElement>(null);
+  const row = useRef<HTMLDivElement>(null);
+  useSwipeHint(row);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const x = useTransform(scrollYProgress, [0, 1], ["6%", "-42%"]);
 
@@ -113,7 +116,7 @@ export function GlideStrip({ items }: { items: { src: string; label: string; wid
         </motion.div>
       </div>
       {/* below lg: an ordinary swipe row */}
-      <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+      <div ref={row} className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
         {items.map((p) => figure(p, `h-[22rem] snap-start ${p.wide ? "w-[88%] sm:w-[62%]" : "w-[70%] sm:w-[40%]"}`))}
       </div>
     </div>
@@ -127,13 +130,18 @@ export function ScrubFilm({
   scrubSrc,
   loopSrc,
   poster,
+  seqDir,
+  seqCount = 0,
   children,
 }: {
   /** Short-keyframe encode (a keyframe every 4 frames), so any frame can be reached quickly. */
   scrubSrc: string;
-  /** Ordinary encode, autoplayed below lg where pinning is skipped. */
+  /** Ordinary encode, autoplayed wherever the film is not driven by the scroll. */
   loopSrc: string;
   poster: string;
+  /** Folder of numbered stills (f001.jpg ...) cut from the film, for phones. */
+  seqDir?: string;
+  seqCount?: number;
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -147,6 +155,18 @@ export function ScrubFilm({
     const ua = navigator.userAgent;
     if (/safari/i.test(ua) && !/chrome|chromium|crios|fxios|edg|android/i.test(ua)) setCanScrub(false);
   }, []);
+  // Phones get the scroll-driven film too, drawn from stills (see SeqScrub).
+  const [seq, setSeq] = useState(false);
+  useEffect(() => {
+    if (!seqDir || !seqCount) return;
+    const mq = window.matchMedia(
+      "(max-width: 1023px) and (min-height: 560px) and (orientation: portrait) and (prefers-reduced-motion: no-preference)",
+    );
+    const sync = () => setSeq(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, [seqDir, seqCount]);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   // A light spring so a flick of the wheel eases the film instead of jumping it.
   const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
@@ -208,14 +228,107 @@ export function ScrubFilm({
         </div>
       </div>
 
-      {/* Below lg: the same film, simply playing */}
-      <div className={`mx-auto max-w-4xl bg-bg-dark px-6 py-24 text-text-light ${canScrub ? "[@media(min-height:640px)]:lg:hidden" : "lg:max-w-6xl"}`}>
+      {/* Phones: pinned and scrubbed from stills */}
+      {seq && seqDir && (
+        <SeqScrub dir={seqDir} count={seqCount}>
+          {children}
+        </SeqScrub>
+      )}
+
+      {/* Everywhere else: the same film, simply playing */}
+      <div className={`mx-auto max-w-4xl bg-bg-dark px-6 py-24 text-text-light ${seq ? "hidden" : ""} ${canScrub ? "[@media(min-height:640px)]:lg:hidden" : "lg:max-w-6xl"}`}>
         {children}
         <div className="mt-10 overflow-hidden rounded-2xl bg-black">
           <LoopVideo src={loopSrc} poster={poster} className="aspect-video w-full object-cover" />
         </div>
       </div>
     </>
+  );
+}
+
+/* ── The scrubbed film for phones. Seeking a video is slow and blocky on
+      iPhone browsers, so the film is drawn from numbered stills instead: the
+      scroll picks the still and a canvas paints it. Stills load only once the
+      section is near the screen. ─────────────────────────────────────────── */
+function SeqScrub({ dir, count, children }: { dir: string; count: number; children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const frames = useRef<HTMLImageElement[]>([]);
+  const want = useRef(0);
+  const [stage, setStage] = useState(0);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const bar = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const still = (i: number) => `${dir}/f${String(i + 1).padStart(3, "0")}.jpg`;
+
+  // Paint the still the scroll is asking for, or the nearest earlier one that has arrived.
+  const draw = useCallback(() => {
+    const c = canvas.current;
+    const ctx = c?.getContext("2d");
+    if (!c || !ctx) return;
+    for (let i = Math.round(want.current * (count - 1)); i >= 0; i--) {
+      const im = frames.current[i];
+      if (im && im.complete && im.naturalWidth) {
+        ctx.drawImage(im, 0, 0, c.width, c.height);
+        return;
+      }
+    }
+  }, [count]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        frames.current = Array.from({ length: count }, (_, i) => {
+          const im = new Image();
+          im.decoding = "async";
+          im.onload = draw;
+          im.src = `${dir}/f${String(i + 1).padStart(3, "0")}.jpg`;
+          return im;
+        });
+      },
+      { rootMargin: "150% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [dir, count, draw]);
+
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    want.current = p;
+    draw();
+    const next = p < 0.3 ? 0 : p < 0.62 ? 1 : 2;
+    setStage((cur) => (cur === next ? cur : next));
+  });
+
+  return (
+    <div ref={ref} className="relative h-[220svh] lg:hidden">
+      <div className="sticky top-[7.5rem] flex h-[calc(100svh-7.5rem)] flex-col justify-center gap-7 overflow-hidden bg-bg-dark px-6 py-8">
+        <div>{children}</div>
+        <canvas
+          ref={canvas}
+          width={640}
+          height={360}
+          aria-hidden
+          className="block aspect-video w-full rounded-2xl bg-black bg-cover"
+          style={{ backgroundImage: `url(${still(0)})` }}
+        />
+        <div>
+          <ol className="flex gap-5 text-[0.7rem] font-bold uppercase tracking-[0.15em]">
+            {SCRUB_STAGES.map((s, i) => (
+              <li key={s} className={`transition-colors duration-300 ${i === stage ? "text-white" : "text-white/40"}`}>
+                {s}
+              </li>
+            ))}
+          </ol>
+          <div className="mt-3 h-px w-full bg-white/20">
+            <motion.div className="h-px bg-white" style={{ width: bar }} />
+          </div>
+          <p className="mt-3 text-xs text-white/60">Scroll to build the home</p>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -305,7 +305,7 @@ function SlideShell({
       }`}
     >
       {dark && <DarkSectionBg glowIntensity={14} />}
-      <div className="relative z-[1] mx-auto flex min-h-[calc(100vh-12rem)] max-w-6xl flex-col justify-center">
+      <div className="relative z-[1] mx-auto flex min-h-[calc(100dvh-12rem)] max-w-6xl flex-col justify-center">
         {children}
       </div>
     </div>
@@ -366,7 +366,7 @@ function FullBleedShow({
   objectPosition?: string;
 }) {
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-bg-dark text-text-light">
+    <div className="relative h-dvh w-screen overflow-hidden bg-bg-dark text-text-light">
       {/* Media layer */}
       {youtubeId ? (
         <iframe

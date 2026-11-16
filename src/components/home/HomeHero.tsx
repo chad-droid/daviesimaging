@@ -35,12 +35,20 @@ export function HomeHero({
   const copyOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
 
   return (
-    <section ref={ref} className="relative -mt-16 flex min-h-screen items-end overflow-hidden bg-bg-dark text-text-light">
+    <section ref={ref} className="relative -mt-16 flex min-h-svh items-end overflow-hidden bg-bg-dark text-text-light">
       <motion.div className="absolute inset-0" style={{ y: filmY, scale: filmScale }}>
         <LoopVideo
           src="/client-showcase/cineflow-wildrose.mp4"
           poster="/client-showcase/cineflow-wildrose-poster.webp"
-          className="h-full w-full object-cover"
+          className="hidden h-full w-full object-cover lg:block"
+        />
+        {/* Below lg the frame is upright, and the two wide exterior shots that
+            open the film crop down to roofline. Phones start on the interiors. */}
+        <LoopVideo
+          src="/client-showcase/cineflow-wildrose.mp4"
+          poster="/client-showcase/cineflow-wildrose-poster-mobile.jpg"
+          startAt={3.7}
+          className="h-full w-full object-cover lg:hidden"
         />
       </motion.div>
       {/* Darken the lower left, where the copy sits, and leave the film clear above. */}
