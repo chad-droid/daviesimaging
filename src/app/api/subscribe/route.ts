@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkBotId } from "botid/server";
+import { mailchimpApiBase } from "@/lib/mailchimp";
 
 // Newsletter signup. Public on purpose (the footer and the email modal post
 // here), so it defends itself instead of using requireAdmin.
@@ -45,7 +46,8 @@ export async function POST(req: NextRequest) {
   const mcKey = process.env.MAILCHIMP_API_KEY;
   const mcList = process.env.MAILCHIMP_LIST_ID;
   const mcServer = process.env.MAILCHIMP_SERVER;
-  if (!mcKey || !mcList || !mcServer) {
+  const mcBase = mcKey ? mailchimpApiBase(mcKey, mcServer) : null;
+  if (!mcKey || !mcList || !mcBase) {
     console.error("[subscribe] Mailchimp env vars missing");
     return NextResponse.json({ error: "Signup unavailable" }, { status: 503 });
   }
@@ -55,12 +57,12 @@ export async function POST(req: NextRequest) {
 
   try {
     const res = await fetch(
-      `https://${mcServer}.api.mailchimp.com/3.0/lists/${mcList}/members`,
+      `${mcBase}/lists/${mcList.trim()}/members`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Basic ${Buffer.from(`anystring:${mcKey}`).toString("base64")}`,
+          Authorization: `Basic ${Buffer.from(`anystring:${mcKey.trim()}`).toString("base64")}`,
         },
         body: JSON.stringify({
           email_address: email.trim(),

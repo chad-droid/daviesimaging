@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { mailchimpApiBase } from "@/lib/mailchimp";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -105,15 +106,16 @@ export async function POST(req: NextRequest) {
   // Job applicants post through this route too. They are not builder leads,
   // so they are never added to the marketing audience.
   const isCareerApplication = typeof intent === "string" && intent.startsWith("Career Application");
-  if (mcKey && mcList && mcServer && !isCareerApplication) {
+  const mcBase = mcKey ? mailchimpApiBase(mcKey, mcServer) : null;
+  if (mcKey && mcList && mcBase && !isCareerApplication) {
     try {
       const res = await fetch(
-        `https://${mcServer}.api.mailchimp.com/3.0/lists/${mcList}/members`,
+        `${mcBase}/lists/${mcList.trim()}/members`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Basic ${Buffer.from(`anystring:${mcKey}`).toString("base64")}`,
+            Authorization: `Basic ${Buffer.from(`anystring:${mcKey.trim()}`).toString("base64")}`,
           },
           body: JSON.stringify({
             email_address: email,
