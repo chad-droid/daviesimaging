@@ -35,7 +35,7 @@ export function HomeHero({
   const copyOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
 
   return (
-    <section ref={ref} className="relative -mt-16 flex min-h-screen items-end overflow-hidden bg-bg-dark text-text-light">
+    <section ref={ref} className="relative -mt-16 flex min-h-svh items-end overflow-hidden bg-bg-dark text-text-light">
       <motion.div className="absolute inset-0" style={{ y: filmY, scale: filmScale }}>
         <LoopVideo
           src="/client-showcase/cineflow-wildrose.mp4"
