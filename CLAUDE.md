@@ -444,6 +444,7 @@ Two separate systems for admin editing:
 - Server: call `requireAdmin(req)` from `src/lib/adminAuth.ts` at the top of the handler (`const denied = requireAdmin(req); if (denied) return denied;`). It checks the `x-admin-key` header against `ADMIN_PASSWORD` and fails closed (503) when the env var is unset.
 - Client: call admin routes with `adminFetch` from `src/lib/adminClient.ts`, which adds the header from the tab's sessionStorage. For `@vercel/blob` client uploads, pass `clientPayload: getAdminKey()`.
 - Public on purpose: the GET handlers the live site reads (`site-content`, `site-assets`, `gallery`, `gallery/batch`, `gallery/curate`, `media/metadata`, `event-gallery`) and `POST /api/contact`.
+- `POST /api/subscribe` (newsletter signup, 16 Nov 2026) is also public, and is guarded by the invisible captcha instead: Vercel BotID (`checkBotId()` in the route, the route listed in `initBotId` in `src/instrumentation-client.ts`, `withBotId` in `next.config.ts`), plus a honeypot and a timing check. The footer form and `EmailCaptureModal` post to it through `src/lib/useSubscribe.ts`. They no longer post to Mailchimp's `list-manage.com` URL; do not put that URL back in a form. A route that calls `checkBotId()` must be listed in `initBotId` or real visitors get blocked.
 - Any new route under `src/app/api` that is not one of those public reads must use `requireAdmin`.
 
 **Slot ID naming convention:**
