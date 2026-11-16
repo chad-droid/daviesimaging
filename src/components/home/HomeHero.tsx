@@ -42,12 +42,12 @@ export function HomeHero({
           poster="/client-showcase/cineflow-wildrose-poster.webp"
           className="hidden h-full w-full object-cover lg:block"
         />
-        {/* Below lg the frame is upright, and the two wide exterior shots that
-            open the film crop down to roofline. Phones start on the interiors. */}
+        {/* Below lg the frame is upright, so phones get a film that was cut
+            upright: the Westway model social edit. The wide film above would
+            crop down to roofline there. */}
         <LoopVideo
-          src="/client-showcase/cineflow-wildrose.mp4"
-          poster="/client-showcase/cineflow-wildrose-poster-mobile.jpg"
-          startAt={3.7}
+          src="/client-showcase/westway-model-social.mp4"
+          poster="/client-showcase/westway-model-social-poster.jpg"
           className="h-full w-full object-cover lg:hidden"
         />
       </motion.div>
