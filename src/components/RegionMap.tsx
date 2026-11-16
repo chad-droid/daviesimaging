@@ -19,7 +19,9 @@ const stateRegion: Record<string, string> = {
   "38": "central", "46": "central", "31": "central", "20": "central",
   "27": "central", "19": "central", "29": "central", "55": "central",
   "17": "central", "40": "central", "48": "central", "05": "central",
-  "22": "central", "28": "central", "01": "central", "47": "central",
+  "22": "central",
+  // Tennessee, Mississippi and Alabama sit in the East region (Chad, 16 Nov 2026).
+  "28": "east", "01": "east", "47": "east",
   "26": "east", "18": "east", "39": "east", "21": "east", "54": "east",
   "51": "east", "37": "east", "45": "east", "13": "east", "12": "east",
   "42": "east", "36": "east", "34": "east", "09": "east", "44": "east",
@@ -52,8 +54,8 @@ interface RegionInfo {
 const regionInfo: Record<string, RegionInfo> = {
   west:     { label: "West",     subtitle: "CA, OR, WA, NV",         markets: 9,  href: "/gallery/models?region=West" },
   mountain: { label: "Mountain", subtitle: "ID, UT, CO, AZ",         markets: 4,  href: "/gallery/models?region=Mountain" },
-  central:  { label: "Central",  subtitle: "TX, TN",                 markets: 5,  href: "/gallery/models?region=Central" },
-  east:     { label: "East",     subtitle: "FL, GA, SC, NC, OH, PA", markets: 11,  href: "/gallery/models?region=East" },
+  central:  { label: "Central",  subtitle: "TX",                     markets: 4,  href: "/gallery/models?region=Central" },
+  east:     { label: "East",     subtitle: "FL, GA, SC, NC, TN, OH, PA", markets: 12,  href: "/gallery/models?region=East" },
 };
 
 const regionList = Object.entries(regionInfo).map(([id, v]) => ({ id, ...v }));

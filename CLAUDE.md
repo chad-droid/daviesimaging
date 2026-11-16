@@ -127,7 +127,8 @@ These are resolved decisions. Do not re-litigate them without explicit instructi
 > a menu. Matterport has no page of its own: it is part of Premium and Listing,
 > and `/services/matterport` redirects to `/services/premium`. Not public yet,
 > so keep off the site: digDAM, the BuildPro partnership. Market count is 29
-> (Chad, 13 Nov 2026: added Nashville, TN (Toll Brothers, Franklin), Lehigh
+> (Chad, 13 Nov 2026: added Nashville, TN (Toll Brothers, Franklin; East region, along with all of
+> Tennessee, Mississippi and Alabama on the map), Lehigh
 > Valley, PA (Tuskes Homes) and Gettysburg, PA (S&A Homes, Biglerville). It was
 > 26 the day before).
 
