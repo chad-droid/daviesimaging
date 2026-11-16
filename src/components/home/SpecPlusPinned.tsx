@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { Eyebrow } from "@/components/Eyebrow";
 import { LoopVideo } from "./LoopVideo";
@@ -109,9 +109,86 @@ function Cta() {
 }
 
 /**
- * Spec+ chapter. From lg up the section pins while the visitor scrolls: the
- * frame on the right moves from photo, to staged, to video as each step on
- * the left lights up. Below lg the three steps simply stack.
+ * The pinned chapter for phones. One frame holds still while the visitor
+ * scrolls, and moves from photo, to staged, to video. Under it the three
+ * deliverables sit side by side as numerals, the current one lit, with a
+ * single line saying what it is. Price, turnaround and the button stay in
+ * view the whole way through.
+ */
+function PhonePin() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  useMotionValueEvent(scrollYProgress, "change", (p) => {
+    setActive(Math.min(STEPS.length - 1, Math.floor(p * STEPS.length)));
+  });
+  const step = STEPS[active];
+
+  return (
+    <div ref={ref} className="relative h-[190svh]">
+      <div className="sticky top-[7.5rem] flex h-[calc(100svh-7.5rem)] flex-col justify-center gap-5 overflow-hidden px-6 py-6">
+        <div className="relative aspect-[4/3] max-h-[38svh] w-full overflow-hidden rounded-2xl bg-bg-dark">
+          {STEPS.map((s, i) => (
+            <div key={s.n} className="absolute inset-0 transition-opacity duration-700" style={{ opacity: i === active ? 1 : 0 }}>
+              <Media step={s} active={i === active} />
+            </div>
+          ))}
+          <span className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white backdrop-blur">
+            {step.n} · {step.title}
+          </span>
+        </div>
+
+        <div>
+          <div className="grid grid-cols-3 gap-3">
+            {STEPS.map((s, i) => (
+              <button
+                key={s.n}
+                type="button"
+                onClick={() => setActive(i)}
+                aria-pressed={i === active}
+                className={`relative border-t border-border-light pt-3 text-left transition-opacity duration-500 ${
+                  i === active ? "opacity-100" : "opacity-40"
+                }`}
+              >
+                <span
+                  className={`absolute -top-px left-0 h-0.5 bg-accent transition-all duration-500 ${i === active ? "w-full" : "w-0"}`}
+                  aria-hidden
+                />
+                <span className="block text-[2.25rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
+                  {s.count}
+                </span>
+                <span className="mt-1 block text-[0.6rem] font-bold uppercase tracking-[0.1em] text-accent">{s.unit}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-3 min-h-[2.75rem] text-[0.9375rem] leading-snug text-text-body" aria-live="polite">
+            {step.body}
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between gap-4 border-t border-border-light pt-4">
+          <p className="text-sm leading-snug text-text-body">
+            <strong className="text-text-dark">$600</strong> flat, all home sizes.
+            <br />
+            <strong className="text-text-dark">72 hrs</strong> after photography.
+          </p>
+          <Link
+            href="/programs/spec-plus"
+            className="shrink-0 rounded-full bg-accent px-6 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+          >
+            Explore Spec+
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Spec+ chapter. The section pins while the visitor scrolls and one frame
+ * moves from photo, to staged, to video. From lg up the steps sit beside the
+ * frame; on phones they sit under it (PhonePin). Windows too short to pin,
+ * landscape phones and reduced-motion visitors get the three steps stacked.
  */
 export function SpecPlusPinned() {
   const ref = useRef<HTMLDivElement>(null);
@@ -120,6 +197,19 @@ export function SpecPlusPinned() {
   useMotionValueEvent(scrollYProgress, "change", (p) => {
     setActive(Math.min(STEPS.length - 1, Math.floor(p * STEPS.length)));
   });
+
+  // Phones in portrait pin too. Decided after mount, so the stacked layout is
+  // what is served and what reduced-motion visitors keep.
+  const [phonePin, setPhonePin] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(
+      "(max-width: 1023px) and (min-height: 560px) and (orientation: portrait) and (prefers-reduced-motion: no-preference)",
+    );
+    const sync = () => setPhonePin(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   const heading = (
     <>
@@ -168,8 +258,16 @@ export function SpecPlusPinned() {
         </div>
       </div>
 
-      {/* Stacked: below lg, and on windows too short to pin */}
-      <div className="mx-auto max-w-7xl px-6 py-24 [@media(min-height:720px)]:lg:hidden">
+      {/* Pinned, phones in portrait */}
+      {phonePin && (
+        <div className="lg:hidden">
+          <div className="px-6 pt-16">{heading}</div>
+          <PhonePin />
+        </div>
+      )}
+
+      {/* Stacked: everything else below lg, and windows too short to pin */}
+      <div className={`mx-auto max-w-7xl px-6 py-16 lg:py-24 [@media(min-height:720px)]:lg:hidden ${phonePin ? "hidden" : ""}`}>
         {heading}
         <div className="mt-10 space-y-12">
           {STEPS.map((s) => (
