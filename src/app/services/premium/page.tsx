@@ -13,7 +13,7 @@ import { ProductTags } from "@/components/ProductTags";
 export const metadata: Metadata = {
   alternates: { canonical: "/services/premium" },
   title: "Model Home Photography for Home Builders",
-  description: "Model home, amenity, and lifestyle photography for homebuilders, from a national network of highly trained photographers in 26 U.S. markets.",
+  description: "Model home, amenity, and lifestyle photography for homebuilders, from a national network of highly trained photographers in 29 U.S. markets.",
 };
 
 const shootTypes = [
@@ -73,7 +73,7 @@ export default function PremiumPage() {
         data={buildServiceSchema({
           name: "Premium Photography",
           description:
-            "Model home, amenity, and lifestyle photography for homebuilders, from a national network of highly trained photographers in 26 U.S. markets.",
+            "Model home, amenity, and lifestyle photography for homebuilders, from a national network of highly trained photographers in 29 U.S. markets.",
           path: "/services/premium",
           serviceType: "Photography",
         })}
@@ -297,7 +297,7 @@ export default function PremiumPage() {
               </div>
               <div className="space-y-5 text-[1.0625rem] leading-relaxed text-text-muted">
                 <p>
-                  You get the same process and the same delivery standard whether you&apos;re launching in California, Texas, Florida, or Colorado. Our photographers are already operating in 26 U.S. markets. If you build in a smaller market, we will onboard a qualified professional trained on our standards in weeks.
+                  You get the same process and the same delivery standard whether you&apos;re launching in California, Texas, Florida, or Colorado. Our photographers are already operating in 29 U.S. markets. If you build in a smaller market, we will onboard a qualified professional trained on our standards in weeks.
                 </p>
                 <p>
                   Running multiple launches at once? Regional Partnerships give you dedicated capacity, volume pricing, and a single account team across all four U.S. regions.
@@ -307,7 +307,7 @@ export default function PremiumPage() {
                     href="/markets/region"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-text-light"
                   >
-                    See all 26 markets &rarr;
+                    See all 29 markets &rarr;
                   </Link>
                 </div>
               </div>

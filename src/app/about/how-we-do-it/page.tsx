@@ -35,7 +35,7 @@ const proofPoints = [
   { value: "95%", label: "First delivery", detail: "95% of deliveries are ready to publish without any changes." },
   { value: "5-Star", label: "Client reviews", detail: "Seamless because every person on the team is focused on what they do best." },
   { value: "One team", label: "Every specialty", detail: "Photography, video, virtual staging, and 3D under one roof. One point of contact." },
-  { value: "26 markets", label: "Same standard", detail: "Specialization scales. The model works in Sacramento the same way it works in Dallas." },
+  { value: "29 markets", label: "Same standard", detail: "Specialization scales. The model works in Sacramento the same way it works in Dallas." },
 ];
 
 export default function HowWeDoItPage() {

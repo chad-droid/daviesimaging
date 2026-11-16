@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -129,7 +129,7 @@ export function ScrubFilm({
   poster,
   children,
 }: {
-  /** All-keyframe encode, so any frame can be shown instantly. */
+  /** Short-keyframe encode (a keyframe every 4 frames), so any frame can be reached quickly. */
   scrubSrc: string;
   /** Ordinary encode, autoplayed below lg where pinning is skipped. */
   loopSrc: string;
@@ -139,21 +139,43 @@ export function ScrubFilm({
   const ref = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const [stage, setStage] = useState(0);
+  // Safari seeks video slowly and shows blocky half-decoded frames while it
+  // does, so a film driven by the scroll looks pixelated and makes the page
+  // stutter there. Safari gets the same film simply playing, as phones do.
+  const [canScrub, setCanScrub] = useState(true);
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    if (/safari/i.test(ua) && !/chrome|chromium|crios|fxios|edg|android/i.test(ua)) setCanScrub(false);
+  }, []);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   // A light spring so a flick of the wheel eases the film instead of jumping it.
   const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
 
-  useMotionValueEvent(smooth, "change", (p) => {
+  // Seeking is the expensive part. Asking for a new frame while the last seek
+  // is still decoding queues seeks faster than the computer can finish them,
+  // and the whole page stutters. So: one seek at a time, and when it lands, go
+  // straight to wherever the scroll is now.
+  const want = useRef(0);
+  const seekTo = () => {
     const v = video.current;
-    if (v && v.duration) v.currentTime = Math.min(v.duration - 0.05, Math.max(0, p) * v.duration);
-    setStage(p < 0.3 ? 0 : p < 0.62 ? 1 : 2);
+    if (!v || !v.duration || v.seeking) return;
+    const t = Math.min(v.duration - 0.05, Math.max(0, want.current) * v.duration);
+    // Skip moves smaller than a frame.
+    if (Math.abs(v.currentTime - t) > 1 / 30) v.currentTime = t;
+  };
+
+  useMotionValueEvent(smooth, "change", (p) => {
+    want.current = p;
+    seekTo();
+    const next = p < 0.3 ? 0 : p < 0.62 ? 1 : 2;
+    setStage((cur) => (cur === next ? cur : next));
   });
   const bar = useTransform(smooth, [0, 1], ["0%", "100%"]);
 
   return (
     <>
       {/* Pinned and scrubbed, lg and up */}
-      <div ref={ref} className="relative hidden h-[320vh] [@media(min-height:640px)]:lg:block">
+      <div ref={ref} className={`relative hidden h-[320vh] ${canScrub ? "[@media(min-height:640px)]:lg:block" : ""}`}>
         <div className="sticky top-[7.5rem] h-[calc(100vh-7.5rem)] overflow-hidden bg-black">
           <video
             ref={video}
@@ -162,6 +184,7 @@ export function ScrubFilm({
             muted
             playsInline
             preload="auto"
+            onSeeked={seekTo}
             aria-hidden
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -186,7 +209,7 @@ export function ScrubFilm({
       </div>
 
       {/* Below lg: the same film, simply playing */}
-      <div className="mx-auto max-w-4xl bg-bg-dark px-6 py-24 text-text-light [@media(min-height:640px)]:lg:hidden">
+      <div className={`mx-auto max-w-4xl bg-bg-dark px-6 py-24 text-text-light ${canScrub ? "[@media(min-height:640px)]:lg:hidden" : "lg:max-w-6xl"}`}>
         {children}
         <div className="mt-10 overflow-hidden rounded-2xl bg-black">
           <LoopVideo src={loopSrc} poster={poster} className="aspect-video w-full object-cover" />
