@@ -40,6 +40,7 @@ export function HomePage() {
           n="01"
           stage="Lead"
           body="Before your communities are ever built, you can have photorealistic photographs and video of every plan, modeled or not, so your prospects fully understand the neighborhood you're bringing into their lives."
+          short="Photorealistic photographs and video of every plan, before your community is built."
         />
         <PlanMatchChapter />
       </div>
@@ -49,6 +50,7 @@ export function HomePage() {
           n="02"
           stage="Launch"
           body="When your model homes open, you get a national network of highly trained photographers and the best model home photography, video and Matterport available to the industry."
+          short="The best model home photography, video and Matterport available to the industry."
         />
         <PremiumChapter />
         <FilmChapter />
@@ -59,6 +61,7 @@ export function HomePage() {
           n="03"
           stage="List"
           body="Once you're ready to sell, you can list every spec home looking its absolute best, while your team focuses on essential marketing activities rather than coordination and retouching."
+          short="List every spec home looking its absolute best, without the coordination and retouching."
         />
         <SpecPlusPinned />
         <ModelMatchChapter />

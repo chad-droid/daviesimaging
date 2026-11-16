@@ -40,7 +40,15 @@ export function HomeHero({
         <LoopVideo
           src="/client-showcase/cineflow-wildrose.mp4"
           poster="/client-showcase/cineflow-wildrose-poster.webp"
-          className="h-full w-full object-cover"
+          className="hidden h-full w-full object-cover lg:block"
+        />
+        {/* Below lg the frame is upright, and the two wide exterior shots that
+            open the film crop down to roofline. Phones start on the interiors. */}
+        <LoopVideo
+          src="/client-showcase/cineflow-wildrose.mp4"
+          poster="/client-showcase/cineflow-wildrose-poster-mobile.jpg"
+          startAt={3.7}
+          className="h-full w-full object-cover lg:hidden"
         />
       </motion.div>
       {/* Darken the lower left, where the copy sits, and leave the film clear above. */}

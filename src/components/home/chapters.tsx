@@ -3,10 +3,16 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { FlowFilms, ScrollWipe, GlideStrip, ScrubFilm } from "./scroll";
 import { StageWord, StageBody } from "./StageWord";
+import { SwipeRow } from "./swipe";
 import { getTestimonials, type Testimonial } from "@/data/testimonials";
 import { QuoteText } from "@/components/QuoteText";
 
 const BLOB = "https://6pcw74e8rdx0ig2m.public.blob.vercel-storage.com";
+
+// A row that swipes sideways below lg and sits in the page column from lg up.
+const swipeRow =
+  "-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0";
+const swipeCard = "w-[84%] shrink-0 snap-start sm:w-[46%] lg:w-auto";
 
 const primaryBtn =
   "rounded-full bg-accent px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover";
@@ -16,23 +22,33 @@ export function StageHeader({
   n,
   stage,
   body,
+  short,
   dark = false,
 }: {
   n: string;
   stage: string;
   body: string;
+  /** A one-line version of `body`, shown below lg in its place. */
+  short?: string;
   dark?: boolean;
 }) {
   return (
     <div className={dark ? "border-t border-white/10 bg-bg-dark text-text-light" : "border-t border-border-light bg-bg-surface"}>
-      <div className="mx-auto max-w-7xl px-6 py-28 lg:py-44">
+      <div className="mx-auto max-w-7xl px-6 py-20 lg:py-44">
         <p className={`text-xs font-bold uppercase tracking-[0.15em] ${dark ? "text-accent-dark-hover" : "text-accent"}`}>
           Stage {n}
         </p>
         <StageWord word={stage} dark={dark} />
         <StageBody>
-          <p className={`mt-10 max-w-[44rem] text-[1.3125rem] leading-[1.4] lg:mt-14 ${dark ? "text-white/80" : "text-text-body"}`}>
-            {body}
+          <p className={`mt-8 max-w-[44rem] text-lg leading-[1.45] lg:mt-14 lg:text-[1.3125rem] lg:leading-[1.4] ${dark ? "text-white/80" : "text-text-body"}`}>
+            {short ? (
+              <>
+                <span className="lg:hidden">{short}</span>
+                <span className="hidden lg:inline">{body}</span>
+              </>
+            ) : (
+              body
+            )}
           </p>
         </StageBody>
       </div>
@@ -61,7 +77,7 @@ function ChapterHeader({
       <Eyebrow dark={dark}>{eyebrow}</Eyebrow>
       <h2 className={`max-w-[52rem] lg:text-[3rem] lg:leading-[1.08] ${dark ? "text-text-light" : ""}`}>{children}</h2>
       {body && (
-        <p className={`mt-6 max-w-[44rem] text-[1.3125rem] leading-[1.4] ${dark ? "text-white/75" : "text-text-body"}`}>{body}</p>
+        <p className={`mt-5 max-w-[44rem] text-lg leading-[1.45] lg:mt-6 lg:text-[1.3125rem] lg:leading-[1.4] ${dark ? "text-white/75" : "text-text-body"}`}>{body}</p>
       )}
       {after}
     </RevealOnScroll>
@@ -72,7 +88,7 @@ function ChapterHeader({
 /** `body` lets a market page say the same thing in its own words. */
 export function ModelMatchChapter({ body }: { body?: string } = {}) {
   return (
-    <section id="modelmatch" className="scroll-mt-28 bg-bg-surface py-24 lg:py-36">
+    <section id="modelmatch" className="scroll-mt-28 bg-bg-surface py-16 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <ChapterHeader
           eyebrow="ModelMatch"
@@ -114,7 +130,7 @@ export function ModelMatchChapter({ body }: { body?: string } = {}) {
 /* ── Launch films: CineFlow and ActFlow from your model photography. ────── */
 export function FilmChapter() {
   return (
-    <section id="film" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-24 text-text-light lg:pt-36">
+    <section id="film" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-16 text-text-light lg:pt-36">
       <div className="mx-auto max-w-7xl px-6">
         <ChapterHeader dark eyebrow="CineFlow and ActFlow">
           Need video from the assets you <strong>already have</strong>?
@@ -133,12 +149,15 @@ export function PlanMatchChapter() {
         scrubSrc="/showcase/planmatch-scrub.mp4"
         loopSrc="/showcase/planmatch-01.mp4"
         poster="/showcase/planmatch-01.jpg"
+        seqDir="/showcase/planmatch-seq"
+        seqCount={72}
       >
         <Eyebrow dark>PlanMatch</Eyebrow>
         <h2 className="text-text-light lg:text-[3rem] lg:leading-[1.08]">
           Don&apos;t call it <strong>rendering</strong>.
         </h2>
-        <p className="mt-5 text-lg leading-relaxed text-white/80">
+        {/* Wide screens only: on a phone the Lead intro just above has said this. */}
+        <p className="mt-5 hidden text-lg leading-relaxed text-white/80 lg:block">
           Before your community is ever built, you can have photorealistic images of all of your
           model home plans and your unmodeled plans. Better, faster, and less expensive than ever.
         </p>
@@ -165,7 +184,7 @@ const REGIONS = ["West", "Mountain", "Central", "East"];
 
 export function PremiumChapter({ body }: { body?: string } = {}) {
   return (
-    <section id="premium" className="scroll-mt-28 bg-bg-light py-24 lg:py-36">
+    <section id="premium" className="scroll-mt-28 bg-bg-light py-16 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <ChapterHeader
           eyebrow="Premium Photography"
@@ -231,31 +250,37 @@ const LINES = [
 
 export function ServiceLinesChapter() {
   return (
-    <section id="lines" className="scroll-mt-28 border-t border-border-light bg-bg-surface py-24 lg:py-36">
+    <section id="lines" className="scroll-mt-28 border-t border-border-light bg-bg-surface py-16 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <RevealOnScroll>
           <h2 className="text-[2.5rem] leading-[1.08] lg:text-[3.5rem]">Service Lines</h2>
         </RevealOnScroll>
+        {/* One card per line, each clearly under the section heading: a small
+            numbered label, the line's name a step down from the h2, then its products. */}
         <RevealOnScroll stagger={120}>
-          <div className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-border-light">
+          <SwipeRow className={`mt-10 lg:mt-12 lg:grid lg:grid-cols-3 lg:gap-5 ${swipeRow}`}>
             {LINES.map((l, i) => (
-              <div key={l.name} className={i === 0 ? "lg:pr-10" : "lg:px-10"}>
-                <p className="text-[2.75rem] leading-none text-text-dark" style={{ fontFamily: "var(--font-heading)" }}>
-                  {l.name}
+              <div key={l.name} className={`flex flex-col rounded-3xl border border-border-light bg-bg-light p-7 lg:p-8 ${swipeCard}`}>
+                <p className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-accent">
+                  Service line 0{i + 1}
                 </p>
-                <p className="mt-4 leading-relaxed text-text-body">{l.body}</p>
-                <ul className="mt-6 space-y-2">
+                <h3 className="mt-3 text-[1.75rem] leading-tight">{l.name}</h3>
+                <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-text-body">{l.body}</p>
+                <ul className="mt-6 flex flex-wrap gap-2">
                   {l.products.map((pr) => (
                     <li key={pr.label}>
-                      <Link href={pr.href} className="text-sm font-medium text-text-dark transition-colors hover:text-accent">
-                        {pr.label} &rarr;
+                      <Link
+                        href={pr.href}
+                        className="inline-block rounded-full border border-border-light bg-bg-surface px-4 py-1.5 text-sm font-medium text-text-dark transition-colors hover:border-accent hover:text-accent"
+                      >
+                        {pr.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
-          </div>
+          </SwipeRow>
         </RevealOnScroll>
       </div>
     </section>
@@ -265,7 +290,7 @@ export function ServiceLinesChapter() {
 /* ── digDesk: the real product, not a drawing of it. ─────────────────────── */
 export function DigDeskChapter() {
   return (
-    <section id="digdesk" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-24 text-text-light lg:pt-36">
+    <section id="digdesk" className="scroll-mt-28 overflow-hidden bg-bg-dark pt-16 text-text-light lg:pt-36">
       <div className="mx-auto max-w-4xl px-6 text-center">
         <RevealOnScroll>
           <Eyebrow dark>digDesk</Eyebrow>
@@ -319,11 +344,12 @@ export function ProofChapter({
   const who = (t: Testimonial) => [t.title, t.company].filter(Boolean).join(", ");
 
   return (
-    <section id="results" className="scroll-mt-28 bg-bg-light py-24 lg:py-36">
+    <section id="results" className="scroll-mt-28 bg-bg-light py-16 lg:py-36">
       <div className="mx-auto max-w-6xl px-6">
         <RevealOnScroll>
           <Eyebrow>In their words</Eyebrow>
-          <blockquote>
+          {/* From lg up the lead quote stands alone. Below lg it is the first card in the row. */}
+          <blockquote className="hidden lg:block">
             <p className="max-w-5xl text-[1.75rem] leading-[1.2] text-text-dark lg:text-[2.75rem]" style={{ fontFamily: "var(--font-heading)" }}>
               <QuoteText t={lead} />
             </p>
@@ -334,9 +360,16 @@ export function ProofChapter({
           </blockquote>
         </RevealOnScroll>
         <RevealOnScroll stagger={120}>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border-light bg-border-light lg:grid-cols-3">
-            {rest.map((t) => (
-              <blockquote key={t.id} className="flex flex-col bg-bg-surface p-8">
+          <SwipeRow
+            className={`mt-2 lg:mt-16 lg:grid lg:grid-cols-3 lg:gap-px lg:!overflow-hidden lg:rounded-2xl lg:border lg:border-border-light lg:bg-border-light ${swipeRow}`}
+          >
+            {[lead, ...rest].map((t, i) => (
+              <blockquote
+                key={t.id}
+                className={`flex-col rounded-2xl border border-border-light bg-bg-surface p-7 lg:rounded-none lg:border-0 lg:p-8 ${swipeCard} ${
+                  i === 0 ? "flex lg:hidden" : "flex"
+                }`}
+              >
                 <p className="flex-1 leading-relaxed text-text-dark"><QuoteText t={t} /></p>
                 <footer className="mt-6">
                   <p className="text-sm font-semibold text-text-dark">{t.name}</p>
@@ -344,7 +377,7 @@ export function ProofChapter({
                 </footer>
               </blockquote>
             ))}
-          </div>
+          </SwipeRow>
         </RevealOnScroll>
       </div>
     </section>
@@ -375,18 +408,18 @@ const ROW_LABELS = ["Best for", "You get", "Turnaround", "Price"];
 
 export function CompareChapter() {
   return (
-    <section id="compare" className="scroll-mt-28 bg-bg-surface py-24 lg:py-36">
+    <section id="compare" className="scroll-mt-28 bg-bg-surface py-16 lg:py-36">
       <div className="mx-auto max-w-7xl px-6">
         <RevealOnScroll>
           <Eyebrow>Production</Eyebrow>
           <h2 className="lg:text-[3rem] lg:leading-[1.08]">Compare Photography Services</h2>
         </RevealOnScroll>
         <RevealOnScroll stagger={120}>
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          <SwipeRow className={`mt-10 lg:mt-12 lg:grid lg:grid-cols-3 lg:gap-5 ${swipeRow}`}>
             {PLANS.map((p) => (
               <div
                 key={p.name}
-                className={`flex flex-col rounded-3xl p-8 ${
+                className={`flex flex-col rounded-3xl p-7 lg:p-8 ${swipeCard} ${
                   p.featured ? "bg-bg-dark text-text-light" : "border border-border-light bg-bg-light"
                 }`}
               >
@@ -420,7 +453,7 @@ export function CompareChapter() {
                 </Link>
               </div>
             ))}
-          </div>
+          </SwipeRow>
         </RevealOnScroll>
       </div>
     </section>
