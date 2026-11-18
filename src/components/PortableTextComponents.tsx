@@ -1,6 +1,21 @@
 import Image from "next/image";
 import type { PortableTextReactComponents } from "@portabletext/react";
 import { urlFor } from "@/sanity/image";
+import { youTubeId } from "@/sanity/youtube";
+import { BeforeAfterSlider } from "@/components/blog/BeforeAfterSlider";
+import { LiteYouTube } from "@/components/blog/LiteYouTube";
+
+// Sanity image ids carry the original size: image-<hash>-2000x1323-jpg.
+// Reading it from the ref reserves the aspect ratio without a metadata query.
+function refDimensions(ref?: string): { width: number; height: number } | null {
+  const m = ref?.match(/-(\d+)x(\d+)-[a-z]+$/);
+  return m ? { width: Number(m[1]), height: Number(m[2]) } : null;
+}
+
+const caption = (text?: string) =>
+  text ? (
+    <figcaption className="mt-2 text-center text-sm text-text-muted">{text}</figcaption>
+  ) : null;
 
 export const portableTextComponents: Partial<PortableTextReactComponents> = {
   types: {
@@ -22,6 +37,37 @@ export const portableTextComponents: Partial<PortableTextReactComponents> = {
               {value.caption}
             </figcaption>
           )}
+        </figure>
+      );
+    },
+    beforeAfter: ({ value }) => {
+      if (!value?.before?.asset || !value?.after?.asset) return null;
+      const dims =
+        refDimensions(value.after.asset._ref) ??
+        refDimensions(value.before.asset._ref) ?? { width: 3, height: 2 };
+      const src = (img: unknown) => urlFor(img).width(2000).fit("max").auto("format").url();
+      return (
+        <figure className="my-8">
+          <BeforeAfterSlider
+            beforeSrc={src(value.before)}
+            afterSrc={src(value.after)}
+            width={dims.width}
+            height={dims.height}
+            beforeLabel={value.beforeLabel || "Empty"}
+            afterLabel={value.afterLabel || "Staged with ModelMatch"}
+            alt={value.alt || value.caption || ""}
+          />
+          {caption(value.caption)}
+        </figure>
+      );
+    },
+    youtube: ({ value }) => {
+      const id = value?.url ? youTubeId(value.url) : null;
+      if (!id) return null;
+      return (
+        <figure className="my-8">
+          <LiteYouTube id={id} title={value.caption || "Video"} start={value.start} />
+          {caption(value.caption)}
         </figure>
       );
     },

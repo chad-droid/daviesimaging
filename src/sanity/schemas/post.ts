@@ -109,6 +109,8 @@ export const post = defineType({
             },
           ],
         },
+        { type: "beforeAfter" },
+        { type: "youtube" },
       ],
     }),
   ],
